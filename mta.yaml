@@ -1,0 +1,141 @@
+_schema-version: '3.1'
+ID: order-monitoring-app-services
+version: 1.0.0
+description: "AMO Specific Layer CAP Project"
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npx -p @sap/cds-dk cds build --production
+modules:
+  #
+  #   ┌─────────────────────────────────────────┐   #
+  #   │ Order Management AMO Specific Service   │   #
+  #   └─────────────────────────────────────────┘   #
+  #
+  - name: order-monitoring-app-services-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm-ci
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        public: true
+        properties:
+
+          srv-url: ${default-url}
+    requires:
+      - name: order-monitoring-app-services-hdi
+      - name: order-monitoring-xsuaa
+      - name: order-monitoring-destination
+  #
+  #   ┌───────────────────────────────────────────┐   #
+  #   │ Order Management AMO Specific Service HDI │   #
+  #   └───────────────────────────────────────────┘   #
+  #
+  - name: order-monitoring-app-services-deployer
+    type: hdb
+    path: gen/db
+    properties:
+      TARGET_CONTAINER: order-monitoring-app-services-hdi
+    requires:
+      - name: order-monitoring-app-services-hdi
+      - name: order-monitoring-services-hdi
+    parameters:
+      memory: 5GB
+      buildpack: nodejs_buildpack
+  #
+  #   ┌───────────────────────────────────────────┐   #
+  #   │            Destination Content            │   #
+  #   └───────────────────────────────────────────┘   #
+  #
+  - name: order-monitoring-destination-content
+    type: com.sap.application.content
+    requires:
+      - name: order-monitoring-destination
+        parameters:
+          content-target: true
+      - name: order-monitoring-xsuaa
+        parameters:
+          service-key:
+            name: order-monitoring-xsuaa-key
+      - name: srv-api
+    parameters:
+      content:
+        instance:
+          destinations:
+            - Authentication: OAuth2UserTokenExchange
+              Name: specific-api
+              TokenServiceInstanceName: order-monitoring-xsuaa
+              TokenServiceKeyName: order-monitoring-xsuaa-key
+              URL: "~{srv-api/srv-url}"
+              sap.cloud.service: ordermonitoring.appService
+            - Authentication: OAuth2UserTokenExchange
+              Name: order-monitoring-xsuaa-specific
+              ServiceInstanceName: order-monitoring-xsuaa
+              ServiceKeyName: order-monitoring-xsuaa-key
+              sap.cloud.service: ordermonitoring.appServiceXsuaa
+          existing_destinations_policy: update
+    build-parameters:
+      no-source: true
+resources:
+  #
+  #   ┌───────────────────────────────────────────┐   #
+  #   │     HDI Container with generic views      │   #
+  #   └───────────────────────────────────────────┘   #
+  #
+  - name: order-monitoring-services-hdi
+    type: org.cloudfoundry.existing-service
+    parameters:
+      service: hana
+  #
+  #   ┌───────────────────────────────────────────┐   #
+  #   │      AMO Specific HDI Container           │   #
+  #   └───────────────────────────────────────────┘   #
+  #
+  - name: order-monitoring-app-services-hdi
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+    properties:
+      hdi-service-name: "${service-name}"
+  #
+  #   ┌───────────────────────────────────────────┐   #
+  #   │            XSUAA Instance                 │   #
+  #   └───────────────────────────────────────────┘   #
+  #
+  - name: order-monitoring-xsuaa
+    type: org.cloudfoundry.existing-service
+    parameters:
+      path: ./xs-security.json
+      service: xsuaa
+      service-plan: application
+
+  #
+  #   ┌───────────────────────────────────────────┐   #
+  #   │       Destination Service                 │   #
+  #   └───────────────────────────────────────────┘   #
+  #
+  - name: order-monitoring-destination
+    type: org.cloudfoundry.existing-service
+    requires:
+      - name: srv-api
+    parameters:
+      config:
+        HTML5Runtime_enabled: false
+        init_data:
+          instance:
+            destinations:
+              - Authentication: NoAuthentication
+                Name: ui5
+                ProxyType: Internet
+                Type: HTTP
+                URL: "https://ui5.sap.com"
+            existing_destinations_policy: update
+      service: destination
+      service-plan: lite

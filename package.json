@@ -1,0 +1,65 @@
+{
+  "name": "order-monitoring-app-services",
+  "version": "1.0.0",
+  "description": "FIORI App related service",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap-cloud-sdk/http-client": "^3.5.0",
+    "@sap/cds": "^6",
+    "@sap/cds-dk": "^6.8.2",
+    "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
+    "@sap/textbundle": "^4.2.0",
+    "@sap/xsenv": "4.0.0",
+    "@sap/xssec": "^3.3.3",
+    "body-parser": "^1.20.2",
+    "express": "^4",
+    "hdb": "^0.19.0",
+    "http-status": "^1.6.2",
+    "node-cache": "^5.1.2",
+    "passport": "^0.6.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "sqlite3": "^5"
+  },
+  "scripts": {
+    "start": "cds serve",
+    "start:backend": "cds watch",
+    "build:cds": "cds build",
+    "install:all": "npm-recursive-install",
+    "start:approuter": "cd approuter && npm run start",
+    "watch-allorders": "cds watch --open allorders/webapp/index.html?sap-ui-xx-viewCache=false",
+    "undeploy": "cf undeploy allmyorders --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "mbt build",
+    "deploy": "cf deploy mta_archives/allmyorders_1.0.0.mtar --retries 1"
+  },
+  "cds": {
+    "hana": {
+      "deploy-format": "hdbtable"
+    },
+    "requires": {
+      "auth": "xsuaa",
+      "db": {
+        "kind": "hana",
+        "pool": {
+          "acquireTimeoutMillis": 5000,
+          "min": 0,
+          "max": 1000,
+          "fifo": true
+        }
+      },
+      "order_monitoring_services": {
+        "kind": "odata-v2",
+        "model": "srv/external/order-monitoring-services",
+        "credentials": {
+          "destination": "generic-api",
+          "path": "/v2/order-monitoring-services"
+
+        }
+      }
+    }
+  }
+}
+

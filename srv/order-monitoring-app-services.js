@@ -1,0 +1,209 @@
+const cds = require("@sap/cds");
+const NodeCache = require('node-cache');
+const sessionCache = new NodeCache();
+const uuid = require('uuid');
+const status = require('http-status');
+const textBundle = require('./utils/textBundle')
+
+class srvOpenOrders extends cds.ApplicationService {
+    init() {
+
+        /**
+         * This event is triggered before the backend request for order list data
+         * @param {string} "READ" - The type of backend request
+         * @param {string} "Results" - The name of the entity set
+         * @param {function} - The callback function containing the code that runs when the event is triggered
+         * @param {object} req - The request object containing request details
+         * */
+        this.before("READ", "Results", async (req, next) => {
+            if (req.headers.isexport === 'true') checkReadScope(req, next, 'Export');
+        });
+
+        this.on("READ", "Results", async (req, next) => {
+            const service = await cds.connect.to('order_monitoring_services');
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols) {
+                const lt_count = await service.send({ query: req.query, headers: { countcols: req.headers?.countcols } })
+                return req.reply(lt_count)
+            }
+            const lt_result = await service.tx(req).run(req.query)
+            req.reply(lt_result)
+
+        })
+
+        /**
+         * This event is triggered after the backend request for order list data
+         * @param {string} "READ" - The type of backend request
+         * @param {string} "Results" - The name of the entity set
+         * @param {function} - The callback function containing the code that runs when the event is triggered
+         * @param {array} data - The array containing the result from the backend request
+         * @param {object} req - The request object containing request details
+         * */
+        this.after("READ", "Results", async (data, req) => {
+            // needed for cache .. to make value helps dynamic. we are using unique session ID to cache based on authorization token.
+            let sessionID = req.headers['authorization'] || req.headers['x-username'];
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.select) {
+                // do nothing
+            } else {
+                // cache the query, so that all filter conditions can be consumed.. when any valuehelp is called.
+                const queryString = JSON.stringify(req.query);
+                const queryId = `${sessionID}Query`
+                sessionCache.set(queryId, queryString);
+            }
+
+        });
+
+        /**
+        * This event is triggered after the backend request for value help data
+        * @param {string} "READ" - The type of backend request
+        * @param {string} "valueHelps" - The name of the entity set
+        * @param {function} - The callback function containing the code that runs when the event is triggered
+        * @param {object} req - The request object containing request details
+        * */
+        this.on("READ", "valueHelps", async (req, next) => {
+            // get the session id based on auth token
+            let sessionID = req.headers['authorization'] || req.headers['x-username'];
+            const queryId = `${sessionID}Query`
+            const service = await cds.connect.to('order_monitoring_services');
+            let lt_result = []
+            // if session id is there, get the cach-ed query and execute it.
+            if (sessionCache.get(queryId)) {
+                const queryString = sessionCache.get(queryId);
+                const query = JSON.parse(queryString);
+                // make sure pagination is taken into account
+                if (query.SELECT.limit.rows.val) query.SELECT.limit.rows.val = req.query.SELECT.limit.rows?.val;
+                //query.SELECT.distinct = true;
+                // if any value is added in search field, that should be taken into account as well
+                console.log(`search field is ${req.query.SELECT.search}`)
+                query.SELECT.search = req.query.SELECT.search;
+                if (query.SELECT.limit.offset.val) query.SELECT.limit.offset.val = req.query.SELECT.limit.offset?.val || 0;
+                if (req.query.SELECT.columns[0].as !== '$count') {
+                    query.SELECT.columns.length = 0;
+                    query.SELECT.columns = req.query.SELECT.columns;
+                    query.SELECT.orderBy.length = 0;
+                    query.SELECT.orderBy = req.query.SELECT.orderBy;
+                    try {
+                        console.log(`query is ${JSON.stringify(req.query)}`)
+                        lt_result = await service.run(query)
+                        //lt_result = await cds.run(query);
+                        // req.header.select will have the string of visible columns. 
+                        //this parameater has been manually set to header on every request
+                        const selectedField = req._query && req._query['$select']
+                        const fields = selectedField && selectedField.split(',');
+                        // remove duplicates based on fields in the valuehelp dialog box
+                        lt_result = removeDuplicates(fields, lt_result);
+                    } catch (error) {
+                        req.error(status.EXPECTATION_FAILED, getBundle(req.user.locale).getText("VALUEHELP_NOT_EXECUTED"))
+                    }
+                } else {
+                    try {
+                        const fields = req._query["search-focus"].split(',')
+                        let lt_count = await service.run(SELECT.from('Results').columns(`countdistinct(${fields})`).where(query.SELECT.where).search(query.SELECT.search)) //distinct(true)
+                        
+                        lt_result.push({ $count: lt_count.length })
+                    } catch (error) {
+                        req.error(status.EXPECTATION_FAILED, getBundle(req.user.locale).getText("VALUEHELP_NOT_EXECUTED"))
+                    }
+
+                }
+
+            } else {
+                // if there is no session id, execute the query directly
+                if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
+                    //req.query.SELECT.distinct = true;
+                    lt_result = await service.run(req.query)
+                    //await cds.run(req.query);
+                } else {
+                    try {
+                        const fields = req._query["search-focus"].split(',')
+                        let lt_count = await service.run(SELECT.from('Results').columns(`countdistinct(${fields})`)) 
+                        lt_result.push({ $count: lt_count.length })
+                    } catch (error) {
+                        req.error(error)
+                    }
+
+                }
+            }
+            if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count' && req.query.SELECT.search) {
+                lt_result = lt_result.filter((item) => {
+                    for (const prop in item) {
+                        if (item[prop] === null) return false;
+                        if (item[prop].includes(req.query.SELECT.search[0].val)) {
+                            return true;
+                        }
+                    }
+                    return false;
+
+                });
+            }
+            return lt_result;
+        })
+
+
+        /**
+        * This event is triggered after the backend request for value help data
+        * @param {string} "READ" - The type of backend request
+        * @param {string} "valueHelps" - The name of the entity set
+        * @param {function} - The callback function containing the code that runs when the event is triggered
+        * @param {array} data - The array containing the result from the backend request
+        * @param {object} req - The request object containing request details
+        * */
+        this.after("READ", "valueHelps", async (data, req) => {
+            // since there is a virtual id field, adding a random guid to each record of the result set.
+            if (Array.isArray(data)) {
+                data.forEach((item) => {
+                    item.id = uuid.v1()
+                })
+            }
+        })
+
+        this.on("READ", "notes", async (req, next) => {
+            const service = await cds.connect.to('order_monitoring_services');
+            const lt_count = await service.send({ query: req.query })
+            return req.reply(lt_count)
+
+        })
+        this.on("CREATE", "notes", async (req, next) => {
+            const service = await cds.connect.to('order_monitoring_services');
+            const lt_count = await service.send({ query: req.query})
+            return req.reply(lt_count)
+
+        })
+        return super.init();
+    }
+}
+
+module.exports = {
+    srvOpenOrders
+}
+
+
+/**
+ * Utility method used to remove duplicates
+ * @param {array} fields - the fields contained in the original array
+ * @param {array} lt_result - the original array with duplicates
+ * @return {array} lt_result_final - the resulting array with duplicates removed
+ */
+function removeDuplicates(fields, lt_result) {
+    if (fields) {
+        lt_result = lt_result.map(obj => {
+            const newObj = {};
+            fields.forEach(field => newObj[field] = obj[field]);
+            return newObj;
+        });
+    } else {
+        // lt_result = lt_result.map((obj) => (obj));
+    }
+    let lt_result_final = [...new Set(lt_result.map(JSON.stringify))].map(JSON.parse);
+    return lt_result_final;
+}
+function getBundle(locale) {
+    return textBundle.getTextBundle(locale)
+}
+function checkReadScope(req, next, scope) {
+    if (req.user.is(scope)) {
+        console.log(`user Oject is ${JSON.stringify(req.user)}`);
+        return
+    } else {
+        req.reject(status.FORBIDDEN, getBundle(req.user.locale).getText("EXPORT_NOT_ALLOWED"))
+    }
+}
