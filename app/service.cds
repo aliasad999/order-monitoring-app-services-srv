@@ -2,28 +2,27 @@ using srvOpenOrders as service from '../srv/order-monitoring-app-services.cds';
 
 annotate service.valueHelps with {
 
-    SO_VBELN                   @title: '{i18n>salesOrder}'                 @sap.Label: '{i18n>salesOrder}';
-    SO_POSNR                   @title: '{i18n>salesOrderItem}'             @sap.Label: '{i18n>salesOrderItem}';
-    SO_ERDAT_ORDER             @title: '{i18n>CREATION_DATE}'              @sap.Label: '{i18n>CREATION_DATE}';
-    SO_ERDAT_ITEM              @title: '{i18n>createdOn}'                  @sap.Label: '{i18n>createdOn}';
+    SO_VBELN                   @title: '{i18n>SO_VBELN}'                 @sap.Label: '{i18n>SO_VBELN}';
+    SO_POSNR                   @title: '{i18n>SO_POSNR}'             @sap.Label: '{i18n>SO_POSNR}';
+    SO_ERDAT_ORDER             @title: '{i18n>SO_ERDAT_ORDER}'              @sap.Label: '{i18n>SO_ERDAT_ORDER}';
+    SO_ERDAT_ITEM              @title: '{i18n>SO_ERDAT_ITEM}'                  @sap.Label: '{i18n>SO_ERDAT_ITEM}';
     SO_AUART                   @title: '{i18n>SO_AUART}'                   @sap.Label: '{i18n>SO_AUART}';
     SO_WERKS                   @title: '{i18n>SO_WERKS}'                   @sap.Label: '{i18n>SO_WERKS}';
     SO_VTWEG                   @title: '{i18n>SO_VTWEG}'                   @sap.Label: '{i18n>SO_VTWEG}';
     @Common.Text           : SO_MAKTX
     @Common.TextArrangement: #TextLast
-    SO_MATNR                   @title: '{i18n>MaterialNo}'                 @sap.Label: '{i18n>MaterialNo}';
+    SO_MATNR                   @title: '{i18n>SO_MATNR}'                 @sap.Label: '{i18n>SO_MATNR}';
     @Common.TextFor
-    SO_MAKTX                   @title: '{i18n>MaterialName}'               @sap.Label: '{i18n>MaterialName}';
+    SO_MAKTX                   @title: '{i18n>SO_MAKTX}'               @sap.Label: '{i18n>SO_MAKTX}';
     SO_KDMAT                   @title: '{i18n>SO_KDMAT}'                   @sap.Label: '{i18n>SO_KDMAT}';
-    SO_BSTNK                   @title: '{i18n>SO_BSTNK}'                   @sap.Label: '{i18n>SO_BSTNK}';
     @Common.Text           : SO_AG_PARTNER_NAME
     @Common.TextArrangement: #TextLast
-    SO_AG_PARTNER              @title: '{i18n>SoldToParty}'                @sap.Label: '{i18n>SoldToParty}';
+    SO_AG_PARTNER              @title: '{i18n>SO_AG_PARTNER}'                @sap.Label: '{i18n>SO_AG_PARTNER}';
     @Common.TextFor
     SO_AG_PARTNER_NAME;
     @Common.Text           : SO_WE_PARTNER_NAME
     @Common.TextArrangement: #TextLast
-    SO_WE_PARTNER              @title: '{i18n>wePartnerNo}'                @sap.Label: '{i18n>wePartnerNo}';
+    SO_WE_PARTNER              @title: '{i18n>SO_WE_PARTNER}'                @sap.Label: '{i18n>SO_WE_PARTNER}';
     @Common.TextFor
     SO_WE_PARTNER_NAME;
     @Common.Text           : SO_LANDX
@@ -31,29 +30,29 @@ annotate service.valueHelps with {
     SO_LAND1                   @title: '{i18n>SO_LAND1}'                   @sap.Label: '{i18n>SO_LAND1}';
     @Common.TextFor
     SO_LANDX                   @title: '{i18n>SO_LANDX}'                   @sap.Label: '{i18n>SO_LANDX}';
-    SO_ORT01                   @title: '{i18n>ort1}'                       @sap.Label: '{i18n>ort1}';
+    SO_ORT01                   @title: '{i18n>SO_ORT01}'                       @sap.Label: '{i18n>SO_ORT01}';
     @Common.Text           : SO_VKORG_NAME1
     @Common.TextArrangement: #TextLast
     SO_VKORG                   @title: '{i18n>SO_VKORG}'                   @sap.Label: '{i18n>SO_VKORG}';
     @Common.TextFor
-    SO_VKORG_NAME1             @title: '{i18n>vkorgName}'                  @sap.Label: '{i18n>vkorgName}';
-    SO_KNREF_HEAD              @title: '{i18n>KNREF}'                      @sap.Label: '{i18n>KNREF}';
+    SO_VKORG_NAME1             @title: '{i18n>SO_VKORG_NAME1}'                  @sap.Label: '{i18n>SO_VKORG_NAME1}';
+    SO_KNREF_HEAD              @title: '{i18n>SO_KNREF_HEAD}'                      @sap.Label: '{i18n>SO_KNREF_HEAD}';
     //SO_KNREF_ITM     @title: '{i18n>SO_BSTNK}' @sap.Label: '{i18n>SO_BSTNK}'
     SO_VBUND                   @title: '{i18n>SO_VBUND}'                   @sap.Label: '{i18n>SO_VBUND}';
     SO_EDATU_REQUESTED         @title: '{i18n>SO_EDATU_REQUESTED}'         @sap.Label: '{i18n>SO_EDATU_REQUESTED}';
     SO_KWMENG                  @title: '{i18n>SO_KWMENG}'                  @sap.Label: '{i18n>SO_KWMENG}';
     SO_VRKME                   @title: '{i18n>SO_VRKME}'                   @sap.Label: '{i18n>SO_VRKME}';
-    SO_EDATU_CONFIRMED         @title: '{i18n>ConfDelDate}'                @sap.Label: '{i18n>ConfDelDate}';
-    SO_KBMENG                  @title: '{i18n>CONFIRMED_QUANTITY}'         @sap.Label: '{i18n>CONFIRMED_QUANTITY}';
-    SO_LDDAT                   @title: '{i18n>LoadingDate}'                @sap.Label: '{i18n>LoadingDate}';
-    SO_UNCONFIRMED_QTY         @title: '{i18n>UNCONFIRMED_QUANTITY}'       @sap.Label: '{i18n>UNCONFIRMED_QUANTITY}';
+    SO_EDATU_CONFIRMED         @title: '{i18n>SO_EDATU_CONFIRMED}'                @sap.Label: '{i18n>SO_EDATU_CONFIRMED}';
+    SO_KBMENG                  @title: '{i18n>SO_KBMENG}'         @sap.Label: '{i18n>SO_KBMENG}';
+    SO_LDDAT                   @title: '{i18n>SO_LDDAT}'                @sap.Label: '{i18n>SO_LDDAT}';
+    SO_UNCONFIRMED_QTY         @title: '{i18n>SO_UNCONFIRMED_QTY}'       @sap.Label: '{i18n>SO_UNCONFIRMED_QTY}';
     SO_REQ_TEXT                @title: '{i18n>SO_REQ_TEXT}'                @sap.Label: '{i18n>SO_REQ_TEXT}';
     @Common.Text           : SO_FAKSP_VTEXT
     @Common.TextArrangement: #TextLast
     SO_FAKSP                   @title: '{i18n>SO_FAKSP}'                   @sap.Label: '{i18n>SO_FAKSP}';
     @Common.TextFor
     SO_FAKSP_VTEXT             @title: '{i18n>SO_FAKSP_VTEXT}'             @sap.Label: '{i18n>SO_FAKSP_VTEXT}';
-    SO_LGORT                   @title: '{i18n>STORAGE_LOCATION}'           @sap.Label: '{i18n>STORAGE_LOCATION}';
+    SO_LGORT                   @title: '{i18n>SO_LGORT}'           @sap.Label: '{i18n>SO_LGORT}';
     @Common.Text           : SO_SUPPLY_SITUATION_DESCR
     @Common.TextArrangement: #TextLast
     SO_SUPPLY_SITUATION        @title: '{i18n>SO_SUPPLY_SITUATION}'        @sap.Label: '{i18n>SO_SUPPLY_SITUATION}';
@@ -63,15 +62,15 @@ annotate service.valueHelps with {
     SO_WAERS                   @title: '{i18n>SO_WAERS}'                   @sap.Label: '{i18n>SO_WAERS}';
     SO_KPEIN                   @title: '{i18n>SO_KPEIN}'                   @sap.Label: '{i18n>SO_KPEIN}';
     SO_KMEIN                   @title: '{i18n>SO_KMEIN}'                   @sap.Label: '{i18n>SO_KMEIN}';
-    SO_NETWR                   @title: '{i18n>NET_AMOUNT}'                 @sap.Label: '{i18n>NET_AMOUNT}';
+    SO_NETWR                   @title: '{i18n>SO_NETWR}'                 @sap.Label: '{i18n>SO_NETWR}';
     SO_WAERK                   @title: '{i18n>SO_WAERK}'                   @sap.Label: '{i18n>SO_WAERK}';
     SO_HTEXT                   @title: '{i18n>SO_HTEXT}'                   @sap.Label: '{i18n>SO_HTEXT}';
     @Common.Text           : SO_PSTYV_VTEXT
     @Common.TextArrangement: #TextLast
-    SO_PSTYV                   @title: '{i18n>ITEM_CATEGORY}'              @sap.Label: '{i18n>ITEM_CATEGORY}';
+    SO_PSTYV                   @title: '{i18n>SO_PSTYV}'              @sap.Label: '{i18n>SO_PSTYV}';
     @Common.TextFor
-    SO_PSTYV_VTEXT             @title: '{i18n>ITEM_CATEGORY_TEXT}'         @sap.Label: '{i18n>ITEM_CATEGORY_TEXT}';
-    SO_DISPO                   @title: '{i18n>MRP_CONTROLLER}'             @sap.Label: '{i18n>MRP_CONTROLLER}';
+    SO_PSTYV_VTEXT             @title: '{i18n>SO_PSTYV_VTEXT}'         @sap.Label: '{i18n>SO_PSTYV_VTEXT}';
+    SO_DISPO                   @title: '{i18n>SO_DISPO}'             @sap.Label: '{i18n>SO_DISPO}';
     SO_KOSCH                   @title: '{i18n>SO_KOSCH}'                   @sap.Label: '{i18n>SO_KOSCH}';
     @Common.Text           : SO_VKBUR_BEZEI
     @Common.TextArrangement: #TextLast
@@ -107,51 +106,74 @@ annotate service.valueHelps with {
     SO_AM_PARTNER              @title: '{i18n>SO_AM_PARTNER}'              @sap.Label: '{i18n>SO_AM_PARTNER}';
     @Common.TextFor
     SO_AM_PARTNER_NAME         @title: '{i18n>SO_AM_PARTNER_NAME}'         @sap.Label: '{i18n>SO_AM_PARTNER_NAME}';
-    SO_INCO1                   @title: '{i18n>inc01}'                      @sap.Label: '{i18n>inc01}';
-    SO_INCO2                   @title: '{i18n>inc02}'                      @sap.Label: '{i18n>inc02}';
+    SO_INCO1                   @title: '{i18n>SO_INCO1}'                      @sap.Label: '{i18n>SO_INCO1}';
+    SO_INCO2                   @title: '{i18n>SO_INCO2}'                      @sap.Label: '{i18n>SO_INCO2}';
     SO_zterm                   @title: '{i18n>SO_zterm}'                   @sap.Label: '{i18n>SO_zterm}';
     SO_PRSDT                   @title: '{i18n>SO_PRSDT}'                   @sap.Label: '{i18n>SO_PRSDT}';
-    SO_ZZ0S2REVG2              @title: '{i18n>custPo}'                     @sap.Label: '{i18n>custPo}';
-    SO_ZZDKPPRODB              @title: '{i18n>SBU}'                        @sap.Label: '{i18n>SBU}';
-    SO_BSARK                   @title: '{i18n>POType}'                     @sap.Label: '{i18n>POType}';
-    DL_VBELN               @title: '{i18n>VBELN_DEL}'                  @sap.Label: '{i18n>VBELN_DEL}';
-    DL_POSNR               @title: '{i18n>POSNR_DEL}'                  @sap.Label: '{i18n>POSNR_DEL}';
-    DL_CHARG                   @title: '{i18n>CHARG}'                      @sap.Label: '{i18n>CHARG}';
-    DL_LFIMG                   @title: '{i18n>LFIMG}'                      @sap.Label: '{i18n>LFIMG}';
-    DL_VRKME               @title: '{i18n>vrkme_del}'                  @sap.Label: '{i18n>vrkme_del}';
-    DL_POSAR                   @title: '{i18n>POSAR}'                      @sap.Label: '{i18n>POSAR}';
-    DL_VGBEL                   @title: '{i18n>VGBEL}'                      @sap.Label: '{i18n>VGBEL}';
-    DL_VGPOS                   @title: '{i18n>VGPOS}'                      @sap.Label: '{i18n>VGPOS}';
+    SO_ZZ0S2REVG2              @title: '{i18n>SO_ZZ0S2REVG2}'                     @sap.Label: '{i18n>SO_ZZ0S2REVG2}';
+    SO_ZZDKPPRODB              @title: '{i18n>SO_ZZDKPPRODB}'                        @sap.Label: '{i18n>SO_ZZDKPPRODB}';
+    SO_BSARK                   @title: '{i18n>SO_BSARK}'                     @sap.Label: '{i18n>SO_BSARK}';
+    DL_VBELN               @title: '{i18n>DL_VBELN}'                  @sap.Label: '{i18n>DL_VBELN}';
+    DL_POSNR               @title: '{i18n>DL_POSNR}'                  @sap.Label: '{i18n>DL_POSNR}';
+    DL_CHARG                   @title: '{i18n>DL_CHARG}'                      @sap.Label: '{i18n>DL_CHARG}';
+    DL_LFIMG                   @title: '{i18n>DL_LFIMG}'                      @sap.Label: '{i18n>DL_LFIMG}';
+    DL_VRKME               @title: '{i18n>DL_VRKME}'                  @sap.Label: '{i18n>DL_VRKME}';
+    DL_POSAR                   @title: '{i18n>DL_POSAR}'                      @sap.Label: '{i18n>DL_POSAR}';
+    DL_VGBEL                   @title: '{i18n>DL_VGBEL}'                      @sap.Label: '{i18n>DL_VGBEL}';
+    DL_VGPOS                   @title: '{i18n>DL_VGPOS}'                      @sap.Label: '{i18n>DL_VGPOS}';
     @Common.Text           : DL_LFART_VTEXT
     @Common.TextArrangement: #TextLast
-    DL_LFART                   @title: '{i18n>DELIVERY_TYPE}'              @sap.Label: '{i18n>DELIVERY_TYPE}';
+    DL_LFART                   @title: '{i18n>DL_LFART}'              @sap.Label: '{i18n>DL_LFART}';
     @Common.TextFor
-    DL_LFART_VTEXT             @title: '{i18n>DELIVERY_TYPE_TEXT}'         @sap.Label: '{i18n>DELIVERY_TYPE_TEXT}';
-    DL_LFDAT                   @title: '{i18n>lfdat}'                      @sap.Label: '{i18n>lfdat}';
-    DL_HSDAT                   @title: '{i18n>HSDAT_DATE}'                 @sap.Label: '{i18n>HSDAT_DATE}';
-    DL_VFDAT                   @title: '{i18n>VFDAT_DATE}'                 @sap.Label: '{i18n>VFDAT_DATE}';
-    DL_TRAID                   @title: '{i18n>TRAID}'                      @sap.Label: '{i18n>TRAID}';
-    DL_ZZ0S2BLNR               @title: '{i18n>ZZ0S2BLNR}'                  @sap.Label: '{i18n>ZZ0S2BLNR}';
-    DL_PEND_DEL_QUAN           @title: '{i18n>PENDING_DEL_QTY}'            @sap.Label: '{i18n>PENDING_DEL_QTY}';
-    LAST_NOTE                  @title: '{i18n>LAST_NOTE}'                  @sap.Label: '{i18n>LAST_NOTE}';
-    TM_TKNUM                   @title: '{i18n>TKNUM}'                      @sap.Label: '{i18n>TKNUM}';
-    @Common.Text           : DL_LFART_VTEXT
-    @Common.TextArrangement: #TextLast
-    TM_VSART                   @title: '{i18n>VSART}'                      @sap.Label: '{i18n>VSART}';
-    @Common.TextFor
-    TM_VSART_BEZEI;
-    TM_EXTI1                   @title: '{i18n>EXTI1}'                      @sap.Label: '{i18n>EXTI1}';
-    @Common.Text           : TM_TDLNR_NAME1
-    @Common.TextArrangement: #TextLast
-    TM_TDLNR                   @title: '{i18n>TDLNR}'                      @sap.Label: '{i18n>TDLNR}';
+    DL_LFART_VTEXT             @title: '{i18n>DL_LFART_VTEXT}'         @sap.Label: '{i18n>DL_LFART_VTEXT}';
+    DL_LFDAT                   @title: '{i18n>DL_LFDAT}'                      @sap.Label: '{i18n>DL_LFDAT}';
+    DL_HSDAT                   @title: '{i18n>DL_HSDAT}'                 @sap.Label: '{i18n>DL_HSDAT}';
+    DL_VFDAT                   @title: '{i18n>DL_VFDAT}'                 @sap.Label: '{i18n>DL_VFDAT}';
+    DL_TRAID                   @title: '{i18n>DL_TRAID}'                      @sap.Label: '{i18n>DL_TRAID}';
     @Common.TextFor
     TM_TDLNR_NAME1;
-    TM_TRACKING_ID_COMP        @title: '{i18n>TRACKING_ID_COMP}'           @sap.Label: '{i18n>TRACKING_ID_COMP}';
-    TM_TRACKING_ID_ELEM        @title: '{i18n>TRACKING_ID_ELEM}'           @sap.Label: '{i18n>TRACKING_ID_ELEM}';
-    TM_DPTBG                   @title: '{i18n>DPTBG_DATE}'                 @sap.Label: '{i18n>DPTBG_DATE}';
-    TM_DATBG                   @title: '{i18n>DATBG_DATE}'                 @sap.Label: '{i18n>DATBG_DATE}';
-    TM_DPTEN                   @title: '{i18n>DPTEN_DATE}'                 @sap.Label: '{i18n>DPTEN_DATE}';
-    TM_DATEN                   @title: '{i18n>DATEN_DATE}'                 @sap.Label: '{i18n>DATEN_DATE}';
+    TM_TRACKING_ID_COMP        @title: '{i18n>TM_TRACKING_ID_COMP}'           @sap.Label: '{i18n>TM_TRACKING_ID_COMP}';
+    TM_TRACKING_ID_ELEM        @title: '{i18n>TM_TRACKING_ID_ELEM}'           @sap.Label: '{i18n>TM_TRACKING_ID_ELEM}';
+    TM_DPTBG                   @title: '{i18n>TM_DPTBG}'                 @sap.Label: '{i18n>TM_DPTBG}';
+    TM_DATBG                   @title: '{i18n>TM_DATBG}'                 @sap.Label: '{i18n>TM_DATBG}';
+    TM_DPTEN                   @title: '{i18n>TM_DPTEN}'                 @sap.Label: '{i18n>TM_DPTEN}';
+    TM_DATEN                   @title: '{i18n>TM_DATEN}'                 @sap.Label: '{i18n>TM_DATEN}';
+    TM_AR_DATE                 @title: '{i18n>TM_AR_DATE}'                    @sap.Label: '{i18n>TM_AR_DATE}';
+    TM_STTRG                   @title: '{i18n>TM_STTRG}'                      @sap.Label: '{i18n>TM_STTRG}';
+    TM_STTRG_DDTEXT            @title: '{i18n>TM_STTRG_DDTEXT}'               @sap.Label: '{i18n>TM_STTRG_DDTEXT}';
+    SO_BASF_LOFCR              @title: '{i18n>SO_BASF_LOFCR}'                  @sap.Label: '{i18n>SO_BASF_LOFCR}';
+    SO_GUSCON_LEVEL            @title: '{i18n>SO_GUSCON_LEVEL}'               @sap.Label: '{i18n>SO_GUSCON_LEVEL}';
+    SO_I_VBELN                 @title: '{i18n>SO_I_VBELN}'                    @sap.Label: '{i18n>SO_I_VBELN}';
+    SO_ISCOMPLETED             @title: '{i18n>SO_ISCOMPLETED}'                @sap.Label: '{i18n>SO_ISCOMPLETED}';
+    SO_LEVEL_TYPE              @title: '{i18n>SO_LEVEL_TYPE}'                 @sap.Label: '{i18n>SO_LEVEL_TYPE}';
+    SO_N_VBELN                 @title: '{i18n>SO_N_VBELN}'                    @sap.Label: '{i18n>SO_N_VBELN}';
+    SO_F_VBELN                 @title: '{i18n>SO_F_VBELN}'                    @sap.Label: '{i18n>SO_F_VBELN}';
+    SO_F_POSNR                 @title: '{i18n>SO_F_POSNR}'                    @sap.Label: '{i18n>SO_F_POSNR}';
+    SO_VBTYP                   @title: '{i18n>SO_VBTYP}'                      @sap.Label: '{i18n>SO_VBTYP}';
+    SO_BSTKD                   @title: '{i18n>SO_BSTKD}'                      @sap.Label: '{i18n>SO_BSTKD}';
+    BL_VBELN_INV_FIRST         @title: '{i18n>BL_VBELN_INV_FIRST}'            @sap.Label: '{i18n>BL_VBELN_INV_FIRST}';
+    BL_VBELN_INV_LAST          @title: '{i18n>BL_VBELN_INV_LAST}'             @sap.Label: '{i18n>BL_VBELN_INV_LAST}';
+    BL_XBLNR                   @title: '{i18n>BL_XBLNR}'                      @sap.Label: '{i18n>BL_XBLNR}';
+    @Common.Text           : SO_TRAGR_VTEXT
+    @Common.TextArrangement: #TextLast
+    SO_TRAGR                   @title: '{i18n>SO_TRAGR}'                      @sap.Label: '{i18n>SO_TRAGR}';
+    @Common.TextFor
+    SO_TRAGR_VTEXT;
+    @Common.Text           : SO_VKGRP_BEZEI
+    @Common.TextArrangement: #TextLast
+    SO_VKGRP                   @title: '{i18n>SO_VKGRP}'                      @sap.Label: '{i18n>SO_VKGRP}';
+    @Common.TextFor
+    SO_VKGRP_BEZEI;
+    SO_ROUTE                   @title: '{i18n>SO_ROUTE}'                      @sap.Label: '{i18n>SO_ROUTE}';
+    SO_TDDAT                   @title: '{i18n>SO_TDDAT}'                      @sap.Label: '{i18n>SO_TDDAT}';
+    SO_ZZ0S2MATUG              @title: '{i18n>SO_ZZ0S2MATUG}'                 @sap.Label: '{i18n>SO_ZZ0S2MATUG}';
+    @Common.Text           : SO_VSBED_VTEXT
+    @Common.TextArrangement: #TextLast
+    SO_VSBED                   @title: '{i18n>SO_VSBED}'                      @sap.Label: '{i18n>SO_TRAGR}';
+    @Common.TextFor
+    SO_VSBED_VTEXT;
+    DL_WADAT                   @title: '{i18n>DL_WADAT}'                      @sap.Label: '{i18n>DL_WADAT}';
+    DL_WADAT_IST               @title: '{i18n>DL_WADAT_IST}'                  @sap.Label: '{i18n>DL_WADAT_IST}';
 
 };
 
@@ -161,55 +183,54 @@ annotate service.Results with {
     SO_LAND1;
     @Common.TextFor
     SO_LANDX;
-    SO_VBELN                   @title: '{i18n>salesOrder}'                 @sap.Label: '{i18n>salesOrder}';
-    SO_POSNR                   @title: '{i18n>salesOrderItem}'             @sap.Label: '{i18n>salesOrderItem}';
-    SO_ERDAT_ORDER             @title: '{i18n>CREATION_DATE}'              @sap.Label: '{i18n>CREATION_DATE}';
-    SO_ERDAT_ITEM              @title: '{i18n>createdOn}'                  @sap.Label: '{i18n>createdOn}';
+    SO_VBELN                   @title: '{i18n>SO_VBELN}'                 @sap.Label: '{i18n>SO_VBELN}';
+    SO_POSNR                   @title: '{i18n>SO_POSNR}'             @sap.Label: '{i18n>SO_POSNR}';
+    SO_ERDAT_ORDER             @title: '{i18n>SO_ERDAT_ORDER}'              @sap.Label: '{i18n>SO_ERDAT_ORDER}';
+    SO_ERDAT_ITEM              @title: '{i18n>SO_ERDAT_ITEM}'                  @sap.Label: '{i18n>SO_ERDAT_ITEM}';
     SO_AUART                   @title: '{i18n>SO_AUART}'                   @sap.Label: '{i18n>SO_AUART}';
     SO_WERKS                   @title: '{i18n>SO_WERKS}'                   @sap.Label: '{i18n>SO_WERKS}';
     SO_VTWEG                   @title: '{i18n>SO_VTWEG}'                   @sap.Label: '{i18n>SO_VTWEG}';
     @Common.Text           : SO_MAKTX
     @Common.TextArrangement: #TextLast
-    SO_MATNR                   @title: '{i18n>MaterialNo}'                 @sap.Label: '{i18n>MaterialNo}';
+    SO_MATNR                   @title: '{i18n>SO_MATNR}'                 @sap.Label: '{i18n>SO_MATNR}';
     @Common.TextFor
-    SO_MAKTX                   @title: '{i18n>MaterialName}'               @sap.Label: '{i18n>MaterialName}';
+    SO_MAKTX                   @title: '{i18n>SO_MAKTX}'               @sap.Label: '{i18n>SO_MAKTX}';
     SO_KDMAT                   @title: '{i18n>SO_KDMAT}'                   @sap.Label: '{i18n>SO_KDMAT}';
-    SO_BSTNK                   @title: '{i18n>SO_BSTNK}'                   @sap.Label: '{i18n>SO_BSTNK}';
     @Common.Text           : SO_AG_PARTNER_NAME
     @Common.TextArrangement: #TextLast
-    SO_AG_PARTNER              @title: '{i18n>SoldToParty}'                @sap.Label: '{i18n>SoldToParty}';
+    SO_AG_PARTNER              @title: '{i18n>SO_AG_PARTNER}'                @sap.Label: '{i18n>SO_AG_PARTNER}';
     @Common.TextFor
     SO_AG_PARTNER_NAME;
     @Common.Text           : SO_WE_PARTNER_NAME
     @Common.TextArrangement: #TextLast
-    SO_WE_PARTNER              @title: '{i18n>wePartnerNo}'                @sap.Label: '{i18n>wePartnerNo}';
+    SO_WE_PARTNER              @title: '{i18n>SO_WE_PARTNER}'                @sap.Label: '{i18n>SO_WE_PARTNER}';
     @Common.TextFor
     SO_WE_PARTNER_NAME;
     SO_LAND1                   @title: '{i18n>SO_LAND1}'                   @sap.Label: '{i18n>SO_LAND1}';
     SO_LANDX                   @title: '{i18n>SO_LANDX}'                   @sap.Label: '{i18n>SO_LANDX}';
-    SO_ORT01                   @title: '{i18n>ort1}'                       @sap.Label: '{i18n>ort1}';
+    SO_ORT01                   @title: '{i18n>SO_ORT01}'                       @sap.Label: '{i18n>SO_ORT01}';
     @Common.Text           : SO_VKORG_NAME1
     @Common.TextArrangement: #TextLast
     SO_VKORG                   @title: '{i18n>SO_VKORG}'                   @sap.Label: '{i18n>SO_VKORG}';
     @Common.TextFor
-    SO_VKORG_NAME1             @title: '{i18n>vkorgName}'                  @sap.Label: '{i18n>vkorgName}';
-    SO_KNREF_HEAD              @title: '{i18n>KNREF}'                      @sap.Label: '{i18n>KNREF}';
+    SO_VKORG_NAME1             @title: '{i18n>SO_VKORG_NAME1}'                  @sap.Label: '{i18n>SO_VKORG_NAME1}';
+    SO_KNREF_HEAD              @title: '{i18n>SO_KNREF_HEAD}'                      @sap.Label: '{i18n>SO_KNREF_HEAD}';
     //SO_KNREF_ITM     @title: '{i18n>SO_BSTNK}' @sap.Label: '{i18n>SO_BSTNK}'
     SO_VBUND                   @title: '{i18n>SO_VBUND}'                   @sap.Label: '{i18n>SO_VBUND}';
     SO_EDATU_REQUESTED         @title: '{i18n>SO_EDATU_REQUESTED}'         @sap.Label: '{i18n>SO_EDATU_REQUESTED}';
     SO_KWMENG                  @title: '{i18n>SO_KWMENG}'                  @sap.Label: '{i18n>SO_KWMENG}';
     SO_VRKME                   @title: '{i18n>SO_VRKME}'                   @sap.Label: '{i18n>SO_VRKME}';
-    SO_EDATU_CONFIRMED         @title: '{i18n>ConfDelDate}'                @sap.Label: '{i18n>ConfDelDate}';
-    SO_KBMENG                  @title: '{i18n>CONFIRMED_QUANTITY}'         @sap.Label: '{i18n>CONFIRMED_QUANTITY}';
-    SO_LDDAT                   @title: '{i18n>LoadingDate}'                @sap.Label: '{i18n>LoadingDate}';
-    SO_UNCONFIRMED_QTY         @title: '{i18n>UNCONFIRMED_QUANTITY}'       @sap.Label: '{i18n>UNCONFIRMED_QUANTITY}';
+    SO_EDATU_CONFIRMED         @title: '{i18n>SO_EDATU_CONFIRMED}'                @sap.Label: '{i18n>SO_EDATU_CONFIRMED}';
+    SO_KBMENG                  @title: '{i18n>SO_KBMENG}'         @sap.Label: '{i18n>SO_KBMENG}';
+    SO_LDDAT                   @title: '{i18n>SO_LDDAT}'                @sap.Label: '{i18n>SO_LDDAT}';
+    SO_UNCONFIRMED_QTY         @title: '{i18n>SO_UNCONFIRMED_QTY}'       @sap.Label: '{i18n>SO_UNCONFIRMED_QTY}';
     SO_REQ_TEXT                @title: '{i18n>SO_REQ_TEXT}'                @sap.Label: '{i18n>SO_REQ_TEXT}';
     @Common.Text           : SO_FAKSP_VTEXT
     @Common.TextArrangement: #TextLast
     SO_FAKSP                   @title: '{i18n>SO_FAKSP}'                   @sap.Label: '{i18n>SO_FAKSP}';
     @Common.TextFor
     SO_FAKSP_VTEXT             @title: '{i18n>SO_FAKSP_VTEXT}'             @sap.Label: '{i18n>SO_FAKSP_VTEXT}';
-    SO_LGORT                   @title: '{i18n>STORAGE_LOCATION}'           @sap.Label: '{i18n>STORAGE_LOCATION}';
+    SO_LGORT                   @title: '{i18n>SO_LGORT}'           @sap.Label: '{i18n>SO_LGORT}';
     @Common.Text           : SO_SUPPLY_SITUATION_DESCR
     @Common.TextArrangement: #TextLast
     SO_SUPPLY_SITUATION        @title: '{i18n>SO_SUPPLY_SITUATION}'        @sap.Label: '{i18n>SO_SUPPLY_SITUATION}';
@@ -219,15 +240,15 @@ annotate service.Results with {
     SO_WAERS                   @title: '{i18n>SO_WAERS}'                   @sap.Label: '{i18n>SO_WAERS}';
     SO_KPEIN                   @title: '{i18n>SO_KPEIN}'                   @sap.Label: '{i18n>SO_KPEIN}';
     SO_KMEIN                   @title: '{i18n>SO_KMEIN}'                   @sap.Label: '{i18n>SO_KMEIN}';
-    SO_NETWR                   @title: '{i18n>NET_AMOUNT}'                 @sap.Label: '{i18n>NET_AMOUNT}';
+    SO_NETWR                   @title: '{i18n>SO_NETWR}'                 @sap.Label: '{i18n>SO_NETWR}';
     SO_WAERK                   @title: '{i18n>SO_WAERK}'                   @sap.Label: '{i18n>SO_WAERK}';
     SO_HTEXT                   @title: '{i18n>SO_HTEXT}'                   @sap.Label: '{i18n>SO_HTEXT}';
     @Common.Text           : SO_PSTYV_VTEXT
     @Common.TextArrangement: #TextLast
-    SO_PSTYV                   @title: '{i18n>ITEM_CATEGORY}'              @sap.Label: '{i18n>ITEM_CATEGORY}';
+    SO_PSTYV                   @title: '{i18n>SO_PSTYV}'              @sap.Label: '{i18n>SO_PSTYV}';
     @Common.TextFor
-    SO_PSTYV_VTEXT             @title: '{i18n>ITEM_CATEGORY_TEXT}'         @sap.Label: '{i18n>ITEM_CATEGORY_TEXT}';
-    SO_DISPO                   @title: '{i18n>MRP_CONTROLLER}'             @sap.Label: '{i18n>MRP_CONTROLLER}';
+    SO_PSTYV_VTEXT             @title: '{i18n>SO_PSTYV_VTEXT}'         @sap.Label: '{i18n>SO_PSTYV_VTEXT}';
+    SO_DISPO                   @title: '{i18n>SO_DISPO}'             @sap.Label: '{i18n>SO_DISPO}';
     SO_KOSCH                   @title: '{i18n>SO_KOSCH}'                   @sap.Label: '{i18n>SO_KOSCH}';
     @Common.Text           : SO_VKBUR_BEZEI
     @Common.TextArrangement: #TextLast
@@ -263,51 +284,87 @@ annotate service.Results with {
     SO_AM_PARTNER              @title: '{i18n>SO_AM_PARTNER}'              @sap.Label: '{i18n>SO_AM_PARTNER}';
     @Common.TextFor
     SO_AM_PARTNER_NAME         @title: '{i18n>SO_AM_PARTNER_NAME}'         @sap.Label: '{i18n>SO_AM_PARTNER_NAME}';
-    SO_INCO1                   @title: '{i18n>inc01}'                      @sap.Label: '{i18n>inc01}';
-    SO_INCO2                   @title: '{i18n>inc02}'                      @sap.Label: '{i18n>inc02}';
+    SO_INCO1                   @title: '{i18n>SO_INCO1}'                      @sap.Label: '{i18n>SO_INCO1}';
+    SO_INCO2                   @title: '{i18n>SO_INCO2}'                      @sap.Label: '{i18n>SO_INCO2}';
     SO_zterm                   @title: '{i18n>SO_zterm}'                   @sap.Label: '{i18n>SO_zterm}';
     SO_PRSDT                   @title: '{i18n>SO_PRSDT}'                   @sap.Label: '{i18n>SO_PRSDT}';
-    SO_ZZ0S2REVG2              @title: '{i18n>custPo}'                     @sap.Label: '{i18n>custPo}';
-    SO_ZZDKPPRODB              @title: '{i18n>SBU}'                        @sap.Label: '{i18n>SBU}';
-    SO_BSARK                   @title: '{i18n>POType}'                     @sap.Label: '{i18n>POType}';
-    DL_VBELN               @title: '{i18n>VBELN_DEL}'                  @sap.Label: '{i18n>VBELN_DEL}';
-    DL_POSNR               @title: '{i18n>POSNR_DEL}'                  @sap.Label: '{i18n>POSNR_DEL}';
-    DL_CHARG                   @title: '{i18n>CHARG}'                      @sap.Label: '{i18n>CHARG}';
-    DL_LFIMG                   @title: '{i18n>LFIMG}'                      @sap.Label: '{i18n>LFIMG}';
-    DL_VRKME               @title: '{i18n>vrkme_del}'                  @sap.Label: '{i18n>vrkme_del}';
-    DL_POSAR                   @title: '{i18n>POSAR}'                      @sap.Label: '{i18n>POSAR}';
-    DL_VGBEL                   @title: '{i18n>VGBEL}'                      @sap.Label: '{i18n>VGBEL}';
-    DL_VGPOS                   @title: '{i18n>VGPOS}'                      @sap.Label: '{i18n>VGPOS}';
+    SO_ZZ0S2REVG2              @title: '{i18n>SO_ZZ0S2REVG2}'                     @sap.Label: '{i18n>SO_ZZ0S2REVG2}';
+    SO_ZZDKPPRODB              @title: '{i18n>SO_ZZDKPPRODB}'                        @sap.Label: '{i18n>SO_ZZDKPPRODB}';
+    SO_BSARK                   @title: '{i18n>SO_BSARK}'                     @sap.Label: '{i18n>SO_BSARK}';
+    DL_VBELN               @title: '{i18n>DL_VBELN}'                  @sap.Label: '{i18n>DL_VBELN}';
+    DL_POSNR               @title: '{i18n>DL_POSNR}'                  @sap.Label: '{i18n>DL_POSNR}';
+    DL_CHARG                   @title: '{i18n>DL_CHARG}'                      @sap.Label: '{i18n>DL_CHARG}';
+    DL_LFIMG                   @title: '{i18n>DL_LFIMG}'                      @sap.Label: '{i18n>DL_LFIMG}';
+    DL_VRKME               @title: '{i18n>DL_VRKME}'                  @sap.Label: '{i18n>DL_VRKME}';
+    DL_POSAR                   @title: '{i18n>DL_POSAR}'                      @sap.Label: '{i18n>DL_POSAR}';
+    DL_VGBEL                   @title: '{i18n>DL_VGBEL}'                      @sap.Label: '{i18n>DL_VGBEL}';
+    DL_VGPOS                   @title: '{i18n>DL_VGPOS}'                      @sap.Label: '{i18n>DL_VGPOS}';
     @Common.Text           : DL_LFART_VTEXT
     @Common.TextArrangement: #TextLast
-    DL_LFART                   @title: '{i18n>DELIVERY_TYPE}'              @sap.Label: '{i18n>DELIVERY_TYPE}';
+    DL_LFART                   @title: '{i18n>DL_LFART}'              @sap.Label: '{i18n>DL_LFART}';
     @Common.TextFor
-    DL_LFART_VTEXT             @title: '{i18n>DELIVERY_TYPE_TEXT}'         @sap.Label: '{i18n>DELIVERY_TYPE_TEXT}';
-    DL_LFDAT                   @title: '{i18n>lfdat}'                      @sap.Label: '{i18n>lfdat}';
-    DL_HSDAT                   @title: '{i18n>HSDAT_DATE}'                 @sap.Label: '{i18n>HSDAT_DATE}';
-    DL_VFDAT                   @title: '{i18n>VFDAT_DATE}'                 @sap.Label: '{i18n>VFDAT_DATE}';
-    DL_TRAID                   @title: '{i18n>TRAID}'                      @sap.Label: '{i18n>TRAID}';
-    DL_ZZ0S2BLNR               @title: '{i18n>ZZ0S2BLNR}'                  @sap.Label: '{i18n>ZZ0S2BLNR}';
-    DL_PEND_DEL_QUAN           @title: '{i18n>PENDING_DEL_QTY}'            @sap.Label: '{i18n>PENDING_DEL_QTY}';
+    DL_LFART_VTEXT             @title: '{i18n>DL_LFART_VTEXT}'         @sap.Label: '{i18n>DL_LFART_VTEXT}';
+    DL_LFDAT                   @title: '{i18n>DL_LFDAT}'                      @sap.Label: '{i18n>DL_LFDAT}';
+    DL_HSDAT                   @title: '{i18n>DL_HSDAT}'                 @sap.Label: '{i18n>DL_HSDAT}';
+    DL_VFDAT                   @title: '{i18n>DL_VFDAT}'                 @sap.Label: '{i18n>DL_VFDAT}';
+    DL_TRAID                   @title: '{i18n>DL_TRAID}'                      @sap.Label: '{i18n>DL_TRAID}';
+    DL_ZZ0S2BLNR               @title: '{i18n>DL_ZZ0S2BLNR}'                  @sap.Label: '{i18n>DL_ZZ0S2BLNR}';
+    DL_PEND_DEL_QUAN           @title: '{i18n>DL_PEND_DEL_QUAN}'            @sap.Label: '{i18n>DL_PEND_DEL_QUAN}';
     LAST_NOTE                  @title: '{i18n>LAST_NOTE}'                  @sap.Label: '{i18n>LAST_NOTE}';
-    TM_TKNUM                   @title: '{i18n>TKNUM}'                      @sap.Label: '{i18n>TKNUM}';
+    TM_TKNUM                   @title: '{i18n>TM_TKNUM}'                      @sap.Label: '{i18n>TM_TKNUM}';
     @Common.Text           : DL_LFART_VTEXT
     @Common.TextArrangement: #TextLast
-    TM_VSART                   @title: '{i18n>VSART}'                      @sap.Label: '{i18n>VSART}';
+    TM_VSART                   @title: '{i18n>TM_VSART}'                      @sap.Label: '{i18n>TM_VSART}';
     @Common.TextFor
     TM_VSART_BEZEI;
-    TM_EXTI1                   @title: '{i18n>EXTI1}'                      @sap.Label: '{i18n>EXTI1}';
+    TM_EXTI1                   @title: '{i18n>TM_EXTI1}'                      @sap.Label: '{i18n>TM_EXTI1}';
     @Common.Text           : TM_TDLNR_NAME1
     @Common.TextArrangement: #TextLast
-    TM_TDLNR                   @title: '{i18n>TDLNR}'                      @sap.Label: '{i18n>TDLNR}';
+    TM_TDLNR                   @title: '{i18n>TM_TDLNR}'                      @sap.Label: '{i18n>TM_TDLNR}';
     @Common.TextFor
     TM_TDLNR_NAME1;
-    TM_TRACKING_ID_COMP        @title: '{i18n>TRACKING_ID_COMP}'           @sap.Label: '{i18n>TRACKING_ID_COMP}';
-    TM_TRACKING_ID_ELEM        @title: '{i18n>TRACKING_ID_ELEM}'           @sap.Label: '{i18n>TRACKING_ID_ELEM}';
-    TM_DPTBG                   @title: '{i18n>DPTBG_DATE}'                 @sap.Label: '{i18n>DPTBG_DATE}';
-    TM_DATBG                   @title: '{i18n>DATBG_DATE}'                 @sap.Label: '{i18n>DATBG_DATE}';
-    TM_DPTEN                   @title: '{i18n>DPTEN_DATE}'                 @sap.Label: '{i18n>DPTEN_DATE}';
-    TM_DATEN                   @title: '{i18n>DATEN_DATE}'                 @sap.Label: '{i18n>DATEN_DATE}';
+    TM_TRACKING_ID_COMP        @title: '{i18n>TM_TRACKING_ID_COMP}'           @sap.Label: '{i18n>TM_TRACKING_ID_COMP}';
+    TM_TRACKING_ID_ELEM        @title: '{i18n>TM_TRACKING_ID_ELEM}'           @sap.Label: '{i18n>TM_TRACKING_ID_ELEM}';
+    TM_DPTBG                   @title: '{i18n>TM_DPTBG}'                 @sap.Label: '{i18n>TM_DPTBG}';
+    TM_DATBG                   @title: '{i18n>TM_DATBG}'                 @sap.Label: '{i18n>TM_DATBG}';
+    TM_DPTEN                   @title: '{i18n>TM_DPTEN}'                 @sap.Label: '{i18n>TM_DPTEN}';
+    TM_DATEN                   @title: '{i18n>TM_DATEN}'                 @sap.Label: '{i18n>TM_DATEN}';
+    TM_AR_DATE                 @title: '{i18n>TM_AR_DATE}'                    @sap.Label: '{i18n>TM_AR_DATE}';
+    TM_STTRG                   @title: '{i18n>TM_STTRG}'                      @sap.Label: '{i18n>TM_STTRG}';
+    TM_STTRG_DDTEXT            @title: '{i18n>TM_STTRG_DDTEXT}'               @sap.Label: '{i18n>TM_STTRG_DDTEXT}';
+    SO_BASF_LOFCR              @title: '{i18n>SO_BASF_LOFCR}'                  @sap.Label: '{i18n>SO_BASF_LOFCR}';
+    SO_GUSCON_LEVEL            @title: '{i18n>SO_GUSCON_LEVEL}'               @sap.Label: '{i18n>SO_GUSCON_LEVEL}';
+    SO_I_VBELN                 @title: '{i18n>SO_I_VBELN}'                    @sap.Label: '{i18n>SO_I_VBELN}';
+    SO_ISCOMPLETED             @title: '{i18n>SO_ISCOMPLETED}'                @sap.Label: '{i18n>SO_ISCOMPLETED}';
+    SO_LEVEL_TYPE              @title: '{i18n>SO_LEVEL_TYPE}'                 @sap.Label: '{i18n>SO_LEVEL_TYPE}';
+    SO_N_VBELN                 @title: '{i18n>SO_N_VBELN}'                    @sap.Label: '{i18n>SO_N_VBELN}';
+    SO_F_VBELN                 @title: '{i18n>SO_F_VBELN}'                    @sap.Label: '{i18n>SO_F_VBELN}';
+    SO_F_POSNR                 @title: '{i18n>SO_F_POSNR}'                    @sap.Label: '{i18n>SO_F_POSNR}';
+    SO_VBTYP                   @title: '{i18n>SO_VBTYP}'                      @sap.Label: '{i18n>SO_VBTYP}';
+    SO_BSTKD                   @title: '{i18n>SO_BSTKD}'                      @sap.Label: '{i18n>SO_BSTKD}';
+    BL_VBELN_INV_FIRST         @title: '{i18n>BL_VBELN_INV_FIRST}'            @sap.Label: '{i18n>BL_VBELN_INV_FIRST}';
+    BL_VBELN_INV_LAST          @title: '{i18n>BL_VBELN_INV_LAST}'             @sap.Label: '{i18n>BL_VBELN_INV_LAST}';
+    BL_XBLNR                   @title: '{i18n>BL_XBLNR}'                      @sap.Label: '{i18n>BL_XBLNR}';
+    @Common.Text           : SO_TRAGR_VTEXT
+    @Common.TextArrangement: #TextLast
+    SO_TRAGR                   @title: '{i18n>SO_TRAGR}'                      @sap.Label: '{i18n>SO_TRAGR}';
+    @Common.TextFor
+    SO_TRAGR_VTEXT;
+    @Common.Text           : SO_VKGRP_BEZEI
+    @Common.TextArrangement: #TextLast
+    SO_VKGRP                   @title: '{i18n>SO_VKGRP}'                      @sap.Label: '{i18n>SO_VKGRP}';
+    @Common.TextFor
+    SO_VKGRP_BEZEI;
+    SO_ROUTE                   @title: '{i18n>SO_ROUTE}'                      @sap.Label: '{i18n>SO_ROUTE}';
+    SO_TDDAT                   @title: '{i18n>SO_TDDAT}'                      @sap.Label: '{i18n>SO_TDDAT}';
+    SO_ZZ0S2MATUG              @title: '{i18n>SO_ZZ0S2MATUG}'                 @sap.Label: '{i18n>SO_ZZ0S2MATUG}';
+    @Common.Text           : SO_VSBED_VTEXT
+    @Common.TextArrangement: #TextLast
+    SO_VSBED                   @title: '{i18n>SO_VSBED}'                      @sap.Label: '{i18n>SO_TRAGR}';
+    @Common.TextFor
+    SO_VSBED_VTEXT;
+    DL_WADAT                   @title: '{i18n>DL_WADAT}'                      @sap.Label: '{i18n>DL_WADAT}';
+    DL_WADAT_IST               @title: '{i18n>DL_WADAT_IST}'                  @sap.Label: '{i18n>DL_WADAT_IST}';
 
 
 }
@@ -437,7 +494,7 @@ annotate service.Results with {
     DL_VRKME
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>VRKME_DEL}',
+        Label                  : '{@i18n>DL_VRKME}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -486,7 +543,7 @@ annotate service.Results with {
     SO_VBELN
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>salesOrder}',
+        Label                  : '{@i18n>SO_VBELN}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -502,7 +559,7 @@ annotate service.Results with {
     SO_POSNR
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>salesOrderItem}',
+        Label                  : '{@i18n>SO_POSNR}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -572,7 +629,7 @@ annotate service.Results with {
     SO_MATNR
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>MaterialNo}',
+        Label                  : '{@i18n>SO_MATNR}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -605,28 +662,10 @@ annotate service.Results with {
 };
 
 annotate service.Results with {
-    SO_BSTNK
-    @Common.ValueList: {
-        $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>SO_BSTNK}',
-        CollectionPath         : 'valueHelps',
-        DistinctValuesSupported: true,
-        SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_BSTNK,
-            ValueListProperty: 'SO_BSTNK'
-        }
-
-        ]
-    }
-};
-
-annotate service.Results with {
     SO_AG_PARTNER
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>agPartnerNo}',
+        Label                  : '{@i18n>SO_AG_PARTNER}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -644,7 +683,7 @@ annotate service.Results with {
     SO_WE_PARTNER
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>wePartnerNo}',
+        Label                  : '{@i18n>SO_WE_PARTNER}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -680,7 +719,7 @@ annotate service.Results with {
     SO_ORT01
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>ort1}',
+        Label                  : '{@i18n>SO_ORT01}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -757,7 +796,7 @@ annotate service.Results with {
     SO_KBMENG
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>CONFIRMED_QUANTITY}',
+        Label                  : '{@i18n>SO_KBMENG}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -780,7 +819,7 @@ annotate service.Results with {
     SO_UNCONFIRMED_QTY
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>UNCONFIRMED_QUANTITY}',
+        Label                  : '{@i18n>SO_UNCONFIRMED_QTY}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -839,7 +878,7 @@ annotate service.Results with {
     SO_LGORT
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>STORAGE_LOCATION}',
+        Label                  : '{@i18n>SO_LGORT}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -921,7 +960,7 @@ annotate service.Results with {
     SO_NETWR
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>NET_AMOUNT}',
+        Label                  : '{@i18n>SO_NETWR}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -962,7 +1001,7 @@ annotate service.Results with {
     SO_PSTYV
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>ITEM_CATEGORY}',
+        Label                  : '{@i18n>SO_PSTYV}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -980,7 +1019,7 @@ annotate service.Results with {
     SO_DISPO
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>MRP_CONTROLLER}',
+        Label                  : '{@i18n>SO_DISPO}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1124,7 +1163,7 @@ annotate service.Results with {
     SO_INCO1
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>inc01}',
+        Label                  : '{@i18n>SO_INCO1}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1142,7 +1181,7 @@ annotate service.Results with {
     SO_INCO2
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>inc02}',
+        Label                  : '{@i18n>SO_INCO2}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1178,7 +1217,7 @@ annotate service.Results with {
     SO_ZZ0S2REVG2
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>custPo}',
+        Label                  : '{@i18n>SO_ZZ0S2REVG2}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1196,7 +1235,7 @@ annotate service.Results with {
     SO_ZZDKPPRODB
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>SBU}',
+        Label                  : '{@i18n>SO_ZZDKPPRODB}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1214,7 +1253,7 @@ annotate service.Results with {
     SO_BSARK
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>POType}',
+        Label                  : '{@i18n>SO_BSARK}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1233,7 +1272,7 @@ annotate service.Results with {
     DL_VBELN
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>VBELN_DEL}',
+        Label                  : '{@i18n>DL_VBELN}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1251,7 +1290,7 @@ annotate service.Results with {
     DL_POSNR
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>POSNR_DEL}',
+        Label                  : '{@i18n>DL_POSNR}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1269,7 +1308,7 @@ annotate service.Results with {
     DL_CHARG
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>CHARG}',
+        Label                  : '{@i18n>DL_CHARG}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1287,7 +1326,7 @@ annotate service.Results with {
     DL_LFIMG
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>LFIMG}',
+        Label                  : '{@i18n>DL_LFIMG}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1310,7 +1349,7 @@ annotate service.Results with {
     DL_POSAR
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>POSAR}',
+        Label                  : '{@i18n>DL_POSAR}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1328,7 +1367,7 @@ annotate service.Results with {
     DL_VGBEL
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>VGBEL}',
+        Label                  : '{@i18n>DL_VGBEL}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1346,7 +1385,7 @@ annotate service.Results with {
     DL_VGPOS
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>VGPOS}',
+        Label                  : '{@i18n>DL_VGPOS}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1364,7 +1403,7 @@ annotate service.Results with {
     DL_LFART
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>LFART}',
+        Label                  : '{@i18n>DL_LFART}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1382,7 +1421,7 @@ annotate service.Results with {
     DL_TRAID
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>TRAID}',
+        Label                  : '{@i18n>DL_TRAID}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1400,7 +1439,7 @@ annotate service.Results with {
     DL_ZZ0S2BLNR
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>ZZ0S2BLNR}',
+        Label                  : '{@i18n>DL_ZZ0S2BLNR}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1418,7 +1457,7 @@ annotate service.Results with {
     TM_TKNUM
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>TKNUM}',
+        Label                  : '{@i18n>TM_TKNUM}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1436,7 +1475,7 @@ annotate service.Results with {
     TM_VSART
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>VSART}',
+        Label                  : '{@i18n>TM_VSART}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1454,7 +1493,7 @@ annotate service.Results with {
     TM_EXTI1
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>EXTI1}',
+        Label                  : '{@i18n>TM_EXTI1}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1472,7 +1511,7 @@ annotate service.Results with {
     TM_TDLNR
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>TDLNR}',
+        Label                  : '{@i18n>TM_TDLNR}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1490,7 +1529,7 @@ annotate service.Results with {
     TM_TRACKING_ID_COMP
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>TRACKING_ID_COMP}',
+        Label                  : '{@i18n>TM_TRACKING_ID_COMP}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1508,7 +1547,7 @@ annotate service.Results with {
     TM_TRACKING_ID_ELEM
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>TRACKING_ID_ELEM}',
+        Label                  : '{@i18n>TM_TRACKING_ID_ELEM}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1526,7 +1565,7 @@ annotate service.Results with {
     DL_PEND_DEL_QUAN
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>PEND_DEL_QUAN}',
+        Label                  : '{@i18n>DL_PEND_DEL_QUAN}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -1540,6 +1579,330 @@ annotate service.Results with {
                 $Type            : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty: 'DL_VRKME'
             }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_BASF_LOFCR
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_BASF_LOFCR}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty:  SO_BASF_LOFCR,
+            ValueListProperty: 'SO_BASF_LOFCR'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_GUSCON_LEVEL
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_GUSCON_LEVEL}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_GUSCON_LEVEL,
+            ValueListProperty: 'SO_GUSCON_LEVEL'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_I_VBELN
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_I_VBELN}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_I_VBELN,
+            ValueListProperty: 'SO_I_VBELN'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_ISCOMPLETED
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_ISCOMPLETED}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty:  SO_ISCOMPLETED,
+            ValueListProperty: 'SO_ISCOMPLETED'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_LEVEL_TYPE
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_LEVEL_TYPE}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty:  SO_LEVEL_TYPE,
+            ValueListProperty: 'SO_LEVEL_TYPE'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_N_VBELN
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_N_VBELN}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty:  SO_N_VBELN,
+            ValueListProperty: 'SO_N_VBELN'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_F_VBELN
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_F_VBELN}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty:  SO_F_VBELN,
+            ValueListProperty: 'SO_F_VBELN'
+        }
+
+        ]
+    }
+};	
+
+annotate service.Results with {
+    SO_F_POSNR
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_F_POSNR}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty:  SO_F_POSNR,
+            ValueListProperty: 'SO_F_POSNR'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_VBTYP
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_VBTYP}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty:  SO_VBTYP,
+            ValueListProperty: 'SO_VBTYP'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_BSTKD
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_BSTKD}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty:  SO_BSTKD,
+            ValueListProperty: 'SO_BSTKD'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    BL_VBELN_INV_FIRST
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_VBELN_INV_FIRST}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: BL_VBELN_INV_FIRST,
+            ValueListProperty: 'BL_VBELN_INV_FIRST'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    BL_VBELN_INV_LAST
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_VBELN_INV_LAST}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: BL_VBELN_INV_LAST,
+            ValueListProperty: 'BL_VBELN_INV_LAST'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    BL_XBLNR
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_XBLNR}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: BL_XBLNR,
+            ValueListProperty: 'BL_XBLNR'
+        }
+
+        ]
+    }
+};	
+
+annotate service.Results with {
+    SO_TRAGR
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_TRAGR}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty:  SO_TRAGR,
+            ValueListProperty: 'SO_TRAGR'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_VKGRP
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_VKGRP}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty:  SO_VKGRP,
+            ValueListProperty: 'SO_VKGRP'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_ROUTE
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_ROUTE}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty:  SO_ROUTE,
+            ValueListProperty: 'SO_ROUTE'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_ZZ0S2MATUG
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_ZZ0S2MATUG}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty:  SO_ZZ0S2MATUG,
+            ValueListProperty: 'SO_ZZ0S2MATUG'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_VSBED
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_VSBED}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty:  SO_VSBED,
+            ValueListProperty: 'SO_VSBED'
+        }
 
         ]
     }
@@ -1618,10 +1981,10 @@ annotate service.Results with @UI.LineItem: {
 
 annotate service.Results with @(UI: {SelectionFields: [
     SO_VBELN,
-    SO_POSNR,
     SO_VKORG,
-    SO_MATNR,
-    SO_FAKSP
+    SO_VTWEG,
+    SO_AG_PARTNER,
+    SO_WE_PARTNER
 
 
 ],
