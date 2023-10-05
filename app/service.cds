@@ -412,6 +412,24 @@ annotate service.Results with {
     // Shipment Details Texts
     TM_VSART_BEZEI            @UI                     : {Hidden: true};
     TM_TDLNR_NAME1            @UI                     : {Hidden: true};
+    TM_STTRG_DDTEXT           @UI                     : {Hidden: true};
+    SO_F_POSNR                @UI                     : {Hidden: true};
+    SO_VBTYP                  @UI                     : {Hidden: true};
+    SO_TRAGR_VTEXT            @UI                     : {Hidden: true};
+    SO_VKGRP_BEZEI            @UI                     : {Hidden: true};
+    SO_VSBED_VTEXT            @UI                     : {Hidden: true};
+    SO_KNREF_ITM @UI:{Hidden: true};
+    SO_VRKME @UI : {Hidden: true};
+    SO_WAERS @UI : {Hidden: true};
+    SO_KPEIN @UI : {Hidden: true};
+    SO_KMEIN @UI : {Hidden: true};
+    SO_WAERK @UI : {Hidden: true};
+    TM_TRACKING_ID_COMP @UI : {Hidden: true};
+    DL_POSNR @UI : {Hidden: true};
+    DL_VGBEL @UI : {Hidden: true};
+    TM_TRACKING_ID_ELEM @UI : {Hidden: true};
+    DL_VGPOS @UI : {Hidden: true};
+    DL_POSAR @UI : {Hidden: true};
 }
 
 annotate service.valueHelps with {
@@ -1931,7 +1949,7 @@ annotate service.Results with @UI.LineItem: {
         {Value: SO_VKORG},
         {Value: SO_VKORG_NAME1},
         {Value: SO_KNREF_HEAD},
-        {Value: SO_KNREF_ITM},
+        // {Value: SO_KNREF_ITM},
         {Value: SO_VBUND},
         {Value: SO_EDATU_REQUESTED},
         {Value: SO_KWMENG},
