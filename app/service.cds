@@ -374,6 +374,7 @@ annotate service.Results with {
     DL_WADAT_IST               @title: '{i18n>DL_WADAT_IST}'                  @sap.Label: '{i18n>DL_WADAT_IST}';
     TM_SHIPMENT_ALERT         @title: '{i18n>TM_SHIPMENT_ALERT}'                   @sap.Label: '{i18n>TM_SHIPMENT_ALERT}';
     TM_SHIPMENT_CURRENT_STATUS    @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'               @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
+    // SO_F_WERKS                  @title: '{i18n>SO_F_WERKS}'                      @sap.Label: '{i18n>SO_F_WERKS}';
     // @Common.Text           : SO_F_VKORG_VTEXT
     // @Common.TextArrangement: #TextLast
     // SO_F_VKORG                  @title: '{i18n>SO_F_VKORG}'                      @sap.Label: '{i18n>SO_F_VKORG}';
@@ -444,6 +445,7 @@ annotate service.Results with {
     DL_VGPOS @UI : {Hidden: true};
     DL_POSAR @UI : {Hidden: true};
     DL_VRKME @UI : {Hidden: true};
+    // SO_F_VKORG_VTEXT            @UI                     : {Hidden: true};
 }
 
 annotate service.valueHelps with {
