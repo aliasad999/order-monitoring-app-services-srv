@@ -9,6 +9,7 @@
 		
 	],
 	"oauth2-configuration" : {
+		"token-validity": 7200,
 		"redirect-uris" : [
 			"https://cf-order-management-dev-j4s5jpqjls-om-cockpit-ordermoni47d1dc53.cfapps.eu10-004.hana.ondemand.com/",
 			"https://cf-order-management-dev-j4s5jpqjls-om-cockpit-ordermanag623a7f8.cfapps.eu10-004.hana.ondemand.com/",
