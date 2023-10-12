@@ -20,6 +20,56 @@ class srvOpenOrders extends cds.ApplicationService {
         });
 
         this.on("READ", "Results", async (req, next) => {
+            // OTC-24554 Partner Settings Functionality
+            // Begin of Code OTC-24554
+            // *-------------------------------------------------------------------*
+            // Consider also partner settings, if they are maintained
+            let db = cds.transaction(req);
+            let currentUser = req.headers['active-user']
+            if (currentUser) {
+                let partnerSettingsQuery = cds.parse.cql(`SELECT from srvOpenOrders_PartnerSettings where BASF_USER = '${currentUser}' and ACTIVE = 'X'`);
+                let partnerSettings = await db.run(partnerSettingsQuery);
+                if (partnerSettings.length !== 0) {
+                    let VEPartners = [];
+                    let ASPartners = [];
+                    let AMPartners = [];
+                    for (let settingsEntry of partnerSettings) {
+                        let partnerNumber = settingsEntry.PARTNER_NUMBER;
+                        switch (settingsEntry.PARTNER_ROLE) {
+                            case 'VE':
+                                VEPartners.push(`SO_VE_PARTNER = ${partnerNumber}`);
+                                break;
+
+                            case 'AS':
+                                ASPartners.push(`SO_AS_PARTNER = ${partnerNumber}`);
+                                break;
+
+                            case 'AM':
+                                AMPartners.push(`SO_AM_PARTNER = ${partnerNumber}`);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    // Construct queries 
+                    let VEQuery = VEPartners.length !== 0 ? cds.parse.expr(VEPartners.join(' or ')) : null;
+                    let ASQuery = ASPartners.length !== 0 ? cds.parse.expr(ASPartners.join(' or ')) : null;
+                    let AMQuery = AMPartners.length !== 0 ? cds.parse.expr(AMPartners.join(' or ')) : null;
+
+                    // Add queries to request
+                    let { where: requestQuery } = req.query.SELECT;
+                    VEQuery && requestQuery.push('and');
+                    VEQuery && requestQuery.push(VEQuery);
+                    ASQuery && requestQuery.push('and');
+                    ASQuery && requestQuery.push(ASQuery);
+                    AMQuery && requestQuery.push('and');
+                    AMQuery && requestQuery.push(AMQuery);
+                }
+            }
+            // *-------------------------------------------------------------------*
+            // End of Code OTC-24554
+
             const service = await cds.connect.to('order_monitoring_services');
             if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols) {
                 const lt_count = await service.send({ query: req.query, headers: { countcols: req.headers?.countcols } })
