@@ -1,5 +1,5 @@
 using order_monitoring_services as db from './external/order-monitoring-services.csn';
-
+using allorders.db as db_app from  '../db/order-monitoring-app-service';
 
 service srvOpenOrders {
   @readonly
@@ -290,4 +290,12 @@ entity valueHelps as
           *
     };
 
+  entity PartnerSettings as
+    select from db_app.PARTNER_SETTINGS {
+      key CLIENT,
+      key BASF_USER,
+      key PARTNER_ROLE,
+      key PARTNER_NUMBER,
+          *
+    };
 }

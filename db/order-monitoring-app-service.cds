@@ -136,4 +136,13 @@ entity![RESULTS]{
     // BL_XBLNR                   : String(16);
     // DL_WADAT                   : String(8);
     // DL_WADAT_IST               : String(8);
-};
+} 
+
+entity PARTNER_SETTINGS {
+        CLIENT         : String(3);
+        BASF_USER      : String(12);
+        PARTNER_ROLE   : String(2);
+        PARTNER_NUMBER : String(8);
+        ACTIVE         : String(1);
+        COMMT          : String(50);
+}
