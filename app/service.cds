@@ -108,7 +108,7 @@ annotate service.valueHelps with {
     SO_AM_PARTNER_NAME         @title: '{i18n>SO_AM_PARTNER_NAME}'         @sap.Label: '{i18n>SO_AM_PARTNER_NAME}';
     SO_INCO1                   @title: '{i18n>SO_INCO1}'                      @sap.Label: '{i18n>SO_INCO1}';
     SO_INCO2                   @title: '{i18n>SO_INCO2}'                      @sap.Label: '{i18n>SO_INCO2}';
-    SO_zterm                   @title: '{i18n>SO_zterm}'                   @sap.Label: '{i18n>SO_zterm}';
+    SO_ZTERM                   @title: '{i18n>SO_ZTERM}'                   @sap.Label: '{i18n>SO_ZTERM}';
     SO_PRSDT                   @title: '{i18n>SO_PRSDT}'                   @sap.Label: '{i18n>SO_PRSDT}';
     SO_ZZ0S2REVG2              @title: '{i18n>SO_ZZ0S2REVG2}'                     @sap.Label: '{i18n>SO_ZZ0S2REVG2}';
     SO_ZZDKPPRODB              @title: '{i18n>SO_ZZDKPPRODB}'                        @sap.Label: '{i18n>SO_ZZDKPPRODB}';
@@ -165,23 +165,23 @@ annotate service.valueHelps with {
     @Common.TextFor
     SO_VKGRP_BEZEI;
     SO_ROUTE                   @title: '{i18n>SO_ROUTE}'                      @sap.Label: '{i18n>SO_ROUTE}';
-    SO_TDDAT                   @title: '{i18n>SO_TDDAT}'                      @sap.Label: '{i18n>SO_TDDAT}';
-    SO_ZZ0S2MATUG              @title: '{i18n>SO_ZZ0S2MATUG}'                 @sap.Label: '{i18n>SO_ZZ0S2MATUG}';
-    @Common.Text           : SO_VSBED_VTEXT
+    SO_F_TDDAT                   @title: '{i18n>SO_F_TDDAT}'                      @sap.Label: '{i18n>SO_F_TDDAT}';
+    SO_F_ZZ0S2MATUG              @title: '{i18n>SO_F_ZZ0S2MATUG}'                 @sap.Label: '{i18n>SO_F_ZZ0S2MATUG}';
+    @Common.Text           : SO_F_VSBED_VTEXT
     @Common.TextArrangement: #TextLast
-    SO_VSBED                   @title: '{i18n>SO_VSBED}'                      @sap.Label: '{i18n>SO_TRAGR}';
+    SO_F_VSBED                   @title: '{i18n>SO_F_VSBED}'                      @sap.Label: '{i18n>SO_TRAGR}';
     @Common.TextFor
-    SO_VSBED_VTEXT;
+    SO_F_VSBED_VTEXT;
     DL_WADAT                   @title: '{i18n>DL_WADAT}'                      @sap.Label: '{i18n>DL_WADAT}';
     DL_WADAT_IST               @title: '{i18n>DL_WADAT_IST}'                  @sap.Label: '{i18n>DL_WADAT_IST}';
     TM_SHIPMENT_ALERT         @title: '{i18n>TM_SHIPMENT_ALERT}'                   @sap.Label: '{i18n>TM_SHIPMENT_ALERT}';
     TM_SHIPMENT_CURRENT_STATUS    @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'               @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
-    // SO_F_WERKS                  @title: '{i18n>SO_F_WERKS}'                      @sap.Label: '{i18n>SO_F_WERKS}';
-    // @Common.Text           : SO_F_VKORG_VTEXT
-    // @Common.TextArrangement: #TextLast
-    // SO_F_VKORG                  @title: '{i18n>SO_F_VKORG}'                      @sap.Label: '{i18n>SO_F_VKORG}';
-    // @Common.TextFor
-    // SO_F_VKORG_VTEXT; 
+    SO_F_WERKS                  @title: '{i18n>SO_F_WERKS}'                      @sap.Label: '{i18n>SO_F_WERKS}';
+    @Common.Text           : SO_F_VKORG_VTEXT
+    @Common.TextArrangement: #TextLast
+    SO_F_VKORG                  @title: '{i18n>SO_F_VKORG}'                      @sap.Label: '{i18n>SO_F_VKORG}';
+    @Common.TextFor
+    SO_F_VKORG_VTEXT; 
 };
 
 annotate service.Results with {
@@ -293,7 +293,7 @@ annotate service.Results with {
     SO_AM_PARTNER_NAME         @title: '{i18n>SO_AM_PARTNER_NAME}'         @sap.Label: '{i18n>SO_AM_PARTNER_NAME}';
     SO_INCO1                   @title: '{i18n>SO_INCO1}'                      @sap.Label: '{i18n>SO_INCO1}';
     SO_INCO2                   @title: '{i18n>SO_INCO2}'                      @sap.Label: '{i18n>SO_INCO2}';
-    SO_zterm                   @title: '{i18n>SO_zterm}'                   @sap.Label: '{i18n>SO_zterm}';
+    SO_ZTERM                   @title: '{i18n>SO_ZTERM}'                   @sap.Label: '{i18n>SO_ZTERM}';
     SO_PRSDT                   @title: '{i18n>SO_PRSDT}'                   @sap.Label: '{i18n>SO_PRSDT}';
     SO_ZZ0S2REVG2              @title: '{i18n>SO_ZZ0S2REVG2}'                     @sap.Label: '{i18n>SO_ZZ0S2REVG2}';
     SO_ZZDKPPRODB              @title: '{i18n>SO_ZZDKPPRODB}'                        @sap.Label: '{i18n>SO_ZZDKPPRODB}';
@@ -363,23 +363,23 @@ annotate service.Results with {
     @Common.TextFor
     SO_VKGRP_BEZEI;
     SO_ROUTE                   @title: '{i18n>SO_ROUTE}'                      @sap.Label: '{i18n>SO_ROUTE}';
-    SO_TDDAT                   @title: '{i18n>SO_TDDAT}'                      @sap.Label: '{i18n>SO_TDDAT}';
-    SO_ZZ0S2MATUG              @title: '{i18n>SO_ZZ0S2MATUG}'                 @sap.Label: '{i18n>SO_ZZ0S2MATUG}';
-    @Common.Text           : SO_VSBED_VTEXT
+    SO_F_TDDAT                   @title: '{i18n>SO_F_TDDAT}'                      @sap.Label: '{i18n>SO_F_TDDAT}';
+    SO_F_ZZ0S2MATUG              @title: '{i18n>SO_F_ZZ0S2MATUG}'                 @sap.Label: '{i18n>SO_F_ZZ0S2MATUG}';
+    @Common.Text           : SO_F_VSBED_VTEXT
     @Common.TextArrangement: #TextLast
-    SO_VSBED                   @title: '{i18n>SO_VSBED}'                      @sap.Label: '{i18n>SO_TRAGR}';
+    SO_F_VSBED                   @title: '{i18n>SO_F_VSBED}'                      @sap.Label: '{i18n>SO_TRAGR}';
     @Common.TextFor
-    SO_VSBED_VTEXT;
+    SO_F_VSBED_VTEXT;
     DL_WADAT                   @title: '{i18n>DL_WADAT}'                      @sap.Label: '{i18n>DL_WADAT}';
     DL_WADAT_IST               @title: '{i18n>DL_WADAT_IST}'                  @sap.Label: '{i18n>DL_WADAT_IST}';
     TM_SHIPMENT_ALERT         @title: '{i18n>TM_SHIPMENT_ALERT}'                   @sap.Label: '{i18n>TM_SHIPMENT_ALERT}';
     TM_SHIPMENT_CURRENT_STATUS    @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'               @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
-    // SO_F_WERKS                  @title: '{i18n>SO_F_WERKS}'                      @sap.Label: '{i18n>SO_F_WERKS}';
-    // @Common.Text           : SO_F_VKORG_VTEXT
-    // @Common.TextArrangement: #TextLast
-    // SO_F_VKORG                  @title: '{i18n>SO_F_VKORG}'                      @sap.Label: '{i18n>SO_F_VKORG}';
-    // @Common.TextFor
-    // SO_F_VKORG_VTEXT;
+    SO_F_WERKS                  @title: '{i18n>SO_F_WERKS}'                      @sap.Label: '{i18n>SO_F_WERKS}';
+    @Common.Text           : SO_F_VKORG_VTEXT
+    @Common.TextArrangement: #TextLast
+    SO_F_VKORG                  @title: '{i18n>SO_F_VKORG}'                      @sap.Label: '{i18n>SO_F_VKORG}';
+    @Common.TextFor
+    SO_F_VKORG_VTEXT;
 
 }
 
@@ -431,7 +431,7 @@ annotate service.Results with {
     SO_VBTYP                  @UI                     : {Hidden: true};
     SO_TRAGR_VTEXT            @UI                     : {Hidden: true};
     SO_VKGRP_BEZEI            @UI                     : {Hidden: true};
-    SO_VSBED_VTEXT            @UI                     : {Hidden: true};
+    SO_F_VSBED_VTEXT            @UI                     : {Hidden: true};
     SO_KNREF_ITM @UI:{Hidden: true};
     SO_VRKME @UI : {Hidden: true};
     SO_WAERS @UI : {Hidden: true};
@@ -445,7 +445,7 @@ annotate service.Results with {
     DL_VGPOS @UI : {Hidden: true};
     DL_POSAR @UI : {Hidden: true};
     DL_VRKME @UI : {Hidden: true};
-    // SO_F_VKORG_VTEXT            @UI                     : {Hidden: true};
+    SO_F_VKORG_VTEXT            @UI                     : {Hidden: true};
 }
 
 annotate service.valueHelps with {
@@ -603,8 +603,6 @@ annotate service.Results with {
             ValueListProperty: 'SO_POSNR'
         }]
     }
-    @Common.IsDigitSequence: true
-    @Core.MaxLength: 6
 }
 
 annotate service.Results with {
@@ -677,8 +675,6 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
-    @Core.MaxLength: 18
 };
 
 annotate service.Results with {
@@ -715,8 +711,6 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
-    @Core.MaxLength: 10
 };
 
 annotate service.Results with {
@@ -735,8 +729,6 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
-    @Core.MaxLength: 10
 };
 
 annotate service.Results with {
@@ -755,8 +747,6 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
-    @Core.MaxLength: 10
 };
 
 annotate service.Results with {
@@ -1240,17 +1230,17 @@ annotate service.Results with {
 };
 
 annotate service.Results with {
-    SO_zterm
+    SO_ZTERM
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>SO_zterm}',
+        Label                  : '{@i18n>SO_ZTERM}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
             $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_zterm,
-            ValueListProperty: 'SO_zterm'
+            LocalDataProperty: SO_ZTERM,
+            ValueListProperty: 'SO_ZTERM'
         }
 
         ]
@@ -1346,8 +1336,6 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
-    @Core.MaxLength: 6
 };
 
 annotate service.Results with {
@@ -1443,8 +1431,6 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
-    @Core.MaxLength: 6
 };
 
 annotate service.Results with {
@@ -1481,8 +1467,6 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
-    @Core.MaxLength: 20
 };
 
 annotate service.Results with {
@@ -1501,8 +1485,6 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
-    @Core.MaxLength: 30
 };
 
 annotate service.Results with {
@@ -1575,8 +1557,6 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
-    @Core.MaxLength: 10
 };
 
 annotate service.Results with {
@@ -1654,8 +1634,6 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
-    @Core.MaxLength: 20
 };
 
 annotate service.Results with {
@@ -1674,8 +1652,6 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
-    @Core.MaxLength: 10
 };
 
 annotate service.Results with {
@@ -1838,8 +1814,6 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
-    @Core.MaxLength: 10
 };
 
 annotate service.Results with {
@@ -1858,8 +1832,6 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
-    @Core.MaxLength: 10
 };
 
 annotate service.Results with {
@@ -1878,8 +1850,6 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
-    @Core.MaxLength: 10
 };	
 
 annotate service.Results with {
@@ -1898,8 +1868,6 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
-    @Core.MaxLength: 4
 };
 
 annotate service.Results with {
@@ -1939,17 +1907,17 @@ annotate service.Results with {
 };
 
 annotate service.Results with {
-    SO_ZZ0S2MATUG
+    SO_F_ZZ0S2MATUG
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>SO_ZZ0S2MATUG}',
+        Label                  : '{@i18n>SO_F_ZZ0S2MATUG}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
             $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty:  SO_ZZ0S2MATUG,
-            ValueListProperty: 'SO_ZZ0S2MATUG'
+            LocalDataProperty:  SO_F_ZZ0S2MATUG,
+            ValueListProperty: 'SO_F_ZZ0S2MATUG'
         }
 
         ]
@@ -1957,17 +1925,17 @@ annotate service.Results with {
 };
 
 annotate service.Results with {
-    SO_VSBED
+    SO_F_VSBED
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>SO_VSBED}',
+        Label                  : '{@i18n>SO_F_VSBED}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
             $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty:  SO_VSBED,
-            ValueListProperty: 'SO_VSBED'
+            LocalDataProperty:  SO_F_VSBED,
+            ValueListProperty: 'SO_F_VSBED'
         }
 
         ]
@@ -2010,41 +1978,41 @@ annotate service.Results with {
     }
 };
 
-// annotate service.Results with {
-//     SO_F_VKORG
-//     @Common.ValueList: {
-//         $Type                  : 'Common.ValueListType',
-//         Label                  : '{@i18n>SO_F_VKORG}',
-//         CollectionPath         : 'valueHelps',
-//         DistinctValuesSupported: true,
-//         SearchSupported        : true,
-//         Parameters             : [{
-//             $Type            : 'Common.ValueListParameterInOut',
-//             LocalDataProperty:  SO_F_VKORG,
-//             ValueListProperty: 'SO_F_VKORG'
-//         }
+annotate service.Results with {
+    SO_F_VKORG
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_F_VKORG}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty:  SO_F_VKORG,
+            ValueListProperty: 'SO_F_VKORG'
+        }
 
-//         ]
-//     }
-// };
+        ]
+    }
+};
 
-// annotate service.Results with {
-//     SO_F_WERKS
-//     @Common.ValueList: {
-//         $Type                  : 'Common.ValueListType',
-//         Label                  : '{@i18n>SO_F_WERKS}',
-//         CollectionPath         : 'valueHelps',
-//         DistinctValuesSupported: true,
-//         SearchSupported        : true,
-//         Parameters             : [{
-//             $Type            : 'Common.ValueListParameterInOut',
-//             LocalDataProperty:  SO_F_WERKS,
-//             ValueListProperty: 'SO_F_WERKS'
-//         }
+annotate service.Results with {
+    SO_F_WERKS
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_F_WERKS}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty:  SO_F_WERKS,
+            ValueListProperty: 'SO_F_WERKS'
+        }
 
-//         ]
-//     }
-// };
+        ]
+    }
+};
 
 
 annotate service.Results with @UI.LineItem: {

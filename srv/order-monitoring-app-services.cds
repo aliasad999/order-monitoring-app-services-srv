@@ -1,13 +1,13 @@
 using order_monitoring_services as db from './external/order-monitoring-services.csn';
-using allorders.db as db_app from  '../db/order-monitoring-app-service';
+using allorders.db as db_app from '../db/order-monitoring-app-service';
 
 service srvOpenOrders {
   @readonly
   @cds.redirection.target: true
-  entity Results as
+  entity Results         as
     select from db.Results {
       key null as id : UUID,
-          MANDT,
+          SO_MANDT,
           SO_VBELN,
           SO_POSNR,
           SO_ERDAT_ORDER,
@@ -18,9 +18,52 @@ service srvOpenOrders {
           SO_MATNR,
           SO_MAKTX,
           SO_KDMAT,
-          SO_BSTNK,
           SO_AG_PARTNER,
+          concat(
+            SO_AG_PARTNER_NAME1, SO_AG_PARTNER_NAME2
+          )    as SO_AG_PARTNER_NAME,
           SO_WE_PARTNER,
+          concat(
+            SO_WE_PARTNER_NAME1, SO_WE_PARTNER_NAME2
+          )    as SO_WE_PARTNER_NAME,
+          coalesce(
+            SO_CO_PARTNER_ITM, SO_CO_PARTNER_HEAD
+          )    as SO_CO_PARTNER,
+          coalesce(
+            concat(
+              SO_CO_PARTNER_NAME1_HEAD, SO_CO_PARTNER_NAME2_HEAD
+            ), concat(
+              SO_CO_PARTNER_NAME1_ITM, SO_CO_PARTNER_NAME2_ITM
+            )
+          )    as SO_CO_PARTNER_NAME,
+          coalesce(
+            SO_NY_PARTNER_ITM, SO_NY_PARTNER_HEAD
+          )    as SO_NY_PARTNER,
+          coalesce(
+            concat(
+              SO_NY_PARTNER_NAME1_HEAD, SO_NY_PARTNER_NAME2_HEAD
+            ), concat(
+              SO_NY_PARTNER_NAME1_ITM, SO_NY_PARTNER_NAME2_ITM
+            )
+          )    as SO_NY_PARTNER_NAME,
+          coalesce(
+            SO_AS_PARTNER_ITM, SO_AS_PARTNER_HEAD
+          )    as SO_AS_PARTNER,
+          coalesce(
+            SO_AS_PARTNER_NAME_ITM, SO_AS_PARTNER_NAME_HEAD
+          )    as SO_AS_PARTNER_NAME,
+          coalesce(
+            SO_VE_PARTNER_ITM, SO_VE_PARTNER_HEAD
+          )    as SO_VE_PARTNER,
+          coalesce(
+            SO_VE_PARTNER_NAME_ITM, SO_VE_PARTNER_NAME_HEAD
+          )    as SO_VE_PARTNER_NAME,
+          coalesce(
+            SO_AM_PARTNER_ITM, SO_AM_PARTNER_HEAD
+          )    as SO_AM_PARTNER,
+          coalesce(
+            SO_AM_PARTNER_NAME_ITM, SO_AM_PARTNER_NAME_HEAD
+          )    as SO_AM_PARTNER_NAME,
           SO_LAND1,
           SO_LANDX,
           SO_ORT01,
@@ -42,10 +85,18 @@ service srvOpenOrders {
           SO_LGORT,
           SO_SUPPLY_SITUATION,
           SO_SUPPLY_SITUATION_DESCR,
-          SO_KBETR,
-          SO_WAERS,
-          SO_KPEIN,
-          SO_KMEIN,
+          coalesce(
+            SO_KBETR, SO_KBETR_ALT
+          )    as SO_KBETR,
+          coalesce(
+            SO_WAERS, SO_WAERS_ALT
+          )    as SO_WAERS,
+          coalesce(
+            SO_KPEIN, SO_KPEIN_ALT
+          )    as SO_KPEIN,
+          coalesce(
+            SO_KMEIN, SO_KMEIN_ALT
+          )    as SO_KMEIN,
           SO_NETWR,
           SO_WAERK,
           SO_HTEXT,
@@ -59,26 +110,50 @@ service srvOpenOrders {
           SO_ABSTA,
           SO_KNUMV,
           SO_SPART,
-          SO_CO_PARTNER,
-          SO_CO_PARTNER_NAME,
-          SO_NY_PARTNER,
-          SO_NY_PARTNER_NAME,
-          SO_AS_PARTNER,
-          SO_AS_PARTNER_NAME,
-          SO_VE_PARTNER,
-          SO_VE_PARTNER_NAME,
-          SO_AM_PARTNER,
-          SO_AM_PARTNER_NAME,
-          SO_AG_PARTNER_NAME,
-          SO_WE_PARTNER_NAME,
-          SO_INCO1,
-          SO_INCO2,
-          SO_zterm,
+          coalesce(
+            SO_INCO1_ITEM, SO_INCO1_HEAD
+          )    as SO_INCO1,
+          coalesce(
+            SO_INCO2_ITEM, SO_INCO2_HEAD
+          )    as SO_INCO2,
+          coalesce(
+            SO_ZTERM_ITEM, SO_ZTERM_HEAD
+          )    as SO_ZTERM,
           SO_PRSDT,
           SO_ZZ0S2REVG2,
           SO_ZZDKPPRODB,
           SO_BSARK,
           SO_BSARK_VTEXT,
+          SO_BASF_LOFCR,
+          SO_GUSCON,
+          SO_GUSCON_ITM,
+          SO_GUSCON_LEVEL,
+          SO_I_VBELN,
+          SO_I_POSNR,
+          SO_ISCOMPLETED,
+          SO_LEVEL_TYPE,
+          SO_N_VBELN,
+          SO_N_POSNR,
+          SO_F_VBELN,
+          SO_F_POSNR,
+          SO_VBTYP,
+          SO_BSTKD,
+          SO_TRAGR,
+          SO_TRAGR_VTEXT,
+          SO_VKGRP,
+          SO_VKGRP_BEZEI,
+          SO_ROUTE,
+          SO_AUFNR,
+          SO_DGLTP,
+          SO_PSMNG,
+          SO_AMEIN,
+          SO_F_WERKS,
+          SO_F_VKORG,
+          SO_F_VKORG_VTEXT,
+          SO_F_TDDAT,
+          SO_F_ZZ0S2MATUG,
+          SO_F_VSBED,
+          SO_F_VSBED_VTEXT,
           DL_VBELN,
           DL_POSNR,
           DL_CHARG,
@@ -95,6 +170,8 @@ service srvOpenOrders {
           DL_TRAID,
           DL_ZZ0S2BLNR,
           DL_PEND_DEL_QUAN,
+          DL_WADAT,
+          DL_WADAT_IST,
           LAST_NOTE,
           LANGUAGE,
           TM_TKNUM,
@@ -103,49 +180,37 @@ service srvOpenOrders {
           TM_EXTI1,
           TM_TDLNR,
           TM_TDLNR_NAME1,
-          TM_TRACKING_ID_COMP,
+          TM_STATUS_CODE_ELEM,
+          TM_STATUS_REASON_CODE_ELEM,
+          TM_STATUS_CODE_TEXT_ELEM,
+          TM_STATUS_REASON_CODE_TEXT_ELEM,
           TM_TRACKING_ID_ELEM,
+          TM_ALERT_STATUS_CODE_ELEM,
+          TM_ALERT_STATUS_REASON_CODE_ELEM,
+          TM_ALERT_STATUS_CODE_TEXT_ELEM,
+          TM_ALERT_STATUS_REASON_CODE_TEXT_ELEM,
+          TM_STATUS_CODE_COMP,
+          TM_REASON_CODE_COMP,
+          TM_STATUS_CODE_TEXT_COMP,
+          TM_REASON_CODE_TEXT_COMP,
+          TM_TRACKING_ID_COMP,
+          TM_STATUS_CODE_MANUEL,
           TM_DPTBG,
           TM_DATBG,
           TM_DPTEN,
-          TM_DATEN
-          // TM_AR_DATE,
-          // TM_STTRG,
-          // TM_STTRG_DDTEXT,
-          // TM_SHIPMENT_ALERT,
-          // TM_SHIPMENT_CURRENT_STATUS,
-          // SO_BASF_LOFCR,
-          // SO_GUSCON_LEVEL,
-          // SO_I_VBELN,
-          // SO_ISCOMPLETED,
-          // SO_LEVEL_TYPE,
-          // SO_N_VBELN,
-          // SO_F_VBELN,
-          // SO_F_POSNR,
-          // SO_VBTYP,
-          // SO_BSTKD,
-          // BL_VBELN_INV_FIRST,
-          // BL_VBELN_INV_LAST,
-          // BL_XBLNR,
-          // SO_TRAGR,
-          // SO_TRAGR_VTEXT,
-          // SO_VKGRP,
-          // SO_VKGRP_BEZEI,
-          // SO_ROUTE,
-          // SO_TDDAT,
-          // SO_ZZ0S2MATUG,
-          // SO_VSBED,
-          // SO_VSBED_VTEXT,
-          // SO_F_WERKS,
-          // SO_F_VKORG,
-          // SO_F_VKORG_VTEXT,
-          // DL_WADAT,
-          // DL_WADAT_IST
+          TM_DATEN,
+          TM_AR_DATE,
+          TM_STTRG,
+          TM_STTRG_DDTEXT,
+          BL_VBELN_INV_FIRST,
+          BL_VBELN_INV_LAST,
+          BL_XBLNR
     };
-entity valueHelps as
+
+  entity valueHelps      as
     select from db.Results {
-  key null as id : UUID,
-          MANDT,
+      key null as id : UUID,
+          SO_MANDT,
           SO_VBELN,
           SO_POSNR,
           SO_ERDAT_ORDER,
@@ -156,9 +221,52 @@ entity valueHelps as
           SO_MATNR,
           SO_MAKTX,
           SO_KDMAT,
-          SO_BSTNK,
           SO_AG_PARTNER,
+          concat(
+            SO_AG_PARTNER_NAME1, SO_AG_PARTNER_NAME2
+          )    as SO_AG_PARTNER_NAME,
           SO_WE_PARTNER,
+          concat(
+            SO_WE_PARTNER_NAME1, SO_WE_PARTNER_NAME2
+          )    as SO_WE_PARTNER_NAME,
+          coalesce(
+            SO_CO_PARTNER_ITM, SO_CO_PARTNER_HEAD
+          )    as SO_CO_PARTNER,
+          coalesce(
+            concat(
+              SO_CO_PARTNER_NAME1_HEAD, SO_CO_PARTNER_NAME2_HEAD
+            ), concat(
+              SO_CO_PARTNER_NAME1_ITM, SO_CO_PARTNER_NAME2_ITM
+            )
+          )    as SO_CO_PARTNER_NAME,
+          coalesce(
+            SO_NY_PARTNER_ITM, SO_NY_PARTNER_HEAD
+          )    as SO_NY_PARTNER,
+          coalesce(
+            concat(
+              SO_NY_PARTNER_NAME1_HEAD, SO_NY_PARTNER_NAME2_HEAD
+            ), concat(
+              SO_NY_PARTNER_NAME1_ITM, SO_NY_PARTNER_NAME2_ITM
+            )
+          )    as SO_NY_PARTNER_NAME,
+          coalesce(
+            SO_AS_PARTNER_ITM, SO_AS_PARTNER_HEAD
+          )    as SO_AS_PARTNER,
+          coalesce(
+            SO_AS_PARTNER_NAME_ITM, SO_AS_PARTNER_NAME_HEAD
+          )    as SO_AS_PARTNER_NAME,
+          coalesce(
+            SO_VE_PARTNER_ITM, SO_VE_PARTNER_HEAD
+          )    as SO_VE_PARTNER,
+          coalesce(
+            SO_VE_PARTNER_NAME_ITM, SO_VE_PARTNER_NAME_HEAD
+          )    as SO_VE_PARTNER_NAME,
+          coalesce(
+            SO_AM_PARTNER_ITM, SO_AM_PARTNER_HEAD
+          )    as SO_AM_PARTNER,
+          coalesce(
+            SO_AM_PARTNER_NAME_ITM, SO_AM_PARTNER_NAME_HEAD
+          )    as SO_AM_PARTNER_NAME,
           SO_LAND1,
           SO_LANDX,
           SO_ORT01,
@@ -180,10 +288,18 @@ entity valueHelps as
           SO_LGORT,
           SO_SUPPLY_SITUATION,
           SO_SUPPLY_SITUATION_DESCR,
-          SO_KBETR,
-          SO_WAERS,
-          SO_KPEIN,
-          SO_KMEIN,
+          coalesce(
+            SO_KBETR, SO_KBETR_ALT
+          )    as SO_KBETR,
+          coalesce(
+            SO_WAERS, SO_WAERS_ALT
+          )    as SO_WAERS,
+          coalesce(
+            SO_KPEIN, SO_KPEIN_ALT
+          )    as SO_KPEIN,
+          coalesce(
+            SO_KMEIN, SO_KMEIN_ALT
+          )    as SO_KMEIN,
           SO_NETWR,
           SO_WAERK,
           SO_HTEXT,
@@ -197,26 +313,50 @@ entity valueHelps as
           SO_ABSTA,
           SO_KNUMV,
           SO_SPART,
-          SO_CO_PARTNER,
-          SO_CO_PARTNER_NAME,
-          SO_NY_PARTNER,
-          SO_NY_PARTNER_NAME,
-          SO_AS_PARTNER,
-          SO_AS_PARTNER_NAME,
-          SO_VE_PARTNER,
-          SO_VE_PARTNER_NAME,
-          SO_AM_PARTNER,
-          SO_AM_PARTNER_NAME,
-          SO_AG_PARTNER_NAME,
-          SO_WE_PARTNER_NAME,
-          SO_INCO1,
-          SO_INCO2,
-          SO_zterm,
+          coalesce(
+            SO_INCO1_ITEM, SO_INCO1_HEAD
+          )    as SO_INCO1,
+          coalesce(
+            SO_INCO2_ITEM, SO_INCO2_HEAD
+          )    as SO_INCO2,
+          coalesce(
+            SO_ZTERM_ITEM, SO_ZTERM_HEAD
+          )    as SO_ZTERM,
           SO_PRSDT,
           SO_ZZ0S2REVG2,
           SO_ZZDKPPRODB,
           SO_BSARK,
           SO_BSARK_VTEXT,
+          SO_BASF_LOFCR,
+          SO_GUSCON,
+          SO_GUSCON_ITM,
+          SO_GUSCON_LEVEL,
+          SO_I_VBELN,
+          SO_I_POSNR,
+          SO_ISCOMPLETED,
+          SO_LEVEL_TYPE,
+          SO_N_VBELN,
+          SO_N_POSNR,
+          SO_F_VBELN,
+          SO_F_POSNR,
+          SO_VBTYP,
+          SO_BSTKD,
+          SO_TRAGR,
+          SO_TRAGR_VTEXT,
+          SO_VKGRP,
+          SO_VKGRP_BEZEI,
+          SO_ROUTE,
+          SO_AUFNR,
+          SO_DGLTP,
+          SO_PSMNG,
+          SO_AMEIN,
+          SO_F_WERKS,
+          SO_F_VKORG,
+          SO_F_VKORG_VTEXT,
+          SO_F_TDDAT,
+          SO_F_ZZ0S2MATUG,
+          SO_F_VSBED,
+          SO_F_VSBED_VTEXT,
           DL_VBELN,
           DL_POSNR,
           DL_CHARG,
@@ -233,6 +373,8 @@ entity valueHelps as
           DL_TRAID,
           DL_ZZ0S2BLNR,
           DL_PEND_DEL_QUAN,
+          DL_WADAT,
+          DL_WADAT_IST,
           LAST_NOTE,
           LANGUAGE,
           TM_TKNUM,
@@ -241,53 +383,42 @@ entity valueHelps as
           TM_EXTI1,
           TM_TDLNR,
           TM_TDLNR_NAME1,
-          TM_TRACKING_ID_COMP,
+          TM_STATUS_CODE_ELEM,
+          TM_STATUS_REASON_CODE_ELEM,
+          TM_STATUS_CODE_TEXT_ELEM,
+          TM_STATUS_REASON_CODE_TEXT_ELEM,
           TM_TRACKING_ID_ELEM,
+          TM_ALERT_STATUS_CODE_ELEM,
+          TM_ALERT_STATUS_REASON_CODE_ELEM,
+          TM_ALERT_STATUS_CODE_TEXT_ELEM,
+          TM_ALERT_STATUS_REASON_CODE_TEXT_ELEM,
+          TM_STATUS_CODE_COMP,
+          TM_REASON_CODE_COMP,
+          TM_STATUS_CODE_TEXT_COMP,
+          TM_REASON_CODE_TEXT_COMP,
+          TM_TRACKING_ID_COMP,
+          TM_STATUS_CODE_MANUEL,
           TM_DPTBG,
           TM_DATBG,
           TM_DPTEN,
-          TM_DATEN
-          // TM_AR_DATE,
-          // TM_STTRG,
-          // TM_STTRG_DDTEXT,
-          // TM_SHIPMENT_ALERT,
-          // TM_SHIPMENT_CURRENT_STATUS,
-          // SO_BASF_LOFCR,
-          // SO_GUSCON_LEVEL,
-          // SO_I_VBELN,
-          // SO_ISCOMPLETED,
-          // SO_LEVEL_TYPE,
-          // SO_N_VBELN,
-          // SO_F_VBELN,
-          // SO_F_POSNR,
-          // SO_VBTYP,
-          // SO_BSTKD,
-          // BL_VBELN_INV_FIRST,
-          // BL_VBELN_INV_LAST,
-          // BL_XBLNR,
-          // SO_TRAGR,
-          // SO_TRAGR_VTEXT,
-          // SO_VKGRP,
-          // SO_VKGRP_BEZEI,
-          // SO_ROUTE,
-          // SO_TDDAT,
-          // SO_ZZ0S2MATUG,
-          // SO_VSBED,
-          // SO_VSBED_VTEXT,
-          // SO_F_WERKS,
-          // SO_F_VKORG,
-          // SO_F_VKORG_VTEXT,
-          // DL_WADAT,
-          // DL_WADAT_IST
-  };
+          TM_DATEN,
+          TM_AR_DATE,
+          TM_STTRG,
+          TM_STTRG_DDTEXT,
+          BL_VBELN_INV_FIRST,
+          BL_VBELN_INV_LAST,
+          BL_XBLNR
+    };
 
-   entity notes           as
+  entity notes           as
     select from db.notes {
-      key CLIENT,
-      key ID,
-      key VBELN,
-      key POSNR,
-          *
+      key UTCTIME,
+          CLIENT,
+          VBELN,
+          POSNR,
+          LANGUAGE,
+          NOTE_TITLE,
+          NOTE_TEXT
     };
 
   entity PartnerSettings as
