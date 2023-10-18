@@ -407,7 +407,18 @@ service srvOpenOrders {
           TM_STTRG_DDTEXT,
           BL_VBELN_INV_FIRST,
           BL_VBELN_INV_LAST,
-          BL_XBLNR
+          BL_XBLNR,
+
+          // case when (TM_STATUS_REASON_CODE_TEXT_ELEM is null or TM_STATUS_REASON_CODE_TEXT_ELEM = '')
+	        // then TM_STATUS_CODE_TEXT_ELEM
+	        // ELSE TM_STATUS_CODE_TEXT_ELEM || ' (' || TM_STATUS_REASON_CODE_ELEM || ' - ' || TM_STATUS_REASON_CODE_TEXT_ELEM || ')'
+          // END as TM_SHIPMENT_CURRENT_STATUS_ELEM,
+          
+          // case when (TM_ALERT_STATUS_REASON_CODE_TEXT_ELEM is null or TM_ALERT_STATUS_REASON_CODE_TEXT_ELEM = '')
+          //   then TM_ALERT_STATUS_CODE_TEXT_ELEM
+          //   else TM_ALERT_STATUS_CODE_TEXT_ELEM || '(' ||  TM_ALERT_STATUS_REASON_CODE_ELEM || ' - ' || TM_ALERT_STATUS_REASON_CODE_TEXT_ELEM || ')' 
+          //   end as TM_SHIPMENT_ALERT
+          // coalesce(TM_SHIPMENT_CURRENT_STATUS_ELEM, TM_SHIPMENT_CURRENT_STATUS_COMP) as TM_SHIPMENT_CURRENT_STATUS,
     };
 
   entity notes           as
