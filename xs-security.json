@@ -1,16 +1,57 @@
 {
-    "xsappname": "order-monitoring",
-    "tenant-mode": "dedicated",
-    "scopes": [
-		
-		  
+	"xsappname": "order-monitoring",
+	"tenant-mode": "dedicated",
+	"scopes": [
+		{
+			"name": "uaa.user",
+			"description": "UAA"
+		},
+		{
+			"name": "$XSAPPNAME.ExportAllowed",
+			"description": "Export Allowed of the amo list"
+		},
+		{
+			"name": "$XSAPPNAME.AppAccess",
+			"description": "Export Allowed of the amo list"
+		}
 	],
 	"role-templates": [
-		
+		{
+			"name": "RtExportAllowed",
+			"description": "Export allowed in the fiori app",
+			"default-role-name": "Export Allowed",
+			"scope-references": [
+				"$XSAPPNAME.ExportAllowed"
+			]
+		},
+		{
+			"name": "RtAppAccess",
+			"description": "Access to FIORI app",
+			"default-role-name": "Access Allowed",
+			"scope-references": [
+				"$XSAPPNAME.AppAccess"
+			]
+		}
 	],
-	"oauth2-configuration" : {
+	"role-collections": [
+		{
+			"name": "RCExportAllowed",
+			"description": "Role Collection for allowing export",
+			"role-template-references": [
+				"$XSAPPNAME.RtExportAllowed"
+			]
+		},
+		{
+			"name": "RCAccessAllowed",
+			"description": "Role Collection for App Access rights",
+			"role-template-references": [
+				"$XSAPPNAME.RtAppAccess"
+			]
+		}
+	],
+	"oauth2-configuration": {
 		"token-validity": 7200,
-		"redirect-uris" : [
+		"redirect-uris": [
 			"https://cf-order-management-dev-j4s5jpqjls-om-cockpit-ordermoni47d1dc53.cfapps.eu10-004.hana.ondemand.com/",
 			"https://cf-order-management-dev-j4s5jpqjls-om-cockpit-ordermanag623a7f8.cfapps.eu10-004.hana.ondemand.com/",
 			"https://port5000-workspaces-ws-vnpgs.eu10.applicationstudio.cloud.sap",
@@ -18,4 +59,4 @@
 			"https://oauth.pstmn.io/"
 		]
 	}
-  }
+}
