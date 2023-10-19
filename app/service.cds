@@ -2028,7 +2028,7 @@ annotate service.Results with @UI.LineItem: {
         {Value: SO_MATNR},
         {Value: SO_MAKTX},
         {Value: SO_KDMAT},
-        {Value: SO_BSTNK},
+        // {Value: SO_BSTNK},
         {Value: SO_AG_PARTNER},
         {Value: SO_WE_PARTNER},
         {Value: SO_LAND1},
