@@ -21,47 +21,17 @@ service srvOpenOrders {
           SO_AG_PARTNER,
           SO_AG_PARTNER_NAME1 || ' ' || SO_AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME : String(70),
           SO_WE_PARTNER,
-          cast(concat(
-            SO_WE_PARTNER_NAME1, SO_WE_PARTNER_NAME2
-          ) as String(70))    as SO_WE_PARTNER_NAME,
-          cast(coalesce(
-            SO_CO_PARTNER_ITM, SO_CO_PARTNER_HEAD
-          ) as String(10))    as SO_CO_PARTNER,
-          cast(coalesce(
-            concat(
-              SO_CO_PARTNER_NAME1_HEAD, SO_CO_PARTNER_NAME2_HEAD
-            ), concat(
-              SO_CO_PARTNER_NAME1_ITM, SO_CO_PARTNER_NAME2_ITM
-            )
-          ) as String(70))    as SO_CO_PARTNER_NAME,
-          cast(coalesce(
-            SO_NY_PARTNER_ITM, SO_NY_PARTNER_HEAD
-          ) as String(10))    as SO_NY_PARTNER,
-          cast(coalesce(
-            concat(
-              SO_NY_PARTNER_NAME1_HEAD, SO_NY_PARTNER_NAME2_HEAD
-            ), concat(
-              SO_NY_PARTNER_NAME1_ITM, SO_NY_PARTNER_NAME2_ITM
-            )
-          ) as String(70))    as SO_NY_PARTNER_NAME,
-          cast(coalesce(
-            SO_AS_PARTNER_ITM, SO_AS_PARTNER_HEAD
-          ) as String(8))    as SO_AS_PARTNER,
-          cast(coalesce(
-            SO_AS_PARTNER_NAME_ITM, SO_AS_PARTNER_NAME_HEAD
-          ) as String(40))    as SO_AS_PARTNER_NAME,
-          cast(coalesce(
-            SO_VE_PARTNER_ITM, SO_VE_PARTNER_HEAD
-          ) as String(8))    as SO_VE_PARTNER,
-          cast(coalesce(
-            SO_VE_PARTNER_NAME_ITM, SO_VE_PARTNER_NAME_HEAD
-          ) as String(40))    as SO_VE_PARTNER_NAME,
-          cast(coalesce(
-            SO_AM_PARTNER_ITM, SO_AM_PARTNER_HEAD
-          ) as String(8))    as SO_AM_PARTNER,
-          cast(coalesce(
-            SO_AM_PARTNER_NAME_ITM, SO_AM_PARTNER_NAME_HEAD
-          ) as String(40))    as SO_AM_PARTNER_NAME,
+          SO_WE_PARTNER_NAME1 || ' ' || SO_WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME : String(70),
+          IFNULL(SO_CO_PARTNER_ITM, SO_CO_PARTNER_HEAD) AS SO_CO_PARTNER : String(10),
+          IFNULL((SO_CO_PARTNER_NAME1_HEAD || SO_CO_PARTNER_NAME2_HEAD), (SO_CO_PARTNER_NAME1_ITM || SO_CO_PARTNER_NAME2_ITM)) AS SO_CO_PARTNER_NAME : String(70),
+          IFNULL(SO_NY_PARTNER_ITM, SO_NY_PARTNER_HEAD) AS SO_NY_PARTNER : String(10),
+          IFNULL((SO_NY_PARTNER_NAME1_HEAD || SO_NY_PARTNER_NAME2_HEAD), (SO_NY_PARTNER_NAME1_ITM || SO_NY_PARTNER_NAME2_ITM)) AS SO_NY_PARTNER_NAME : String(70),
+          IFNULL(SO_AS_PARTNER_ITM, SO_AS_PARTNER_HEAD) AS SO_AS_PARTNER : String(8),
+          IFNULL(SO_AS_PARTNER_NAME_ITM, SO_AS_PARTNER_NAME_HEAD) AS SO_AS_PARTNER_NAME : String(40),
+          IFNULL(SO_VE_PARTNER_ITM, SO_VE_PARTNER_HEAD) AS SO_VE_PARTNER : String(8),
+          IFNULL(SO_VE_PARTNER_NAME_ITM, SO_VE_PARTNER_NAME_HEAD) AS SO_VE_PARTNER_NAME : String(40),
+          IFNULL(SO_AM_PARTNER_ITM, SO_AM_PARTNER_HEAD) AS SO_AM_PARTNER : String(8),
+          IFNULL(SO_AM_PARTNER_NAME_ITM, SO_AM_PARTNER_NAME_HEAD) AS SO_AM_PARTNER_NAME : String(40),
           SO_LAND1,
           SO_LANDX,
           SO_ORT01,
@@ -83,18 +53,10 @@ service srvOpenOrders {
           SO_LGORT,
           SO_SUPPLY_SITUATION,
           SO_SUPPLY_SITUATION_DESCR,
-          cast(coalesce(
-            SO_KBETR, SO_KBETR_ALT
-          ) as Decimal(11, 2))    as SO_KBETR,
-          cast(coalesce(
-            SO_WAERS, SO_WAERS_ALT
-          ) as String(5))    as SO_WAERS,
-          cast(coalesce(
-            SO_KPEIN, SO_KPEIN_ALT
-          ) as Decimal(5))    as SO_KPEIN,
-          cast(coalesce(
-            SO_KMEIN, SO_KMEIN_ALT
-          ) as String(3))    as SO_KMEIN,
+          IFNULL(SO_KBETR, SO_KBETR_ALT) AS SO_KBETR : Decimal(11, 2),
+          IFNULL(SO_WAERS, SO_WAERS_ALT) AS SO_WAERS : String(5),
+          IFNULL(SO_KPEIN, SO_KPEIN_ALT) AS SO_KPEIN : Decimal(5),
+          IFNULL(SO_KMEIN, SO_KMEIN_ALT) AS SO_KMEIN : String(3),
           SO_NETWR,
           SO_WAERK,
           SO_HTEXT,
@@ -108,15 +70,9 @@ service srvOpenOrders {
           SO_ABSTA,
           SO_KNUMV,
           SO_SPART,
-          coalesce(
-            SO_INCO1_ITEM, SO_INCO1_HEAD
-          )    as SO_INCO1 : String(3),
-          cast(coalesce(
-            SO_INCO2_ITEM, SO_INCO2_HEAD
-          ) as String(28))    as SO_INCO2,
-          cast(coalesce(
-            SO_ZTERM_ITEM, SO_ZTERM_HEAD
-          ) as String(4))    as SO_ZTERM,
+          IFNULL(SO_INCO1_ITEM, SO_INCO1_HEAD) AS SO_INCO1 : String(3),
+          IFNULL(SO_INCO2_ITEM, SO_INCO2_HEAD) AS SO_INCO2 : String(28),
+          IFNULL(SO_ZTERM_ITEM, SO_ZTERM_HEAD) AS SO_ZTERM : String(4),
           SO_PRSDT,
           SO_ZZ0S2REVG2,
           SO_ZZDKPPRODB,
@@ -222,47 +178,17 @@ service srvOpenOrders {
           SO_AG_PARTNER,
           SO_AG_PARTNER_NAME1 || ' ' || SO_AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME : String(70),
           SO_WE_PARTNER,
-          cast(concat(
-            SO_WE_PARTNER_NAME1, SO_WE_PARTNER_NAME2
-          ) as String(70))    as SO_WE_PARTNER_NAME,
-          cast(coalesce(
-            SO_CO_PARTNER_ITM, SO_CO_PARTNER_HEAD
-          ) as String(10))    as SO_CO_PARTNER,
-          cast(coalesce(
-            concat(
-              SO_CO_PARTNER_NAME1_HEAD, SO_CO_PARTNER_NAME2_HEAD
-            ), concat(
-              SO_CO_PARTNER_NAME1_ITM, SO_CO_PARTNER_NAME2_ITM
-            )
-          ) as String(70))    as SO_CO_PARTNER_NAME,
-          cast(coalesce(
-            SO_NY_PARTNER_ITM, SO_NY_PARTNER_HEAD
-          ) as String(10))    as SO_NY_PARTNER,
-          cast(coalesce(
-            concat(
-              SO_NY_PARTNER_NAME1_HEAD, SO_NY_PARTNER_NAME2_HEAD
-            ), concat(
-              SO_NY_PARTNER_NAME1_ITM, SO_NY_PARTNER_NAME2_ITM
-            )
-          ) as String(70))    as SO_NY_PARTNER_NAME,
-          cast(coalesce(
-            SO_AS_PARTNER_ITM, SO_AS_PARTNER_HEAD
-          ) as String(8))    as SO_AS_PARTNER,
-          cast(coalesce(
-            SO_AS_PARTNER_NAME_ITM, SO_AS_PARTNER_NAME_HEAD
-          ) as String(40))    as SO_AS_PARTNER_NAME,
-          cast(coalesce(
-            SO_VE_PARTNER_ITM, SO_VE_PARTNER_HEAD
-          ) as String(8))    as SO_VE_PARTNER,
-          cast(coalesce(
-            SO_VE_PARTNER_NAME_ITM, SO_VE_PARTNER_NAME_HEAD
-          ) as String(40))    as SO_VE_PARTNER_NAME,
-          cast(coalesce(
-            SO_AM_PARTNER_ITM, SO_AM_PARTNER_HEAD
-          ) as String(8))    as SO_AM_PARTNER,
-          cast(coalesce(
-            SO_AM_PARTNER_NAME_ITM, SO_AM_PARTNER_NAME_HEAD
-          ) as String(40))    as SO_AM_PARTNER_NAME,
+          SO_WE_PARTNER_NAME1 || ' ' || SO_WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME : String(70),
+          IFNULL(SO_CO_PARTNER_ITM, SO_CO_PARTNER_HEAD) AS SO_CO_PARTNER : String(10),
+          IFNULL((SO_CO_PARTNER_NAME1_HEAD || SO_CO_PARTNER_NAME2_HEAD), (SO_CO_PARTNER_NAME1_ITM || SO_CO_PARTNER_NAME2_ITM)) AS SO_CO_PARTNER_NAME : String(70),
+          IFNULL(SO_NY_PARTNER_ITM, SO_NY_PARTNER_HEAD) AS SO_NY_PARTNER : String(10),
+          IFNULL((SO_NY_PARTNER_NAME1_HEAD || SO_NY_PARTNER_NAME2_HEAD), (SO_NY_PARTNER_NAME1_ITM || SO_NY_PARTNER_NAME2_ITM)) AS SO_NY_PARTNER_NAME : String(70),
+          IFNULL(SO_AS_PARTNER_ITM, SO_AS_PARTNER_HEAD) AS SO_AS_PARTNER : String(8),
+          IFNULL(SO_AS_PARTNER_NAME_ITM, SO_AS_PARTNER_NAME_HEAD) AS SO_AS_PARTNER_NAME : String(40),
+          IFNULL(SO_VE_PARTNER_ITM, SO_VE_PARTNER_HEAD) AS SO_VE_PARTNER : String(8),
+          IFNULL(SO_VE_PARTNER_NAME_ITM, SO_VE_PARTNER_NAME_HEAD) AS SO_VE_PARTNER_NAME : String(40),
+          IFNULL(SO_AM_PARTNER_ITM, SO_AM_PARTNER_HEAD) AS SO_AM_PARTNER : String(8),
+          IFNULL(SO_AM_PARTNER_NAME_ITM, SO_AM_PARTNER_NAME_HEAD) AS SO_AM_PARTNER_NAME : String(40),
           SO_LAND1,
           SO_LANDX,
           SO_ORT01,
@@ -284,18 +210,10 @@ service srvOpenOrders {
           SO_LGORT,
           SO_SUPPLY_SITUATION,
           SO_SUPPLY_SITUATION_DESCR,
-          cast(coalesce(
-            SO_KBETR, SO_KBETR_ALT
-          ) as Decimal(11, 2))    as SO_KBETR,
-          cast(coalesce(
-            SO_WAERS, SO_WAERS_ALT
-          ) as String(5))    as SO_WAERS,
-          cast(coalesce(
-            SO_KPEIN, SO_KPEIN_ALT
-          ) as Decimal(5))    as SO_KPEIN,
-          cast(coalesce(
-            SO_KMEIN, SO_KMEIN_ALT
-          ) as String(3))    as SO_KMEIN,
+          IFNULL(SO_KBETR, SO_KBETR_ALT) AS SO_KBETR : Decimal(11, 2),
+          IFNULL(SO_WAERS, SO_WAERS_ALT) AS SO_WAERS : String(5),
+          IFNULL(SO_KPEIN, SO_KPEIN_ALT) AS SO_KPEIN : Decimal(5),
+          IFNULL(SO_KMEIN, SO_KMEIN_ALT) AS SO_KMEIN : String(3),
           SO_NETWR,
           SO_WAERK,
           SO_HTEXT,
@@ -309,15 +227,9 @@ service srvOpenOrders {
           SO_ABSTA,
           SO_KNUMV,
           SO_SPART,
-          coalesce(
-            SO_INCO1_ITEM, SO_INCO1_HEAD
-          )    as SO_INCO1 : String(3),
-          cast(coalesce(
-            SO_INCO2_ITEM, SO_INCO2_HEAD
-          ) as String(28))    as SO_INCO2,
-          cast(coalesce(
-            SO_ZTERM_ITEM, SO_ZTERM_HEAD
-          ) as String(4))    as SO_ZTERM,
+          IFNULL(SO_INCO1_ITEM, SO_INCO1_HEAD) AS SO_INCO1 : String(3),
+          IFNULL(SO_INCO2_ITEM, SO_INCO2_HEAD) AS SO_INCO2 : String(28),
+          IFNULL(SO_ZTERM_ITEM, SO_ZTERM_HEAD) AS SO_ZTERM : String(4),
           SO_PRSDT,
           SO_ZZ0S2REVG2,
           SO_ZZDKPPRODB,
@@ -404,17 +316,6 @@ service srvOpenOrders {
           BL_VBELN_INV_FIRST,
           BL_VBELN_INV_LAST,
           BL_XBLNR
-
-          // case when (TM_STATUS_REASON_CODE_TEXT_ELEM is null or TM_STATUS_REASON_CODE_TEXT_ELEM = '')
-	        // then TM_STATUS_CODE_TEXT_ELEM
-	        // ELSE TM_STATUS_CODE_TEXT_ELEM || ' (' || TM_STATUS_REASON_CODE_ELEM || ' - ' || TM_STATUS_REASON_CODE_TEXT_ELEM || ')'
-          // END as TM_SHIPMENT_CURRENT_STATUS_ELEM,
-          
-          // case when (TM_ALERT_STATUS_REASON_CODE_TEXT_ELEM is null or TM_ALERT_STATUS_REASON_CODE_TEXT_ELEM = '')
-          //   then TM_ALERT_STATUS_CODE_TEXT_ELEM
-          //   else TM_ALERT_STATUS_CODE_TEXT_ELEM || '(' ||  TM_ALERT_STATUS_REASON_CODE_ELEM || ' - ' || TM_ALERT_STATUS_REASON_CODE_TEXT_ELEM || ')' 
-          //   end as TM_SHIPMENT_ALERT
-          // coalesce(TM_SHIPMENT_CURRENT_STATUS_ELEM, TM_SHIPMENT_CURRENT_STATUS_COMP) as TM_SHIPMENT_CURRENT_STATUS,
     };
 
   entity notes           as
