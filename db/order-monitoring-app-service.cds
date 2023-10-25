@@ -91,7 +91,8 @@ entity![RESULTS]{
     DL_ZZ0S2BLNR               : String(30);
     DL_PEND_DEL_QUAN           : String(500);
     LAST_NOTE                  : String(1000);
-    LANGUAGE                   : String(2);
+    USERNAME                   : String(12);
+    // LANGUAGE                   : String(2);
     TM_TKNUM                   : String(10);
     TM_VSART                   : String(2);
     TM_VSART_BEZEI             : String(20);

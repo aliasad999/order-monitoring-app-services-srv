@@ -96,7 +96,8 @@ service srvOpenOrders {
           DL_ZZ0S2BLNR,
           DL_PEND_DEL_QUAN,
           LAST_NOTE,
-          LANGUAGE,
+          USERNAME,
+          // LANGUAGE,
           TM_TKNUM,
           TM_VSART,
           TM_VSART_BEZEI,
@@ -234,7 +235,8 @@ entity valueHelps as
           DL_ZZ0S2BLNR,
           DL_PEND_DEL_QUAN,
           LAST_NOTE,
-          LANGUAGE,
+          USRENAME,
+          // LANGUAGE,
           TM_TKNUM,
           TM_VSART,
           TM_VSART_BEZEI,
@@ -283,11 +285,19 @@ entity valueHelps as
 
    entity notes           as
     select from db.notes {
-      key CLIENT,
-      key ID,
-      key VBELN,
-      key POSNR,
-          *
+      // key CLIENT,
+      // key ID,
+      // key VBELN,
+      // key POSNR,
+      //     *
+      key UTCTIME,
+          CLIENT,
+          VBELN,
+          POSNR,
+          LANGUAGE,
+          NOTE_TITLE,
+          NOTE_TEXT,
+          USERNAME
     };
 
   entity PartnerSettings as
