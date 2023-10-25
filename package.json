@@ -56,10 +56,8 @@
         "credentials": {
           "destination": "generic-api",
           "path": "/v2/order-monitoring-services"
-
         }
       }
     }
   }
 }
-
