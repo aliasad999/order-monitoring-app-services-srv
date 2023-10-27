@@ -285,7 +285,6 @@ service srvOpenOrders {
           DL_WADAT,
           DL_WADAT_IST,
           LAST_NOTE,
-          USRENAME,
           // LANGUAGE,
           TM_TKNUM,
           TM_VSART,
