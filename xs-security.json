@@ -13,6 +13,10 @@
 		{
 			"name": "$XSAPPNAME.AppAccess",
 			"description": "Export Allowed of the amo list"
+		},
+		{
+			"name": "$XSAPPNAME.SystemScope",
+			"description": "System-to-system scope"
 		}
 	],
 	"role-templates": [
@@ -22,6 +26,14 @@
 			"default-role-name": "Export Allowed",
 			"scope-references": [
 				"$XSAPPNAME.ExportAllowed"
+			]
+		},
+		{
+			"name": "RtSystemComm",
+			"description": "System to System role template",
+			"default-role-name": "System to System role",
+			"scope-references": [
+				"$XSAPPNAME.SystemScope"
 			]
 		},
 		{
@@ -39,6 +51,13 @@
 			"description": "Role Collection for allowing export",
 			"role-template-references": [
 				"$XSAPPNAME.RtExportAllowed"
+			]
+		},
+		{
+			"name": "RCSystemCommunication",
+			"description": "Role Collection for System to System access",
+			"role-template-references": [
+				"$XSAPPNAME.RtSystemComm"
 			]
 		},
 		{
