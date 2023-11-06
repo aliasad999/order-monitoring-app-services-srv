@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:DataServices m:DataServiceVersion="2.0">
+    <Schema Namespace="OrderMonitoringServices" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+      <EntityContainer Name="EntityContainer" m:IsDefaultEntityContainer="true">
+        <EntitySet Name="Results" EntityType="OrderMonitoringServices.Results"/>
+        <EntitySet Name="notes" EntityType="OrderMonitoringServices.notes"/>
+        <EntitySet Name="salesOrderDetails" EntityType="OrderMonitoringServices.salesOrderDetails"/>
+        <EntitySet Name="deliveryDetails" EntityType="OrderMonitoringServices.deliveryDetails"/>
+        <EntitySet Name="shipmentDetails" EntityType="OrderMonitoringServices.shipmentDetails"/>
+        <EntitySet Name="firstBilling" EntityType="OrderMonitoringServices.firstBilling"/>
+        <EntitySet Name="lastBilling" EntityType="OrderMonitoringServices.lastBilling"/>
+        <AssociationSet Name="deliveryDetails_shipment" Association="OrderMonitoringServices.deliveryDetails_shipment">
+          <End Role="deliveryDetails" EntitySet="deliveryDetails"/>
+          <End Role="shipmentDetails" EntitySet="shipmentDetails"/>
+        </AssociationSet>
+        <AssociationSet Name="deliveryDetails_salesorder" Association="OrderMonitoringServices.deliveryDetails_salesorder">
+          <End Role="deliveryDetails" EntitySet="deliveryDetails"/>
+          <End Role="Results" EntitySet="Results"/>
+        </AssociationSet>
+        <AssociationSet Name="shipmentDetails_delivery" Association="OrderMonitoringServices.shipmentDetails_delivery">
+          <End Role="shipmentDetails" EntitySet="shipmentDetails"/>
+          <End Role="deliveryDetails" EntitySet="deliveryDetails"/>
+        </AssociationSet>
+        <AssociationSet Name="firstBilling_salesorder" Association="OrderMonitoringServices.firstBilling_salesorder">
+          <End Role="firstBilling" EntitySet="firstBilling"/>
+          <End Role="Results" EntitySet="Results"/>
+        </AssociationSet>
+        <AssociationSet Name="lastBilling_salesorder" Association="OrderMonitoringServices.lastBilling_salesorder">
+          <End Role="lastBilling" EntitySet="lastBilling"/>
+          <End Role="Results" EntitySet="Results"/>
+        </AssociationSet>
+      </EntityContainer>
+      <EntityType Name="Results">
+        <Key>
+          <PropertyRef Name="id"/>
+        </Key>
+        <Property Name="id" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="SO_MANDT" Type="Edm.String" MaxLength="3" sap:Label="Client"/>
+        <Property Name="SO_VBELN" Type="Edm.String" MaxLength="10" sap:Label="My order"/>
+        <Property Name="SO_POSNR" Type="Edm.String" MaxLength="6" sap:Label="Order Item"/>
+        <Property Name="SO_ERDAT_ORDER" Type="Edm.String" MaxLength="8" sap:Label="Creation Date (Header)"/>
+        <Property Name="SO_ERDAT_ITEM" Type="Edm.String" MaxLength="8" sap:Label="Creation Date (Item)"/>
+        <Property Name="SO_AUART" Type="Edm.String" MaxLength="4" sap:Label="Order Type"/>
+        <Property Name="SO_WERKS" Type="Edm.String" MaxLength="4" sap:Label="Plant"/>
+        <Property Name="SO_VTWEG" Type="Edm.String" MaxLength="2" sap:Label="Distribution Channel"/>
+        <Property Name="SO_MATNR" Type="Edm.String" MaxLength="18" sap:Label="Material Number"/>
+        <Property Name="SO_MAKTX" Type="Edm.String" MaxLength="40" sap:Label="Material Name"/>
+        <Property Name="SO_KDMAT" Type="Edm.String" MaxLength="35" sap:Label="Customer Material Reference"/>
+        <Property Name="SO_AG_PARTNER" Type="Edm.String" MaxLength="10" sap:Label="Sold-to Number"/>
+        <Property Name="SO_AG_PARTNER_NAME1" Type="Edm.String" MaxLength="35" sap:Label="Sold-to Name1"/>
+        <Property Name="SO_AG_PARTNER_NAME2" Type="Edm.String" MaxLength="35" sap:Label="Sold-to Name2"/>
+        <Property Name="SO_WE_PARTNER" Type="Edm.String" MaxLength="10" sap:Label="Ship-to Number"/>
+        <Property Name="SO_WE_PARTNER_NAME1" Type="Edm.String" MaxLength="35" sap:Label="Ship-to Name1"/>
+        <Property Name="SO_WE_PARTNER_NAME2" Type="Edm.String" MaxLength="35" sap:Label="Ship-to Name2"/>
+        <Property Name="SO_CO_PARTNER_HEAD" Type="Edm.String" MaxLength="10" sap:Label="CO Partner Head"/>
+        <Property Name="SO_CO_PARTNER_NAME1_HEAD" Type="Edm.String" MaxLength="35" sap:Label="CO Partner Name1 Head"/>
+        <Property Name="SO_CO_PARTNER_NAME2_HEAD" Type="Edm.String" MaxLength="35" sap:Label="CO Partner Name2 Head"/>
+        <Property Name="SO_CO_PARTNER_ITM" Type="Edm.String" MaxLength="10" sap:Label="SO_CO_PARTNER_ITM"/>
+        <Property Name="SO_CO_PARTNER_NAME1_ITM" Type="Edm.String" MaxLength="35" sap:Label="SO_CO_PARTNER_NAME1_ITM"/>
+        <Property Name="SO_CO_PARTNER_NAME2_ITM" Type="Edm.String" MaxLength="35" sap:Label="SO_CO_PARTNER_NAME2_ITM"/>
+        <Property Name="SO_NY_PARTNER_HEAD" Type="Edm.String" MaxLength="10" sap:Label="NY Partner Head"/>
+        <Property Name="SO_NY_PARTNER_NAME1_HEAD" Type="Edm.String" MaxLength="35" sap:Label="NY Partner Name1 Head"/>
+        <Property Name="SO_NY_PARTNER_NAME2_HEAD" Type="Edm.String" MaxLength="35" sap:Label="NY Partner Name2 Head"/>
+        <Property Name="SO_NY_PARTNER_ITM" Type="Edm.String" MaxLength="10" sap:Label="SO_NY_PARTNER_ITM"/>
+        <Property Name="SO_NY_PARTNER_NAME1_ITM" Type="Edm.String" MaxLength="35" sap:Label="SO_NY_PARTNER_NAME1_ITM"/>
+        <Property Name="SO_NY_PARTNER_NAME2_ITM" Type="Edm.String" MaxLength="35" sap:Label="SO_NY_PARTNER_NAME2_ITM"/>
+        <Property Name="SO_AS_PARTNER_HEAD" Type="Edm.String" MaxLength="8" sap:Label="AS PARTNER Head"/>
+        <Property Name="SO_AS_PARTNER_NAME_HEAD" Type="Edm.String" MaxLength="40" sap:Label="AS PARTNER NAME Head"/>
+        <Property Name="SO_AS_PARTNER_ITM" Type="Edm.String" MaxLength="8" sap:Label="SO_AS_PARTNER_ITM"/>
+        <Property Name="SO_AS_PARTNER_NAME_ITM" Type="Edm.String" MaxLength="40" sap:Label="SO_AS_PARTNER_NAME_ITM"/>
+        <Property Name="SO_VE_PARTNER_HEAD" Type="Edm.String" MaxLength="8" sap:Label="VE Partner Head"/>
+        <Property Name="SO_VE_PARTNER_NAME_HEAD" Type="Edm.String" MaxLength="40" sap:Label="VE Partner Name Head"/>
+        <Property Name="SO_VE_PARTNER_ITM" Type="Edm.String" MaxLength="8" sap:Label="SO_VE_PARTNER_ITM"/>
+        <Property Name="SO_VE_PARTNER_NAME_ITM" Type="Edm.String" MaxLength="40" sap:Label="SO_VE_PARTNER_NAME_ITM"/>
+        <Property Name="SO_AM_PARTNER_HEAD" Type="Edm.String" MaxLength="8" sap:Label="AM Partner Head"/>
+        <Property Name="SO_AM_PARTNER_NAME_HEAD" Type="Edm.String" MaxLength="40" sap:Label="AM Partner Name Head"/>
+        <Property Name="SO_AM_PARTNER_ITM" Type="Edm.String" MaxLength="8" sap:Label="SO_AM_PARTNER_ITM"/>
+        <Property Name="SO_AM_PARTNER_NAME_ITM" Type="Edm.String" MaxLength="40" sap:Label="SO_AM_PARTNER_NAME_ITM"/>
+        <Property Name="SO_LAND1" Type="Edm.String" MaxLength="3" sap:Label="Ship-to Country"/>
+        <Property Name="SO_LANDX" Type="Edm.String" MaxLength="15" sap:Label="Country Name"/>
+        <Property Name="SO_ORT01" Type="Edm.String" MaxLength="35" sap:Label="Ship-to City"/>
+        <Property Name="SO_VKORG" Type="Edm.String" MaxLength="4" sap:Label="Sales Organsiation"/>
+        <Property Name="SO_VKORG_NAME1" Type="Edm.String" MaxLength="40" sap:Label="Sales Organisation Description"/>
+        <Property Name="SO_KNREF_HEAD" Type="Edm.String" MaxLength="30" sap:Label="Customer Priority Head (North America, Z6 Partner Head)"/>
+        <Property Name="SO_KNREF_ITM" Type="Edm.String" MaxLength="30" sap:Label="SO_KNREF_ITM"/>
+        <Property Name="SO_VBUND" Type="Edm.String" MaxLength="6" sap:Label="Group Company"/>
+        <Property Name="SO_EDATU_REQUESTED" Type="Edm.String" MaxLength="8" sap:Label="Requested Delivery Date"/>
+        <Property Name="SO_KWMENG" Type="Edm.Decimal" Scale="3" Precision="15" sap:Label="Requested Quantity"/>
+        <Property Name="SO_VRKME" Type="Edm.String" MaxLength="3" sap:Label="Sales Unit"/>
+        <Property Name="SO_EDATU_CONFIRMED" Type="Edm.String" MaxLength="8" sap:Label="Confirmed Delivery Date"/>
+        <Property Name="SO_KBMENG" Type="Edm.Decimal" Scale="3" Precision="15" sap:Label="Confirmed Quantity"/>
+        <Property Name="SO_LDDAT" Type="Edm.String" MaxLength="8" sap:Label="Loading Date"/>
+        <Property Name="SO_UNCONFIRMED_QTY" Type="Edm.Decimal" Scale="3" Precision="15" sap:Label="Unconfirmed Quantity"/>
+        <Property Name="SO_REQ_TEXT" Type="Edm.String" MaxLength="250" sap:Label="Freeze Protect"/>
+        <Property Name="SO_FAKSP" Type="Edm.String" MaxLength="2" sap:Label="Billing Block Item"/>
+        <Property Name="SO_FAKSP_VTEXT" Type="Edm.String" MaxLength="20" sap:Label="Billing Block Item Description"/>
+        <Property Name="SO_LGORT" Type="Edm.String" MaxLength="4" sap:Label="Storage Location"/>
+        <Property Name="SO_SUPPLY_SITUATION" Type="Edm.Int16" sap:Label="Supply Situation"/>
+        <Property Name="SO_SUPPLY_SITUATION_DESCR" Type="Edm.String" MaxLength="60" sap:Label="Supply Situation Description"/>
+        <Property Name="SO_KBETR" Type="Edm.Decimal" Scale="2" Precision="11" sap:Label="Rate (condition amount or percentage)"/>
+        <Property Name="SO_KBETR_ALT" Type="Edm.Decimal" Scale="2" Precision="11" sap:Label="Rate (condition amount or percentage) (Alternative)"/>
+        <Property Name="SO_WAERS" Type="Edm.String" MaxLength="5" sap:Label="Currency Key"/>
+        <Property Name="SO_WAERS_ALT" Type="Edm.String" MaxLength="5" sap:Label="Currency Key (Alternative)"/>
+        <Property Name="SO_KPEIN" Type="Edm.Decimal" Precision="5" sap:Label="Condition pricing unit"/>
+        <Property Name="SO_KPEIN_ALT" Type="Edm.String" MaxLength="5" sap:Label="Condition pricing unit (Alternative)"/>
+        <Property Name="SO_KMEIN" Type="Edm.String" MaxLength="3" sap:Label="Condition unit in the document"/>
+        <Property Name="SO_KMEIN_ALT" Type="Edm.String" MaxLength="3" sap:Label="Condition unit in the document (Alternative)"/>
+        <Property Name="SO_NETWR" Type="Edm.Decimal" Scale="2" Precision="15" sap:Label="Net Amount"/>
+        <Property Name="SO_WAERK" Type="Edm.String" MaxLength="5" sap:Label="SD Document Currency"/>
+        <Property Name="SO_HTEXT" Type="Edm.String" MaxLength="4000" sap:Label="HOM Remark (info detail from item text ZA10)"/>
+        <Property Name="SO_PSTYV" Type="Edm.String" MaxLength="4" sap:Label="Item Category"/>
+        <Property Name="SO_PSTYV_VTEXT" Type="Edm.String" MaxLength="20" sap:Label="Item Category Description"/>
+        <Property Name="SO_DISPO" Type="Edm.String" MaxLength="3" sap:Label="MRP Controller"/>
+        <Property Name="SO_KOSCH" Type="Edm.String" MaxLength="18" sap:Label="Product Allocation"/>
+        <Property Name="SO_VKBUR" Type="Edm.String" MaxLength="4" sap:Label="Sales Office"/>
+        <Property Name="SO_VKBUR_BEZEI" Type="Edm.String" MaxLength="20" sap:Label="Sales Office Description"/>
+        <Property Name="SO_ABGRU" Type="Edm.String" MaxLength="2" sap:Label="Reason for rejection"/>
+        <Property Name="SO_ABSTA" Type="Edm.String" MaxLength="1" sap:Label="Rejection status for SD item"/>
+        <Property Name="SO_KNUMV" Type="Edm.String" MaxLength="10" sap:Label="Number of document condition"/>
+        <Property Name="SO_SPART" Type="Edm.String" MaxLength="2" sap:Label="Division"/>
+        <Property Name="SO_INCO1_HEAD" Type="Edm.String" MaxLength="3" sap:Label="Incoterm 1 Head"/>
+        <Property Name="SO_INCO1_ITEM" Type="Edm.String" MaxLength="3" sap:Label="Incoterm 1 Item"/>
+        <Property Name="SO_INCO2_HEAD" Type="Edm.String" MaxLength="3" sap:Label="Incoterm 2 Head"/>
+        <Property Name="SO_INCO2_ITEM" Type="Edm.String" MaxLength="28" sap:Label="Incoterm 2 Item"/>
+        <Property Name="SO_ZTERM_HEAD" Type="Edm.String" MaxLength="4" sap:Label="Payment Term Head"/>
+        <Property Name="SO_ZTERM_ITEM" Type="Edm.String" MaxLength="4" sap:Label="Payment Term Item"/>
+        <Property Name="SO_PRSDT" Type="Edm.String" MaxLength="8" sap:Label="Pricing Date"/>
+        <Property Name="SO_ZZ0S2REVG2" Type="Edm.String" MaxLength="10" sap:Label="Cust. PO (Final order)"/>
+        <Property Name="SO_ZZDKPPRODB" Type="Edm.String" MaxLength="18" sap:Label="SBU"/>
+        <Property Name="SO_BSARK" Type="Edm.String" MaxLength="4" sap:Label="PO Type"/>
+        <Property Name="SO_BSARK_VTEXT" Type="Edm.String" MaxLength="20" sap:Label="PO Type Description"/>
+        <Property Name="SO_BASF_LOFCR" Type="Edm.String" MaxLength="20" sap:Label="Letter of Credit (L/C) Number"/>
+        <Property Name="SO_GUSCON" Type="Edm.String" MaxLength="15" sap:Label="Guscon Number / Global unique supply chain order number"/>
+        <Property Name="SO_GUSCON_ITM" Type="Edm.String" MaxLength="6" sap:Label="SO_GUSCON_ITM"/>
+        <Property Name="SO_GUSCON_LEVEL" Type="Edm.String" MaxLength="2" sap:Label="Guscon Level"/>
+        <Property Name="SO_I_VBELN" Type="Edm.String" MaxLength="10" sap:Label="First order Number"/>
+        <Property Name="SO_I_POSNR" Type="Edm.String" MaxLength="6" sap:Label="First order Item"/>
+        <Property Name="SO_ISCOMPLETED" Type="Edm.String" MaxLength="1" sap:Label="Order Status"/>
+        <Property Name="SO_LEVEL_TYPE" Type="Edm.String" MaxLength="1" sap:Label="Level Type"/>
+        <Property Name="SO_N_VBELN" Type="Edm.String" MaxLength="10" sap:Label="Next Order Number"/>
+        <Property Name="SO_N_POSNR" Type="Edm.String" MaxLength="6" sap:Label="Next Order Item"/>
+        <Property Name="SO_F_VBELN" Type="Edm.String" MaxLength="10" sap:Label="Final Order Number"/>
+        <Property Name="SO_F_POSNR" Type="Edm.String" MaxLength="6" sap:Label="Final Order Item"/>
+        <Property Name="SO_VBTYP" Type="Edm.String" MaxLength="1" sap:Label="Document Category"/>
+        <Property Name="SO_BSTKD" Type="Edm.String" MaxLength="35" sap:Label="Customer PO Number"/>
+        <Property Name="SO_TRAGR" Type="Edm.String" MaxLength="4" sap:Label="Transportation Group from Material Master"/>
+        <Property Name="SO_TRAGR_VTEXT" Type="Edm.String" MaxLength="20" sap:Label="Transportation Group Description"/>
+        <Property Name="SO_VKGRP" Type="Edm.String" MaxLength="3" sap:Label="Sales Group"/>
+        <Property Name="SO_VKGRP_BEZEI" Type="Edm.String" MaxLength="20" sap:Label="Sales Group Description"/>
+        <Property Name="SO_ROUTE" Type="Edm.String" MaxLength="6" sap:Label="Route"/>
+        <Property Name="SO_AUFNR" Type="Edm.String" MaxLength="12" sap:Label="Process Order"/>
+        <Property Name="SO_DGLTP" Type="Edm.String" MaxLength="8" sap:Label="Basic Finish Date (Process Order)"/>
+        <Property Name="SO_PSMNG" Type="Edm.Decimal" Scale="3" Precision="13" sap:Label="Item Quantity (Process Order)"/>
+        <Property Name="SO_AMEIN" Type="Edm.String" MaxLength="3" sap:Label=" SO_AMEIN"/>
+        <Property Name="SO_F_WERKS" Type="Edm.String" MaxLength="4" sap:Label="Plant (supplying company)"/>
+        <Property Name="SO_F_VKORG" Type="Edm.String" MaxLength="4" sap:Label="Point of Supply"/>
+        <Property Name="SO_F_VKORG_VTEXT" Type="Edm.String" MaxLength="20" sap:Label="Point of Supply Description"/>
+        <Property Name="SO_F_TDDAT" Type="Edm.String" MaxLength="8" sap:Label="Transportation Planning Date"/>
+        <Property Name="SO_F_ZZ0S2MATUG" Type="Edm.String" MaxLength="18" sap:Label="Alphacode from Final Sales Order Item"/>
+        <Property Name="SO_F_VSBED" Type="Edm.String" MaxLength="2" sap:Label="Shipping Condition from final sales order"/>
+        <Property Name="SO_F_VSBED_VTEXT" Type="Edm.String" MaxLength="20" sap:Label="Description for Shipping Condition from final sales order"/>
+        <Property Name="DL_VBELN" Type="Edm.String" MaxLength="10" sap:Label="Delivery"/>
+        <Property Name="DL_POSNR" Type="Edm.String" MaxLength="6" sap:Label="Delivery Item"/>
+        <Property Name="DL_CHARG" Type="Edm.String" MaxLength="10" sap:Label="Batch"/>
+        <Property Name="DL_LFIMG" Type="Edm.Decimal" Scale="3" Precision="13" sap:Label="Actual Quantity delivered"/>
+        <Property Name="DL_VRKME" Type="Edm.String" MaxLength="3" sap:Label="Sales Unit delivery"/>
+        <Property Name="DL_POSAR" Type="Edm.String" MaxLength="1" sap:Label="Item type"/>
+        <Property Name="DL_VGBEL" Type="Edm.String" MaxLength="10" sap:Label="Document number of reference document"/>
+        <Property Name="DL_VGPOS" Type="Edm.String" MaxLength="6" sap:Label="item number of reference item"/>
+        <Property Name="DL_LFART" Type="Edm.String" MaxLength="4" sap:Label="Delivery Type"/>
+        <Property Name="DL_LFART_VTEXT" Type="Edm.String" MaxLength="20" sap:Label="Delivery Type Description"/>
+        <Property Name="DL_LFDAT" Type="Edm.String" MaxLength="8" sap:Label="Planned Delivery Date"/>
+        <Property Name="DL_HSDAT" Type="Edm.String" MaxLength="8" sap:Label="Manufacturing Date"/>
+        <Property Name="DL_VFDAT" Type="Edm.String" MaxLength="8" sap:Label="Shelf life expiry date"/>
+        <Property Name="DL_TRAID" Type="Edm.String" MaxLength="20" sap:Label="Container Number"/>
+        <Property Name="DL_ZZ0S2BLNR" Type="Edm.String" MaxLength="30" sap:Label="Bill of Lading Number"/>
+        <Property Name="DL_PEND_DEL_QUAN" Type="Edm.String" MaxLength="500" sap:Label="Pending Delivery Quantity"/>
+        <Property Name="DL_WADAT" Type="Edm.String" MaxLength="8" sap:Label="Planned GI Date"/>
+        <Property Name="DL_WADAT_IST" Type="Edm.String" MaxLength="8" sap:Label="Actual GI Date"/>
+        <Property Name="LAST_NOTE" Type="Edm.String" MaxLength="1000" sap:Label="Last note"/>
+        <Property Name="USERNAME" Type="Edm.String" MaxLength="12" sap:Label="USERNAME"/>
+        <Property Name="TM_TKNUM" Type="Edm.String" MaxLength="10" sap:Label="Shipment"/>
+        <Property Name="TM_VSART" Type="Edm.String" MaxLength="2" sap:Label="Shipping Type"/>
+        <Property Name="TM_VSART_BEZEI" Type="Edm.String" MaxLength="20" sap:Label="TM_VSART_BEZEI;"/>
+        <Property Name="TM_EXTI1" Type="Edm.String" MaxLength="20" sap:Label="Vessel Name"/>
+        <Property Name="TM_TDLNR" Type="Edm.String" MaxLength="10" sap:Label="Forwarder Name"/>
+        <Property Name="TM_TDLNR_NAME1" Type="Edm.String" MaxLength="35" sap:Label="TM_TDLNR_NAME1;"/>
+        <Property Name="TM_STATUS_CODE_ELEM" Type="Edm.String" MaxLength="3" sap:Label="Shipment Current Status Code from Elemica"/>
+        <Property Name="TM_STATUS_REASON_CODE_ELEM" Type="Edm.String" MaxLength="3" sap:Label="Status Reason Code from Elemica"/>
+        <Property Name="TM_STATUS_CODE_TEXT_ELEM" Type="Edm.String" MaxLength="255" sap:Label="Shipment Current Status Code from Elemica Description"/>
+        <Property Name="TM_STATUS_REASON_CODE_TEXT_ELEM" Type="Edm.String" MaxLength="255" sap:Label="Status Reason Code from Elemica Description"/>
+        <Property Name="TM_TRACKING_ID_ELEM" Type="Edm.String" MaxLength="12" sap:Label="Elemica Tracking ID"/>
+        <Property Name="TM_ALERT_STATUS_CODE_ELEM" Type="Edm.String" MaxLength="3" sap:Label="Shipment Alert Status Code from Elemica"/>
+        <Property Name="TM_ALERT_STATUS_REASON_CODE_ELEM" Type="Edm.String" MaxLength="3" sap:Label="Shipment Alert Status Reason Code from Elemica"/>
+        <Property Name="TM_ALERT_STATUS_CODE_TEXT_ELEM" Type="Edm.String" MaxLength="255" sap:Label="Shipment Alert Status Code from Elemica Description"/>
+        <Property Name="TM_ALERT_STATUS_REASON_CODE_TEXT_ELEM" Type="Edm.String" MaxLength="255" sap:Label="Shipment Alert Status Reason Code from Elemica Description"/>
+        <Property Name="TM_STATUS_CODE_COMP" Type="Edm.String" MaxLength="3" sap:Label="Shipment Current Status Code from Comprovei"/>
+        <Property Name="TM_REASON_CODE_COMP" Type="Edm.String" MaxLength="17" sap:Label="Status Reason Code from Comprovei"/>
+        <Property Name="TM_STATUS_CODE_TEXT_COMP" Type="Edm.String" MaxLength="100" sap:Label="Shipment Current Status Code from Comprovei Description"/>
+        <Property Name="TM_REASON_CODE_TEXT_COMP" Type="Edm.String" MaxLength="100" sap:Label="Status Reason Code from Comprovei Description"/>
+        <Property Name="TM_TRACKING_ID_COMP" Type="Edm.String" MaxLength="50" sap:Label="Comprovei Tracking ID"/>
+        <Property Name="TM_STATUS_CODE_MANUEL" Type="Edm.String" MaxLength="3" sap:Label="Shipment Current Status Code for Manually Marked as Delivered"/>
+        <Property Name="TM_DPTBG" Type="Edm.String" MaxLength="8" sap:Label="Shipment End from TM document"/>
+        <Property Name="TM_DATBG" Type="Edm.String" MaxLength="8" sap:Label="Actual time of arrival"/>
+        <Property Name="TM_DPTEN" Type="Edm.String" MaxLength="8" sap:Label="Shipment Start from TM document"/>
+        <Property Name="TM_DATEN" Type="Edm.String" MaxLength="8" sap:Label="Actual time of departure"/>
+        <Property Name="TM_AR_DATE" Type="Edm.String" MaxLength="11" sap:Label="BL Attached"/>
+        <Property Name="TM_STTRG" Type="Edm.String" MaxLength="1" sap:Label="Overall Status TM Doc"/>
+        <Property Name="TM_STTRG_DDTEXT" Type="Edm.String" MaxLength="60" sap:Label="Overall Status TM Doc Description"/>
+        <Property Name="BL_VBELN_INV_FIRST" Type="Edm.String" MaxLength="10" sap:Label="Billing Document (first Order)"/>
+        <Property Name="BL_VBELN_INV_LAST" Type="Edm.String" MaxLength="10" sap:Label="Billing Doc. (Final Order)"/>
+        <Property Name="BL_XBLNR" Type="Edm.String" MaxLength="16" sap:Label="Nota Fiscal"/>
+      </EntityType>
+      <EntityType Name="notes">
+        <Key>
+          <PropertyRef Name="UTCTIME"/>
+        </Key>
+        <Property Name="UTCTIME" Type="Edm.Decimal" Precision="15" Nullable="false" sap:Label="UTCTIME"/>
+        <Property Name="CLIENT" Type="Edm.String" MaxLength="3" sap:Label="CLIENT"/>
+        <Property Name="VBELN" Type="Edm.String" MaxLength="10" sap:Label="My order"/>
+        <Property Name="POSNR" Type="Edm.String" MaxLength="6" sap:Label="Order Item"/>
+        <Property Name="LANGUAGE" Type="Edm.String" MaxLength="2" sap:Label="LANGUAGE"/>
+        <Property Name="NOTE_TITLE" Type="Edm.String" MaxLength="60" sap:Label="NOTE_TITLE"/>
+        <Property Name="NOTE_TEXT" Type="Edm.String" MaxLength="1000" sap:Label="NOTE_TEXT"/>
+        <Property Name="USERNAME" Type="Edm.String" MaxLength="12" sap:Label="USERNAME"/>
+      </EntityType>
+      <EntityType Name="salesOrderDetails">
+        <Key>
+          <PropertyRef Name="id"/>
+        </Key>
+        <Property Name="id" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="SO_MANDT" Type="Edm.String" MaxLength="3" sap:Label="Client"/>
+        <Property Name="SO_VBELN" Type="Edm.String" MaxLength="10" sap:Label="My order"/>
+        <Property Name="SO_POSNR" Type="Edm.String" MaxLength="6" sap:Label="Order Item"/>
+        <Property Name="SO_ERDAT_ORDER" Type="Edm.String" MaxLength="8" sap:Label="Creation Date (Header)"/>
+        <Property Name="SO_ERDAT_ITEM" Type="Edm.String" MaxLength="8" sap:Label="Creation Date (Item)"/>
+        <Property Name="SO_AUART" Type="Edm.String" MaxLength="4" sap:Label="Order Type"/>
+        <Property Name="SO_WERKS" Type="Edm.String" MaxLength="4" sap:Label="Plant"/>
+        <Property Name="SO_VTWEG" Type="Edm.String" MaxLength="2" sap:Label="Distribution Channel"/>
+        <Property Name="SO_MATNR" Type="Edm.String" MaxLength="18" sap:Label="Material Number"/>
+        <Property Name="SO_MAKTX" Type="Edm.String" MaxLength="40" sap:Label="Material Name"/>
+        <Property Name="SO_KDMAT" Type="Edm.String" MaxLength="35" sap:Label="Customer Material Reference"/>
+        <Property Name="SO_AG_PARTNER" Type="Edm.String" MaxLength="10" sap:Label="Sold-to Number"/>
+        <Property Name="SO_AG_PARTNER_NAME1" Type="Edm.String" MaxLength="35" sap:Label="Sold-to Name1"/>
+        <Property Name="SO_AG_PARTNER_NAME2" Type="Edm.String" MaxLength="35" sap:Label="Sold-to Name2"/>
+        <Property Name="SO_WE_PARTNER" Type="Edm.String" MaxLength="10" sap:Label="Ship-to Number"/>
+        <Property Name="SO_WE_PARTNER_NAME1" Type="Edm.String" MaxLength="35" sap:Label="Ship-to Name1"/>
+        <Property Name="SO_WE_PARTNER_NAME2" Type="Edm.String" MaxLength="35" sap:Label="Ship-to Name2"/>
+        <Property Name="SO_CO_PARTNER_HEAD" Type="Edm.String" MaxLength="10" sap:Label="CO Partner Head"/>
+        <Property Name="SO_CO_PARTNER_NAME1_HEAD" Type="Edm.String" MaxLength="35" sap:Label="CO Partner Name1 Head"/>
+        <Property Name="SO_CO_PARTNER_NAME2_HEAD" Type="Edm.String" MaxLength="35" sap:Label="CO Partner Name2 Head"/>
+        <Property Name="SO_CO_PARTNER_ITM" Type="Edm.String" MaxLength="10" sap:Label="SO_CO_PARTNER_ITM"/>
+        <Property Name="SO_CO_PARTNER_NAME1_ITM" Type="Edm.String" MaxLength="35" sap:Label="SO_CO_PARTNER_NAME1_ITM"/>
+        <Property Name="SO_CO_PARTNER_NAME2_ITM" Type="Edm.String" MaxLength="35" sap:Label="SO_CO_PARTNER_NAME2_ITM"/>
+        <Property Name="SO_NY_PARTNER_HEAD" Type="Edm.String" MaxLength="10" sap:Label="NY Partner Head"/>
+        <Property Name="SO_NY_PARTNER_NAME1_HEAD" Type="Edm.String" MaxLength="35" sap:Label="NY Partner Name1 Head"/>
+        <Property Name="SO_NY_PARTNER_NAME2_HEAD" Type="Edm.String" MaxLength="35" sap:Label="NY Partner Name2 Head"/>
+        <Property Name="SO_NY_PARTNER_ITM" Type="Edm.String" MaxLength="10" sap:Label="SO_NY_PARTNER_ITM"/>
+        <Property Name="SO_NY_PARTNER_NAME1_ITM" Type="Edm.String" MaxLength="35" sap:Label="SO_NY_PARTNER_NAME1_ITM"/>
+        <Property Name="SO_NY_PARTNER_NAME2_ITM" Type="Edm.String" MaxLength="35" sap:Label="SO_NY_PARTNER_NAME2_ITM"/>
+        <Property Name="SO_AS_PARTNER_HEAD" Type="Edm.String" MaxLength="8" sap:Label="AS PARTNER Head"/>
+        <Property Name="SO_AS_PARTNER_NAME_HEAD" Type="Edm.String" MaxLength="40" sap:Label="AS PARTNER NAME Head"/>
+        <Property Name="SO_AS_PARTNER_ITM" Type="Edm.String" MaxLength="8" sap:Label="SO_AS_PARTNER_ITM"/>
+        <Property Name="SO_AS_PARTNER_NAME_ITM" Type="Edm.String" MaxLength="40" sap:Label="SO_AS_PARTNER_NAME_ITM"/>
+        <Property Name="SO_VE_PARTNER_HEAD" Type="Edm.String" MaxLength="8" sap:Label="VE Partner Head"/>
+        <Property Name="SO_VE_PARTNER_NAME_HEAD" Type="Edm.String" MaxLength="40" sap:Label="VE Partner Name Head"/>
+        <Property Name="SO_VE_PARTNER_ITM" Type="Edm.String" MaxLength="8" sap:Label="SO_VE_PARTNER_ITM"/>
+        <Property Name="SO_VE_PARTNER_NAME_ITM" Type="Edm.String" MaxLength="40" sap:Label="SO_VE_PARTNER_NAME_ITM"/>
+        <Property Name="SO_AM_PARTNER_HEAD" Type="Edm.String" MaxLength="8" sap:Label="AM Partner Head"/>
+        <Property Name="SO_AM_PARTNER_NAME_HEAD" Type="Edm.String" MaxLength="40" sap:Label="AM Partner Name Head"/>
+        <Property Name="SO_AM_PARTNER_ITM" Type="Edm.String" MaxLength="8" sap:Label="SO_AM_PARTNER_ITM"/>
+        <Property Name="SO_AM_PARTNER_NAME_ITM" Type="Edm.String" MaxLength="40" sap:Label="SO_AM_PARTNER_NAME_ITM"/>
+        <Property Name="SO_LAND1" Type="Edm.String" MaxLength="3" sap:Label="Ship-to Country"/>
+        <Property Name="SO_LANDX" Type="Edm.String" MaxLength="15" sap:Label="Country Name"/>
+        <Property Name="SO_ORT01" Type="Edm.String" MaxLength="35" sap:Label="Ship-to City"/>
+        <Property Name="SO_VKORG" Type="Edm.String" MaxLength="4" sap:Label="Sales Organsiation"/>
+        <Property Name="SO_VKORG_NAME1" Type="Edm.String" MaxLength="40" sap:Label="Sales Organisation Description"/>
+        <Property Name="SO_KNREF_HEAD" Type="Edm.String" MaxLength="30" sap:Label="Customer Priority Head (North America, Z6 Partner Head)"/>
+        <Property Name="SO_KNREF_ITM" Type="Edm.String" MaxLength="30" sap:Label="SO_KNREF_ITM"/>
+        <Property Name="SO_VBUND" Type="Edm.String" MaxLength="6" sap:Label="Group Company"/>
+        <Property Name="SO_EDATU_REQUESTED" Type="Edm.String" MaxLength="8" sap:Label="Requested Delivery Date"/>
+        <Property Name="SO_KWMENG" Type="Edm.Decimal" Scale="3" Precision="15" sap:Label="Requested Quantity"/>
+        <Property Name="SO_VRKME" Type="Edm.String" MaxLength="3" sap:Label="Sales Unit"/>
+        <Property Name="SO_EDATU_CONFIRMED" Type="Edm.String" MaxLength="8" sap:Label="Confirmed Delivery Date"/>
+        <Property Name="SO_KBMENG" Type="Edm.Decimal" Scale="3" Precision="15" sap:Label="Confirmed Quantity"/>
+        <Property Name="SO_LDDAT" Type="Edm.String" MaxLength="8" sap:Label="Loading Date"/>
+        <Property Name="SO_UNCONFIRMED_QTY" Type="Edm.Decimal" Scale="3" Precision="15" sap:Label="Unconfirmed Quantity"/>
+        <Property Name="SO_REQ_TEXT" Type="Edm.String" MaxLength="250" sap:Label="Freeze Protect"/>
+        <Property Name="SO_FAKSP" Type="Edm.String" MaxLength="2" sap:Label="Billing Block Item"/>
+        <Property Name="SO_FAKSP_VTEXT" Type="Edm.String" MaxLength="20" sap:Label="Billing Block Item Description"/>
+        <Property Name="SO_LGORT" Type="Edm.String" MaxLength="4" sap:Label="Storage Location"/>
+        <Property Name="SO_SUPPLY_SITUATION" Type="Edm.Int16" sap:Label="Supply Situation"/>
+        <Property Name="SO_SUPPLY_SITUATION_DESCR" Type="Edm.String" MaxLength="60" sap:Label="Supply Situation Description"/>
+        <Property Name="SO_KBETR" Type="Edm.Decimal" Scale="2" Precision="11" sap:Label="Rate (condition amount or percentage)"/>
+        <Property Name="SO_KBETR_ALT" Type="Edm.Decimal" Scale="2" Precision="11" sap:Label="Rate (condition amount or percentage) (Alternative)"/>
+        <Property Name="SO_WAERS" Type="Edm.String" MaxLength="5" sap:Label="Currency Key"/>
+        <Property Name="SO_WAERS_ALT" Type="Edm.String" MaxLength="5" sap:Label="Currency Key (Alternative)"/>
+        <Property Name="SO_KPEIN" Type="Edm.Decimal" Precision="5" sap:Label="Condition pricing unit"/>
+        <Property Name="SO_KPEIN_ALT" Type="Edm.String" MaxLength="5" sap:Label="Condition pricing unit (Alternative)"/>
+        <Property Name="SO_KMEIN" Type="Edm.String" MaxLength="3" sap:Label="Condition unit in the document"/>
+        <Property Name="SO_KMEIN_ALT" Type="Edm.String" MaxLength="3" sap:Label="Condition unit in the document (Alternative)"/>
+        <Property Name="SO_NETWR" Type="Edm.Decimal" Scale="2" Precision="15" sap:Label="Net Amount"/>
+        <Property Name="SO_WAERK" Type="Edm.String" MaxLength="5" sap:Label="SD Document Currency"/>
+        <Property Name="SO_HTEXT" Type="Edm.String" MaxLength="4000" sap:Label="HOM Remark (info detail from item text ZA10)"/>
+        <Property Name="SO_PSTYV" Type="Edm.String" MaxLength="4" sap:Label="Item Category"/>
+        <Property Name="SO_PSTYV_VTEXT" Type="Edm.String" MaxLength="20" sap:Label="Item Category Description"/>
+        <Property Name="SO_DISPO" Type="Edm.String" MaxLength="3" sap:Label="MRP Controller"/>
+        <Property Name="SO_KOSCH" Type="Edm.String" MaxLength="18" sap:Label="Product Allocation"/>
+        <Property Name="SO_VKBUR" Type="Edm.String" MaxLength="4" sap:Label="Sales Office"/>
+        <Property Name="SO_VKBUR_BEZEI" Type="Edm.String" MaxLength="20" sap:Label="Sales Office Description"/>
+        <Property Name="SO_ABGRU" Type="Edm.String" MaxLength="2" sap:Label="Reason for rejection"/>
+        <Property Name="SO_ABSTA" Type="Edm.String" MaxLength="1" sap:Label="Rejection status for SD item"/>
+        <Property Name="SO_KNUMV" Type="Edm.String" MaxLength="10" sap:Label="Number of document condition"/>
+        <Property Name="SO_SPART" Type="Edm.String" MaxLength="2" sap:Label="Division"/>
+        <Property Name="SO_INCO1_HEAD" Type="Edm.String" MaxLength="3" sap:Label="Incoterm 1 Head"/>
+        <Property Name="SO_INCO1_ITEM" Type="Edm.String" MaxLength="3" sap:Label="Incoterm 1 Item"/>
+        <Property Name="SO_INCO2_HEAD" Type="Edm.String" MaxLength="3" sap:Label="Incoterm 2 Head"/>
+        <Property Name="SO_INCO2_ITEM" Type="Edm.String" MaxLength="28" sap:Label="Incoterm 2 Item"/>
+        <Property Name="SO_ZTERM_HEAD" Type="Edm.String" MaxLength="4" sap:Label="Payment Term Head"/>
+        <Property Name="SO_ZTERM_ITEM" Type="Edm.String" MaxLength="4" sap:Label="Payment Term Item"/>
+        <Property Name="SO_PRSDT" Type="Edm.String" MaxLength="8" sap:Label="Pricing Date"/>
+        <Property Name="SO_ZZ0S2REVG2" Type="Edm.String" MaxLength="10" sap:Label="Cust. PO (Final order)"/>
+        <Property Name="SO_ZZDKPPRODB" Type="Edm.String" MaxLength="18" sap:Label="SBU"/>
+        <Property Name="SO_BSARK" Type="Edm.String" MaxLength="4" sap:Label="PO Type"/>
+        <Property Name="SO_BSARK_VTEXT" Type="Edm.String" MaxLength="20" sap:Label="PO Type Description"/>
+        <Property Name="SO_BASF_LOFCR" Type="Edm.String" MaxLength="20" sap:Label="Letter of Credit (L/C) Number"/>
+        <Property Name="SO_GUSCON" Type="Edm.String" MaxLength="15" sap:Label="Guscon Number / Global unique supply chain order number"/>
+        <Property Name="SO_GUSCON_ITM" Type="Edm.String" MaxLength="6" sap:Label="SO_GUSCON_ITM"/>
+        <Property Name="SO_GUSCON_LEVEL" Type="Edm.String" MaxLength="2" sap:Label="Guscon Level"/>
+        <Property Name="SO_I_VBELN" Type="Edm.String" MaxLength="10" sap:Label="First order Number"/>
+        <Property Name="SO_I_POSNR" Type="Edm.String" MaxLength="6" sap:Label="First order Item"/>
+        <Property Name="SO_ISCOMPLETED" Type="Edm.String" MaxLength="1" sap:Label="Order Status"/>
+        <Property Name="SO_LEVEL_TYPE" Type="Edm.String" MaxLength="1" sap:Label="Level Type"/>
+        <Property Name="SO_N_VBELN" Type="Edm.String" MaxLength="10" sap:Label="Next Order Number"/>
+        <Property Name="SO_N_POSNR" Type="Edm.String" MaxLength="6" sap:Label="Next Order Item"/>
+        <Property Name="SO_F_VBELN" Type="Edm.String" MaxLength="10" sap:Label="Final Order Number"/>
+        <Property Name="SO_F_POSNR" Type="Edm.String" MaxLength="6" sap:Label="Final Order Item"/>
+        <Property Name="SO_VBTYP" Type="Edm.String" MaxLength="1" sap:Label="Document Category"/>
+        <Property Name="SO_BSTKD" Type="Edm.String" MaxLength="35" sap:Label="Customer PO Number"/>
+        <Property Name="SO_TRAGR" Type="Edm.String" MaxLength="4" sap:Label="Transportation Group from Material Master"/>
+        <Property Name="SO_TRAGR_VTEXT" Type="Edm.String" MaxLength="20" sap:Label="Transportation Group Description"/>
+        <Property Name="SO_VKGRP" Type="Edm.String" MaxLength="3" sap:Label="Sales Group"/>
+        <Property Name="SO_VKGRP_BEZEI" Type="Edm.String" MaxLength="20" sap:Label="Sales Group Description"/>
+        <Property Name="SO_ROUTE" Type="Edm.String" MaxLength="6" sap:Label="Route"/>
+        <Property Name="SO_AUFNR" Type="Edm.String" MaxLength="12" sap:Label="Process Order"/>
+        <Property Name="SO_DGLTP" Type="Edm.String" MaxLength="8" sap:Label="Basic Finish Date (Process Order)"/>
+        <Property Name="SO_PSMNG" Type="Edm.Decimal" Scale="3" Precision="13" sap:Label="Item Quantity (Process Order)"/>
+        <Property Name="SO_AMEIN" Type="Edm.String" MaxLength="3" sap:Label=" SO_AMEIN"/>
+        <Property Name="SO_F_WERKS" Type="Edm.String" MaxLength="4" sap:Label="Plant (supplying company)"/>
+        <Property Name="SO_F_VKORG" Type="Edm.String" MaxLength="4" sap:Label="Point of Supply"/>
+        <Property Name="SO_F_VKORG_VTEXT" Type="Edm.String" MaxLength="20" sap:Label="Point of Supply Description"/>
+        <Property Name="SO_F_TDDAT" Type="Edm.String" MaxLength="8" sap:Label="Transportation Planning Date"/>
+        <Property Name="SO_F_ZZ0S2MATUG" Type="Edm.String" MaxLength="18" sap:Label="Alphacode from Final Sales Order Item"/>
+        <Property Name="SO_F_VSBED" Type="Edm.String" MaxLength="2" sap:Label="Shipping Condition from final sales order"/>
+        <Property Name="SO_F_VSBED_VTEXT" Type="Edm.String" MaxLength="20" sap:Label="Description for Shipping Condition from final sales order"/>
+      </EntityType>
+      <EntityType Name="deliveryDetails">
+        <Property Name="DL_MANDT" Type="Edm.String" MaxLength="3" sap:Label="Client"/>
+        <Property Name="SO_VBELN" Type="Edm.String" MaxLength="10" sap:Label="My order"/>
+        <Property Name="SO_POSNR" Type="Edm.String" MaxLength="6" sap:Label="Order Item"/>
+        <Property Name="DL_VBELN" Type="Edm.String" MaxLength="10" sap:Label="Delivery"/>
+        <Property Name="DL_POSNR" Type="Edm.String" MaxLength="6" sap:Label="Delivery Item"/>
+        <Property Name="DL_CHARG" Type="Edm.String" MaxLength="10" sap:Label="Batch"/>
+        <Property Name="DL_LFIMG" Type="Edm.Decimal" Scale="3" Precision="13" sap:Label="Actual Quantity delivered"/>
+        <Property Name="DL_VRKME" Type="Edm.String" MaxLength="3" sap:Label="Sales Unit delivery"/>
+        <Property Name="DL_POSAR" Type="Edm.String" MaxLength="1" sap:Label="Item type"/>
+        <Property Name="DL_VGBEL" Type="Edm.String" MaxLength="10" sap:Label="Document number of reference document"/>
+        <Property Name="DL_VGPOS" Type="Edm.String" MaxLength="6" sap:Label="item number of reference item"/>
+        <Property Name="DL_LFART" Type="Edm.String" MaxLength="4" sap:Label="Delivery Type"/>
+        <Property Name="DL_LFART_VTEXT" Type="Edm.String" MaxLength="20" sap:Label="Delivery Type Description"/>
+        <Property Name="DL_LFDAT" Type="Edm.String" MaxLength="8" sap:Label="Planned Delivery Date"/>
+        <Property Name="DL_HSDAT" Type="Edm.String" MaxLength="8" sap:Label="Manufacturing Date"/>
+        <Property Name="DL_VFDAT" Type="Edm.String" MaxLength="8" sap:Label="Shelf life expiry date"/>
+        <Property Name="DL_TRAID" Type="Edm.String" MaxLength="20" sap:Label="Container Number"/>
+        <Property Name="DL_ZZ0S2BLNR" Type="Edm.String" MaxLength="30" sap:Label="Bill of Lading Number"/>
+        <Property Name="DL_PEND_DEL_QUAN" Type="Edm.String" MaxLength="500" sap:Label="Pending Delivery Quantity"/>
+        <Property Name="DL_WADAT" Type="Edm.String" MaxLength="8" sap:Label="Planned GI Date"/>
+        <Property Name="DL_WADAT_IST" Type="Edm.String" MaxLength="8" sap:Label="Actual GI Date"/>
+        <NavigationProperty Name="shipment" Relationship="OrderMonitoringServices.deliveryDetails_shipment" FromRole="deliveryDetails" ToRole="shipmentDetails"/>
+        <NavigationProperty Name="salesorder" Relationship="OrderMonitoringServices.deliveryDetails_salesorder" FromRole="deliveryDetails" ToRole="Results"/>
+      </EntityType>
+      <EntityType Name="shipmentDetails">
+        <Property Name="TM_MANDT" Type="Edm.String" MaxLength="3" sap:Label="Client"/>
+        <Property Name="DL_VBELN" Type="Edm.String" MaxLength="10" sap:Label="Delivery"/>
+        <Property Name="TM_TKNUM" Type="Edm.String" MaxLength="10" sap:Label="Shipment"/>
+        <Property Name="TM_VSART" Type="Edm.String" MaxLength="2" sap:Label="Shipping Type"/>
+        <Property Name="TM_VSART_BEZEI" Type="Edm.String" MaxLength="20" sap:Label="TM_VSART_BEZEI;"/>
+        <Property Name="TM_EXTI1" Type="Edm.String" MaxLength="20" sap:Label="Vessel Name"/>
+        <Property Name="TM_TDLNR" Type="Edm.String" MaxLength="10" sap:Label="Forwarder Name"/>
+        <Property Name="TM_TDLNR_NAME1" Type="Edm.String" MaxLength="35" sap:Label="TM_TDLNR_NAME1;"/>
+        <Property Name="TM_STATUS_CODE_ELEM" Type="Edm.String" MaxLength="3" sap:Label="Shipment Current Status Code from Elemica"/>
+        <Property Name="TM_STATUS_REASON_CODE_ELEM" Type="Edm.String" MaxLength="3" sap:Label="Status Reason Code from Elemica"/>
+        <Property Name="TM_STATUS_CODE_TEXT_ELEM" Type="Edm.String" MaxLength="255" sap:Label="Shipment Current Status Code from Elemica Description"/>
+        <Property Name="TM_STATUS_REASON_CODE_TEXT_ELEM" Type="Edm.String" MaxLength="255" sap:Label="Status Reason Code from Elemica Description"/>
+        <Property Name="TM_TRACKING_ID_ELEM" Type="Edm.String" MaxLength="12" sap:Label="Elemica Tracking ID"/>
+        <Property Name="TM_ALERT_STATUS_CODE_ELEM" Type="Edm.String" MaxLength="3" sap:Label="Shipment Alert Status Code from Elemica"/>
+        <Property Name="TM_ALERT_STATUS_REASON_CODE_ELEM" Type="Edm.String" MaxLength="3" sap:Label="Shipment Alert Status Reason Code from Elemica"/>
+        <Property Name="TM_ALERT_STATUS_CODE_TEXT_ELEM" Type="Edm.String" MaxLength="255" sap:Label="Shipment Alert Status Code from Elemica Description"/>
+        <Property Name="TM_ALERT_STATUS_REASON_CODE_TEXT_ELEM" Type="Edm.String" MaxLength="255" sap:Label="Shipment Alert Status Reason Code from Elemica Description"/>
+        <Property Name="TM_STATUS_CODE_COMP" Type="Edm.String" MaxLength="3" sap:Label="Shipment Current Status Code from Comprovei"/>
+        <Property Name="TM_REASON_CODE_COMP" Type="Edm.String" MaxLength="17" sap:Label="Status Reason Code from Comprovei"/>
+        <Property Name="TM_STATUS_CODE_TEXT_COMP" Type="Edm.String" MaxLength="100" sap:Label="Shipment Current Status Code from Comprovei Description"/>
+        <Property Name="TM_REASON_CODE_TEXT_COMP" Type="Edm.String" MaxLength="100" sap:Label="Status Reason Code from Comprovei Description"/>
+        <Property Name="TM_TRACKING_ID_COMP" Type="Edm.String" MaxLength="50" sap:Label="Comprovei Tracking ID"/>
+        <Property Name="TM_STATUS_CODE_MANUEL" Type="Edm.String" MaxLength="3" sap:Label="Shipment Current Status Code for Manually Marked as Delivered"/>
+        <Property Name="TM_DPTBG" Type="Edm.String" MaxLength="8" sap:Label="Shipment End from TM document"/>
+        <Property Name="TM_DATBG" Type="Edm.String" MaxLength="8" sap:Label="Actual time of arrival"/>
+        <Property Name="TM_DPTEN" Type="Edm.String" MaxLength="8" sap:Label="Shipment Start from TM document"/>
+        <Property Name="TM_DATEN" Type="Edm.String" MaxLength="8" sap:Label="Actual time of departure"/>
+        <Property Name="TM_AR_DATE" Type="Edm.String" MaxLength="11" sap:Label="BL Attached"/>
+        <Property Name="TM_STTRG" Type="Edm.String" MaxLength="1" sap:Label="Overall Status TM Doc"/>
+        <Property Name="TM_STTRG_DDTEXT" Type="Edm.String" MaxLength="60" sap:Label="Overall Status TM Doc Description"/>
+        <NavigationProperty Name="delivery" Relationship="OrderMonitoringServices.shipmentDetails_delivery" FromRole="shipmentDetails" ToRole="deliveryDetails"/>
+      </EntityType>
+      <EntityType Name="firstBilling">
+        <Property Name="BL_MANDT" Type="Edm.String" MaxLength="3"/>
+        <Property Name="SO_VBELN" Type="Edm.String" MaxLength="10"/>
+        <Property Name="SO_POSNR" Type="Edm.String" MaxLength="6"/>
+        <Property Name="BL_VBELN" Type="Edm.String" MaxLength="10"/>
+        <Property Name="BL_BILLING_DOC_BASE" Type="Edm.String" MaxLength="19"/>
+        <Property Name="BL_XBLNR" Type="Edm.String" MaxLength="16"/>
+        <NavigationProperty Name="salesorder" Relationship="OrderMonitoringServices.firstBilling_salesorder" FromRole="firstBilling" ToRole="Results"/>
+      </EntityType>
+      <EntityType Name="lastBilling">
+        <Property Name="BL_MANDT" Type="Edm.String" MaxLength="3"/>
+        <Property Name="SO_VBELN" Type="Edm.String" MaxLength="10"/>
+        <Property Name="SO_POSNR" Type="Edm.String" MaxLength="6"/>
+        <Property Name="BL_VBELN" Type="Edm.String" MaxLength="10"/>
+        <Property Name="BL_XBLNR" Type="Edm.String" MaxLength="16"/>
+        <Property Name="BL_BILLING_DOC_BASE" Type="Edm.String" MaxLength="19"/>
+        <NavigationProperty Name="salesorder" Relationship="OrderMonitoringServices.lastBilling_salesorder" FromRole="lastBilling" ToRole="Results"/>
+      </EntityType>
+      <Association Name="deliveryDetails_shipment">
+        <End Role="deliveryDetails" Type="OrderMonitoringServices.deliveryDetails" Multiplicity="1">
+          <OnDelete Action="Cascade"/>
+        </End>
+        <End Role="shipmentDetails" Type="OrderMonitoringServices.shipmentDetails" Multiplicity="*"/>
+      </Association>
+      <Association Name="deliveryDetails_salesorder">
+        <End Role="deliveryDetails" Type="OrderMonitoringServices.deliveryDetails" Multiplicity="*"/>
+        <End Role="Results" Type="OrderMonitoringServices.Results" Multiplicity="0..1"/>
+      </Association>
+      <Association Name="shipmentDetails_delivery">
+        <End Role="shipmentDetails" Type="OrderMonitoringServices.shipmentDetails" Multiplicity="*"/>
+        <End Role="deliveryDetails" Type="OrderMonitoringServices.deliveryDetails" Multiplicity="0..1"/>
+      </Association>
+      <Association Name="firstBilling_salesorder">
+        <End Role="firstBilling" Type="OrderMonitoringServices.firstBilling" Multiplicity="*"/>
+        <End Role="Results" Type="OrderMonitoringServices.Results" Multiplicity="0..1"/>
+      </Association>
+      <Association Name="lastBilling_salesorder">
+        <End Role="lastBilling" Type="OrderMonitoringServices.lastBilling" Multiplicity="*"/>
+        <End Role="Results" Type="OrderMonitoringServices.Results" Multiplicity="0..1"/>
+      </Association>
+      <Annotations Target="OrderMonitoringServices.EntityContainer/Results" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="OrderMonitoringServices.Results/id" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Core.Computed" Bool="true"/>
+      </Annotations>
+      <Annotations Target="OrderMonitoringServices.salesOrderDetails/id" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+        <Annotation Term="Core.Computed" Bool="true"/>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>
