@@ -318,6 +318,7 @@ annotate service.Results with {
     DL_ZZ0S2BLNR               @title: '{i18n>DL_ZZ0S2BLNR}'               @sap.Label: '{i18n>DL_ZZ0S2BLNR}';
     DL_PEND_DEL_QUAN           @title: '{i18n>DL_PEND_DEL_QUAN}'           @sap.Label: '{i18n>DL_PEND_DEL_QUAN}';
     LAST_NOTE                  @title: '{i18n>LAST_NOTE}'                  @sap.Label: '{i18n>LAST_NOTE}';
+    USERNAME                   @title: '{i18n>USERNAME}'                   @sap.Label: '{i18n>USERNAME}';
     TM_TKNUM                   @title: '{i18n>TM_TKNUM}'                   @sap.Label: '{i18n>TM_TKNUM}';
     @Common.Text           : DL_LFART_VTEXT
     @Common.TextArrangement: #TextLast
@@ -421,7 +422,6 @@ annotate service.Results with {
     SO_ABSTA                  @UI                     : {Hidden: true};
     SO_KNUMV                  @UI                     : {Hidden: true};
     USERNAME                  @UI                     : {Hidden: true};
-    // LANGUAGE               @UI                     : {Hidden: true};
     DL_HSDAT                  @UI                     : {Hidden: true};
     DL_VFDAT                  @UI                     : {Hidden: true};
     // Shipment Details Texts
@@ -483,8 +483,6 @@ annotate service.valueHelps with {
     SO_ABSTA                  @UI                     : {Hidden: true};
     SO_KNUMV                  @UI                     : {Hidden: true};
     SO_BSARK_VTEXT            @UI                     : {Hidden: true};
-    USERNAME                  @UI                     : {Hidden: true};
-    // LANGUAGE               @UI                     : {Hidden: true};
     DL_HSDAT                  @UI                     : {Hidden: true};
     DL_VFDAT                  @UI                     : {Hidden: true};
     // Shipment Details Texts

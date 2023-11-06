@@ -128,7 +128,6 @@ service srvOpenOrders {
           DL_WADAT_IST,
           LAST_NOTE,
           USERNAME,
-          // LANGUAGE,
           TM_TKNUM,
           TM_VSART,
           TM_VSART_BEZEI,
@@ -285,7 +284,6 @@ service srvOpenOrders {
           DL_WADAT,
           DL_WADAT_IST,
           LAST_NOTE,
-          // LANGUAGE,
           TM_TKNUM,
           TM_VSART,
           TM_VSART_BEZEI,
@@ -321,11 +319,6 @@ service srvOpenOrders {
 
   entity notes           as
     select from db.notes {
-      // key CLIENT,
-      // key ID,
-      // key VBELN,
-      // key POSNR,
-      //     *
       key UTCTIME,
           CLIENT,
           VBELN,

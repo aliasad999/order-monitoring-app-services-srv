@@ -92,7 +92,6 @@ entity![RESULTS]{
     DL_PEND_DEL_QUAN           : String(500);
     LAST_NOTE                  : String(1000);
     USERNAME                   : String(12);
-    // LANGUAGE                   : String(2);
     TM_TKNUM                   : String(10);
     TM_VSART                   : String(2);
     TM_VSART_BEZEI             : String(20);

@@ -1,6 +1,6 @@
 {
  "meta": {
-  "creator": "cds-dk 7.0.2"
+  "creator": "cds-dk 7.3.0"
  },
  "$version": "2.0",
  "definitions": {
@@ -22,32 +22,32 @@
     "SO_MANDT": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "SO_MANDT"
+     "@sap.Label": "Client"
     },
     "SO_VBELN": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "SO_VBELN"
+     "@sap.Label": "My order"
     },
     "SO_POSNR": {
      "type": "cds.String",
      "length": 6,
-     "@sap.Label": "SO_POSNR"
+     "@sap.Label": "Order Item"
     },
     "SO_ERDAT_ORDER": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "SO_ERDAT_ORDER"
+     "@sap.Label": "Creation Date (Header)"
     },
     "SO_ERDAT_ITEM": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "SO_ERDAT_ITEM"
+     "@sap.Label": "Creation Date (Item)"
     },
     "SO_AUART": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "Sales document type"
+     "@sap.Label": "Order Type"
     },
     "SO_WERKS": {
      "type": "cds.String",
@@ -62,12 +62,12 @@
     "SO_MATNR": {
      "type": "cds.String",
      "length": 18,
-     "@sap.Label": "SO_MATNR"
+     "@sap.Label": "Material Number"
     },
     "SO_MAKTX": {
      "type": "cds.String",
      "length": 40,
-     "@sap.Label": "SO_MAKTX"
+     "@sap.Label": "Material Name"
     },
     "SO_KDMAT": {
      "type": "cds.String",
@@ -77,47 +77,47 @@
     "SO_AG_PARTNER": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "SO_AG_PARTNER"
+     "@sap.Label": "Sold-to Number"
     },
     "SO_AG_PARTNER_NAME1": {
      "type": "cds.String",
      "length": 35,
-     "@sap.Label": "SO_AG_PARTNER_NAME1"
+     "@sap.Label": "Sold-to Name1"
     },
     "SO_AG_PARTNER_NAME2": {
      "type": "cds.String",
      "length": 35,
-     "@sap.Label": "SO_AG_PARTNER_NAME2"
+     "@sap.Label": "Sold-to Name2"
     },
     "SO_WE_PARTNER": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "SO_WE_PARTNER"
+     "@sap.Label": "Ship-to Number"
     },
     "SO_WE_PARTNER_NAME1": {
      "type": "cds.String",
      "length": 35,
-     "@sap.Label": "SO_WE_PARTNER_NAME1"
+     "@sap.Label": "Ship-to Name1"
     },
     "SO_WE_PARTNER_NAME2": {
      "type": "cds.String",
      "length": 35,
-     "@sap.Label": "SO_WE_PARTNER_NAME2"
+     "@sap.Label": "Ship-to Name2"
     },
     "SO_CO_PARTNER_HEAD": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "SO_CO_PARTNER_HEAD"
+     "@sap.Label": "CO Partner Head"
     },
     "SO_CO_PARTNER_NAME1_HEAD": {
      "type": "cds.String",
      "length": 35,
-     "@sap.Label": "SO_CO_PARTNER_NAME1_HEAD"
+     "@sap.Label": "CO Partner Name1 Head"
     },
     "SO_CO_PARTNER_NAME2_HEAD": {
      "type": "cds.String",
      "length": 35,
-     "@sap.Label": "SO_CO_PARTNER_NAME2_HEAD"
+     "@sap.Label": "CO Partner Name2 Head"
     },
     "SO_CO_PARTNER_ITM": {
      "type": "cds.String",
@@ -137,17 +137,17 @@
     "SO_NY_PARTNER_HEAD": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "SO_NY_PARTNER_HEAD"
+     "@sap.Label": "NY Partner Head"
     },
     "SO_NY_PARTNER_NAME1_HEAD": {
      "type": "cds.String",
      "length": 35,
-     "@sap.Label": "SO_NY_PARTNER_NAME1_HEAD"
+     "@sap.Label": "NY Partner Name1 Head"
     },
     "SO_NY_PARTNER_NAME2_HEAD": {
      "type": "cds.String",
      "length": 35,
-     "@sap.Label": "SO_NY_PARTNER_NAME2_HEAD"
+     "@sap.Label": "NY Partner Name2 Head"
     },
     "SO_NY_PARTNER_ITM": {
      "type": "cds.String",
@@ -167,12 +167,12 @@
     "SO_AS_PARTNER_HEAD": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "SO_AS_PARTNER_HEAD"
+     "@sap.Label": "AS PARTNER Head"
     },
     "SO_AS_PARTNER_NAME_HEAD": {
      "type": "cds.String",
      "length": 40,
-     "@sap.Label": "SO_AS_PARTNER_NAME_HEAD"
+     "@sap.Label": "AS PARTNER NAME Head"
     },
     "SO_AS_PARTNER_ITM": {
      "type": "cds.String",
@@ -187,12 +187,12 @@
     "SO_VE_PARTNER_HEAD": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "SO_VE_PARTNER_HEAD"
+     "@sap.Label": "VE Partner Head"
     },
     "SO_VE_PARTNER_NAME_HEAD": {
      "type": "cds.String",
      "length": 40,
-     "@sap.Label": "SO_VE_PARTNER_NAME_HEAD"
+     "@sap.Label": "VE Partner Name Head"
     },
     "SO_VE_PARTNER_ITM": {
      "type": "cds.String",
@@ -207,12 +207,12 @@
     "SO_AM_PARTNER_HEAD": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "SO_AM_PARTNER_HEAD"
+     "@sap.Label": "AM Partner Head"
     },
     "SO_AM_PARTNER_NAME_HEAD": {
      "type": "cds.String",
      "length": 40,
-     "@sap.Label": "SO_AM_PARTNER_NAME_HEAD"
+     "@sap.Label": "AM Partner Name Head"
     },
     "SO_AM_PARTNER_ITM": {
      "type": "cds.String",
@@ -227,7 +227,7 @@
     "SO_LAND1": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "Country Key"
+     "@sap.Label": "Ship-to Country"
     },
     "SO_LANDX": {
      "type": "cds.String",
@@ -237,22 +237,22 @@
     "SO_ORT01": {
      "type": "cds.String",
      "length": 35,
-     "@sap.Label": "SO_ORT01"
+     "@sap.Label": "Ship-to City"
     },
     "SO_VKORG": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "Sales Organization"
+     "@sap.Label": "Sales Organsiation"
     },
     "SO_VKORG_NAME1": {
      "type": "cds.String",
      "length": 40,
-     "@sap.Label": "SO_VKORG_NAME1"
+     "@sap.Label": "Sales Organisation Description"
     },
     "SO_KNREF_HEAD": {
      "type": "cds.String",
      "length": 30,
-     "@sap.Label": "SO_KNREF_HEAD"
+     "@sap.Label": "Customer Priority Head (North America, Z6 Partner Head)"
     },
     "SO_KNREF_ITM": {
      "type": "cds.String",
@@ -262,18 +262,18 @@
     "SO_VBUND": {
      "type": "cds.String",
      "length": 6,
-     "@sap.Label": "Company Id"
+     "@sap.Label": "Group Company"
     },
     "SO_EDATU_REQUESTED": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "Schedule line date"
+     "@sap.Label": "Requested Delivery Date"
     },
     "SO_KWMENG": {
      "type": "cds.Decimal",
      "precision": 15,
      "scale": 3,
-     "@sap.Label": "Cumulative Order Quantity in Sales Units"
+     "@sap.Label": "Requested Quantity"
     },
     "SO_VRKME": {
      "type": "cds.String",
@@ -283,44 +283,44 @@
     "SO_EDATU_CONFIRMED": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "SO_EDATU_CONFIRMED"
+     "@sap.Label": "Confirmed Delivery Date"
     },
     "SO_KBMENG": {
      "type": "cds.Decimal",
      "precision": 15,
      "scale": 3,
-     "@sap.Label": "SO_KBMENG"
+     "@sap.Label": "Confirmed Quantity"
     },
     "SO_LDDAT": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "SO_LDDAT"
+     "@sap.Label": "Loading Date"
     },
     "SO_UNCONFIRMED_QTY": {
      "type": "cds.Decimal",
      "precision": 15,
      "scale": 3,
-     "@sap.Label": "SO_UNCONFIRMED_QTY"
+     "@sap.Label": "Unconfirmed Quantity"
     },
     "SO_REQ_TEXT": {
      "type": "cds.String",
      "length": 250,
-     "@sap.Label": "req text"
+     "@sap.Label": "Freeze Protect"
     },
     "SO_FAKSP": {
      "type": "cds.String",
      "length": 2,
-     "@sap.Label": "Block"
+     "@sap.Label": "Billing Block Item"
     },
     "SO_FAKSP_VTEXT": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "Block Text"
+     "@sap.Label": "Billing Block Item Description"
     },
     "SO_LGORT": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "SO_LGORT"
+     "@sap.Label": "Storage Location"
     },
     "SO_SUPPLY_SITUATION": {
      "type": "cds.Integer",
@@ -335,13 +335,13 @@
      "type": "cds.Decimal",
      "precision": 11,
      "scale": 2,
-     "@sap.Label": "Rate ( Amount or Percentage)"
+     "@sap.Label": "Rate (condition amount or percentage)"
     },
     "SO_KBETR_ALT": {
      "type": "cds.Decimal",
      "precision": 11,
      "scale": 2,
-     "@sap.Label": "SO_KBETR_ALT"
+     "@sap.Label": "Rate (condition amount or percentage) (Alternative)"
     },
     "SO_WAERS": {
      "type": "cds.String",
@@ -351,7 +351,7 @@
     "SO_WAERS_ALT": {
      "type": "cds.String",
      "length": 5,
-     "@sap.Label": "SO_WAERS_ALT"
+     "@sap.Label": "Currency Key (Alternative)"
     },
     "SO_KPEIN": {
      "type": "cds.Decimal",
@@ -362,23 +362,23 @@
     "SO_KPEIN_ALT": {
      "type": "cds.String",
      "length": 5,
-     "@sap.Label": "SO_KPEIN_ALT"
+     "@sap.Label": "Condition pricing unit (Alternative)"
     },
     "SO_KMEIN": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "Condition Type"
+     "@sap.Label": "Condition unit in the document"
     },
     "SO_KMEIN_ALT": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "SO_KMEIN_ALT"
+     "@sap.Label": "Condition unit in the document (Alternative)"
     },
     "SO_NETWR": {
      "type": "cds.Decimal",
      "precision": 15,
      "scale": 2,
-     "@sap.Label": "SO_NETWR"
+     "@sap.Label": "Net Amount"
     },
     "SO_WAERK": {
      "type": "cds.String",
@@ -388,27 +388,27 @@
     "SO_HTEXT": {
      "type": "cds.String",
      "length": 4000,
-     "@sap.Label": "Resource Name"
+     "@sap.Label": "HOM Remark (info detail from item text ZA10)"
     },
     "SO_PSTYV": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "SO_PSTYV"
+     "@sap.Label": "Item Category"
     },
     "SO_PSTYV_VTEXT": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "SO_PSTYV_VTEXT"
+     "@sap.Label": "Item Category Description"
     },
     "SO_DISPO": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "SO_DISPO"
+     "@sap.Label": "MRP Controller"
     },
     "SO_KOSCH": {
      "type": "cds.String",
      "length": 18,
-     "@sap.Label": "Product allocation"
+     "@sap.Label": "Product Allocation"
     },
     "SO_VKBUR": {
      "type": "cds.String",
@@ -418,7 +418,7 @@
     "SO_VKBUR_BEZEI": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "Sales Office Name"
+     "@sap.Label": "Sales Office Description"
     },
     "SO_ABGRU": {
      "type": "cds.String",
@@ -428,7 +428,7 @@
     "SO_ABSTA": {
      "type": "cds.String",
      "length": 1,
-     "@sap.Label": "Release Status"
+     "@sap.Label": "Rejection status for SD item"
     },
     "SO_KNUMV": {
      "type": "cds.String",
@@ -443,32 +443,32 @@
     "SO_INCO1_HEAD": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "SO_INCO1_HEAD"
+     "@sap.Label": "Incoterm 1 Head"
     },
     "SO_INCO1_ITEM": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "SO_INCO1_ITEM"
+     "@sap.Label": "Incoterm 1 Item"
     },
     "SO_INCO2_HEAD": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "SO_INCO2_HEAD"
+     "@sap.Label": "Incoterm 2 Head"
     },
     "SO_INCO2_ITEM": {
      "type": "cds.String",
      "length": 28,
-     "@sap.Label": "SO_INCO2_ITEM"
+     "@sap.Label": "Incoterm 2 Item"
     },
     "SO_ZTERM_HEAD": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "SO_ZTERM_HEAD"
+     "@sap.Label": "Payment Term Head"
     },
     "SO_ZTERM_ITEM": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "SO_ZTERM_ITEM"
+     "@sap.Label": "Payment Term Item"
     },
     "SO_PRSDT": {
      "type": "cds.String",
@@ -478,32 +478,32 @@
     "SO_ZZ0S2REVG2": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "SO_ZZ0S2REVG2"
+     "@sap.Label": "Cust. PO (Final order)"
     },
     "SO_ZZDKPPRODB": {
      "type": "cds.String",
      "length": 18,
-     "@sap.Label": "SO_ZZDKPPRODB"
+     "@sap.Label": "SBU"
     },
     "SO_BSARK": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "SO_BSARK"
+     "@sap.Label": "PO Type"
     },
     "SO_BSARK_VTEXT": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "SO_BSARK_VTEXT"
+     "@sap.Label": "PO Type Description"
     },
     "SO_BASF_LOFCR": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "SO_BASF_LOFCR"
+     "@sap.Label": "Letter of Credit (L/C) Number"
     },
     "SO_GUSCON": {
      "type": "cds.String",
      "length": 15,
-     "@sap.Label": "SO_GUSCON"
+     "@sap.Label": "Guscon Number / Global unique supply chain order number"
     },
     "SO_GUSCON_ITM": {
      "type": "cds.String",
@@ -513,98 +513,98 @@
     "SO_GUSCON_LEVEL": {
      "type": "cds.String",
      "length": 2,
-     "@sap.Label": "SO_GUSCON_LEVEL"
+     "@sap.Label": "Guscon Level"
     },
     "SO_I_VBELN": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "SO_I_VBELN"
+     "@sap.Label": "First order Number"
     },
     "SO_I_POSNR": {
      "type": "cds.String",
      "length": 6,
-     "@sap.Label": "SO_I_POSNR"
+     "@sap.Label": "First order Item"
     },
     "SO_ISCOMPLETED": {
      "type": "cds.String",
      "length": 1,
-     "@sap.Label": "SO_ISCOMPLETED"
+     "@sap.Label": "Order Status"
     },
     "SO_LEVEL_TYPE": {
      "type": "cds.String",
      "length": 1,
-     "@sap.Label": "SO_LEVEL_TYPE"
+     "@sap.Label": "Level Type"
     },
     "SO_N_VBELN": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "SO_N_VBELN"
+     "@sap.Label": "Next Order Number"
     },
     "SO_N_POSNR": {
      "type": "cds.String",
      "length": 6,
-     "@sap.Label": "SO_N_POSNR"
+     "@sap.Label": "Next Order Item"
     },
     "SO_F_VBELN": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "SO_F_VBELN"
+     "@sap.Label": "Final Order Number"
     },
     "SO_F_POSNR": {
      "type": "cds.String",
      "length": 6,
-     "@sap.Label": "SO_F_POSNR"
+     "@sap.Label": "Final Order Item"
     },
     "SO_VBTYP": {
      "type": "cds.String",
      "length": 1,
-     "@sap.Label": "SO_VBTYP"
+     "@sap.Label": "Document Category"
     },
     "SO_BSTKD": {
      "type": "cds.String",
      "length": 35,
-     "@sap.Label": "SO_BSTKD"
+     "@sap.Label": "Customer PO Number"
     },
     "SO_TRAGR": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "SO_TRAGR"
+     "@sap.Label": "Transportation Group from Material Master"
     },
     "SO_TRAGR_VTEXT": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "SO_TRAGR_VTEXT"
+     "@sap.Label": "Transportation Group Description"
     },
     "SO_VKGRP": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "SO_VKGRP"
+     "@sap.Label": "Sales Group"
     },
     "SO_VKGRP_BEZEI": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "SO_VKGRP_BEZEI"
+     "@sap.Label": "Sales Group Description"
     },
     "SO_ROUTE": {
      "type": "cds.String",
      "length": 6,
-     "@sap.Label": "SO_ROUTE"
+     "@sap.Label": "Route"
     },
     "SO_AUFNR": {
      "type": "cds.String",
      "length": 12,
-     "@sap.Label": "SO_AUFNR"
+     "@sap.Label": "Process Order"
     },
     "SO_DGLTP": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "SO_DGLTP"
+     "@sap.Label": "Basic Finish Date (Process Order)"
     },
     "SO_PSMNG": {
      "type": "cds.Decimal",
      "precision": 13,
      "scale": 3,
-     "@sap.Label": "SO_PSMNG"
+     "@sap.Label": "Item Quantity (Process Order)"
     },
     "SO_AMEIN": {
      "type": "cds.String",
@@ -614,148 +614,148 @@
     "SO_F_WERKS": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "SO_F_WERKS"
+     "@sap.Label": "Plant (supplying company)"
     },
     "SO_F_VKORG": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "SO_F_VKORG"
+     "@sap.Label": "Point of Supply"
     },
     "SO_F_VKORG_VTEXT": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "SO_F_VKORG_VTEXT"
+     "@sap.Label": "Point of Supply Description"
     },
     "SO_F_TDDAT": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "SO_F_TDDAT"
+     "@sap.Label": "Transportation Planning Date"
     },
     "SO_F_ZZ0S2MATUG": {
      "type": "cds.String",
      "length": 18,
-     "@sap.Label": "SO_F_ZZ0S2MATUG"
+     "@sap.Label": "Alphacode from Final Sales Order Item"
     },
     "SO_F_VSBED": {
      "type": "cds.String",
      "length": 2,
-     "@sap.Label": "SO_F_VSBED"
+     "@sap.Label": "Shipping Condition from final sales order"
     },
     "SO_F_VSBED_VTEXT": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "SO_F_VSBED_VTEXT"
+     "@sap.Label": "Description for Shipping Condition from final sales order"
     },
     "DL_VBELN": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "DL_VBELN"
+     "@sap.Label": "Delivery"
     },
     "DL_POSNR": {
      "type": "cds.String",
      "length": 6,
-     "@sap.Label": "DL_POSNR"
+     "@sap.Label": "Delivery Item"
     },
     "DL_CHARG": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "DL_CHARG"
+     "@sap.Label": "Batch"
     },
     "DL_LFIMG": {
      "type": "cds.Decimal",
      "precision": 13,
      "scale": 3,
-     "@sap.Label": "DL_LFIMG"
+     "@sap.Label": "Actual Quantity delivered"
     },
     "DL_VRKME": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "DL_VRKME"
+     "@sap.Label": "Sales Unit delivery"
     },
     "DL_POSAR": {
      "type": "cds.String",
      "length": 1,
-     "@sap.Label": "DL_POSAR"
+     "@sap.Label": "Item type"
     },
     "DL_VGBEL": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "DL_VGBEL"
+     "@sap.Label": "Document number of reference document"
     },
     "DL_VGPOS": {
      "type": "cds.String",
      "length": 6,
-     "@sap.Label": "DL_VGPOS"
+     "@sap.Label": "item number of reference item"
     },
     "DL_LFART": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "DL_LFART"
+     "@sap.Label": "Delivery Type"
     },
     "DL_LFART_VTEXT": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "DL_LFART_VTEXT"
+     "@sap.Label": "Delivery Type Description"
     },
     "DL_LFDAT": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "DL_LFDAT"
+     "@sap.Label": "Planned Delivery Date"
     },
     "DL_HSDAT": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "DL_HSDAT"
+     "@sap.Label": "Manufacturing Date"
     },
     "DL_VFDAT": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "DL_VFDAT"
+     "@sap.Label": "Shelf life expiry date"
     },
     "DL_TRAID": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "DL_TRAID"
+     "@sap.Label": "Container Number"
     },
     "DL_ZZ0S2BLNR": {
      "type": "cds.String",
      "length": 30,
-     "@sap.Label": "DL_ZZ0S2BLNR"
+     "@sap.Label": "Bill of Lading Number"
     },
     "DL_PEND_DEL_QUAN": {
      "type": "cds.String",
      "length": 500,
-     "@sap.Label": "DL_PEND_DEL_QUAN"
+     "@sap.Label": "Pending Delivery Quantity"
     },
     "DL_WADAT": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "DL_WADAT"
+     "@sap.Label": "Planned GI Date"
     },
     "DL_WADAT_IST": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "DL_WADAT_IST"
+     "@sap.Label": "Actual GI Date"
     },
     "LAST_NOTE": {
      "type": "cds.String",
      "length": 1000,
-     "@sap.Label": "Last Note"
+     "@sap.Label": "Last note"
     },
-    "LANGUAGE": {
+    "USERNAME": {
      "type": "cds.String",
-     "length": 2,
-     "@sap.Label": "LANGUAGE"
+     "length": 12,
+     "@sap.Label": "USERNAME"
     },
     "TM_TKNUM": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "TM_TKNUM"
+     "@sap.Label": "Shipment"
     },
     "TM_VSART": {
      "type": "cds.String",
      "length": 2,
-     "@sap.Label": "TM_VSART"
+     "@sap.Label": "Shipping Type"
     },
     "TM_VSART_BEZEI": {
      "type": "cds.String",
@@ -765,12 +765,12 @@
     "TM_EXTI1": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "TM_EXTI1"
+     "@sap.Label": "Vessel Name"
     },
     "TM_TDLNR": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "TM_TDLNR"
+     "@sap.Label": "Forwarder Name"
     },
     "TM_TDLNR_NAME1": {
      "type": "cds.String",
@@ -780,127 +780,127 @@
     "TM_STATUS_CODE_ELEM": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "TM_STATUS_CODE_ELEM"
+     "@sap.Label": "Shipment Current Status Code from Elemica"
     },
     "TM_STATUS_REASON_CODE_ELEM": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "TM_STATUS_REASON_CODE_ELEM"
+     "@sap.Label": "Status Reason Code from Elemica"
     },
     "TM_STATUS_CODE_TEXT_ELEM": {
      "type": "cds.String",
      "length": 255,
-     "@sap.Label": "TM_STATUS_CODE_TEXT_ELEM"
+     "@sap.Label": "Shipment Current Status Code from Elemica Description"
     },
     "TM_STATUS_REASON_CODE_TEXT_ELEM": {
      "type": "cds.String",
      "length": 255,
-     "@sap.Label": "TM_STATUS_REASON_CODE_TEXT_ELEM"
+     "@sap.Label": "Status Reason Code from Elemica Description"
     },
     "TM_TRACKING_ID_ELEM": {
      "type": "cds.String",
      "length": 12,
-     "@sap.Label": "TM_TRACKING_ID_ELEM"
+     "@sap.Label": "Elemica Tracking ID"
     },
     "TM_ALERT_STATUS_CODE_ELEM": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "TM_ALERT_STATUS_CODE_ELEM"
+     "@sap.Label": "Shipment Alert Status Code from Elemica"
     },
     "TM_ALERT_STATUS_REASON_CODE_ELEM": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "TM_ALERT_STATUS_REASON_CODE_ELEM"
+     "@sap.Label": "Shipment Alert Status Reason Code from Elemica"
     },
     "TM_ALERT_STATUS_CODE_TEXT_ELEM": {
      "type": "cds.String",
      "length": 255,
-     "@sap.Label": "TM_ALERT_STATUS_CODE_TEXT_ELEM"
+     "@sap.Label": "Shipment Alert Status Code from Elemica Description"
     },
     "TM_ALERT_STATUS_REASON_CODE_TEXT_ELEM": {
      "type": "cds.String",
      "length": 255,
-     "@sap.Label": "TM_ALERT_STATUS_REASON_CODE_TEXT_ELEM"
+     "@sap.Label": "Shipment Alert Status Reason Code from Elemica Description"
     },
     "TM_STATUS_CODE_COMP": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "TM_STATUS_CODE_COMP"
+     "@sap.Label": "Shipment Current Status Code from Comprovei"
     },
     "TM_REASON_CODE_COMP": {
      "type": "cds.String",
      "length": 17,
-     "@sap.Label": "TM_REASON_CODE_COMP"
+     "@sap.Label": "Status Reason Code from Comprovei"
     },
     "TM_STATUS_CODE_TEXT_COMP": {
      "type": "cds.String",
      "length": 100,
-     "@sap.Label": "TM_STATUS_CODE_TEXT_COMP"
+     "@sap.Label": "Shipment Current Status Code from Comprovei Description"
     },
     "TM_REASON_CODE_TEXT_COMP": {
      "type": "cds.String",
      "length": 100,
-     "@sap.Label": "TM_REASON_CODE_TEXT_COMP"
+     "@sap.Label": "Status Reason Code from Comprovei Description"
     },
     "TM_TRACKING_ID_COMP": {
      "type": "cds.String",
      "length": 50,
-     "@sap.Label": "TM_TRACKING_ID_COMP"
+     "@sap.Label": "Comprovei Tracking ID"
     },
     "TM_STATUS_CODE_MANUEL": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "TM_STATUS_CODE_MANUEL"
+     "@sap.Label": "Shipment Current Status Code for Manually Marked as Delivered"
     },
     "TM_DPTBG": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "TM_DPTBG"
+     "@sap.Label": "Shipment End from TM document"
     },
     "TM_DATBG": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "TM_DATBG"
+     "@sap.Label": "Actual time of arrival"
     },
     "TM_DPTEN": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "TM_DPTEN"
+     "@sap.Label": "Shipment Start from TM document"
     },
     "TM_DATEN": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "TM_DATEN"
+     "@sap.Label": "Actual time of departure"
     },
     "TM_AR_DATE": {
      "type": "cds.String",
      "length": 11,
-     "@sap.Label": "TM_AR_DATE"
+     "@sap.Label": "BL Attached"
     },
     "TM_STTRG": {
      "type": "cds.String",
      "length": 1,
-     "@sap.Label": "TM_STTRG"
+     "@sap.Label": "Overall Status TM Doc"
     },
     "TM_STTRG_DDTEXT": {
      "type": "cds.String",
      "length": 60,
-     "@sap.Label": "TM_STTRG_DDTEXT"
+     "@sap.Label": "Overall Status TM Doc Description"
     },
     "BL_VBELN_INV_FIRST": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "BL_VBELN_INV_FIRST"
+     "@sap.Label": "Billing Document (first Order)"
     },
     "BL_VBELN_INV_LAST": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "BL_VBELN_INV_LAST"
+     "@sap.Label": "Billing Doc. (Final Order)"
     },
     "BL_XBLNR": {
      "type": "cds.String",
      "length": 16,
-     "@sap.Label": "BL_XBLNR"
+     "@sap.Label": "Nota Fiscal"
     }
    }
   },
@@ -925,12 +925,12 @@
     "VBELN": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "SO_VBELN"
+     "@sap.Label": "My order"
     },
     "POSNR": {
      "type": "cds.String",
      "length": 6,
-     "@sap.Label": "SO_POSNR"
+     "@sap.Label": "Order Item"
     },
     "LANGUAGE": {
      "type": "cds.String",
@@ -946,6 +946,11 @@
      "type": "cds.String",
      "length": 1000,
      "@sap.Label": "NOTE_TEXT"
+    },
+    "USERNAME": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.Label": "USERNAME"
     }
    }
   },
@@ -962,32 +967,32 @@
     "SO_MANDT": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "SO_MANDT"
+     "@sap.Label": "Client"
     },
     "SO_VBELN": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "SO_VBELN"
+     "@sap.Label": "My order"
     },
     "SO_POSNR": {
      "type": "cds.String",
      "length": 6,
-     "@sap.Label": "SO_POSNR"
+     "@sap.Label": "Order Item"
     },
     "SO_ERDAT_ORDER": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "SO_ERDAT_ORDER"
+     "@sap.Label": "Creation Date (Header)"
     },
     "SO_ERDAT_ITEM": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "SO_ERDAT_ITEM"
+     "@sap.Label": "Creation Date (Item)"
     },
     "SO_AUART": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "Sales document type"
+     "@sap.Label": "Order Type"
     },
     "SO_WERKS": {
      "type": "cds.String",
@@ -1002,12 +1007,12 @@
     "SO_MATNR": {
      "type": "cds.String",
      "length": 18,
-     "@sap.Label": "SO_MATNR"
+     "@sap.Label": "Material Number"
     },
     "SO_MAKTX": {
      "type": "cds.String",
      "length": 40,
-     "@sap.Label": "SO_MAKTX"
+     "@sap.Label": "Material Name"
     },
     "SO_KDMAT": {
      "type": "cds.String",
@@ -1017,47 +1022,47 @@
     "SO_AG_PARTNER": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "SO_AG_PARTNER"
+     "@sap.Label": "Sold-to Number"
     },
     "SO_AG_PARTNER_NAME1": {
      "type": "cds.String",
      "length": 35,
-     "@sap.Label": "SO_AG_PARTNER_NAME1"
+     "@sap.Label": "Sold-to Name1"
     },
     "SO_AG_PARTNER_NAME2": {
      "type": "cds.String",
      "length": 35,
-     "@sap.Label": "SO_AG_PARTNER_NAME2"
+     "@sap.Label": "Sold-to Name2"
     },
     "SO_WE_PARTNER": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "SO_WE_PARTNER"
+     "@sap.Label": "Ship-to Number"
     },
     "SO_WE_PARTNER_NAME1": {
      "type": "cds.String",
      "length": 35,
-     "@sap.Label": "SO_WE_PARTNER_NAME1"
+     "@sap.Label": "Ship-to Name1"
     },
     "SO_WE_PARTNER_NAME2": {
      "type": "cds.String",
      "length": 35,
-     "@sap.Label": "SO_WE_PARTNER_NAME2"
+     "@sap.Label": "Ship-to Name2"
     },
     "SO_CO_PARTNER_HEAD": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "SO_CO_PARTNER_HEAD"
+     "@sap.Label": "CO Partner Head"
     },
     "SO_CO_PARTNER_NAME1_HEAD": {
      "type": "cds.String",
      "length": 35,
-     "@sap.Label": "SO_CO_PARTNER_NAME1_HEAD"
+     "@sap.Label": "CO Partner Name1 Head"
     },
     "SO_CO_PARTNER_NAME2_HEAD": {
      "type": "cds.String",
      "length": 35,
-     "@sap.Label": "SO_CO_PARTNER_NAME2_HEAD"
+     "@sap.Label": "CO Partner Name2 Head"
     },
     "SO_CO_PARTNER_ITM": {
      "type": "cds.String",
@@ -1077,17 +1082,17 @@
     "SO_NY_PARTNER_HEAD": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "SO_NY_PARTNER_HEAD"
+     "@sap.Label": "NY Partner Head"
     },
     "SO_NY_PARTNER_NAME1_HEAD": {
      "type": "cds.String",
      "length": 35,
-     "@sap.Label": "SO_NY_PARTNER_NAME1_HEAD"
+     "@sap.Label": "NY Partner Name1 Head"
     },
     "SO_NY_PARTNER_NAME2_HEAD": {
      "type": "cds.String",
      "length": 35,
-     "@sap.Label": "SO_NY_PARTNER_NAME2_HEAD"
+     "@sap.Label": "NY Partner Name2 Head"
     },
     "SO_NY_PARTNER_ITM": {
      "type": "cds.String",
@@ -1107,12 +1112,12 @@
     "SO_AS_PARTNER_HEAD": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "SO_AS_PARTNER_HEAD"
+     "@sap.Label": "AS PARTNER Head"
     },
     "SO_AS_PARTNER_NAME_HEAD": {
      "type": "cds.String",
      "length": 40,
-     "@sap.Label": "SO_AS_PARTNER_NAME_HEAD"
+     "@sap.Label": "AS PARTNER NAME Head"
     },
     "SO_AS_PARTNER_ITM": {
      "type": "cds.String",
@@ -1127,12 +1132,12 @@
     "SO_VE_PARTNER_HEAD": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "SO_VE_PARTNER_HEAD"
+     "@sap.Label": "VE Partner Head"
     },
     "SO_VE_PARTNER_NAME_HEAD": {
      "type": "cds.String",
      "length": 40,
-     "@sap.Label": "SO_VE_PARTNER_NAME_HEAD"
+     "@sap.Label": "VE Partner Name Head"
     },
     "SO_VE_PARTNER_ITM": {
      "type": "cds.String",
@@ -1147,12 +1152,12 @@
     "SO_AM_PARTNER_HEAD": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "SO_AM_PARTNER_HEAD"
+     "@sap.Label": "AM Partner Head"
     },
     "SO_AM_PARTNER_NAME_HEAD": {
      "type": "cds.String",
      "length": 40,
-     "@sap.Label": "SO_AM_PARTNER_NAME_HEAD"
+     "@sap.Label": "AM Partner Name Head"
     },
     "SO_AM_PARTNER_ITM": {
      "type": "cds.String",
@@ -1167,7 +1172,7 @@
     "SO_LAND1": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "Country Key"
+     "@sap.Label": "Ship-to Country"
     },
     "SO_LANDX": {
      "type": "cds.String",
@@ -1177,22 +1182,22 @@
     "SO_ORT01": {
      "type": "cds.String",
      "length": 35,
-     "@sap.Label": "SO_ORT01"
+     "@sap.Label": "Ship-to City"
     },
     "SO_VKORG": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "Sales Organization"
+     "@sap.Label": "Sales Organsiation"
     },
     "SO_VKORG_NAME1": {
      "type": "cds.String",
      "length": 40,
-     "@sap.Label": "SO_VKORG_NAME1"
+     "@sap.Label": "Sales Organisation Description"
     },
     "SO_KNREF_HEAD": {
      "type": "cds.String",
      "length": 30,
-     "@sap.Label": "SO_KNREF_HEAD"
+     "@sap.Label": "Customer Priority Head (North America, Z6 Partner Head)"
     },
     "SO_KNREF_ITM": {
      "type": "cds.String",
@@ -1202,18 +1207,18 @@
     "SO_VBUND": {
      "type": "cds.String",
      "length": 6,
-     "@sap.Label": "Company Id"
+     "@sap.Label": "Group Company"
     },
     "SO_EDATU_REQUESTED": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "Schedule line date"
+     "@sap.Label": "Requested Delivery Date"
     },
     "SO_KWMENG": {
      "type": "cds.Decimal",
      "precision": 15,
      "scale": 3,
-     "@sap.Label": "Cumulative Order Quantity in Sales Units"
+     "@sap.Label": "Requested Quantity"
     },
     "SO_VRKME": {
      "type": "cds.String",
@@ -1223,44 +1228,44 @@
     "SO_EDATU_CONFIRMED": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "SO_EDATU_CONFIRMED"
+     "@sap.Label": "Confirmed Delivery Date"
     },
     "SO_KBMENG": {
      "type": "cds.Decimal",
      "precision": 15,
      "scale": 3,
-     "@sap.Label": "SO_KBMENG"
+     "@sap.Label": "Confirmed Quantity"
     },
     "SO_LDDAT": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "SO_LDDAT"
+     "@sap.Label": "Loading Date"
     },
     "SO_UNCONFIRMED_QTY": {
      "type": "cds.Decimal",
      "precision": 15,
      "scale": 3,
-     "@sap.Label": "SO_UNCONFIRMED_QTY"
+     "@sap.Label": "Unconfirmed Quantity"
     },
     "SO_REQ_TEXT": {
      "type": "cds.String",
      "length": 250,
-     "@sap.Label": "req text"
+     "@sap.Label": "Freeze Protect"
     },
     "SO_FAKSP": {
      "type": "cds.String",
      "length": 2,
-     "@sap.Label": "Block"
+     "@sap.Label": "Billing Block Item"
     },
     "SO_FAKSP_VTEXT": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "Block Text"
+     "@sap.Label": "Billing Block Item Description"
     },
     "SO_LGORT": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "SO_LGORT"
+     "@sap.Label": "Storage Location"
     },
     "SO_SUPPLY_SITUATION": {
      "type": "cds.Integer",
@@ -1275,13 +1280,13 @@
      "type": "cds.Decimal",
      "precision": 11,
      "scale": 2,
-     "@sap.Label": "Rate ( Amount or Percentage)"
+     "@sap.Label": "Rate (condition amount or percentage)"
     },
     "SO_KBETR_ALT": {
      "type": "cds.Decimal",
      "precision": 11,
      "scale": 2,
-     "@sap.Label": "SO_KBETR_ALT"
+     "@sap.Label": "Rate (condition amount or percentage) (Alternative)"
     },
     "SO_WAERS": {
      "type": "cds.String",
@@ -1291,7 +1296,7 @@
     "SO_WAERS_ALT": {
      "type": "cds.String",
      "length": 5,
-     "@sap.Label": "SO_WAERS_ALT"
+     "@sap.Label": "Currency Key (Alternative)"
     },
     "SO_KPEIN": {
      "type": "cds.Decimal",
@@ -1302,23 +1307,23 @@
     "SO_KPEIN_ALT": {
      "type": "cds.String",
      "length": 5,
-     "@sap.Label": "SO_KPEIN_ALT"
+     "@sap.Label": "Condition pricing unit (Alternative)"
     },
     "SO_KMEIN": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "Condition Type"
+     "@sap.Label": "Condition unit in the document"
     },
     "SO_KMEIN_ALT": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "SO_KMEIN_ALT"
+     "@sap.Label": "Condition unit in the document (Alternative)"
     },
     "SO_NETWR": {
      "type": "cds.Decimal",
      "precision": 15,
      "scale": 2,
-     "@sap.Label": "SO_NETWR"
+     "@sap.Label": "Net Amount"
     },
     "SO_WAERK": {
      "type": "cds.String",
@@ -1328,27 +1333,27 @@
     "SO_HTEXT": {
      "type": "cds.String",
      "length": 4000,
-     "@sap.Label": "Resource Name"
+     "@sap.Label": "HOM Remark (info detail from item text ZA10)"
     },
     "SO_PSTYV": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "SO_PSTYV"
+     "@sap.Label": "Item Category"
     },
     "SO_PSTYV_VTEXT": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "SO_PSTYV_VTEXT"
+     "@sap.Label": "Item Category Description"
     },
     "SO_DISPO": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "SO_DISPO"
+     "@sap.Label": "MRP Controller"
     },
     "SO_KOSCH": {
      "type": "cds.String",
      "length": 18,
-     "@sap.Label": "Product allocation"
+     "@sap.Label": "Product Allocation"
     },
     "SO_VKBUR": {
      "type": "cds.String",
@@ -1358,7 +1363,7 @@
     "SO_VKBUR_BEZEI": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "Sales Office Name"
+     "@sap.Label": "Sales Office Description"
     },
     "SO_ABGRU": {
      "type": "cds.String",
@@ -1368,7 +1373,7 @@
     "SO_ABSTA": {
      "type": "cds.String",
      "length": 1,
-     "@sap.Label": "Release Status"
+     "@sap.Label": "Rejection status for SD item"
     },
     "SO_KNUMV": {
      "type": "cds.String",
@@ -1383,32 +1388,32 @@
     "SO_INCO1_HEAD": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "SO_INCO1_HEAD"
+     "@sap.Label": "Incoterm 1 Head"
     },
     "SO_INCO1_ITEM": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "SO_INCO1_ITEM"
+     "@sap.Label": "Incoterm 1 Item"
     },
     "SO_INCO2_HEAD": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "SO_INCO2_HEAD"
+     "@sap.Label": "Incoterm 2 Head"
     },
     "SO_INCO2_ITEM": {
      "type": "cds.String",
      "length": 28,
-     "@sap.Label": "SO_INCO2_ITEM"
+     "@sap.Label": "Incoterm 2 Item"
     },
     "SO_ZTERM_HEAD": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "SO_ZTERM_HEAD"
+     "@sap.Label": "Payment Term Head"
     },
     "SO_ZTERM_ITEM": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "SO_ZTERM_ITEM"
+     "@sap.Label": "Payment Term Item"
     },
     "SO_PRSDT": {
      "type": "cds.String",
@@ -1418,32 +1423,32 @@
     "SO_ZZ0S2REVG2": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "SO_ZZ0S2REVG2"
+     "@sap.Label": "Cust. PO (Final order)"
     },
     "SO_ZZDKPPRODB": {
      "type": "cds.String",
      "length": 18,
-     "@sap.Label": "SO_ZZDKPPRODB"
+     "@sap.Label": "SBU"
     },
     "SO_BSARK": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "SO_BSARK"
+     "@sap.Label": "PO Type"
     },
     "SO_BSARK_VTEXT": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "SO_BSARK_VTEXT"
+     "@sap.Label": "PO Type Description"
     },
     "SO_BASF_LOFCR": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "SO_BASF_LOFCR"
+     "@sap.Label": "Letter of Credit (L/C) Number"
     },
     "SO_GUSCON": {
      "type": "cds.String",
      "length": 15,
-     "@sap.Label": "SO_GUSCON"
+     "@sap.Label": "Guscon Number / Global unique supply chain order number"
     },
     "SO_GUSCON_ITM": {
      "type": "cds.String",
@@ -1453,98 +1458,98 @@
     "SO_GUSCON_LEVEL": {
      "type": "cds.String",
      "length": 2,
-     "@sap.Label": "SO_GUSCON_LEVEL"
+     "@sap.Label": "Guscon Level"
     },
     "SO_I_VBELN": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "SO_I_VBELN"
+     "@sap.Label": "First order Number"
     },
     "SO_I_POSNR": {
      "type": "cds.String",
      "length": 6,
-     "@sap.Label": "SO_I_POSNR"
+     "@sap.Label": "First order Item"
     },
     "SO_ISCOMPLETED": {
      "type": "cds.String",
      "length": 1,
-     "@sap.Label": "SO_ISCOMPLETED"
+     "@sap.Label": "Order Status"
     },
     "SO_LEVEL_TYPE": {
      "type": "cds.String",
      "length": 1,
-     "@sap.Label": "SO_LEVEL_TYPE"
+     "@sap.Label": "Level Type"
     },
     "SO_N_VBELN": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "SO_N_VBELN"
+     "@sap.Label": "Next Order Number"
     },
     "SO_N_POSNR": {
      "type": "cds.String",
      "length": 6,
-     "@sap.Label": "SO_N_POSNR"
+     "@sap.Label": "Next Order Item"
     },
     "SO_F_VBELN": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "SO_F_VBELN"
+     "@sap.Label": "Final Order Number"
     },
     "SO_F_POSNR": {
      "type": "cds.String",
      "length": 6,
-     "@sap.Label": "SO_F_POSNR"
+     "@sap.Label": "Final Order Item"
     },
     "SO_VBTYP": {
      "type": "cds.String",
      "length": 1,
-     "@sap.Label": "SO_VBTYP"
+     "@sap.Label": "Document Category"
     },
     "SO_BSTKD": {
      "type": "cds.String",
      "length": 35,
-     "@sap.Label": "SO_BSTKD"
+     "@sap.Label": "Customer PO Number"
     },
     "SO_TRAGR": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "SO_TRAGR"
+     "@sap.Label": "Transportation Group from Material Master"
     },
     "SO_TRAGR_VTEXT": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "SO_TRAGR_VTEXT"
+     "@sap.Label": "Transportation Group Description"
     },
     "SO_VKGRP": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "SO_VKGRP"
+     "@sap.Label": "Sales Group"
     },
     "SO_VKGRP_BEZEI": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "SO_VKGRP_BEZEI"
+     "@sap.Label": "Sales Group Description"
     },
     "SO_ROUTE": {
      "type": "cds.String",
      "length": 6,
-     "@sap.Label": "SO_ROUTE"
+     "@sap.Label": "Route"
     },
     "SO_AUFNR": {
      "type": "cds.String",
      "length": 12,
-     "@sap.Label": "SO_AUFNR"
+     "@sap.Label": "Process Order"
     },
     "SO_DGLTP": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "SO_DGLTP"
+     "@sap.Label": "Basic Finish Date (Process Order)"
     },
     "SO_PSMNG": {
      "type": "cds.Decimal",
      "precision": 13,
      "scale": 3,
-     "@sap.Label": "SO_PSMNG"
+     "@sap.Label": "Item Quantity (Process Order)"
     },
     "SO_AMEIN": {
      "type": "cds.String",
@@ -1554,37 +1559,37 @@
     "SO_F_WERKS": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "SO_F_WERKS"
+     "@sap.Label": "Plant (supplying company)"
     },
     "SO_F_VKORG": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "SO_F_VKORG"
+     "@sap.Label": "Point of Supply"
     },
     "SO_F_VKORG_VTEXT": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "SO_F_VKORG_VTEXT"
+     "@sap.Label": "Point of Supply Description"
     },
     "SO_F_TDDAT": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "SO_F_TDDAT"
+     "@sap.Label": "Transportation Planning Date"
     },
     "SO_F_ZZ0S2MATUG": {
      "type": "cds.String",
      "length": 18,
-     "@sap.Label": "SO_F_ZZ0S2MATUG"
+     "@sap.Label": "Alphacode from Final Sales Order Item"
     },
     "SO_F_VSBED": {
      "type": "cds.String",
      "length": 2,
-     "@sap.Label": "SO_F_VSBED"
+     "@sap.Label": "Shipping Condition from final sales order"
     },
     "SO_F_VSBED_VTEXT": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "SO_F_VSBED_VTEXT"
+     "@sap.Label": "Description for Shipping Condition from final sales order"
     }
    }
   },
@@ -1596,108 +1601,108 @@
     "DL_MANDT": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "DL_MANDT"
+     "@sap.Label": "Client"
     },
     "SO_VBELN": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "SO_VBELN"
+     "@sap.Label": "My order"
     },
     "SO_POSNR": {
      "type": "cds.String",
      "length": 6,
-     "@sap.Label": "SO_POSNR"
+     "@sap.Label": "Order Item"
     },
     "DL_VBELN": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "DL_VBELN"
+     "@sap.Label": "Delivery"
     },
     "DL_POSNR": {
      "type": "cds.String",
      "length": 6,
-     "@sap.Label": "DL_POSNR"
+     "@sap.Label": "Delivery Item"
     },
     "DL_CHARG": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "DL_CHARG"
+     "@sap.Label": "Batch"
     },
     "DL_LFIMG": {
      "type": "cds.Decimal",
      "precision": 13,
      "scale": 3,
-     "@sap.Label": "DL_LFIMG"
+     "@sap.Label": "Actual Quantity delivered"
     },
     "DL_VRKME": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "DL_VRKME"
+     "@sap.Label": "Sales Unit delivery"
     },
     "DL_POSAR": {
      "type": "cds.String",
      "length": 1,
-     "@sap.Label": "DL_POSAR"
+     "@sap.Label": "Item type"
     },
     "DL_VGBEL": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "DL_VGBEL"
+     "@sap.Label": "Document number of reference document"
     },
     "DL_VGPOS": {
      "type": "cds.String",
      "length": 6,
-     "@sap.Label": "DL_VGPOS"
+     "@sap.Label": "item number of reference item"
     },
     "DL_LFART": {
      "type": "cds.String",
      "length": 4,
-     "@sap.Label": "DL_LFART"
+     "@sap.Label": "Delivery Type"
     },
     "DL_LFART_VTEXT": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "DL_LFART_VTEXT"
+     "@sap.Label": "Delivery Type Description"
     },
     "DL_LFDAT": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "DL_LFDAT"
+     "@sap.Label": "Planned Delivery Date"
     },
     "DL_HSDAT": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "DL_HSDAT"
+     "@sap.Label": "Manufacturing Date"
     },
     "DL_VFDAT": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "DL_VFDAT"
+     "@sap.Label": "Shelf life expiry date"
     },
     "DL_TRAID": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "DL_TRAID"
+     "@sap.Label": "Container Number"
     },
     "DL_ZZ0S2BLNR": {
      "type": "cds.String",
      "length": 30,
-     "@sap.Label": "DL_ZZ0S2BLNR"
+     "@sap.Label": "Bill of Lading Number"
     },
     "DL_PEND_DEL_QUAN": {
      "type": "cds.String",
      "length": 500,
-     "@sap.Label": "DL_PEND_DEL_QUAN"
+     "@sap.Label": "Pending Delivery Quantity"
     },
     "DL_WADAT": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "DL_WADAT"
+     "@sap.Label": "Planned GI Date"
     },
     "DL_WADAT_IST": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "DL_WADAT_IST"
+     "@sap.Label": "Actual GI Date"
     },
     "shipment": {
      "@cds.ambiguous": "missing on condition?",
@@ -1723,22 +1728,22 @@
     "TM_MANDT": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "TM_MANDT"
+     "@sap.Label": "Client"
     },
     "DL_VBELN": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "DL_VBELN"
+     "@sap.Label": "Delivery"
     },
     "TM_TKNUM": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "TM_TKNUM"
+     "@sap.Label": "Shipment"
     },
     "TM_VSART": {
      "type": "cds.String",
      "length": 2,
-     "@sap.Label": "TM_VSART"
+     "@sap.Label": "Shipping Type"
     },
     "TM_VSART_BEZEI": {
      "type": "cds.String",
@@ -1748,12 +1753,12 @@
     "TM_EXTI1": {
      "type": "cds.String",
      "length": 20,
-     "@sap.Label": "TM_EXTI1"
+     "@sap.Label": "Vessel Name"
     },
     "TM_TDLNR": {
      "type": "cds.String",
      "length": 10,
-     "@sap.Label": "TM_TDLNR"
+     "@sap.Label": "Forwarder Name"
     },
     "TM_TDLNR_NAME1": {
      "type": "cds.String",
@@ -1763,112 +1768,112 @@
     "TM_STATUS_CODE_ELEM": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "TM_STATUS_CODE_ELEM"
+     "@sap.Label": "Shipment Current Status Code from Elemica"
     },
     "TM_STATUS_REASON_CODE_ELEM": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "TM_STATUS_REASON_CODE_ELEM"
+     "@sap.Label": "Status Reason Code from Elemica"
     },
     "TM_STATUS_CODE_TEXT_ELEM": {
      "type": "cds.String",
      "length": 255,
-     "@sap.Label": "TM_STATUS_CODE_TEXT_ELEM"
+     "@sap.Label": "Shipment Current Status Code from Elemica Description"
     },
     "TM_STATUS_REASON_CODE_TEXT_ELEM": {
      "type": "cds.String",
      "length": 255,
-     "@sap.Label": "TM_STATUS_REASON_CODE_TEXT_ELEM"
+     "@sap.Label": "Status Reason Code from Elemica Description"
     },
     "TM_TRACKING_ID_ELEM": {
      "type": "cds.String",
      "length": 12,
-     "@sap.Label": "TM_TRACKING_ID_ELEM"
+     "@sap.Label": "Elemica Tracking ID"
     },
     "TM_ALERT_STATUS_CODE_ELEM": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "TM_ALERT_STATUS_CODE_ELEM"
+     "@sap.Label": "Shipment Alert Status Code from Elemica"
     },
     "TM_ALERT_STATUS_REASON_CODE_ELEM": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "TM_ALERT_STATUS_REASON_CODE_ELEM"
+     "@sap.Label": "Shipment Alert Status Reason Code from Elemica"
     },
     "TM_ALERT_STATUS_CODE_TEXT_ELEM": {
      "type": "cds.String",
      "length": 255,
-     "@sap.Label": "TM_ALERT_STATUS_CODE_TEXT_ELEM"
+     "@sap.Label": "Shipment Alert Status Code from Elemica Description"
     },
     "TM_ALERT_STATUS_REASON_CODE_TEXT_ELEM": {
      "type": "cds.String",
      "length": 255,
-     "@sap.Label": "TM_ALERT_STATUS_REASON_CODE_TEXT_ELEM"
+     "@sap.Label": "Shipment Alert Status Reason Code from Elemica Description"
     },
     "TM_STATUS_CODE_COMP": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "TM_STATUS_CODE_COMP"
+     "@sap.Label": "Shipment Current Status Code from Comprovei"
     },
     "TM_REASON_CODE_COMP": {
      "type": "cds.String",
      "length": 17,
-     "@sap.Label": "TM_REASON_CODE_COMP"
+     "@sap.Label": "Status Reason Code from Comprovei"
     },
     "TM_STATUS_CODE_TEXT_COMP": {
      "type": "cds.String",
      "length": 100,
-     "@sap.Label": "TM_STATUS_CODE_TEXT_COMP"
+     "@sap.Label": "Shipment Current Status Code from Comprovei Description"
     },
     "TM_REASON_CODE_TEXT_COMP": {
      "type": "cds.String",
      "length": 100,
-     "@sap.Label": "TM_REASON_CODE_TEXT_COMP"
+     "@sap.Label": "Status Reason Code from Comprovei Description"
     },
     "TM_TRACKING_ID_COMP": {
      "type": "cds.String",
      "length": 50,
-     "@sap.Label": "TM_TRACKING_ID_COMP"
+     "@sap.Label": "Comprovei Tracking ID"
     },
     "TM_STATUS_CODE_MANUEL": {
      "type": "cds.String",
      "length": 3,
-     "@sap.Label": "TM_STATUS_CODE_MANUEL"
+     "@sap.Label": "Shipment Current Status Code for Manually Marked as Delivered"
     },
     "TM_DPTBG": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "TM_DPTBG"
+     "@sap.Label": "Shipment End from TM document"
     },
     "TM_DATBG": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "TM_DATBG"
+     "@sap.Label": "Actual time of arrival"
     },
     "TM_DPTEN": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "TM_DPTEN"
+     "@sap.Label": "Shipment Start from TM document"
     },
     "TM_DATEN": {
      "type": "cds.String",
      "length": 8,
-     "@sap.Label": "TM_DATEN"
+     "@sap.Label": "Actual time of departure"
     },
     "TM_AR_DATE": {
      "type": "cds.String",
      "length": 11,
-     "@sap.Label": "TM_AR_DATE"
+     "@sap.Label": "BL Attached"
     },
     "TM_STTRG": {
      "type": "cds.String",
      "length": 1,
-     "@sap.Label": "TM_STTRG"
+     "@sap.Label": "Overall Status TM Doc"
     },
     "TM_STTRG_DDTEXT": {
      "type": "cds.String",
      "length": 60,
-     "@sap.Label": "TM_STTRG_DDTEXT"
+     "@sap.Label": "Overall Status TM Doc Description"
     },
     "delivery": {
      "@cds.ambiguous": "missing on condition?",
@@ -1878,40 +1883,71 @@
     }
    }
   },
-  "order_monitoring_services.billingDetails": {
+  "order_monitoring_services.firstBilling": {
    "kind": "entity",
    "@cds.external": true,
    "@cds.persistence.skip": true,
    "elements": {
     "BL_MANDT": {
      "type": "cds.String",
-     "length": 3,
-     "@sap.Label": "BL_MANDT"
+     "length": 3
     },
     "SO_VBELN": {
      "type": "cds.String",
-     "length": 10,
-     "@sap.Label": "SO_VBELN"
+     "length": 10
     },
     "SO_POSNR": {
      "type": "cds.String",
-     "length": 6,
-     "@sap.Label": "SO_POSNR"
+     "length": 6
     },
-    "BL_VBELN_INV_FIRST": {
+    "BL_VBELN": {
      "type": "cds.String",
-     "length": 10,
-     "@sap.Label": "BL_VBELN_INV_FIRST"
+     "length": 10
     },
-    "BL_VBELN_INV_LAST": {
+    "BL_BILLING_DOC_BASE": {
      "type": "cds.String",
-     "length": 10,
-     "@sap.Label": "BL_VBELN_INV_LAST"
+     "length": 19
     },
     "BL_XBLNR": {
      "type": "cds.String",
-     "length": 16,
-     "@sap.Label": "BL_XBLNR"
+     "length": 16
+    },
+    "salesorder": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "order_monitoring_services.Results",
+     "keys": []
+    }
+   }
+  },
+  "order_monitoring_services.lastBilling": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "BL_MANDT": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "SO_VBELN": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "SO_POSNR": {
+     "type": "cds.String",
+     "length": 6
+    },
+    "BL_VBELN": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "BL_XBLNR": {
+     "type": "cds.String",
+     "length": 16
+    },
+    "BL_BILLING_DOC_BASE": {
+     "type": "cds.String",
+     "length": 19
     },
     "salesorder": {
      "@cds.ambiguous": "missing on condition?",
