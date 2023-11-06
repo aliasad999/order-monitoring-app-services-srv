@@ -75,7 +75,8 @@
 			"https://cf-order-management-dev-j4s5jpqjls-om-cockpit-ordermanag623a7f8.cfapps.eu10-004.hana.ondemand.com/",
 			"https://port5000-workspaces-ws-vnpgs.eu10.applicationstudio.cloud.sap",
 			"https://cf-order-management-dev-j4s5jpqjls-om-cockpit-order-mon2baf0e77.cfapps.eu10-004.hana.ondemand.com/",
-			"https://oauth.pstmn.io/"
+			"https://oauth.pstmn.io/",
+			"https://cf-order-management-qa-ew8kavtokm-om-cockpit-order-moni502d835f.cfapps.eu10-004.hana.ondemand.com/"
 		]
 	}
 }
