@@ -19,7 +19,7 @@ service srvOpenOrders {
           SO_MAKTX,
           SO_KDMAT,
           SO_AG_PARTNER,
-          virtual SO_AG_PARTNER_NAME1 || ' ' || SO_AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME : String(70),
+          SO_AG_PARTNER_NAME1 || ' ' || SO_AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME : String(70),
           SO_WE_PARTNER,
           SO_WE_PARTNER_NAME1 || ' ' || SO_WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME : String(70),
           IFNULL(SO_CO_PARTNER_ITM, SO_CO_PARTNER_HEAD) AS SO_CO_PARTNER : String(10),

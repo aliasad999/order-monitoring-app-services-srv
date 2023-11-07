@@ -17,8 +17,8 @@ class srvOpenOrders extends cds.ApplicationService {
          * */
         this.before("READ", "Results", async (req, next) => {
             if (req.headers.isexport === 'true') checkReadScope(req, next, 'Export');
+            req.query.SELECT.distinct = true;
         });
-
         this.on("READ", "Results", async (req, next) => {
             // OTC-24554 Partner Settings Functionality
             // Begin of Code OTC-24554
@@ -70,15 +70,15 @@ class srvOpenOrders extends cds.ApplicationService {
             // *-------------------------------------------------------------------*
             // End of Code OTC-24554
 
-            const service = await cds.connect.to('order_monitoring_services');
             if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols) {
-                const lt_count = await service.send({ query: req.query, headers: { countcols: req.headers?.countcols } })
-                return req.reply(lt_count)
+                const db = cds.transaction(req);
+                const fields = req.headers.countcols.split(',')
+                const distinctCount = (req.query.SELECT.where) ? await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`).where(req.query.SELECT.where)) : await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`))
+                return req.reply({ $count: Object.values(distinctCount[0])[0] })
             }
-            const lt_result = await service.tx(req).run(req.query)
-            req.reply(lt_result)
-
+            await next(req)
         })
+
 
         /**
          * This event is triggered after the backend request for order list data
@@ -101,7 +101,6 @@ class srvOpenOrders extends cds.ApplicationService {
             }
 
         });
-
         /**
         * This event is triggered after the backend request for value help data
         * @param {string} "READ" - The type of backend request
@@ -148,7 +147,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     try {
                         const fields = req._query["search-focus"].split(',')
                         let lt_count = await service.run(SELECT.from('Results').columns(`countdistinct(${fields})`).where(query.SELECT.where).search(query.SELECT.search)) //distinct(true)
-                        
+
                         lt_result.push({ $count: lt_count.length })
                     } catch (error) {
                         req.error(status.EXPECTATION_FAILED, getBundle(req.user.locale).getText("VALUEHELP_NOT_EXECUTED"))
@@ -165,7 +164,7 @@ class srvOpenOrders extends cds.ApplicationService {
                 } else {
                     try {
                         const fields = req._query["search-focus"].split(',')
-                        let lt_count = await service.run(SELECT.from('Results').columns(`countdistinct(${fields})`)) 
+                        let lt_count = await service.run(SELECT.from('Results').columns(`countdistinct(${fields})`))
                         lt_result.push({ $count: lt_count.length })
                     } catch (error) {
                         req.error(error)
@@ -214,7 +213,7 @@ class srvOpenOrders extends cds.ApplicationService {
         })
         this.on("CREATE", "notes", async (req, next) => {
             const service = await cds.connect.to('order_monitoring_services');
-            const lt_count = await service.send({ query: req.query})
+            const lt_count = await service.send({ query: req.query })
             return req.reply(lt_count)
 
         })
