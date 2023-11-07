@@ -25,7 +25,7 @@
     "sqlite3": "^5"
   },
   "scripts": {
-    "bind": "cds bind -2  order-monitoring-xsuaa:order-monitoring-xsuaa-key && cds bind -2  order-monitoring-destination:order-monitoring-destination-content-order-monitoring-destination-credentials &&  cds bind -2  order-monitoring-services-hdi:hana-key &&    cds bind -2  order-monitoring-connectivity:con-key",
+    "bind": "cds bind -2  order-monitoring-xsuaa:order-monitoring-xsuaa-key && cds bind -2  order-monitoring-destination:order-monitoring-destination-content-order-monitoring-destination-credentials &&  cds bind -2  order-monitoring-app-services-hdi:hana-key &&    cds bind -2  order-monitoring-connectivity:con-key",
     "start": "cds serve",
     "start:backend": "cds watch",
     "build:cds": "cds build",
