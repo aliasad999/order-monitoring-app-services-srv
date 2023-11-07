@@ -5,7 +5,7 @@ service srvOpenOrders {
   @readonly
   @cds.redirection.target: true
   entity Results         as
-    select from db.Results {
+    select from db_app.RESULTS {
       key null as id : UUID,
           SO_MANDT as SO_MANDT,
           SO_VBELN,
@@ -19,7 +19,7 @@ service srvOpenOrders {
           SO_MAKTX,
           SO_KDMAT,
           SO_AG_PARTNER,
-          SO_AG_PARTNER_NAME1 || ' ' || SO_AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME : String(70),
+          virtual SO_AG_PARTNER_NAME1 || ' ' || SO_AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME : String(70),
           SO_WE_PARTNER,
           SO_WE_PARTNER_NAME1 || ' ' || SO_WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME : String(70),
           IFNULL(SO_CO_PARTNER_ITM, SO_CO_PARTNER_HEAD) AS SO_CO_PARTNER : String(10),
@@ -127,7 +127,7 @@ service srvOpenOrders {
           DL_WADAT,
           DL_WADAT_IST,
           LAST_NOTE,
-          USERNAME,
+          
           TM_TKNUM,
           TM_VSART,
           TM_VSART_BEZEI,
@@ -162,7 +162,7 @@ service srvOpenOrders {
     };
 
   entity valueHelps      as
-    select from db.Results {
+    select from db_app.RESULTS {
       key null as id : UUID,
           SO_MANDT as SO_MANDT,
           SO_VBELN,
