@@ -1,0 +1,8 @@
+{
+    "ALLORDERS_DB_RESULTS": {
+        "target": {
+            "object": "ORDERMONITORINGSERVICES_RESULTS",
+            "schema": "_PLACEHOLDER_"
+        }
+    }
+}
