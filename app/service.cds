@@ -174,8 +174,8 @@ annotate service.valueHelps with {
     SO_F_VSBED_VTEXT;
     DL_WADAT                   @title: '{i18n>DL_WADAT}'                   @sap.Label: '{i18n>DL_WADAT}';
     DL_WADAT_IST               @title: '{i18n>DL_WADAT_IST}'               @sap.Label: '{i18n>DL_WADAT_IST}';
-    // TM_SHIPMENT_ALERT         @title: '{i18n>TM_SHIPMENT_ALERT}'                   @sap.Label: '{i18n>TM_SHIPMENT_ALERT}';
-    // TM_SHIPMENT_CURRENT_STATUS    @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'               @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
+    TM_SHIPMENT_ALERT         @title: '{i18n>TM_SHIPMENT_ALERT}'                   @sap.Label: '{i18n>TM_SHIPMENT_ALERT}';
+    TM_SHIPMENT_CURRENT_STATUS    @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'               @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
     SO_F_WERKS                 @title: '{i18n>SO_F_WERKS}'                 @sap.Label: '{i18n>SO_F_WERKS}';
     @Common.Text           : SO_F_VKORG_VTEXT
     @Common.TextArrangement: #TextLast
@@ -373,8 +373,8 @@ annotate service.Results with {
     SO_F_VSBED_VTEXT;
     DL_WADAT                   @title: '{i18n>DL_WADAT}'                   @sap.Label: '{i18n>DL_WADAT}';
     DL_WADAT_IST               @title: '{i18n>DL_WADAT_IST}'               @sap.Label: '{i18n>DL_WADAT_IST}';
-    // TM_SHIPMENT_ALERT         @title: '{i18n>TM_SHIPMENT_ALERT}'                   @sap.Label: '{i18n>TM_SHIPMENT_ALERT}';
-    // TM_SHIPMENT_CURRENT_STATUS    @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'               @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
+    TM_SHIPMENT_ALERT         @title: '{i18n>TM_SHIPMENT_ALERT}'                   @sap.Label: '{i18n>TM_SHIPMENT_ALERT}';
+    TM_SHIPMENT_CURRENT_STATUS    @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'               @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
     SO_F_WERKS                 @title: '{i18n>SO_F_WERKS}'                 @sap.Label: '{i18n>SO_F_WERKS}';
     @Common.Text           : SO_F_VKORG_VTEXT
     @Common.TextArrangement: #TextLast
@@ -1942,41 +1942,41 @@ annotate service.Results with {
     }
 };
 
-// annotate service.Results with {
-//     TM_SHIPMENT_CURRENT_STATUS
-//     @Common.ValueList: {
-//         $Type                  : 'Common.ValueListType',
-//         Label                  : '{@i18n>TM_SHIPMENT_CURRENT_STATUS}',
-//         CollectionPath         : 'valueHelps',
-//         DistinctValuesSupported: true,
-//         SearchSupported        : true,
-//         Parameters             : [{
-//             $Type            : 'Common.ValueListParameterInOut',
-//             LocalDataProperty:  TM_SHIPMENT_CURRENT_STATUS,
-//             ValueListProperty: 'TM_SHIPMENT_CURRENT_STATUS'
-//         }
+annotate service.Results with {
+    TM_SHIPMENT_CURRENT_STATUS
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>TM_SHIPMENT_CURRENT_STATUS}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty:  TM_SHIPMENT_CURRENT_STATUS,
+            ValueListProperty: 'TM_SHIPMENT_CURRENT_STATUS'
+        }
 
-//         ]
-//     }
-// };
+        ]
+    }
+};
 
-// annotate service.Results with {
-//     TM_SHIPMENT_ALERT
-//     @Common.ValueList: {
-//         $Type                  : 'Common.ValueListType',
-//         Label                  : '{@i18n>TM_SHIPMENT_ALERT}',
-//         CollectionPath         : 'valueHelps',
-//         DistinctValuesSupported: true,
-//         SearchSupported        : true,
-//         Parameters             : [{
-//             $Type            : 'Common.ValueListParameterInOut',
-//             LocalDataProperty:  TM_SHIPMENT_ALERT,
-//             ValueListProperty: 'TM_SHIPMENT_ALERT'
-//         }
+annotate service.Results with {
+    TM_SHIPMENT_ALERT
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>TM_SHIPMENT_ALERT}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty:  TM_SHIPMENT_ALERT,
+            ValueListProperty: 'TM_SHIPMENT_ALERT'
+        }
 
-//         ]
-//     }
-// };
+        ]
+    }
+};
 
 annotate service.Results with {
     SO_F_VKORG

@@ -134,12 +134,12 @@ service srvOpenOrders {
           TM_EXTI1,
           TM_TDLNR,
           TM_TDLNR_NAME1,
-
+          @UI.Hidden : true
           case when ( TM_STATUS_REASON_CODE_TEXT_ELEM is null or TM_STATUS_REASON_CODE_TEXT_ELEM = '' )
             then  TM_STATUS_CODE_TEXT_ELEM
             else  TM_STATUS_CODE_TEXT_ELEM || ' (' || TM_STATUS_REASON_CODE_ELEM || ' - ' || TM_STATUS_REASON_CODE_TEXT_ELEM || ')'
             end as TM_SHIPMENT_CURRENT_STATUS_ELEM : String(250),
-
+          @UI.Hidden : true
           case when ( TM_REASON_CODE_TEXT_COMP is null or TM_REASON_CODE_TEXT_COMP = '') 
             then TM_STATUS_CODE_TEXT_COMP 
             else TM_STATUS_CODE_TEXT_COMP || ' (' || TM_REASON_CODE_COMP || ' - ' || TM_REASON_CODE_TEXT_COMP || ')'   
