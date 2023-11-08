@@ -4,7 +4,7 @@ using allorders.db as db_app from '../db/order-monitoring-app-service';
 service srvOpenOrders {
   @readonly
   @cds.redirection.target: true
-  entity Results         as
+  entity BaseEntity         as
     select from db_app.RESULTS {
       key null as id : UUID,
           SO_MANDT as SO_MANDT,
@@ -134,6 +134,22 @@ service srvOpenOrders {
           TM_EXTI1,
           TM_TDLNR,
           TM_TDLNR_NAME1,
+
+          case when ( TM_STATUS_REASON_CODE_TEXT_ELEM is null or TM_STATUS_REASON_CODE_TEXT_ELEM = '' )
+            then  TM_STATUS_CODE_TEXT_ELEM
+            else  TM_STATUS_CODE_TEXT_ELEM || ' (' || TM_STATUS_REASON_CODE_ELEM || ' - ' || TM_STATUS_REASON_CODE_TEXT_ELEM || ')'
+            end as TM_SHIPMENT_CURRENT_STATUS_ELEM : String(250),
+
+          case when ( TM_REASON_CODE_TEXT_COMP is null or TM_REASON_CODE_TEXT_COMP = '') 
+            then TM_STATUS_CODE_TEXT_COMP 
+            else TM_STATUS_CODE_TEXT_COMP || ' (' || TM_REASON_CODE_COMP || ' - ' || TM_REASON_CODE_TEXT_COMP || ')'   
+            end as TM_SHIPMENT_CURRENT_STATUS_COMP : String(250),
+
+          case when ( TM_ALERT_STATUS_REASON_CODE_TEXT_ELEM IS NULL OR TM_ALERT_STATUS_REASON_CODE_TEXT_ELEM = '' )
+            then TM_ALERT_STATUS_CODE_TEXT_ELEM
+            else TM_ALERT_STATUS_CODE_TEXT_ELEM || '(' || TM_ALERT_STATUS_REASON_CODE_ELEM || ' - ' || TM_ALERT_STATUS_REASON_CODE_TEXT_ELEM || ')' 
+          end as TM_SHIPMENT_ALERT : String(250),  
+
           // TM_STATUS_CODE_ELEM,
           // TM_STATUS_REASON_CODE_ELEM,
           // TM_STATUS_CODE_TEXT_ELEM,
@@ -161,7 +177,18 @@ service srvOpenOrders {
           BL_XBLNR
     };
 
-  entity valueHelps      as
+    entity Results as projection on BaseEntity {
+      *,
+      IFNULL(TM_SHIPMENT_CURRENT_STATUS_ELEM, TM_SHIPMENT_CURRENT_STATUS_COMP) as TM_SHIPMENT_CURRENT_STATUS : String(250)
+    };
+
+    entity valueHelps as projection on BaseEntity {
+      *,
+      IFNULL(TM_SHIPMENT_CURRENT_STATUS_ELEM, TM_SHIPMENT_CURRENT_STATUS_COMP) as TM_SHIPMENT_CURRENT_STATUS : String(250)
+    };
+
+
+  entity baseValueHelps      as
     select from db_app.RESULTS {
       key null as id : UUID,
           SO_MANDT as SO_MANDT,
