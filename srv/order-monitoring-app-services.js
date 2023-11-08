@@ -99,6 +99,11 @@ class srvOpenOrders extends cds.ApplicationService {
                 const queryId = `${sessionID}Query`
                 sessionCache.set(queryId, queryString);
             }
+            if (Array.isArray(data)) {
+                data.forEach((item) => {
+                    item.id = uuid.v1()
+                })
+            }
 
         });
         /**
