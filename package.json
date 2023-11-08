@@ -51,6 +51,14 @@
           "fifo": true
         }
       },
+      "authService":{
+        "kind":"rest",
+        "credentials": {
+          "destination": "ZHL",
+          "path": "rest/auth_obj_check/"
+
+        }
+      },
       "order_monitoring_services": {
         "kind": "odata-v2",
         "model": "srv/external/order-monitoring-services",

@@ -16,10 +16,49 @@ class srvOpenOrders extends cds.ApplicationService {
          * @param {object} req - The request object containing request details
          * */
         this.before("READ", "Results", async (req, next) => {
-            if (req.headers.isexport === 'true') checkReadScope(req, next, 'Export');
             req.query.SELECT.distinct = true;
         });
         this.on("READ", "Results", async (req, next) => {
+            if (!checkScope(req, next, 'SystemScope')){
+                let vkorg = [];
+                let vtweg = [];
+                let spart = [];
+                let lt_result = {};
+                try {
+                    const service = await cds.connect.to('authService');
+                    const query = "GET /authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100";
+                    lt_result = await service.run(query);
+                } catch (error) {
+                    req.error(413, 'remote service to Cobalt could not be executed')
+                }
+                if (!lt_result)
+                return req.error(404, 'no authorization profile attached to user')
+                const salesOrgs = lt_result.VKORG
+                const distributionChannels = lt_result.VTWEG;
+                const divisions = lt_result.SPART;
+                salesOrgs && salesOrgs.length != 0 && salesOrgs.forEach((salesOrg) => {
+                    vkorg.push(`SO_VKORG = '${salesOrg}'`);
+                })
+                distributionChannels && distributionChannels.length != 0 && distributionChannels.forEach((distributionChannel) => {
+                    vtweg.push(`SO_VTWEG = '${distributionChannel}'`);
+                })
+                divisions && divisions.length != 0 && divisions.forEach((division) => {
+                    spart.push(`SO_SPART = '${division}'`);
+                })
+        
+        
+                let vkOrgQuery = vkorg.length !== 0 ? cds.parse.expr(vkorg.join(' or ')) : null;
+                let vkwegQuery = vtweg.length !== 0 ? cds.parse.expr(vtweg.join(' or ')) : null;
+                let spartQuery = spart.length !== 0 ? cds.parse.expr(spart.join(' or ')) : null;
+                let where = req.query.SELECT.where || [];
+                where.length != 0 && vkOrgQuery && vkOrgQuery.length != 0 && where.push('and');
+                vkOrgQuery && where.push(vkOrgQuery);
+                where.length != 0 && vkwegQuery && vkwegQuery.length != 0 && where.push('and');
+                vkwegQuery && where.push(vkwegQuery);
+                where.length !== 0 && spartQuery && spartQuery.length != 0 && where.push('and');
+                spartQuery && where.push(spartQuery);
+                req.query.SELECT.where = where;
+            }
             // OTC-24554 Partner Settings Functionality
             // Begin of Code OTC-24554
             // *-------------------------------------------------------------------*
@@ -117,7 +156,7 @@ class srvOpenOrders extends cds.ApplicationService {
             // get the session id based on auth token
             let sessionID = req.headers['authorization'] || req.headers['x-username'];
             const queryId = `${sessionID}Query`
-            const service = await cds.connect.to('order_monitoring_services');
+            const db = cds.transaction(req);
             let lt_result = []
             // if session id is there, get the cach-ed query and execute it.
             if (sessionCache.get(queryId)) {
@@ -127,17 +166,15 @@ class srvOpenOrders extends cds.ApplicationService {
                 if (query.SELECT.limit.rows.val) query.SELECT.limit.rows.val = req.query.SELECT.limit.rows?.val;
                 //query.SELECT.distinct = true;
                 // if any value is added in search field, that should be taken into account as well
-                console.log(`search field is ${req.query.SELECT.search}`)
                 query.SELECT.search = req.query.SELECT.search;
                 if (query.SELECT.limit.offset.val) query.SELECT.limit.offset.val = req.query.SELECT.limit.offset?.val || 0;
-                if (req.query.SELECT.columns[0].as !== '$count') {
+                if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
                     query.SELECT.columns.length = 0;
                     query.SELECT.columns = req.query.SELECT.columns;
                     query.SELECT.orderBy.length = 0;
                     query.SELECT.orderBy = req.query.SELECT.orderBy;
                     try {
-                        console.log(`query is ${JSON.stringify(req.query)}`)
-                        lt_result = await service.run(query)
+                        lt_result = await db.run(query)
                         //lt_result = await cds.run(query);
                         // req.header.select will have the string of visible columns. 
                         //this parameater has been manually set to header on every request
@@ -151,7 +188,7 @@ class srvOpenOrders extends cds.ApplicationService {
                 } else {
                     try {
                         const fields = req._query["search-focus"].split(',')
-                        let lt_count = await service.run(SELECT.from('Results').columns(`countdistinct(${fields})`).where(query.SELECT.where).search(query.SELECT.search)) //distinct(true)
+                        let lt_count = await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`).where(query.SELECT.where))//distinct(true)
 
                         lt_result.push({ $count: lt_count.length })
                     } catch (error) {
@@ -161,15 +198,16 @@ class srvOpenOrders extends cds.ApplicationService {
                 }
 
             } else {
+                const fields = req._query["search-focus"].split(',')
                 // if there is no session id, execute the query directly
                 if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
                     //req.query.SELECT.distinct = true;
-                    lt_result = await service.run(req.query)
+                    lt_result = await db.run(req.query)
                     //await cds.run(req.query);
                 } else {
                     try {
-                        const fields = req._query["search-focus"].split(',')
-                        let lt_count = await service.run(SELECT.from('Results').columns(`countdistinct(${fields})`))
+                        
+                        let lt_count = await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`))
                         lt_result.push({ $count: lt_count.length })
                     } catch (error) {
                         req.error(error)
@@ -253,11 +291,7 @@ function removeDuplicates(fields, lt_result) {
 function getBundle(locale) {
     return textBundle.getTextBundle(locale)
 }
-function checkReadScope(req, next, scope) {
-    if (req.user.is(scope)) {
-        console.log(`user Oject is ${JSON.stringify(req.user)}`);
-        return
-    } else {
-        req.reject(status.FORBIDDEN, getBundle(req.user.locale).getText("EXPORT_NOT_ALLOWED"))
-    }
+function checkScope(req, next, scope) {
+    return req.user.is(scope) ?  true :  false;
+        
 }
