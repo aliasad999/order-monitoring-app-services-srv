@@ -19,46 +19,7 @@ class srvOpenOrders extends cds.ApplicationService {
             req.query.SELECT.distinct = true;
         });
         this.on("READ", "Results", async (req, next) => {
-            if (!checkScope(req, next, 'SystemScope')){
-                let vkorg = [];
-                let vtweg = [];
-                let spart = [];
-                let lt_result = {};
-                try {
-                    const service = await cds.connect.to('authService');
-                    const query = "GET /authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100";
-                    lt_result = await service.run(query);
-                } catch (error) {
-                    req.error(413, 'remote service to Cobalt could not be executed')
-                }
-                if (!lt_result)
-                return req.error(404, 'no authorization profile attached to user')
-                const salesOrgs = lt_result.VKORG
-                const distributionChannels = lt_result.VTWEG;
-                const divisions = lt_result.SPART;
-                salesOrgs && salesOrgs.length != 0 && salesOrgs.forEach((salesOrg) => {
-                    vkorg.push(`SO_VKORG = '${salesOrg}'`);
-                })
-                distributionChannels && distributionChannels.length != 0 && distributionChannels.forEach((distributionChannel) => {
-                    vtweg.push(`SO_VTWEG = '${distributionChannel}'`);
-                })
-                divisions && divisions.length != 0 && divisions.forEach((division) => {
-                    spart.push(`SO_SPART = '${division}'`);
-                })
-        
-        
-                let vkOrgQuery = vkorg.length !== 0 ? cds.parse.expr(vkorg.join(' or ')) : null;
-                let vkwegQuery = vtweg.length !== 0 ? cds.parse.expr(vtweg.join(' or ')) : null;
-                let spartQuery = spart.length !== 0 ? cds.parse.expr(spart.join(' or ')) : null;
-                let where = req.query.SELECT.where || [];
-                where.length != 0 && vkOrgQuery && vkOrgQuery.length != 0 && where.push('and');
-                vkOrgQuery && where.push(vkOrgQuery);
-                where.length != 0 && vkwegQuery && vkwegQuery.length != 0 && where.push('and');
-                vkwegQuery && where.push(vkwegQuery);
-                where.length !== 0 && spartQuery && spartQuery.length != 0 && where.push('and');
-                spartQuery && where.push(spartQuery);
-                req.query.SELECT.where = where;
-            }
+            
             // OTC-24554 Partner Settings Functionality
             // Begin of Code OTC-24554
             // *-------------------------------------------------------------------*
@@ -110,10 +71,17 @@ class srvOpenOrders extends cds.ApplicationService {
             // End of Code OTC-24554
 
             if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols) {
-                const db = cds.transaction(req);
-                const fields = req.headers.countcols.split(',')
-                const distinctCount = (req.query.SELECT.where) ? await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`).where(req.query.SELECT.where)) : await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`))
-                return req.reply({ $count: Object.values(distinctCount[0])[0] })
+                try { 
+                    const db = cds.transaction(req);
+                    let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  srvOpenOrders_Results   )` )
+                    if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
+                    const distinctCount = (req.query.SELECT.where) ? 
+                    await db.run(query)
+                    : await db.run(query)
+                    return req.reply({ $count: Object.values(distinctCount[0])[0] })
+                } catch (error) {
+                    req.error(error)
+                }
             }
             await next(req)
         })
