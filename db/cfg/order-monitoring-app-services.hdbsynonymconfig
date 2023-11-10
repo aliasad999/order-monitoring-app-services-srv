@@ -1,0 +1,9 @@
+{
+    "ALLORDERS_DB_RESULTS": {
+      "target": {
+        "object": "ORDERMONITORINGSERVICES_RESULTS",
+        "schema.configure": "order-monitoring-services-hdi/schema"
+      }
+    }
+    
+  }

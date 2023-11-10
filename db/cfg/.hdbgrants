@@ -1,0 +1,15 @@
+{
+    "order-monitoring-services-hdi": {
+        "object_owner": {
+            "container_roles": [
+                "EXTERNAL_ACCESS_ORDERMONITORINGSERVICES_RESULTS_G#"
+                
+            ]
+        },
+        "application_user": {
+            "container_roles": [
+                "EXTERNAL_ACCESS_ORDERMONITORINGSERVICES_RESULTS"
+            ]
+        }
+    }
+}

@@ -32,6 +32,7 @@ modules:
       - name: order-monitoring-app-services-hdi
       - name: order-monitoring-xsuaa
       - name: order-monitoring-destination
+      - name: order-monitoring-connectivity
   #
   #   ┌───────────────────────────────────────────┐   #
   #   │ Order Management AMO Specific Service HDI │   #
@@ -138,4 +139,14 @@ resources:
                 URL: "https://ui5.sap.com"
             existing_destinations_policy: update
       service: destination
+      service-plan: lite
+  #
+  #   ┌─────────────────────────────────────┐   #
+  #   │         Backend Connectivitiy       │   #
+  #   └─────────────────────────────────────┘   #
+  #
+  - name: order-monitoring-connectivity
+    type: org.cloudfoundry.existing-service
+    parameters:
+      service: connectivity
       service-plan: lite
