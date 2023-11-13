@@ -33,6 +33,7 @@ modules:
       - name: order-monitoring-xsuaa
       - name: order-monitoring-destination
       - name: order-monitoring-connectivity
+      - name: order-monitoring-logs
   #
   #   ┌───────────────────────────────────────────┐   #
   #   │ Order Management AMO Specific Service HDI │   #
@@ -46,6 +47,7 @@ modules:
     requires:
       - name: order-monitoring-app-services-hdi
       - name: order-monitoring-services-hdi
+      - name: order-monitoring-logs
     parameters:
       memory: 5GB
       buildpack: nodejs_buildpack
@@ -149,4 +151,14 @@ resources:
     type: org.cloudfoundry.existing-service
     parameters:
       service: connectivity
+      service-plan: lite
+  #
+  #   ┌─────────────────────────────────────┐   #
+  #   │         Application logging         │   #
+  #   └─────────────────────────────────────┘   #
+  #
+  - name: order-monitoring-logs
+    type: org.cloudfoundry.existing-service
+    parameters:
+      service: application-logs
       service-plan: lite
