@@ -603,6 +603,8 @@ annotate service.Results with {
             ValueListProperty: 'SO_POSNR'
         }]
     }
+    @Common.IsDigitSequence: true
+    @Core.MaxLength: 6
 }
 
 annotate service.Results with {
@@ -675,6 +677,8 @@ annotate service.Results with {
 
         ]
     }
+    @Common.IsDigitSequence: true
+    @Core.MaxLength: 18
 };
 
 annotate service.Results with {
@@ -711,6 +715,8 @@ annotate service.Results with {
 
         ]
     }
+    @Common.IsDigitSequence: true
+    @Core.MaxLength: 10
 };
 
 annotate service.Results with {
@@ -729,6 +735,8 @@ annotate service.Results with {
 
         ]
     }
+    @Common.IsDigitSequence: true
+    @Core.MaxLength: 10
 };
 
 annotate service.Results with {
@@ -747,6 +755,8 @@ annotate service.Results with {
 
         ]
     }
+    @Common.IsDigitSequence: true
+    @Core.MaxLength: 10
 };
 
 annotate service.Results with {
@@ -1336,6 +1346,8 @@ annotate service.Results with {
 
         ]
     }
+    @Common.IsDigitSequence: true
+    @Core.MaxLength: 6
 };
 
 annotate service.Results with {
@@ -1431,6 +1443,8 @@ annotate service.Results with {
 
         ]
     }
+    @Common.IsDigitSequence: true
+    @Core.MaxLength: 6
 };
 
 annotate service.Results with {
@@ -1467,6 +1481,8 @@ annotate service.Results with {
 
         ]
     }
+    @Common.IsDigitSequence: true
+    @Core.MaxLength: 20
 };
 
 annotate service.Results with {
@@ -1485,6 +1501,8 @@ annotate service.Results with {
 
         ]
     }
+    @Common.IsDigitSequence: true
+    @Core.MaxLength: 30
 };
 
 annotate service.Results with {
@@ -1557,6 +1575,8 @@ annotate service.Results with {
 
         ]
     }
+    @Common.IsDigitSequence: true
+    @Core.MaxLength: 10
 };
 
 annotate service.Results with {
@@ -1634,6 +1654,8 @@ annotate service.Results with {
 
         ]
     }
+    @Common.IsDigitSequence: true
+    @Core.MaxLength: 20
 };
 
 annotate service.Results with {
@@ -1652,6 +1674,8 @@ annotate service.Results with {
 
         ]
     }
+    @Common.IsDigitSequence: true
+    @Core.MaxLength: 10
 };
 
 annotate service.Results with {
@@ -1814,6 +1838,8 @@ annotate service.Results with {
 
         ]
     }
+    @Common.IsDigitSequence: true
+    @Core.MaxLength: 10
 };
 
 annotate service.Results with {
@@ -1832,6 +1858,8 @@ annotate service.Results with {
 
         ]
     }
+    @Common.IsDigitSequence: true
+    @Core.MaxLength: 10
 };
 
 annotate service.Results with {
@@ -1850,6 +1878,8 @@ annotate service.Results with {
 
         ]
     }
+    @Common.IsDigitSequence: true
+    @Core.MaxLength: 10
 };
 
 annotate service.Results with {
