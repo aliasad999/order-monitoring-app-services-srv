@@ -187,7 +187,8 @@ class srvOpenOrders extends cds.ApplicationService {
                 lt_result = lt_result.filter((item) => {
                     for (const prop in item) {
                         if (item[prop] === null) return false;
-                        if (item[prop].includes(req.query.SELECT.search[0].val)) {
+                        // if (item[prop].includes(req.query.SELECT.search[0].val)) {
+                        if (item[prop].toLowerCase().includes(req.query.SELECT.search[0].val.toLowerCase())) {
                             return true;
                         }
                     }
