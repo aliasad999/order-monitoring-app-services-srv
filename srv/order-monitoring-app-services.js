@@ -19,7 +19,47 @@ class srvOpenOrders extends cds.ApplicationService {
             req.query.SELECT.distinct = true;
         });
         this.on("READ", "Results", async (req, next) => {
-            
+             // user story: OTC-183934
+        if (!checkScope(req, next, 'SystemScope')){
+            let vkorg = [];
+            let vtweg = [];
+            let spart = [];
+            let lt_result = {};
+            try {
+                const service = await cds.connect.to('authService');
+                const query = "GET /authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100";
+                lt_result = await service.run(query);
+            } catch (error) {
+                req.error(413, 'remote service to Cobalt could not be executed')
+            }
+            if (!lt_result)
+            return req.error(404, 'no authorization profile attached to user')
+            const salesOrgs = lt_result.VKORG
+            const distributionChannels = lt_result.VTWEG;
+            const divisions = lt_result.SPART;
+            salesOrgs && salesOrgs.length != 0 && salesOrgs.forEach((salesOrg) => {
+                vkorg.push(`SO_VKORG = '${salesOrg}'`);
+            })
+            distributionChannels && distributionChannels.length != 0 && distributionChannels.forEach((distributionChannel) => {
+                vtweg.push(`SO_VTWEG = '${distributionChannel}'`);
+            })
+            divisions && divisions.length != 0 && divisions.forEach((division) => {
+                spart.push(`SO_SPART = '${division}'`);
+            })
+    
+    
+            let vkOrgQuery = vkorg.length !== 0 ? cds.parse.expr(vkorg.join(' or ')) : null;
+            let vkwegQuery = vtweg.length !== 0 ? cds.parse.expr(vtweg.join(' or ')) : null;
+            let spartQuery = spart.length !== 0 ? cds.parse.expr(spart.join(' or ')) : null;
+            let where = req.query.SELECT.where || [];
+            where.length != 0 && vkOrgQuery && vkOrgQuery.length != 0 && where.push('and');
+            vkOrgQuery && where.push(vkOrgQuery);
+            where.length != 0 && vkwegQuery && vkwegQuery.length != 0 && where.push('and');
+            vkwegQuery && where.push(vkwegQuery);
+            where.length !== 0 && spartQuery && spartQuery.length != 0 && where.push('and');
+            spartQuery && where.push(spartQuery);
+            req.query.SELECT.where = where;
+        }
             // OTC-24554 Partner Settings Functionality
             // Begin of Code OTC-24554
             // *-------------------------------------------------------------------*

@@ -3,7 +3,7 @@ using srvOpenOrders as service from '../srv/order-monitoring-app-services.cds';
 annotate service.valueHelps with {
 
     SO_VBELN                   @title: '{i18n>SO_VBELN}'                   @sap.Label: '{i18n>SO_VBELN}';
-    SO_POSNR                   @title: '{i18n>SO_POSNR}'                   @sap.Label: '{i18n>SO_POSNR}';
+    SO_POSNR                   @title: '{i18n>SO_POSNR}'                   @sap.Label: '{i18n>SO_POSNR}' @Common.IsDigitSequence: true;
     SO_ERDAT_ORDER             @title: '{i18n>SO_ERDAT_ORDER}'             @sap.Label: '{i18n>SO_ERDAT_ORDER}';
     SO_ERDAT_ITEM              @title: '{i18n>SO_ERDAT_ITEM}'              @sap.Label: '{i18n>SO_ERDAT_ITEM}';
     SO_AUART                   @title: '{i18n>SO_AUART}'                   @sap.Label: '{i18n>SO_AUART}';
@@ -11,23 +11,23 @@ annotate service.valueHelps with {
     SO_VTWEG                   @title: '{i18n>SO_VTWEG}'                   @sap.Label: '{i18n>SO_VTWEG}';
     @Common.Text           : SO_MAKTX
     @Common.TextArrangement: #TextLast
-    SO_MATNR                   @title: '{i18n>SO_MATNR}'                   @sap.Label: '{i18n>SO_MATNR}';
+    SO_MATNR                   @title: '{i18n>SO_MATNR}'                   @sap.Label: '{i18n>SO_MATNR}' @Common.IsDigitSequence: true;
     @Common.TextFor
     SO_MAKTX                   @title: '{i18n>SO_MAKTX}'                   @sap.Label: '{i18n>SO_MAKTX}';
     SO_KDMAT                   @title: '{i18n>SO_KDMAT}'                   @sap.Label: '{i18n>SO_KDMAT}';
     @Common.Text           : SO_AG_PARTNER_NAME
     @Common.TextArrangement: #TextLast
-    SO_AG_PARTNER              @title: '{i18n>SO_AG_PARTNER}'              @sap.Label: '{i18n>SO_AG_PARTNER}';
+    SO_AG_PARTNER              @title: '{i18n>SO_AG_PARTNER}'              @sap.Label: '{i18n>SO_AG_PARTNER}' @Common.IsDigitSequence: true;
     @Common.TextFor
     SO_AG_PARTNER_NAME;
     @Common.Text           : SO_WE_PARTNER_NAME
     @Common.TextArrangement: #TextLast
-    SO_WE_PARTNER              @title: '{i18n>SO_WE_PARTNER}'              @sap.Label: '{i18n>SO_WE_PARTNER}';
+    SO_WE_PARTNER              @title: '{i18n>SO_WE_PARTNER}'              @sap.Label: '{i18n>SO_WE_PARTNER}' @Common.IsDigitSequence: true;
     @Common.TextFor
     SO_WE_PARTNER_NAME;
     @Common.Text           : SO_LANDX
     @Common.TextArrangement: #TextLast
-    SO_LAND1                   @title: '{i18n>SO_LAND1}'                   @sap.Label: '{i18n>SO_LAND1}';
+    SO_LAND1                   @title: '{i18n>SO_LAND1}'                   @sap.Label: '{i18n>SO_LAND1}' @Common.IsDigitSequence: true;
     @Common.TextFor
     SO_LANDX                   @title: '{i18n>SO_LANDX}'                   @sap.Label: '{i18n>SO_LANDX}';
     SO_ORT01                   @title: '{i18n>SO_ORT01}'                   @sap.Label: '{i18n>SO_ORT01}';
@@ -83,12 +83,12 @@ annotate service.valueHelps with {
     SO_SPART                   @title: '{i18n>SO_SPART}'                   @sap.Label: '{i18n>SO_SPART}';
     @Common.Text           : SO_CO_PARTNER_NAME
     @Common.TextArrangement: #TextLast
-    SO_CO_PARTNER              @title: '{i18n>SO_CO_PARTNER}'              @sap.Label: '{i18n>SO_CO_PARTNER}';
+    SO_CO_PARTNER              @title: '{i18n>SO_CO_PARTNER}'              @sap.Label: '{i18n>SO_CO_PARTNER}' @Common.IsDigitSequence: true;
     @Common.TextFor
     SO_CO_PARTNER_NAME         @title: '{i18n>SO_CO_PARTNER_NAME}'         @sap.Label: '{i18n>SO_CO_PARTNER_NAME}';
     @Common.Text           : SO_NY_PARTNER_NAME
     @Common.TextArrangement: #TextLast
-    SO_NY_PARTNER              @title: '{i18n>SO_NY_PARTNER}'              @sap.Label: '{i18n>SO_NY_PARTNER}';
+    SO_NY_PARTNER              @title: '{i18n>SO_NY_PARTNER}'              @sap.Label: '{i18n>SO_NY_PARTNER}' @Common.IsDigitSequence: true;
     @Common.TextFor
     SO_NY_PARTNER_NAME         @title: '{i18n>SO_NY_PARTNER_NAME}'         @sap.Label: '{i18n>SO_NY_PARTNER_NAME}';
     @Common.Text           : SO_AS_PARTNER_NAME
@@ -114,13 +114,13 @@ annotate service.valueHelps with {
     SO_ZZDKPPRODB              @title: '{i18n>SO_ZZDKPPRODB}'              @sap.Label: '{i18n>SO_ZZDKPPRODB}';
     SO_BSARK                   @title: '{i18n>SO_BSARK}'                   @sap.Label: '{i18n>SO_BSARK}';
     DL_VBELN                   @title: '{i18n>DL_VBELN}'                   @sap.Label: '{i18n>DL_VBELN}';
-    DL_POSNR                   @title: '{i18n>DL_POSNR}'                   @sap.Label: '{i18n>DL_POSNR}';
+    DL_POSNR                   @title: '{i18n>DL_POSNR}'                   @sap.Label: '{i18n>DL_POSNR}' @Common.IsDigitSequence: true;
     DL_CHARG                   @title: '{i18n>DL_CHARG}'                   @sap.Label: '{i18n>DL_CHARG}';
     DL_LFIMG                   @title: '{i18n>DL_LFIMG}'                   @sap.Label: '{i18n>DL_LFIMG}';
     DL_VRKME                   @title: '{i18n>DL_VRKME}'                   @sap.Label: '{i18n>DL_VRKME}';
     DL_POSAR                   @title: '{i18n>DL_POSAR}'                   @sap.Label: '{i18n>DL_POSAR}';
     DL_VGBEL                   @title: '{i18n>DL_VGBEL}'                   @sap.Label: '{i18n>DL_VGBEL}';
-    DL_VGPOS                   @title: '{i18n>DL_VGPOS}'                   @sap.Label: '{i18n>DL_VGPOS}';
+    DL_VGPOS                   @title: '{i18n>DL_VGPOS}'                   @sap.Label: '{i18n>DL_VGPOS}' @Common.IsDigitSequence: true;
     @Common.Text           : DL_LFART_VTEXT
     @Common.TextArrangement: #TextLast
     DL_LFART                   @title: '{i18n>DL_LFART}'                   @sap.Label: '{i18n>DL_LFART}';
@@ -129,7 +129,10 @@ annotate service.valueHelps with {
     DL_LFDAT                   @title: '{i18n>DL_LFDAT}'                   @sap.Label: '{i18n>DL_LFDAT}';
     DL_HSDAT                   @title: '{i18n>DL_HSDAT}'                   @sap.Label: '{i18n>DL_HSDAT}';
     DL_VFDAT                   @title: '{i18n>DL_VFDAT}'                   @sap.Label: '{i18n>DL_VFDAT}';
-    DL_TRAID                   @title: '{i18n>DL_TRAID}'                   @sap.Label: '{i18n>DL_TRAID}';
+    DL_TRAID                   @title: '{i18n>DL_TRAID}'                   @sap.Label: '{i18n>DL_TRAID}' @Common.IsDigitSequence: true;
+    @Common.Text           : DL_LFART_VTEXT
+    @Common.TextArrangement: #TextLast
+    TM_TDLNR @title: '{i18n>TM_TDLNR}'                   @sap.Label: '{i18n>TM_TDLNR}';
     @Common.TextFor
     TM_TDLNR_NAME1;
     TM_TRACKING_ID_COMP        @title: '{i18n>TM_TRACKING_ID_COMP}'        @sap.Label: '{i18n>TM_TRACKING_ID_COMP}';
@@ -141,8 +144,8 @@ annotate service.valueHelps with {
     TM_AR_DATE                 @title: '{i18n>TM_AR_DATE}'                 @sap.Label: '{i18n>TM_AR_DATE}';
     TM_STTRG                   @title: '{i18n>TM_STTRG}'                   @sap.Label: '{i18n>TM_STTRG}';
     TM_STTRG_DDTEXT            @title: '{i18n>TM_STTRG_DDTEXT}'            @sap.Label: '{i18n>TM_STTRG_DDTEXT}';
-    SO_BASF_LOFCR              @title: '{i18n>SO_BASF_LOFCR}'              @sap.Label: '{i18n>SO_BASF_LOFCR}';
-    SO_GUSCON_LEVEL            @title: '{i18n>SO_GUSCON_LEVEL}'            @sap.Label: '{i18n>SO_GUSCON_LEVEL}';
+    SO_BASF_LOFCR              @title: '{i18n>SO_BASF_LOFCR}'              @sap.Label: '{i18n>SO_BASF_LOFCR}'  @Common.IsDigitSequence: true;
+    SO_GUSCON_LEVEL            @title: '{i18n>SO_GUSCON_LEVEL}'            @sap.Label: '{i18n>SO_GUSCON_LEVEL}'  @Common.IsDigitSequence: true;
     SO_I_VBELN                 @title: '{i18n>SO_I_VBELN}'                 @sap.Label: '{i18n>SO_I_VBELN}';
     SO_ISCOMPLETED             @title: '{i18n>SO_ISCOMPLETED}'             @sap.Label: '{i18n>SO_ISCOMPLETED}';
     SO_LEVEL_TYPE              @title: '{i18n>SO_LEVEL_TYPE}'              @sap.Label: '{i18n>SO_LEVEL_TYPE}';
@@ -151,9 +154,9 @@ annotate service.valueHelps with {
     SO_F_POSNR                 @title: '{i18n>SO_F_POSNR}'                 @sap.Label: '{i18n>SO_F_POSNR}';
     SO_VBTYP                   @title: '{i18n>SO_VBTYP}'                   @sap.Label: '{i18n>SO_VBTYP}';
     SO_BSTKD                   @title: '{i18n>SO_BSTKD}'                   @sap.Label: '{i18n>SO_BSTKD}';
-    BL_VBELN_INV_FIRST         @title: '{i18n>BL_VBELN_INV_FIRST}'         @sap.Label: '{i18n>BL_VBELN_INV_FIRST}';
-    BL_VBELN_INV_LAST          @title: '{i18n>BL_VBELN_INV_LAST}'          @sap.Label: '{i18n>BL_VBELN_INV_LAST}';
-    BL_XBLNR                   @title: '{i18n>BL_XBLNR}'                   @sap.Label: '{i18n>BL_XBLNR}';
+    BL_VBELN_INV_FIRST         @title: '{i18n>BL_VBELN_INV_FIRST}'         @sap.Label: '{i18n>BL_VBELN_INV_FIRST}'  @Common.IsDigitSequence: true;
+    BL_VBELN_INV_LAST          @title: '{i18n>BL_VBELN_INV_LAST}'          @sap.Label: '{i18n>BL_VBELN_INV_LAST}'  @Common.IsDigitSequence: true;
+    BL_XBLNR                   @title: '{i18n>BL_XBLNR}'                   @sap.Label: '{i18n>BL_XBLNR}'  @Common.IsDigitSequence: true;
     @Common.Text           : SO_TRAGR_VTEXT
     @Common.TextArrangement: #TextLast
     SO_TRAGR                   @title: '{i18n>SO_TRAGR}'                   @sap.Label: '{i18n>SO_TRAGR}';
@@ -390,7 +393,7 @@ annotate service.Results with {
     SO_VRKME                  @Semantics.unitOfMeasure: 'unit-of-measure';
     SO_KBMENG                 @Measures.Unit          : SO_VRKME;
     SO_UNCONFIRMED_QTY        @Measures.Unit          : SO_VRKME;
-    SO_KBETR                  @Measures.ISOCurrency   : 'SO_WAERS';
+    SO_KBETR                  @Measures.ISOCurrency   : SO_WAERS;
     SO_WAERS                  @Semantics.currencyCode;
     SO_KPEIN                  @Measures.Unit          : SO_KMEIN;
     SO_KMEIN                  @Semantics.unitOfMeasure: 'unit-of-measure';
@@ -421,7 +424,7 @@ annotate service.Results with {
     SO_ABGRU                  @UI                     : {Hidden: true};
     SO_ABSTA                  @UI                     : {Hidden: true};
     SO_KNUMV                  @UI                     : {Hidden: true};
-    USERNAME                  @UI                     : {Hidden: true};
+    
     DL_HSDAT                  @UI                     : {Hidden: true};
     DL_VFDAT                  @UI                     : {Hidden: true};
     // Shipment Details Texts
@@ -454,7 +457,7 @@ annotate service.valueHelps with {
     SO_VRKME                  @Semantics.unitOfMeasure: 'unit-of-measure';
     SO_KBMENG                 @Measures.Unit          : SO_VRKME;
     SO_UNCONFIRMED_QTY        @Measures.Unit          : SO_VRKME;
-    SO_KBETR                  @Measures.ISOCurrency   : 'SO_WAERS';
+    SO_KBETR                  @Measures.ISOCurrency   : SO_WAERS;
     SO_WAERS                  @Semantics.currencyCode;
     SO_KPEIN                  @Measures.Unit          : SO_KMEIN;
     SO_KMEIN                  @Semantics.unitOfMeasure: 'unit-of-measure';
@@ -1115,6 +1118,7 @@ annotate service.Results with {
 
 annotate service.Results with {
     SO_CO_PARTNER
+    @Common.IsDigitSequence: true
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>SO_CO_PARTNER}',
@@ -1133,6 +1137,7 @@ annotate service.Results with {
 
 annotate service.Results with {
     SO_NY_PARTNER
+    @Common.IsDigitSequence: true
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>SO_NY_PARTNER}',
