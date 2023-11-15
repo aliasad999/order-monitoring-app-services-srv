@@ -1,0 +1,14 @@
+resources:
+  repositories:
+    - repository: Template
+      type: git
+      name: SAP CI CD/Azure DevOps Pipeline Templates
+
+trigger:
+- main
+
+extends:
+  template: BTP-Template-Prod.yml@Template
+  parameters:
+    SAP_SYSTEMS: 
+      - 'CLOUD'
