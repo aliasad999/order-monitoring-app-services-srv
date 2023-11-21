@@ -3,11 +3,6 @@ resources:
     - repository: Template
       type: git
       name: SAP CI CD/Azure DevOps Pipeline Templates
-      nodeExtDescriptorMapping:      
-        #ORDER_QA_OM_Cockpit_CHARM: 'mtaext_qa.mtaext'
-        #ORDER_PROD_OM_Cockpit_CHARM: 'mtaext_prod.mtaext'
-        ORDER_MANAGEMENT_QA_OM_Cockpit_OM_C: 'mtaext_qa.mtaext'
-        ORDER_MANAGEMENT_PROD_OM_Cockpit_OM: 'mtaext_prod.mtaext'
 
 trigger:
 - main
