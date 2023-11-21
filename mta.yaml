@@ -24,6 +24,11 @@ modules:
       SAP_CALM_SERVICE_NAME: OTC-MON-Order-Monitoring-App-Service
       SAP_CALM_SERVICE_TYPE: SAP_CP_CF
       OTEL_RESOURCE_ATTRIBUTES: sap.tenancy.tenant_id=d860d07c-c73d-4512-b17e-a2109bac2e2b
+      SAP_CALM_INSTRUMENTATION_ENABLED: true
+      SAP_CALM_TRACING_ENABLED: true
+      SAP_CALM_METRICS_ENABLED: true      
+      SAP_CALM_DCI_LOG_LEVEL: info
+      SAP_CALM_FESR_LOG_LEVEL: info
       NODE_ARGS: -r @sap/xotel-agent-ext-js/dist/common/tracer    
     parameters:
       buildpack: nodejs_buildpack

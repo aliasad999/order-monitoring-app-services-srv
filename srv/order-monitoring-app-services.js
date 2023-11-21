@@ -4,6 +4,7 @@ const sessionCache = new NodeCache();
 const uuid = require('uuid');
 const status = require('http-status');
 const textBundle = require('./utils/textBundle')
+const log = require("cf-nodejs-logging-support");
 
 class srvOpenOrders extends cds.ApplicationService {
     init() {
@@ -30,6 +31,7 @@ class srvOpenOrders extends cds.ApplicationService {
                 const query = "GET /authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100";
                 lt_result = await service.run(query);
             } catch (error) {
+                log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
                 req.error(413, 'remote service to Cobalt could not be executed')
             }
             if (!lt_result)
@@ -120,9 +122,11 @@ class srvOpenOrders extends cds.ApplicationService {
                     : await db.run(query)
                     return req.reply({ $count: Object.values(distinctCount[0])[0] })
                 } catch (error) {
+                    log.error("[order-monitoring-app-services.js] - Count query failed ! " + JSON.stringify(error));
                     req.error(error)
                 }
             }
+            log.info("[order-monitoring-app-services.js] - Successful results call!")
             await next(req)
         })
 
