@@ -18,6 +18,9 @@ class srvOpenOrders extends cds.ApplicationService {
          * */
         this.before("READ", "Results", async (req, next) => {
             req.query.SELECT.distinct = true;
+            
+
+            log.info("[order-monitoring-app-services.js] - Deployed via Pipeline! ");
 
             // user story: OTC-183934
             if (!checkScope(req, next, 'SystemScope')){
