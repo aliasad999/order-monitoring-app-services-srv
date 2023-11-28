@@ -4,6 +4,15 @@ using allorders.db as db_app from '../db/order-monitoring-app-service';
 service srvOpenOrders {
   @readonly
   @cds.redirection.target: true
+  entity HOMRemarks         as
+    select from db_app.RESULTS {
+      key SO_VBELN,
+      key SO_POSNR,
+          SO_MANDT,
+          SO_HTEXT
+    };
+  @readonly
+  @cds.redirection.target: true
   entity BaseEntity         as
     select from db_app.RESULTS {
       key null as id : UUID,
