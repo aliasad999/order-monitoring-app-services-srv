@@ -8,7 +8,6 @@ service srvOpenOrders {
     select from db_app.RESULTS {
       key SO_VBELN,
       key SO_POSNR,
-          SO_MANDT,
           SO_HTEXT
     };
   @readonly
