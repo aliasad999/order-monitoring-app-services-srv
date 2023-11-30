@@ -32,6 +32,8 @@ modules:
       NODE_ARGS: -r @sap/xotel-agent-ext-js/dist/common/tracer    
     parameters:
       buildpack: nodejs_buildpack
+      memory: 5GB
+      disk-quota: 5GB
     build-parameters:
       builder: npm-ci
       ignore:
