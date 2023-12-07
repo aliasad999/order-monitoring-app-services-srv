@@ -34,3 +34,5 @@ mta_archives/
 # .idea
 
 .npmrc
+.env
+.env1
