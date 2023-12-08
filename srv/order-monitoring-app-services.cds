@@ -2,6 +2,15 @@ using order_monitoring_services as db from './external/order-monitoring-services
 using allorders.db as db_app from '../db/order-monitoring-app-service';
 
 service srvOpenOrders {
+
+  entity VBAKAuthObjectKeys as select from db_app.VBAKAuthObjectKeys {
+    key VKORG,
+    key VTWEG,
+    key SPART
+  };
+
+  function getVBAKAuthObjKeys() returns array of VBAKAuthObjectKeys;
+
   @readonly
   @cds.redirection.target: true
   entity HOMRemarks         as
