@@ -5,28 +5,25 @@ const uuid = require('uuid');
 const status = require('http-status');
 const textBundle = require('./utils/textBundle')
 const log = require("cf-nodejs-logging-support");
-// const Helper = require("./lib/helper");
 
 class srvOpenOrders extends cds.ApplicationService {
 
     init() {
-        
-        // const helper = new Helper();
 
         this.on("getVBAKAuthObjKeys", async req => {
             let query = "GET /authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100";
             if(req.data.isDevSystem){
                 query += "&isDevEnv=X";
             }
-            // let lt_result = [];
-            let lt_result = [{"VKORG":"0001","VTWEG":"01","SPART":"01"},{"VKORG":"1000","VTWEG":"01","SPART":"01"},{"VKORG":"1000","VTWEG":"02","SPART":"02"}];
-            // try {
-            //     const service = await cds.connect.to('authService');
-            //     lt_result = await service.run(query);
-            // } catch (error) {
-            //     log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
-            //     req.error(413, 'remote service to Cobalt could not be executed')
-            // }
+            let lt_result = [];
+            // let lt_result = [{"VKORG":"0001","VTWEG":"01","SPART":"01"},{"VKORG":"1000","VTWEG":"01","SPART":"01"},{"VKORG":"1000","VTWEG":"02","SPART":"02"}];
+            try {
+                const service = await cds.connect.to('authService');
+                lt_result = await service.run(query);
+            } catch (error) {
+                log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
+                req.error(413, 'remote service to Cobalt could not be executed')
+            }
 
             let authObject = null;
             let finalQuery = "";
