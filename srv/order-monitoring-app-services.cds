@@ -9,7 +9,7 @@ service srvOpenOrders {
     key SPART
   };
 
-  function getVBAKAuthObjKeys() returns array of VBAKAuthObjectKeys;
+  function getVBAKAuthObjKeys( isDevSystem : Boolean ) returns array of VBAKAuthObjectKeys;
 
   @readonly
   @cds.redirection.target: true
