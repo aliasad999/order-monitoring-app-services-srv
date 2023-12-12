@@ -72,8 +72,6 @@ class srvOpenOrders extends cds.ApplicationService {
 
             }
             
-            // let entry = [{ "VKORG" : "0003" , "VTWEG" : "01", "SPART": "01"}, { "VKORG" : "0004" , "VTWEG" : "02", "SPART": "02"}];
-            // helper.setAuthObject(authObject);
             let sessionID = req.headers['authorization'] || req.headers['x-username'];
             const queryId = `${sessionID}AuthObjectString`
             sessionCache.set(queryId, finalQuery);
