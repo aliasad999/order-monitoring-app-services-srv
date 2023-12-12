@@ -188,3 +188,9 @@ entity PARTNER_SETTINGS {
         ACTIVE         : String(1);
         COMMT          : String(50);
 }
+
+type VBAKAuthObjectKeys {
+        VKORG: String(4)  ; 
+        VTWEG: String(2)  ;
+        SPART: String(2)  ;
+}

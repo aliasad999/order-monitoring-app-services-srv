@@ -3,6 +3,7 @@ const proxy = require('@sap/cds-odata-v2-adapter-proxy')
 const cds = require('@sap/cds')
 const express = require('express')()
 var bodyParser = require('body-parser');
+require('hdb/lib/protocol/common/Constants').MAX_PACKET_SIZE = Math.pow(4,15);
 
 const fesr = require("@sap/fesr-to-otel-js");
 

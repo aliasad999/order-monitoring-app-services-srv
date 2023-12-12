@@ -11,20 +11,22 @@
     "@sap/cds-dk": "^6",
     "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
     "@sap/fesr-to-otel-js": "^1.5.2",
+    "@sap/hana-client": "^2.19.18",
     "@sap/textbundle": "^4.3.0",
     "@sap/xotel-agent-ext-js": "^1.5.4",
     "@sap/xsenv": "^4.1.0",
     "@sap/xssec": "^3.5.0",
     "body-parser": "^1.20.2",
+    "cf-nodejs-logging-support": "^7.2.0",
     "express": "^4.18.2",
     "hdb": "^0.19.6",
     "http-status": "^1.7.3",
     "node-cache": "^5.1.2",
     "passport": "^0.6.0",
-    "uuid": "^9.0.1",
-    "cf-nodejs-logging-support": "^7.2.0"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@sap/hdi-deploy": "4.8.2",
     "sqlite3": "^5"
   },
   "scripts": {
