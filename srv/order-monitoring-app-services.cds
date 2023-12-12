@@ -3,13 +3,7 @@ using allorders.db as db_app from '../db/order-monitoring-app-service';
 
 service srvOpenOrders {
 
-  entity VBAKAuthObjectKeys as select from db_app.VBAKAuthObjectKeys {
-    key VKORG,
-    key VTWEG,
-    key SPART
-  };
-
-  function getVBAKAuthObjKeys() returns array of VBAKAuthObjectKeys;
+  function getVBAKAuthObjKeys( isDevSystem : Boolean ) returns array of db_app.VBAKAuthObjectKeys;
 
   @readonly
   @cds.redirection.target: true
