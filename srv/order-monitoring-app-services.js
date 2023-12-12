@@ -140,7 +140,9 @@ class srvOpenOrders extends cds.ApplicationService {
 
                 let where = req.query.SELECT.where || [];
                 where.length != 0 && authObjectWhereClause && authObjectWhereClause.length != 0 && where.push('and');
-                authObjectWhereClause && authObjectWhereClause.length != 0 && where.push(authObjectWhereClause);
+                if(authObject){
+                    where.push(authObjectWhereClause);
+                }
                 req.query.SELECT.where = where;
             }
 
@@ -185,13 +187,14 @@ class srvOpenOrders extends cds.ApplicationService {
                     let AMQuery = AMPartners.length !== 0 ? cds.parse.expr(AMPartners.join(' or ')) : null;
 
                     // Add queries to request
-                    let { where: requestQuery } = req.query.SELECT;
-                    VEQuery && requestQuery.push('and');
+                    let requestQuery  = req.query.SELECT.where || [];
+                    VEQuery && requestQuery.length != 0 && requestQuery.push('and');
                     VEQuery && requestQuery.push(VEQuery);
-                    ASQuery && requestQuery.push('and');
+                    ASQuery && requestQuery.length != 0 && requestQuery.push('and');
                     ASQuery && requestQuery.push(ASQuery);
-                    AMQuery && requestQuery.push('and');
+                    AMQuery && requestQuery.length != 0 && requestQuery.push('and');
                     AMQuery && requestQuery.push(AMQuery);
+                    req.query.SELECT.where = requestQuery
                 }
             }
             // *-------------------------------------------------------------------*
@@ -211,7 +214,6 @@ class srvOpenOrders extends cds.ApplicationService {
                     req.error(error)
                 }
             }
-            log.info("[order-monitoring-app-services.js] - Successful results call!")
             await next(req)
         })
 
