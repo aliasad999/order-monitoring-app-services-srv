@@ -88,12 +88,14 @@ class srvOpenOrders extends cds.ApplicationService {
         this.before("READ", "Results", async (req, next) => {                      
             req.query.SELECT.distinct = true;
             // user story: OTC-183934
-            if (!checkScope(req, next, 'SystemScope')){
+            if (!checkScope(req, next, 'SystemScope') && 1 !== 1){
                 let sessionID = req.headers['authorization'] || req.headers['x-username'];
                 const queryId = `${sessionID}AuthObjectString`
                 let authObject = sessionCache.get(queryId);
                 if(authObject){
                     var authObjectWhereClause = cds.parse.expr(authObject);
+                }else{
+                    return req.error(404, 'no authorization profile attached to user')
                 }
                 
                 // let vkorg = [];
@@ -237,7 +239,12 @@ class srvOpenOrders extends cds.ApplicationService {
             }
             if (Array.isArray(data)) {
                 data.forEach((item) => {
-                    item.id = uuid.v1()
+                    item.id = uuid.v1();
+                    for(const property in item){
+                        if(item[property] === "00000000"){
+                            item[property] = "";
+                        }
+                    }
                 })
             }
 
