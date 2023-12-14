@@ -59,8 +59,14 @@ service srvOpenOrders {
           SO_LDDAT,
           SO_UNCONFIRMED_QTY,
           SO_REQ_TEXT,
-          SO_FAKSP,
-          SO_FAKSP_VTEXT,
+          case
+            when SO_FAKSP = '' or SO_FAKSP is null then SO_FAKSK
+            else SO_FAKSP
+          end                           as SO_FAKSP  : String(2),
+          case 
+            when SO_FAKSP_VTEXT = '' or SO_FAKSP_VTEXT is null then SO_FAKSK_VTEXT
+            else SO_FAKSP_VTEXT
+          end                           as SO_FAKSP_VTEXT : String(20),
           SO_LGORT,
           SO_SUPPLY_SITUATION,
           SO_SUPPLY_SITUATION_DESCR,
@@ -243,8 +249,14 @@ service srvOpenOrders {
           SO_LDDAT,
           SO_UNCONFIRMED_QTY,
           SO_REQ_TEXT,
-          SO_FAKSP,
-          SO_FAKSP_VTEXT,
+          case
+            when SO_FAKSP = '' or SO_FAKSP is null then SO_FAKSK
+            else SO_FAKSP
+          end                           as SO_FAKSP  : String(2),
+          case 
+            when SO_FAKSP_VTEXT = '' or SO_FAKSP_VTEXT is null then SO_FAKSK_VTEXT
+            else SO_FAKSP_VTEXT
+          end                           as SO_FAKSP_VTEXT : String(20),
           SO_LGORT,
           SO_SUPPLY_SITUATION,
           SO_SUPPLY_SITUATION_DESCR,

@@ -6,7 +6,7 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@sap-cloud-sdk/http-client": "^3.8.1",
+    "@sap-cloud-sdk/http-client": "^3.9.0",
     "@sap/cds": "^6",
     "@sap/cds-dk": "^6",
     "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
@@ -15,7 +15,7 @@
     "@sap/textbundle": "^4.3.0",
     "@sap/xotel-agent-ext-js": "^1.5.4",
     "@sap/xsenv": "^4.1.0",
-    "@sap/xssec": "^3.5.0",
+    "@sap/xssec": "^3.6.0",
     "body-parser": "^1.20.2",
     "cf-nodejs-logging-support": "^7.2.0",
     "express": "^4.18.2",
