@@ -342,6 +342,11 @@ class srvOpenOrders extends cds.ApplicationService {
             if (Array.isArray(data)) {
                 data.forEach((item) => {
                     item.id = uuid.v1()
+                    for(const property in item){
+                        if(item[property] === "00000000"){
+                            item[property] = "";
+                        }
+                    }
                 })
             }
         })
