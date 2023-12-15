@@ -7,6 +7,7 @@ entity ![RESULTS] {
         SO_VBELN                              : String(10);
         SO_POSNR                              : String(6);
         SO_ERDAT_ORDER                        : String(8);
+        SO_ERDAT_ORDER_DATE : Date = SUBSTRING(SO_ERDAT_ORDER, 1, 4) || '-' ||  SUBSTRING(SO_ERDAT_ORDER, 5, 2) || '-' || SUBSTRING(SO_ERDAT_ORDER, 7, 2);
         SO_ERDAT_ITEM                         : String(8);
         SO_AUART                              : String(4);
         SO_WERKS                              : String(4);

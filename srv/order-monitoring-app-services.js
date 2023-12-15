@@ -238,6 +238,11 @@ class srvOpenOrders extends cds.ApplicationService {
             if (Array.isArray(data)) {
                 data.forEach((item) => {
                     item.id = uuid.v1()
+                    for(const property in item){
+                        if(item[property] === "00000000" || item[property] === "0000-00-00"){
+                            item[property] = null;
+                        }
+                    }
                 })
             }
 
@@ -341,12 +346,7 @@ class srvOpenOrders extends cds.ApplicationService {
             // since there is a virtual id field, adding a random guid to each record of the result set.
             if (Array.isArray(data)) {
                 data.forEach((item) => {
-                    item.id = uuid.v1()
-                    for(const property in item){
-                        if(item[property] === "00000000"){
-                            item[property] = "";
-                        }
-                    }
+                    item.id = uuid.v1()  
                 })
             }
         })

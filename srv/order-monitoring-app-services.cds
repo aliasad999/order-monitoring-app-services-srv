@@ -21,7 +21,7 @@ service srvOpenOrders {
           SO_MANDT as SO_MANDT,
           SO_VBELN,
           SO_POSNR,
-          SO_ERDAT_ORDER,
+          SO_ERDAT_ORDER_DATE as SO_ERDAT_ORDER,
           SO_ERDAT_ITEM,
           SO_AUART,
           SO_WERKS,
