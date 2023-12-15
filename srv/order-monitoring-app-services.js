@@ -28,49 +28,49 @@ class srvOpenOrders extends cds.ApplicationService {
             let authObject = null;
             let finalQuery = "";
             // DEV ENVIRONMENT
-            if(req.data.isDevSystem){
-                if (lt_result.length === 0)
-                return req.error(404, 'no authorization profile attached to user')
+            // if(req.data.isDevSystem){
+            if (lt_result.length === 0)
+            return req.error(404, 'no authorization profile attached to user')
 
-                let finalQueryPieces = [];
-                lt_result.forEach((set) => {
-                    let vkorg = `SO_VKORG = '${set.VKORG}'`;
-                    let vtweg = `SO_VTWEG = '${set.VTWEG}'`;
-                    let spart = `SO_SPART = '${set.SPART}'`;                    
+            let finalQueryPieces = [];
+            lt_result.forEach((set) => {
+                let vkorg = `SO_VKORG = '${set.VKORG}'`;
+                let vtweg = `SO_VTWEG = '${set.VTWEG}'`;
+                let spart = `SO_SPART = '${set.SPART}'`;                    
+            
+                let profileQuery = `( ${vkorg} and ${vtweg} and ${spart})`;
+                finalQueryPieces.push(profileQuery);
+            })
+
+            finalQuery = `(${finalQueryPieces.join(" or ")})`;
                 
-                    let profileQuery = `( ${vkorg} and ${vtweg} and ${spart})`;
-                    finalQueryPieces.push(profileQuery);
-                })
-
-                finalQuery = `(${finalQueryPieces.join(" or ")})`;
+            // }else{ // OTHER ENVIRONMENTS
+            //     if (!lt_result)
+            //     return req.error(404, 'no authorization profile attached to user')
+            //     let vkorg = [];
+            //     let vtweg = [];
+            //     let spart = [];
                 
-            }else{ // OTHER ENVIRONMENTS
-                if (!lt_result)
-                return req.error(404, 'no authorization profile attached to user')
-                let vkorg = [];
-                let vtweg = [];
-                let spart = [];
-                
-                const salesOrgs = lt_result.VKORG
-                const distributionChannels = lt_result.VTWEG;
-                const divisions = lt_result.SPART;
-                salesOrgs && salesOrgs.length != 0 && salesOrgs.forEach((salesOrg) => {
-                    vkorg.push(`SO_VKORG = '${salesOrg}'`);
-                })
-                distributionChannels && distributionChannels.length != 0 && distributionChannels.forEach((distributionChannel) => {
-                    vtweg.push(`SO_VTWEG = '${distributionChannel}'`);
-                })
-                divisions && divisions.length != 0 && divisions.forEach((division) => {
-                    spart.push(`SO_SPART = '${division}'`);
-                })
+            //     const salesOrgs = lt_result.VKORG
+            //     const distributionChannels = lt_result.VTWEG;
+            //     const divisions = lt_result.SPART;
+            //     salesOrgs && salesOrgs.length != 0 && salesOrgs.forEach((salesOrg) => {
+            //         vkorg.push(`SO_VKORG = '${salesOrg}'`);
+            //     })
+            //     distributionChannels && distributionChannels.length != 0 && distributionChannels.forEach((distributionChannel) => {
+            //         vtweg.push(`SO_VTWEG = '${distributionChannel}'`);
+            //     })
+            //     divisions && divisions.length != 0 && divisions.forEach((division) => {
+            //         spart.push(`SO_SPART = '${division}'`);
+            //     })
 
                 
-                authObject.vkOrgQuery = vkorg.length !== 0 ? cds.parse.expr(vkorg.join(' or ')) : null;
-                authObject.vkwegQuery = vtweg.length !== 0 ? cds.parse.expr(vtweg.join(' or ')) : null;
-                authObject.spartQuery = spart.length !== 0 ? cds.parse.expr(spart.join(' or ')) : null;
+            //     authObject.vkOrgQuery = vkorg.length !== 0 ? cds.parse.expr(vkorg.join(' or ')) : null;
+            //     authObject.vkwegQuery = vtweg.length !== 0 ? cds.parse.expr(vtweg.join(' or ')) : null;
+            //     authObject.spartQuery = spart.length !== 0 ? cds.parse.expr(spart.join(' or ')) : null;
 
 
-            }
+            // }
             
             let sessionID = req.headers['authorization'] || req.headers['x-username'];
             const queryId = `${sessionID}AuthObjectString`
