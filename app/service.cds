@@ -417,54 +417,54 @@ annotate service.valueHelps with {
     DL_LFIMG                  @Measures.Unit          : DL_VRKME;
     DL_VRKME                  @Semantics.unitOfMeasure: 'unit-of-measure';
     DL_PEND_DEL_QUAN          @Measures.Unit          : DL_VRKME;
-    SO_CO_PARTNER_NAME        @UI                     : {Hidden: true};
-    SO_NY_PARTNER_NAME        @UI                     : {Hidden: true};
-    SO_AS_PARTNER_NAME        @UI                     : {Hidden: true};
-    SO_VE_PARTNER_NAME        @UI                     : {Hidden: true};
-    SO_AM_PARTNER_NAME        @UI                     : {Hidden: true};
-    SO_AG_PARTNER_NAME        @UI                     : {Hidden: true};
-    SO_WE_PARTNER_NAME        @UI                     : {Hidden: true};
-    SO_MAKTX                  @UI                     : {Hidden: true};
-    SO_LANDX                  @UI                     : {Hidden: true};
-    SO_VKORG_NAME1            @UI                     : {Hidden: true};
-    SO_FAKSP_VTEXT            @UI                     : {Hidden: true};
-    SO_SUPPLY_SITUATION_DESCR @UI                     : {Hidden: true};
-    SO_PSTYV_VTEXT            @UI                     : {Hidden: true};
-    SO_BSARK_VTEXT            @UI                     : {Hidden: true};
-    SO_VKBUR_BEZEI            @UI                     : {Hidden: true};
-    DL_LFART_VTEXT            @UI                     : {Hidden: true};
-    id                        @UI                     : {Hidden: true};
-    SO_MANDT                  @UI                     : {Hidden: true};
-    SO_SPART                  @UI                     : {Hidden: true};
-    SO_ABGRU                  @UI                     : {Hidden: true};
-    SO_ABSTA                  @UI                     : {Hidden: true};
-    SO_KNUMV                  @UI                     : {Hidden: true};
+    // SO_CO_PARTNER_NAME        @UI                     : {Hidden: true};
+    // SO_NY_PARTNER_NAME        @UI                     : {Hidden: true};
+    // SO_AS_PARTNER_NAME        @UI                     : {Hidden: true};
+    // SO_VE_PARTNER_NAME        @UI                     : {Hidden: true};
+    // SO_AM_PARTNER_NAME        @UI                     : {Hidden: true};
+    // SO_AG_PARTNER_NAME        @UI                     : {Hidden: true};
+    // SO_WE_PARTNER_NAME        @UI                     : {Hidden: true};
+    // SO_MAKTX                  @UI                     : {Hidden: true};
+    // SO_LANDX                  @UI                     : {Hidden: true};
+    // SO_VKORG_NAME1            @UI                     : {Hidden: true};
+    // SO_FAKSP_VTEXT            @UI                     : {Hidden: true};
+    // SO_SUPPLY_SITUATION_DESCR @UI                     : {Hidden: true};
+    // SO_PSTYV_VTEXT            @UI                     : {Hidden: true};
+    // SO_BSARK_VTEXT            @UI                     : {Hidden: true};
+    // SO_VKBUR_BEZEI            @UI                     : {Hidden: true};
+    // DL_LFART_VTEXT            @UI                     : {Hidden: true};
+    // id                        @UI                     : {Hidden: true};
+    // SO_MANDT                  @UI                     : {Hidden: true};
+    // SO_SPART                  @UI                     : {Hidden: true};
+    // SO_ABGRU                  @UI                     : {Hidden: true};
+    // SO_ABSTA                  @UI                     : {Hidden: true};
+    // SO_KNUMV                  @UI                     : {Hidden: true};
     
-    DL_HSDAT                  @UI                     : {Hidden: true};
-    DL_VFDAT                  @UI                     : {Hidden: true};
-    // Shipment Details Texts
-    TM_VSART_BEZEI            @UI                     : {Hidden: true};
-    TM_TDLNR_NAME1            @UI                     : {Hidden: true};
-    TM_STTRG_DDTEXT           @UI                     : {Hidden: true};
-    SO_F_POSNR                @UI                     : {Hidden: true};
-    SO_VBTYP                  @UI                     : {Hidden: true};
-    SO_TRAGR_VTEXT            @UI                     : {Hidden: true};
-    SO_VKGRP_BEZEI            @UI                     : {Hidden: true};
-    SO_F_VSBED_VTEXT          @UI                     : {Hidden: true};
-    SO_KNREF_ITM              @UI                     : {Hidden: true};
-    SO_VRKME                  @UI                     : {Hidden: true};
-    SO_WAERS                  @UI                     : {Hidden: true};
-    SO_KPEIN                  @UI                     : {Hidden: true};
-    SO_KMEIN                  @UI                     : {Hidden: true};
-    SO_WAERK                  @UI                     : {Hidden: true};
-    TM_TRACKING_ID_COMP       @UI                     : {Hidden: true};
-    DL_POSNR                  @UI                     : {Hidden: true};
-    DL_VGBEL                  @UI                     : {Hidden: true};
-    TM_TRACKING_ID_ELEM       @UI                     : {Hidden: true};
-    DL_VGPOS                  @UI                     : {Hidden: true};
-    DL_POSAR                  @UI                     : {Hidden: true};
-    DL_VRKME                  @UI                     : {Hidden: true};
-    SO_F_VKORG_VTEXT          @UI                     : {Hidden: true};
+    // DL_HSDAT                  @UI                     : {Hidden: true};
+    // DL_VFDAT                  @UI                     : {Hidden: true};
+    // // Shipment Details Texts
+    // TM_VSART_BEZEI            @UI                     : {Hidden: true};
+    // TM_TDLNR_NAME1            @UI                     : {Hidden: true};
+    // TM_STTRG_DDTEXT           @UI                     : {Hidden: true};
+    // SO_F_POSNR                @UI                     : {Hidden: true};
+    // SO_VBTYP                  @UI                     : {Hidden: true};
+    // SO_TRAGR_VTEXT            @UI                     : {Hidden: true};
+    // SO_VKGRP_BEZEI            @UI                     : {Hidden: true};
+    // SO_F_VSBED_VTEXT          @UI                     : {Hidden: true};
+    // SO_KNREF_ITM              @UI                     : {Hidden: true};
+    // SO_VRKME                  @UI                     : {Hidden: true};
+    // SO_WAERS                  @UI                     : {Hidden: true};
+    // SO_KPEIN                  @UI                     : {Hidden: true};
+    // SO_KMEIN                  @UI                     : {Hidden: true};
+    // SO_WAERK                  @UI                     : {Hidden: true};
+    // TM_TRACKING_ID_COMP       @UI                     : {Hidden: true};
+    // DL_POSNR                  @UI                     : {Hidden: true};
+    // DL_VGBEL                  @UI                     : {Hidden: true};
+    // TM_TRACKING_ID_ELEM       @UI                     : {Hidden: true};
+    // DL_VGPOS                  @UI                     : {Hidden: true};
+    // DL_POSAR                  @UI                     : {Hidden: true};
+    // DL_VRKME                  @UI                     : {Hidden: true};
+    // SO_F_VKORG_VTEXT          @UI                     : {Hidden: true};
 
 
 }
@@ -2102,9 +2102,9 @@ annotate service.Results with @UI.LineItem: {
     $value             : [
         {Value: SO_VBELN},
         {Value: SO_POSNR},
+        {Value: SO_AUART},
         {Value: SO_ERDAT_ORDER},
         {Value: SO_ERDAT_ITEM},
-        {Value: SO_AUART},
         {Value: SO_WERKS},
         {Value: SO_VTWEG},
         {Value: SO_MATNR},
