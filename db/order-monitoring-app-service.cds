@@ -1,7 +1,12 @@
 namespace allorders.db;
 
 @cds.persistence.exists
-entity ![RESULTS] {
+entity ![RESULTS] @(restrict: [
+  {
+    grant: 'READ',
+    where: 'VBAKAUTH.USERID = $user and VBAKAUTH.VKORG = SO_VKORG and VBAKAUTH.VTWEG = SO_VTWEG and VBAKAUTH.SPART = SO_SPART'
+  }
+]){
         ID                                    : String(1);
         SO_MANDT                              : String(3);
         SO_VBELN                              : String(10);
@@ -197,6 +202,11 @@ entity ![RESULTS] {
         BL_VBELN_INV_FIRST                    : String(10);
         BL_VBELN_INV_LAST                     : String(10);
         BL_XBLNR                              : String(16);
+        VBAKAUTH: Association to many VBAKAuthObjectKeys 
+                        on VBAKAUTH.VKORG = $self.SO_VKORG 
+                        and VBAKAUTH.VTWEG = $self.SO_VTWEG 
+                        and VBAKAUTH.SPART = $self.SO_SPART 
+                        and VBAKAUTH.USERID = $user;
 }
 
 entity PARTNER_SETTINGS {
@@ -208,8 +218,16 @@ entity PARTNER_SETTINGS {
         COMMT          : String(50);
 }
 
-type VBAKAuthObjectKeys {
-        VKORG: String(4)  ; 
-        VTWEG: String(2)  ;
-        SPART: String(2)  ;
+// type VBAKAuthObjectKeys {
+//         VKORG: String(4)  ; 
+//         VTWEG: String(2)  ;
+//         SPART: String(2)  ;
+//         UserId: String;
+// }
+
+entity VBAKAuthObjectKeys {
+        key VKORG: String(4)  ; 
+        key VTWEG: String(2)  ;
+        key SPART: String(2)  ;
+        key USERID: String;
 }

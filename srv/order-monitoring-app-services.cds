@@ -3,7 +3,8 @@ using allorders.db as db_app from '../db/order-monitoring-app-service';
 
 service srvOpenOrders {
 
-  function getVBAKAuthObjKeys( isDevSystem : Boolean ) returns array of db_app.VBAKAuthObjectKeys;
+  entity VBAKAuthObjectKeys as select from db_app.VBAKAuthObjectKeys;
+  function getVBAKAuthObjKeys( isDevSystem : Boolean ) returns array of VBAKAuthObjectKeys;
 
   @readonly
   @cds.redirection.target: true
@@ -191,7 +192,8 @@ service srvOpenOrders {
           TM_STTRG_DDTEXT,
           BL_VBELN_INV_FIRST,
           BL_VBELN_INV_LAST,
-          BL_XBLNR
+          BL_XBLNR,
+          VBAKAUTH
     };
 
     entity Results as projection on BaseEntity {
