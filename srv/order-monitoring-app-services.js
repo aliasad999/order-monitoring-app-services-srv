@@ -12,11 +12,10 @@ class srvOpenOrders extends cds.ApplicationService {
 
         this.on("getVBAKAuthObjKeys", async req => {
             let query = "GET /authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100";
-            if(req.data.isDevSystem){
-                query += "&isDevEnv=X";
-            }
+            // if(req.data.isDevSystem){
+            //     query += "&isDevEnv=X";
+            // }
             let lt_result = [];
-            // let lt_result = [{"VKORG":"0001","VTWEG":"01","SPART":"01"},{"VKORG":"1000","VTWEG":"01","SPART":"01"},{"VKORG":"1000","VTWEG":"02","SPART":"02"}];
             try {
                 const service = await cds.connect.to('authService');
                 lt_result = await service.run(query);
@@ -27,11 +26,9 @@ class srvOpenOrders extends cds.ApplicationService {
 
             let authObject = null;
             let finalQuery = "";
-            // DEV ENVIRONMENT
-            if(req.data.isDevSystem){
-                if (lt_result.length === 0)
-                return req.error(404, 'no authorization profile attached to user')
 
+            // if(req.data.isDevSystem){
+            if (lt_result.length !== 0){
                 let finalQueryPieces = [];
                 lt_result.forEach((set) => {
                     let vkorg = `SO_VKORG = '${set.VKORG}'`;
@@ -43,34 +40,37 @@ class srvOpenOrders extends cds.ApplicationService {
                 })
 
                 finalQuery = `(${finalQueryPieces.join(" or ")})`;
-                
-            }else{ // OTHER ENVIRONMENTS
-                if (!lt_result)
-                return req.error(404, 'no authorization profile attached to user')
-                let vkorg = [];
-                let vtweg = [];
-                let spart = [];
-                
-                const salesOrgs = lt_result.VKORG
-                const distributionChannels = lt_result.VTWEG;
-                const divisions = lt_result.SPART;
-                salesOrgs && salesOrgs.length != 0 && salesOrgs.forEach((salesOrg) => {
-                    vkorg.push(`SO_VKORG = '${salesOrg}'`);
-                })
-                distributionChannels && distributionChannels.length != 0 && distributionChannels.forEach((distributionChannel) => {
-                    vtweg.push(`SO_VTWEG = '${distributionChannel}'`);
-                })
-                divisions && divisions.length != 0 && divisions.forEach((division) => {
-                    spart.push(`SO_SPART = '${division}'`);
-                })
-
-                
-                authObject.vkOrgQuery = vkorg.length !== 0 ? cds.parse.expr(vkorg.join(' or ')) : null;
-                authObject.vkwegQuery = vtweg.length !== 0 ? cds.parse.expr(vtweg.join(' or ')) : null;
-                authObject.spartQuery = spart.length !== 0 ? cds.parse.expr(spart.join(' or ')) : null;
-
-
             }
+
+            
+                
+            // }else{ // OTHER ENVIRONMENTS
+            //     if (!lt_result)
+            //     return req.error(404, 'no authorization profile attached to user')
+            //     let vkorg = [];
+            //     let vtweg = [];
+            //     let spart = [];
+                
+            //     const salesOrgs = lt_result.VKORG
+            //     const distributionChannels = lt_result.VTWEG;
+            //     const divisions = lt_result.SPART;
+            //     salesOrgs && salesOrgs.length != 0 && salesOrgs.forEach((salesOrg) => {
+            //         vkorg.push(`SO_VKORG = '${salesOrg}'`);
+            //     })
+            //     distributionChannels && distributionChannels.length != 0 && distributionChannels.forEach((distributionChannel) => {
+            //         vtweg.push(`SO_VTWEG = '${distributionChannel}'`);
+            //     })
+            //     divisions && divisions.length != 0 && divisions.forEach((division) => {
+            //         spart.push(`SO_SPART = '${division}'`);
+            //     })
+
+                
+            //     authObject.vkOrgQuery = vkorg.length !== 0 ? cds.parse.expr(vkorg.join(' or ')) : null;
+            //     authObject.vkwegQuery = vtweg.length !== 0 ? cds.parse.expr(vtweg.join(' or ')) : null;
+            //     authObject.spartQuery = spart.length !== 0 ? cds.parse.expr(spart.join(' or ')) : null;
+
+
+            // }
             
             let sessionID = req.headers['authorization'] || req.headers['x-username'];
             const queryId = `${sessionID}AuthObjectString`
@@ -94,6 +94,8 @@ class srvOpenOrders extends cds.ApplicationService {
                 let authObject = sessionCache.get(queryId);
                 if(authObject){
                     var authObjectWhereClause = cds.parse.expr(authObject);
+                }else{
+                    return req.error(404, 'no authorization profile attached to user')
                 }
                 
                 // let vkorg = [];
@@ -239,7 +241,7 @@ class srvOpenOrders extends cds.ApplicationService {
                 data.forEach((item) => {
                     item.id = uuid.v1()
                     for(const property in item){
-                        if(item[property] === "00000000" || item[property] === "0000-00-00"){
+                        if(item[property] === "00000000" || item[property] === "0000-00-00" || item[property] === "--"){
                             item[property] = null;
                         }
                     }

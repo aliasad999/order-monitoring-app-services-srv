@@ -83,7 +83,7 @@ annotate service.valueHelps with {
     DL_LFDAT                   @title: '{i18n>DL_LFDAT}'                   @sap.Label: '{i18n>DL_LFDAT}';
     DL_HSDAT                   @title: '{i18n>DL_HSDAT}'                   @sap.Label: '{i18n>DL_HSDAT}';
     DL_VFDAT                   @title: '{i18n>DL_VFDAT}'                   @sap.Label: '{i18n>DL_VFDAT}';
-    DL_TRAID                   @Common.IsDigitSequence : true @title: '{i18n>DL_TRAID}'                   @sap.Label: '{i18n>DL_TRAID}';
+    DL_TRAID                   @title: '{i18n>DL_TRAID}'                   @sap.Label: '{i18n>DL_TRAID}';
     DL_ZZ0S2BLNR               @Common.IsDigitSequence : true @title: '{i18n>DL_ZZ0S2BLNR}'               @sap.Label: '{i18n>DL_ZZ0S2BLNR}';
     DL_PEND_DEL_QUAN           @title: '{i18n>DL_PEND_DEL_QUAN}'           @sap.Label: '{i18n>DL_PEND_DEL_QUAN}';
     LAST_NOTE                  @title: '{i18n>LAST_NOTE}'                  @sap.Label: '{i18n>LAST_NOTE}';
@@ -611,8 +611,8 @@ annotate service.Results with {
         SearchSupported        : true,
         Parameters             : [{
             $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_AUART,
-            ValueListProperty: 'SO_AUART'
+            LocalDataProperty: SO_WERKS,
+            ValueListProperty: 'SO_WERKS'
         }
 
         ]
@@ -1517,7 +1517,6 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
 };
 
 annotate service.Results with {
