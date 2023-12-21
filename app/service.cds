@@ -15,10 +15,10 @@ annotate service.valueHelps with {
     SO_AG_PARTNER_NAME;
     SO_WE_PARTNER              @Common.IsDigitSequence : true @title: '{i18n>SO_WE_PARTNER}'              @sap.Label: '{i18n>SO_WE_PARTNER}';
     SO_WE_PARTNER_NAME;
-    SO_LAND1                   @Common.IsDigitSequence : true @title: '{i18n>SO_LAND1}'                   @sap.Label: '{i18n>SO_LAND1}';
+    SO_LAND1                   @title: '{i18n>SO_LAND1}'                   @sap.Label: '{i18n>SO_LAND1}';
     SO_LANDX                   @title: '{i18n>SO_LANDX}'                   @sap.Label: '{i18n>SO_LANDX}';
     SO_ORT01                   @title: '{i18n>SO_ORT01}'                   @sap.Label: '{i18n>SO_ORT01}';
-    SO_VKORG                   @Common.IsDigitSequence : true @title: '{i18n>SO_VKORG}'                   @sap.Label: '{i18n>SO_VKORG}';
+    SO_VKORG                   @title: '{i18n>SO_VKORG}'                   @sap.Label: '{i18n>SO_VKORG}';
     SO_VKORG_NAME1             @title: '{i18n>SO_VKORG_NAME1}'             @sap.Label: '{i18n>SO_VKORG_NAME1}';
     SO_KNREF_HEAD              @title: '{i18n>SO_KNREF_HEAD}'              @sap.Label: '{i18n>SO_KNREF_HEAD}';
     SO_VBUND                   @title: '{i18n>SO_VBUND}'                   @sap.Label: '{i18n>SO_VBUND}';
@@ -30,7 +30,7 @@ annotate service.valueHelps with {
     SO_LDDAT                   @title: '{i18n>SO_LDDAT}'                   @sap.Label: '{i18n>SO_LDDAT}';
     SO_UNCONFIRMED_QTY         @title: '{i18n>SO_UNCONFIRMED_QTY}'         @sap.Label: '{i18n>SO_UNCONFIRMED_QTY}';
     SO_REQ_TEXT                @title: '{i18n>SO_REQ_TEXT}'                @sap.Label: '{i18n>SO_REQ_TEXT}';
-    SO_FAKSP                   @Common.IsDigitSequence : true @title: '{i18n>SO_FAKSP}'                   @sap.Label: '{i18n>SO_FAKSP}';
+    SO_FAKSP                   @title: '{i18n>SO_FAKSP}'                   @sap.Label: '{i18n>SO_FAKSP}';
     SO_FAKSP_VTEXT             @title: '{i18n>SO_FAKSP_VTEXT}'             @sap.Label: '{i18n>SO_FAKSP_VTEXT}';
     SO_LGORT                   @title: '{i18n>SO_LGORT}'                   @sap.Label: '{i18n>SO_LGORT}';
     SO_SUPPLY_SITUATION        @title: '{i18n>SO_SUPPLY_SITUATION}'        @sap.Label: '{i18n>SO_SUPPLY_SITUATION}';
@@ -42,11 +42,11 @@ annotate service.valueHelps with {
     SO_NETWR                   @title: '{i18n>SO_NETWR}'                   @sap.Label: '{i18n>SO_NETWR}';
     SO_WAERK                   @title: '{i18n>SO_WAERK}'                   @sap.Label: '{i18n>SO_WAERK}';
     SO_HTEXT                   @title: '{i18n>SO_HTEXT}'                   @sap.Label: '{i18n>SO_HTEXT}';
-    SO_PSTYV                   @Common.IsDigitSequence : true @title: '{i18n>SO_PSTYV}'                   @sap.Label: '{i18n>SO_PSTYV}';
+    SO_PSTYV                   @title: '{i18n>SO_PSTYV}'                   @sap.Label: '{i18n>SO_PSTYV}';
     SO_PSTYV_VTEXT             @title: '{i18n>SO_PSTYV_VTEXT}'             @sap.Label: '{i18n>SO_PSTYV_VTEXT}';
     SO_DISPO                   @title: '{i18n>SO_DISPO}'                   @sap.Label: '{i18n>SO_DISPO}';
     SO_KOSCH                   @title: '{i18n>SO_KOSCH}'                   @sap.Label: '{i18n>SO_KOSCH}';
-    SO_VKBUR                   @Common.IsDigitSequence : true @title: '{i18n>SO_VKBUR}'                   @sap.Label: '{i18n>SO_VKBUR}';
+    SO_VKBUR                   @title: '{i18n>SO_VKBUR}'                   @sap.Label: '{i18n>SO_VKBUR}';
     SO_VKBUR_BEZEI             @title: '{i18n>SO_VKBUR_BEZEI}'             @sap.Label: '{i18n>SO_VKBUR_BEZEI}';
     SO_ABGRU                   @title: '{i18n>SO_ABGRU}'                   @sap.Label: '{i18n>SO_ABGRU}';
     SO_ABSTA                   @title: '{i18n>SO_ABSTA}'                   @sap.Label: '{i18n>SO_ABSTA}';
@@ -69,7 +69,7 @@ annotate service.valueHelps with {
     SO_ZZ0S2REVG2              @title: '{i18n>SO_ZZ0S2REVG2}'              @sap.Label: '{i18n>SO_ZZ0S2REVG2}';
     SO_ZZDKPPRODB              @title: '{i18n>SO_ZZDKPPRODB}'              @sap.Label: '{i18n>SO_ZZDKPPRODB}';
     SO_BSARK_VTEXT ;
-    SO_BSARK                   @Common.IsDigitSequence : true @title: '{i18n>SO_BSARK}'                   @sap.Label: '{i18n>SO_BSARK}';
+    SO_BSARK                   @title: '{i18n>SO_BSARK}'                   @sap.Label: '{i18n>SO_BSARK}';
     DL_VBELN                   @title: '{i18n>DL_VBELN}'                   @sap.Label: '{i18n>DL_VBELN}';
     DL_POSNR                   @Common.IsDigitSequence : true @title: '{i18n>DL_POSNR}'                   @sap.Label: '{i18n>DL_POSNR}';
     DL_CHARG                   @title: '{i18n>DL_CHARG}'                   @sap.Label: '{i18n>DL_CHARG}';
@@ -78,7 +78,7 @@ annotate service.valueHelps with {
     DL_POSAR                   @title: '{i18n>DL_POSAR}'                   @sap.Label: '{i18n>DL_POSAR}';
     DL_VGBEL                   @title: '{i18n>DL_VGBEL}'                   @sap.Label: '{i18n>DL_VGBEL}';
     DL_VGPOS                   @Common.IsDigitSequence : true @title: '{i18n>DL_VGPOS}'                   @sap.Label: '{i18n>DL_VGPOS}';
-    DL_LFART                   @Common.IsDigitSequence : true @title: '{i18n>DL_LFART}'                   @sap.Label: '{i18n>DL_LFART}';
+    DL_LFART                   @title: '{i18n>DL_LFART}'                   @sap.Label: '{i18n>DL_LFART}';
     DL_LFART_VTEXT             @title: '{i18n>DL_LFART_VTEXT}'             @sap.Label: '{i18n>DL_LFART_VTEXT}';
     DL_LFDAT                   @title: '{i18n>DL_LFDAT}'                   @sap.Label: '{i18n>DL_LFDAT}';
     DL_HSDAT                   @title: '{i18n>DL_HSDAT}'                   @sap.Label: '{i18n>DL_HSDAT}';
@@ -87,10 +87,9 @@ annotate service.valueHelps with {
     DL_ZZ0S2BLNR               @Common.IsDigitSequence : true @title: '{i18n>DL_ZZ0S2BLNR}'               @sap.Label: '{i18n>DL_ZZ0S2BLNR}';
     DL_PEND_DEL_QUAN           @title: '{i18n>DL_PEND_DEL_QUAN}'           @sap.Label: '{i18n>DL_PEND_DEL_QUAN}';
     LAST_NOTE                  @title: '{i18n>LAST_NOTE}'                  @sap.Label: '{i18n>LAST_NOTE}';
-    USERNAME                   @title: '{i18n>USERNAME}'                   @sap.Label: '{i18n>USERNAME}';
     TM_TKNUM                   @title: '{i18n>TM_TKNUM}'                   @sap.Label: '{i18n>TM_TKNUM}'; 
     TM_VSART_BEZEI;
-    TM_VSART                   @Common.IsDigitSequence : true @title: '{i18n>TM_VSART}'                   @sap.Label: '{i18n>TM_VSART}';
+    TM_VSART                   @title: '{i18n>TM_VSART}'                   @sap.Label: '{i18n>TM_VSART}';
     TM_EXTI1                   @title: '{i18n>TM_EXTI1}'                   @sap.Label: '{i18n>TM_EXTI1}';
     TM_TDLNR                   @Common.IsDigitSequence : true @title: '{i18n>TM_TDLNR}'                   @sap.Label: '{i18n>TM_TDLNR}';
     TM_TDLNR_NAME1;
@@ -115,22 +114,22 @@ annotate service.valueHelps with {
     SO_BSTKD                   @title: '{i18n>SO_BSTKD}'                   @sap.Label: '{i18n>SO_BSTKD}';
     BL_VBELN_INV_FIRST         @Common.IsDigitSequence : true @title: '{i18n>BL_VBELN_INV_FIRST}'         @sap.Label: '{i18n>BL_VBELN_INV_FIRST}';
     BL_VBELN_INV_LAST          @Common.IsDigitSequence : true @title: '{i18n>BL_VBELN_INV_LAST}'          @sap.Label: '{i18n>BL_VBELN_INV_LAST}';
-    BL_XBLNR                   @Common.IsDigitSequence : true @title: '{i18n>BL_XBLNR}'                   @sap.Label: '{i18n>BL_XBLNR}';
+    BL_XBLNR                   @title: '{i18n>BL_XBLNR}'                   @sap.Label: '{i18n>BL_XBLNR}';
     SO_TRAGR                   @Common.IsDigitSequence : true @title: '{i18n>SO_TRAGR}'                   @sap.Label: '{i18n>SO_TRAGR}';
     SO_TRAGR_VTEXT;
-    SO_VKGRP                   @Common.IsDigitSequence : true @title: '{i18n>SO_VKGRP}'                   @sap.Label: '{i18n>SO_VKGRP}';
+    SO_VKGRP                   @title: '{i18n>SO_VKGRP}'                   @sap.Label: '{i18n>SO_VKGRP}';
     SO_VKGRP_BEZEI;
     SO_ROUTE                   @title: '{i18n>SO_ROUTE}'                   @sap.Label: '{i18n>SO_ROUTE}';
     SO_F_TDDAT                 @title: '{i18n>SO_F_TDDAT}'                 @sap.Label: '{i18n>SO_F_TDDAT}';
     SO_F_ZZ0S2MATUG            @title: '{i18n>SO_F_ZZ0S2MATUG}'            @sap.Label: '{i18n>SO_F_ZZ0S2MATUG}';
-    SO_F_VSBED                 @Common.IsDigitSequence : true @title: '{i18n>SO_F_VSBED}'                 @sap.Label: '{i18n>SO_TRAGR}';
+    SO_F_VSBED                 @title: '{i18n>SO_F_VSBED}'                 @sap.Label: '{i18n>SO_TRAGR}';
     SO_F_VSBED_VTEXT;
     DL_WADAT                   @title: '{i18n>DL_WADAT}'                   @sap.Label: '{i18n>DL_WADAT}';
     DL_WADAT_IST               @title: '{i18n>DL_WADAT_IST}'               @sap.Label: '{i18n>DL_WADAT_IST}';
     TM_SHIPMENT_ALERT         @title: '{i18n>TM_SHIPMENT_ALERT}'                   @sap.Label: '{i18n>TM_SHIPMENT_ALERT}';
     TM_SHIPMENT_CURRENT_STATUS    @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'               @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
     SO_F_WERKS                 @title: '{i18n>SO_F_WERKS}'                 @sap.Label: '{i18n>SO_F_WERKS}';
-    SO_F_VKORG                 @Common.IsDigitSequence : true @title: '{i18n>SO_F_VKORG}'                 @sap.Label: '{i18n>SO_F_VKORG}';
+    SO_F_VKORG                 @title: '{i18n>SO_F_VKORG}'                 @sap.Label: '{i18n>SO_F_VKORG}';
     SO_F_VKORG_VTEXT;
 };
 
@@ -744,7 +743,6 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
 };
 
 annotate service.Results with {
@@ -1364,24 +1362,24 @@ annotate service.Results with {
     }
 };
 
-annotate service.Results with {
-    DL_POSNR
-    @Common.ValueList: {
-        $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>DL_POSNR}',
-        CollectionPath         : 'valueHelps',
-        DistinctValuesSupported: true,
-        SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: DL_POSNR,
-            ValueListProperty: 'DL_POSNR'
-        }
+// annotate service.Results with {
+//     DL_POSNR
+//     @Common.ValueList: {
+//         $Type                  : 'Common.ValueListType',
+//         Label                  : '{@i18n>DL_POSNR}',
+//         CollectionPath         : 'valueHelps',
+//         DistinctValuesSupported: true,
+//         SearchSupported        : true,
+//         Parameters             : [{
+//             $Type            : 'Common.ValueListParameterInOut',
+//             LocalDataProperty: DL_POSNR,
+//             ValueListProperty: 'DL_POSNR'
+//         }
 
-        ]
-    }
-    @Common.IsDigitSequence: true
-};
+//         ]
+//     }
+//     @Common.IsDigitSequence: true
+// };
 
 annotate service.Results with {
     DL_CHARG
@@ -1460,24 +1458,24 @@ annotate service.Results with {
     }
 };
 
-annotate service.Results with {
-    DL_VGPOS
-    @Common.ValueList: {
-        $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>DL_VGPOS}',
-        CollectionPath         : 'valueHelps',
-        DistinctValuesSupported: true,
-        SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: DL_VGPOS,
-            ValueListProperty: 'DL_VGPOS'
-        }
+// annotate service.Results with {
+//     DL_VGPOS
+//     @Common.ValueList: {
+//         $Type                  : 'Common.ValueListType',
+//         Label                  : '{@i18n>DL_VGPOS}',
+//         CollectionPath         : 'valueHelps',
+//         DistinctValuesSupported: true,
+//         SearchSupported        : true,
+//         Parameters             : [{
+//             $Type            : 'Common.ValueListParameterInOut',
+//             LocalDataProperty: DL_VGPOS,
+//             ValueListProperty: 'DL_VGPOS'
+//         }
 
-        ]
-    }
-    @Common.IsDigitSequence: true
-};
+//         ]
+//     }
+//     @Common.IsDigitSequence: true
+// };
 
 annotate service.Results with {
     DL_LFART
@@ -1914,7 +1912,7 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
+    // @Common.IsDigitSequence: true
 };
 
 annotate service.Results with {
@@ -1937,6 +1935,7 @@ annotate service.Results with {
 
         ]
     }
+    @Common.IsDigitSequence: true
 };
 
 annotate service.Results with {
