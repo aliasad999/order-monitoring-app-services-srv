@@ -12,11 +12,7 @@ class srvOpenOrders extends cds.ApplicationService {
 
         this.on("getVBAKAuthObjKeys", async req => {
             let query = "GET /authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100";
-            if(req.data.isDevSystem){
-                query += "&isDevEnv=X";
-            }
             let lt_result = [];
-            // let lt_result = [{"VKORG":"0001","VTWEG":"01","SPART":"01"},{"VKORG":"1000","VTWEG":"01","SPART":"01"},{"VKORG":"1000","VTWEG":"02","SPART":"02"}];
             try {
                 const service = await cds.connect.to('authService');
                 lt_result = await service.run(query);
@@ -25,57 +21,29 @@ class srvOpenOrders extends cds.ApplicationService {
                 req.error(413, 'remote service to Cobalt could not be executed')
             }
 
-            let authObject = null;
-            let finalQuery = "";
-            // DEV ENVIRONMENT
-            // if(req.data.isDevSystem){
-            if (lt_result.length === 0)
-            return req.error(404, 'no authorization profile attached to user')
-
-            let finalQueryPieces = [];
-            lt_result.forEach((set) => {
-                let vkorg = `SO_VKORG = '${set.VKORG}'`;
-                let vtweg = `SO_VTWEG = '${set.VTWEG}'`;
-                let spart = `SO_SPART = '${set.SPART}'`;                    
+            // FOR LOCAL TESTING PURPOSES
+            // let userID = "GARCID42";
+            // lt_result = [
+            //     {
+            //         "VKORG": "TR0C",
+            //         "VTWEG": "EC",
+            //         "SPART": "BS"
+            //     }
+            // ]
             
-                let profileQuery = `( ${vkorg} and ${vtweg} and ${spart})`;
-                finalQueryPieces.push(profileQuery);
-            })
+            let userID = req.user.id;
+            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+            await DELETE.from(VBAKAuthObjectKeys).where ({USERID: userID});
 
-            finalQuery = `(${finalQueryPieces.join(" or ")})`;
-                
-            // }else{ // OTHER ENVIRONMENTS
-            //     if (!lt_result)
-            //     return req.error(404, 'no authorization profile attached to user')
-            //     let vkorg = [];
-            //     let vtweg = [];
-            //     let spart = [];
-                
-            //     const salesOrgs = lt_result.VKORG
-            //     const distributionChannels = lt_result.VTWEG;
-            //     const divisions = lt_result.SPART;
-            //     salesOrgs && salesOrgs.length != 0 && salesOrgs.forEach((salesOrg) => {
-            //         vkorg.push(`SO_VKORG = '${salesOrg}'`);
-            //     })
-            //     distributionChannels && distributionChannels.length != 0 && distributionChannels.forEach((distributionChannel) => {
-            //         vtweg.push(`SO_VTWEG = '${distributionChannel}'`);
-            //     })
-            //     divisions && divisions.length != 0 && divisions.forEach((division) => {
-            //         spart.push(`SO_SPART = '${division}'`);
-            //     })
+            if (lt_result.length !== 0){
+                lt_result.forEach((set) => {
+                    set.USERID = userID;
+                })
 
-                
-            //     authObject.vkOrgQuery = vkorg.length !== 0 ? cds.parse.expr(vkorg.join(' or ')) : null;
-            //     authObject.vkwegQuery = vtweg.length !== 0 ? cds.parse.expr(vtweg.join(' or ')) : null;
-            //     authObject.spartQuery = spart.length !== 0 ? cds.parse.expr(spart.join(' or ')) : null;
-
-
-            // }
-            
-            let sessionID = req.headers['authorization'] || req.headers['x-username'];
-            const queryId = `${sessionID}AuthObjectString`
-            sessionCache.set(queryId, finalQuery);
+                await INSERT.into(VBAKAuthObjectKeys, lt_result);
+            }           
             return [];
+            
         });
 
         /**
@@ -87,63 +55,6 @@ class srvOpenOrders extends cds.ApplicationService {
          * */
         this.before("READ", "Results", async (req, next) => {                      
             req.query.SELECT.distinct = true;
-            // user story: OTC-183934
-            if (!checkScope(req, next, 'SystemScope')){
-                let sessionID = req.headers['authorization'] || req.headers['x-username'];
-                const queryId = `${sessionID}AuthObjectString`
-                let authObject = sessionCache.get(queryId);
-                if(authObject){
-                    var authObjectWhereClause = cds.parse.expr(authObject);
-                }
-                
-                // let vkorg = [];
-                // let vtweg = [];
-                // let spart = [];
-                // let lt_result = {};
-                // try {
-                //     const service = await cds.connect.to('authService');
-                //     const query = "GET /authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100";
-                //     lt_result = await service.run(query);
-                // } catch (error) {
-                //     log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
-                //     req.error(413, 'remote service to Cobalt could not be executed')
-                // }
-                // if (!lt_result)
-                // return req.error(404, 'no authorization profile attached to user')
-                // const salesOrgs = lt_result.VKORG
-                // const distributionChannels = lt_result.VTWEG;
-                // const divisions = lt_result.SPART;
-                // salesOrgs && salesOrgs.length != 0 && salesOrgs.forEach((salesOrg) => {
-                //     vkorg.push(`SO_VKORG = '${salesOrg}'`);
-                // })
-                // distributionChannels && distributionChannels.length != 0 && distributionChannels.forEach((distributionChannel) => {
-                //     vtweg.push(`SO_VTWEG = '${distributionChannel}'`);
-                // })
-                // divisions && divisions.length != 0 && divisions.forEach((division) => {
-                //     spart.push(`SO_SPART = '${division}'`);
-                // })
-        
-        
-                // let vkOrgQuery = vkorg.length !== 0 ? cds.parse.expr(vkorg.join(' or ')) : null;
-                // let vkwegQuery = vtweg.length !== 0 ? cds.parse.expr(vtweg.join(' or ')) : null;
-                // let spartQuery = spart.length !== 0 ? cds.parse.expr(spart.join(' or ')) : null;
-                // let where = req.query.SELECT.where || [];
-                // where.length != 0 && authObject.vkOrgQuery && authObject.vkOrgQuery.length != 0 && where.push('and');
-                // authObject.vkOrgQuery && where.push(authObject.vkOrgQuery);
-                // where.length != 0 && authObject.vkwegQuery && authObject.vkwegQuery.length != 0 && where.push('and');
-                // authObject.vkwegQuery && where.push(authObject.vkwegQuery);
-                // where.length !== 0 && authObject.spartQuery && authObject.spartQuery.length != 0 && where.push('and');
-                // authObject.spartQuery && where.push(authObject.spartQuery);
-
-
-                let where = req.query.SELECT.where || [];
-                where.length != 0 && authObjectWhereClause && authObjectWhereClause.length != 0 && where.push('and');
-                if(authObject){
-                    where.push(authObjectWhereClause);
-                }
-                req.query.SELECT.where = where;
-            }
-
         });
         
         this.on("READ", "Results", async (req, next) => {
@@ -238,6 +149,11 @@ class srvOpenOrders extends cds.ApplicationService {
             if (Array.isArray(data)) {
                 data.forEach((item) => {
                     item.id = uuid.v1()
+                    for(const property in item){
+                        if(item[property] === "00000000" || item[property] === "0000-00-00" || item[property] === "--"){
+                            item[property] = null;
+                        }
+                    }
                 })
             }
 
@@ -341,7 +257,7 @@ class srvOpenOrders extends cds.ApplicationService {
             // since there is a virtual id field, adding a random guid to each record of the result set.
             if (Array.isArray(data)) {
                 data.forEach((item) => {
-                    item.id = uuid.v1()
+                    item.id = uuid.v1()  
                 })
             }
         })
