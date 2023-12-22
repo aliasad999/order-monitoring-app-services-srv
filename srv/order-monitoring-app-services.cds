@@ -12,7 +12,11 @@ service srvOpenOrders {
     select from db_app.RESULTS {
       key SO_VBELN,
       key SO_POSNR,
-          SO_HTEXT
+          SO_HTEXT,
+          SO_VKORG,
+          SO_VTWEG,
+          SO_SPART,
+          VBAKAUTH
     };
   @readonly
   @cds.redirection.target: true
@@ -366,7 +370,8 @@ service srvOpenOrders {
           TM_STTRG_DDTEXT,
           BL_VBELN_INV_FIRST,
           BL_VBELN_INV_LAST,
-          BL_XBLNR
+          BL_XBLNR,
+          VBAKAUTH
     };
 
   entity notes           as
