@@ -5,6 +5,7 @@ const uuid = require('uuid');
 const status = require('http-status');
 const textBundle = require('./utils/textBundle')
 const log = require("cf-nodejs-logging-support");
+const enableHints = require("./plugins/enable_hints");
 
 class srvOpenOrders extends cds.ApplicationService {
 
@@ -53,7 +54,14 @@ class srvOpenOrders extends cds.ApplicationService {
          * @param {function} - The callback function containing the code that runs when the event is triggered
          * @param {object} req - The request object containing request details
          * */
-        this.before("READ", "Results", async (req, next) => {                      
+        this.before("READ", "Results", async (req, next) => {       
+            cds
+                .connect("db")
+                .then(({ db }) =>
+                    db?.before("READ", (req) => enableHints(req)
+                    )
+                );
+            req.query.SELECT.localized = false;
             req.query.SELECT.distinct = true;
         });
         
@@ -178,9 +186,23 @@ class srvOpenOrders extends cds.ApplicationService {
                 // make sure pagination is taken into account
                 if (query.SELECT.limit.rows.val) query.SELECT.limit.rows.val = req.query.SELECT.limit.rows?.val;
                 //query.SELECT.distinct = true;
-                // if any value is added in search field, that should be taken into account as well
-                query.SELECT.search = req.query.SELECT.search;
-                if (query.SELECT.limit.offset.val) query.SELECT.limit.offset.val = req.query.SELECT.limit.offset?.val || 0;
+                // if any lowerCaseSearchString is added in search field, that should be taken into account as well
+                //query.SELECT.search = req.query.SELECT.search;
+                let searchString = req._query.$search && req._query.$search.replace(/"/g, '')
+                let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
+                if (lowerCaseSearchString) {
+                    let where = []
+                    if (req._query['$select'] && req._query['$select'].split(',').length > 1) {
+                        where = cds.parse.expr(`lower(${req._query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req._query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                    } else {
+                        where = cds.parse.expr(`lower(${req._query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                    }
+                    let requestQuery = query.SELECT.where || [];
+                    where && requestQuery.length != 0 && requestQuery.push('and');
+                    where && requestQuery.push(where);
+                    query.SELECT.where = requestQuery
+                }
+                if (query.SELECT.limit.offset && query.SELECT.limit.offset.val && query.SELECT.limit.offset.val) query.SELECT.limit.offset.val = req.query.SELECT.limit.offset?.val || 0;
                 if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
                     query.SELECT.columns.length = 0;
                     query.SELECT.columns = req.query.SELECT.columns;
