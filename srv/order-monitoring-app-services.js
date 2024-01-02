@@ -184,7 +184,7 @@ class srvOpenOrders extends cds.ApplicationService {
                 const queryString = sessionCache.get(queryId);
                 const query = JSON.parse(queryString);
                 // make sure pagination is taken into account
-                if (query.SELECT.limit.rows.val) query.SELECT.limit.rows.val = req.query.SELECT.limit.rows?.val;
+                // if (query.SELECT.limit.rows.val) query.SELECT.limit.rows.val = req.query.SELECT.limit.rows?.val;
                 //query.SELECT.distinct = true;
                 // if any lowerCaseSearchString is added in search field, that should be taken into account as well
                 //query.SELECT.search = req.query.SELECT.search;
@@ -202,8 +202,13 @@ class srvOpenOrders extends cds.ApplicationService {
                     where && requestQuery.push(where);
                     query.SELECT.where = requestQuery
                 }
-                if (query.SELECT.limit.offset && query.SELECT.limit.offset.val && query.SELECT.limit.offset.val) query.SELECT.limit.offset.val = req.query.SELECT.limit.offset?.val || 0;
+                // if (query.SELECT.limit.offset && query.SELECT.limit.offset.val && query.SELECT.limit.offset.val) query.SELECT.limit.offset.val = req.query.SELECT.limit.offset?.val || 0;
                 if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
+                    // ISSUE 343357 
+                    // add skip and top parameters from real query
+                    query.SELECT.limit.rows.val = req.query.SELECT.limit.rows.val;
+                    query.SELECT.limit.offset.val = req.query.SELECT.limit.offset.val;
+                    // End of ISSUE 343357
                     query.SELECT.columns.length = 0;
                     query.SELECT.columns = req.query.SELECT.columns;
                     query.SELECT.orderBy.length = 0;
@@ -236,7 +241,7 @@ class srvOpenOrders extends cds.ApplicationService {
                 const fields = req._query["search-focus"].split(',')
                 // if there is no session id, execute the query directly
                 if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
-                    //req.query.SELECT.distinct = true;
+                    req.query.SELECT.distinct = true;
                     lt_result = await db.run(req.query)
                     //await cds.run(req.query);
                 } else {
