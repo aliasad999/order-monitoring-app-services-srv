@@ -71,7 +71,7 @@ class srvOpenOrders extends cds.ApplicationService {
             // *-------------------------------------------------------------------*
             // Consider also partner settings, if they are maintained
             let db = cds.transaction(req);
-            let currentUser = req.headers['active-user'] || 'LOWZH';
+            let currentUser = req.headers['active-user'];
             if (currentUser) {
                 let partnerSettingsQuery = cds.parse.cql(`SELECT from srvOpenOrders_PartnerSettings where BASF_USER = '${currentUser}' and ACTIVE = 'X'`);
                 let partnerSettings = await db.run(partnerSettingsQuery);
