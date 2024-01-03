@@ -71,7 +71,7 @@ class srvOpenOrders extends cds.ApplicationService {
             // *-------------------------------------------------------------------*
             // Consider also partner settings, if they are maintained
             let db = cds.transaction(req);
-            let currentUser = req.headers['active-user']
+            let currentUser = req.headers['active-user'];
             if (currentUser) {
                 let partnerSettingsQuery = cds.parse.cql(`SELECT from srvOpenOrders_PartnerSettings where BASF_USER = '${currentUser}' and ACTIVE = 'X'`);
                 let partnerSettings = await db.run(partnerSettingsQuery);
@@ -104,13 +104,26 @@ class srvOpenOrders extends cds.ApplicationService {
                     let AMQuery = AMPartners.length !== 0 ? cds.parse.expr(AMPartners.join(' or ')) : null;
 
                     // Add queries to request
-                    let requestQuery  = req.query.SELECT.where || [];
-                    VEQuery && requestQuery.length != 0 && requestQuery.push('and');
-                    VEQuery && requestQuery.push(VEQuery);
-                    ASQuery && requestQuery.length != 0 && requestQuery.push('and');
-                    ASQuery && requestQuery.push(ASQuery);
-                    AMQuery && requestQuery.length != 0 && requestQuery.push('and');
-                    AMQuery && requestQuery.push(AMQuery);
+                    let requestQuery = req.query.SELECT.where || [];
+                    if (requestQuery.length === 0) {
+                        // In the case where the query object is empty, start with pushing VE partners (if any)
+                        VEQuery && requestQuery.push(VEQuery);
+                        // Only push an "or" if there are further partner settings - otherwise not needed
+                        VEQuery && ASQuery && requestQuery.push('or');
+                        ASQuery && requestQuery.push(ASQuery); 
+                        ASQuery && AMQuery && requestQuery.push('or');
+                        AMQuery && requestQuery.push(AMQuery)
+
+                    } else {
+                        // Always push an "and" to start - "or" will cause the query to crash
+                        requestQuery.push('and');
+                        VEQuery && requestQuery.push(VEQuery);
+                        // Only if further partner settings are set, "or" is required. Otherwise, not required
+                        VEQuery && ASQuery && requestQuery.push('or');
+                        ASQuery && requestQuery.push(ASQuery);
+                        AMQuery && AMQuery && requestQuery.push('or');
+                        AMQuery && requestQuery.push(AMQuery);
+                    }
                     req.query.SELECT.where = requestQuery
                 }
             }
