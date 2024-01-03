@@ -241,9 +241,13 @@ class srvOpenOrders extends cds.ApplicationService {
                 } else {
                     try {
                         const fields = req._query["search-focus"].split(',')
+                        let queryCount = 0;
                         let lt_count = await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`).where(query.SELECT.where))//distinct(true)
 
-                        lt_result.push({ $count: lt_count.length })
+                        if(lt_count.length > 0){
+                            queryCount = lt_count[0][Object.keys(lt_count[0])[0]];
+                        }
+                        lt_result.push({ $count: queryCount })
                     } catch (error) {
                         req.error(status.EXPECTATION_FAILED, getBundle(req.user.locale).getText("VALUEHELP_NOT_EXECUTED"))
                     }
@@ -259,9 +263,12 @@ class srvOpenOrders extends cds.ApplicationService {
                     //await cds.run(req.query);
                 } else {
                     try {
-                        
+                        let queryCount = 0;
                         let lt_count = await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`))
-                        lt_result.push({ $count: lt_count.length })
+                        if(lt_count.length > 0){
+                            queryCount = lt_count[0][Object.keys(lt_count[0])[0]];
+                        }
+                        lt_result.push({ $count: queryCount })
                     } catch (error) {
                         req.error(error)
                     }

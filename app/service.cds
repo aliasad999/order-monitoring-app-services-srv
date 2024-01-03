@@ -13,9 +13,9 @@ annotate service.valueHelps with {
     SO_MAKTX                   @title: '{i18n>SO_MAKTX}'                   @sap.Label: '{i18n>SO_MAKTX}';
     SO_KDMAT                   @title: '{i18n>SO_KDMAT}'                   @sap.Label: '{i18n>SO_KDMAT}';
     SO_AG_PARTNER              @Common.IsDigitSequence : true @title: '{i18n>SO_AG_PARTNER}'              @sap.Label: '{i18n>SO_AG_PARTNER}';
-    SO_AG_PARTNER_NAME;
+    SO_AG_PARTNER_NAME         @title: '{i18n>SO_AG_PARTNER_NAME}'              @sap.Label: '{i18n>SO_AG_PARTNER_NAME}';
     SO_WE_PARTNER              @Common.IsDigitSequence : true @title: '{i18n>SO_WE_PARTNER}'              @sap.Label: '{i18n>SO_WE_PARTNER}';
-    SO_WE_PARTNER_NAME;
+    SO_WE_PARTNER_NAME         @title: '{i18n>SO_WE_PARTNER_NAME}'              @sap.Label: '{i18n>SO_WE_PARTNER_NAME}';
     SO_LAND1                   @title: '{i18n>SO_LAND1}'                   @sap.Label: '{i18n>SO_LAND1}';
     SO_LANDX                   @title: '{i18n>SO_LANDX}'                   @sap.Label: '{i18n>SO_LANDX}';
     SO_ORT01                   @title: '{i18n>SO_ORT01}'                   @sap.Label: '{i18n>SO_ORT01}';
@@ -69,7 +69,7 @@ annotate service.valueHelps with {
     SO_PRSDT                   @title: '{i18n>SO_PRSDT}'                   @sap.Label: '{i18n>SO_PRSDT}';
     SO_ZZ0S2REVG2              @title: '{i18n>SO_ZZ0S2REVG2}'              @sap.Label: '{i18n>SO_ZZ0S2REVG2}';
     SO_ZZDKPPRODB              @title: '{i18n>SO_ZZDKPPRODB}'              @sap.Label: '{i18n>SO_ZZDKPPRODB}';
-    SO_BSARK_VTEXT ;
+    SO_BSARK_VTEXT ; // translations missing
     SO_BSARK                   @title: '{i18n>SO_BSARK}'                   @sap.Label: '{i18n>SO_BSARK}';
     DL_VBELN                   @title: '{i18n>DL_VBELN}'                   @sap.Label: '{i18n>DL_VBELN}';
     DL_POSNR                   @Common.IsDigitSequence : true @title: '{i18n>DL_POSNR}'                   @sap.Label: '{i18n>DL_POSNR}';
@@ -89,11 +89,11 @@ annotate service.valueHelps with {
     DL_PEND_DEL_QUAN           @title: '{i18n>DL_PEND_DEL_QUAN}'           @sap.Label: '{i18n>DL_PEND_DEL_QUAN}';
     LAST_NOTE                  @title: '{i18n>LAST_NOTE}'                  @sap.Label: '{i18n>LAST_NOTE}';
     TM_TKNUM                   @title: '{i18n>TM_TKNUM}'                   @sap.Label: '{i18n>TM_TKNUM}'; 
-    TM_VSART_BEZEI;
+    TM_VSART_BEZEI             @title: '{i18n>TM_VSART_BEZEI}'                   @sap.Label: '{i18n>TM_VSART_BEZEI}'; 
     TM_VSART                   @title: '{i18n>TM_VSART}'                   @sap.Label: '{i18n>TM_VSART}';
     TM_EXTI1                   @title: '{i18n>TM_EXTI1}'                   @sap.Label: '{i18n>TM_EXTI1}';
     TM_TDLNR                   @Common.IsDigitSequence : true @title: '{i18n>TM_TDLNR}'                   @sap.Label: '{i18n>TM_TDLNR}';
-    TM_TDLNR_NAME1;
+    TM_TDLNR_NAME1             @title: '{i18n>TM_TDLNR_NAME1}'        @sap.Label: '{i18n>TM_TDLNR_NAME1}';
     TM_TRACKING_ID_COMP        @title: '{i18n>TM_TRACKING_ID_COMP}'        @sap.Label: '{i18n>TM_TRACKING_ID_COMP}';
     TM_TRACKING_ID_ELEM        @title: '{i18n>TM_TRACKING_ID_ELEM}'        @sap.Label: '{i18n>TM_TRACKING_ID_ELEM}';
     TM_DPTBG                   @title: '{i18n>TM_DPTBG}'                   @sap.Label: '{i18n>TM_DPTBG}';
@@ -117,9 +117,9 @@ annotate service.valueHelps with {
     BL_VBELN_INV_LAST          @Common.IsDigitSequence : true @title: '{i18n>BL_VBELN_INV_LAST}'          @sap.Label: '{i18n>BL_VBELN_INV_LAST}';
     BL_XBLNR                   @title: '{i18n>BL_XBLNR}'                   @sap.Label: '{i18n>BL_XBLNR}';
     SO_TRAGR                   @Common.IsDigitSequence : true @title: '{i18n>SO_TRAGR}'                   @sap.Label: '{i18n>SO_TRAGR}';
-    SO_TRAGR_VTEXT;
+    SO_TRAGR_VTEXT; // translations missing
     SO_VKGRP                   @title: '{i18n>SO_VKGRP}'                   @sap.Label: '{i18n>SO_VKGRP}';
-    SO_VKGRP_BEZEI;
+    SO_VKGRP_BEZEI; // translations missing
     SO_ROUTE                   @title: '{i18n>SO_ROUTE}'                   @sap.Label: '{i18n>SO_ROUTE}';
     SO_F_TDDAT                 @title: '{i18n>SO_F_TDDAT}'                 @sap.Label: '{i18n>SO_F_TDDAT}';
     SO_F_ZZ0S2MATUG            @title: '{i18n>SO_F_ZZ0S2MATUG}'            @sap.Label: '{i18n>SO_F_ZZ0S2MATUG}';
@@ -131,7 +131,7 @@ annotate service.valueHelps with {
     TM_SHIPMENT_CURRENT_STATUS    @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'               @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
     SO_F_WERKS                 @title: '{i18n>SO_F_WERKS}'                 @sap.Label: '{i18n>SO_F_WERKS}';
     SO_F_VKORG                 @title: '{i18n>SO_F_VKORG}'                 @sap.Label: '{i18n>SO_F_VKORG}';
-    SO_F_VKORG_VTEXT;
+    SO_F_VKORG_VTEXT; // translations missing
 };
 
 annotate service.Results with {
@@ -433,8 +433,8 @@ annotate service.valueHelps with {
     // SO_BSARK_VTEXT            @UI                     : {Hidden: true};
     // SO_VKBUR_BEZEI            @UI                     : {Hidden: true};
     // DL_LFART_VTEXT            @UI                     : {Hidden: true};
-    // id                        @UI                     : {Hidden: true};
-    // SO_MANDT                  @UI                     : {Hidden: true};
+    id                        @UI                     : {Hidden: true};
+    SO_MANDT                  @UI                     : {Hidden: true};
     // SO_SPART                  @UI                     : {Hidden: true};
     // SO_ABGRU                  @UI                     : {Hidden: true};
     // SO_ABSTA                  @UI                     : {Hidden: true};
