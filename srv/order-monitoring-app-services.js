@@ -193,7 +193,7 @@ class srvOpenOrders extends cds.ApplicationService {
             const db = cds.transaction(req);
             let lt_result = []
             // if session id is there, get the cach-ed query and execute it.
-            if (sessionCache.get(queryId)) {
+            if (sessionCache.get(queryId) && req.headers?.filterbar === 'false')  {
                 const queryString = sessionCache.get(queryId);
                 const query = JSON.parse(queryString);
                 // make sure pagination is taken into account
@@ -257,6 +257,21 @@ class srvOpenOrders extends cds.ApplicationService {
             } else {
                 const fields = req._query["search-focus"].split(',')
                 // if there is no session id, execute the query directly
+                let searchString = req._query.$search && req._query.$search.replace(/"/g, '')
+                let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
+                if (lowerCaseSearchString) {
+                    let where = []
+                    if (req._query['$select'] && req._query['$select'].split(',').length > 1) {
+                        where = cds.parse.expr(`lower(${req._query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req._query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                    } else {
+                        where = cds.parse.expr(`lower(${req._query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                    }
+                    let requestQuery = req.query.SELECT.where || [];
+                    where && requestQuery.length != 0 && requestQuery.push('and');
+                    where && requestQuery.push(where);
+                    req.query.SELECT.where = requestQuery
+                    delete req.query.SELECT.search
+                }
                 if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
                     req.query.SELECT.distinct = true;
                     lt_result = await db.run(req.query)
