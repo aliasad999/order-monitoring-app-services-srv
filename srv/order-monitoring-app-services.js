@@ -207,7 +207,7 @@ class srvOpenOrders extends cds.ApplicationService {
             const db = cds.transaction(req);
             let lt_result = []
             // if session id is there, get the cach-ed query and execute it.
-            if (sessionCache.get(queryId) && req.headers?.filterbar === 'false')  {
+            if (sessionCache.get(queryId) )  {
                 const queryString = sessionCache.get(queryId);
                 const query = JSON.parse(queryString);
                 // make sure pagination is taken into account
