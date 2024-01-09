@@ -23,7 +23,7 @@ class srvOpenOrders extends cds.ApplicationService {
             }
 
             // FOR LOCAL TESTING PURPOSES
-            // let userID = "GARCID42";
+            
             // lt_result = [
             //     {
             //         "VKORG": "TR0C",
@@ -34,6 +34,9 @@ class srvOpenOrders extends cds.ApplicationService {
             
             let userID = req.user.id;
             const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+            // let userID = "anonymous";
+            // lt_result = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: 'GARCID42'});
+
             await DELETE.from(VBAKAuthObjectKeys).where ({USERID: userID});
 
             if (lt_result.length !== 0){
@@ -105,7 +108,7 @@ class srvOpenOrders extends cds.ApplicationService {
                         let queryString = "(" + partnersQuery.join(' or ') + ")";
                         partnersQueryParsed = cds.parse.expr(queryString);
                     }
-                    
+
                     // Add queries to request
                     let requestQuery = req.query.SELECT.where || [];
                     if(partnersQuery.length > 0){
