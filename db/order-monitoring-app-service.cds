@@ -191,7 +191,7 @@ entity ![RESULTS] {
         TM_DATEN                              : String(8);
         TM_DATEN_DATE : Date = SUBSTRING(TM_DATEN, 1, 4) || '-' ||  SUBSTRING(TM_DATEN, 5, 2) || '-' || SUBSTRING(TM_DATEN, 7, 2);
         TM_AR_DATE                            : String(8);
-        // TM_AR_DATE_DATE : Date = SUBSTRING(TM_AR_DATE, 1, 4) || '-' ||  SUBSTRING(TM_AR_DATE, 5, 2) || '-' || SUBSTRING(TM_AR_DATE, 7, 2);
+        TM_AR_DATE_DATE : Date = SUBSTRING(TM_AR_DATE, 1, 4) || '-' ||  SUBSTRING(TM_AR_DATE, 5, 2) || '-' || SUBSTRING(TM_AR_DATE, 7, 2);
         TM_STTRG                              : String(1);
         TM_STTRG_DDTEXT                       : String(60);
         BL_VBELN_INV_FIRST                    : String(10);
