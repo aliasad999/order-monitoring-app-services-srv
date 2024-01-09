@@ -76,54 +76,68 @@ class srvOpenOrders extends cds.ApplicationService {
                 let partnerSettingsQuery = cds.parse.cql(`SELECT from srvOpenOrders_PartnerSettings where BASF_USER = '${currentUser}' and ACTIVE = 'X'`);
                 let partnerSettings = await db.run(partnerSettingsQuery);
                 if (partnerSettings.length !== 0) {
-                    let VEPartners = [];
-                    let ASPartners = [];
-                    let AMPartners = [];
+                    let partnersQuery = [];
+                    // let VEPartners = [];
+                    // let ASPartners = [];
+                    // let AMPartners = [];
                     for (let settingsEntry of partnerSettings) {
                         let partnerNumber = settingsEntry.PARTNER_NUMBER;
                         switch (settingsEntry.PARTNER_ROLE) {
                             case 'VE':
-                                VEPartners.push(`SO_VE_PARTNER = ${partnerNumber}`);
+                                partnersQuery.push(`SO_VE_PARTNER = ${partnerNumber}`);
                                 break;
 
                             case 'AS':
-                                ASPartners.push(`SO_AS_PARTNER = ${partnerNumber}`);
+                                partnersQuery.push(`SO_AS_PARTNER = ${partnerNumber}`);
                                 break;
 
                             case 'AM':
-                                AMPartners.push(`SO_AM_PARTNER = ${partnerNumber}`);
+                                partnersQuery.push(`SO_AM_PARTNER = ${partnerNumber}`);
                                 break;
                             default:
                                 break;
                         }
                     }
 
+                    let partnersQueryParsed;
                     // Construct queries 
-                    let VEQuery = VEPartners.length !== 0 ? cds.parse.expr(VEPartners.join(' or ')) : null;
-                    let ASQuery = ASPartners.length !== 0 ? cds.parse.expr(ASPartners.join(' or ')) : null;
-                    let AMQuery = AMPartners.length !== 0 ? cds.parse.expr(AMPartners.join(' or ')) : null;
-
+                    if(partnersQuery.length > 0 ){
+                        let queryString = "(" + partnersQuery.join(' or ') + ")";
+                        partnersQueryParsed = cds.parse.expr(queryString);
+                    }
+                    
                     // Add queries to request
                     let requestQuery = req.query.SELECT.where || [];
-                    if (requestQuery.length === 0) {
-                        // In the case where the query object is empty, start with pushing VE partners (if any)
-                        VEQuery && requestQuery.push(VEQuery);
-                        // Only push an "or" if there are further partner settings - otherwise not needed
-                        VEQuery && ASQuery && requestQuery.push('or');
-                        ASQuery && requestQuery.push(ASQuery); 
-                        ASQuery && AMQuery && requestQuery.push('or');
-                        AMQuery && requestQuery.push(AMQuery)
-
-                    } else {
-                        // Always push an "and" to start - "or" will cause the query to crash
-                        requestQuery.push('and');
-                        VEQuery && requestQuery.push(VEQuery);
-                        // Only if further partner settings are set, "or" is required. Otherwise, not required
-                        VEQuery && ASQuery && requestQuery.push('or');
-                        ASQuery && requestQuery.push(ASQuery);
-                        AMQuery && AMQuery && requestQuery.push('or');
-                        AMQuery && requestQuery.push(AMQuery);
+                    if(partnersQuery.length > 0){
+                        if (requestQuery.length > 0) {
+                            requestQuery.push('and');
+                        }
+                        requestQuery.push(partnersQueryParsed);
                     }
+
+                    // let VEQuery = VEPartners.length !== 0 ? cds.parse.expr(VEPartners.join(' or ')) : null;
+                    // let ASQuery = ASPartners.length !== 0 ? cds.parse.expr(ASPartners.join(' or ')) : null;
+                    // let AMQuery = AMPartners.length !== 0 ? cds.parse.expr(AMPartners.join(' or ')) : null;
+
+                    // if (requestQuery.length === 0) {
+                    //     // In the case where the query object is empty, start with pushing VE partners (if any)
+                    //     VEQuery && requestQuery.push(VEQuery);
+                    //     // Only push an "or" if there are further partner settings - otherwise not needed
+                    //     VEQuery && ASQuery && requestQuery.push('or');
+                    //     ASQuery && requestQuery.push(ASQuery); 
+                    //     ASQuery && AMQuery && requestQuery.push('or');
+                    //     AMQuery && requestQuery.push(AMQuery)
+
+                    // } else {
+                    //     // Always push an "and" to start - "or" will cause the query to crash
+                    //     requestQuery.push('and');
+                    //     VEQuery && requestQuery.push(VEQuery);
+                    //     // Only if further partner settings are set, "or" is required. Otherwise, not required
+                    //     VEQuery && ASQuery && requestQuery.push('or');
+                    //     ASQuery && requestQuery.push(ASQuery);
+                    //     AMQuery && AMQuery && requestQuery.push('or');
+                    //     AMQuery && requestQuery.push(AMQuery);
+                    // }
                     req.query.SELECT.where = requestQuery
                 }
             }
