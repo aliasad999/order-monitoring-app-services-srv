@@ -121,10 +121,10 @@ class srvOpenOrders extends cds.ApplicationService {
             // *-------------------------------------------------------------------*
             // End of Code OTC-24554
 
-            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols) {
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                 try { 
                     const db = cds.transaction(req);
-                    req.headers.countcols = `SO_MANDT,${req.headers.countcols}`;
+                    req.headers.countcols = `SO_MANDT,SO_VBELN,SO_POSNR`;
                     let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  srvOpenOrders_Results   ) WITH HINT(USE_HEX_PLAN,HEX_INDEX_JOIN)` )
                     if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
                     const distinctCount = (req.query.SELECT.where) ? 
