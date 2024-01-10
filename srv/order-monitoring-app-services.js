@@ -164,7 +164,6 @@ class srvOpenOrders extends cds.ApplicationService {
             await next(req)
         })
 
-
         /**
          * This event is triggered after the backend request for order list data
          * @param {string} "READ" - The type of backend request
@@ -185,13 +184,31 @@ class srvOpenOrders extends cds.ApplicationService {
                 sessionCache.set(queryId, queryString);
             }
             if (Array.isArray(data)) {
+                var dateProps = [
+                "SO_ERDAT_ORDER",
+                "SO_ERDAT_ITEM",
+                "SO_EDATU_REQUESTED",
+                "SO_EDATU_CONFIRMED",
+                "SO_LDDAT",
+                "SO_PRSDT",
+                "SO_F_TDDAT",
+                "DL_LFDAT",
+                "DL_HSDAT",
+                "DL_VFDAT",
+                "DL_WADAT",
+                "DL_WADAT_IST",
+                "TM_DPTBG",
+                "TM_DATBG",
+                "TM_DPTEN",
+                "TM_DATEN",
+                "TM_AR_DATE"]
                 data.forEach((item) => {
                     item.id = uuid.v1()
-                    for(const property in item){
+                    dateProps.forEach((property) => {
                         if(item[property] === "00000000" || item[property] === "0000-00-00" || item[property] === "--"){
                             item[property] = null;
                         }
-                    }
+                    })
                 })
             }
 

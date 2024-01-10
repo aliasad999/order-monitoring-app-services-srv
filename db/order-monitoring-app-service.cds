@@ -215,8 +215,8 @@ entity PARTNER_SETTINGS {
 //         SPART: String(2)  ;
 //         UserId: String;
 // }
-
-entity VBAKAuthObjectKeys {
+@cds.persistence.exists
+entity VBAKAUTH {
         key VKORG: String(4)  ; 
         key VTWEG: String(2)  ;
         key SPART: String(2)  ;

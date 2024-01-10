@@ -3,18 +3,13 @@ using allorders.db as db_app from '../db/order-monitoring-app-service';
 
 service srvOpenOrders {
 
-  entity VBAKAuthObjectKeys as select from db_app.VBAKAuthObjectKeys;
+  entity VBAKAuthObjectKeys as select from db_app.VBAKAUTH;
   function getVBAKAuthObjKeys( isDevSystem : Boolean ) returns array of VBAKAuthObjectKeys;
 
   @readonly
   @cds.redirection.target: true
   entity HOMRemarks         as
-    select from db_app.RESULTS
-    inner join db_app.VBAKAuthObjectKeys as VBAKAUTH 
-                        on VBAKAUTH.VKORG = $self.SO_VKORG 
-                        and VBAKAUTH.VTWEG = $self.SO_VTWEG 
-                        and VBAKAUTH.SPART = $self.SO_SPART 
-                        and VBAKAUTH.USERID = $user.id {
+    select from db_app.RESULTS {
       key SO_VBELN,
       key SO_POSNR,
           SO_HTEXT,
@@ -27,11 +22,6 @@ service srvOpenOrders {
   @cds.redirection.target: true
   entity BaseEntity         as
     select from db_app.RESULTS
-    inner join db_app.VBAKAuthObjectKeys as VBAKAUTH 
-                        on VBAKAUTH.VKORG = $self.SO_VKORG 
-                        and VBAKAUTH.VTWEG = $self.SO_VTWEG 
-                        and VBAKAUTH.SPART = $self.SO_SPART 
-                        and VBAKAUTH.USERID = $user.id
      {
       key null as id : UUID,
           SO_MANDT as SO_MANDT,
