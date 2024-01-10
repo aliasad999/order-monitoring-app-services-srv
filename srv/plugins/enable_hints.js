@@ -36,6 +36,7 @@ Object.assign(SelectBuilder.prototype, {
 
 // query handler
 module.exports = function enableHints({ target, query }) {
-  const withHint = target["@Consumption.dbHints"];
+  let withHint = target["@Consumption.dbHints"];
+  if (!withHint) withHint = ['USE_HEX_PLAN','HEX_INDEX_JOIN']
   Array.isArray(withHint) && Object.assign(query.SELECT, { withHint });
 };

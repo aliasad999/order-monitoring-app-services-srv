@@ -4,5 +4,11 @@
             "object": "ORDERMONITORINGSERVICES_RESULTS",
             "schema": "_PLACEHOLDER_"
         }
+    },
+    "ALLORDERS_DB_VBAKAUTH": {
+        "target": {
+            "object": "ORDERMONITORINGSERVICES_VBAKAUTH",
+            "schema": "_PLACEHOLDER_"
+        }
     }
 }
