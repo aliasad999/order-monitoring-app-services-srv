@@ -276,7 +276,10 @@ class srvOpenOrders extends cds.ApplicationService {
                     try {
                         const fields = req._query["search-focus"].split(',')
                         let queryCount = 0;
-                        let lt_count = await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`).where(query.SELECT.where))//distinct(true)
+                        // sometimes there is a cached query but it has no
+                        let lt_count = query.SELECT.where 
+                            ? await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`).where(query.SELECT.where)) 
+                            : await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`));
 
                         if(lt_count.length > 0){
                             queryCount = lt_count[0][Object.keys(lt_count[0])[0]];

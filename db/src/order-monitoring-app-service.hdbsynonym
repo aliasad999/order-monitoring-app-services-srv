@@ -7,7 +7,7 @@
     },
     "ALLORDERS_DB_VBAKAUTH": {
         "target": {
-            "object": "otc.csc.db.base.tables::ST_VBAKAUTH",
+            "object": "ORDERMONITORINGSERVICES_VBAKAUTH",
             "schema": "_PLACEHOLDER_"
         }
     }
