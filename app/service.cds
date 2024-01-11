@@ -346,7 +346,7 @@ annotate service.Results with {
     SO_F_DGLTP                  @title: '{i18n>SO_F_DGLTP}'                  @sap.Label: '{i18n>SO_F_DGLTP}';
     SO_F_PSMNG                  @title: '{i18n>SO_F_PSMNG}'                  @sap.Label: '{i18n>SO_F_PSMNG}';
     SO_F_AMEIN                  @title: '{i18n>SO_F_AMEIN}'                  @sap.Label: '{i18n>SO_F_AMEIN}';
-    @Common.Text           : SO_F_AS_PARTNER
+    @Common.Text           : SO_F_AS_PARTNER_NAME
     @Common.TextArrangement: #TextLast
     SO_F_AS_PARTNER               @title: '{i18n>SO_F_AS_PARTNER}'               @sap.Label: '{i18n>SO_F_AS_PARTNER}' ;
     @Common.TextFor
@@ -419,6 +419,7 @@ annotate service.Results with {
     DL_VRKME                  @UI                     : {Hidden: true};
     SO_F_VKORG_VTEXT          @UI                     : {Hidden: true};
     SO_F_AMEIN                @UI                     : {Hidden: true};
+    SO_F_AS_PARTNER_NAME      @UI                     : {Hidden: true};
 }
 
 annotate service.valueHelps with {
