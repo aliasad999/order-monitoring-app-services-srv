@@ -2172,6 +2172,41 @@ annotate service.Results with {
     }
 };
 
+annotate service.Results with {
+    TM_STTRG
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>TM_STTRG}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: TM_STTRG,
+            ValueListProperty: 'TM_STTRG'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_KNREF_HEAD
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_KNREF_HEAD}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_KNREF_HEAD,
+            ValueListProperty: 'SO_KNREF_HEAD'
+        }
+
+        ]
+    }
+};
 
 annotate service.Results with @UI.LineItem: {
     ![@UI.Criticality]: 5,

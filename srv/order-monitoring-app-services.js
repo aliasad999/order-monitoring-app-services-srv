@@ -23,7 +23,7 @@ class srvOpenOrders extends cds.ApplicationService {
             }
 
             // FOR LOCAL TESTING PURPOSES
-            // let userID = "GARCID42";
+            
             // lt_result = [
             //     {
             //         "VKORG": "TR0C",
@@ -34,6 +34,9 @@ class srvOpenOrders extends cds.ApplicationService {
             
             let userID = req.user.id;
             const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+            // let userID = "anonymous";
+            // lt_result = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: 'GARCID42'});
+
             await DELETE.from(VBAKAuthObjectKeys).where ({USERID: userID});
 
             if (lt_result.length !== 0){
@@ -76,64 +79,53 @@ class srvOpenOrders extends cds.ApplicationService {
                 let partnerSettingsQuery = cds.parse.cql(`SELECT from srvOpenOrders_PartnerSettings where BASF_USER = '${currentUser}' and ACTIVE = 'X'`);
                 let partnerSettings = await db.run(partnerSettingsQuery);
                 if (partnerSettings.length !== 0) {
-                    let VEPartners = [];
-                    let ASPartners = [];
-                    let AMPartners = [];
+                    let partnersQuery = [];
                     for (let settingsEntry of partnerSettings) {
                         let partnerNumber = settingsEntry.PARTNER_NUMBER;
                         switch (settingsEntry.PARTNER_ROLE) {
                             case 'VE':
-                                VEPartners.push(`SO_VE_PARTNER = ${partnerNumber}`);
+                                partnersQuery.push(`SO_VE_PARTNER = ${partnerNumber}`);
                                 break;
 
                             case 'AS':
-                                ASPartners.push(`SO_AS_PARTNER = ${partnerNumber}`);
+                                partnersQuery.push(`SO_AS_PARTNER = ${partnerNumber}`);
                                 break;
 
                             case 'AM':
-                                AMPartners.push(`SO_AM_PARTNER = ${partnerNumber}`);
+                                partnersQuery.push(`SO_AM_PARTNER = ${partnerNumber}`);
                                 break;
                             default:
                                 break;
                         }
                     }
 
+                    let partnersQueryParsed;
                     // Construct queries 
-                    let VEQuery = VEPartners.length !== 0 ? cds.parse.expr(VEPartners.join(' or ')) : null;
-                    let ASQuery = ASPartners.length !== 0 ? cds.parse.expr(ASPartners.join(' or ')) : null;
-                    let AMQuery = AMPartners.length !== 0 ? cds.parse.expr(AMPartners.join(' or ')) : null;
+                    if(partnersQuery.length > 0 ){
+                        let queryString = "(" + partnersQuery.join(' or ') + ")";
+                        partnersQueryParsed = cds.parse.expr(queryString);
+                    }
 
                     // Add queries to request
                     let requestQuery = req.query.SELECT.where || [];
-                    if (requestQuery.length === 0) {
-                        // In the case where the query object is empty, start with pushing VE partners (if any)
-                        VEQuery && requestQuery.push(VEQuery);
-                        // Only push an "or" if there are further partner settings - otherwise not needed
-                        VEQuery && ASQuery && requestQuery.push('or');
-                        ASQuery && requestQuery.push(ASQuery); 
-                        ASQuery && AMQuery && requestQuery.push('or');
-                        AMQuery && requestQuery.push(AMQuery)
-
-                    } else {
-                        // Always push an "and" to start - "or" will cause the query to crash
-                        requestQuery.push('and');
-                        VEQuery && requestQuery.push(VEQuery);
-                        // Only if further partner settings are set, "or" is required. Otherwise, not required
-                        VEQuery && ASQuery && requestQuery.push('or');
-                        ASQuery && requestQuery.push(ASQuery);
-                        AMQuery && AMQuery && requestQuery.push('or');
-                        AMQuery && requestQuery.push(AMQuery);
+                    if(partnersQuery.length > 0){
+                        if (requestQuery.length > 0) {
+                            requestQuery.push('and');
+                        }
+                        requestQuery.push(partnersQueryParsed);
                     }
+
                     req.query.SELECT.where = requestQuery
                 }
             }
             // *-------------------------------------------------------------------*
             // End of Code OTC-24554
 
-            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols) {
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' &&  req.headers?.countcols) {
                 try { 
                     const db = cds.transaction(req);
-                    let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  srvOpenOrders_Results   )` )
+                    req.headers.countcols = `SO_MANDT,${req.headers.countcols}`;
+                    let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  srvOpenOrders_Results   ) ` )
                     if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
                     const distinctCount = (req.query.SELECT.where) ? 
                     await db.run(query)
@@ -146,7 +138,6 @@ class srvOpenOrders extends cds.ApplicationService {
             }
             await next(req)
         })
-
 
         /**
          * This event is triggered after the backend request for order list data
@@ -168,13 +159,31 @@ class srvOpenOrders extends cds.ApplicationService {
                 sessionCache.set(queryId, queryString);
             }
             if (Array.isArray(data)) {
+                var dateProps = [
+                "SO_ERDAT_ORDER",
+                "SO_ERDAT_ITEM",
+                "SO_EDATU_REQUESTED",
+                "SO_EDATU_CONFIRMED",
+                "SO_LDDAT",
+                "SO_PRSDT",
+                "SO_F_TDDAT",
+                "DL_LFDAT",
+                "DL_HSDAT",
+                "DL_VFDAT",
+                "DL_WADAT",
+                "DL_WADAT_IST",
+                "TM_DPTBG",
+                "TM_DATBG",
+                "TM_DPTEN",
+                "TM_DATEN",
+                "TM_AR_DATE"]
                 data.forEach((item) => {
                     item.id = uuid.v1()
-                    for(const property in item){
+                    dateProps.forEach((property) => {
                         if(item[property] === "00000000" || item[property] === "0000-00-00" || item[property] === "--"){
                             item[property] = null;
                         }
-                    }
+                    })
                 })
             }
 
@@ -242,7 +251,10 @@ class srvOpenOrders extends cds.ApplicationService {
                     try {
                         const fields = req._query["search-focus"].split(',')
                         let queryCount = 0;
-                        let lt_count = await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`).where(query.SELECT.where))//distinct(true)
+                        // sometimes there is a cached query but it has no
+                        let lt_count = query.SELECT.where 
+                            ? await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`).where(query.SELECT.where)) 
+                            : await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`));
 
                         if(lt_count.length > 0){
                             queryCount = lt_count[0][Object.keys(lt_count[0])[0]];

@@ -4,6 +4,12 @@
         "object": "ORDERMONITORINGSERVICES_RESULTS",
         "schema.configure": "order-monitoring-services-hdi/schema"
       }
+    },
+    "ALLORDERS_DB_VBAKAUTH": {
+      "target": {
+        "object": "ORDERMONITORINGSERVICES_VBAKAUTH",
+        "schema.configure": "order-monitoring-services-hdi/schema"
+      }
     }
     
   }
