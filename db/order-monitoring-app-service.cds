@@ -61,8 +61,6 @@ entity ![RESULTS] {
         SO_EDATU_CONFIRMED                    : String(8);
         SO_EDATU_CONFIRMED_DATE : Date = SUBSTRING(SO_EDATU_CONFIRMED, 1, 4) || '-' ||  SUBSTRING(SO_EDATU_CONFIRMED, 5, 2) || '-' || SUBSTRING(SO_EDATU_CONFIRMED, 7, 2);
         SO_KBMENG                             : Decimal(15, 3);
-        SO_LDDAT                              : String(8);
-        SO_LDDAT_DATE : Date = SUBSTRING(SO_LDDAT, 1, 4) || '-' ||  SUBSTRING(SO_LDDAT, 5, 2) || '-' || SUBSTRING(SO_LDDAT, 7, 2);
         SO_UNCONFIRMED_QTY                    : Decimal(15, 3);
         SO_REQ_TEXT                           : String(250);
         SO_FAKSP                              : String(2);
@@ -122,10 +120,6 @@ entity ![RESULTS] {
         SO_VKGRP                              : String(3);
         SO_VKGRP_BEZEI                        : String(20);
         SO_ROUTE                              : String(6);
-        SO_AUFNR                              : String(12);
-        SO_DGLTP                              : String(8);
-        SO_PSMNG                              : Decimal(13, 3);
-        SO_AMEIN                              : String(3);
         SO_FAKSK                              : String(2);
         SO_FAKSK_VTEXT                        : String(20);
         SO_F_WERKS                            : String(4);
@@ -136,6 +130,17 @@ entity ![RESULTS] {
         SO_F_ZZ0S2MATUG                       : String(18);
         SO_F_VSBED                            : String(2);
         SO_F_VSBED_VTEXT                      : String(20);
+        SO_F_AUFNR                            : String(12);
+        SO_F_DGLTP                            : String(8);
+        SO_F_DGLTP_DATE : Date = SUBSTRING(SO_F_DGLTP, 1, 4) || '-' ||  SUBSTRING(SO_F_DGLTP, 5, 2) || '-' || SUBSTRING(SO_F_DGLTP, 7, 2);
+        SO_F_PSMNG                            : Decimal(13, 3);
+        SO_F_AMEIN                            : String(3);
+        SO_F_LDDAT                            : String(8);
+        SO_F_LDDAT_DATE : Date = SUBSTRING(SO_F_LDDAT, 1, 4) || '-' ||  SUBSTRING(SO_F_LDDAT, 5, 2) || '-' || SUBSTRING(SO_F_LDDAT, 7, 2);
+        SO_F_AS_PARTNER_HEAD                  : String(8);
+        SO_F_AS_PARTNER_NAME_HEAD             : String(40);
+        SO_F_AS_PARTNER_ITM                   : String(8);
+        SO_F_AS_PARTNER_NAME_ITM              : String(40);
         DL_VBELN                              : String(10);
         DL_POSNR                              : String(6);
         DL_CHARG                              : String(10);

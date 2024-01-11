@@ -30,7 +30,6 @@ annotate service.valueHelps with {
     SO_VRKME                    @title: '{i18n>SO_VRKME}'                    @sap.Label: '{i18n>SO_VRKME}';
     SO_EDATU_CONFIRMED          @title: '{i18n>SO_EDATU_CONFIRMED}'          @sap.Label: '{i18n>SO_EDATU_CONFIRMED}';
     SO_KBMENG                   @title: '{i18n>SO_KBMENG}'                   @sap.Label: '{i18n>SO_KBMENG}';
-    SO_LDDAT                    @title: '{i18n>SO_LDDAT}'                    @sap.Label: '{i18n>SO_LDDAT}';
     SO_UNCONFIRMED_QTY          @title: '{i18n>SO_UNCONFIRMED_QTY}'          @sap.Label: '{i18n>SO_UNCONFIRMED_QTY}';
     SO_REQ_TEXT                 @title: '{i18n>SO_REQ_TEXT}'                 @sap.Label: '{i18n>SO_REQ_TEXT}';
     SO_FAKSP                    @title: '{i18n>SO_FAKSP}'                    @sap.Label: '{i18n>SO_FAKSP}';
@@ -123,17 +122,24 @@ annotate service.valueHelps with {
     SO_VKGRP                    @title: '{i18n>SO_VKGRP}'                    @sap.Label: '{i18n>SO_VKGRP}';
     SO_VKGRP_BEZEI              @title: '{i18n>SO_VKGRP_BEZEI}'              @sap.Label: '{i18n>SO_VKGRP_BEZEI}';
     SO_ROUTE                    @title: '{i18n>SO_ROUTE}'                    @sap.Label: '{i18n>SO_ROUTE}';
-    SO_F_TDDAT                  @title: '{i18n>SO_F_TDDAT}'                  @sap.Label: '{i18n>SO_F_TDDAT}';
-    SO_F_ZZ0S2MATUG             @title: '{i18n>SO_F_ZZ0S2MATUG}'             @sap.Label: '{i18n>SO_F_ZZ0S2MATUG}';
-    SO_F_VSBED                  @title: '{i18n>SO_F_VSBED}'                  @sap.Label: '{i18n>SO_F_VSBED}';
-    SO_F_VSBED_VTEXT            @title: '{i18n>SO_F_VSBED_VTEXT}'            @sap.Label: '{i18n>SO_F_VSBED_VTEXT}';
     DL_WADAT                    @title: '{i18n>DL_WADAT}'                    @sap.Label: '{i18n>DL_WADAT}';
     DL_WADAT_IST                @title: '{i18n>DL_WADAT_IST}'                @sap.Label: '{i18n>DL_WADAT_IST}';
     TM_SHIPMENT_ALERT           @title: '{i18n>TM_SHIPMENT_ALERT}'           @sap.Label: '{i18n>TM_SHIPMENT_ALERT}';
     TM_SHIPMENT_CURRENT_STATUS  @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'  @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
     SO_F_WERKS                  @title: '{i18n>SO_F_WERKS}'                  @sap.Label: '{i18n>SO_F_WERKS}';
     SO_F_VKORG                  @title: '{i18n>SO_F_VKORG}'                  @sap.Label: '{i18n>SO_F_VKORG}';
-    SO_F_VKORG_VTEXT            @title: '{i18n>SO_F_VKORG_VTEXT}'            @sap.Label: '{i18n>SO_F_VKORG_VTEXT}'; 
+    SO_F_VKORG_VTEXT            @title: '{i18n>SO_F_VKORG_VTEXT}'            @sap.Label: '{i18n>SO_F_VKORG_VTEXT}';
+    SO_F_TDDAT                  @title: '{i18n>SO_F_TDDAT}'                  @sap.Label: '{i18n>SO_F_TDDAT}';
+    SO_F_ZZ0S2MATUG             @title: '{i18n>SO_F_ZZ0S2MATUG}'             @sap.Label: '{i18n>SO_F_ZZ0S2MATUG}';
+    SO_F_VSBED                  @title: '{i18n>SO_F_VSBED}'                  @sap.Label: '{i18n>SO_F_VSBED}';
+    SO_F_VSBED_VTEXT            @title: '{i18n>SO_F_VSBED_VTEXT}'            @sap.Label: '{i18n>SO_F_VSBED_VTEXT}';
+    SO_F_LDDAT                  @title: '{i18n>SO_F_LDDAT}'                  @sap.Label: '{i18n>SO_F_LDDAT}';
+    SO_F_AUFNR                  @title: '{i18n>SO_F_AUFNR}'                  @sap.Label: '{i18n>SO_F_AUFNR}';
+    SO_F_DGLTP                  @title: '{i18n>SO_F_DGLTP}'                  @sap.Label: '{i18n>SO_F_DGLTP}';
+    SO_F_PSMNG                  @title: '{i18n>SO_F_PSMNG}'                  @sap.Label: '{i18n>SO_F_PSMNG}';
+    SO_F_AMEIN                  @title: '{i18n>SO_F_AMEIN}'                  @sap.Label: '{i18n>SO_F_AMEIN}';
+    SO_F_AS_PARTNER             @title: '{i18n>SO_F_AS_PARTNER}'             @sap.Label: '{i18n>SO_F_AS_PARTNER}'     @Common.IsDigitSequence: true;
+    SO_F_AS_PARTNER_NAME        @title: '{i18n>SO_F_AS_PARTNER_NAME}'        @sap.Label: '{i18n>SO_F_AS_PARTNER_NAME}';
 };
 
 annotate service.Results with {
@@ -174,14 +180,13 @@ annotate service.Results with {
     @Common.TextFor
     SO_VKORG_NAME1              ;
     SO_KNREF_HEAD               @title: '{i18n>SO_KNREF_HEAD}'               @sap.Label: '{i18n>SO_KNREF_HEAD}';
-    //SO_KNREF_ITM               @title: '{i18n>SO_BSTNK}' @sap.Label: '{i18n>SO_BSTNK}';
     SO_VBUND                    @title: '{i18n>SO_VBUND}'                    @sap.Label: '{i18n>SO_VBUND}';
     SO_EDATU_REQUESTED          @title: '{i18n>SO_EDATU_REQUESTED}'          @sap.Label: '{i18n>SO_EDATU_REQUESTED}';
     SO_KWMENG                   @title: '{i18n>SO_KWMENG}'                   @sap.Label: '{i18n>SO_KWMENG}';
     SO_VRKME                    @title: '{i18n>SO_VRKME}'                    @sap.Label: '{i18n>SO_VRKME}';
     SO_EDATU_CONFIRMED          @title: '{i18n>SO_EDATU_CONFIRMED}'          @sap.Label: '{i18n>SO_EDATU_CONFIRMED}';
     SO_KBMENG                   @title: '{i18n>SO_KBMENG}'                   @sap.Label: '{i18n>SO_KBMENG}';
-    SO_LDDAT                    @title: '{i18n>SO_LDDAT}'                    @sap.Label: '{i18n>SO_LDDAT}';
+    SO_F_LDDAT                  @title: '{i18n>SO_F_LDDAT}'                  @sap.Label: '{i18n>SO_F_LDDAT}';
     SO_UNCONFIRMED_QTY          @title: '{i18n>SO_UNCONFIRMED_QTY}'          @sap.Label: '{i18n>SO_UNCONFIRMED_QTY}';
     SO_REQ_TEXT                 @title: '{i18n>SO_REQ_TEXT}'                 @sap.Label: '{i18n>SO_REQ_TEXT}';
     @Common.Text           : SO_FAKSP_VTEXT
@@ -337,6 +342,15 @@ annotate service.Results with {
     SO_F_VKORG                  @title: '{i18n>SO_F_VKORG}'                  @sap.Label: '{i18n>SO_F_VKORG}';
     @Common.TextFor
     SO_F_VKORG_VTEXT;
+    SO_F_AUFNR                  @title: '{i18n>SO_F_AUFNR}'                  @sap.Label: '{i18n>SO_F_AUFNR}';
+    SO_F_DGLTP                  @title: '{i18n>SO_F_DGLTP}'                  @sap.Label: '{i18n>SO_F_DGLTP}';
+    SO_F_PSMNG                  @title: '{i18n>SO_F_PSMNG}'                  @sap.Label: '{i18n>SO_F_PSMNG}';
+    SO_F_AMEIN                  @title: '{i18n>SO_F_AMEIN}'                  @sap.Label: '{i18n>SO_F_AMEIN}';
+    @Common.Text           : SO_F_AS_PARTNER_NAME
+    @Common.TextArrangement: #TextLast
+    SO_F_AS_PARTNER               @title: '{i18n>SO_F_AS_PARTNER}'               @sap.Label: '{i18n>SO_F_AS_PARTNER}' ;
+    @Common.TextFor
+    SO_F_AS_PARTNER_NAME          @title: '{i18n>SO_F_AS_PARTNER_NAME}'          @sap.Label: '{i18n>SO_F_AS_PARTNER_NAME}';
 
 }
 
@@ -352,6 +366,8 @@ annotate service.Results with {
     SO_KMEIN                  @Semantics.unitOfMeasure: 'unit-of-measure';
     SO_NETWR                  @Measures.ISOCurrency   : SO_WAERK;
     SO_WAERK                  @Semantics.currencyCode;
+    SO_F_PSMNG                @Measures.Unit          : SO_F_AMEIN;
+    SO_F_AMEIN                @Semantics.unitOfMeasure: 'unit-of-measure';
     DL_LFIMG                  @Measures.Unit          : DL_VRKME;
     DL_VRKME                  @Semantics.unitOfMeasure: 'unit-of-measure';
     DL_PEND_DEL_QUAN          @Measures.Unit          : DL_VRKME;
@@ -402,6 +418,8 @@ annotate service.Results with {
     DL_POSAR                  @UI                     : {Hidden: true};
     DL_VRKME                  @UI                     : {Hidden: true};
     SO_F_VKORG_VTEXT          @UI                     : {Hidden: true};
+    SO_F_AMEIN                @UI                     : {Hidden: true};
+    SO_F_AS_PARTNER_NAME      @UI                     : {Hidden: true};
 }
 
 annotate service.valueHelps with {
@@ -415,58 +433,13 @@ annotate service.valueHelps with {
     SO_KMEIN           @Semantics.unitOfMeasure: 'unit-of-measure';
     SO_NETWR           @Measures.ISOCurrency   : SO_WAERK;
     SO_WAERK           @Semantics.currencyCode;
+    SO_F_PSMNG         @Measures.Unit          : SO_F_AMEIN;
+    SO_F_AMEIN         @Semantics.unitOfMeasure: 'unit-of-measure';
     DL_LFIMG           @Measures.Unit          : DL_VRKME;
     DL_VRKME           @Semantics.unitOfMeasure: 'unit-of-measure';
     DL_PEND_DEL_QUAN   @Measures.Unit          : DL_VRKME;
-    // SO_CO_PARTNER_NAME        @UI                     : {Hidden: true};
-    // SO_NY_PARTNER_NAME        @UI                     : {Hidden: true};
-    // SO_AS_PARTNER_NAME        @UI                     : {Hidden: true};
-    // SO_VE_PARTNER_NAME        @UI                     : {Hidden: true};
-    // SO_AM_PARTNER_NAME        @UI                     : {Hidden: true};
-    // SO_AG_PARTNER_NAME        @UI                     : {Hidden: true};
-    // SO_WE_PARTNER_NAME        @UI                     : {Hidden: true};
-    // SO_MAKTX                  @UI                     : {Hidden: true};
-    // SO_LANDX                  @UI                     : {Hidden: true};
-    // SO_VKORG_NAME1            @UI                     : {Hidden: true};
-    // SO_FAKSP_VTEXT            @UI                     : {Hidden: true};
-    // SO_SUPPLY_SITUATION_DESCR @UI                     : {Hidden: true};
-    // SO_PSTYV_VTEXT            @UI                     : {Hidden: true};
-    // SO_BSARK_VTEXT            @UI                     : {Hidden: true};
-    // SO_VKBUR_BEZEI            @UI                     : {Hidden: true};
-    // DL_LFART_VTEXT            @UI                     : {Hidden: true};
     id                 @UI                     : {Hidden: true};
-    SO_MANDT           @UI                     : {Hidden: true};
-// SO_SPART                  @UI                     : {Hidden: true};
-// SO_ABGRU                  @UI                     : {Hidden: true};
-// SO_ABSTA                  @UI                     : {Hidden: true};
-// SO_KNUMV                  @UI                     : {Hidden: true};
-
-// DL_HSDAT                  @UI                     : {Hidden: true};
-// DL_VFDAT                  @UI                     : {Hidden: true};
-// // Shipment Details Texts
-// TM_VSART_BEZEI            @UI                     : {Hidden: true};
-// TM_TDLNR_NAME1            @UI                     : {Hidden: true};
-// TM_STTRG_DDTEXT           @UI                     : {Hidden: true};
-// SO_F_POSNR                @UI                     : {Hidden: true};
-// SO_VBTYP                  @UI                     : {Hidden: true};
-// SO_TRAGR_VTEXT            @UI                     : {Hidden: true};
-// SO_VKGRP_BEZEI            @UI                     : {Hidden: true};
-// SO_F_VSBED_VTEXT          @UI                     : {Hidden: true};
-// SO_KNREF_ITM              @UI                     : {Hidden: true};
-// SO_VRKME                  @UI                     : {Hidden: true};
-// SO_WAERS                  @UI                     : {Hidden: true};
-// SO_KPEIN                  @UI                     : {Hidden: true};
-// SO_KMEIN                  @UI                     : {Hidden: true};
-// SO_WAERK                  @UI                     : {Hidden: true};
-// TM_TRACKING_ID_COMP       @UI                     : {Hidden: true};
-// DL_POSNR                  @UI                     : {Hidden: true};
-// DL_VGBEL                  @UI                     : {Hidden: true};
-// TM_TRACKING_ID_ELEM       @UI                     : {Hidden: true};
-// DL_VGPOS                  @UI                     : {Hidden: true};
-// DL_POSAR                  @UI                     : {Hidden: true};
-// DL_VRKME                  @UI                     : {Hidden: true};
-// SO_F_VKORG_VTEXT          @UI                     : {Hidden: true};
-
+    SO_MANDT           @UI                     : {Hidden: true};                
 
 }
 
@@ -2119,6 +2092,88 @@ annotate service.Results with {
 };
 
 annotate service.Results with {
+    SO_F_AUFNR
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_F_AUFNR}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_F_AUFNR,
+            ValueListProperty: 'SO_F_AUFNR'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_F_AMEIN
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_F_AMEIN}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_F_AMEIN,
+            ValueListProperty: 'SO_F_AMEIN'
+        }]
+    }
+}
+
+
+annotate service.Results with {
+    SO_F_PSMNG
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_F_PSMNG}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_F_PSMNG,
+                ValueListProperty: 'SO_F_PSMNG'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_F_AMEIN'
+            }
+
+        ]
+    }
+};
+
+
+annotate service.Results with {
+    SO_F_AS_PARTNER
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_F_AS_PARTNER}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_F_AS_PARTNER,
+                ValueListProperty: 'SO_F_AS_PARTNER'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_F_AS_PARTNER_NAME'
+            }
+
+        ]
+    }
+};
+
+annotate service.Results with {
     TM_STTRG
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -2183,7 +2238,7 @@ annotate service.Results with @UI.LineItem: {
         {Value: SO_VRKME},
         {Value: SO_EDATU_CONFIRMED},
         {Value: SO_KBMENG},
-        {Value: SO_LDDAT},
+        {Value: SO_F_LDDAT},
         {Value: SO_UNCONFIRMED_QTY},
         {Value: SO_REQ_TEXT},
         {Value: SO_FAKSP},
