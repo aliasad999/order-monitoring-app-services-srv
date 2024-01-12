@@ -42,6 +42,12 @@
     "deploy": "cf deploy mta_archives/allmyorders_1.0.0.mtar --retries 1"
   },
   "cds": {
+    "log":{
+      "levels":{
+        "hana":"trace",
+        "cds": "info"
+      }
+    },
     "hana": {
       "deploy-format": "hdbtable"
     },
@@ -59,8 +65,8 @@
       "authService": {
         "kind": "rest",
         "credentials": {
-          "destination": "ZHL",
-          "path": "rest/auth_obj_check/"
+          "destination": "PersonalizationService",
+          "path": "it/omg/omc-auth/v1"
         }
       },
       "order_monitoring_services": {

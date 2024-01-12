@@ -7,7 +7,9 @@ entity ![RESULTS] {
         SO_VBELN                              : String(10);
         SO_POSNR                              : String(6);
         SO_ERDAT_ORDER                        : String(8);
+        SO_ERDAT_ORDER_DATE : Date = SUBSTRING(SO_ERDAT_ORDER, 1, 4) || '-' ||  SUBSTRING(SO_ERDAT_ORDER, 5, 2) || '-' || SUBSTRING(SO_ERDAT_ORDER, 7, 2);
         SO_ERDAT_ITEM                         : String(8);
+        SO_ERDAT_ITEM_DATE : Date = SUBSTRING(SO_ERDAT_ITEM, 1, 4) || '-' ||  SUBSTRING(SO_ERDAT_ITEM, 5, 2) || '-' || SUBSTRING(SO_ERDAT_ITEM, 7, 2);
         SO_AUART                              : String(4);
         SO_WERKS                              : String(4);
         SO_VTWEG                              : String(2);
@@ -53,11 +55,12 @@ entity ![RESULTS] {
         SO_KNREF_ITM                          : String(30);
         SO_VBUND                              : String(6);
         SO_EDATU_REQUESTED                    : String(8);
+        SO_EDATU_REQUESTED_DATE : Date = SUBSTRING(SO_EDATU_REQUESTED, 1, 4) || '-' ||  SUBSTRING(SO_EDATU_REQUESTED, 5, 2) || '-' || SUBSTRING(SO_EDATU_REQUESTED, 7, 2);
         SO_KWMENG                             : Decimal(15, 3);
         SO_VRKME                              : String(3);
         SO_EDATU_CONFIRMED                    : String(8);
+        SO_EDATU_CONFIRMED_DATE : Date = SUBSTRING(SO_EDATU_CONFIRMED, 1, 4) || '-' ||  SUBSTRING(SO_EDATU_CONFIRMED, 5, 2) || '-' || SUBSTRING(SO_EDATU_CONFIRMED, 7, 2);
         SO_KBMENG                             : Decimal(15, 3);
-        SO_LDDAT                              : String(8);
         SO_UNCONFIRMED_QTY                    : Decimal(15, 3);
         SO_REQ_TEXT                           : String(250);
         SO_FAKSP                              : String(2);
@@ -93,6 +96,7 @@ entity ![RESULTS] {
         SO_ZTERM_HEAD                         : String(4);
         SO_ZTERM_ITEM                         : String(4);
         SO_PRSDT                              : String(8);
+        SO_PRSDT_DATE : Date = SUBSTRING(SO_PRSDT, 1, 4) || '-' ||  SUBSTRING(SO_PRSDT, 5, 2) || '-' || SUBSTRING(SO_PRSDT, 7, 2);
         SO_ZZ0S2REVG2                         : String(10);
         SO_ZZDKPPRODB                         : String(18);
         SO_BSARK                              : String(4);
@@ -116,19 +120,27 @@ entity ![RESULTS] {
         SO_VKGRP                              : String(3);
         SO_VKGRP_BEZEI                        : String(20);
         SO_ROUTE                              : String(6);
-        SO_AUFNR                              : String(12);
-        SO_DGLTP                              : String(8);
-        SO_PSMNG                              : Decimal(13, 3);
-        SO_AMEIN                              : String(3);
         SO_FAKSK                              : String(2);
         SO_FAKSK_VTEXT                        : String(20);
         SO_F_WERKS                            : String(4);
         SO_F_VKORG                            : String(4);
         SO_F_VKORG_VTEXT                      : String(40);
         SO_F_TDDAT                            : String(8);
+        SO_F_TDDAT_DATE : Date = SUBSTRING(SO_F_TDDAT, 1, 4) || '-' ||  SUBSTRING(SO_F_TDDAT, 5, 2) || '-' || SUBSTRING(SO_F_TDDAT, 7, 2);
         SO_F_ZZ0S2MATUG                       : String(18);
         SO_F_VSBED                            : String(2);
         SO_F_VSBED_VTEXT                      : String(20);
+        SO_F_AUFNR                            : String(12);
+        SO_F_DGLTP                            : String(8);
+        SO_F_DGLTP_DATE : Date = SUBSTRING(SO_F_DGLTP, 1, 4) || '-' ||  SUBSTRING(SO_F_DGLTP, 5, 2) || '-' || SUBSTRING(SO_F_DGLTP, 7, 2);
+        SO_F_PSMNG                            : Decimal(13, 3);
+        SO_F_AMEIN                            : String(3);
+        SO_F_LDDAT                            : String(8);
+        SO_F_LDDAT_DATE : Date = SUBSTRING(SO_F_LDDAT, 1, 4) || '-' ||  SUBSTRING(SO_F_LDDAT, 5, 2) || '-' || SUBSTRING(SO_F_LDDAT, 7, 2);
+        SO_F_AS_PARTNER_HEAD                  : String(8);
+        SO_F_AS_PARTNER_NAME_HEAD             : String(40);
+        SO_F_AS_PARTNER_ITM                   : String(8);
+        SO_F_AS_PARTNER_NAME_ITM              : String(40);
         DL_VBELN                              : String(10);
         DL_POSNR                              : String(6);
         DL_CHARG                              : String(10);
@@ -140,13 +152,18 @@ entity ![RESULTS] {
         DL_LFART                              : String(4);
         DL_LFART_VTEXT                        : String(20);
         DL_LFDAT                              : String(8);
+        DL_LFDAT_DATE : Date = SUBSTRING(DL_LFDAT, 1, 4) || '-' ||  SUBSTRING(DL_LFDAT, 5, 2) || '-' || SUBSTRING(DL_LFDAT, 7, 2);
         DL_HSDAT                              : String(8);
+        DL_HSDAT_DATE : Date = SUBSTRING(DL_HSDAT, 1, 4) || '-' ||  SUBSTRING(DL_HSDAT, 5, 2) || '-' || SUBSTRING(DL_HSDAT, 7, 2);
         DL_VFDAT                              : String(8);
+        DL_VFDAT_DATE : Date = SUBSTRING(DL_VFDAT, 1, 4) || '-' ||  SUBSTRING(DL_VFDAT, 5, 2) || '-' || SUBSTRING(DL_VFDAT, 7, 2);
         DL_TRAID                              : String(20);
         DL_ZZ0S2BLNR                          : String(30);
         DL_PEND_DEL_QUAN                      : String(500);
         DL_WADAT                              : String(8);
+        DL_WADAT_DATE : Date = SUBSTRING(DL_WADAT, 1, 4) || '-' ||  SUBSTRING(DL_WADAT, 5, 2) || '-' || SUBSTRING(DL_WADAT, 7, 2);
         DL_WADAT_IST                          : String(8);
+        DL_WADAT_IST_DATE : Date = SUBSTRING(DL_WADAT_IST, 1, 4) || '-' ||  SUBSTRING(DL_WADAT_IST, 5, 2) || '-' || SUBSTRING(DL_WADAT_IST, 7, 2);
         LAST_NOTE                             : String(1000);
         LANGUAGE                              : String(2);
         TM_TKNUM                              : String(10);
@@ -171,15 +188,21 @@ entity ![RESULTS] {
         TM_TRACKING_ID_COMP                   : String(50);
         TM_STATUS_CODE_MANUEL                 : String(3);
         TM_DPTBG                              : String(8);
+        TM_DPTBG_DATE : Date = SUBSTRING(TM_DPTBG, 1, 4) || '-' ||  SUBSTRING(TM_DPTBG, 5, 2) || '-' || SUBSTRING(TM_DPTBG, 7, 2);
         TM_DATBG                              : String(8);
+        TM_DATBG_DATE : Date = SUBSTRING(TM_DATBG, 1, 4) || '-' ||  SUBSTRING(TM_DATBG, 5, 2) || '-' || SUBSTRING(TM_DATBG, 7, 2);
         TM_DPTEN                              : String(8);
+        TM_DPTEN_DATE : Date = SUBSTRING(TM_DPTEN, 1, 4) || '-' ||  SUBSTRING(TM_DPTEN, 5, 2) || '-' || SUBSTRING(TM_DPTEN, 7, 2);
         TM_DATEN                              : String(8);
+        TM_DATEN_DATE : Date = SUBSTRING(TM_DATEN, 1, 4) || '-' ||  SUBSTRING(TM_DATEN, 5, 2) || '-' || SUBSTRING(TM_DATEN, 7, 2);
         TM_AR_DATE                            : String(8);
+        TM_AR_DATE_DATE : Date = SUBSTRING(TM_AR_DATE, 1, 4) || '-' ||  SUBSTRING(TM_AR_DATE, 5, 2) || '-' || SUBSTRING(TM_AR_DATE, 7, 2);
         TM_STTRG                              : String(1);
         TM_STTRG_DDTEXT                       : String(60);
         BL_VBELN_INV_FIRST                    : String(10);
         BL_VBELN_INV_LAST                     : String(10);
         BL_XBLNR                              : String(16);
+        
 }
 
 entity PARTNER_SETTINGS {
@@ -191,8 +214,16 @@ entity PARTNER_SETTINGS {
         COMMT          : String(50);
 }
 
-type VBAKAuthObjectKeys {
-        VKORG: String(4)  ; 
-        VTWEG: String(2)  ;
-        SPART: String(2)  ;
+// type VBAKAuthObjectKeys {
+//         VKORG: String(4)  ; 
+//         VTWEG: String(2)  ;
+//         SPART: String(2)  ;
+//         UserId: String;
+// }
+@cds.persistence.exists
+entity VBAKAUTH {
+        key VKORG: String(4)  ; 
+        key VTWEG: String(2)  ;
+        key SPART: String(2)  ;
+        key USERID: String;
 }

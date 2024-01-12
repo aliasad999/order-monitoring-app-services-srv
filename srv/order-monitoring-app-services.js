@@ -5,6 +5,7 @@ const uuid = require('uuid');
 const status = require('http-status');
 const textBundle = require('./utils/textBundle')
 const log = require("cf-nodejs-logging-support");
+const enableHints = require("./plugins/enable_hints");
 
 class srvOpenOrders extends cds.ApplicationService {
 
@@ -12,70 +13,42 @@ class srvOpenOrders extends cds.ApplicationService {
 
         this.on("getVBAKAuthObjKeys", async req => {
             let query = "GET /authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100";
-            if(req.data.isDevSystem){
-                query += "&isDevEnv=X";
-            }
             let lt_result = [];
-            // let lt_result = [{"VKORG":"0001","VTWEG":"01","SPART":"01"},{"VKORG":"1000","VTWEG":"01","SPART":"01"},{"VKORG":"1000","VTWEG":"02","SPART":"02"}];
             try {
                 const service = await cds.connect.to('authService');
-                lt_result = await service.run(query);
+                // lt_result = await service.run(query);
+                lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100");
             } catch (error) {
                 log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
                 req.error(413, 'remote service to Cobalt could not be executed')
             }
 
-            let authObject = null;
-            let finalQuery = "";
-            // DEV ENVIRONMENT
-            if(req.data.isDevSystem){
-                if (lt_result.length === 0)
-                return req.error(404, 'no authorization profile attached to user')
-
-                let finalQueryPieces = [];
-                lt_result.forEach((set) => {
-                    let vkorg = `SO_VKORG = '${set.VKORG}'`;
-                    let vtweg = `SO_VTWEG = '${set.VTWEG}'`;
-                    let spart = `SO_SPART = '${set.SPART}'`;                    
-                
-                    let profileQuery = `( ${vkorg} and ${vtweg} and ${spart})`;
-                    finalQueryPieces.push(profileQuery);
-                })
-
-                finalQuery = `(${finalQueryPieces.join(" or ")})`;
-                
-            }else{ // OTHER ENVIRONMENTS
-                if (!lt_result)
-                return req.error(404, 'no authorization profile attached to user')
-                let vkorg = [];
-                let vtweg = [];
-                let spart = [];
-                
-                const salesOrgs = lt_result.VKORG
-                const distributionChannels = lt_result.VTWEG;
-                const divisions = lt_result.SPART;
-                salesOrgs && salesOrgs.length != 0 && salesOrgs.forEach((salesOrg) => {
-                    vkorg.push(`SO_VKORG = '${salesOrg}'`);
-                })
-                distributionChannels && distributionChannels.length != 0 && distributionChannels.forEach((distributionChannel) => {
-                    vtweg.push(`SO_VTWEG = '${distributionChannel}'`);
-                })
-                divisions && divisions.length != 0 && divisions.forEach((division) => {
-                    spart.push(`SO_SPART = '${division}'`);
-                })
-
-                
-                authObject.vkOrgQuery = vkorg.length !== 0 ? cds.parse.expr(vkorg.join(' or ')) : null;
-                authObject.vkwegQuery = vtweg.length !== 0 ? cds.parse.expr(vtweg.join(' or ')) : null;
-                authObject.spartQuery = spart.length !== 0 ? cds.parse.expr(spart.join(' or ')) : null;
-
-
-            }
+            // FOR LOCAL TESTING PURPOSES
             
-            let sessionID = req.headers['authorization'] || req.headers['x-username'];
-            const queryId = `${sessionID}AuthObjectString`
-            sessionCache.set(queryId, finalQuery);
+            // lt_result = [
+            //     {
+            //         "VKORG": "TR0C",
+            //         "VTWEG": "EC",
+            //         "SPART": "BS"
+            //     }
+            // ]
+            
+            let userID = req.user.id;
+            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+            // let userID = "anonymous";
+            // lt_result = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: 'GARCID42'});
+
+            await DELETE.from(VBAKAuthObjectKeys).where ({USERID: userID});
+
+            if (lt_result.length !== 0){
+                lt_result.forEach((set) => {
+                    set.USERID = userID;
+                })
+
+                await INSERT.into(VBAKAuthObjectKeys, lt_result);
+            }           
             return [];
+            
         });
 
         /**
@@ -85,67 +58,15 @@ class srvOpenOrders extends cds.ApplicationService {
          * @param {function} - The callback function containing the code that runs when the event is triggered
          * @param {object} req - The request object containing request details
          * */
-        this.before("READ", "Results", async (req, next) => {                      
+        this.before("READ", "Results", async (req, next) => {       
+            cds
+                .connect("db")
+                .then(({ db }) =>
+                    db?.before("READ", (req) => enableHints(req)
+                    )
+                );
+            req.query.SELECT.localized = false;
             req.query.SELECT.distinct = true;
-            // user story: OTC-183934
-            if (!checkScope(req, next, 'SystemScope') && 1 !== 1){
-                let sessionID = req.headers['authorization'] || req.headers['x-username'];
-                const queryId = `${sessionID}AuthObjectString`
-                let authObject = sessionCache.get(queryId);
-                if(authObject){
-                    var authObjectWhereClause = cds.parse.expr(authObject);
-                }else{
-                    return req.error(404, 'no authorization profile attached to user')
-                }
-                
-                // let vkorg = [];
-                // let vtweg = [];
-                // let spart = [];
-                // let lt_result = {};
-                // try {
-                //     const service = await cds.connect.to('authService');
-                //     const query = "GET /authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100";
-                //     lt_result = await service.run(query);
-                // } catch (error) {
-                //     log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
-                //     req.error(413, 'remote service to Cobalt could not be executed')
-                // }
-                // if (!lt_result)
-                // return req.error(404, 'no authorization profile attached to user')
-                // const salesOrgs = lt_result.VKORG
-                // const distributionChannels = lt_result.VTWEG;
-                // const divisions = lt_result.SPART;
-                // salesOrgs && salesOrgs.length != 0 && salesOrgs.forEach((salesOrg) => {
-                //     vkorg.push(`SO_VKORG = '${salesOrg}'`);
-                // })
-                // distributionChannels && distributionChannels.length != 0 && distributionChannels.forEach((distributionChannel) => {
-                //     vtweg.push(`SO_VTWEG = '${distributionChannel}'`);
-                // })
-                // divisions && divisions.length != 0 && divisions.forEach((division) => {
-                //     spart.push(`SO_SPART = '${division}'`);
-                // })
-        
-        
-                // let vkOrgQuery = vkorg.length !== 0 ? cds.parse.expr(vkorg.join(' or ')) : null;
-                // let vkwegQuery = vtweg.length !== 0 ? cds.parse.expr(vtweg.join(' or ')) : null;
-                // let spartQuery = spart.length !== 0 ? cds.parse.expr(spart.join(' or ')) : null;
-                // let where = req.query.SELECT.where || [];
-                // where.length != 0 && authObject.vkOrgQuery && authObject.vkOrgQuery.length != 0 && where.push('and');
-                // authObject.vkOrgQuery && where.push(authObject.vkOrgQuery);
-                // where.length != 0 && authObject.vkwegQuery && authObject.vkwegQuery.length != 0 && where.push('and');
-                // authObject.vkwegQuery && where.push(authObject.vkwegQuery);
-                // where.length !== 0 && authObject.spartQuery && authObject.spartQuery.length != 0 && where.push('and');
-                // authObject.spartQuery && where.push(authObject.spartQuery);
-
-
-                let where = req.query.SELECT.where || [];
-                where.length != 0 && authObjectWhereClause && authObjectWhereClause.length != 0 && where.push('and');
-                if(authObject){
-                    where.push(authObjectWhereClause);
-                }
-                req.query.SELECT.where = where;
-            }
-
         });
         
         this.on("READ", "Results", async (req, next) => {
@@ -154,56 +75,58 @@ class srvOpenOrders extends cds.ApplicationService {
             // *-------------------------------------------------------------------*
             // Consider also partner settings, if they are maintained
             let db = cds.transaction(req);
-            let currentUser = req.headers['active-user']
+            let currentUser = req.headers['active-user'];
             if (currentUser) {
                 let partnerSettingsQuery = cds.parse.cql(`SELECT from srvOpenOrders_PartnerSettings where BASF_USER = '${currentUser}' and ACTIVE = 'X'`);
                 let partnerSettings = await db.run(partnerSettingsQuery);
                 if (partnerSettings.length !== 0) {
-                    let VEPartners = [];
-                    let ASPartners = [];
-                    let AMPartners = [];
+                    let partnersQuery = [];
                     for (let settingsEntry of partnerSettings) {
                         let partnerNumber = settingsEntry.PARTNER_NUMBER;
                         switch (settingsEntry.PARTNER_ROLE) {
                             case 'VE':
-                                VEPartners.push(`SO_VE_PARTNER = ${partnerNumber}`);
+                                partnersQuery.push(`SO_VE_PARTNER = ${partnerNumber}`);
                                 break;
 
                             case 'AS':
-                                ASPartners.push(`SO_AS_PARTNER = ${partnerNumber}`);
+                                partnersQuery.push(`SO_AS_PARTNER = ${partnerNumber}`);
                                 break;
 
                             case 'AM':
-                                AMPartners.push(`SO_AM_PARTNER = ${partnerNumber}`);
+                                partnersQuery.push(`SO_AM_PARTNER = ${partnerNumber}`);
                                 break;
                             default:
                                 break;
                         }
                     }
 
+                    let partnersQueryParsed;
                     // Construct queries 
-                    let VEQuery = VEPartners.length !== 0 ? cds.parse.expr(VEPartners.join(' or ')) : null;
-                    let ASQuery = ASPartners.length !== 0 ? cds.parse.expr(ASPartners.join(' or ')) : null;
-                    let AMQuery = AMPartners.length !== 0 ? cds.parse.expr(AMPartners.join(' or ')) : null;
+                    if(partnersQuery.length > 0 ){
+                        let queryString = "(" + partnersQuery.join(' or ') + ")";
+                        partnersQueryParsed = cds.parse.expr(queryString);
+                    }
 
                     // Add queries to request
-                    let requestQuery  = req.query.SELECT.where || [];
-                    VEQuery && requestQuery.length != 0 && requestQuery.push('and');
-                    VEQuery && requestQuery.push(VEQuery);
-                    ASQuery && requestQuery.length != 0 && requestQuery.push('and');
-                    ASQuery && requestQuery.push(ASQuery);
-                    AMQuery && requestQuery.length != 0 && requestQuery.push('and');
-                    AMQuery && requestQuery.push(AMQuery);
+                    let requestQuery = req.query.SELECT.where || [];
+                    if(partnersQuery.length > 0){
+                        if (requestQuery.length > 0) {
+                            requestQuery.push('and');
+                        }
+                        requestQuery.push(partnersQueryParsed);
+                    }
+
                     req.query.SELECT.where = requestQuery
                 }
             }
             // *-------------------------------------------------------------------*
             // End of Code OTC-24554
 
-            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols) {
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' &&  req.headers?.countcols) {
                 try { 
                     const db = cds.transaction(req);
-                    let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  srvOpenOrders_Results   )` )
+                    req.headers.countcols = `SO_MANDT,${req.headers.countcols}`;
+                    let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  srvOpenOrders_Results   ) ` )
                     if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
                     const distinctCount = (req.query.SELECT.where) ? 
                     await db.run(query)
@@ -216,7 +139,6 @@ class srvOpenOrders extends cds.ApplicationService {
             }
             await next(req)
         })
-
 
         /**
          * This event is triggered after the backend request for order list data
@@ -238,13 +160,31 @@ class srvOpenOrders extends cds.ApplicationService {
                 sessionCache.set(queryId, queryString);
             }
             if (Array.isArray(data)) {
+                var dateProps = [
+                "SO_ERDAT_ORDER",
+                "SO_ERDAT_ITEM",
+                "SO_EDATU_REQUESTED",
+                "SO_EDATU_CONFIRMED",
+                "SO_LDDAT",
+                "SO_PRSDT",
+                "SO_F_TDDAT",
+                "DL_LFDAT",
+                "DL_HSDAT",
+                "DL_VFDAT",
+                "DL_WADAT",
+                "DL_WADAT_IST",
+                "TM_DPTBG",
+                "TM_DATBG",
+                "TM_DPTEN",
+                "TM_DATEN",
+                "TM_AR_DATE"]
                 data.forEach((item) => {
-                    item.id = uuid.v1();
-                    for(const property in item){
-                        if(item[property] === "00000000"){
-                            item[property] = "";
+                    item.id = uuid.v1()
+                    dateProps.forEach((property) => {
+                        if(item[property] === "00000000" || item[property] === "0000-00-00" || item[property] === "--"){
+                            item[property] = null;
                         }
-                    }
+                    })
                 })
             }
 
@@ -263,16 +203,35 @@ class srvOpenOrders extends cds.ApplicationService {
             const db = cds.transaction(req);
             let lt_result = []
             // if session id is there, get the cach-ed query and execute it.
-            if (sessionCache.get(queryId)) {
+            if (sessionCache.get(queryId) )  {
                 const queryString = sessionCache.get(queryId);
                 const query = JSON.parse(queryString);
                 // make sure pagination is taken into account
-                if (query.SELECT.limit.rows.val) query.SELECT.limit.rows.val = req.query.SELECT.limit.rows?.val;
+                // if (query.SELECT.limit.rows.val) query.SELECT.limit.rows.val = req.query.SELECT.limit.rows?.val;
                 //query.SELECT.distinct = true;
-                // if any value is added in search field, that should be taken into account as well
-                query.SELECT.search = req.query.SELECT.search;
-                if (query.SELECT.limit.offset.val) query.SELECT.limit.offset.val = req.query.SELECT.limit.offset?.val || 0;
+                // if any lowerCaseSearchString is added in search field, that should be taken into account as well
+                //query.SELECT.search = req.query.SELECT.search;
+                let searchString = req._query.$search && req._query.$search.replace(/"/g, '')
+                let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
+                if (lowerCaseSearchString) {
+                    let where = []
+                    if (req._query['$select'] && req._query['$select'].split(',').length > 1) {
+                        where = cds.parse.expr(`lower(${req._query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req._query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                    } else {
+                        where = cds.parse.expr(`lower(${req._query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                    }
+                    let requestQuery = query.SELECT.where || [];
+                    where && requestQuery.length != 0 && requestQuery.push('and');
+                    where && requestQuery.push(where);
+                    query.SELECT.where = requestQuery
+                }
+                // if (query.SELECT.limit.offset && query.SELECT.limit.offset.val && query.SELECT.limit.offset.val) query.SELECT.limit.offset.val = req.query.SELECT.limit.offset?.val || 0;
                 if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
+                    // ISSUE 343357 
+                    // add skip and top parameters from real query
+                    query.SELECT.limit.rows.val = req.query.SELECT.limit.rows.val;
+                    query.SELECT.limit.offset.val = req.query.SELECT.limit.offset.val;
+                    // End of ISSUE 343357
                     query.SELECT.columns.length = 0;
                     query.SELECT.columns = req.query.SELECT.columns;
                     query.SELECT.orderBy.length = 0;
@@ -292,9 +251,16 @@ class srvOpenOrders extends cds.ApplicationService {
                 } else {
                     try {
                         const fields = req._query["search-focus"].split(',')
-                        let lt_count = await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`).where(query.SELECT.where))//distinct(true)
+                        let queryCount = 0;
+                        // sometimes there is a cached query but it has no
+                        let lt_count = query.SELECT.where 
+                            ? await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`).where(query.SELECT.where)) 
+                            : await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`));
 
-                        lt_result.push({ $count: lt_count.length })
+                        if(lt_count.length > 0){
+                            queryCount = lt_count[0][Object.keys(lt_count[0])[0]];
+                        }
+                        lt_result.push({ $count: queryCount })
                     } catch (error) {
                         req.error(status.EXPECTATION_FAILED, getBundle(req.user.locale).getText("VALUEHELP_NOT_EXECUTED"))
                     }
@@ -304,15 +270,33 @@ class srvOpenOrders extends cds.ApplicationService {
             } else {
                 const fields = req._query["search-focus"].split(',')
                 // if there is no session id, execute the query directly
+                let searchString = req._query.$search && req._query.$search.replace(/"/g, '')
+                let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
+                if (lowerCaseSearchString) {
+                    let where = []
+                    if (req._query['$select'] && req._query['$select'].split(',').length > 1) {
+                        where = cds.parse.expr(`lower(${req._query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req._query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                    } else {
+                        where = cds.parse.expr(`lower(${req._query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                    }
+                    let requestQuery = req.query.SELECT.where || [];
+                    where && requestQuery.length != 0 && requestQuery.push('and');
+                    where && requestQuery.push(where);
+                    req.query.SELECT.where = requestQuery
+                    delete req.query.SELECT.search
+                }
                 if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
-                    //req.query.SELECT.distinct = true;
+                    req.query.SELECT.distinct = true;
                     lt_result = await db.run(req.query)
                     //await cds.run(req.query);
                 } else {
                     try {
-                        
+                        let queryCount = 0;
                         let lt_count = await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`))
-                        lt_result.push({ $count: lt_count.length })
+                        if(lt_count.length > 0){
+                            queryCount = lt_count[0][Object.keys(lt_count[0])[0]];
+                        }
+                        lt_result.push({ $count: queryCount })
                     } catch (error) {
                         req.error(error)
                     }
@@ -348,7 +332,7 @@ class srvOpenOrders extends cds.ApplicationService {
             // since there is a virtual id field, adding a random guid to each record of the result set.
             if (Array.isArray(data)) {
                 data.forEach((item) => {
-                    item.id = uuid.v1()
+                    item.id = uuid.v1()  
                 })
             }
         })
