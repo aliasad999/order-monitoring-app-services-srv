@@ -229,8 +229,7 @@ class srvOpenOrders extends cds.ApplicationService {
                 if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
                     // ISSUE 343357 
                     // add skip and top parameters from real query
-                    query.SELECT.limit.rows.val = req.query.SELECT.limit.rows.val;
-                    query.SELECT.limit.offset.val = req.query.SELECT.limit.offset.val;
+                    query.SELECT.limit = req.query.SELECT.limit;
                     // End of ISSUE 343357
                     query.SELECT.columns.length = 0;
                     query.SELECT.columns = req.query.SELECT.columns;
