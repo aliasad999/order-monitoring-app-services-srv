@@ -12,29 +12,18 @@ class srvOpenOrders extends cds.ApplicationService {
     init() {
 
         this.on("getVBAKAuthObjKeys", async req => {
-            let query = "GET /authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100";
             let lt_result = [];
             try {
                 const service = await cds.connect.to('authService');
-                // lt_result = await service.run(query);
                 lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100");
             } catch (error) {
                 log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
                 req.error(413, 'remote service to Cobalt could not be executed')
             }
-
-            // FOR LOCAL TESTING PURPOSES
-            
-            // lt_result = [
-            //     {
-            //         "VKORG": "TR0C",
-            //         "VTWEG": "EC",
-            //         "SPART": "BS"
-            //     }
-            // ]
-            
+                         
             let userID = req.user.id;
             const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+            // FOR LOCAL TESTING PURPOSES 
             // let userID = "anonymous";
             // lt_result = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: 'GARCID42'});
 

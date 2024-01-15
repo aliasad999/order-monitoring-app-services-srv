@@ -4,7 +4,7 @@ using allorders.db as db_app from '../db/order-monitoring-app-service';
 service srvOpenOrders {
 
   entity VBAKAuthObjectKeys as select from db_app.VBAKAUTH;
-  function getVBAKAuthObjKeys( isDevSystem : Boolean ) returns array of VBAKAuthObjectKeys;
+  function getVBAKAuthObjKeys() returns array of VBAKAuthObjectKeys;
 
   @readonly
   @cds.redirection.target: true
@@ -101,15 +101,11 @@ service srvOpenOrders {
           SO_BSARK,
           SO_BSARK_VTEXT,
           SO_BASF_LOFCR,
-          // SO_GUSCON,
-          // SO_GUSCON_ITM,
           SO_GUSCON_LEVEL,
           SO_I_VBELN,
-          // SO_I_POSNR,
           SO_ISCOMPLETED,
           SO_LEVEL_TYPE,
           SO_N_VBELN,
-          // SO_N_POSNR,
           SO_F_VBELN,
           SO_F_POSNR,
           SO_VBTYP,
@@ -152,7 +148,6 @@ service srvOpenOrders {
           DL_WADAT_DATE as DL_WADAT,
           DL_WADAT_IST_DATE as DL_WADAT_IST,
           LAST_NOTE,
-          
           TM_TKNUM,
           TM_VSART,
           TM_VSART_BEZEI,
@@ -174,28 +169,13 @@ service srvOpenOrders {
             then TM_ALERT_STATUS_CODE_TEXT_ELEM
             else TM_ALERT_STATUS_CODE_TEXT_ELEM || '(' || TM_ALERT_STATUS_REASON_CODE_ELEM || ' - ' || TM_ALERT_STATUS_REASON_CODE_TEXT_ELEM || ')' 
           end as TM_SHIPMENT_ALERT : String(250),  
-
-          // TM_STATUS_CODE_ELEM,
-          // TM_STATUS_REASON_CODE_ELEM,
-          // TM_STATUS_CODE_TEXT_ELEM,
-          // TM_STATUS_REASON_CODE_TEXT_ELEM,
           TM_TRACKING_ID_ELEM,
-          // TM_ALERT_STATUS_CODE_ELEM,
-          // TM_ALERT_STATUS_REASON_CODE_ELEM,
-          // TM_ALERT_STATUS_CODE_TEXT_ELEM,
-          // TM_ALERT_STATUS_REASON_CODE_TEXT_ELEM,
-          // TM_STATUS_CODE_COMP,
-          // TM_REASON_CODE_COMP,
-          // TM_STATUS_CODE_TEXT_COMP,
-          // TM_REASON_CODE_TEXT_COMP,
           TM_TRACKING_ID_COMP,
-          // TM_STATUS_CODE_MANUEL,
           TM_DPTBG_DATE as TM_DPTBG,
           TM_DATBG_DATE as TM_DATBG,
           TM_DPTEN_DATE as TM_DPTEN,
           TM_DATEN_DATE as TM_DATEN,
           TM_AR_DATE_DATE as TM_AR_DATE,
-          // TM_AR_DATE,
           TM_STTRG,
           TM_STTRG_DDTEXT,
           BL_VBELN_INV_FIRST,
