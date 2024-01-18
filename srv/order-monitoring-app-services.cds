@@ -4,7 +4,7 @@ using allorders.db as db_app from '../db/order-monitoring-app-service';
 service srvOpenOrders {
 
   entity VBAKAuthObjectKeys as select from db_app.VBAKAUTH;
-  function getVBAKAuthObjKeys() returns array of VBAKAuthObjectKeys;
+  function getVBAKAuthObjKeys() returns Boolean;
 
   @readonly
   @cds.redirection.target: true

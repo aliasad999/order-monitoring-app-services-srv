@@ -17,16 +17,12 @@ class srvOpenOrders extends cds.ApplicationService {
                 const service = await cds.connect.to('authService');
                 lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100");
             } catch (error) {
-                log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
-                req.error(413, 'remote service to Cobalt could not be executed')
+                // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
+                req.error(413, 'There was an error calling the authorization service from Cobalt. Please refresh the application')
             }
                          
             let userID = req.user.id;
             const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
-            // FOR LOCAL TESTING PURPOSES 
-            // let userID = "anonymous";
-            // lt_result = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: 'GARCID42'});
-
             await DELETE.from(VBAKAuthObjectKeys).where ({USERID: userID});
 
             if (lt_result.length !== 0){
@@ -35,8 +31,10 @@ class srvOpenOrders extends cds.ApplicationService {
                 })
 
                 await INSERT.into(VBAKAuthObjectKeys, lt_result);
+            }else{
+                return false;
             }           
-            return [];
+            return true;
             
         });
 
@@ -48,6 +46,14 @@ class srvOpenOrders extends cds.ApplicationService {
          * @param {object} req - The request object containing request details
          * */
         this.before("READ", "Results", async (req, next) => {       
+            // Check if auth table is filled
+            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+            let userID = req.user.id;
+            let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
+            if(authSet.length === 0){
+                req.error(413, 'You are not authorized to see any entries in the list. Please contact an administrator.')
+            }
+
             cds
                 .connect("db")
                 .then(({ db }) =>
