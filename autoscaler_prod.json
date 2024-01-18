@@ -1,10 +1,10 @@
 {
     "instance_min_count": 1,
-    "instance_max_count": 2,
+    "instance_max_count": 5,
     "scaling_rules": [
       {
         "metric_type": "cpu",
-        "threshold": 80,
+        "threshold": 50,
         "stat_window_secs": 60,
         "breach_duration_secs": 60,
         "cool_down_secs": 60,
@@ -13,7 +13,7 @@
       },
       {
         "metric_type": "cpu",
-        "threshold": 60,
+        "threshold": 40,
         "stat_window_secs": 60,
         "breach_duration_secs": 60,
         "cool_down_secs": 600,
