@@ -34,6 +34,7 @@ modules:
       buildpack: nodejs_buildpack
       memory: 5GB
       disk-quota: 5GB
+      instances: 1
     build-parameters:
       builder: npm-ci
       ignore:
@@ -51,6 +52,9 @@ modules:
       - name: order-monitoring-destination
       - name: order-monitoring-connectivity
       - name: order-monitoring-logs
+      - name: order-monitoring-autoscaler
+        parameters:
+          path: ./autoscaler.json
       
   #
   #   ┌───────────────────────────────────────────┐   #
@@ -180,3 +184,13 @@ resources:
     parameters:
       service: application-logs
       service-plan: lite
+  #
+  #   ┌─────────────────────────────────────┐   #
+  #   │         AutoScaler                  │   #
+  #   └─────────────────────────────────────┘   #
+  #
+  - name: order-monitoring-autoscaler
+    type: org.cloudfoundry.existing-service
+    parameters:
+      service: autoscaler
+      service-plan: standard
