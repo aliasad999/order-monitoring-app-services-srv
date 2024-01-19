@@ -12,32 +12,18 @@ class srvOpenOrders extends cds.ApplicationService {
     init() {
 
         this.on("getVBAKAuthObjKeys", async req => {
-            let query = "GET /authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100";
             let lt_result = [];
+            let userID = req.user.id;
+            // let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
             try {
                 const service = await cds.connect.to('authService');
-                // lt_result = await service.run(query);
                 lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100");
             } catch (error) {
-                log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
-                req.error(413, 'remote service to Cobalt could not be executed')
+                // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
+                req.error(413, 'There was an error calling the authorization service from Cobalt, it is possible you will not see any data or wrong data if you do not refresh. Please refresh the application')
             }
-
-            // FOR LOCAL TESTING PURPOSES
-            
-            // lt_result = [
-            //     {
-            //         "VKORG": "TR0C",
-            //         "VTWEG": "EC",
-            //         "SPART": "BS"
-            //     }
-            // ]
-            
-            let userID = req.user.id;
+                         
             const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
-            // let userID = "anonymous";
-            // lt_result = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: 'GARCID42'});
-
             await DELETE.from(VBAKAuthObjectKeys).where ({USERID: userID});
 
             if (lt_result.length !== 0){
@@ -46,8 +32,10 @@ class srvOpenOrders extends cds.ApplicationService {
                 })
 
                 await INSERT.into(VBAKAuthObjectKeys, lt_result);
+            }else{
+                return false;
             }           
-            return [];
+            return true;
             
         });
 
@@ -59,6 +47,14 @@ class srvOpenOrders extends cds.ApplicationService {
          * @param {object} req - The request object containing request details
          * */
         this.before("READ", "Results", async (req, next) => {       
+            // Check if auth table is filled
+            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+            let userID = req.user.id;
+            let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
+            if(authSet.length === 0){
+                req.error(413, 'You are not authorized to see any entries in the list. Please contact an administrator.')
+            }
+
             cds
                 .connect("db")
                 .then(({ db }) =>
@@ -75,7 +71,7 @@ class srvOpenOrders extends cds.ApplicationService {
             // *-------------------------------------------------------------------*
             // Consider also partner settings, if they are maintained
             let db = cds.transaction(req);
-            let currentUser = req.headers['active-user'];
+            let currentUser = req.user.id;
             if (currentUser) {
                 let partnerSettingsQuery = cds.parse.cql(`SELECT from srvOpenOrders_PartnerSettings where BASF_USER = '${currentUser}' and ACTIVE = 'X'`);
                 let partnerSettings = await db.run(partnerSettingsQuery);
