@@ -6,11 +6,3 @@ modules:
   - name: order-monitoring-app-services-srv
     properties:
       OTEL_RESOURCE_ATTRIBUTES: sap.tenancy.tenant_id=43b092c5-2fed-4194-aca6-1019abe786a8
-    parameters:
-      memory: 8GB
-      disk-quota: 8GB
-      instances: 2
-    requires:
-      - name: order-monitoring-autoscaler
-        parameters:
-          path: ./autoscaler_prod.json
