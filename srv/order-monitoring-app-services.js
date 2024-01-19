@@ -13,15 +13,16 @@ class srvOpenOrders extends cds.ApplicationService {
 
         this.on("getVBAKAuthObjKeys", async req => {
             let lt_result = [];
+            let userID = req.user.id;
+            // let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
             try {
                 const service = await cds.connect.to('authService');
                 lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100");
             } catch (error) {
                 // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
-                req.error(413, 'There was an error calling the authorization service from Cobalt. Please refresh the application')
+                req.error(413, 'There was an error calling the authorization service from Cobalt, it is possible you will not see any data or wrong data if you do not refresh. Please refresh the application')
             }
                          
-            let userID = req.user.id;
             const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
             await DELETE.from(VBAKAuthObjectKeys).where ({USERID: userID});
 
