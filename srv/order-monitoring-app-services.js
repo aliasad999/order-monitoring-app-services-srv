@@ -185,6 +185,25 @@ class srvOpenOrders extends cds.ApplicationService {
             }
 
         });
+
+        /**
+         * This event is triggered before the backend request for order list data
+         * @param {string} "READ" - The type of backend request
+         * @param {string} "valueHelps" - The name of the entity set
+         * @param {function} - The callback function containing the code that runs when the event is triggered
+         * @param {object} req - The request object containing request details
+         * */
+        this.before("READ", "valueHelps", async (req) => {       
+            // Check if auth table is filled
+            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+            let userID = req.user.id;
+            let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
+            if(authSet.length === 0){
+                req.error(413, 'You are not authorized to see any entries in value helps. Please contact an administrator.')
+            }
+        });
+
+
         /**
         * This event is triggered after the backend request for value help data
         * @param {string} "READ" - The type of backend request
