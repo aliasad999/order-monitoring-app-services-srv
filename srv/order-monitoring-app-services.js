@@ -20,7 +20,7 @@ class srvOpenOrders extends cds.ApplicationService {
                 lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100");
             } catch (error) {
                 // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
-                req.error(413, 'There was an error calling the authorization service from Cobalt, it is possible you will not see any data or wrong data if you do not refresh. Please refresh the application')
+                req.error(413, 'ERROR_AUTH_CALL')
             }
                          
             const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
@@ -52,7 +52,7 @@ class srvOpenOrders extends cds.ApplicationService {
             let userID = req.user.id;
             let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
             if(authSet.length === 0){
-                req.error(413, 'You are not authorized to see any entries in the list. Please contact an administrator.')
+                req.error(413, 'NO_AUTH_LIST')
             }
 
             cds
@@ -199,7 +199,7 @@ class srvOpenOrders extends cds.ApplicationService {
             let userID = req.user.id;
             let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
             if(authSet.length === 0){
-                req.error(413, 'You are not authorized to see any entries in value helps. Please contact an administrator.')
+                req.error(413, 'NO_AUTH_VALUE_HELP')
             }
         });
 
