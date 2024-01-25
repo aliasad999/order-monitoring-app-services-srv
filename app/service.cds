@@ -299,8 +299,11 @@ annotate service.Results with {
     TM_DPTEN                    @title: '{i18n>TM_DPTEN}'                    @sap.Label: '{i18n>TM_DPTEN}';
     TM_DATEN                    @title: '{i18n>TM_DATEN}'                    @sap.Label: '{i18n>TM_DATEN}';
     TM_AR_DATE                  @title: '{i18n>TM_AR_DATE}'                  @sap.Label: '{i18n>TM_AR_DATE}';
+    @Common.Text : TM_STTRG_DDTEXT
+    @Common.TextArrangement: #TextLast
     TM_STTRG                    @title: '{i18n>TM_STTRG}'                    @sap.Label: '{i18n>TM_STTRG}';
-    TM_STTRG_DDTEXT             @title: '{i18n>TM_STTRG_DDTEXT}'             @sap.Label: '{i18n>TM_STTRG_DDTEXT}';
+    @Common.TextFor
+    TM_STTRG_DDTEXT      ;  
     SO_BASF_LOFCR               @title: '{i18n>SO_BASF_LOFCR}'               @sap.Label: '{i18n>SO_BASF_LOFCR}';
     SO_GUSCON_LEVEL             @title: '{i18n>SO_GUSCON_LEVEL}'             @sap.Label: '{i18n>SO_GUSCON_LEVEL}';
     SO_I_VBELN                  @title: '{i18n>SO_I_VBELN}'                  @sap.Label: '{i18n>SO_I_VBELN}';
@@ -2181,11 +2184,16 @@ annotate service.Results with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: TM_STTRG,
-            ValueListProperty: 'TM_STTRG'
-        }
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: TM_STTRG,
+                ValueListProperty: 'TM_STTRG'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'TM_STTRG_DDTEXT'
+            }
 
         ]
     }
