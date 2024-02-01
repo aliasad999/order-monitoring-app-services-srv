@@ -10,11 +10,5 @@
             "object": "ORDERMONITORINGSERVICES_VBAKAUTH",
             "schema": "_PLACEHOLDER_"
         }
-    },
-    "ALLORDERS_DB_ORDERLIST_COUNT": {
-        "target": {
-          "object": "ORDERMONITORINGSERVICES_ORDERLIST_COUNT",
-          "schema": "_PLACEHOLDER_"
-        }
-      }
+    }
 }

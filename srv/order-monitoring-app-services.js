@@ -20,7 +20,7 @@ class srvOpenOrders extends cds.ApplicationService {
                 lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100");
             } catch (error) {
                 // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
-                req.error(413, 'There was an error calling the authorization service from Cobalt, it is possible you will not see any data or wrong data if you do not refresh. Please refresh the application')
+                req.error(413, 'ERROR_AUTH_CALL')
             }
                          
             const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
@@ -52,7 +52,7 @@ class srvOpenOrders extends cds.ApplicationService {
             let userID = req.user.id;
             let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
             if(authSet.length === 0){
-                req.error(413, 'You are not authorized to see any entries in the list. Please contact an administrator.')
+                req.error(413, 'NO_AUTH_LIST')
             }
 
             cds
@@ -122,7 +122,7 @@ class srvOpenOrders extends cds.ApplicationService {
                 try { 
                     const db = cds.transaction(req);
                     req.headers.countcols = `SO_MANDT,${req.headers.countcols}`;
-                    let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  srvOpenOrders_ORDERLIST_COUNT   ) ` )
+                    let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  srvOpenOrders_Results   ) ` )
                     if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
                     const distinctCount = (req.query.SELECT.where) ? 
                     await db.run(query)
@@ -185,6 +185,25 @@ class srvOpenOrders extends cds.ApplicationService {
             }
 
         });
+
+        /**
+         * This event is triggered before the backend request for order list data
+         * @param {string} "READ" - The type of backend request
+         * @param {string} "valueHelps" - The name of the entity set
+         * @param {function} - The callback function containing the code that runs when the event is triggered
+         * @param {object} req - The request object containing request details
+         * */
+        this.before("READ", "valueHelps", async (req) => {       
+            // Check if auth table is filled
+            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+            let userID = req.user.id;
+            let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
+            if(authSet.length === 0){
+                req.error(413, 'NO_AUTH_VALUE_HELP')
+            }
+        });
+
+
         /**
         * This event is triggered after the backend request for value help data
         * @param {string} "READ" - The type of backend request
