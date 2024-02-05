@@ -121,7 +121,6 @@ class srvOpenOrders extends cds.ApplicationService {
             if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' &&  req.headers?.countcols) {
                 try { 
                     const db = cds.transaction(req);
-                    req.headers.countcols = `SO_MANDT,${req.headers.countcols}`;
                     let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  srvOpenOrders_Results   ) ` )
                     if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
                     const distinctCount = (req.query.SELECT.where) ? 
