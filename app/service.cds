@@ -393,7 +393,7 @@ annotate service.Results with {
     id                        @UI                     : {Hidden: true};
     SO_MANDT                  @UI                     : {Hidden: true};
     DL_MANDT                  @UI                     : {Hidden: true};
-    TM_MADT                   @UI                     : {Hidden: true};
+    TM_MANDT                   @UI                     : {Hidden: true};
     BL_MANDT_INV_FIRST        @UI                     : {Hidden: true};
     BL_MANDT_INV_LAST         @UI                     : {Hidden: true};
     SO_SPART                  @UI                     : {Hidden: true};
@@ -448,7 +448,7 @@ annotate service.valueHelps with {
     id                 @UI                     : {Hidden: true};
     SO_MANDT           @UI                     : {Hidden: true};     
     DL_MANDT           @UI                     : {Hidden: true};
-    TM_MADT            @UI                     : {Hidden: true};
+    TM_MANDT            @UI                     : {Hidden: true};
     BL_MANDT_INV_FIRST @UI                     : {Hidden: true};
     BL_MANDT_INV_LAST  @UI                     : {Hidden: true};           
 
