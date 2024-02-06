@@ -63,6 +63,36 @@ class srvOpenOrders extends cds.ApplicationService {
                 );
             req.query.SELECT.localized = false;
             req.query.SELECT.distinct = true;
+            const dateProps = [
+                "SO_ERDAT_ORDER",
+                "SO_ERDAT_ITEM",
+                "SO_EDATU_REQUESTED",
+                "SO_EDATU_CONFIRMED",
+                "SO_LDDAT",
+                "SO_PRSDT",
+                "SO_F_TDDAT",
+                "DL_LFDAT",
+                "DL_HSDAT",
+                "DL_VFDAT",
+                "DL_WADAT",
+                "DL_WADAT_IST",
+                "TM_DPTBG",
+                "TM_DATBG",
+                "TM_DPTEN",
+                "TM_DATEN",
+                "SO_F_LDDAT",
+                "TM_AR_DATE"]
+            for (let i = 0; i < req.query.SELECT.where.length; i++) {
+                const item = req.query.SELECT.where[i];
+                if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
+                  for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
+                    if (req.query.SELECT.where[j].val !== undefined) {
+                        req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
+                      break;  
+                    }
+                  }
+                }
+              }
         });
         
         this.on("READ", "Results", async (req, next) => {
@@ -121,7 +151,6 @@ class srvOpenOrders extends cds.ApplicationService {
             if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' &&  req.headers?.countcols) {
                 try { 
                     const db = cds.transaction(req);
-                    req.headers.countcols = `SO_MANDT,${req.headers.countcols}`;
                     let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  srvOpenOrders_Results   ) ` )
                     if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
                     const distinctCount = (req.query.SELECT.where) ? 
@@ -173,13 +202,21 @@ class srvOpenOrders extends cds.ApplicationService {
                 "TM_DATBG",
                 "TM_DPTEN",
                 "TM_DATEN",
+                "SO_F_LDDAT",
                 "TM_AR_DATE"]
                 data.forEach((item) => {
                     item.id = uuid.v1()
                     dateProps.forEach((property) => {
-                        if(item[property] === "00000000" || item[property] === "0000-00-00" || item[property] === "--"){
-                            item[property] = null;
+                       const dateString = item[property]
+                            if (dateString){
+                            const year = parseInt(dateString.substring(0, 4), 10);
+                            const month = parseInt(dateString.substring(4, 6), 10) - 1; // JavaScript months are 0-indexed
+                            const day = parseInt(dateString.substring(6, 8), 10);
+                            item[property] = new Date(year, month, day);
+                        } else{
+                            item[property] = new Date(9999,12,31)
                         }
+                        
                     })
                 })
             }

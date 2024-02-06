@@ -181,6 +181,10 @@ service srvOpenOrders {
           BL_VBELN_INV_FIRST,
           BL_VBELN_INV_LAST,
           BL_XBLNR,
+          DL_MANDT,
+          TM_MANDT,
+          BL_MANDT_INV_FIRST,
+          BL_MANDT_INV_LAST
           
     };
 

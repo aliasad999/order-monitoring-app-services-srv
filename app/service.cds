@@ -392,6 +392,10 @@ annotate service.Results with {
     DL_LFART_VTEXT            @UI                     : {Hidden: true};
     id                        @UI                     : {Hidden: true};
     SO_MANDT                  @UI                     : {Hidden: true};
+    DL_MANDT                  @UI                     : {Hidden: true};
+    TM_MANDT                   @UI                     : {Hidden: true};
+    BL_MANDT_INV_FIRST        @UI                     : {Hidden: true};
+    BL_MANDT_INV_LAST         @UI                     : {Hidden: true};
     SO_SPART                  @UI                     : {Hidden: true};
     SO_ABGRU                  @UI                     : {Hidden: true};
     SO_ABSTA                  @UI                     : {Hidden: true};
@@ -442,7 +446,11 @@ annotate service.valueHelps with {
     DL_VRKME           @Semantics.unitOfMeasure: 'unit-of-measure';
     DL_PEND_DEL_QUAN   @Measures.Unit          : DL_VRKME;
     id                 @UI                     : {Hidden: true};
-    SO_MANDT           @UI                     : {Hidden: true};                
+    SO_MANDT           @UI                     : {Hidden: true};     
+    DL_MANDT           @UI                     : {Hidden: true};
+    TM_MANDT            @UI                     : {Hidden: true};
+    BL_MANDT_INV_FIRST @UI                     : {Hidden: true};
+    BL_MANDT_INV_LAST  @UI                     : {Hidden: true};           
 
 }
 
