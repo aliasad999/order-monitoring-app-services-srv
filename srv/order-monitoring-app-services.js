@@ -208,13 +208,13 @@ class srvOpenOrders extends cds.ApplicationService {
                     item.id = uuid.v1()
                     dateProps.forEach((property) => {
                        const dateString = item[property]
-                            if (dateString){
+                       if (dateString &&  dateString != "00000000" && dateString != "0000-00-00" && dateString != "--"){
                             const year = parseInt(dateString.substring(0, 4), 10);
-                            const month = parseInt(dateString.substring(4, 6), 10) - 1; // JavaScript months are 0-indexed
+                            const month = parseInt(dateString.substring(4, 6), 10) - 1; 
                             const day = parseInt(dateString.substring(6, 8), 10);
                             item[property] = new Date(year, month, day);
                         } else{
-                            item[property] = new Date(9999,12,31)
+                            item[property] = null
                         }
                         
                     })
