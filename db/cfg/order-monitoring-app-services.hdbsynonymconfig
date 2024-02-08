@@ -10,12 +10,6 @@
         "object": "ORDERMONITORINGSERVICES_VBAKAUTH",
         "schema.configure": "order-monitoring-services-hdi/schema"
       }
-    },
-    "ALLORDERS_DB_ORDERLIST_COUNT": {
-      "target": {
-        "object": "ORDERMONITORINGSERVICES_ORDERLIST_COUNT",
-        "schema.configure": "order-monitoring-services-hdi/schema"
-      }
     }
     
   }

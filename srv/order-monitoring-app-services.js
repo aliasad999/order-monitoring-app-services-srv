@@ -19,7 +19,7 @@ class srvOpenOrders extends cds.ApplicationService {
                 lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100");
             } catch (error) {
                 // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
-                req.error(413, 'There was an error calling the authorization service from Cobalt, it is possible you will not see any data or wrong data if you do not refresh. Please refresh the application')
+                req.error(413, 'ERROR_AUTH_CALL')
             }
                          
             const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
@@ -51,11 +51,41 @@ class srvOpenOrders extends cds.ApplicationService {
             let userID = req.user.id;
             let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
             if(authSet.length === 0){
-                req.error(413, 'You are not authorized to see any entries in the list. Please contact an administrator.')
+                req.error(413, 'NO_AUTH_LIST')
             }
 
             req.query.SELECT.localized = false;
             req.query.SELECT.distinct = true;
+            const dateProps = [
+                "SO_ERDAT_ORDER",
+                "SO_ERDAT_ITEM",
+                "SO_EDATU_REQUESTED",
+                "SO_EDATU_CONFIRMED",
+                "SO_LDDAT",
+                "SO_PRSDT",
+                "SO_F_TDDAT",
+                "DL_LFDAT",
+                "DL_HSDAT",
+                "DL_VFDAT",
+                "DL_WADAT",
+                "DL_WADAT_IST",
+                "TM_DPTBG",
+                "TM_DATBG",
+                "TM_DPTEN",
+                "TM_DATEN",
+                "SO_F_LDDAT",
+                "TM_AR_DATE"]
+            for (let i = 0; i < req.query.SELECT.where.length; i++) {
+                const item = req.query.SELECT.where[i];
+                if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
+                  for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
+                    if (req.query.SELECT.where[j].val !== undefined) {
+                        req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
+                      break;  
+                    }
+                  }
+                }
+              }
         });
         
         this.on("READ", "Results", async (req, next) => {
@@ -114,8 +144,7 @@ class srvOpenOrders extends cds.ApplicationService {
             if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' &&  req.headers?.countcols) {
                 try { 
                     const db = cds.transaction(req);
-                    req.headers.countcols = `SO_MANDT,${req.headers.countcols}`;
-                    let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  srvOpenOrders_ORDERLIST_COUNT   ) ` )
+                    let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  srvOpenOrders_Results   ) ` )
                     if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
                     const distinctCount = (req.query.SELECT.where) ? 
                     await db.run(query)
@@ -166,18 +195,45 @@ class srvOpenOrders extends cds.ApplicationService {
                 "TM_DATBG",
                 "TM_DPTEN",
                 "TM_DATEN",
+                "SO_F_LDDAT",
                 "TM_AR_DATE"]
                 data.forEach((item) => {
                     item.id = uuid.v1()
                     dateProps.forEach((property) => {
-                        if(item[property] === "00000000" || item[property] === "0000-00-00" || item[property] === "--"){
-                            item[property] = null;
+                       const dateString = item[property]
+                       if (dateString &&  dateString != "00000000" && dateString != "0000-00-00" && dateString != "--"){
+                            const year = parseInt(dateString.substring(0, 4), 10);
+                            const month = parseInt(dateString.substring(4, 6), 10) - 1; 
+                            const day = parseInt(dateString.substring(6, 8), 10);
+                            item[property] = new Date(year, month, day);
+                        } else{
+                            item[property] = null
                         }
+                        
                     })
                 })
             }
 
         });
+
+        /**
+         * This event is triggered before the backend request for order list data
+         * @param {string} "READ" - The type of backend request
+         * @param {string} "valueHelps" - The name of the entity set
+         * @param {function} - The callback function containing the code that runs when the event is triggered
+         * @param {object} req - The request object containing request details
+         * */
+        this.before("READ", "valueHelps", async (req) => {       
+            // Check if auth table is filled
+            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+            let userID = req.user.id;
+            let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
+            if(authSet.length === 0){
+                req.error(413, 'NO_AUTH_VALUE_HELP')
+            }
+        });
+
+
         /**
         * This event is triggered after the backend request for value help data
         * @param {string} "READ" - The type of backend request
