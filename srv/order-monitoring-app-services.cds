@@ -56,7 +56,10 @@ service srvOpenOrders {
           SO_VKORG_NAME1,
           SO_KNREF_HEAD,
           SO_KNREF_ITM,
-          SO_VBUND,
+          case
+            when SO_VBUND is not null and SO_VBUND <> '' then 'X'
+            else ''
+          end as SO_VBUND : String(1),
           SO_EDATU_REQUESTED_DATE as SO_EDATU_REQUESTED,
           SO_KWMENG,
           SO_VRKME,
