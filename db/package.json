@@ -2,9 +2,9 @@
     "name":"deploy",
     "version":"1.0.3",
     "dependencies": {
-     "@sap/hdi-deploy":"4.8.0"   
+     "@sap/hdi-deploy":"4.9.2"  
     },
     "scripts": {
-        "start": "node node_modules/@sap/hdi-deploy/deploy.js"
+        "start": "node node_modules/@sap/hdi-deploy/deploy.js --treat-unmodified-as-modified"
     }
 }

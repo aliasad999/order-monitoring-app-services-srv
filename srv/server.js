@@ -1,5 +1,5 @@
 const tracer = require('@sap/xotel-agent-ext-js/dist/common/tracer');
-const proxy = require('@sap/cds-odata-v2-adapter-proxy')
+const proxy = require("@cap-js-community/odata-v2-adapter");
 const cds = require('@sap/cds')
 const express = require('express')()
 var bodyParser = require('body-parser');

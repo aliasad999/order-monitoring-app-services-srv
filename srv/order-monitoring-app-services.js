@@ -5,7 +5,6 @@ const uuid = require('uuid');
 const status = require('http-status');
 const textBundle = require('./utils/textBundle')
 const log = require("cf-nodejs-logging-support");
-const enableHints = require("./plugins/enable_hints");
 
 class srvOpenOrders extends cds.ApplicationService {
 
@@ -55,12 +54,6 @@ class srvOpenOrders extends cds.ApplicationService {
                 req.error(413, 'NO_AUTH_LIST')
             }
 
-            cds
-                .connect("db")
-                .then(({ db }) =>
-                    db?.before("READ", (req) => enableHints(req)
-                    )
-                );
             req.query.SELECT.localized = false;
             req.query.SELECT.distinct = true;
             const dateProps = [
