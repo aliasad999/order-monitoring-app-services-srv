@@ -74,7 +74,7 @@
         "model": "srv/external/order-monitoring-services",
         "credentials": {
           "destination": "generic-api",
-          "path": "/v2/order-monitoring-services"
+          "path": "/odata/v2/order-monitoring-services"
         }
       }
     }
