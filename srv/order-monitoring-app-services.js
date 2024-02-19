@@ -5,6 +5,7 @@ const uuid = require('uuid');
 const status = require('http-status');
 const textBundle = require('./utils/textBundle')
 const log = require("cf-nodejs-logging-support");
+const enableHints = require('./plugins/enable_hints')
 
 class srvOpenOrders extends cds.ApplicationService {
 
@@ -180,7 +181,9 @@ class srvOpenOrders extends cds.ApplicationService {
                 // do nothing
             } else {
                 // cache the query, so that all filter conditions can be consumed.. when any valuehelp is called.
-                const queryString = JSON.stringify(req.query);
+                let query = req.query
+                 query.SELECT.where = req.query.SELECT.where
+                const queryString = JSON.stringify(query);
                 const queryId = `${sessionID}Query`
                 sessionCache.set(queryId, queryString);
             }
