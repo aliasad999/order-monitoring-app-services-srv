@@ -54,6 +54,13 @@ class srvOpenOrders extends cds.ApplicationService {
                 req.error(413, 'NO_AUTH_LIST')
             }
 
+            cds
+                .connect("db")
+                .then(({ db }) =>
+                    db?.before("READ", (req) => enableHints(req)
+                    )
+                );
+
             req.query.SELECT.localized = false;
             req.query.SELECT.distinct = true;
             const dateProps = [
