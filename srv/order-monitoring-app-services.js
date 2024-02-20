@@ -193,7 +193,7 @@ class srvOpenOrders extends cds.ApplicationService {
                 "SO_ERDAT_ITEM",
                 "SO_EDATU_REQUESTED",
                 "SO_EDATU_CONFIRMED",
-                "SO_LDDAT",º
+                "SO_LDDAT",
                 "SO_PRSDT",
                 "SO_F_TDDAT",
                 "DL_LFDAT",
