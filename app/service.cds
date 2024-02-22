@@ -86,7 +86,7 @@ annotate service.valueHelps with {
     DL_HSDAT                    @title: '{i18n>DL_HSDAT}'                    @sap.Label: '{i18n>DL_HSDAT}';
     DL_VFDAT                    @title: '{i18n>DL_VFDAT}'                    @sap.Label: '{i18n>DL_VFDAT}';
     DL_TRAID                    @title: '{i18n>DL_TRAID}'                    @sap.Label: '{i18n>DL_TRAID}';
-    DL_ZZ0S2BLNR                @title: '{i18n>DL_ZZ0S2BLNR}'                @sap.Label: '{i18n>DL_ZZ0S2BLNR}'        @Common.IsDigitSequence: true;
+    DL_ZZ0S2BLNR                @title: '{i18n>DL_ZZ0S2BLNR}'                @sap.Label: '{i18n>DL_ZZ0S2BLNR}';      
     DL_PEND_DEL_QUAN            @title: '{i18n>DL_PEND_DEL_QUAN}'            @sap.Label: '{i18n>DL_PEND_DEL_QUAN}';
     LAST_NOTE                   @title: '{i18n>LAST_NOTE}'                   @sap.Label: '{i18n>LAST_NOTE}';
     TM_TKNUM                    @title: '{i18n>TM_TKNUM}'                    @sap.Label: '{i18n>TM_TKNUM}';
@@ -1535,7 +1535,6 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
 };
 
 annotate service.Results with {
