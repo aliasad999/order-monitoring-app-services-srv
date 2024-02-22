@@ -188,7 +188,7 @@ describe('Start Server and check various ODATA  calls', function () {
     }
   });
 
-  it(` Standard Variant for Result set for ==> ${currentYear} `, async function () {
+  it(` Standard Variant for Result set for ==> year ${currentYear} `, async function () {
 
     const timeout = 5000
     this.timeout(timeout);
@@ -201,7 +201,7 @@ describe('Start Server and check various ODATA  calls', function () {
     }
   });
 
-  it(` All Fields from the app for ==> ${currentYear}`, async function () {
+  it(` All Fields from the app for ==> year ${currentYear}`, async function () {
     const timeout = 5000
     this.timeout(timeout);
     try {
@@ -212,7 +212,7 @@ describe('Start Server and check various ODATA  calls', function () {
       assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
     }
   });
-  it(` sales order + delivery for ==> ${currentYear}  `, async function () {
+  it(` sales order + delivery for ==> year ${currentYear}  `, async function () {
     const timeout = 5000
     this.timeout(timeout);
     try {
@@ -224,7 +224,7 @@ describe('Start Server and check various ODATA  calls', function () {
     }
   });
 
-  it(` Delivery + shipment fields for ==> ${currentYear}`, async function () {
+  it(` Delivery + shipment fields for ==> year ${currentYear}`, async function () {
     const timeout = 5000
     this.timeout(timeout);
     try {
@@ -236,7 +236,7 @@ describe('Start Server and check various ODATA  calls', function () {
     }
   });
 
-  it(` delivery + shipment + billing first and final for ==> ${currentYear}`, async function () {
+  it(` delivery + shipment + billing first and final for ==> year ${currentYear}`, async function () {
     const timeout = 5000
     this.timeout(timeout);
     try {
@@ -248,7 +248,7 @@ describe('Start Server and check various ODATA  calls', function () {
     }
   });
 
-  it(` order + final order for ==> ${currentYear}`, async function () {
+  it(` order + final order for ==> year ${currentYear}`, async function () {
     const timeout = 5000
     this.timeout(timeout);
     try {
