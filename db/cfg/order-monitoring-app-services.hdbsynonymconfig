@@ -1,8 +1,8 @@
 {
     "ALLORDERS_DB_RESULTS": {
       "target": {
-        "object": "ORDERMONITORINGSERVICES_RESULTS",
-        "schema.configure": "order-monitoring-services-hdi/schema"
+        "object": "otc.csc.db.base.views::CV_ORDERLIST_FINAL",
+        "schema.configure": "otc-csc-hdi/schema"
       }
     },
     "ALLORDERS_DB_VBAKAUTH": {

@@ -2,14 +2,14 @@
     "order-monitoring-services-hdi": {
         "object_owner": {
             "container_roles": [
-                "EXTERNAL_ACCESS_ORDERMONITORINGSERVICES_RESULTS_G#",
+                "otc.csc.db.base.roles::EXTERNAL_ACCESS_FINAL_VIEW_G#",
                 "EXTERNAL_ACCESS_ORDERMONITORINGSERVICES_VBAKAUTH_G#"
                 
             ]
         },
         "application_user": {
             "container_roles": [
-                "EXTERNAL_ACCESS_ORDERMONITORINGSERVICES_RESULTS",
+                "otc.csc.db.base.roles::EXTERNAL_ACCESS_FINAL_VIEW",
                 "EXTERNAL_ACCESS_ORDERMONITORINGSERVICES_VBAKAUTH"
             ]
         }
