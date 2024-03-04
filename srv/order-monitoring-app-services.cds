@@ -1,4 +1,3 @@
-using order_monitoring_services as db from './external/order-monitoring-services.csn';
 using allorders.db as db_app from '../db/order-monitoring-app-service';
 
 service srvOpenOrders {
@@ -10,8 +9,8 @@ service srvOpenOrders {
   @cds.redirection.target: true
   entity HOMRemarks         as
     select from db_app.RESULTS {
-      key VBELN as VBELN,
-      key POSNR as POSNR,
+      key VBELN as SO_VBELN,
+      key POSNR as SO_POSNR,
           HTEXT as HTEXT,
           VKORG as VKORG,
           VTWEG as VTWEG,
@@ -37,7 +36,7 @@ service srvOpenOrders {
           KDMAT as SO_KDMAT,
           AG_PARTNER as SO_AG_PARTNER,
           AG_PARTNER_NAME1 || ' ' || AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME : String(70),
-          WE_PARTNER,
+          WE_PARTNER as SO_WE_PARTNER,
           WE_PARTNER_NAME1 || ' ' || WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME : String(70),
           IFNULL(CO_PARTNER_ITM, CO_PARTNER_HEAD) AS SO_CO_PARTNER : String(10),
           IFNULL((CO_PARTNER_NAME1_HEAD || CO_PARTNER_NAME2_HEAD), (CO_PARTNER_NAME1_ITM || CO_PARTNER_NAME2_ITM)) AS SO_CO_PARTNER_NAME : String(70),
@@ -90,7 +89,7 @@ service srvOpenOrders {
           DISPO as SO_DISPO,
           KOSCH as SO_KOSCH,
           VKBUR as SO_VKBUR,
-          VKBUR_BEZEI_LANG as SO_VKBUR_BEZEI_LANG,
+          VKBUR_BEZEI_LANG as SO_VKBUR_BEZEI,
           ABGRU as SO_ABGRU,
           ABSTA as SO_ABSTA,
           KNUMV as SO_KNUMV,
@@ -102,8 +101,8 @@ service srvOpenOrders {
           ZZ0S2REVG2 as SO_ZZ0S2REVG2 ,
           ZZDKPPRODB as SO_ZZDKPPRODB ,
           BSARK as SO_BSARK ,
-          BSARK_VTEXT_LANG as SO_BSARK_VTEXT_LANG,
-          BASF_LOFCR as SO_BASF_LOFCR,
+          BSARK_VTEXT_LANG as SO_BSARK_VTEXT,
+          _BASF_LOFCR as SO_BASF_LOFCR,
           GUSCON_LEVEL as SO_GUSCON_LEVEL,
           FIRST_SO as SO_I_VBELN,
           ISCOMPLETED as SO_ISCOMPLETED,
@@ -111,21 +110,21 @@ service srvOpenOrders {
           NEXT_SO as SO_N_VBELN,
           FINAL_SO as SO_F_VBELN,
           FINAL_POSNR as SO_F_POSNR,
-          VBTYP as VBTYP,
-          BSTKD as BSTKD,
-          TRAGR as TRAGR,
-          TRAGR_VTEXT_LANG as TRAGR_VTEXT,
-          VKGRP as VKGRP,
-          VKGRP_BEZEI_LANG as VKGRP_BEZEI,
-          ROUTE as ROUTE,
+          VBTYP as SO_VBTYP,
+          BSTKD as SO_BSTKD,
+          TRAGR as SO_TRAGR,
+          TRAGR_VTEXT_LANG as SO_TRAGR_VTEXT,
+          VKGRP as SO_VKGRP,
+          VKGRP_BEZEI_LANG as SO_VKGRP_BEZEI,
+          ROUTE as SO_ROUTE,
           F_WERKS as SO_F_WERKS,
           F_VKORG as SO_F_VKORG,
-          F_VKORG_VTEXT as SO_F_VKORG_VTEXT,
+          F_VKORG_NAME1 as SO_F_VKORG_VTEXT,
           SO_F_TDDAT_DATE as  SO_F_TDDAT,
-          F_ZZ0S2MATUG as F_ZZ0S2MATUG,
-          F_VSBED as F_VSBED,
-          F_VSBED_VTEXT_LANG as F_VSBED_VTEXT,
-          F_AUFNR as F_AUFNR,
+          F_ZZ0S2MATUG as SO_F_ZZ0S2MATUG,
+          F_VSBED as SO_F_VSBED,
+          F_VSBED_VTEXT_LANG as SO_F_VSBED_VTEXT,
+          F_AUFNR as SO_F_AUFNR,
           SO_F_DGLTP_DATE as SO_F_DGLTP,
           F_PSMNG as SO_F_PSMNG,
           F_AMEIN as SO_F_AMEIN,
@@ -141,13 +140,13 @@ service srvOpenOrders {
           VGBEL as DL_VGBEL,
           VGPOS as DL_VGPOS,
           LFART as DL_LFART,
-          LFART_VTEXT_LANG as DL_LFART_VTEXT_LANG ,
+          LFART_VTEXT_LANG as DL_LFART_VTEXT ,
           DL_LFDAT_DATE as DL_LFDAT,
           DL_HSDAT_DATE as DL_HSDAT,
           DL_VFDAT_DATE as DL_VFDAT,
-          TRAID as TRAID,
-          ZZ0S2BLNR as ZZ0S2BLNR,
-          PEND_DEL_QUAN as PEND_DEL_QUAN,
+          TRAID as DL_TRAID,
+          ZZ0S2BLNR as DL_ZZ0S2BLNR,
+          PEND_DEL_QUAN as DL_PEND_DEL_QUAN,
           DL_WADAT_DATE as DL_WADAT,
           DL_WADAT_IST_DATE as DL_WADAT_IST,
           NOTE_TEXT as LAST_NOTE,
@@ -178,13 +177,13 @@ service srvOpenOrders {
           TM_DATBG_DATE as TM_DATBG,
           TM_DPTEN_DATE as TM_DPTEN,
           TM_DATEN_DATE as TM_DATEN,
-          TM_AR_DATE_DATE as AR_DATE,
+          TM_AR_DATE_DATE as TM_AR_DATE,
           STTRG as TM_STTRG,
           STTRG_DDTEXT_LANG as TM_STTRG_DDTEXT,
-          VBELN_INV_FIRST as VBELN_INV_FIRST ,
-          VBELN_INV_LAST as VBELN_INV_LAST ,
-          XBLNR as XBLNR ,
-          MANDT_DEL,
+          BL_VBELN_INV_FIRST as BL_VBELN_INV_FIRST ,
+          BL_VBELN_INV_LAST as BL_VBELN_INV_LAST ,
+          XBLNR as BL_XBLNR ,
+          MANDT_DEL as DL_MANDT,
           TM_MANDT,
           BL_MANDT_INV_FIRST,
           BL_MANDT_INV_LAST
@@ -204,7 +203,7 @@ service srvOpenOrders {
 
 
   entity notes           as
-    select from db.notes {
+    select from db_app.ST_NOTES {
       key UTCTIME,
           CLIENT,
           VBELN,
@@ -212,7 +211,8 @@ service srvOpenOrders {
           LANGUAGE,
           NOTE_TITLE,
           NOTE_TEXT,
-          USERNAME
+          USERNAME,
+          LAST_NOTE_FLAG
     };
 
   entity PartnerSettings as
