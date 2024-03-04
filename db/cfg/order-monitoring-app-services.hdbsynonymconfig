@@ -7,8 +7,15 @@
     },
     "ALLORDERS_DB_VBAKAUTH": {
       "target": {
-        "object": "ORDERMONITORINGSERVICES_VBAKAUTH",
-        "schema.configure": "order-monitoring-services-hdi/schema"
+        "object": "otc.csc.db.base.tables::ST_VBAKAUTH",
+        "schema.configure": "otc-csc-hdi/schema"
+      }
+    },
+   
+    "ALLORDERS_DB_ST_NOTES": {
+      "target": {
+        "object": "otc.csc.db.base.tables::ST_NOTES",
+        "schema.configure": "otc-csc-hdi/schema"
       }
     }
     

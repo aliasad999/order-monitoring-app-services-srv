@@ -101,7 +101,7 @@ entity ![RESULTS] {
         ZZDKPPRODB                         : String(18);
         BSARK                              : String(4);
         BSARK_VTEXT_LANG                        : String(20);
-        BASF_LOFCR                         : String(20);
+        _BASF_LOFCR                         : String(20);
         GUSCON                             : String(15);
         GUSCON_ITM                         : String(6);
         GUSCON_LEVEL                       : String(2);
@@ -124,7 +124,7 @@ entity ![RESULTS] {
         FAKSK_VTEXT_LANG                   : String(20);
         F_WERKS                            : String(4);
         F_VKORG                            : String(4);
-        F_VKORG_VTEXT                      : String(40);
+        F_VKORG_NAME1                      : String(40);
         F_TDDAT                            : String(8);
         SO_F_TDDAT_DATE                    : Date = F_TDDAT;
         F_ZZ0S2MATUG                       : String(18);
@@ -199,8 +199,8 @@ entity ![RESULTS] {
         TM_AR_DATE_DATE                    : Date = AR_DATE;
         STTRG                              : String(1);
         STTRG_DDTEXT_LANG               : String(60);
-        VBELN_INV_FIRST                    : String(10);
-        VBELN_INV_LAST                     : String(10);
+        BL_VBELN_INV_FIRST                    : String(10);
+        BL_VBELN_INV_LAST                     : String(10);
         XBLNR                              : String(16);
         MANDT_DEL                          : String(3);
         TM_MANDT                           : String(3);
@@ -230,4 +230,18 @@ entity VBAKAUTH {
         key VTWEG  : String(2);
         key SPART  : String(2);
         key USERID : String;
+}
+
+@cds.persistence.exists
+
+entity ![ST_NOTES] {
+        CLIENT     : String(3);
+        UTCTIME    : Decimal(15) not null;
+        VBELN      : String(10);
+        POSNR      : String(6);
+        LANGUAGE   : String(2);
+        NOTE_TITLE : String(60);
+        NOTE_TEXT  : String(1000);
+        USERNAME   : String(12);
+        LAST_NOTE_FLAG: String(1);
 }

@@ -68,7 +68,7 @@ modules:
       TARGET_CONTAINER: order-monitoring-app-services-hdi
     requires:
       - name: order-monitoring-app-services-hdi
-      - name: order-monitoring-services-hdi
+      - name: otc-csc-hdi 
       - name: order-monitoring-logs
     parameters:
       memory: 5GB
@@ -113,7 +113,7 @@ resources:
   #   │     HDI Container with generic views      │   #
   #   └───────────────────────────────────────────┘   #
   #
-  - name: order-monitoring-services-hdi
+  - name: otc-csc-hdi 
     type: org.cloudfoundry.existing-service
     parameters:
       service: hana
