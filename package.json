@@ -6,19 +6,19 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+    "@cap-js-community/odata-v2-adapter": "1.12.3",
     "@sap-cloud-sdk/http-client": "3.11.0",
     "@sap/cds": "7.6.1",
-    "@cap-js-community/odata-v2-adapter": "1.12.3",
+    "@sap/cds-hana": "2.0.0",
     "@sap/fesr-to-otel-js": "1.5.3",
-    "@sap/xotel-agent-ext-js": "1.5.8",
     "@sap/hana-client": "2.19.21",
-    "@sap/textbundle": "4.3.0",  
+    "@sap/textbundle": "4.3.0",
+    "@sap/xotel-agent-ext-js": "1.5.8",
     "@sap/xsenv": "4.2.0",
     "@sap/xssec": "3.6.1",
     "body-parser": "1.20.2",
     "cf-nodejs-logging-support": "7.2.1",
     "express": "4.18.2",
-    "@sap/cds-hana": "2.0.0",
     "http-status": "1.7.3",
     "mocha": "^10.3.0",
     "node-cache": "5.1.2",
@@ -75,14 +75,6 @@
         "credentials": {
           "destination": "PersonalizationService",
           "path": "it/omg/omc-auth/v1"
-        }
-      },
-      "order_monitoring_services": {
-        "kind": "odata-v2",
-        "model": "srv/external/order-monitoring-services",
-        "credentials": {
-          "destination": "generic-api",
-          "path": "/odata/v2/order-monitoring-services"
         }
       }
     }
