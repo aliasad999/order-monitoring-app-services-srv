@@ -1,0 +1,13 @@
+resources:
+  repositories:
+    - repository: Template
+      type: git
+      name: SAP CI CD/Azure DevOps Pipeline Templates
+
+trigger:
+- main
+
+extends:
+  template: BTP-Template-OM-Integration-Test.yml@Template
+  parameters:
+    PROJECT_SRV_NAME: 'order-monitoring-services-srv'
