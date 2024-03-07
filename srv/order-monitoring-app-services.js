@@ -174,6 +174,7 @@ class srvOpenOrders extends cds.ApplicationService {
          * @param {array} data - The array containing the result from the backend request
          * @param {object} req - The request object containing request details
          * */
+        
         this.after("READ", "Results", async (data, req) => {
             // needed for cache .. to make value helps dynamic. we are using unique session ID to cache based on authorization token.
             let sessionID = req.headers['authorization'] || req.headers['x-username'];
