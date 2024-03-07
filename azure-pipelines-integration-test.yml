@@ -10,4 +10,4 @@ trigger:
 extends:
   template: BTP-Template-OM-Integration-Test.yml@Template
   parameters:
-    PROJECT_SRV_NAME: 'order-monitoring-services-srv'
+    PROJECT_SRV_NAME: 'order-monitoring-app-services-srv'
