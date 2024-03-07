@@ -174,6 +174,7 @@ class srvOpenOrders extends cds.ApplicationService {
          * @param {array} data - The array containing the result from the backend request
          * @param {object} req - The request object containing request details
          * */
+        
         this.after("READ", "Results", async (data, req) => {
             // needed for cache .. to make value helps dynamic. we are using unique session ID to cache based on authorization token.
             let sessionID = req.headers['authorization'] || req.headers['x-username'];
@@ -391,18 +392,13 @@ class srvOpenOrders extends cds.ApplicationService {
             }
         })
 
-        this.on("READ", "notes", async (req, next) => {
-            const service = await cds.connect.to('order_monitoring_services');
-            const lt_count = await service.send({ query: req.query })
-            return req.reply(lt_count)
-
-        })
-        this.on("CREATE", "notes", async (req, next) => {
-            const service = await cds.connect.to('order_monitoring_services');
-            const lt_count = await service.send({ query: req.query })
-            return req.reply(lt_count)
-
-        })
+        this.before("CREATE", "notes", async (req) => {
+            const { notes } = await cds.entities ('srvOpenOrders');
+            req.query.INSERT.entries.forEach( async (entry)=>{
+                req.query.INSERT.entries[0].LAST_NOTE_FLAG = 'X'
+               await UPDATE(notes).set({ LAST_NOTE_FLAG: ' ' }).where({ VBELN: entry.VBELN, POSNR : entry.POSNR , LAST_NOTE_FLAG : 'X' });
+            })
+        }) 
         return super.init();
     }
 }

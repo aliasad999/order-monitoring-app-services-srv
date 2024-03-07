@@ -1,14 +1,20 @@
 {
     "ALLORDERS_DB_RESULTS": {
         "target": {
-            "object": "ORDERMONITORINGSERVICES_RESULTS",
+            "object": "otc.csc.db.base.views::CV_ORDERLIST_FINAL",
             "schema": "_PLACEHOLDER_"
-        }
+          }
     },
     "ALLORDERS_DB_VBAKAUTH": {
         "target": {
-            "object": "ORDERMONITORINGSERVICES_VBAKAUTH",
+            "object": "otc.csc.db.base.tables::ST_VBAKAUTH",
             "schema": "_PLACEHOLDER_"
         }
-    }
+    },
+      "ALLORDERS_DB_ST_NOTES": {
+        "target": {
+          "object": "otc.csc.db.base.tables::ST_NOTES",
+          "schema": "_PLACEHOLDER_"
+        }
+      }
 }
