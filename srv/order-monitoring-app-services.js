@@ -51,10 +51,11 @@ class srvOpenOrders extends cds.ApplicationService {
             const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
             let userID = req.user.id;
             let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
+            
             if(authSet.length === 0){
                 req.error(413, 'NO_AUTH_LIST')
             }
-
+        
             cds
                 .connect("db")
                 .then(({ db }) =>

@@ -3,6 +3,7 @@ using srvOpenOrders as service from '../srv/order-monitoring-app-services.cds';
 annotate service.Results with @Consumption.dbHints: ['USE_HEX_PLAN','HEX_INDEX_JOIN'];
 annotate service.valueHelps with @Consumption.dbHints: ['USE_HEX_PLAN','HEX_INDEX_JOIN'];
 
+
 annotate service.valueHelps with {
     SO_VBELN                    @title: '{i18n>SO_VBELN}'                    @sap.Label: '{i18n>SO_VBELN}';
     SO_POSNR                    @title: '{i18n>SO_POSNR}'                    @sap.Label: '{i18n>SO_POSNR}'            @Common.IsDigitSequence: true;
@@ -104,7 +105,7 @@ annotate service.valueHelps with {
     TM_AR_DATE                  @title: '{i18n>TM_AR_DATE}'                  @sap.Label: '{i18n>TM_AR_DATE}';
     TM_STTRG                    @title: '{i18n>TM_STTRG}'                    @sap.Label: '{i18n>TM_STTRG}';
     TM_STTRG_DDTEXT             @title: '{i18n>TM_STTRG_DDTEXT}'             @sap.Label: '{i18n>TM_STTRG_DDTEXT}';
-    SO_BASF_LOFCR               @title: '{i18n>SO_BASF_LOFCR}'               @sap.Label: '{i18n>SO_BASF_LOFCR}'       @Common.IsDigitSequence: true;
+    SO_BASF_LOFCR               @title: '{i18n>SO_BASF_LOFCR}'               @sap.Label: '{i18n>SO_BASF_LOFCR}'     ;  
     SO_GUSCON_LEVEL             @title: '{i18n>SO_GUSCON_LEVEL}'             @sap.Label: '{i18n>SO_GUSCON_LEVEL}'     @Common.IsDigitSequence: true;
     SO_I_VBELN                  @title: '{i18n>SO_I_VBELN}'                  @sap.Label: '{i18n>SO_I_VBELN}';
     SO_ISCOMPLETED              @title: '{i18n>SO_ISCOMPLETED}'              @sap.Label: '{i18n>SO_ISCOMPLETED}';
@@ -418,7 +419,7 @@ annotate service.Results with {
     SO_KMEIN                  @UI                     : {Hidden: true};
     SO_WAERK                  @UI                     : {Hidden: true};
     TM_TRACKING_ID_COMP       @UI                     : {Hidden: true};
-    DL_POSNR                  @UI                     : {Hidden: true};
+    
     DL_VGBEL                  @UI                     : {Hidden: true};
     TM_TRACKING_ID_ELEM       @UI                     : {Hidden: true};
     DL_VGPOS                  @UI                     : {Hidden: true};
@@ -1363,24 +1364,24 @@ annotate service.Results with {
     }
 };
 
-// annotate service.Results with {
-//     DL_POSNR
-//     @Common.ValueList: {
-//         $Type                  : 'Common.ValueListType',
-//         Label                  : '{@i18n>DL_POSNR}',
-//         CollectionPath         : 'valueHelps',
-//         DistinctValuesSupported: true,
-//         SearchSupported        : true,
-//         Parameters             : [{
-//             $Type            : 'Common.ValueListParameterInOut',
-//             LocalDataProperty: DL_POSNR,
-//             ValueListProperty: 'DL_POSNR'
-//         }
+ annotate service.Results with {
+     DL_POSNR
+     @Common.ValueList: {
+         $Type                  : 'Common.ValueListType',
+         Label                  : '{@i18n>DL_POSNR}',
+         CollectionPath         : 'valueHelps',
+         DistinctValuesSupported: true,
+         SearchSupported        : true,
+         Parameters             : [{
+             $Type            : 'Common.ValueListParameterInOut',
+             LocalDataProperty: DL_POSNR,
+             ValueListProperty: 'DL_POSNR'
+         }
 
-//         ]
-//     }
-//     @Common.IsDigitSequence: true
-// };
+         ]
+     }
+     @Common.IsDigitSequence: true
+ };
 
 annotate service.Results with {
     DL_CHARG
@@ -1695,7 +1696,7 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
+    
 };
 
 annotate service.Results with {
