@@ -16,5 +16,12 @@
           "object": "otc.csc.db.base.tables::ST_NOTES",
           "schema": "_PLACEHOLDER_"
         }
+      },
+    
+    "OPENORDERS_DB_OPENORDERSLIST": {
+      "target": {
+        "object": "otc.csc.db.nps.views::CV_OPEN_ORDERLIST_FINAL",
+        "schema": "_PLACEHOLDER_"
       }
+    }
 }

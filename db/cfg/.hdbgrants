@@ -4,7 +4,8 @@
             "container_roles": [
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_FINAL_VIEW_G#",
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_VBAKAUTH_G#",
-                "otc.csc.db.base.roles::EXTERNAL_ACCESS_NOTES_G#"
+                "otc.csc.db.base.roles::EXTERNAL_ACCESS_NOTES_G#",
+                "otc.csc.db.nps.roles::EXTERNAL_ACCESS_FINAL_VIEW_G#"
                 
             ]
         },
@@ -12,7 +13,8 @@
             "container_roles": [
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_FINAL_VIEW",
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_VBAKAUTH",
-                "otc.csc.db.base.roles::EXTERNAL_ACCESS_NOTES"
+                "otc.csc.db.base.roles::EXTERNAL_ACCESS_NOTES",
+                "otc.csc.db.nps.roles::EXTERNAL_ACCESS_FINAL_VIEW"
             ]
         }
     }

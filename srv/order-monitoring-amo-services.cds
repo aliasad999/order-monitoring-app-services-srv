@@ -1,4 +1,4 @@
-using allorders.db as db_app from '../db/order-monitoring-app-service';
+using allorders.db as db_app from '../db/order-monitoring-amo-service';
 
 service srvOpenOrders {
 
