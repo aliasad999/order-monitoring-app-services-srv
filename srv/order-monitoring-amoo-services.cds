@@ -232,7 +232,9 @@ service openOrdersSrv {
         }
 
     
+    @readonly
     entity allIssues      as projection on baseEntity;
     entity valueHelps     as projection on baseEntity; 
-    entity salesorder_nps as select * from baseEntity where SO_NPS in ('10', '20', '30', '40');
+    @readonly
+    entity salesorder_nps as select * from baseEntity ;
 };

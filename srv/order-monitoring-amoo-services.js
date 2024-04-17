@@ -7,7 +7,7 @@ const textBundle = require('./utils/textBundle')
 const log = require("cf-nodejs-logging-support");
 const enableHints = require("./plugins/enable_hints");
 
-class srvOpenOrders extends cds.ApplicationService {
+class openOrdersSrv extends cds.ApplicationService {
 
     init() {
 
@@ -39,203 +39,14 @@ class srvOpenOrders extends cds.ApplicationService {
             
         });
 
-        /**
-         * This event is triggered before the backend request for order list data
-         * @param {string} "READ" - The type of backend request
-         * @param {string} "Results" - The name of the entity set
-         * @param {function} - The callback function containing the code that runs when the event is triggered
-         * @param {object} req - The request object containing request details
-         * */
-        this.before("READ", "Results", async (req, next) => {       
-            // Check if auth table is filled
-            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
-            let userID = req.user.id;
-            let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
-            
-            if(authSet.length === 0){
-                req.error(413, 'NO_AUTH_LIST')
-            }
-        
-            cds
-                .connect("db")
-                .then(({ db }) =>
-                    db?.before("READ", (req) => enableHints(req)
-                    )
-                );
-
-            req.query.SELECT.localized = false;
-            req.query.SELECT.distinct = true;
-            const dateProps = [
-                "SO_ERDAT_ORDER",
-                "SO_ERDAT_ITEM",
-                "SO_EDATU_REQUESTED",
-                "SO_EDATU_CONFIRMED",
-                "SO_LDDAT",
-                "SO_PRSDT",
-                "SO_F_TDDAT",
-                "DL_LFDAT",
-                "DL_HSDAT",
-                "DL_VFDAT",
-                "DL_WADAT",
-                "DL_WADAT_IST",
-                "TM_DPTBG",
-                "TM_DATBG",
-                "TM_DPTEN",
-                "TM_DATEN",
-                "SO_F_LDDAT",
-                "TM_AR_DATE"]
-            for (let i = 0; i < req.query.SELECT.where.length; i++) {
-                const item = req.query.SELECT.where[i];
-                if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
-                  for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
-                    if (req.query.SELECT.where[j].val !== undefined) {
-                        req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
-                      break;  
-                    }
-                  }
-                }
-              }
-        });
-        
-        this.on("READ", "Results", async (req, next) => {
-            // OTC-24554 Partner Settings Functionality
-            // Begin of Code OTC-24554
-            // *-------------------------------------------------------------------*
-            // Consider also partner settings, if they are maintained
-            let db = cds.transaction(req);
-            let currentUser = req.user.id;
-            if (currentUser) {
-                let partnerSettingsQuery = cds.parse.cql(`SELECT from srvOpenOrders_PartnerSettings where BASF_USER = '${currentUser}' and ACTIVE = 'X'`);
-                let partnerSettings = await db.run(partnerSettingsQuery);
-                if (partnerSettings.length !== 0) {
-                    let partnersQuery = [];
-                    for (let settingsEntry of partnerSettings) {
-                        let partnerNumber = settingsEntry.PARTNER_NUMBER;
-                        switch (settingsEntry.PARTNER_ROLE) {
-                            case 'VE':
-                                partnersQuery.push(`SO_VE_PARTNER = ${partnerNumber}`);
-                                break;
-
-                            case 'AS':
-                                partnersQuery.push(`SO_AS_PARTNER = ${partnerNumber}`);
-                                break;
-
-                            case 'AM':
-                                partnersQuery.push(`SO_AM_PARTNER = ${partnerNumber}`);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-
-                    let partnersQueryParsed;
-                    // Construct queries 
-                    if(partnersQuery.length > 0 ){
-                        let queryString = "(" + partnersQuery.join(' or ') + ")";
-                        partnersQueryParsed = cds.parse.expr(queryString);
-                    }
-
-                    // Add queries to request
-                    let requestQuery = req.query.SELECT.where || [];
-                    if(partnersQuery.length > 0){
-                        if (requestQuery.length > 0) {
-                            requestQuery.push('and');
-                        }
-                        requestQuery.push(partnersQueryParsed);
-                    }
-
-                    req.query.SELECT.where = requestQuery
-                }
-            }
-            // *-------------------------------------------------------------------*
-            // End of Code OTC-24554
-
-            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' &&  req.headers?.countcols) {
-                try { 
-                    const db = cds.transaction(req);
-                    let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  srvOpenOrders_Results   ) ` )
-                    if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
-                    const distinctCount = (req.query.SELECT.where) ? 
-                    await db.run(query)
-                    : await db.run(query)
-                    return req.reply({ $count: Object.values(distinctCount[0])[0] })
-                } catch (error) {
-                    log.error("[order-monitoring-app-services.js] - Count query failed ! " + JSON.stringify(error));
-                    req.error(error)
-                }
-            }
-            await next(req)
-        })
-
-        /**
-         * This event is triggered after the backend request for order list data
-         * @param {string} "READ" - The type of backend request
-         * @param {string} "Results" - The name of the entity set
-         * @param {function} - The callback function containing the code that runs when the event is triggered
-         * @param {array} data - The array containing the result from the backend request
-         * @param {object} req - The request object containing request details
-         * */
-        
-        this.after("READ", "Results", async (data, req) => {
-            // needed for cache .. to make value helps dynamic. we are using unique session ID to cache based on authorization token.
-            let sessionID = req.headers['authorization'] || req.headers['x-username'];
-            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.select) {
-                // do nothing
-            } else {
-                // cache the query, so that all filter conditions can be consumed.. when any valuehelp is called.
-                let query = req.query;
-                query.SELECT.where = req.query.SELECT.where;
-                const queryString = JSON.stringify(query);
-                const queryId = `${sessionID}Query`
-                sessionCache.set(queryId, queryString);
-            }
-            if (Array.isArray(data)) {
-                var dateProps = [
-                "SO_ERDAT_ORDER",
-                "SO_ERDAT_ITEM",
-                "SO_EDATU_REQUESTED",
-                "SO_EDATU_CONFIRMED",
-                "SO_LDDAT",
-                "SO_PRSDT",
-                "SO_F_TDDAT",
-                "DL_LFDAT",
-                "DL_HSDAT",
-                "DL_VFDAT",
-                "DL_WADAT",
-                "DL_WADAT_IST",
-                "TM_DPTBG",
-                "TM_DATBG",
-                "TM_DPTEN",
-                "TM_DATEN",
-                "SO_F_LDDAT",
-                "TM_AR_DATE"]
-                data.forEach((item) => {
-                    item.id = uuid.v1()
-                    dateProps.forEach((property) => {
-                       const dateString = item[property]
-                       if (dateString &&  dateString != "00000000" && dateString != "0000-00-00" && dateString != "--"){
-                            const year = parseInt(dateString.substring(0, 4), 10);
-                            const month = parseInt(dateString.substring(4, 6), 10) - 1; 
-                            const day = parseInt(dateString.substring(6, 8), 10);
-                            item[property] = new Date(year, month, day);
-                        } else{
-                            item[property] = null
-                        }
-                        
-                    })
-                })
-            }
-
-        });
-
-        /**
+           /**
          * This event is triggered before the backend request for order list data
          * @param {string} "READ" - The type of backend request
          * @param {string} "valueHelps" - The name of the entity set
          * @param {function} - The callback function containing the code that runs when the event is triggered
          * @param {object} req - The request object containing request details
          * */
-        this.before("READ", "valueHelps", async (req) => {       
+           this.before("READ", "valueHelps", async (req) => {       
             // Check if auth table is filled
             const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
             let userID = req.user.id;
@@ -256,13 +67,14 @@ class srvOpenOrders extends cds.ApplicationService {
         this.on("READ", "valueHelps", async (req, next) => {
             // get the session id based on auth token
             let sessionID = req.headers['authorization'] || req.headers['x-username'];
-            const queryId = `${sessionID}Query`
+            const queryId = `${sessionID}AMOOQuery`
             const db = cds.transaction(req);
             let lt_result = []
             // if session id is there, get the cach-ed query and execute it.
             if (sessionCache.get(queryId) )  {
                 const queryString = sessionCache.get(queryId);
                 const query = JSON.parse(queryString);
+                query.SELECT.from.ref[0] = 'openOrdersSrv.allIssues'
                 // make sure pagination is taken into account
                 // if (query.SELECT.limit.rows.val) query.SELECT.limit.rows.val = req.query.SELECT.limit.rows?.val;
                 //query.SELECT.distinct = true;
@@ -393,6 +205,201 @@ class srvOpenOrders extends cds.ApplicationService {
             }
         })
 
+        /**
+         * This event is triggered before the backend request for order list data
+         * @param {string} "READ" - The type of backend request
+         * @param {string} "Results" - The name of the entity set
+         * @param {function} - The callback function containing the code that runs when the event is triggered
+         * @param {object} req - The request object containing request details
+         * */
+        this.before("READ", "*", async (req, next) => {       
+            // Check if auth table is filled
+     
+            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+            let userID = req.user.id;
+            let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
+            
+            if(authSet.length === 0){
+                req.error(413, 'NO_AUTH_LIST')
+            }
+        
+            cds
+                .connect("db")
+                .then(({ db }) =>
+                    db?.before("READ", (req) => enableHints(req)
+                    )
+                );
+
+            req.query.SELECT.localized = false;
+            req.query.SELECT.distinct = true;
+            const dateProps = [
+                "SO_ERDAT_ORDER",
+                "SO_ERDAT_ITEM",
+                "SO_EDATU_REQUESTED",
+                "SO_EDATU_CONFIRMED",
+                "SO_LDDAT",
+                "SO_PRSDT",
+                "SO_F_TDDAT",
+                "DL_LFDAT",
+                "DL_HSDAT",
+                "DL_VFDAT",
+                "DL_WADAT",
+                "DL_WADAT_IST",
+                "TM_DPTBG",
+                "TM_DATBG",
+                "TM_DPTEN",
+                "TM_DATEN",
+                "SO_F_LDDAT",
+                "TM_AR_DATE"]
+            for (let i = 0; i < req.query.SELECT.where?.length; i++) {
+                const item = req.query.SELECT.where[i];
+                if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
+                  for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
+                    if (req.query.SELECT.where[j].val !== undefined) {
+                        req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
+                      break;  
+                    }
+                  }
+                }
+              }
+        });
+        
+        this.on("READ", "*", async (req, next) => {
+            // OTC-24554 Partner Settings Functionality
+            // Begin of Code OTC-24554
+            // *-------------------------------------------------------------------*
+            // Consider also partner settings, if they are maintained
+            if (req.target.name === 'openOrdersSrv.valueHelps') next()
+            let db = cds.transaction(req);
+            let currentUser = req.user.id;
+            if (currentUser) {
+                let partnerSettingsQuery = cds.parse.cql(`SELECT from srvOpenOrders_PartnerSettings where BASF_USER = '${currentUser}' and ACTIVE = 'X'`);
+                let partnerSettings = await db.run(partnerSettingsQuery);
+                if (partnerSettings.length !== 0) {
+                    let partnersQuery = [];
+                    for (let settingsEntry of partnerSettings) {
+                        let partnerNumber = settingsEntry.PARTNER_NUMBER;
+                        switch (settingsEntry.PARTNER_ROLE) {
+                            case 'VE':
+                                partnersQuery.push(`SO_VE_PARTNER = ${partnerNumber}`);
+                                break;
+
+                            case 'AS':
+                                partnersQuery.push(`SO_AS_PARTNER = ${partnerNumber}`);
+                                break;
+
+                            case 'AM':
+                                partnersQuery.push(`SO_AM_PARTNER = ${partnerNumber}`);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    let partnersQueryParsed;
+                    // Construct queries 
+                    if(partnersQuery.length > 0 ){
+                        let queryString = "(" + partnersQuery.join(' or ') + ")";
+                        partnersQueryParsed = cds.parse.expr(queryString);
+                    }
+
+                    // Add queries to request
+                    let requestQuery = req.query.SELECT.where || [];
+                    if(partnersQuery.length > 0){
+                        if (requestQuery.length > 0) {
+                            requestQuery.push('and');
+                        }
+                        requestQuery.push(partnersQueryParsed);
+                    }
+
+                    req.query.SELECT.where = requestQuery
+                }
+            }
+            // *-------------------------------------------------------------------*
+            // End of Code OTC-24554
+
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' &&  req.headers?.countcols) {
+                try { 
+                    const db = cds.transaction(req);
+                    let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  srvOpenOrders_Results   ) ` )
+                    if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
+                    const distinctCount = (req.query.SELECT.where) ? 
+                    await db.run(query)
+                    : await db.run(query)
+                    return req.reply({ $count: Object.values(distinctCount[0])[0] })
+                } catch (error) {
+                    log.error("[order-monitoring-app-services.js] - Count query failed ! " + JSON.stringify(error));
+                    req.error(error)
+                }
+            }
+            await next(req)
+        })
+
+        /**
+         * This event is triggered after the backend request for order list data
+         * @param {string} "READ" - The type of backend request
+         * @param {string} "Results" - The name of the entity set
+         * @param {function} - The callback function containing the code that runs when the event is triggered
+         * @param {array} data - The array containing the result from the backend request
+         * @param {object} req - The request object containing request details
+         * */
+        
+        this.after("READ", "*", async (data, req) => {
+            if (req.target.name != 'openOrdersSrv.valueHelps'){
+            // needed for cache .. to make value helps dynamic. we are using unique session ID to cache based on authorization token.
+            let sessionID = req.headers['authorization'] || req.headers['x-username'];
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.select) {
+                // do nothing
+            } else {
+                // cache the query, so that all filter conditions can be consumed.. when any valuehelp is called.
+                let query = req.query;
+                query.SELECT.where = req.query.SELECT.where;
+                const queryString = JSON.stringify(query);
+                const queryId = `${sessionID}AMOOQuery`
+                sessionCache.set(queryId, queryString);
+            }
+            if (Array.isArray(data)) {
+                var dateProps = [
+                "SO_ERDAT_ORDER",
+                "SO_ERDAT_ITEM",
+                "SO_EDATU_REQUESTED",
+                "SO_EDATU_CONFIRMED",
+                "SO_LDDAT",
+                "SO_PRSDT",
+                "SO_F_TDDAT",
+                "DL_LFDAT",
+                "DL_HSDAT",
+                "DL_VFDAT",
+                "DL_WADAT",
+                "DL_WADAT_IST",
+                "TM_DPTBG",
+                "TM_DATBG",
+                "TM_DPTEN",
+                "TM_DATEN",
+                "SO_F_LDDAT",
+                "TM_AR_DATE"]
+                data.forEach((item) => {
+                    item.id = uuid.v1()
+                    dateProps.forEach((property) => {
+                       const dateString = item[property]
+                       if (dateString &&  dateString != "00000000" && dateString != "0000-00-00" && dateString != "--"){
+                            const year = parseInt(dateString.substring(0, 4), 10);
+                            const month = parseInt(dateString.substring(4, 6), 10) - 1; 
+                            const day = parseInt(dateString.substring(6, 8), 10);
+                            item[property] = new Date(year, month, day);
+                        } else{
+                            item[property] = null
+                        }
+                        
+                    })
+                })
+            }
+        }
+
+        });
+
+     
+
         this.before("CREATE", "notes", async (req) => {
             const { notes } = await cds.entities ('srvOpenOrders');
             req.query.INSERT.entries.forEach( async (entry)=>{
@@ -405,7 +412,7 @@ class srvOpenOrders extends cds.ApplicationService {
 }
 
 module.exports = {
-    srvOpenOrders
+    openOrdersSrv
 }
 
 
