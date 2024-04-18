@@ -227,7 +227,7 @@ service openOrdersSrv {
                 SO_DUE_DATE,
                 SO_ISSUE_LOCATION,
                 SO_ISSUE_LOCATION_ITEM,
-
+                virtual false as editDialog : Boolean 
 
         }
 
