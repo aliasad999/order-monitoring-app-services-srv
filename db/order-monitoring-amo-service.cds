@@ -65,7 +65,7 @@ entity ![RESULTS] {
         REQ_TEXT                           : String(250);
         FAKSP                              : String(2);
         FAKSP_VTEXT_LANG                        : String(20);
-        LGORT                              : String(4);
+        F_LGORT                            : String(4);               
         SUPPLY_SITUATION                   : Int16;
         SUPPLY_SITUATION_DESCR             : String(60);
         KBETR                              : Decimal(11, 2);
