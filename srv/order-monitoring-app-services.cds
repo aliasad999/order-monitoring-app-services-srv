@@ -74,8 +74,7 @@ service srvOpenOrders {
             when FAKSP_VTEXT_LANG = '' or FAKSP_VTEXT_LANG is null then FAKSK_VTEXT_LANG
             else FAKSP_VTEXT_LANG
           end                           as SO_FAKSP_VTEXT : String(20),
-          //LGORT as SO_LGORT,                                             //Renamed under UserStory-744397
-          F_LGORT as SO_F_LGORT,                                           //Renamed under UserStory-744397
+          F_LGORT as SO_F_LGORT,                                           
           SUPPLY_SITUATION as SO_SUPPLY_SITUATION,
           SUPPLY_SITUATION_DESCR as SO_SUPPLY_SITUATION_DESCR,
           IFNULL(KBETR, KBETR_ALT) AS SO_KBETR : Decimal(11, 2),
