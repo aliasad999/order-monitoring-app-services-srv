@@ -35,7 +35,8 @@ annotate service.valueHelps with {
     SO_REQ_TEXT                 @title: '{i18n>SO_REQ_TEXT}'                 @sap.Label: '{i18n>SO_REQ_TEXT}';
     SO_FAKSP                    @title: '{i18n>SO_FAKSP}'                    @sap.Label: '{i18n>SO_FAKSP}';
     SO_FAKSP_VTEXT              @title: '{i18n>SO_FAKSP_VTEXT}'              @sap.Label: '{i18n>SO_FAKSP_VTEXT}';
-    SO_LGORT                    @title: '{i18n>SO_LGORT}'                    @sap.Label: '{i18n>SO_LGORT}';
+  //SO_LGORT                    @title: '{i18n>SO_LGORT}'                    @sap.Label: '{i18n>SO_LGORT}';                  //Renamed under UserStory-744397
+    SO_F_LGORT                  @title: '{i18n>SO_LGORT}'                    @sap.Label: '{i18n>SO_LGORT}';                  //Renamed under UserStory-744397
     SO_SUPPLY_SITUATION         @title: '{i18n>SO_SUPPLY_SITUATION}'         @sap.Label: '{i18n>SO_SUPPLY_SITUATION}';
     SO_SUPPLY_SITUATION_DESCR   @title: '{i18n>SO_SUPPLY_SITUATION_DESCR}'   @sap.Label: '{i18n>SO_SUPPLY_SITUATION_DESCR}';
     SO_KBETR                    @title: '{i18n>SO_KBETR}'                    @sap.Label: '{i18n>SO_KBETR}';
@@ -195,7 +196,8 @@ annotate service.Results with {
     SO_FAKSP                    @title: '{i18n>SO_FAKSP}'                    @sap.Label: '{i18n>SO_FAKSP}';
     @Common.TextFor
     SO_FAKSP_VTEXT              @title: '{i18n>SO_FAKSP_VTEXT}'              @sap.Label: '{i18n>SO_FAKSP_VTEXT}';
-    SO_LGORT                    @title: '{i18n>SO_LGORT}'                    @sap.Label: '{i18n>SO_LGORT}';
+  //SO_LGORT                    @title: '{i18n>SO_LGORT}'                    @sap.Label: '{i18n>SO_LGORT}';                     //Renamed under UserStory-744397
+    SO_F_LGORT                  @title: '{i18n>SO_LGORT}'                    @sap.Label: '{i18n>SO_LGORT}';                     //Renamed under UserStory-744397
     @Common.Text           : SO_SUPPLY_SITUATION_DESCR
     @Common.TextArrangement: #TextLast
     SO_SUPPLY_SITUATION         @title: '{i18n>SO_SUPPLY_SITUATION}'         @sap.Label: '{i18n>SO_SUPPLY_SITUATION}';
@@ -906,7 +908,8 @@ annotate service.Results with {
 };
 
 annotate service.Results with {
-    SO_LGORT
+  //SO_LGORT                                                       //Renamed under UserStory-744397
+    SO_F_LGORT                                                     //Renamed under UserStory-744397
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>SO_LGORT}',
@@ -915,8 +918,10 @@ annotate service.Results with {
         SearchSupported        : true,
         Parameters             : [{
             $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_LGORT,
-            ValueListProperty: 'SO_LGORT'
+          //LocalDataProperty: SO_LGORT,                           //Renamed under UserStory-744397
+          //ValueListProperty: 'SO_LGORT'                          //Renamed under UserStory-744397
+            LocalDataProperty: SO_F_LGORT,                         //Renamed under UserStory-744397 
+            ValueListProperty: 'SO_F_LGORT'                        //Renamed under UserStory-744397
         }
 
         ]
@@ -2259,7 +2264,8 @@ annotate service.Results with @UI.LineItem: {
         {Value: SO_REQ_TEXT},
         {Value: SO_FAKSP},
         {Value: SO_FAKSP_VTEXT},
-        {Value: SO_LGORT},
+      //{Value: SO_LGORT},                             //Renamed under UserStory-744397
+        {Value: SO_F_LGORT},                           //Renamed under UserStory-744397
         {Value: SO_SUPPLY_SITUATION},
         {Value: SO_SUPPLY_SITUATION_DESCR},
         {Value: SO_KBETR},
