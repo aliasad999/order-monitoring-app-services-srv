@@ -122,8 +122,8 @@ class openOrdersSrv extends cds.ApplicationService {
                         let queryCount = 0;
                         // sometimes there is a cached query but it has no
                         let lt_count = query.SELECT.where 
-                            ? await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`).where(query.SELECT.where)) 
-                            : await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`));
+                            ? await db.run(SELECT.from('openOrdersSrv_allIssues').columns(`countdistinct(${fields})`).where(query.SELECT.where)) 
+                            : await db.run(SELECT.from('openOrdersSrv_allIssues').columns(`countdistinct(${fields})`));
 
                         if(lt_count.length > 0){
                             queryCount = lt_count[0][Object.keys(lt_count[0])[0]];
@@ -160,7 +160,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 } else {
                     try {
                         let queryCount = 0;
-                        let lt_count = await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`))
+                        let lt_count = await db.run(SELECT.from('openOrdersSrv_allIssues').columns(`countdistinct(${fields})`))
                         if(lt_count.length > 0){
                             queryCount = lt_count[0][Object.keys(lt_count[0])[0]];
                         }
@@ -215,14 +215,14 @@ class openOrdersSrv extends cds.ApplicationService {
         this.before("READ", "*", async (req, next) => {       
             // Check if auth table is filled
      
-            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+         const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
             let userID = req.user.id;
             let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
             
             if(authSet.length === 0){
                 req.error(413, 'NO_AUTH_LIST')
             }
-        
+         
             cds
                 .connect("db")
                 .then(({ db }) =>
@@ -321,7 +321,7 @@ class openOrdersSrv extends cds.ApplicationService {
             if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' &&  req.headers?.countcols) {
                 try { 
                     const db = cds.transaction(req);
-                    let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  srvOpenOrders_Results   ) ` )
+                    let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  openOrdersSrv_allIssues   ) ` )
                     if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
                     const distinctCount = (req.query.SELECT.where) ? 
                     await db.run(query)
@@ -398,15 +398,6 @@ class openOrdersSrv extends cds.ApplicationService {
 
         });
 
-     
-
-        this.before("CREATE", "notes", async (req) => {
-            const { notes } = await cds.entities ('srvOpenOrders');
-            req.query.INSERT.entries.forEach( async (entry)=>{
-                req.query.INSERT.entries[0].LAST_NOTE_FLAG = 'X'
-               await UPDATE(notes).set({ LAST_NOTE_FLAG: ' ' }).where({ VBELN: entry.VBELN, POSNR : entry.POSNR , LAST_NOTE_FLAG : 'X' });
-            })
-        }) 
         return super.init();
     }
 }
