@@ -205,7 +205,8 @@ entity ![RESULTS] {
         MANDT_DEL                          : String(3);
         TM_MANDT                           : String(3);
         BL_MANDT_INV_FIRST                 : String(3);
-        BL_MANDT_INV_LAST                  : String(3)
+        BL_MANDT_INV_LAST                  : String(3);
+        ABGRU_BEZEI_LANG                   : String(40);     
 
 }
 
