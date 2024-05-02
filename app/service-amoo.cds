@@ -632,7 +632,7 @@ annotate service.salesorder_nps with @(UI.SelectionVariant #nps_40: {
 });
 // ---------------------------------variants --------------------
 // ------------------------------Value Helps ----------------------------
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_VRKME
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -648,7 +648,7 @@ annotate service.allIssues with {
     }
 }
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_KMEIN
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -664,7 +664,7 @@ annotate service.allIssues with {
     }
 }
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     DL_VRKME
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -680,7 +680,7 @@ annotate service.allIssues with {
     }
 }
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_WAERK
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -696,7 +696,7 @@ annotate service.allIssues with {
     }
 }
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_WAERS
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -713,7 +713,7 @@ annotate service.allIssues with {
 }
 
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_VBELN
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -729,7 +729,7 @@ annotate service.allIssues with {
     }
 }
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_POSNR
     @Common.ValueList      : {
         $Type                  : 'Common.ValueListType',
@@ -746,7 +746,7 @@ annotate service.allIssues with {
     @Common.IsDigitSequence: true
 }
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_AUART
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -764,7 +764,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_WERKS
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -782,7 +782,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_VTWEG
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -800,7 +800,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_MATNR
     @Common.ValueList      : {
         $Type                  : 'Common.ValueListType',
@@ -824,7 +824,7 @@ annotate service.allIssues with {
     @Common.IsDigitSequence: true
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_KDMAT
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -842,7 +842,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_AG_PARTNER
     @Common.ValueList      : {
         $Type                  : 'Common.ValueListType',
@@ -866,7 +866,7 @@ annotate service.allIssues with {
     @Common.IsDigitSequence: true
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_WE_PARTNER
     @Common.ValueList      : {
         $Type                  : 'Common.ValueListType',
@@ -890,7 +890,7 @@ annotate service.allIssues with {
     @Common.IsDigitSequence: true
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_LAND1
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -913,7 +913,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_ORT01
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -931,7 +931,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_VKORG
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -954,7 +954,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_VBUND
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -972,7 +972,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_KWMENG
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -995,7 +995,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_KBMENG
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1018,7 +1018,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_UNCONFIRMED_QTY
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1041,7 +1041,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_REQ_TEXT
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1059,7 +1059,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_FAKSP
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1082,7 +1082,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_LGORT
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1100,7 +1100,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_SUPPLY_SITUATION
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1123,7 +1123,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_KBETR
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1146,7 +1146,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_KPEIN
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1169,7 +1169,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_NETWR
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1192,7 +1192,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_HTEXT
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1210,7 +1210,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_PSTYV
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1233,7 +1233,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_DISPO
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1251,7 +1251,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_KOSCH
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1269,7 +1269,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_VKBUR
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1292,7 +1292,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_CO_PARTNER
     @Common.IsDigitSequence: true
     @Common.ValueList      : {
@@ -1316,7 +1316,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_NY_PARTNER
     @Common.IsDigitSequence: true
     @Common.ValueList      : {
@@ -1340,7 +1340,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_AS_PARTNER
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1363,7 +1363,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_VE_PARTNER
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1386,7 +1386,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_AM_PARTNER
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1409,7 +1409,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_INCO1
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1427,7 +1427,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_INCO2
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1445,7 +1445,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_ZTERM
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1463,7 +1463,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_ZZ0S2REVG2
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1481,7 +1481,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_ZZDKPPRODB
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1499,7 +1499,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_BSARK
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1523,7 +1523,7 @@ annotate service.allIssues with {
 };
 
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     DL_VBELN
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1541,7 +1541,7 @@ annotate service.allIssues with {
     }
 };
 
- annotate service.allIssues with {
+ annotate service.baseEntity with {
      DL_POSNR
      @Common.ValueList: {
          $Type                  : 'Common.ValueListType',
@@ -1560,7 +1560,7 @@ annotate service.allIssues with {
      @Common.IsDigitSequence: true
  };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     DL_CHARG
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1578,7 +1578,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     DL_LFIMG
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1601,7 +1601,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     DL_POSAR
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1619,7 +1619,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     DL_VGBEL
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1637,7 +1637,7 @@ annotate service.allIssues with {
     }
 };
 
-// annotate service.allIssues with {
+// annotate service.baseEntity with {
 //     DL_VGPOS
 //     @Common.ValueList: {
 //         $Type                  : 'Common.ValueListType',
@@ -1656,7 +1656,7 @@ annotate service.allIssues with {
 //     @Common.IsDigitSequence: true
 // };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     DL_LFART
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1679,7 +1679,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     DL_TRAID
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1697,7 +1697,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     DL_ZZ0S2BLNR
     @Common.ValueList      : {
         $Type                  : 'Common.ValueListType',
@@ -1715,7 +1715,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     TM_TKNUM
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1733,7 +1733,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     TM_VSART
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1756,7 +1756,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     TM_EXTI1
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1774,7 +1774,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     TM_TDLNR
     @Common.ValueList      : {
         $Type                  : 'Common.ValueListType',
@@ -1798,7 +1798,7 @@ annotate service.allIssues with {
     @Common.IsDigitSequence: true
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     TM_TRACKING_ID_COMP
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1816,7 +1816,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     TM_TRACKING_ID_ELEM
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1834,7 +1834,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     DL_PEND_DEL_QUAN
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1857,7 +1857,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_BASF_LOFCR
     @Common.ValueList      : {
         $Type                  : 'Common.ValueListType',
@@ -1876,7 +1876,7 @@ annotate service.allIssues with {
     
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_GUSCON_LEVEL
     @Common.ValueList      : {
         $Type                  : 'Common.ValueListType',
@@ -1895,7 +1895,7 @@ annotate service.allIssues with {
     @Common.IsDigitSequence: true
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_I_VBELN
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1913,7 +1913,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_ISCOMPLETED
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1931,7 +1931,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_LEVEL_TYPE
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1949,7 +1949,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_N_VBELN
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1967,7 +1967,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_F_VBELN
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1985,7 +1985,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_F_POSNR
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -2003,7 +2003,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_VBTYP
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -2021,7 +2021,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_BSTKD
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -2039,7 +2039,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     BL_VBELN_INV_FIRST
     @Common.ValueList      : {
         $Type                  : 'Common.ValueListType',
@@ -2058,7 +2058,7 @@ annotate service.allIssues with {
     @Common.IsDigitSequence: true
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     BL_VBELN_INV_LAST
     @Common.ValueList      : {
         $Type                  : 'Common.ValueListType',
@@ -2077,7 +2077,7 @@ annotate service.allIssues with {
     @Common.IsDigitSequence: true
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     BL_XBLNR
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -2096,7 +2096,7 @@ annotate service.allIssues with {
 // @Common.IsDigitSequence: true
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_TRAGR
     @Common.ValueList      : {
         $Type                  : 'Common.ValueListType',
@@ -2120,7 +2120,7 @@ annotate service.allIssues with {
     @Common.IsDigitSequence: true
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_VKGRP
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -2143,7 +2143,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_ROUTE
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -2161,7 +2161,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_F_ZZ0S2MATUG
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -2179,7 +2179,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_F_VSBED
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -2202,7 +2202,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     TM_SHIPMENT_CURRENT_STATUS
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -2220,7 +2220,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     TM_SHIPMENT_ALERT
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -2238,7 +2238,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_F_VKORG
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -2261,7 +2261,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_F_WERKS
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -2279,7 +2279,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_F_AUFNR
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -2297,7 +2297,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_F_AMEIN
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -2314,7 +2314,7 @@ annotate service.allIssues with {
 }
 
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_F_PSMNG
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -2338,7 +2338,7 @@ annotate service.allIssues with {
 };
 
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_F_AS_PARTNER
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -2361,7 +2361,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     TM_STTRG
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -2384,7 +2384,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.allIssues with {
+annotate service.baseEntity with {
     SO_KNREF_HEAD
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
