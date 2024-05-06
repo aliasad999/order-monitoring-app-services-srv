@@ -48,13 +48,15 @@ class srvOpenOrders extends cds.ApplicationService {
          * @param {object} req - The request object containing request details
          * */
         this.before("READ", "Results", async (req, next) => {       
-            // Check if auth table is filled
-            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
-            let userID = req.user.id;
-            let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
-            
-            if(authSet.length === 0){
-                req.error(413, 'NO_AUTH_LIST')
+            // Check if auth table is filled (not in local development)
+            if(req.user.id !== "anonymous"){
+                const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+                let userID = req.user.id;
+                let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
+                
+                if(authSet.length === 0){
+                    req.error(413, 'NO_AUTH_LIST')
+                }
             }
         
             cds
@@ -237,12 +239,14 @@ class srvOpenOrders extends cds.ApplicationService {
          * @param {object} req - The request object containing request details
          * */
         this.before("READ", "valueHelps", async (req) => {       
-            // Check if auth table is filled
-            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
-            let userID = req.user.id;
-            let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
-            if(authSet.length === 0){
-                req.error(413, 'NO_AUTH_VALUE_HELP')
+            // Check if auth table is filled (not in local development)
+            if(req.user.id !== "anonymous"){
+                const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+                let userID = req.user.id;
+                let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
+                if(authSet.length === 0){
+                    req.error(413, 'NO_AUTH_VALUE_HELP')
+                }
             }
         });
 
