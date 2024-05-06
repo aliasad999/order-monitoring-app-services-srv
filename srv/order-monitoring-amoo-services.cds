@@ -1,8 +1,7 @@
 using openorders.db as db_app from '../db/order-monitoring-amoo-service';
 
 service openOrdersSrv {
-    entity baseEntity     as
-        select from db_app.OPENORDERSLIST {
+    entity rootEntity as select from db_app.OPENORDERSLIST {
             key null                                        as id                              : UUID,
                 MANDT                                       as SO_MANDT,
                 VBELN                                       as SO_VBELN,
@@ -230,6 +229,11 @@ service openOrdersSrv {
                 virtual false as editDialog : Boolean 
 
         }
+    entity baseEntity     as projection on rootEntity{
+        *,
+        IFNULL(TM_SHIPMENT_CURRENT_STATUS_ELEM, TM_SHIPMENT_CURRENT_STATUS_COMP) as TM_SHIPMENT_CURRENT_STATUS : String(250)
+    }
+        
 
     
     @readonly
