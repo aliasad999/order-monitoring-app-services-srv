@@ -52,6 +52,7 @@ annotate service.valueHelps with {
     SO_VKBUR                    @title: '{i18n>SO_VKBUR}'                    @sap.Label: '{i18n>SO_VKBUR}';
     SO_VKBUR_BEZEI              @title: '{i18n>SO_VKBUR_BEZEI}'              @sap.Label: '{i18n>SO_VKBUR_BEZEI}';
     SO_ABGRU                    @title: '{i18n>SO_ABGRU}'                    @sap.Label: '{i18n>SO_ABGRU}';
+    SO_ABGRU_BEZEI              @title: '{i18n>SO_ABGRU_BEZEI}'              @sap.Label: '{i18n>SO_ABGRU_BEZEI}';
     SO_ABSTA                    @title: '{i18n>SO_ABSTA}'                    @sap.Label: '{i18n>SO_ABSTA}';
     SO_KNUMV                    @title: '{i18n>SO_KNUMV}'                    @sap.Label: '{i18n>SO_KNUMV}';
     SO_SPART                    @title: '{i18n>SO_SPART}'                    @sap.Label: '{i18n>SO_SPART}';
@@ -355,6 +356,11 @@ annotate service.Results with {
     SO_F_AS_PARTNER               @title: '{i18n>SO_F_AS_PARTNER}'               @sap.Label: '{i18n>SO_F_AS_PARTNER}' ;
     @Common.TextFor
     SO_F_AS_PARTNER_NAME          @title: '{i18n>SO_F_AS_PARTNER_NAME}'          @sap.Label: '{i18n>SO_F_AS_PARTNER_NAME}';
+    @Common.Text           : SO_ABGRU_BEZEI
+    @Common.TextArrangement: #TextLast
+    SO_ABGRU;
+    @Common.TextFor
+    SO_ABGRU_BEZEI;
 
 }
 
@@ -394,11 +400,11 @@ annotate service.Results with {
     id                        @UI                     : {Hidden: true};
     SO_MANDT                  @UI                     : {Hidden: true};
     DL_MANDT                  @UI                     : {Hidden: true};
-    TM_MANDT                   @UI                     : {Hidden: true};
+    TM_MANDT                  @UI                     : {Hidden: true};
     BL_MANDT_INV_FIRST        @UI                     : {Hidden: true};
     BL_MANDT_INV_LAST         @UI                     : {Hidden: true};
     SO_SPART                  @UI                     : {Hidden: true};
-    SO_ABGRU                  @UI                     : {Hidden: true};
+    SO_ABGRU_BEZEI            @UI                     : {Hidden: true};
     SO_ABSTA                  @UI                     : {Hidden: true};
     SO_KNUMV                  @UI                     : {Hidden: true};
     DL_HSDAT                  @UI                     : {Hidden: true};
@@ -2220,6 +2226,29 @@ annotate service.Results with {
             LocalDataProperty: SO_KNREF_HEAD,
             ValueListProperty: 'SO_KNREF_HEAD'
         }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_ABGRU
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_ABGRU_BEZEI}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_ABGRU,
+                ValueListProperty: 'SO_ABGRU'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_ABGRU_BEZEI'
+            }
 
         ]
     }
