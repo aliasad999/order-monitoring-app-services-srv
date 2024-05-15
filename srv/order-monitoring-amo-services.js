@@ -18,10 +18,8 @@ class srvOpenOrders extends cds.ApplicationService {
             try {
                 const service = await cds.connect.to('authService');
                 lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100");
-                
             } catch (error) {
                 // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
-                console.log(error)
                 req.error(413, 'ERROR_AUTH_CALL')
             }
                          
@@ -50,16 +48,13 @@ class srvOpenOrders extends cds.ApplicationService {
          * */
         this.before("READ", "Results", async (req, next) => {       
             // Check if auth table is filled
-            if(req.user.id !== "anonymous"){
-                const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
-                let userID = req.user.id;
-                let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
-                
-                if(authSet.length === 0){
-                    req.error(413, 'NO_AUTH_LIST')
-                }
+            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+            let userID = req.user.id;
+            let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
+            if(authSet.length === 0){
+                req.error(413, 'NO_AUTH_LIST')
             }
-        
+
             cds
                 .connect("db")
                 .then(({ db }) =>
@@ -241,13 +236,11 @@ class srvOpenOrders extends cds.ApplicationService {
          * */
         this.before("READ", "valueHelps", async (req) => {       
             // Check if auth table is filled
-            if(req.user.id !== "anonymous"){
-                const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
-                let userID = req.user.id;
-                let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
-                if(authSet.length === 0){
-                    req.error(413, 'NO_AUTH_VALUE_HELP')
-                }
+            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+            let userID = req.user.id;
+            let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
+            if(authSet.length === 0){
+                req.error(413, 'NO_AUTH_VALUE_HELP')
             }
         });
 
@@ -406,16 +399,6 @@ class srvOpenOrders extends cds.ApplicationService {
                await UPDATE(notes).set({ LAST_NOTE_FLAG: ' ' }).where({ VBELN: entry.VBELN, POSNR : entry.POSNR , LAST_NOTE_FLAG : 'X' });
             })
         }) 
-
-
-        this.after("DELETE", "notes", async (data,req) => {
-            const { notes } = await cds.entities ('srvOpenOrders');
-            let note = await SELECT.from(notes).where({VBELN:req.data.VBELN, POSNR:req.data.POSNR }).orderBy('UTCTIME desc').limit(1)
-            if (note.length > 0 && req.data.UTCTIME > note[0].UTCTIME) {
-                await UPDATE(notes).set({ LAST_NOTE_FLAG:'X' }).where({ VBELN:req.data.VBELN, POSNR :req.data.POSNR,UTCTIME:note[0].UTCTIME});
-            }
-        })
-        
         return super.init();
     }
 }
@@ -433,9 +416,7 @@ module.exports = {
  */
 function removeDuplicates(fields, lt_result) {
     if (fields) {
-        lt_result = lt_result
-        .filter(obj => fields.every(field => obj[field] !== null)) // Remove null values
-        .map(obj => {
+        lt_result = lt_result.map(obj => {
             const newObj = {};
             fields.forEach(field => newObj[field] = obj[field]);
             return newObj;
