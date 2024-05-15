@@ -205,9 +205,9 @@ service srvOpenOrders {
   entity notes           as
     select from db_app.ST_NOTES {
       key UTCTIME,
-          CLIENT,
-          VBELN,
-          POSNR,
+      key CLIENT,
+      key VBELN,
+      key POSNR,
           LANGUAGE,
           NOTE_TITLE,
           NOTE_TEXT,

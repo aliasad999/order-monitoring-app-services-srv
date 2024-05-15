@@ -399,6 +399,16 @@ class srvOpenOrders extends cds.ApplicationService {
                await UPDATE(notes).set({ LAST_NOTE_FLAG: ' ' }).where({ VBELN: entry.VBELN, POSNR : entry.POSNR , LAST_NOTE_FLAG : 'X' });
             })
         }) 
+
+
+        this.after("DELETE", "notes", async (data,req) => {
+            const { notes } = await cds.entities ('srvOpenOrders');
+                let note = await SELECT.from(notes).where({VBELN:req.data.VBELN, POSNR:req.data.POSNR }).orderBy('UTCTIME desc').limit(1)
+                if (note && req.data.UTCTIME>note[0].UTCTIME) {
+                await UPDATE(notes).set({ LAST_NOTE_FLAG:'X' }).where({ VBELN:req.data.VBELN, POSNR :req.data.POSNR,UTCTIME:note[0].UTCTIME});
+                }
+        })
+        
         return super.init();
     }
 }
