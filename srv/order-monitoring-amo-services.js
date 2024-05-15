@@ -48,7 +48,7 @@ class srvOpenOrders extends cds.ApplicationService {
          * @param {object} req - The request object containing request details
          * */
         this.before("READ", "Results", async (req, next) => {       
-            // Check if auth table is filled (not in local development)
+            // Check if auth table is filled
             if(req.user.id !== "anonymous"){
                 const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
                 let userID = req.user.id;
@@ -239,7 +239,7 @@ class srvOpenOrders extends cds.ApplicationService {
          * @param {object} req - The request object containing request details
          * */
         this.before("READ", "valueHelps", async (req) => {       
-            // Check if auth table is filled (not in local development)
+            // Check if auth table is filled
             if(req.user.id !== "anonymous"){
                 const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
                 let userID = req.user.id;

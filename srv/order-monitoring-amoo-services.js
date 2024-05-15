@@ -48,11 +48,13 @@ class openOrdersSrv extends cds.ApplicationService {
          * */
            this.before("READ", "valueHelps", async (req) => {       
             // Check if auth table is filled
-            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
-            let userID = req.user.id;
-            let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
-            if(authSet.length === 0){
-                req.error(413, 'NO_AUTH_VALUE_HELP')
+            if(req.user.id !== "anonymous"){
+                const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+                let userID = req.user.id;
+                let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
+                if(authSet.length === 0){
+                    req.error(413, 'NO_AUTH_VALUE_HELP')
+                }
             }
         });
 
@@ -214,13 +216,14 @@ class openOrdersSrv extends cds.ApplicationService {
          * */
         this.before("READ", "*", async (req, next) => {       
             // Check if auth table is filled
-     
-         const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
-            let userID = req.user.id;
-            let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
-            
-            if(authSet.length === 0){
-                req.error(413, 'NO_AUTH_LIST')
+            if(req.user.id !== "anonymous"){
+                const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+                let userID = req.user.id;
+                let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
+                
+                if(authSet.length === 0){
+                    req.error(413, 'NO_AUTH_LIST')
+                }
             }
          
             cds
