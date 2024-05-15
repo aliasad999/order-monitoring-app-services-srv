@@ -3,6 +3,7 @@ using srvOpenOrders as service from '../srv/order-monitoring-app-services.cds';
 annotate service.Results with @Consumption.dbHints: ['USE_HEX_PLAN','HEX_INDEX_JOIN'];
 annotate service.valueHelps with @Consumption.dbHints: ['USE_HEX_PLAN','HEX_INDEX_JOIN'];
 
+
 annotate service.valueHelps with {
     SO_VBELN                    @title: '{i18n>SO_VBELN}'                    @sap.Label: '{i18n>SO_VBELN}';
     SO_POSNR                    @title: '{i18n>SO_POSNR}'                    @sap.Label: '{i18n>SO_POSNR}'            @Common.IsDigitSequence: true;
@@ -34,7 +35,7 @@ annotate service.valueHelps with {
     SO_REQ_TEXT                 @title: '{i18n>SO_REQ_TEXT}'                 @sap.Label: '{i18n>SO_REQ_TEXT}';
     SO_FAKSP                    @title: '{i18n>SO_FAKSP}'                    @sap.Label: '{i18n>SO_FAKSP}';
     SO_FAKSP_VTEXT              @title: '{i18n>SO_FAKSP_VTEXT}'              @sap.Label: '{i18n>SO_FAKSP_VTEXT}';
-    SO_LGORT                    @title: '{i18n>SO_LGORT}'                    @sap.Label: '{i18n>SO_LGORT}';
+    SO_F_LGORT                  @title: '{i18n>SO_LGORT}'                    @sap.Label: '{i18n>SO_LGORT}';                 
     SO_SUPPLY_SITUATION         @title: '{i18n>SO_SUPPLY_SITUATION}'         @sap.Label: '{i18n>SO_SUPPLY_SITUATION}';
     SO_SUPPLY_SITUATION_DESCR   @title: '{i18n>SO_SUPPLY_SITUATION_DESCR}'   @sap.Label: '{i18n>SO_SUPPLY_SITUATION_DESCR}';
     SO_KBETR                    @title: '{i18n>SO_KBETR}'                    @sap.Label: '{i18n>SO_KBETR}';
@@ -104,7 +105,7 @@ annotate service.valueHelps with {
     TM_AR_DATE                  @title: '{i18n>TM_AR_DATE}'                  @sap.Label: '{i18n>TM_AR_DATE}';
     TM_STTRG                    @title: '{i18n>TM_STTRG}'                    @sap.Label: '{i18n>TM_STTRG}';
     TM_STTRG_DDTEXT             @title: '{i18n>TM_STTRG_DDTEXT}'             @sap.Label: '{i18n>TM_STTRG_DDTEXT}';
-    SO_BASF_LOFCR               @title: '{i18n>SO_BASF_LOFCR}'               @sap.Label: '{i18n>SO_BASF_LOFCR}'       @Common.IsDigitSequence: true;
+    SO_BASF_LOFCR               @title: '{i18n>SO_BASF_LOFCR}'               @sap.Label: '{i18n>SO_BASF_LOFCR}'     ;  
     SO_GUSCON_LEVEL             @title: '{i18n>SO_GUSCON_LEVEL}'             @sap.Label: '{i18n>SO_GUSCON_LEVEL}'     @Common.IsDigitSequence: true;
     SO_I_VBELN                  @title: '{i18n>SO_I_VBELN}'                  @sap.Label: '{i18n>SO_I_VBELN}';
     SO_ISCOMPLETED              @title: '{i18n>SO_ISCOMPLETED}'              @sap.Label: '{i18n>SO_ISCOMPLETED}';
@@ -194,7 +195,7 @@ annotate service.Results with {
     SO_FAKSP                    @title: '{i18n>SO_FAKSP}'                    @sap.Label: '{i18n>SO_FAKSP}';
     @Common.TextFor
     SO_FAKSP_VTEXT              @title: '{i18n>SO_FAKSP_VTEXT}'              @sap.Label: '{i18n>SO_FAKSP_VTEXT}';
-    SO_LGORT                    @title: '{i18n>SO_LGORT}'                    @sap.Label: '{i18n>SO_LGORT}';
+    SO_F_LGORT                  @title: '{i18n>SO_LGORT}'                    @sap.Label: '{i18n>SO_LGORT}';             
     @Common.Text           : SO_SUPPLY_SITUATION_DESCR
     @Common.TextArrangement: #TextLast
     SO_SUPPLY_SITUATION         @title: '{i18n>SO_SUPPLY_SITUATION}'         @sap.Label: '{i18n>SO_SUPPLY_SITUATION}';
@@ -418,7 +419,7 @@ annotate service.Results with {
     SO_KMEIN                  @UI                     : {Hidden: true};
     SO_WAERK                  @UI                     : {Hidden: true};
     TM_TRACKING_ID_COMP       @UI                     : {Hidden: true};
-    DL_POSNR                  @UI                     : {Hidden: true};
+    
     DL_VGBEL                  @UI                     : {Hidden: true};
     TM_TRACKING_ID_ELEM       @UI                     : {Hidden: true};
     DL_VGPOS                  @UI                     : {Hidden: true};
@@ -905,7 +906,7 @@ annotate service.Results with {
 };
 
 annotate service.Results with {
-    SO_LGORT
+    SO_F_LGORT                                                     
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>SO_LGORT}',
@@ -914,8 +915,8 @@ annotate service.Results with {
         SearchSupported        : true,
         Parameters             : [{
             $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_LGORT,
-            ValueListProperty: 'SO_LGORT'
+            LocalDataProperty: SO_F_LGORT,                         
+            ValueListProperty: 'SO_F_LGORT'                        
         }
 
         ]
@@ -1363,24 +1364,24 @@ annotate service.Results with {
     }
 };
 
-// annotate service.Results with {
-//     DL_POSNR
-//     @Common.ValueList: {
-//         $Type                  : 'Common.ValueListType',
-//         Label                  : '{@i18n>DL_POSNR}',
-//         CollectionPath         : 'valueHelps',
-//         DistinctValuesSupported: true,
-//         SearchSupported        : true,
-//         Parameters             : [{
-//             $Type            : 'Common.ValueListParameterInOut',
-//             LocalDataProperty: DL_POSNR,
-//             ValueListProperty: 'DL_POSNR'
-//         }
+ annotate service.Results with {
+     DL_POSNR
+     @Common.ValueList: {
+         $Type                  : 'Common.ValueListType',
+         Label                  : '{@i18n>DL_POSNR}',
+         CollectionPath         : 'valueHelps',
+         DistinctValuesSupported: true,
+         SearchSupported        : true,
+         Parameters             : [{
+             $Type            : 'Common.ValueListParameterInOut',
+             LocalDataProperty: DL_POSNR,
+             ValueListProperty: 'DL_POSNR'
+         }
 
-//         ]
-//     }
-//     @Common.IsDigitSequence: true
-// };
+         ]
+     }
+     @Common.IsDigitSequence: true
+ };
 
 annotate service.Results with {
     DL_CHARG
@@ -1695,7 +1696,7 @@ annotate service.Results with {
 
         ]
     }
-    @Common.IsDigitSequence: true
+    
 };
 
 annotate service.Results with {
@@ -2258,7 +2259,7 @@ annotate service.Results with @UI.LineItem: {
         {Value: SO_REQ_TEXT},
         {Value: SO_FAKSP},
         {Value: SO_FAKSP_VTEXT},
-        {Value: SO_LGORT},
+        {Value: SO_F_LGORT},                           
         {Value: SO_SUPPLY_SITUATION},
         {Value: SO_SUPPLY_SITUATION_DESCR},
         {Value: SO_KBETR},
