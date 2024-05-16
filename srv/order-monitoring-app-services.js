@@ -20,6 +20,7 @@ class srvOpenOrders extends cds.ApplicationService {
                 lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100");
             } catch (error) {
                 // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
+                console.log(error)
                 req.error(413, 'ERROR_AUTH_CALL')
             }
                          
@@ -47,13 +48,15 @@ class srvOpenOrders extends cds.ApplicationService {
          * @param {object} req - The request object containing request details
          * */
         this.before("READ", "Results", async (req, next) => {       
-            // Check if auth table is filled
-            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
-            let userID = req.user.id;
-            let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
-            
-            if(authSet.length === 0){
-                req.error(413, 'NO_AUTH_LIST')
+            // Check if auth table is filled (not in local development)
+            if(req.user.id !== "anonymous"){
+                const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+                let userID = req.user.id;
+                let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
+                
+                if(authSet.length === 0){
+                    req.error(413, 'NO_AUTH_LIST')
+                }
             }
         
             cds
@@ -236,12 +239,14 @@ class srvOpenOrders extends cds.ApplicationService {
          * @param {object} req - The request object containing request details
          * */
         this.before("READ", "valueHelps", async (req) => {       
-            // Check if auth table is filled
-            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
-            let userID = req.user.id;
-            let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
-            if(authSet.length === 0){
-                req.error(413, 'NO_AUTH_VALUE_HELP')
+            // Check if auth table is filled (not in local development)
+            if(req.user.id !== "anonymous"){
+                const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+                let userID = req.user.id;
+                let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
+                if(authSet.length === 0){
+                    req.error(413, 'NO_AUTH_VALUE_HELP')
+                }
             }
         });
 
@@ -427,7 +432,9 @@ module.exports = {
  */
 function removeDuplicates(fields, lt_result) {
     if (fields) {
-        lt_result = lt_result.map(obj => {
+        lt_result = lt_result
+        .filter(obj => fields.every(field => obj[field] !== null)) // Remove null values
+        .map(obj => {
             const newObj = {};
             fields.forEach(field => newObj[field] = obj[field]);
             return newObj;

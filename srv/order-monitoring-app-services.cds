@@ -91,6 +91,7 @@ service srvOpenOrders {
           VKBUR as SO_VKBUR,
           VKBUR_BEZEI_LANG as SO_VKBUR_BEZEI,
           ABGRU as SO_ABGRU,
+          ABGRU_BEZEI_LANG as SO_ABGRU_BEZEI,
           ABSTA as SO_ABSTA,
           KNUMV as SO_KNUMV,
           SPART as SO_SPART,
