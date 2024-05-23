@@ -18,6 +18,7 @@ class srvOpenOrders extends cds.ApplicationService {
             try {
                 const service = await cds.connect.to('authService');
                 lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100");
+                
             } catch (error) {
                 // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
                 console.log(error)
@@ -405,6 +406,16 @@ class srvOpenOrders extends cds.ApplicationService {
                await UPDATE(notes).set({ LAST_NOTE_FLAG: ' ' }).where({ VBELN: entry.VBELN, POSNR : entry.POSNR , LAST_NOTE_FLAG : 'X' });
             })
         }) 
+
+
+        this.after("DELETE", "notes", async (data,req) => {
+            const { notes } = await cds.entities ('srvOpenOrders');
+            let note = await SELECT.from(notes).where({VBELN:req.data.VBELN, POSNR:req.data.POSNR }).orderBy('UTCTIME desc').limit(1)
+            if (note.length > 0 && req.data.UTCTIME > note[0].UTCTIME) {
+                await UPDATE(notes).set({ LAST_NOTE_FLAG:'X' }).where({ VBELN:req.data.VBELN, POSNR :req.data.POSNR,UTCTIME:note[0].UTCTIME});
+            }
+        })
+        
         return super.init();
     }
 }
