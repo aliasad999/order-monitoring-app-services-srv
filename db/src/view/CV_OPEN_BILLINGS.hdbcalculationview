@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="CV_OPEN_BILLINGS" applyPrivilegeType="NONE" dataCategory="DIMENSION" dimensionType="STANDARD" schemaVersion="3.0" hierarchyGeneration="SQL" outputViewType="Projection" cacheInvalidationPeriod="NONE" enforceSqlExecution="true" application="BAS">
+<descriptions defaultDescription="CV_OPEN_BILLINGS"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="ST_BILLING_DETAILS">
+    <resourceUri>ST_BILLING_DETAILS</resourceUri>
+  </DataSource>
+  <DataSource id="ST_BL_ISSUES">
+    <resourceUri>ST_BL_ISSUES</resourceUri>
+  </DataSource>
+  <DataSource id="FinalBillingDetails$$$$ST_BILLING_DETAILS$$">
+    <resourceUri>ST_BILLING_DETAILS</resourceUri>
+  </DataSource>
+  <DataSource id="FinalBLIssues$$$$ST_BL_ISSUES$$">
+    <resourceUri>ST_BL_ISSUES</resourceUri>
+  </DataSource>
+  <DataSource id="ST_SALESORDER_DETAILS">
+    <resourceUri>ST_SALESORDER_DETAILS</resourceUri>
+  </DataSource>
+  <DataSource id="ALLORDERS_DB_VBAKAUTH">
+    <resourceUri>ALLORDERS_DB_VBAKAUTH</resourceUri>
+  </DataSource>
+</dataSources>
+<snapshotProcedures/>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="FirstBillingDetails" filterExpressionLanguage="SQL">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="VBELN"/>
+      <viewAttribute id="POSNR"/>
+      <viewAttribute id="VBELN_INV"/>
+      <viewAttribute id="BILLING_DOC_BASE"/>
+      <viewAttribute id="XBLNR"/>
+      <viewAttribute id="BL_LAST_UPDATE"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="ST_BILLING_DETAILS"/>
+    <filter>&quot;BILLING_DOC_BASE&quot; = 'BILLING_FIRST_ORDER'</filter>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="FirstBLIssues">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="VBELN_INV"/>
+      <viewAttribute id="NPS"/>
+      <viewAttribute id="ISSUE"/>
+      <viewAttribute id="DUE_DATE"/>
+      <viewAttribute id="ISSUE_LOCATION"/>
+      <viewAttribute id="ISSUE_LOCATION_ITEM"/>
+      <viewAttribute id="DOCUMENT_TYPE"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="ST_BL_ISSUES"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="FinalBillingDetails" filterExpressionLanguage="SQL">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="VBELN"/>
+      <viewAttribute id="POSNR"/>
+      <viewAttribute id="VBELN_INV"/>
+      <viewAttribute id="BILLING_DOC_BASE"/>
+      <viewAttribute id="XBLNR"/>
+      <viewAttribute id="BL_LAST_UPDATE"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="FinalBillingDetails$$$$ST_BILLING_DETAILS$$"/>
+    <filter>&quot;BILLING_DOC_BASE&quot; = 'BILLING_FINAL_ORDER'</filter>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="FinalBLIssues">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="VBELN_INV"/>
+      <viewAttribute id="NPS"/>
+      <viewAttribute id="ISSUE"/>
+      <viewAttribute id="DUE_DATE"/>
+      <viewAttribute id="ISSUE_LOCATION"/>
+      <viewAttribute id="ISSUE_LOCATION_ITEM"/>
+      <viewAttribute id="DOCUMENT_TYPE"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="FinalBLIssues$$$$ST_BL_ISSUES$$"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="SalesOrder">
+    <viewAttributes/>
+    <calculatedViewAttributes/>
+    <input node="ST_SALESORDER_DETAILS"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="AuthCheck">
+    <viewAttributes/>
+    <calculatedViewAttributes/>
+    <input node="ALLORDERS_DB_VBAKAUTH"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="FirstBilling" cardinality="CN_N" joinType="inner">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="VBELN"/>
+      <viewAttribute id="POSNR"/>
+      <viewAttribute id="VBELN_INV"/>
+      <viewAttribute id="XBLNR"/>
+      <viewAttribute id="NPS"/>
+      <viewAttribute id="ISSUE"/>
+      <viewAttribute id="DUE_DATE"/>
+      <viewAttribute id="ISSUE_LOCATION"/>
+      <viewAttribute id="ISSUE_LOCATION_ITEM"/>
+      <viewAttribute hidden="true" id="JOIN$MANDT$MANDT"/>
+      <viewAttribute hidden="true" id="JOIN$VBELN_INV$VBELN_INV"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="FirstBillingDetails">
+      <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VBELN" source="VBELN"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="POSNR" source="POSNR"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VBELN_INV" source="VBELN_INV"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="XBLNR" source="XBLNR"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MANDT$MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VBELN_INV$VBELN_INV" source="VBELN_INV"/>
+    </input>
+    <input node="FirstBLIssues">
+      <mapping xsi:type="Calculation:AttributeMapping" target="NPS" source="NPS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE" source="ISSUE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DUE_DATE" source="DUE_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE_LOCATION" source="ISSUE_LOCATION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE_LOCATION_ITEM" source="ISSUE_LOCATION_ITEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MANDT$MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VBELN_INV$VBELN_INV" source="VBELN_INV"/>
+    </input>
+    <joinAttribute name="JOIN$MANDT$MANDT"/>
+    <joinAttribute name="JOIN$VBELN_INV$VBELN_INV"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="FinalBilling" cardinality="CN_N" joinType="inner">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="VBELN"/>
+      <viewAttribute id="POSNR"/>
+      <viewAttribute id="VBELN_INV"/>
+      <viewAttribute id="XBLNR"/>
+      <viewAttribute id="NPS"/>
+      <viewAttribute id="ISSUE"/>
+      <viewAttribute id="DUE_DATE"/>
+      <viewAttribute id="ISSUE_LOCATION"/>
+      <viewAttribute id="ISSUE_LOCATION_ITEM"/>
+      <viewAttribute hidden="true" id="JOIN$MANDT$MANDT"/>
+      <viewAttribute hidden="true" id="JOIN$VBELN_INV$VBELN_INV"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="FinalBillingDetails">
+      <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VBELN" source="VBELN"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="POSNR" source="POSNR"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VBELN_INV" source="VBELN_INV"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="XBLNR" source="XBLNR"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MANDT$MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VBELN_INV$VBELN_INV" source="VBELN_INV"/>
+    </input>
+    <input node="FinalBLIssues">
+      <mapping xsi:type="Calculation:AttributeMapping" target="NPS" source="NPS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE" source="ISSUE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DUE_DATE" source="DUE_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE_LOCATION" source="ISSUE_LOCATION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE_LOCATION_ITEM" source="ISSUE_LOCATION_ITEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MANDT$MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VBELN_INV$VBELN_INV" source="VBELN_INV"/>
+    </input>
+    <joinAttribute name="JOIN$MANDT$MANDT"/>
+    <joinAttribute name="JOIN$VBELN_INV$VBELN_INV"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_3_4" multiJoinNode="Join_3" multiJoinCentralTable="SalesOrder" multiJoinOrder="Outside In">
+    <viewAttributes/>
+    <calculatedViewAttributes/>
+    <input node="SalesOrder"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_3_3" multiJoinNode="Join_3" multiJoinCentralTable="SalesOrder" multiJoinOrder="Outside In">
+    <viewAttributes/>
+    <calculatedViewAttributes/>
+    <input node="AuthCheck"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_3_1" multiJoinNode="Join_3" multiJoinCentralTable="SalesOrder" multiJoinOrder="Outside In">
+    <viewAttributes/>
+    <calculatedViewAttributes/>
+    <input node="FirstBilling"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_3_2" multiJoinNode="Join_3" multiJoinCentralTable="SalesOrder" multiJoinOrder="Outside In">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="VBELN"/>
+      <viewAttribute id="POSNR"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="FinalBilling">
+      <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VBELN" source="VBELN"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="POSNR" source="POSNR"/>
+    </input>
+  </calculationView>
+</calculationViews>
+
+<logicalModel id="Join_3">
+  <attributes>
+    <attribute id="MANDT" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="MANDT"/>
+      <keyMapping columnObjectName="Join_3" columnName="MANDT"/>
+    </attribute>
+    <attribute id="VBELN" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="VBELN"/>
+      <keyMapping columnObjectName="Join_3" columnName="VBELN"/>
+    </attribute>
+    <attribute id="POSNR" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="POSNR"/>
+      <keyMapping columnObjectName="Join_3" columnName="POSNR"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="658" y="112"/>
+    
+      <rectangleSize width="160"/>
+    </shape>
+    
+  
+    <shape expanded="true" modelObjectName="FirstBillingDetails" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="476" y="576"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="FirstBLIssues" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="721" y="566"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="FinalBillingDetails" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="301" y="566"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="FinalBLIssues" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="92" y="566"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="SalesOrder" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="839" y="426"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="AuthCheck" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="1058" y="434"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="FirstBilling" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="578" y="426"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="FirstBillingDetails" modelObjectNameSpace="FirstBilling" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="166"/>
+    </shape>
+    <shape modelObjectName="FirstBLIssues" modelObjectNameSpace="FirstBilling" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="143"/>
+    </shape>
+    <shape expanded="true" modelObjectName="FinalBilling" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="212" y="443"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="FinalBillingDetails" modelObjectNameSpace="FinalBilling" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="250"/>
+    </shape>
+    <shape modelObjectName="FinalBLIssues" modelObjectNameSpace="FinalBilling" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="250"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Join_3" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="601" y="236"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="SalesOrder" modelObjectNameSpace="Join_3" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="620" y="30"/>
+      <rectangleSize width="250"/>
+    </shape>
+    <shape modelObjectName="AuthCheck" modelObjectNameSpace="Join_3" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="920" y="30"/>
+      <rectangleSize width="250"/>
+    </shape>
+    <shape modelObjectName="FinalBilling" modelObjectNameSpace="Join_3" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="1220" y="30"/>
+      <rectangleSize width="250"/>
+    </shape>
+    <shape modelObjectName="FirstBilling" modelObjectNameSpace="Join_3" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="1520" y="30"/>
+      <rectangleSize width="250"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>
