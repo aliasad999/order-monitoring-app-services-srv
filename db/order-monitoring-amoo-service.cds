@@ -214,6 +214,7 @@ entity ![OPENORDERSLIST]{
         SO_NPS: String(2)  ;
         SO_ISSUE: String(2)  ;
         SO_DUE_DATE: String(8)  ;
+        SO_DUE_DATE_FORMATTED : Date = SO_DUE_DATE;
         SO_ISSUE_LOCATION: String(10)  ;
         SO_ISSUE_LOCATION_ITEM: String(6)  ;
 

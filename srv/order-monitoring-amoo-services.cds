@@ -223,7 +223,7 @@ service openOrdersSrv {
                 BL_MANDT_INV_LAST,
                 SO_NPS,
                 SO_ISSUE,
-                SO_DUE_DATE,
+                SO_DUE_DATE_FORMATTED as SO_DUE_DATE,
                 SO_ISSUE_LOCATION,
                 SO_ISSUE_LOCATION_ITEM,
                 virtual false as editDialog : Boolean 

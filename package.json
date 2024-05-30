@@ -77,6 +77,13 @@
           "destination": "PersonalizationService",
           "path": "it/omg/omc-auth/v1"
         }
+      },
+      "apiManagementOdataServices": {
+        "kind": "odata",
+        "credentials": {
+          "destination": "PersonalizationService",
+          "path": "/it/omg"
+        }
       }
     }
   }

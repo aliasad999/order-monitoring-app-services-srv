@@ -380,7 +380,8 @@ class openOrdersSrv extends cds.ApplicationService {
                 "TM_DPTEN",
                 "TM_DATEN",
                 "SO_F_LDDAT",
-                "TM_AR_DATE"]
+                "TM_AR_DATE",
+                "SO_DUE_DATE"]
                 data.forEach((item) => {
                     item.id = uuid.v1()
                     dateProps.forEach((property) => {
