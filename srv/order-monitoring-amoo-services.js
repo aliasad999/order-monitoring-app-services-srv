@@ -11,6 +11,29 @@ class openOrdersSrv extends cds.ApplicationService {
 
     init() {
 
+        this.on("READ", "issueDetailsContacts", async (req, next) => { 
+            let lt_contacts = [];
+            try {
+                // let contactsQuery = SELECT.from('ContactSet').limit(req.query.SELECT.limit);
+                // if(req.query.SELECT.where){
+                //     contactsQuery.where(req.query.SELECT.where);
+                // }
+                // if(req.query.SELECT.orderBy){
+                //     contactsQuery.orderBy(req.query.SELECT.orderBy);
+                // }
+                const apiManagementService = await cds.connect.to('apiManagementOdataServices');
+                lt_contacts = await apiManagementService.get("/ContactSet");
+                // lt_contacts = await apiManagementService.tx(req).send({
+                //     query: contactsQuery
+                // });
+            } catch (error) {
+                // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
+                req.error(413, error)
+            }
+
+            return lt_contacts;
+        });
+
         this.on("getVBAKAuthObjKeys", async req => {
             let lt_result = [];
             let userID = req.user.id;

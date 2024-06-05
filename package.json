@@ -78,11 +78,11 @@
           "path": "it/omg/omc-auth/v1"
         }
       },
-      "apiManagementOdataServices": {
+      "contactsService": {
         "kind": "odata",
         "credentials": {
           "destination": "PersonalizationService",
-          "path": "/it/omg"
+          "path": "/it/omg/so_fulfillment/v1"
         }
       }
     }

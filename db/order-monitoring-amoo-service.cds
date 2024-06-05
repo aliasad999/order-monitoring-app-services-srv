@@ -219,3 +219,27 @@ entity ![OPENORDERSLIST]{
         SO_ISSUE_LOCATION_ITEM: String(6)  ;
 
 }
+
+entity Contacts {
+        key SapClient: String(3);
+        key PersonalNumber: String(8);
+        PersonalName: String(40);
+        EmailAddress: String(241);
+        PhoneNumber: String(241);
+        SalesDocument: String(10);
+        OrderItem: String(6);
+        PartnerFunction: String(2);
+}
+
+entity FollowUpNotes {
+        key SalesOrder: String(10);
+        key OrderItem: String(6);
+        key FollowupNote:String(2);
+}
+
+entity ReasonComments {
+        key SalesOrder: String(10);
+        key OrderItem: String(6);
+        key ReasonBucket:String(2);
+        ReasonCode: String(2);
+}

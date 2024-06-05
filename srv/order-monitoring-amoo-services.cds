@@ -241,4 +241,10 @@ service openOrdersSrv {
     entity valueHelps     as projection on baseEntity; 
     @readonly
     entity salesorder_nps as select * from baseEntity ;
+
+    entity issueDetailsContacts as select * from db_app.Contacts; 
+
+    entity FollowUpNotes as select * from db_app.FollowUpNotes;
+    entity ReasonComments as select * from db_app.ReasonComments;
+
 };
