@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="CV_OPEN_ORDERLIST_FINAL" applyPrivilegeType="NONE" dataCategory="DIMENSION" dimensionType="STANDARD" schemaVersion="3.0" hierarchyGeneration="SQL" outputViewType="Projection" cacheInvalidationPeriod="NONE" enforceSqlExecution="true" application="BAS">
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="CV_OPEN_ORDERLIST_FINAL" applyPrivilegeType="NONE" dataCategory="DIMENSION" dimensionType="STANDARD" schemaVersion="3.0" hierarchyGeneration="AUTO" outputViewType="Projection" cacheInvalidationPeriod="NONE" enforceSqlExecution="true" application="BAS" propagateInstantiation="true">
 <descriptions defaultDescription="CV_OPEN_ORDERLIST_FINAL"/>
 <localVariables>
   <variable id="APPLICATIONUSER" type="session"/>
   <variable id="IP_LANG" parameter="true">
     <descriptions defaultDescription=""/>
-    <variableProperties datatype="NVARCHAR" length="13" mandatory="false">
+    <variableProperties mandatory="false" defaultValue="">
       <valueDomain type="empty"/>
       <selection multiLine="false" type="SingleValue"/>
+      <derivationRule>
+        <resourceUri>SF_USER_LANG_KEY</resourceUri>
+      </derivationRule>
     </variableProperties>
   </variable>
 </localVariables>
 <variableMappings/>
+<executionHints name="query_level_sql_hints" value="USE_HEX_PLAN,HEX_INDEX_JOIN"/>
+<executionHints name="qo_pop_hints" value="USE_HEX_PLAN,HEX_INDEX_JOIN"/>
 <dataSources>
-  <DataSource id="ST_BL_ISSUES">
-    <resourceUri>ST_BL_ISSUES</resourceUri>
-  </DataSource>
   <DataSource id="ST_DL_ISSUES">
     <resourceUri>ST_DL_ISSUES</resourceUri>
   </DataSource>
@@ -55,17 +57,9 @@
   <DataSource id="ST_SHIP_DET_TRANSLATIONS">
     <resourceUri>ST_SHIP_DET_TRANSLATIONS</resourceUri>
   </DataSource>
-  <DataSource id="ST_BILLING_DETAILS">
-    <resourceUri>ST_BILLING_DETAILS</resourceUri>
-  </DataSource>
 </dataSources>
 <snapshotProcedures/>
 <calculationViews>
-  <calculationView xsi:type="Calculation:ProjectionView" id="BillingIssues">
-    <viewAttributes/>
-    <calculatedViewAttributes/>
-    <input node="ST_BL_ISSUES"/>
-  </calculationView>
   <calculationView xsi:type="Calculation:ProjectionView" id="DeliveryIssues">
     <viewAttributes>
       <viewAttribute id="MANDT"/>
@@ -440,11 +434,6 @@
     <calculatedViewAttributes/>
     <input node="ST_SHIP_DET_TRANSLATIONS"/>
     <filter>&quot;SPRAS_EXT&quot; = '$$IP_LANG$$'</filter>
-  </calculationView>
-  <calculationView xsi:type="Calculation:ProjectionView" id="Projection_1">
-    <viewAttributes/>
-    <calculatedViewAttributes/>
-    <input node="ST_BILLING_DETAILS"/>
   </calculationView>
   <calculationView xsi:type="Calculation:JoinView" id="SalesOrderNPS" cardinality="C1_N" joinType="inner">
     <viewAttributes>
@@ -858,7 +847,6 @@
       <viewAttribute id="STTRG"/>
       <viewAttribute id="AR_DATE"/>
       <viewAttribute id="LAUFK"/>
-      <viewAttribute id="TM_LAST_UPDATE"/>
       <viewAttribute id="VBTYP"/>
       <viewAttribute id="STATUS_DATE_ELEM"/>
       <viewAttribute id="STATUS_DATE_COMP"/>
@@ -901,7 +889,6 @@
       <mapping xsi:type="Calculation:AttributeMapping" target="STTRG" source="STTRG"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="AR_DATE" source="AR_DATE"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="LAUFK" source="LAUFK"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="TM_LAST_UPDATE" source="TM_LAST_UPDATE"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="VBTYP" source="VBTYP"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_DATE_ELEM" source="STATUS_DATE_ELEM"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_DATE_COMP" source="STATUS_DATE_COMP"/>
@@ -919,12 +906,6 @@
     </input>
     <joinAttribute name="JOIN$MANDT$MANDT"/>
     <joinAttribute name="JOIN$TKNUM$TKNUM"/>
-  </calculationView>
-  <calculationView xsi:type="Calculation:JoinView" id="Join_2">
-    <viewAttributes/>
-    <calculatedViewAttributes/>
-    <input node="BillingIssues"/>
-    <input node="Projection_1"/>
   </calculationView>
   <calculationView xsi:type="Calculation:JoinView" id="SalesOrder_1" cardinality="C1_1" joinType="leftOuter" multiJoinNode="SalesOrder" multiJoinCentralTable="SalesOrderNPS" multiJoinOrder="Outside In">
     <viewAttributes>
@@ -1299,7 +1280,6 @@
       <viewAttribute id="STTRG"/>
       <viewAttribute id="AR_DATE"/>
       <viewAttribute id="LAUFK"/>
-      <viewAttribute id="TM_LAST_UPDATE"/>
       <viewAttribute id="VBTYP"/>
       <viewAttribute id="STATUS_DATE_ELEM"/>
       <viewAttribute id="STATUS_DATE_COMP"/>
@@ -1345,7 +1325,6 @@
       <mapping xsi:type="Calculation:AttributeMapping" target="STTRG" source="STTRG"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="AR_DATE" source="AR_DATE"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="LAUFK" source="LAUFK"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="TM_LAST_UPDATE" source="TM_LAST_UPDATE"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="VBTYP" source="VBTYP"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_DATE_ELEM" source="STATUS_DATE_ELEM"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_DATE_COMP" source="STATUS_DATE_COMP"/>
@@ -1368,11 +1347,6 @@
     <joinAttribute name="JOIN$MANDT$MANDT"/>
     <joinAttribute name="JOIN$VBELN_DEL$VBELN_DEL"/>
     <joinAttribute name="JOIN$TKNUM$TKNUM"/>
-  </calculationView>
-  <calculationView xsi:type="Calculation:JoinView" id="FINAL_3" multiJoinNode="FINAL" multiJoinCentralTable="Orders" multiJoinOrder="Outside In">
-    <viewAttributes/>
-    <calculatedViewAttributes/>
-    <input node="Join_2"/>
   </calculationView>
   <calculationView xsi:type="Calculation:JoinView" id="SalesOrder_2" cardinality="C1_1" joinType="leftOuter" multiJoinNode="SalesOrder" multiJoinCentralTable="SalesOrderNPS" multiJoinOrder="Outside In">
     <viewAttributes>
@@ -1697,7 +1671,6 @@
       <viewAttribute id="STTRG"/>
       <viewAttribute id="AR_DATE"/>
       <viewAttribute id="LAUFK"/>
-      <viewAttribute id="TM_LAST_UPDATE"/>
       <viewAttribute id="VBTYP_2"/>
       <viewAttribute id="STATUS_DATE_ELEM"/>
       <viewAttribute id="STATUS_DATE_COMP"/>
@@ -1777,7 +1750,6 @@
       <mapping xsi:type="Calculation:AttributeMapping" target="STTRG" source="STTRG"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="AR_DATE" source="AR_DATE"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="LAUFK" source="LAUFK"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="TM_LAST_UPDATE" source="TM_LAST_UPDATE"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="VBTYP_2" source="VBTYP"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_DATE_ELEM" source="STATUS_DATE_ELEM"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_DATE_COMP" source="STATUS_DATE_COMP"/>
@@ -2418,7 +2390,6 @@
       <viewAttribute id="STTRG"/>
       <viewAttribute id="AR_DATE"/>
       <viewAttribute id="LAUFK"/>
-      <viewAttribute id="TM_LAST_UPDATE"/>
       <viewAttribute id="VBTYP_2"/>
       <viewAttribute id="STATUS_DATE_ELEM"/>
       <viewAttribute id="STATUS_DATE_COMP"/>
@@ -2774,7 +2745,6 @@
       <mapping xsi:type="Calculation:AttributeMapping" target="STTRG" source="STTRG"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="AR_DATE" source="AR_DATE"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="LAUFK" source="LAUFK"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="TM_LAST_UPDATE" source="TM_LAST_UPDATE"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="VBTYP_2" source="VBTYP_2"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_DATE_ELEM" source="STATUS_DATE_ELEM"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_DATE_COMP" source="STATUS_DATE_COMP"/>
@@ -3573,51 +3543,46 @@
       <descriptions defaultDescription="LAUFK"/>
       <keyMapping columnObjectName="FINAL_2" columnName="LAUFK"/>
     </attribute>
-    <attribute id="TM_LAST_UPDATE" order="195" displayAttribute="false" attributeHierarchyActive="false">
-      <descriptions defaultDescription="TM_LAST_UPDATE"/>
-      <keyMapping columnObjectName="FINAL_2" columnName="TM_LAST_UPDATE"/>
-    </attribute>
-    <attribute id="VBTYP_2" order="196" displayAttribute="false" attributeHierarchyActive="false">
+    <attribute id="VBTYP_2" order="195" displayAttribute="false" attributeHierarchyActive="false">
       <descriptions defaultDescription="VBTYP_2"/>
       <keyMapping columnObjectName="FINAL_2" columnName="VBTYP_2"/>
     </attribute>
-    <attribute id="STATUS_DATE_ELEM" order="197" displayAttribute="false" attributeHierarchyActive="false">
+    <attribute id="STATUS_DATE_ELEM" order="196" displayAttribute="false" attributeHierarchyActive="false">
       <descriptions defaultDescription="STATUS_DATE_ELEM"/>
       <keyMapping columnObjectName="FINAL_2" columnName="STATUS_DATE_ELEM"/>
     </attribute>
-    <attribute id="STATUS_DATE_COMP" order="198" displayAttribute="false" attributeHierarchyActive="false">
+    <attribute id="STATUS_DATE_COMP" order="197" displayAttribute="false" attributeHierarchyActive="false">
       <descriptions defaultDescription="STATUS_DATE_COMP"/>
       <keyMapping columnObjectName="FINAL_2" columnName="STATUS_DATE_COMP"/>
     </attribute>
-    <attribute id="VSART_BEZEI_LANG" order="199" displayAttribute="false" attributeHierarchyActive="false">
+    <attribute id="VSART_BEZEI_LANG" order="198" displayAttribute="false" attributeHierarchyActive="false">
       <descriptions defaultDescription="VSART_BEZEI_LANG"/>
       <keyMapping columnObjectName="FINAL_2" columnName="VSART_BEZEI_LANG"/>
     </attribute>
-    <attribute id="STTRG_DDTEXT_LANG" order="200" displayAttribute="false" attributeHierarchyActive="false">
+    <attribute id="STTRG_DDTEXT_LANG" order="199" displayAttribute="false" attributeHierarchyActive="false">
       <descriptions defaultDescription="STTRG_DDTEXT_LANG"/>
       <keyMapping columnObjectName="FINAL_2" columnName="STTRG_DDTEXT_LANG"/>
     </attribute>
-    <attribute id="TM_NPS" order="201" displayAttribute="false" attributeHierarchyActive="false">
+    <attribute id="TM_NPS" order="200" displayAttribute="false" attributeHierarchyActive="false">
       <descriptions defaultDescription="TM_NPS"/>
       <keyMapping columnObjectName="FINAL_2" columnName="TM_NPS"/>
     </attribute>
-    <attribute id="TM_ISSUE" order="202" displayAttribute="false" attributeHierarchyActive="false">
+    <attribute id="TM_ISSUE" order="201" displayAttribute="false" attributeHierarchyActive="false">
       <descriptions defaultDescription="TM_ISSUE"/>
       <keyMapping columnObjectName="FINAL_2" columnName="TM_ISSUE"/>
     </attribute>
-    <attribute id="TM_DUE_DATE" order="203" displayAttribute="false" attributeHierarchyActive="false">
+    <attribute id="TM_DUE_DATE" order="202" displayAttribute="false" attributeHierarchyActive="false">
       <descriptions defaultDescription="TM_DUE_DATE"/>
       <keyMapping columnObjectName="FINAL_2" columnName="TM_DUE_DATE"/>
     </attribute>
-    <attribute id="TM_ISSUE_LOCATION" order="204" displayAttribute="false" attributeHierarchyActive="false">
+    <attribute id="TM_ISSUE_LOCATION" order="203" displayAttribute="false" attributeHierarchyActive="false">
       <descriptions defaultDescription="TM_ISSUE_LOCATION"/>
       <keyMapping columnObjectName="FINAL_2" columnName="TM_ISSUE_LOCATION"/>
     </attribute>
-    <attribute id="TM_ISSUE_LOCATION_ITEM" order="205" displayAttribute="false" attributeHierarchyActive="false">
+    <attribute id="TM_ISSUE_LOCATION_ITEM" order="204" displayAttribute="false" attributeHierarchyActive="false">
       <descriptions defaultDescription="TM_ISSUE_LOCATION_ITEM"/>
       <keyMapping columnObjectName="FINAL_2" columnName="TM_ISSUE_LOCATION_ITEM"/>
-    </attribute>
-  </attributes>
+    </attribute></attributes>
   <calculatedAttributes/>
   <baseMeasures/>
   <calculatedMeasures/>
@@ -3627,10 +3592,6 @@
   <shapes>
     <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
       <upperLeftCorner x="40" y="85"/>
-    </shape>
-    <shape expanded="true" modelObjectName="BillingIssues" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="1170" y="616"/>
-      <rectangleSize height="30" width="160"/>
     </shape>
     <shape expanded="true" modelObjectName="DeliveryIssues" modelObjectNameSpace="CalculationView">
       <upperLeftCorner x="129" y="730"/>
@@ -3684,10 +3645,6 @@
       <upperLeftCorner x="845" y="644"/>
       <rectangleSize height="30" width="160"/>
     </shape>
-    <shape expanded="true" modelObjectName="Projection_1" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="1376" y="616"/>
-      <rectangleSize height="30" width="160"/>
-    </shape>
     <shape expanded="true" modelObjectName="SalesOrderNPS" modelObjectNameSpace="CalculationView">
       <upperLeftCorner x="-765" y="811"/>
       <rectangleSize height="30" width="160"/>
@@ -3711,18 +3668,6 @@
     <shape modelObjectName="FinalOrderTranslations" modelObjectNameSpace="FinalOrder" modelObjectType="JoinNodeInput">
       <upperLeftCorner x="320" y="30"/>
       <rectangleSize width="195"/>
-    </shape>
-    <shape expanded="true" modelObjectName="Join_2" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="1240" y="410"/>
-      <rectangleSize height="30" width="160"/>
-    </shape>
-    <shape modelObjectName="BillingIssues" modelObjectNameSpace="Join_2" modelObjectType="JoinNodeInput">
-      <upperLeftCorner x="20" y="30"/>
-      <rectangleSize width="138"/>
-    </shape>
-    <shape modelObjectName="Projection_1" modelObjectNameSpace="Join_2" modelObjectType="JoinNodeInput">
-      <upperLeftCorner x="320" y="30"/>
-      <rectangleSize width="136"/>
     </shape>
   
     <shape expanded="true" modelObjectName="Delivery" modelObjectNameSpace="CalculationView">
@@ -3776,23 +3721,19 @@
     <shape expanded="true" modelObjectName="FINAL" modelObjectNameSpace="CalculationView">
       <upperLeftCorner x="100" y="240"/>
       <rectangleSize height="30" width="160"/>
-    </shape><shape><upperLeftCorner/><rectangleSize/></shape>
-    <shape modelObjectName="Join_2" modelObjectNameSpace="FINAL" modelObjectType="JoinNodeInput">
-      <upperLeftCorner x="920" y="30"/>
-      <rectangleSize width="250"/>
     </shape>
     <shape modelObjectName="Orders_2" modelObjectNameSpace="FINAL" modelObjectType="JoinNodeInput" multiJoinViewNodeName="FINAL">
-      <upperLeftCorner x="1220" y="30"/>
+      <upperLeftCorner x="20" y="30"/>
       <rectangleSize width="250"/>
     </shape>
     <shape modelObjectName="Delivery_2" modelObjectNameSpace="FINAL" modelObjectType="JoinNodeInput" multiJoinViewNodeName="FINAL">
-      <upperLeftCorner x="1520" y="30"/>
+      <upperLeftCorner x="320" y="30"/>
       <rectangleSize width="250"/>
     </shape>
     <shape modelObjectName="Shipments_2" modelObjectNameSpace="FINAL" modelObjectType="JoinNodeInput" multiJoinViewNodeName="FINAL">
-      <upperLeftCorner x="1820" y="30"/>
+      <upperLeftCorner x="620" y="30"/>
       <rectangleSize width="250"/>
-    </shape><shape><upperLeftCorner/><rectangleSize/></shape>
+    </shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape>
     <shape expanded="true" modelObjectName="Orders" modelObjectNameSpace="CalculationView">
       <upperLeftCorner x="-547" y="402"/>
       <rectangleSize height="30" width="160"/>
@@ -3804,7 +3745,7 @@
     <shape modelObjectName="SalesOrder_2" modelObjectNameSpace="Orders" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Orders">
       <upperLeftCorner x="272" y="30"/>
       <rectangleSize width="250"/>
-    </shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape>
+    </shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape>
     <shape modelObjectName="AuthCheck" modelObjectNameSpace="Orders" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Orders">
       <upperLeftCorner x="-487" y="943"/>
       <rectangleSize width="127"/>

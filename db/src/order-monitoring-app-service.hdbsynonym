@@ -89,6 +89,12 @@
            "object": "otc.csc.db.nps.tables::ST_BL_ISSUES",
            "schema": "_PLACEHOLDER_"
           }
-         }
+         },
+         "DUMMY": {
+          "target": {
+            "object": "DUMMY",
+            "schema": "SYS"
+          }
+        }
       
 }

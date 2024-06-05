@@ -223,10 +223,12 @@ service openOrdersSrv {
                 BL_MANDT_INV_LAST,
                 SO_NPS,
                 SO_ISSUE,
-                SO_DUE_DATE,
+                // SO_DUE_DATE,
+                SO_DUE_DATE_NEW as SO_DUE_DATE,
                 SO_ISSUE_LOCATION,
                 SO_ISSUE_LOCATION_ITEM,
-                virtual false as editDialog : Boolean 
+                virtual false as editDialog : Boolean ,
+                virtual 0 as criticalityDueDate : Integer
 
         }
     entity baseEntity     as projection on rootEntity{
@@ -241,4 +243,9 @@ service openOrdersSrv {
     entity valueHelps     as projection on baseEntity; 
     @readonly
     entity salesorder_nps as select * from baseEntity ;
+
+    entity FollowUpNotes as select * from db_app.FollowUpNotes;
+    entity ReasonComments as select * from db_app.ReasonComments;
+
+    entity dueDateLimit as projection on db_app.DUE_DATE_LIMIT; 
 };

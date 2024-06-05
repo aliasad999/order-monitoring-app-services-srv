@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="CV_OPEN_BILLING" applyPrivilegeType="NONE" dataCategory="DIMENSION" dimensionType="STANDARD" schemaVersion="3.0" hierarchyGeneration="SQL" outputViewType="Projection" cacheInvalidationPeriod="NONE" enforceSqlExecution="true" application="BAS">
+<descriptions defaultDescription="CV_OPEN_BILLING"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="ST_BILLING_DETAILS">
+    <resourceUri>ST_BILLING_DETAILS</resourceUri>
+  </DataSource>
+  <DataSource id="ST_BL_ISSUES">
+    <resourceUri>ST_BL_ISSUES</resourceUri>
+  </DataSource>
+</dataSources>
+<snapshotProcedures/>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Projection_1">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="VBELN"/>
+      <viewAttribute id="POSNR"/>
+      <viewAttribute id="VBELN_INV"/>
+      <viewAttribute id="BILLING_DOC_BASE"/>
+      <viewAttribute id="XBLNR"/>
+      <viewAttribute id="BL_LAST_UPDATE"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="ST_BILLING_DETAILS"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Projection_2">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="VBELN_INV"/>
+      <viewAttribute id="NPS"/>
+      <viewAttribute id="ISSUE"/>
+      <viewAttribute id="DUE_DATE"/>
+      <viewAttribute id="ISSUE_LOCATION"/>
+      <viewAttribute id="ISSUE_LOCATION_ITEM"/>
+      <viewAttribute id="DOCUMENT_TYPE"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="ST_BL_ISSUES"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_1" cardinality="C1_N" joinType="inner">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="VBELN"/>
+      <viewAttribute id="POSNR"/>
+      <viewAttribute id="VBELN_INV"/>
+      <viewAttribute id="BILLING_DOC_BASE"/>
+      <viewAttribute id="XBLNR"/>
+      <viewAttribute id="NPS"/>
+      <viewAttribute id="ISSUE"/>
+      <viewAttribute id="DUE_DATE"/>
+      <viewAttribute id="ISSUE_LOCATION"/>
+      <viewAttribute id="ISSUE_LOCATION_ITEM"/>
+      <viewAttribute hidden="true" id="JOIN$MANDT$MANDT"/>
+      <viewAttribute hidden="true" id="JOIN$VBELN_INV$VBELN_INV"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Projection_1">
+      <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VBELN" source="VBELN"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="POSNR" source="POSNR"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VBELN_INV" source="VBELN_INV"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="BILLING_DOC_BASE" source="BILLING_DOC_BASE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="XBLNR" source="XBLNR"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MANDT$MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VBELN_INV$VBELN_INV" source="VBELN_INV"/>
+    </input>
+    <input node="Projection_2">
+      <mapping xsi:type="Calculation:AttributeMapping" target="NPS" source="NPS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE" source="ISSUE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DUE_DATE" source="DUE_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE_LOCATION" source="ISSUE_LOCATION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE_LOCATION_ITEM" source="ISSUE_LOCATION_ITEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MANDT$MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VBELN_INV$VBELN_INV" source="VBELN_INV"/>
+    </input>
+    <joinAttribute name="JOIN$MANDT$MANDT"/>
+    <joinAttribute name="JOIN$VBELN_INV$VBELN_INV"/>
+  </calculationView>
+</calculationViews>
+
+<logicalModel id="Join_1">
+  <attributes>
+    <attribute id="MANDT" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="MANDT"/>
+      <keyMapping columnObjectName="Join_1" columnName="MANDT"/>
+    </attribute>
+    <attribute id="VBELN" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="VBELN"/>
+      <keyMapping columnObjectName="Join_1" columnName="VBELN"/>
+    </attribute>
+    <attribute id="POSNR" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="POSNR"/>
+      <keyMapping columnObjectName="Join_1" columnName="POSNR"/>
+    </attribute>
+    <attribute id="VBELN_INV" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="VBELN_INV"/>
+      <keyMapping columnObjectName="Join_1" columnName="VBELN_INV"/>
+    </attribute>
+    <attribute id="BILLING_DOC_BASE" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="BILLING_DOC_BASE"/>
+      <keyMapping columnObjectName="Join_1" columnName="BILLING_DOC_BASE"/>
+    </attribute>
+    <attribute id="XBLNR" order="6" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="XBLNR"/>
+      <keyMapping columnObjectName="Join_1" columnName="XBLNR"/>
+    </attribute>
+    <attribute id="NPS" order="7" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="NPS"/>
+      <keyMapping columnObjectName="Join_1" columnName="NPS"/>
+    </attribute>
+    <attribute id="ISSUE" order="8" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ISSUE"/>
+      <keyMapping columnObjectName="Join_1" columnName="ISSUE"/>
+    </attribute>
+    <attribute id="DUE_DATE" order="9" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DUE_DATE"/>
+      <keyMapping columnObjectName="Join_1" columnName="DUE_DATE"/>
+    </attribute>
+    <attribute id="ISSUE_LOCATION" order="10" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ISSUE_LOCATION"/>
+      <keyMapping columnObjectName="Join_1" columnName="ISSUE_LOCATION"/>
+    </attribute>
+    <attribute id="ISSUE_LOCATION_ITEM" order="11" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ISSUE_LOCATION_ITEM"/>
+      <keyMapping columnObjectName="Join_1" columnName="ISSUE_LOCATION_ITEM"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+    
+  
+    <shape expanded="true" modelObjectName="Projection_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="-42" y="365"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Projection_2" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="207" y="365"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Join_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="100" y="211"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="Projection_1" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="136.0234375"/>
+    </shape>
+    <shape modelObjectName="Projection_2" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="136.0234375"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

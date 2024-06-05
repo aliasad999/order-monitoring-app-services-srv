@@ -1,4 +1,6 @@
 namespace openorders.db;
+
+using { User } from '@sap/cds/common';
 @cds.persistence.exists
 entity ![OPENORDERSLIST]{
         MANDT  : String(3)  ;
@@ -214,7 +216,26 @@ entity ![OPENORDERSLIST]{
         SO_NPS: String(2)  ;
         SO_ISSUE: String(2)  ;
         SO_DUE_DATE: String(8)  ;
+        SO_DUE_DATE_NEW : Date = SO_DUE_DATE;
         SO_ISSUE_LOCATION: String(10)  ;
         SO_ISSUE_LOCATION_ITEM: String(6)  ;
 
+}
+
+entity FollowUpNotes {
+        key SalesOrder: String(10);
+        key OrderItem: String(6);
+        key FollowupNote:String(2);
+}
+ 
+entity ReasonComments {
+        key SalesOrder: String(10);
+        key OrderItem: String(6);
+        key ReasonBucket:String(2);
+        ReasonCode: String(2);
+}
+
+entity ![DUE_DATE_LIMIT] {
+        userId   : User;
+        dayLimit : Integer;
 }

@@ -4,9 +4,12 @@
 <localVariables>
   <variable id="IP_LANG" parameter="true">
     <descriptions defaultDescription=""/>
-    <variableProperties datatype="NVARCHAR" length="13" mandatory="false">
+    <variableProperties mandatory="false" defaultValue="">
       <valueDomain type="empty"/>
       <selection multiLine="false" type="SingleValue"/>
+      <derivationRule>
+        <resourceUri>SF_USER_LANG_KEY</resourceUri>
+      </derivationRule>
     </variableProperties>
   </variable>
   <variable id="APPLICATIONUSER" type="session"/>
@@ -1530,6 +1533,7 @@
       <viewAttribute id="VKGRP_BEZEI_LANG"/>
       <viewAttribute id="FAKSK_VTEXT_LANG"/>
       <viewAttribute id="ABGRU_BEZEI_LANG"/>
+      <viewAttribute id="NOTE_TEXT"/>
       <viewAttribute id="F_WERKS"/>
       <viewAttribute id="F_VKORG"/>
       <viewAttribute id="F_VKORG_NAME1"/>
@@ -1547,7 +1551,6 @@
       <viewAttribute id="F_AMEIN"/>
       <viewAttribute id="F_PSMNG"/>
       <viewAttribute id="F_LGORT"/>
-      <viewAttribute id="NOTE_TEXT"/>
       <viewAttribute hidden="true" id="JOIN$MANDT$MANDT"/>
       <viewAttribute hidden="true" id="JOIN$FINAL_SO$VBELN"/>
       <viewAttribute hidden="true" id="JOIN$FINAL_POSNR$POSNR"/>
@@ -2285,42 +2288,67 @@
 <layout>
   <shapes>
     <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
-      <upperLeftCorner x="637.2892454850272" y="112"/>
+      <upperLeftCorner x="637" y="112"/>
     
       <rectangleSize width="160"/>
     </shape>
     
   
     <shape expanded="true" modelObjectName="SalesOrderDetails" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="631.8956319780326" y="669.9999952316284"/>
+      <upperLeftCorner x="631" y="669"/>
       <rectangleSize height="30" width="160"/>
     </shape>
     <shape expanded="true" modelObjectName="SOIssues" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="992.8956319780325" y="666.9999952316284"/>
+      <upperLeftCorner x="992" y="666"/>
       <rectangleSize height="30" width="160"/>
     </shape>
     <shape expanded="true" modelObjectName="OrderTranslations" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="551.9999999999999" y="531.9999964237213"/>
+      <upperLeftCorner x="551" y="531"/>
       <rectangleSize height="30" width="160"/>
     </shape>
     <shape expanded="true" modelObjectName="FinalOrderDetails" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="92.00000000000017" y="531.9999964237213"/>
+      <upperLeftCorner x="92" y="531"/>
       <rectangleSize height="30" width="160"/>
     </shape>
+    <shape expanded="true" modelObjectName="AuthCheck" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="1016" y="399"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="FinalOrderTranslations" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="375" y="531"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="LastNote" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="1311" y="399"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  
     <shape expanded="true" modelObjectName="SalesOrder" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="811.9999999999998" y="533.9999964237213"/>
+      <upperLeftCorner x="811" y="533"/>
       <rectangleSize height="30" width="160"/>
     </shape>
     <shape modelObjectName="SalesOrderDetails" modelObjectNameSpace="SalesOrder" modelObjectType="JoinNodeInput">
       <upperLeftCorner x="20" y="30"/>
-      <rectangleSize width="136.0234375"/>
+      <rectangleSize width="136"/>
     </shape>
     <shape modelObjectName="SOIssues" modelObjectNameSpace="SalesOrder" modelObjectType="JoinNodeInput">
       <upperLeftCorner x="369" y="30"/>
-      <rectangleSize width="212.93505859375"/>
+      <rectangleSize width="212"/>
+    </shape>
+    <shape expanded="true" modelObjectName="FinalOrders" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="257" y="391"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="FinalOrderDetails" modelObjectNameSpace="FinalOrders" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="136"/>
+    </shape>
+    <shape modelObjectName="FinalOrderTranslations" modelObjectNameSpace="FinalOrders" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="250"/>
     </shape>
     <shape expanded="true" modelObjectName="Orders" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="696.0109758010808" y="391.9999976158142"/>
+      <upperLeftCorner x="696" y="391"/>
       <rectangleSize height="30" width="160"/>
     </shape>
     <shape modelObjectName="SalesOrder" modelObjectNameSpace="Orders" modelObjectType="JoinNodeInput">
@@ -2331,50 +2359,25 @@
       <upperLeftCorner x="320" y="30"/>
       <rectangleSize width="250"/>
     </shape>
-    <shape expanded="true" modelObjectName="FinalOrders" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="257.33333333333314" y="391.9999976158142"/>
-      <rectangleSize height="30" width="160"/>
-    </shape>
-    <shape modelObjectName="FinalOrderDetails" modelObjectNameSpace="FinalOrders" modelObjectType="JoinNodeInput">
-      <upperLeftCorner x="20" y="30"/>
-      <rectangleSize width="136.0234375"/>
-    </shape>
-    <shape modelObjectName="FinalOrderTranslations" modelObjectNameSpace="FinalOrders" modelObjectType="JoinNodeInput">
-      <upperLeftCorner x="320" y="30"/>
-      <rectangleSize width="250"/>
-    </shape>
-    <shape expanded="true" modelObjectName="AuthCheck" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="1016.9235266090516" y="399.9999976158142"/>
-      <rectangleSize height="30" width="160"/>
-    </shape>
     <shape expanded="true" modelObjectName="Join_4" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="637.0109758010808" y="233.9999988079071"/>
+      <upperLeftCorner x="637" y="233"/>
       <rectangleSize height="30" width="160"/>
     </shape>
     <shape modelObjectName="FinalOrders" modelObjectNameSpace="Join_4" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_4">
       <upperLeftCorner x="20" y="30"/>
       <rectangleSize width="250"/>
     </shape>
-    <shape modelObjectName="Orders" modelObjectNameSpace="Join_4" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_4">
-      <upperLeftCorner x="620" y="30"/>
-      <rectangleSize width="250"/>
-    </shape>
     <shape modelObjectName="AuthCheck" modelObjectNameSpace="Join_4" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_4">
       <upperLeftCorner x="920" y="30"/>
+      <rectangleSize width="250"/>
+    </shape>
+    <shape modelObjectName="Orders" modelObjectNameSpace="Join_4" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_4">
+      <upperLeftCorner x="620" y="30"/>
       <rectangleSize width="250"/>
     </shape>
     <shape modelObjectName="LastNote" modelObjectNameSpace="Join_4" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_4">
       <upperLeftCorner x="1220" y="30"/>
       <rectangleSize width="250"/>
-    </shape>
-    <shape expanded="true" modelObjectName="FinalOrderTranslations" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="375.99999999999983" y="531.9999964237213"/>
-      <rectangleSize height="30" width="160"/>
-    </shape>
-    <shape expanded="true" modelObjectName="LastNote" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="1311" y="399"/>
-      <rectangleSize height="30" width="160"/>
-    </shape>
-  </shapes>
+    </shape></shapes>
 </layout>
 </Calculation:scenario>

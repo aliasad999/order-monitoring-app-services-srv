@@ -5,9 +5,12 @@
   <variable id="APPLICATIONUSER" type="session"/>
   <variable id="IP_LANG" parameter="true">
     <descriptions defaultDescription=""/>
-    <variableProperties datatype="NVARCHAR" length="13" mandatory="false">
+    <variableProperties mandatory="false" defaultValue="">
       <valueDomain type="empty"/>
       <selection multiLine="false" type="SingleValue"/>
+      <derivationRule>
+        <resourceUri>SF_USER_LANG_KEY</resourceUri>
+      </derivationRule>
     </variableProperties>
   </variable>
 </localVariables>
@@ -19,11 +22,11 @@
   <DataSource id="ST_DELIVERY_DETAILS">
     <resourceUri>ST_DELIVERY_DETAILS</resourceUri>
   </DataSource>
-  <DataSource id="ST_SALESORDER_DETAILS">
-    <resourceUri>ST_SALESORDER_DETAILS</resourceUri>
-  </DataSource>
   <DataSource id="ST_DL_ISSUES">
     <resourceUri>ST_DL_ISSUES</resourceUri>
+  </DataSource>
+  <DataSource id="ST_SALESORDER_DETAILS">
+    <resourceUri>ST_SALESORDER_DETAILS</resourceUri>
   </DataSource>
   <DataSource id="ALLORDERS_DB_VBAKAUTH">
     <resourceUri>ALLORDERS_DB_VBAKAUTH</resourceUri>
@@ -70,20 +73,6 @@
     <calculatedViewAttributes/>
     <input node="ST_DELIVERY_DETAILS"/>
   </calculationView>
-  <calculationView xsi:type="Calculation:ProjectionView" id="SalesOrders">
-    <viewAttributes>
-      <viewAttribute id="MANDT"/>
-      <viewAttribute id="VBELN"/>
-      <viewAttribute id="POSNR"/>
-      <viewAttribute id="FIRST_SO"/>
-      <viewAttribute id="FIRST_POSNR"/>
-      <viewAttribute id="VKORG"/>
-      <viewAttribute id="VTWEG"/>
-      <viewAttribute id="SPART"/>
-    </viewAttributes>
-    <calculatedViewAttributes/>
-    <input node="ST_SALESORDER_DETAILS"/>
-  </calculationView>
   <calculationView xsi:type="Calculation:ProjectionView" id="Issues">
     <viewAttributes>
       <viewAttribute id="MANDT"/>
@@ -99,7 +88,19 @@
     <calculatedViewAttributes/>
     <input node="ST_DL_ISSUES"/>
   </calculationView>
-  <calculationView xsi:type="Calculation:ProjectionView" id="AuthCheck">
+  <calculationView xsi:type="Calculation:ProjectionView" id="SalesOrderDetails">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="FIRST_SO"/>
+      <viewAttribute id="FIRST_POSNR"/>
+      <viewAttribute id="VKORG"/>
+      <viewAttribute id="VTWEG"/>
+      <viewAttribute id="SPART"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="ST_SALESORDER_DETAILS"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="AuthCheck" filterExpressionLanguage="SQL">
     <viewAttributes>
       <viewAttribute id="VKORG"/>
       <viewAttribute id="VTWEG"/>
@@ -108,8 +109,99 @@
     </viewAttributes>
     <calculatedViewAttributes/>
     <input node="ALLORDERS_DB_VBAKAUTH"/>
+    <filter>&quot;USERID&quot; = '??APPLICATIONUSER??'</filter>
   </calculationView>
-  <calculationView xsi:type="Calculation:JoinView" id="DeliveryNps_1" cardinality="C1_N" joinType="inner" multiJoinNode="DeliveryNps" multiJoinCentralTable="AuthCheck" multiJoinOrder="Outside In">
+  <calculationView xsi:type="Calculation:JoinView" id="SalesOrders" cardinality="CN_1" joinType="inner">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="FIRST_SO"/>
+      <viewAttribute id="FIRST_POSNR"/>
+      <viewAttribute hidden="true" id="JOIN$VKORG$VKORG"/>
+      <viewAttribute hidden="true" id="JOIN$VTWEG$VTWEG"/>
+      <viewAttribute hidden="true" id="JOIN$SPART$SPART"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="SalesOrderDetails">
+      <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FIRST_SO" source="FIRST_SO"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FIRST_POSNR" source="FIRST_POSNR"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VKORG$VKORG" source="VKORG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VTWEG$VTWEG" source="VTWEG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$SPART$SPART" source="SPART"/>
+    </input>
+    <input node="AuthCheck">
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VKORG$VKORG" source="VKORG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VTWEG$VTWEG" source="VTWEG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$SPART$SPART" source="SPART"/>
+    </input>
+    <joinAttribute name="JOIN$VKORG$VKORG"/>
+    <joinAttribute name="JOIN$VTWEG$VTWEG"/>
+    <joinAttribute name="JOIN$SPART$SPART"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="DeliveryNps_1" cardinality="CN_1" joinType="inner" multiJoinNode="DeliveryNps" multiJoinCentralTable="Issues" multiJoinOrder="Outside In">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="VBELN_DEL"/>
+      <viewAttribute id="POSNR_DEL"/>
+      <viewAttribute id="FIRST_SO"/>
+      <viewAttribute id="FIRST_POSNR"/>
+      <viewAttribute id="CHARG"/>
+      <viewAttribute id="HSDAT"/>
+      <viewAttribute id="VFDAT"/>
+      <viewAttribute id="LFIMG"/>
+      <viewAttribute id="VRKME"/>
+      <viewAttribute id="POSAR"/>
+      <viewAttribute id="VGBEL"/>
+      <viewAttribute id="VGPOS"/>
+      <viewAttribute id="LFART"/>
+      <viewAttribute id="LFDAT"/>
+      <viewAttribute id="LDDAT"/>
+      <viewAttribute id="TRAID"/>
+      <viewAttribute id="ZZ0S2BLNR"/>
+      <viewAttribute id="PEND_DEL_QUAN"/>
+      <viewAttribute id="WADAT"/>
+      <viewAttribute id="WADAT_IST"/>
+      <viewAttribute hidden="true" id="JOIN$MANDT$MANDT"/>
+      <viewAttribute hidden="true" id="JOIN$FIRST_SO$FIRST_SO"/>
+      <viewAttribute hidden="true" id="JOIN$FIRST_POSNR$FIRST_POSNR"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="DeliveryDetails">
+      <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VBELN_DEL" source="VBELN_DEL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="POSNR_DEL" source="POSNR_DEL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FIRST_SO" source="FIRST_SO"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FIRST_POSNR" source="FIRST_POSNR"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CHARG" source="CHARG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="HSDAT" source="HSDAT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VFDAT" source="VFDAT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LFIMG" source="LFIMG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VRKME" source="VRKME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="POSAR" source="POSAR"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VGBEL" source="VGBEL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VGPOS" source="VGPOS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LFART" source="LFART"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LFDAT" source="LFDAT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LDDAT" source="LDDAT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TRAID" source="TRAID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ZZ0S2BLNR" source="ZZ0S2BLNR"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PEND_DEL_QUAN" source="PEND_DEL_QUAN"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="WADAT" source="WADAT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="WADAT_IST" source="WADAT_IST"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MANDT$MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$FIRST_SO$FIRST_SO" source="FIRST_SO"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$FIRST_POSNR$FIRST_POSNR" source="FIRST_POSNR"/>
+    </input>
+    <input node="SalesOrders">
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MANDT$MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$FIRST_SO$FIRST_SO" source="FIRST_SO"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$FIRST_POSNR$FIRST_POSNR" source="FIRST_POSNR"/>
+    </input>
+    <joinAttribute name="JOIN$MANDT$MANDT"/>
+    <joinAttribute name="JOIN$FIRST_SO$FIRST_SO"/>
+    <joinAttribute name="JOIN$FIRST_POSNR$FIRST_POSNR"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="DeliveryNps_2" cardinality="CN_1" joinType="inner" multiJoinNode="DeliveryNps" multiJoinCentralTable="Issues" multiJoinOrder="Outside In">
     <viewAttributes>
       <viewAttribute id="MANDT"/>
       <viewAttribute id="VBELN_DEL"/>
@@ -152,7 +244,7 @@
       <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VBELN_DEL$VBELN_DEL" source="VBELN_DEL"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$POSNR_DEL$POSNR_DEL" source="POSNR_DEL"/>
     </input>
-    <input node="DeliveryDetails">
+    <input node="DeliveryNps_1">
       <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="VBELN_DEL" source="VBELN_DEL"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="POSNR_DEL" source="POSNR_DEL"/>
@@ -181,158 +273,6 @@
     <joinAttribute name="JOIN$MANDT$MANDT"/>
     <joinAttribute name="JOIN$VBELN_DEL$VBELN_DEL"/>
     <joinAttribute name="JOIN$POSNR_DEL$POSNR_DEL"/>
-  </calculationView>
-  <calculationView xsi:type="Calculation:JoinView" id="DeliveryNps_2" cardinality="C1_N" joinType="inner" multiJoinNode="DeliveryNps" multiJoinCentralTable="AuthCheck" multiJoinOrder="Outside In">
-    <viewAttributes>
-      <viewAttribute id="MANDT"/>
-      <viewAttribute id="VBELN_DEL"/>
-      <viewAttribute id="POSNR_DEL"/>
-      <viewAttribute id="FIRST_SO"/>
-      <viewAttribute id="FIRST_POSNR"/>
-      <viewAttribute id="CHARG"/>
-      <viewAttribute id="HSDAT"/>
-      <viewAttribute id="VFDAT"/>
-      <viewAttribute id="LFIMG"/>
-      <viewAttribute id="VRKME"/>
-      <viewAttribute id="POSAR"/>
-      <viewAttribute id="VGBEL"/>
-      <viewAttribute id="VGPOS"/>
-      <viewAttribute id="LFART"/>
-      <viewAttribute id="LFDAT"/>
-      <viewAttribute id="LDDAT"/>
-      <viewAttribute id="TRAID"/>
-      <viewAttribute id="ZZ0S2BLNR"/>
-      <viewAttribute id="PEND_DEL_QUAN"/>
-      <viewAttribute id="WADAT"/>
-      <viewAttribute id="WADAT_IST"/>
-      <viewAttribute id="NPS"/>
-      <viewAttribute id="ISSUE"/>
-      <viewAttribute id="DUE_DATE"/>
-      <viewAttribute id="ISSUE_LOCATION"/>
-      <viewAttribute id="ISSUE_LOCATION_ITEM"/>
-      <viewAttribute id="VKORG"/>
-      <viewAttribute id="VTWEG"/>
-      <viewAttribute id="SPART"/>
-      <viewAttribute hidden="true" id="JOIN$MANDT$MANDT"/>
-      <viewAttribute hidden="true" id="JOIN$FIRST_SO$FIRST_SO"/>
-      <viewAttribute hidden="true" id="JOIN$FIRST_POSNR$FIRST_POSNR"/>
-    </viewAttributes>
-    <calculatedViewAttributes/>
-    <input node="DeliveryNps_1">
-      <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="VBELN_DEL" source="VBELN_DEL"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="POSNR_DEL" source="POSNR_DEL"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="FIRST_SO" source="FIRST_SO"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="FIRST_POSNR" source="FIRST_POSNR"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="CHARG" source="CHARG"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="HSDAT" source="HSDAT"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="VFDAT" source="VFDAT"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="LFIMG" source="LFIMG"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="VRKME" source="VRKME"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="POSAR" source="POSAR"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="VGBEL" source="VGBEL"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="VGPOS" source="VGPOS"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="LFART" source="LFART"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="LFDAT" source="LFDAT"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="LDDAT" source="LDDAT"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="TRAID" source="TRAID"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="ZZ0S2BLNR" source="ZZ0S2BLNR"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="PEND_DEL_QUAN" source="PEND_DEL_QUAN"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="WADAT" source="WADAT"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="WADAT_IST" source="WADAT_IST"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="NPS" source="NPS"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE" source="ISSUE"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="DUE_DATE" source="DUE_DATE"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE_LOCATION" source="ISSUE_LOCATION"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE_LOCATION_ITEM" source="ISSUE_LOCATION_ITEM"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MANDT$MANDT" source="MANDT"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$FIRST_SO$FIRST_SO" source="FIRST_SO"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$FIRST_POSNR$FIRST_POSNR" source="FIRST_POSNR"/>
-    </input>
-    <input node="SalesOrders">
-      <mapping xsi:type="Calculation:AttributeMapping" target="VKORG" source="VKORG"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="VTWEG" source="VTWEG"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="SPART" source="SPART"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MANDT$MANDT" source="MANDT"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$FIRST_SO$FIRST_SO" source="FIRST_SO"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$FIRST_POSNR$FIRST_POSNR" source="FIRST_POSNR"/>
-    </input>
-    <joinAttribute name="JOIN$MANDT$MANDT"/>
-    <joinAttribute name="JOIN$FIRST_SO$FIRST_SO"/>
-    <joinAttribute name="JOIN$FIRST_POSNR$FIRST_POSNR"/>
-  </calculationView>
-  <calculationView xsi:type="Calculation:JoinView" id="DeliveryNps_3" cardinality="CN_1" joinType="inner" multiJoinNode="DeliveryNps" multiJoinCentralTable="AuthCheck" multiJoinOrder="Outside In">
-    <viewAttributes>
-      <viewAttribute id="MANDT"/>
-      <viewAttribute id="VBELN_DEL"/>
-      <viewAttribute id="POSNR_DEL"/>
-      <viewAttribute id="FIRST_SO"/>
-      <viewAttribute id="FIRST_POSNR"/>
-      <viewAttribute id="CHARG"/>
-      <viewAttribute id="HSDAT"/>
-      <viewAttribute id="VFDAT"/>
-      <viewAttribute id="LFIMG"/>
-      <viewAttribute id="VRKME"/>
-      <viewAttribute id="POSAR"/>
-      <viewAttribute id="VGBEL"/>
-      <viewAttribute id="VGPOS"/>
-      <viewAttribute id="LFART"/>
-      <viewAttribute id="LFDAT"/>
-      <viewAttribute id="LDDAT"/>
-      <viewAttribute id="TRAID"/>
-      <viewAttribute id="ZZ0S2BLNR"/>
-      <viewAttribute id="PEND_DEL_QUAN"/>
-      <viewAttribute id="WADAT"/>
-      <viewAttribute id="WADAT_IST"/>
-      <viewAttribute id="NPS"/>
-      <viewAttribute id="ISSUE"/>
-      <viewAttribute id="DUE_DATE"/>
-      <viewAttribute id="ISSUE_LOCATION"/>
-      <viewAttribute id="ISSUE_LOCATION_ITEM"/>
-      <viewAttribute hidden="true" id="JOIN$VKORG$VKORG"/>
-      <viewAttribute hidden="true" id="JOIN$VTWEG$VTWEG"/>
-      <viewAttribute hidden="true" id="JOIN$SPART$SPART"/>
-    </viewAttributes>
-    <calculatedViewAttributes/>
-    <input node="AuthCheck">
-      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VKORG$VKORG" source="VKORG"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VTWEG$VTWEG" source="VTWEG"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$SPART$SPART" source="SPART"/>
-    </input>
-    <input node="DeliveryNps_2">
-      <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="VBELN_DEL" source="VBELN_DEL"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="POSNR_DEL" source="POSNR_DEL"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="FIRST_SO" source="FIRST_SO"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="FIRST_POSNR" source="FIRST_POSNR"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="CHARG" source="CHARG"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="HSDAT" source="HSDAT"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="VFDAT" source="VFDAT"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="LFIMG" source="LFIMG"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="VRKME" source="VRKME"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="POSAR" source="POSAR"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="VGBEL" source="VGBEL"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="VGPOS" source="VGPOS"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="LFART" source="LFART"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="LFDAT" source="LFDAT"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="LDDAT" source="LDDAT"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="TRAID" source="TRAID"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="ZZ0S2BLNR" source="ZZ0S2BLNR"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="PEND_DEL_QUAN" source="PEND_DEL_QUAN"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="WADAT" source="WADAT"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="WADAT_IST" source="WADAT_IST"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="NPS" source="NPS"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE" source="ISSUE"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="DUE_DATE" source="DUE_DATE"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE_LOCATION" source="ISSUE_LOCATION"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE_LOCATION_ITEM" source="ISSUE_LOCATION_ITEM"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VKORG$VKORG" source="VKORG"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VTWEG$VTWEG" source="VTWEG"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$SPART$SPART" source="SPART"/>
-    </input>
-    <joinAttribute name="JOIN$VKORG$VKORG"/>
-    <joinAttribute name="JOIN$VTWEG$VTWEG"/>
-    <joinAttribute name="JOIN$SPART$SPART"/>
   </calculationView>
   <calculationView xsi:type="Calculation:JoinView" id="Join_2" cardinality="C1_1" joinType="leftOuter">
     <viewAttributes>
@@ -368,7 +308,7 @@
       <viewAttribute hidden="true" id="JOIN$POSNR_DEL$POSNR_DEL"/>
     </viewAttributes>
     <calculatedViewAttributes/>
-    <input node="DeliveryNps_3">
+    <input node="DeliveryNps_2">
       <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="VBELN_DEL" source="VBELN_DEL"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="POSNR_DEL" source="POSNR_DEL"/>
@@ -544,51 +484,59 @@
       <upperLeftCorner x="476" y="528"/>
       <rectangleSize height="30" width="160"/>
     </shape>
-    <shape expanded="true" modelObjectName="SalesOrders" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="282" y="518"/>
-      <rectangleSize height="30" width="160"/>
-    </shape>
     <shape expanded="true" modelObjectName="Issues" modelObjectNameSpace="CalculationView">
       <upperLeftCorner x="706" y="528"/>
       <rectangleSize height="30" width="160"/>
-    </shape>
-  
-    <shape expanded="true" modelObjectName="AuthCheck" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="66" y="518"/>
-      <rectangleSize height="30" width="160"/>
-    </shape>
-    <shape expanded="true" modelObjectName="Join_2" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="609" y="217"/>
-      <rectangleSize height="30" width="160"/>
-    </shape>
-    <shape modelObjectName="DeliveryNps_3" modelObjectNameSpace="Join_2" modelObjectType="JoinNodeInput">
-      <upperLeftCorner x="20" y="30"/>
-      <rectangleSize width="250"/>
-    </shape><shape><upperLeftCorner/><rectangleSize/></shape>
-    <shape modelObjectName="DelTranslations" modelObjectNameSpace="Join_2" modelObjectType="JoinNodeInput">
-      <upperLeftCorner x="16" y="16"/>
-      <rectangleSize width="212"/>
     </shape>
   
     <shape expanded="true" modelObjectName="DeliveryNps" modelObjectNameSpace="CalculationView">
       <upperLeftCorner x="318" y="356"/>
       <rectangleSize height="30" width="160"/>
     </shape>
-    <shape modelObjectName="AuthCheck" modelObjectNameSpace="DeliveryNps" modelObjectType="JoinNodeInput" multiJoinViewNodeName="DeliveryNps">
-      <upperLeftCorner x="16" y="176"/>
-      <rectangleSize width="127"/>
-    </shape>
-    <shape modelObjectName="SalesOrders" modelObjectNameSpace="DeliveryNps" modelObjectType="JoinNodeInput" multiJoinViewNodeName="DeliveryNps">
-      <upperLeftCorner x="207" y="128"/>
-      <rectangleSize width="163"/>
-    </shape>
     <shape modelObjectName="Issues" modelObjectNameSpace="DeliveryNps" modelObjectType="JoinNodeInput" multiJoinViewNodeName="DeliveryNps">
-      <upperLeftCorner x="680" y="128"/>
-      <rectangleSize width="212"/>
+      <upperLeftCorner x="554.98681640625" y="12"/>
+      <rectangleSize width="212.93505859375"/>
     </shape>
     <shape modelObjectName="DeliveryDetails" modelObjectNameSpace="DeliveryNps" modelObjectType="JoinNodeInput" multiJoinViewNodeName="DeliveryNps">
-      <upperLeftCorner x="434" y="16"/>
-      <rectangleSize width="181"/>
-    </shape></shapes>
+      <upperLeftCorner x="225.0107421875" y="12"/>
+      <rectangleSize width="181.97607421875"/>
+    </shape>
+    <shape modelObjectName="SalesOrders" modelObjectNameSpace="DeliveryNps" modelObjectType="JoinNodeInput" multiJoinViewNodeName="DeliveryNps">
+      <upperLeftCorner x="-140" y="24"/>
+      <rectangleSize width="163.0107421875"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Join_2" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="609" y="217"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="DeliveryNps_2" modelObjectNameSpace="Join_2" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="16" y="16"/>
+      <rectangleSize width="212"/>
+    </shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape>
+    <shape modelObjectName="DelTranslations" modelObjectNameSpace="Join_2" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="292" y="208"/>
+      <rectangleSize width="197"/>
+    </shape>
+    <shape expanded="true" modelObjectName="SalesOrderDetails" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="-43" y="669"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="AuthCheck" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="248" y="669"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="SalesOrders" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="117" y="543"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="SalesOrderDetails" modelObjectNameSpace="SalesOrders" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="16" y="16"/>
+      <rectangleSize width="167.388671875"/>
+    </shape>
+    <shape modelObjectName="AuthCheck" modelObjectNameSpace="SalesOrders" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="315.388671875" y="74"/>
+      <rectangleSize width="127.5615234375"/>
+    </shape>
+  </shapes>
 </layout>
 </Calculation:scenario>

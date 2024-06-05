@@ -205,6 +205,22 @@ class openOrdersSrv extends cds.ApplicationService {
                     item.id = uuid.v1()  
                 })
             }
+        });
+
+        this.on("READ","dueDateLimit", async (req,next)=>{
+            const db = cds.transaction(req);
+            const result = await db.run(req.query)
+            return result
+        })
+        this.on("CREATE", "dueDateLimit", async ( req) => {
+            const { dueDateLimit } = cds.entities('openOrdersSrv');
+            debugger;
+            let entryExist = await SELECT('dayLimit').from(dueDateLimit).where({ userId: req.query.INSERT.entries[0].userId })
+            if (entryExist.length != 0)
+                await UPDATE(dueDateLimit).set({ dayLimit: req.query.INSERT.entries[0].dayLimit }).where({ userId: req.query.INSERT.entries[0].userId });
+            else
+                await INSERT.into(dueDateLimit).entries({ userId: req.query.INSERT.entries[0].userId, dayLimit: req.query.INSERT.entries[0].dayLimit })
+ 
         })
 
         /**
@@ -253,7 +269,9 @@ class openOrdersSrv extends cds.ApplicationService {
                 "TM_DPTEN",
                 "TM_DATEN",
                 "SO_F_LDDAT",
-                "TM_AR_DATE"]
+                "TM_AR_DATE",
+                "SO_F_DGLTP",
+                "SO_DUE_DATE"]
             for (let i = 0; i < req.query.SELECT.where?.length; i++) {
                 const item = req.query.SELECT.where[i];
                 if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
@@ -380,7 +398,9 @@ class openOrdersSrv extends cds.ApplicationService {
                 "TM_DPTEN",
                 "TM_DATEN",
                 "SO_F_LDDAT",
-                "TM_AR_DATE"]
+                "TM_AR_DATE",
+                "SO_F_DGLTP",
+                "SO_DUE_DATE"]
                 data.forEach((item) => {
                     item.id = uuid.v1()
                     dateProps.forEach((property) => {
