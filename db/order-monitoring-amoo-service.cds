@@ -1,4 +1,5 @@
 namespace openorders.db;
+using { User } from '@sap/cds/common';
 @cds.persistence.exists
 entity ![OPENORDERSLIST]{
         MANDT  : String(3)  ;
@@ -242,4 +243,8 @@ entity ReasonComments {
         key OrderItem: String(6);
         key ReasonBucket:String(2);
         ReasonCode: String(2);
+}
+entity ![DUE_DATE_LIMIT] {
+        userId   : User;
+        dayLimit : Integer;
 }

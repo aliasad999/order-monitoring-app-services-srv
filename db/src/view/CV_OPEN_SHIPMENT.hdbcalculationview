@@ -1,0 +1,711 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="CV_OPEN_SHIPMENT" applyPrivilegeType="NONE" dataCategory="DIMENSION" dimensionType="STANDARD" schemaVersion="3.0" hierarchyGeneration="SQL" outputViewType="Projection" cacheInvalidationPeriod="NONE" enforceSqlExecution="true" application="BAS">
+<descriptions defaultDescription="CV_OPEN_SHIPMENT"/>
+<localVariables>
+  <variable id="IP_LANG" parameter="true">
+    <descriptions defaultDescription=""/>
+    <variableProperties mandatory="false" defaultValue="">
+      <valueDomain type="empty"/>
+      <selection multiLine="false" type="SingleValue"/>
+      <derivationRule>
+        <resourceUri>SF_USER_LANG_KEY</resourceUri>
+      </derivationRule>
+    </variableProperties>
+  </variable>
+
+  <variable id="APPLICATIONUSER" type="session"/>
+</localVariables>
+<variableMappings/>
+<dataSources>
+  <DataSource id="ST_SHIPMENT_DETAILS">
+    <resourceUri>ST_SHIPMENT_DETAILS</resourceUri>
+  </DataSource>
+  <DataSource id="ST_SHIP_DET_TRANSLATIONS">
+    <resourceUri>ST_SHIP_DET_TRANSLATIONS</resourceUri>
+  </DataSource>
+  <DataSource id="ST_TM_ISSUES">
+    <resourceUri>ST_TM_ISSUES</resourceUri>
+  </DataSource>
+  <DataSource id="ALLORDERS_DB_VBAKAUTH">
+    <resourceUri>ALLORDERS_DB_VBAKAUTH</resourceUri>
+  </DataSource>
+  <DataSource id="ST_SALESORDER_DETAILS">
+    <resourceUri>ST_SALESORDER_DETAILS</resourceUri>
+  </DataSource>
+  <DataSource id="ST_DELIVERY_DETAILS">
+    <resourceUri>ST_DELIVERY_DETAILS</resourceUri>
+  </DataSource>
+</dataSources>
+<snapshotProcedures/>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="ShipmentDetails" filterExpressionLanguage="SQL">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="VBELN_DEL"/>
+      <viewAttribute id="TKNUM"/>
+      <viewAttribute id="VSART"/>
+      <viewAttribute id="EXTI1"/>
+      <viewAttribute id="DPTBG"/>
+      <viewAttribute id="DATBG"/>
+      <viewAttribute id="DPTEN"/>
+      <viewAttribute id="DATEN"/>
+      <viewAttribute id="TDLNR"/>
+      <viewAttribute id="TDLNR_NAME1"/>
+      <viewAttribute id="STATUS_CODE_ELEM"/>
+      <viewAttribute id="STATUS_REASON_CODE_ELEM"/>
+      <viewAttribute id="STATUS_CODE_TEXT_ELEM"/>
+      <viewAttribute id="STATUS_REASON_CODE_TEXT_ELEM"/>
+      <viewAttribute id="TRACKING_ID_ELEM"/>
+      <viewAttribute id="ALERT_STATUS_CODE_ELEM"/>
+      <viewAttribute id="ALERT_STATUS_REASON_CODE_ELEM"/>
+      <viewAttribute id="ALERT_STATUS_CODE_TEXT_ELEM"/>
+      <viewAttribute id="ALERT_STATUS_REASON_CODE_TEXT_ELEM"/>
+      <viewAttribute id="STATUS_CODE_COMP"/>
+      <viewAttribute id="REASON_CODE_COMP"/>
+      <viewAttribute id="STATUS_CODE_TEXT_COMP"/>
+      <viewAttribute id="REASON_CODE_TEXT_COMP"/>
+      <viewAttribute id="TRACKING_ID_COMP"/>
+      <viewAttribute id="STATUS_CODE_MANUEL"/>
+      <viewAttribute id="STTRG"/>
+      <viewAttribute id="AR_DATE"/>
+      <viewAttribute id="LAUFK"/>
+      <viewAttribute id="TM_LAST_UPDATE"/>
+      <viewAttribute id="VBTYP"/>
+      <viewAttribute id="STATUS_DATE_ELEM"/>
+      <viewAttribute id="STATUS_DATE_COMP"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="ST_SHIPMENT_DETAILS"/>
+    <filter>&quot;LAUFK&quot; = '2' OR &quot;LAUFK&quot; = '4'</filter>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="ShipmentTranslations" filterExpressionLanguage="SQL">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="VBELN_DEL"/>
+      <viewAttribute id="TKNUM"/>
+      <viewAttribute id="SPRAS_EXT"/>
+      <viewAttribute id="VSART_BEZEI_LANG"/>
+      <viewAttribute id="STTRG_DDTEXT_LANG"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="ST_SHIP_DET_TRANSLATIONS"/>
+    <filter>&quot;SPRAS_EXT&quot; = '$$IP_LANG$$'</filter>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="ShipmentIssues">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="VBELN_DEL"/>
+      <viewAttribute id="TKNUM"/>
+      <viewAttribute id="NPS"/>
+      <viewAttribute id="ISSUE"/>
+      <viewAttribute id="DUE_DATE"/>
+      <viewAttribute id="ISSUE_LOCATION"/>
+      <viewAttribute id="ISSUE_LOCATION_ITEM"/>
+      <viewAttribute id="DOCUMENT_TYPE"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="ST_TM_ISSUES"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="AuthCheck" filterExpressionLanguage="SQL">
+    <viewAttributes>
+      <viewAttribute id="VKORG"/>
+      <viewAttribute id="VTWEG"/>
+      <viewAttribute id="SPART"/>
+      <viewAttribute id="USERID"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="ALLORDERS_DB_VBAKAUTH"/>
+    <filter>&quot;USERID&quot; = '??APPLICATIONUSER??'</filter>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="SalesOrderDetails">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="FIRST_SO"/>
+      <viewAttribute id="FIRST_POSNR"/>
+      <viewAttribute id="VKORG"/>
+      <viewAttribute id="VTWEG"/>
+      <viewAttribute id="SPART"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="ST_SALESORDER_DETAILS"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="DeliveryDetails">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="VBELN_DEL"/>
+      <viewAttribute id="FIRST_SO"/>
+      <viewAttribute id="FIRST_POSNR"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="ST_DELIVERY_DETAILS"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_2_1" cardinality="C1_N" joinType="inner" multiJoinNode="Join_2" multiJoinCentralTable="AuthCheck" multiJoinOrder="Outside In">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="VBELN_DEL"/>
+      <viewAttribute id="VKORG"/>
+      <viewAttribute id="VTWEG"/>
+      <viewAttribute id="SPART"/>
+      <viewAttribute hidden="true" id="JOIN$FIRST_SO$FIRST_SO"/>
+      <viewAttribute hidden="true" id="JOIN$FIRST_POSNR$FIRST_POSNR"/>
+      <viewAttribute hidden="true" id="JOIN$MANDT$MANDT"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="SalesOrderDetails">
+      <mapping xsi:type="Calculation:AttributeMapping" target="VKORG" source="VKORG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VTWEG" source="VTWEG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SPART" source="SPART"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$FIRST_SO$FIRST_SO" source="FIRST_SO"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$FIRST_POSNR$FIRST_POSNR" source="FIRST_POSNR"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MANDT$MANDT" source="MANDT"/>
+    </input>
+    <input node="DeliveryDetails">
+      <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VBELN_DEL" source="VBELN_DEL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$FIRST_SO$FIRST_SO" source="FIRST_SO"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$FIRST_POSNR$FIRST_POSNR" source="FIRST_POSNR"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MANDT$MANDT" source="MANDT"/>
+    </input>
+    <joinAttribute name="JOIN$FIRST_SO$FIRST_SO"/>
+    <joinAttribute name="JOIN$FIRST_POSNR$FIRST_POSNR"/>
+    <joinAttribute name="JOIN$MANDT$MANDT"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_2_2" cardinality="C1_N" joinType="inner" multiJoinNode="Join_2" multiJoinCentralTable="AuthCheck" multiJoinOrder="Outside In">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="VBELN_DEL"/>
+      <viewAttribute hidden="true" id="JOIN$VKORG$VKORG"/>
+      <viewAttribute hidden="true" id="JOIN$VTWEG$VTWEG"/>
+      <viewAttribute hidden="true" id="JOIN$SPART$SPART"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="AuthCheck">
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VKORG$VKORG" source="VKORG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VTWEG$VTWEG" source="VTWEG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$SPART$SPART" source="SPART"/>
+    </input>
+    <input node="Join_2_1">
+      <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VBELN_DEL" source="VBELN_DEL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VKORG$VKORG" source="VKORG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VTWEG$VTWEG" source="VTWEG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$SPART$SPART" source="SPART"/>
+    </input>
+    <joinAttribute name="JOIN$VKORG$VKORG"/>
+    <joinAttribute name="JOIN$VTWEG$VTWEG"/>
+    <joinAttribute name="JOIN$SPART$SPART"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_1_1" cardinality="CN_N" joinType="inner" multiJoinNode="Join_1" multiJoinCentralTable="ShipmentDetails" multiJoinOrder="Outside In">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="VBELN_DEL"/>
+      <viewAttribute id="TKNUM"/>
+      <viewAttribute id="VSART"/>
+      <viewAttribute id="EXTI1"/>
+      <viewAttribute id="DPTBG"/>
+      <viewAttribute id="DATBG"/>
+      <viewAttribute id="DPTEN"/>
+      <viewAttribute id="DATEN"/>
+      <viewAttribute id="TDLNR"/>
+      <viewAttribute id="TDLNR_NAME1"/>
+      <viewAttribute id="STATUS_CODE_ELEM"/>
+      <viewAttribute id="STATUS_REASON_CODE_ELEM"/>
+      <viewAttribute id="STATUS_CODE_TEXT_ELEM"/>
+      <viewAttribute id="STATUS_REASON_CODE_TEXT_ELEM"/>
+      <viewAttribute id="TRACKING_ID_ELEM"/>
+      <viewAttribute id="ALERT_STATUS_CODE_ELEM"/>
+      <viewAttribute id="ALERT_STATUS_REASON_CODE_ELEM"/>
+      <viewAttribute id="ALERT_STATUS_CODE_TEXT_ELEM"/>
+      <viewAttribute id="ALERT_STATUS_REASON_CODE_TEXT_ELEM"/>
+      <viewAttribute id="STATUS_CODE_COMP"/>
+      <viewAttribute id="REASON_CODE_COMP"/>
+      <viewAttribute id="STATUS_CODE_TEXT_COMP"/>
+      <viewAttribute id="REASON_CODE_TEXT_COMP"/>
+      <viewAttribute id="TRACKING_ID_COMP"/>
+      <viewAttribute id="STATUS_CODE_MANUEL"/>
+      <viewAttribute id="STTRG"/>
+      <viewAttribute id="AR_DATE"/>
+      <viewAttribute id="LAUFK"/>
+      <viewAttribute id="VBTYP"/>
+      <viewAttribute id="STATUS_DATE_ELEM"/>
+      <viewAttribute id="STATUS_DATE_COMP"/>
+      <viewAttribute hidden="true" id="JOIN$MANDT$MANDT"/>
+      <viewAttribute hidden="true" id="JOIN$VBELN_DEL$VBELN_DEL"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="ShipmentDetails">
+      <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VBELN_DEL" source="VBELN_DEL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TKNUM" source="TKNUM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VSART" source="VSART"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="EXTI1" source="EXTI1"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DPTBG" source="DPTBG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DATBG" source="DATBG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DPTEN" source="DPTEN"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DATEN" source="DATEN"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TDLNR" source="TDLNR"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TDLNR_NAME1" source="TDLNR_NAME1"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_CODE_ELEM" source="STATUS_CODE_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_REASON_CODE_ELEM" source="STATUS_REASON_CODE_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_CODE_TEXT_ELEM" source="STATUS_CODE_TEXT_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_REASON_CODE_TEXT_ELEM" source="STATUS_REASON_CODE_TEXT_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TRACKING_ID_ELEM" source="TRACKING_ID_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALERT_STATUS_CODE_ELEM" source="ALERT_STATUS_CODE_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALERT_STATUS_REASON_CODE_ELEM" source="ALERT_STATUS_REASON_CODE_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALERT_STATUS_CODE_TEXT_ELEM" source="ALERT_STATUS_CODE_TEXT_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALERT_STATUS_REASON_CODE_TEXT_ELEM" source="ALERT_STATUS_REASON_CODE_TEXT_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_CODE_COMP" source="STATUS_CODE_COMP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REASON_CODE_COMP" source="REASON_CODE_COMP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_CODE_TEXT_COMP" source="STATUS_CODE_TEXT_COMP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REASON_CODE_TEXT_COMP" source="REASON_CODE_TEXT_COMP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TRACKING_ID_COMP" source="TRACKING_ID_COMP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_CODE_MANUEL" source="STATUS_CODE_MANUEL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STTRG" source="STTRG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="AR_DATE" source="AR_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LAUFK" source="LAUFK"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VBTYP" source="VBTYP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_DATE_ELEM" source="STATUS_DATE_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_DATE_COMP" source="STATUS_DATE_COMP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MANDT$MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VBELN_DEL$VBELN_DEL" source="VBELN_DEL"/>
+    </input>
+    <input node="Join_2_2">
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MANDT$MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VBELN_DEL$VBELN_DEL" source="VBELN_DEL"/>
+    </input>
+    <joinAttribute name="JOIN$MANDT$MANDT"/>
+    <joinAttribute name="JOIN$VBELN_DEL$VBELN_DEL"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_1_2" cardinality="C1_N" joinType="inner" multiJoinNode="Join_1" multiJoinCentralTable="ShipmentDetails" multiJoinOrder="Outside In">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="VBELN_DEL"/>
+      <viewAttribute id="TKNUM"/>
+      <viewAttribute id="VSART"/>
+      <viewAttribute id="EXTI1"/>
+      <viewAttribute id="DPTBG"/>
+      <viewAttribute id="DATBG"/>
+      <viewAttribute id="DPTEN"/>
+      <viewAttribute id="DATEN"/>
+      <viewAttribute id="TDLNR"/>
+      <viewAttribute id="TDLNR_NAME1"/>
+      <viewAttribute id="STATUS_CODE_ELEM"/>
+      <viewAttribute id="STATUS_REASON_CODE_ELEM"/>
+      <viewAttribute id="STATUS_CODE_TEXT_ELEM"/>
+      <viewAttribute id="STATUS_REASON_CODE_TEXT_ELEM"/>
+      <viewAttribute id="TRACKING_ID_ELEM"/>
+      <viewAttribute id="ALERT_STATUS_CODE_ELEM"/>
+      <viewAttribute id="ALERT_STATUS_REASON_CODE_ELEM"/>
+      <viewAttribute id="ALERT_STATUS_CODE_TEXT_ELEM"/>
+      <viewAttribute id="ALERT_STATUS_REASON_CODE_TEXT_ELEM"/>
+      <viewAttribute id="STATUS_CODE_COMP"/>
+      <viewAttribute id="REASON_CODE_COMP"/>
+      <viewAttribute id="STATUS_CODE_TEXT_COMP"/>
+      <viewAttribute id="REASON_CODE_TEXT_COMP"/>
+      <viewAttribute id="TRACKING_ID_COMP"/>
+      <viewAttribute id="STATUS_CODE_MANUEL"/>
+      <viewAttribute id="STTRG"/>
+      <viewAttribute id="AR_DATE"/>
+      <viewAttribute id="LAUFK"/>
+      <viewAttribute id="VBTYP"/>
+      <viewAttribute id="STATUS_DATE_ELEM"/>
+      <viewAttribute id="STATUS_DATE_COMP"/>
+      <viewAttribute id="NPS"/>
+      <viewAttribute id="ISSUE"/>
+      <viewAttribute id="DUE_DATE"/>
+      <viewAttribute id="ISSUE_LOCATION"/>
+      <viewAttribute id="ISSUE_LOCATION_ITEM"/>
+      <viewAttribute hidden="true" id="JOIN$MANDT$MANDT"/>
+      <viewAttribute hidden="true" id="JOIN$TKNUM$TKNUM"/>
+      <viewAttribute hidden="true" id="JOIN$VBELN_DEL$VBELN_DEL"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Join_1_1">
+      <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VBELN_DEL" source="VBELN_DEL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TKNUM" source="TKNUM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VSART" source="VSART"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="EXTI1" source="EXTI1"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DPTBG" source="DPTBG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DATBG" source="DATBG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DPTEN" source="DPTEN"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DATEN" source="DATEN"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TDLNR" source="TDLNR"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TDLNR_NAME1" source="TDLNR_NAME1"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_CODE_ELEM" source="STATUS_CODE_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_REASON_CODE_ELEM" source="STATUS_REASON_CODE_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_CODE_TEXT_ELEM" source="STATUS_CODE_TEXT_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_REASON_CODE_TEXT_ELEM" source="STATUS_REASON_CODE_TEXT_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TRACKING_ID_ELEM" source="TRACKING_ID_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALERT_STATUS_CODE_ELEM" source="ALERT_STATUS_CODE_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALERT_STATUS_REASON_CODE_ELEM" source="ALERT_STATUS_REASON_CODE_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALERT_STATUS_CODE_TEXT_ELEM" source="ALERT_STATUS_CODE_TEXT_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALERT_STATUS_REASON_CODE_TEXT_ELEM" source="ALERT_STATUS_REASON_CODE_TEXT_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_CODE_COMP" source="STATUS_CODE_COMP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REASON_CODE_COMP" source="REASON_CODE_COMP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_CODE_TEXT_COMP" source="STATUS_CODE_TEXT_COMP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REASON_CODE_TEXT_COMP" source="REASON_CODE_TEXT_COMP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TRACKING_ID_COMP" source="TRACKING_ID_COMP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_CODE_MANUEL" source="STATUS_CODE_MANUEL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STTRG" source="STTRG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="AR_DATE" source="AR_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LAUFK" source="LAUFK"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VBTYP" source="VBTYP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_DATE_ELEM" source="STATUS_DATE_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_DATE_COMP" source="STATUS_DATE_COMP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MANDT$MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$TKNUM$TKNUM" source="TKNUM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VBELN_DEL$VBELN_DEL" source="VBELN_DEL"/>
+    </input>
+    <input node="ShipmentIssues">
+      <mapping xsi:type="Calculation:AttributeMapping" target="NPS" source="NPS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE" source="ISSUE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DUE_DATE" source="DUE_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE_LOCATION" source="ISSUE_LOCATION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE_LOCATION_ITEM" source="ISSUE_LOCATION_ITEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MANDT$MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$TKNUM$TKNUM" source="TKNUM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VBELN_DEL$VBELN_DEL" source="VBELN_DEL"/>
+    </input>
+    <joinAttribute name="JOIN$MANDT$MANDT"/>
+    <joinAttribute name="JOIN$TKNUM$TKNUM"/>
+    <joinAttribute name="JOIN$VBELN_DEL$VBELN_DEL"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_1_3" cardinality="C1_1" joinType="leftOuter" multiJoinNode="Join_1" multiJoinCentralTable="ShipmentDetails" multiJoinOrder="Outside In">
+    <viewAttributes>
+      <viewAttribute id="MANDT"/>
+      <viewAttribute id="VBELN_DEL"/>
+      <viewAttribute id="TKNUM"/>
+      <viewAttribute id="VSART"/>
+      <viewAttribute id="EXTI1"/>
+      <viewAttribute id="DPTBG"/>
+      <viewAttribute id="DATBG"/>
+      <viewAttribute id="DPTEN"/>
+      <viewAttribute id="DATEN"/>
+      <viewAttribute id="TDLNR"/>
+      <viewAttribute id="TDLNR_NAME1"/>
+      <viewAttribute id="STATUS_CODE_ELEM"/>
+      <viewAttribute id="STATUS_REASON_CODE_ELEM"/>
+      <viewAttribute id="STATUS_CODE_TEXT_ELEM"/>
+      <viewAttribute id="STATUS_REASON_CODE_TEXT_ELEM"/>
+      <viewAttribute id="TRACKING_ID_ELEM"/>
+      <viewAttribute id="ALERT_STATUS_CODE_ELEM"/>
+      <viewAttribute id="ALERT_STATUS_REASON_CODE_ELEM"/>
+      <viewAttribute id="ALERT_STATUS_CODE_TEXT_ELEM"/>
+      <viewAttribute id="ALERT_STATUS_REASON_CODE_TEXT_ELEM"/>
+      <viewAttribute id="STATUS_CODE_COMP"/>
+      <viewAttribute id="REASON_CODE_COMP"/>
+      <viewAttribute id="STATUS_CODE_TEXT_COMP"/>
+      <viewAttribute id="REASON_CODE_TEXT_COMP"/>
+      <viewAttribute id="TRACKING_ID_COMP"/>
+      <viewAttribute id="STATUS_CODE_MANUEL"/>
+      <viewAttribute id="STTRG"/>
+      <viewAttribute id="AR_DATE"/>
+      <viewAttribute id="LAUFK"/>
+      <viewAttribute id="VBTYP"/>
+      <viewAttribute id="STATUS_DATE_ELEM"/>
+      <viewAttribute id="STATUS_DATE_COMP"/>
+      <viewAttribute id="NPS"/>
+      <viewAttribute id="ISSUE"/>
+      <viewAttribute id="DUE_DATE"/>
+      <viewAttribute id="ISSUE_LOCATION"/>
+      <viewAttribute id="ISSUE_LOCATION_ITEM"/>
+      <viewAttribute id="VSART_BEZEI_LANG"/>
+      <viewAttribute id="STTRG_DDTEXT_LANG"/>
+      <viewAttribute hidden="true" id="JOIN$MANDT$MANDT"/>
+      <viewAttribute hidden="true" id="JOIN$VBELN_DEL$VBELN_DEL"/>
+      <viewAttribute hidden="true" id="JOIN$TKNUM$TKNUM"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Join_1_2">
+      <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VBELN_DEL" source="VBELN_DEL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TKNUM" source="TKNUM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VSART" source="VSART"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="EXTI1" source="EXTI1"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DPTBG" source="DPTBG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DATBG" source="DATBG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DPTEN" source="DPTEN"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DATEN" source="DATEN"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TDLNR" source="TDLNR"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TDLNR_NAME1" source="TDLNR_NAME1"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_CODE_ELEM" source="STATUS_CODE_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_REASON_CODE_ELEM" source="STATUS_REASON_CODE_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_CODE_TEXT_ELEM" source="STATUS_CODE_TEXT_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_REASON_CODE_TEXT_ELEM" source="STATUS_REASON_CODE_TEXT_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TRACKING_ID_ELEM" source="TRACKING_ID_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALERT_STATUS_CODE_ELEM" source="ALERT_STATUS_CODE_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALERT_STATUS_REASON_CODE_ELEM" source="ALERT_STATUS_REASON_CODE_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALERT_STATUS_CODE_TEXT_ELEM" source="ALERT_STATUS_CODE_TEXT_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALERT_STATUS_REASON_CODE_TEXT_ELEM" source="ALERT_STATUS_REASON_CODE_TEXT_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_CODE_COMP" source="STATUS_CODE_COMP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REASON_CODE_COMP" source="REASON_CODE_COMP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_CODE_TEXT_COMP" source="STATUS_CODE_TEXT_COMP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REASON_CODE_TEXT_COMP" source="REASON_CODE_TEXT_COMP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TRACKING_ID_COMP" source="TRACKING_ID_COMP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_CODE_MANUEL" source="STATUS_CODE_MANUEL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STTRG" source="STTRG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="AR_DATE" source="AR_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LAUFK" source="LAUFK"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VBTYP" source="VBTYP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_DATE_ELEM" source="STATUS_DATE_ELEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_DATE_COMP" source="STATUS_DATE_COMP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="NPS" source="NPS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE" source="ISSUE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DUE_DATE" source="DUE_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE_LOCATION" source="ISSUE_LOCATION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ISSUE_LOCATION_ITEM" source="ISSUE_LOCATION_ITEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MANDT$MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VBELN_DEL$VBELN_DEL" source="VBELN_DEL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$TKNUM$TKNUM" source="TKNUM"/>
+    </input>
+    <input node="ShipmentTranslations">
+      <mapping xsi:type="Calculation:AttributeMapping" target="VSART_BEZEI_LANG" source="VSART_BEZEI_LANG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STTRG_DDTEXT_LANG" source="STTRG_DDTEXT_LANG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MANDT$MANDT" source="MANDT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$VBELN_DEL$VBELN_DEL" source="VBELN_DEL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$TKNUM$TKNUM" source="TKNUM"/>
+    </input>
+    <joinAttribute name="JOIN$MANDT$MANDT"/>
+    <joinAttribute name="JOIN$VBELN_DEL$VBELN_DEL"/>
+    <joinAttribute name="JOIN$TKNUM$TKNUM"/>
+  </calculationView>
+</calculationViews>
+
+<logicalModel id="Join_1_3">
+  <attributes>
+    <attribute id="MANDT" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="MANDT"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="MANDT"/>
+    </attribute>
+    <attribute id="VBELN_DEL" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="VBELN_DEL"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="VBELN_DEL"/>
+    </attribute>
+    <attribute id="TKNUM" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="TKNUM"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="TKNUM"/>
+    </attribute>
+    <attribute id="VSART" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="VSART"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="VSART"/>
+    </attribute>
+    <attribute id="EXTI1" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="EXTI1"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="EXTI1"/>
+    </attribute>
+    <attribute id="DPTBG" order="6" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DPTBG"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="DPTBG"/>
+    </attribute>
+    <attribute id="DATBG" order="7" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DATBG"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="DATBG"/>
+    </attribute>
+    <attribute id="DPTEN" order="8" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DPTEN"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="DPTEN"/>
+    </attribute>
+    <attribute id="DATEN" order="9" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DATEN"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="DATEN"/>
+    </attribute>
+    <attribute id="TDLNR" order="10" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="TDLNR"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="TDLNR"/>
+    </attribute>
+    <attribute id="TDLNR_NAME1" order="11" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="TDLNR_NAME1"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="TDLNR_NAME1"/>
+    </attribute>
+    <attribute id="STATUS_CODE_ELEM" order="12" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STATUS_CODE_ELEM"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="STATUS_CODE_ELEM"/>
+    </attribute>
+    <attribute id="STATUS_REASON_CODE_ELEM" order="13" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STATUS_REASON_CODE_ELEM"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="STATUS_REASON_CODE_ELEM"/>
+    </attribute>
+    <attribute id="STATUS_CODE_TEXT_ELEM" order="14" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STATUS_CODE_TEXT_ELEM"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="STATUS_CODE_TEXT_ELEM"/>
+    </attribute>
+    <attribute id="STATUS_REASON_CODE_TEXT_ELEM" order="15" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STATUS_REASON_CODE_TEXT_ELEM"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="STATUS_REASON_CODE_TEXT_ELEM"/>
+    </attribute>
+    <attribute id="TRACKING_ID_ELEM" order="16" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="TRACKING_ID_ELEM"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="TRACKING_ID_ELEM"/>
+    </attribute>
+    <attribute id="ALERT_STATUS_CODE_ELEM" order="17" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ALERT_STATUS_CODE_ELEM"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="ALERT_STATUS_CODE_ELEM"/>
+    </attribute>
+    <attribute id="ALERT_STATUS_REASON_CODE_ELEM" order="18" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ALERT_STATUS_REASON_CODE_ELEM"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="ALERT_STATUS_REASON_CODE_ELEM"/>
+    </attribute>
+    <attribute id="ALERT_STATUS_CODE_TEXT_ELEM" order="19" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ALERT_STATUS_CODE_TEXT_ELEM"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="ALERT_STATUS_CODE_TEXT_ELEM"/>
+    </attribute>
+    <attribute id="ALERT_STATUS_REASON_CODE_TEXT_ELEM" order="20" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ALERT_STATUS_REASON_CODE_TEXT_ELEM"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="ALERT_STATUS_REASON_CODE_TEXT_ELEM"/>
+    </attribute>
+    <attribute id="STATUS_CODE_COMP" order="21" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STATUS_CODE_COMP"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="STATUS_CODE_COMP"/>
+    </attribute>
+    <attribute id="REASON_CODE_COMP" order="22" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="REASON_CODE_COMP"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="REASON_CODE_COMP"/>
+    </attribute>
+    <attribute id="STATUS_CODE_TEXT_COMP" order="23" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STATUS_CODE_TEXT_COMP"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="STATUS_CODE_TEXT_COMP"/>
+    </attribute>
+    <attribute id="REASON_CODE_TEXT_COMP" order="24" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="REASON_CODE_TEXT_COMP"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="REASON_CODE_TEXT_COMP"/>
+    </attribute>
+    <attribute id="TRACKING_ID_COMP" order="25" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="TRACKING_ID_COMP"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="TRACKING_ID_COMP"/>
+    </attribute>
+    <attribute id="STATUS_CODE_MANUEL" order="26" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STATUS_CODE_MANUEL"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="STATUS_CODE_MANUEL"/>
+    </attribute>
+    <attribute id="STTRG" order="27" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STTRG"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="STTRG"/>
+    </attribute>
+    <attribute id="AR_DATE" order="28" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="AR_DATE"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="AR_DATE"/>
+    </attribute>
+    <attribute id="LAUFK" order="29" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="LAUFK"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="LAUFK"/>
+    </attribute>
+    <attribute id="VBTYP" order="30" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="VBTYP"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="VBTYP"/>
+    </attribute>
+    <attribute id="STATUS_DATE_ELEM" order="31" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STATUS_DATE_ELEM"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="STATUS_DATE_ELEM"/>
+    </attribute>
+    <attribute id="STATUS_DATE_COMP" order="32" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STATUS_DATE_COMP"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="STATUS_DATE_COMP"/>
+    </attribute>
+    <attribute id="VSART_BEZEI_LANG" order="33" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="VSART_BEZEI_LANG"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="VSART_BEZEI_LANG"/>
+    </attribute>
+    <attribute id="STTRG_DDTEXT_LANG" order="34" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STTRG_DDTEXT_LANG"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="STTRG_DDTEXT_LANG"/>
+    </attribute>
+    <attribute id="NPS" order="35" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="NPS"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="NPS"/>
+    </attribute>
+    <attribute id="ISSUE" order="36" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ISSUE"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="ISSUE"/>
+    </attribute>
+    <attribute id="DUE_DATE" order="37" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DUE_DATE"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="DUE_DATE"/>
+    </attribute>
+    <attribute id="ISSUE_LOCATION" order="38" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ISSUE_LOCATION"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="ISSUE_LOCATION"/>
+    </attribute>
+    <attribute id="ISSUE_LOCATION_ITEM" order="39" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ISSUE_LOCATION_ITEM"/>
+      <keyMapping columnObjectName="Join_1_3" columnName="ISSUE_LOCATION_ITEM"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="672.7774906986996" y="112"/>
+    
+      <rectangleSize width="160"/>
+    </shape>
+    
+  
+    <shape expanded="true" modelObjectName="ShipmentDetails" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="490.1350884761597" y="406.9999988079071"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="ShipmentTranslations" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="910.1350884761596" y="406.9999988079071"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="ShipmentIssues" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="700.1350884761598" y="406.9999988079071"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Join_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="672.7774906986996" y="217"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="ShipmentTranslations" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_1">
+      <upperLeftCorner x="802.841796875" y="22.5"/>
+      <rectangleSize width="209.46533203125"/>
+    </shape>
+    <shape modelObjectName="ShipmentDetails" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_1">
+      <upperLeftCorner x="274.93505859375" y="12"/>
+      <rectangleSize width="329.90673828125"/>
+    </shape>
+    <shape modelObjectName="ShipmentIssues" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_1">
+      <upperLeftCorner x="-144" y="32"/>
+      <rectangleSize width="212.93505859375"/>
+    </shape>
+  
+    <shape modelObjectName="Join_2_2" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_1">
+      <upperLeftCorner x="69" y="-79"/>
+      <rectangleSize width="149.58837890625"/>
+    </shape>
+    <shape expanded="true" modelObjectName="AuthCheck" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="92.00000000000017" y="581.9999976158142"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="SalesOrderDetails" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="512.0000000000002" y="581.9999976158142"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="DeliveryDetails" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="302.0000000000003" y="581.9999976158142"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Join_2" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="132.00000000000028" y="406.9999988079071"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="AuthCheck" modelObjectNameSpace="Join_2" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_2">
+      <upperLeftCorner x="646.3994140625" y="51"/>
+      <rectangleSize width="127.5615234375"/>
+    </shape>
+    <shape modelObjectName="SalesOrderDetails" modelObjectNameSpace="Join_2" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_2">
+      <upperLeftCorner x="225.0107421875" y="12"/>
+      <rectangleSize width="167.388671875"/>
+    </shape>
+    <shape modelObjectName="DeliveryDetails" modelObjectNameSpace="Join_2" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_2">
+      <upperLeftCorner x="-84" y="31"/>
+      <rectangleSize width="163.0107421875"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

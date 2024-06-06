@@ -36,3 +36,5 @@ mta_archives/
 .npmrc
 .env
 .env1
+# auto generated wildcard
+db/.env

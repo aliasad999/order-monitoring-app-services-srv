@@ -23,5 +23,78 @@
         "object": "otc.csc.db.nps.views::CV_OPEN_ORDERLIST_FINAL",
         "schema": "_PLACEHOLDER_"
       }
-    }
+    },
+       "ST_SALESORDER_DETAILS": {
+          "target": {
+           "object": "otc.csc.db.base.tables::ST_SALESORDER_DETAILS",
+           "schema": "_PLACEHOLDER_"
+          }
+         },
+         "ST_SO DET_TRANSLATIONS": {
+          "target": {
+           "object": "otc.csc.db.base.tables::ST_ORDERDETAILS_TRANSLATIONS",
+           "schema": "_PLACEHOLDER_"
+          }
+         },
+         "ST_DELIVERY_DETAILS": {
+          "target": {
+           "object": "otc.csc.db.base.tables::ST_DELIVERY_DETAILS",
+           "schema": "_PLACEHOLDER_"
+          }
+         },
+         "ST_DEL_DET_TRANSLATIONS": {
+          "target": {
+           "object": "otc.csc.db.base.tables::ST_DELIVERYDETAILS_TRANSLATIONS",
+           "schema": "_PLACEHOLDER_"
+          }
+         },
+         "ST_SHIPMENT_DETAILS": {
+          "target": {
+           "object": "otc.csc.db.base.tables::ST_SHIPMENT_DETAILS",
+           "schema": "_PLACEHOLDER_"
+          }
+         },
+         "ST_SHIP_DET_TRANSLATIONS": {
+          "target": {
+           "object": "otc.csc.db.base.tables::ST_SHIPMENTDETAILS_TRANSLATIONS",
+           "schema": "_PLACEHOLDER_"
+          }
+         },
+         "ST_BILLING_DETAILS": {
+          "target": {
+           "object": "otc.csc.db.base.tables::ST_BILLING_DETAILS",
+           "schema": "_PLACEHOLDER_"
+          }
+         },
+         "ST_SO_ISSUES": {
+          "target": {
+           "object": "otc.csc.db.nps.tables::ST_SO_ISSUES",
+           "schema": "_PLACEHOLDER_"
+          }
+         },
+         "ST_DL_ISSUES": {
+          "target": {
+           "object": "otc.csc.db.nps.tables::ST_DL_ISSUES",
+           "schema": "_PLACEHOLDER_"
+          }
+         },
+         "ST_TM_ISSUES": {
+          "target": {
+           "object": "otc.csc.db.nps.tables::ST_TM_ISSUES",
+           "schema": "_PLACEHOLDER_"
+          }
+         },
+         "ST_BL_ISSUES": {
+          "target": {
+           "object": "otc.csc.db.nps.tables::ST_BL_ISSUES",
+           "schema": "_PLACEHOLDER_"
+          }
+         },
+         "DUMMY": {
+          "target": {
+            "object": "DUMMY",
+            "schema": "SYS"
+          }
+        }
+      
 }
