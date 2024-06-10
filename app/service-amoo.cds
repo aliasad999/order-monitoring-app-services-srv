@@ -322,7 +322,7 @@ annotate service.allIssues with {
     @Common.TextArrangement: #TextLast
     SO_LAND1;
     @Common.TextFor
-    SO_LANDX;
+    SO_LANDX; 
     SO_VBELN                    @title: '{i18n>SO_VBELN}'                    @sap.Label: '{i18n>SO_VBELN}';
     SO_POSNR                    @title: '{i18n>SO_POSNR}'                    @sap.Label: '{i18n>SO_POSNR}';
     SO_ERDAT_ORDER              @title: '{i18n>SO_ERDAT_ORDER}'              @sap.Label: '{i18n>SO_ERDAT_ORDER}';
@@ -534,6 +534,9 @@ annotate service.allIssues with {
     SO_ABGRU;
     @Common.TextFor
     SO_ABGRU_BEZEI;
+    criticalityDueDate   @title: '{i18n>dueDateCriticality}'        @sap.Label: '{i18n>dueDateCriticality}' ;
+    SO_DUE_DATE          @title: '{i18n>so_due_date}'               @sap.Label: '{i18n>so_due_date}' ;
+    
 
 }
 
@@ -554,6 +557,7 @@ annotate service.allIssues with {
     DL_LFIMG                  @Measures.Unit          : DL_VRKME;
     DL_VRKME                  @Semantics.unitOfMeasure: 'unit-of-measure';
     DL_PEND_DEL_QUAN          @Measures.Unit          : DL_VRKME;
+    criticalityDueDate        @UI                     : {Hidden: true};
     SO_CO_PARTNER_NAME        @UI                     : {Hidden: true};
     SO_NY_PARTNER_NAME        @UI                     : {Hidden: true};
     SO_AS_PARTNER_NAME        @UI                     : {Hidden: true};
@@ -845,6 +849,7 @@ annotate service.salesorder_nps with {
     DL_LFIMG                  @Measures.Unit          : DL_VRKME;
     DL_VRKME                  @Semantics.unitOfMeasure: 'unit-of-measure';
     DL_PEND_DEL_QUAN          @Measures.Unit          : DL_VRKME;
+    criticalityDueDate        @UI                     : {Hidden: true};
     SO_CO_PARTNER_NAME        @UI                     : {Hidden: true};
     SO_NY_PARTNER_NAME        @UI                     : {Hidden: true};
     SO_AS_PARTNER_NAME        @UI                     : {Hidden: true};
