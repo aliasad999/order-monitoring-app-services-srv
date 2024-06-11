@@ -244,6 +244,7 @@ service openOrdersSrv {
     entity salesorder_nps as select * from baseEntity ;
 
     entity issueDetailsContacts as select * from db_app.Contacts; 
+    entity Services as select * from db_app.Services; 
 
     entity FollowUpNotes as select * from db_app.FollowUpNotes;
     entity ReasonComments as select * from db_app.ReasonComments;

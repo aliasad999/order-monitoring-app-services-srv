@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@cap-js/sqlite": "1.5.0",
-    "@sap/hdi-deploy": "4.9.2",
+    "@sap/hdi-deploy": "4.9.5",
     "axios": "^1.6.7",
     "chai": "^4.4.1",
     "chai-as-promised": "^7.1.1",
@@ -37,7 +37,7 @@
     "sqlite3": "^5"
   },
   "scripts": {
-    "bind": "cds bind -2  order-monitoring-xsuaa:order-monitoring-xsuaa-key && cds bind -2  order-monitoring-destination:order-monitoring-destination-content-order-monitoring-destination-credentials &&  cds bind -2  order-monitoring-app-services-hdi:hana-key &&    cds bind -2  order-monitoring-connectivity:con-key",
+    "bind": "cds bind -2  order-monitoring-xsuaa:order-monitoring-xsuaa-key && cds bind -2  order-monitoring-destination:order-monitoring-destination-content-order-monitoring-destination-credentials &&  cds bind -2  order-monitoring-app-services-hdi:SharedDevKey &&    cds bind -2  order-monitoring-connectivity:con-key",
     "start": "node ${NODE_ARGS} ./node_modules/@sap/cds/bin/cds-serve",
     "test": "mocha srv/tests/test.js --timeout 150000 --exit",
     "test-amoo": "mocha srv/tests/test-amoo.js --timeout 150000 --exit",
@@ -83,6 +83,13 @@
         "credentials": {
           "destination": "PersonalizationService",
           "path": "/it/omg/so_fulfillment/v1"
+        }
+      },
+      "servicesService": {
+        "kind": "odata",
+        "credentials": {
+          "destination": "PersonalizationService",
+          "path": "/it/omg/dsl_services"
         }
       }
     }

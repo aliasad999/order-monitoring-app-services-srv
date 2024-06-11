@@ -14,24 +14,46 @@ class openOrdersSrv extends cds.ApplicationService {
         this.on("READ", "issueDetailsContacts", async (req, next) => { 
             let lt_contacts = [];
             try {
-                // let contactsQuery = SELECT.from('ContactSet').limit(req.query.SELECT.limit);
-                // if(req.query.SELECT.where){
-                //     contactsQuery.where(req.query.SELECT.where);
-                // }
-                // if(req.query.SELECT.orderBy){
-                //     contactsQuery.orderBy(req.query.SELECT.orderBy);
-                // }
-                const apiManagementService = await cds.connect.to('apiManagementOdataServices');
-                lt_contacts = await apiManagementService.get("/ContactSet");
-                // lt_contacts = await apiManagementService.tx(req).send({
-                //     query: contactsQuery
-                // });
+                let contactsQuery = SELECT.from('ContactSet').limit(req.query.SELECT.limit);
+                if(req.query.SELECT.where){
+                    contactsQuery.where(req.query.SELECT.where);
+                }
+                if(req.query.SELECT.orderBy){
+                    contactsQuery.orderBy(req.query.SELECT.orderBy);
+                }
+                const apiManagementService = await cds.connect.to('contactsService');
+                // lt_contacts = await apiManagementService.get("/ContactSet?$filter=SapClient eq '100' and SalesDocument eq '0005508482' and OrderItem eq '000010'");
+                lt_contacts = await apiManagementService.tx(req).send({
+                    query: contactsQuery
+                });
             } catch (error) {
                 // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
                 req.error(413, error)
             }
 
             return lt_contacts;
+        });
+
+        this.on("READ", "Services", async (req, next) => { 
+            let lt_services = [];
+            try {
+                let contactsQuery = SELECT.from('ServicesSet').limit(req.query.SELECT.limit);
+                if(req.query.SELECT.where){
+                    contactsQuery.where(req.query.SELECT.where);
+                }
+                if(req.query.SELECT.orderBy){
+                    contactsQuery.orderBy(req.query.SELECT.orderBy);
+                }
+                const apiManagementService = await cds.connect.to('servicesService');
+                // lt_contacts = await apiManagementService.get("/ContactSet?$filter=SapClient eq '100' and SalesDocument eq '0005508482' and OrderItem eq '000010'");
+                lt_services = await apiManagementService.tx(req).send({
+                    query: contactsQuery
+                });
+            } catch (error) {
+                req.error(413, error)
+            }
+
+            return lt_services;
         });
 
         this.on("getVBAKAuthObjKeys", async req => {
