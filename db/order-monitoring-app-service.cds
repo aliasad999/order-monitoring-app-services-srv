@@ -198,9 +198,11 @@ entity ![RESULTS] {
         AR_DATE                            : String(8);
         TM_AR_DATE_DATE                    : Date = AR_DATE;
         STTRG                              : String(1);
-        STTRG_DDTEXT_LANG               : String(60);
-        BL_VBELN_INV_FIRST                    : String(10);
-        BL_VBELN_INV_LAST                     : String(10);
+        STTRG_DDTEXT_LANG                  : String(60);
+        BL_VBELN_INV_FIRST                 : String(10);
+        BL_POSNR_INV_FIRST                 : String(6);
+        BL_VBELN_INV_LAST                  : String(10);
+        BL_POSNR_INV_LAST                  : String(6);
         XBLNR                              : String(16);
         MANDT_DEL                          : String(3);
         TM_MANDT                           : String(3);
