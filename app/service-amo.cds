@@ -117,7 +117,9 @@ annotate service.valueHelps with {
     SO_VBTYP                    @title: '{i18n>SO_VBTYP}'                    @sap.Label: '{i18n>SO_VBTYP}';
     SO_BSTKD                    @title: '{i18n>SO_BSTKD}'                    @sap.Label: '{i18n>SO_BSTKD}';
     BL_VBELN_INV_FIRST          @title: '{i18n>BL_VBELN_INV_FIRST}'          @sap.Label: '{i18n>BL_VBELN_INV_FIRST}'  @Common.IsDigitSequence: true;
+    BL_POSNR_INV_FIRST          @title: '{i18n>BL_POSNR_INV_FIRST}'          @sap.Label: '{i18n>BL_POSNR_INV_FIRST}'  @Common.IsDigitSequence: true;
     BL_VBELN_INV_LAST           @title: '{i18n>BL_VBELN_INV_LAST}'           @sap.Label: '{i18n>BL_VBELN_INV_LAST}'   @Common.IsDigitSequence: true;
+    BL_POSNR_INV_LAST          @title: '{i18n>BL_POSNR_INV_LAST}'          @sap.Label: '{i18n>BL_POSNR_INV_LAST}'  @Common.IsDigitSequence: true;
     BL_XBLNR                    @title: '{i18n>BL_XBLNR}'                    @sap.Label: '{i18n>BL_XBLNR}';
     SO_TRAGR                    @title: '{i18n>SO_TRAGR}'                    @sap.Label: '{i18n>SO_TRAGR}'            @Common.IsDigitSequence: true;
     SO_TRAGR_VTEXT              @title: '{i18n>SO_TRAGR_VTEXT}'              @sap.Label: '{i18n>SO_TRAGR_VTEXT}' ; 
@@ -317,7 +319,9 @@ annotate service.Results with {
     SO_VBTYP                    @title: '{i18n>SO_VBTYP}'                    @sap.Label: '{i18n>SO_VBTYP}';
     SO_BSTKD                    @title: '{i18n>SO_BSTKD}'                    @sap.Label: '{i18n>SO_BSTKD}';
     BL_VBELN_INV_FIRST          @title: '{i18n>BL_VBELN_INV_FIRST}'          @sap.Label: '{i18n>BL_VBELN_INV_FIRST}';
-    BL_VBELN_INV_LAST           @title: '{i18n>BL_VBELN_INV_LAST}'           @sap.Label: '{i18n>BL_VBELN_INV_LAST}';
+    BL_POSNR_INV_FIRST          @title: '{i18n>BL_POSNR_INV_FIRST}'          @sap.Label: '{i18n>BL_POSNR_INV_FIRST}';
+    BL_VBELN_INV_LAST           @title: '{i18n>BL_VBELN_INV_LAST}'           @sap.Label: '{i18n>BL_VBELN_INV_LAST}' ;  
+    BL_POSNR_INV_LAST          @title: '{i18n>BL_POSNR_INV_LAST}'          @sap.Label: '{i18n>BL_POSNR_INV_LAST}'  ;
     BL_XBLNR                    @title: '{i18n>BL_XBLNR}'                    @sap.Label: '{i18n>BL_XBLNR}';
     @Common.Text           : SO_TRAGR_VTEXT
     @Common.TextArrangement: #TextLast
@@ -1886,7 +1890,24 @@ annotate service.Results with {
     }
     @Common.IsDigitSequence: true
 };
+annotate service.Results with {
+    BL_POSNR_INV_FIRST
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_POSNR_INV_FIRST}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: BL_POSNR_INV_FIRST,
+            ValueListProperty: 'BL_POSNR_INV_FIRST'
+        }
 
+        ]
+    }
+    @Common.IsDigitSequence: true
+};
 annotate service.Results with {
     BL_VBELN_INV_LAST
     @Common.ValueList      : {
@@ -1899,6 +1920,24 @@ annotate service.Results with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: BL_VBELN_INV_LAST,
             ValueListProperty: 'BL_VBELN_INV_LAST'
+        }
+
+        ]
+    }
+    @Common.IsDigitSequence: true
+};
+annotate service.Results with {
+    BL_POSNR_INV_LAST
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_POSNR_INV_LAST}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: BL_POSNR_INV_LAST,
+            ValueListProperty: 'BL_POSNR_INV_LAST'
         }
 
         ]
