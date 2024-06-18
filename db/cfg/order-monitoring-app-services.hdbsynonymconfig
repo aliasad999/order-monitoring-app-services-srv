@@ -22,5 +22,11 @@
       "object": "otc.csc.db.nps.views::CV_OPEN_ORDERLIST_FINAL",
       "schema.configure": "otc-csc-hdi/schema"
     }
+  },
+  "OPENORDERS_DB_SALESORDER_DETAILS": {
+    "target": {
+      "object": "otc.csc.db.generic_service.views::CV_SALESORDER",
+      "schema.configure": "otc-csc-hdi/schema"
+    }
   }
 }
