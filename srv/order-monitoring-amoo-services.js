@@ -10,6 +10,28 @@ const enableHints = require("./plugins/enable_hints");
 class openOrdersSrv extends cds.ApplicationService {
 
     init() {
+        
+        this.on("READ", "FinalOrderLine", async (req, next) => { 
+            let lt_finalOrderLines = [];
+            try {
+                let orderLineQuery = SELECT.from('FinalOrderLineSet').limit(req.query.SELECT.limit);
+                if(req.query.SELECT.where){
+                    orderLineQuery.where(req.query.SELECT.where);
+                }
+                if(req.query.SELECT.orderBy){
+                    orderLineQuery.orderBy(req.query.SELECT.orderBy);
+                }
+                const apiManagementService = await cds.connect.to('orderChangeService');
+                
+                lt_finalOrderLines = await apiManagementService.tx(req).send({
+                    query: orderLineQuery
+                });
+            } catch (error) {
+                req.error(413, error)
+            }
+
+            return lt_finalOrderLines;
+        });
 
         this.on("READ", "issueDetailsContacts", async (req, next) => { 
             let lt_contacts = [];

@@ -1,7 +1,8 @@
 using openorders.db as db_app from '../db/order-monitoring-amoo-service';
 
 service openOrdersSrv {
-    entity rootEntity as select from db_app.OPENORDERSLIST {
+    entity rootEntity            as
+        select from db_app.OPENORDERSLIST {
             key null                                        as id                              : UUID,
                 MANDT                                       as SO_MANDT,
                 VBELN                                       as SO_VBELN,
@@ -18,16 +19,44 @@ service openOrdersSrv {
                 AG_PARTNER_NAME1 || ' ' || AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME              : String(70),
                 WE_PARTNER                                  as SO_WE_PARTNER,
                 WE_PARTNER_NAME1 || ' ' || WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME              : String(70),
-                IFNULL(CO_PARTNER_ITM, CO_PARTNER_HEAD) AS SO_CO_PARTNER : String(10),
-                IFNULL((CO_PARTNER_NAME1_HEAD || CO_PARTNER_NAME2_HEAD), (CO_PARTNER_NAME1_ITM || CO_PARTNER_NAME2_ITM)) AS SO_CO_PARTNER_NAME : String(70),
-                IFNULL(NY_PARTNER_ITM, NY_PARTNER_HEAD) AS SO_NY_PARTNER : String(10),
-                IFNULL((NY_PARTNER_NAME1_HEAD || NY_PARTNER_NAME2_HEAD), (NY_PARTNER_NAME1_ITM || NY_PARTNER_NAME2_ITM)) AS SO_NY_PARTNER_NAME : String(70),
-                IFNULL(AS_PARTNER_ITM, AS_PARTNER_HEAD) AS SO_AS_PARTNER : String(8),
-                IFNULL(AS_PARTNER_NAME_ITM, AS_PARTNER_NAME_HEAD) AS SO_AS_PARTNER_NAME : String(40),
-                IFNULL(VE_PARTNER_ITM, VE_PARTNER_HEAD) AS SO_VE_PARTNER : String(8),
-                IFNULL(VE_PARTNER_NAME_ITM, VE_PARTNER_NAME_HEAD) AS SO_VE_PARTNER_NAME : String(40),
-                IFNULL(AM_PARTNER_ITM, AM_PARTNER_HEAD) AS SO_AM_PARTNER : String(8),
-                IFNULL(AM_PARTNER_NAME_ITM, AM_PARTNER_NAME_HEAD) AS SO_AM_PARTNER_NAME : String(40),
+                IFNULL(
+                    CO_PARTNER_ITM, CO_PARTNER_HEAD
+                )                                           as SO_CO_PARTNER                   : String(10),
+                IFNULL(
+                    (
+                        CO_PARTNER_NAME1_HEAD || CO_PARTNER_NAME2_HEAD
+                    ), (
+                        CO_PARTNER_NAME1_ITM || CO_PARTNER_NAME2_ITM
+                    )
+                )                                           as SO_CO_PARTNER_NAME              : String(70),
+                IFNULL(
+                    NY_PARTNER_ITM, NY_PARTNER_HEAD
+                )                                           as SO_NY_PARTNER                   : String(10),
+                IFNULL(
+                    (
+                        NY_PARTNER_NAME1_HEAD || NY_PARTNER_NAME2_HEAD
+                    ), (
+                        NY_PARTNER_NAME1_ITM || NY_PARTNER_NAME2_ITM
+                    )
+                )                                           as SO_NY_PARTNER_NAME              : String(70),
+                IFNULL(
+                    AS_PARTNER_ITM, AS_PARTNER_HEAD
+                )                                           as SO_AS_PARTNER                   : String(8),
+                IFNULL(
+                    AS_PARTNER_NAME_ITM, AS_PARTNER_NAME_HEAD
+                )                                           as SO_AS_PARTNER_NAME              : String(40),
+                IFNULL(
+                    VE_PARTNER_ITM, VE_PARTNER_HEAD
+                )                                           as SO_VE_PARTNER                   : String(8),
+                IFNULL(
+                    VE_PARTNER_NAME_ITM, VE_PARTNER_NAME_HEAD
+                )                                           as SO_VE_PARTNER_NAME              : String(40),
+                IFNULL(
+                    AM_PARTNER_ITM, AM_PARTNER_HEAD
+                )                                           as SO_AM_PARTNER                   : String(8),
+                IFNULL(
+                    AM_PARTNER_NAME_ITM, AM_PARTNER_NAME_HEAD
+                )                                           as SO_AM_PARTNER_NAME              : String(40),
                 LAND1                                       as SO_LAND1,
                 LANDX_LANG                                  as SO_LANDX,
                 ORT01                                       as SO_ORT01,
@@ -223,33 +252,48 @@ service openOrdersSrv {
                 BL_MANDT_INV_LAST,
                 SO_NPS,
                 SO_ISSUE,
-                SO_DUE_DATE_FORMATTED as SO_DUE_DATE,
+                SO_DUE_DATE_FORMATTED                       as SO_DUE_DATE,
                 SO_ISSUE_LOCATION,
                 SO_ISSUE_LOCATION_ITEM,
-                virtual false as editDialog : Boolean ,
-                virtual 0 as criticalityDueDate : Integer
+                virtual false                               as editDialog                      : Boolean,
+                virtual 0                                   as criticalityDueDate              : Integer
 
         }
-    entity baseEntity     as projection on rootEntity{
-        *,
-        IFNULL(TM_SHIPMENT_CURRENT_STATUS_ELEM, TM_SHIPMENT_CURRENT_STATUS_COMP) as TM_SHIPMENT_CURRENT_STATUS : String(250)
-    }
-        
 
-    
+    entity baseEntity            as
+        projection on rootEntity {
+            *,
+            IFNULL(
+                TM_SHIPMENT_CURRENT_STATUS_ELEM, TM_SHIPMENT_CURRENT_STATUS_COMP
+            ) as TM_SHIPMENT_CURRENT_STATUS : String(250)
+        }
+
+
     @readonly
-    entity allIssues      as projection on baseEntity;
-    entity valueHelps     as projection on baseEntity; 
+    entity allIssues             as projection on baseEntity;
+
+    entity valueHelps            as projection on baseEntity;
+
     @readonly
-    entity salesorder_nps as select * from baseEntity ;
+    entity salesorder_nps        as select * from baseEntity;
 
-    entity issueDetailsContacts as select * from db_app.Contacts; 
-    entity Services as select * from db_app.Services; 
+    entity issueDetailsContacts  as select * from db_app.Contacts;
+    entity Services              as select * from db_app.Services;
+    entity FinalOrderLine        as select * from db_app.FinalOrderLine;
+    entity ScheduleLineRequested as select * from db_app.ScheduleLineRequested;
+    entity ScheduleLineConfirmed as select * from db_app.ScheduleLineConfirmed;
+    entity WorkflowPartner       as select * from db_app.WorkflowPartner;
+    entity FollowUpNotes         as select * from db_app.FollowUpNotes;
+    entity ReasonComments        as select * from db_app.ReasonComments;
+    entity dueDateLimit          as projection on db_app.DUE_DATE_LIMIT;
 
-    entity FollowUpNotes as select * from db_app.FollowUpNotes;
-    entity ReasonComments as select * from db_app.ReasonComments;
-    entity dueDateLimit as projection on db_app.DUE_DATE_LIMIT; 
-    
     // Sales order details from generic service
-    entity salesOrderDetails as select * from db_app.SALESORDER_DETAILS (IP_LANG : LEFT(UPPER($user.locale),2));
+    entity salesOrderDetails     as
+        select * from db_app.SALESORDER_DETAILS (
+            IP_LANG:LEFT(
+                UPPER(
+                    $user.locale
+                ), 2
+            )
+        );
 };
