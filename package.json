@@ -98,6 +98,13 @@
           "destination": "APIM_DEV",
           "path": "/it/omg/order_change/v1"
         }
+      },
+      "creditManagerService": {
+        "kind": "odata",
+        "credentials": {
+          "destination": "APIM_DEV",
+          "path": "/it/omg/info_credit_manager/v1"
+        }
       }
     }
   }

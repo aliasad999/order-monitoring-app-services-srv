@@ -44,6 +44,9 @@ class openOrdersSrv extends cds.ApplicationService {
                     contactsQuery.orderBy(req.query.SELECT.orderBy);
                 }
                 const apiManagementService = await cds.connect.to('contactsService');
+                // let creditMngrQuery = SELECT.from('CreditManagerSet').where `OrderNumber = '3019932540' 
+                // and LANGUAGE = 'EN'`;
+                // const creditManagerService = await cds.connect.to('creditManagerService');
                 // lt_contacts = await apiManagementService.get("/ContactSet?$filter=SapClient eq '100' and SalesDocument eq '0005508482' and OrderItem eq '000010'");
                 lt_contacts = await apiManagementService.tx(req).send({
                     query: contactsQuery
