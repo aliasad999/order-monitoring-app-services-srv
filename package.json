@@ -74,22 +74,29 @@
       "authService": {
         "kind": "rest",
         "credentials": {
-          "destination": "PersonalizationService",
+          "destination": "APIM",
           "path": "it/omg/omc-auth/v1"
         }
       },
       "contactsService": {
         "kind": "odata",
         "credentials": {
-          "destination": "PersonalizationService",
+          "destination": "APIM",
           "path": "/it/omg/so_fulfillment/v1"
         }
       },
       "servicesService": {
         "kind": "odata",
         "credentials": {
-          "destination": "PersonalizationService",
+          "destination": "APIM",
           "path": "/it/omg/dsl_services"
+        }
+      },
+      "orderChangeService": {
+        "kind": "odata",
+        "credentials": {
+          "destination": "APIM",
+          "path": "/it/omg/order_change/v1"
         }
       }
     }

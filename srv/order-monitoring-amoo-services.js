@@ -10,6 +10,28 @@ const enableHints = require("./plugins/enable_hints");
 class openOrdersSrv extends cds.ApplicationService {
 
     init() {
+        
+        this.on("READ", "FinalOrderLine", async (req, next) => { 
+            let lt_finalOrderLines = [];
+            try {
+                let orderLineQuery = SELECT.from('FinalOrderLineSet').limit(req.query.SELECT.limit);
+                if(req.query.SELECT.where){
+                    orderLineQuery.where(req.query.SELECT.where);
+                }
+                if(req.query.SELECT.orderBy){
+                    orderLineQuery.orderBy(req.query.SELECT.orderBy);
+                }
+                const apiManagementService = await cds.connect.to('orderChangeService');
+                
+                lt_finalOrderLines = await apiManagementService.tx(req).send({
+                    query: orderLineQuery
+                });
+            } catch (error) {
+                req.error(413, error)
+            }
+
+            return lt_finalOrderLines;
+        });
 
         this.on("READ", "issueDetailsContacts", async (req, next) => { 
             let lt_contacts = [];
@@ -301,10 +323,9 @@ class openOrdersSrv extends cds.ApplicationService {
                 "SO_ERDAT_ITEM",
                 "SO_EDATU_REQUESTED",
                 "SO_EDATU_CONFIRMED",
+                "SO_LDDAT",
                 "SO_PRSDT",
                 "SO_F_TDDAT",
-                "SO_F_LDDAT",
-                "SO_F_DGLTP",
                 "DL_LFDAT",
                 "DL_HSDAT",
                 "DL_VFDAT",
@@ -314,7 +335,9 @@ class openOrdersSrv extends cds.ApplicationService {
                 "TM_DATBG",
                 "TM_DPTEN",
                 "TM_DATEN",
+                "SO_F_LDDAT",
                 "TM_AR_DATE",
+                "SO_F_DGLTP",
                 "SO_DUE_DATE"]
             for (let i = 0; i < req.query.SELECT.where?.length; i++) {
                 const item = req.query.SELECT.where[i];
@@ -429,10 +452,9 @@ class openOrdersSrv extends cds.ApplicationService {
                 "SO_ERDAT_ITEM",
                 "SO_EDATU_REQUESTED",
                 "SO_EDATU_CONFIRMED",
+                "SO_LDDAT",
                 "SO_PRSDT",
                 "SO_F_TDDAT",
-                "SO_F_LDDAT",
-                "SO_F_DGLTP",
                 "DL_LFDAT",
                 "DL_HSDAT",
                 "DL_VFDAT",
@@ -442,7 +464,9 @@ class openOrdersSrv extends cds.ApplicationService {
                 "TM_DATBG",
                 "TM_DPTEN",
                 "TM_DATEN",
+                "SO_F_LDDAT",
                 "TM_AR_DATE",
+                "SO_F_DGLTP",
                 "SO_DUE_DATE"]
                 data.forEach((item) => {
                     item.id = uuid.v1()

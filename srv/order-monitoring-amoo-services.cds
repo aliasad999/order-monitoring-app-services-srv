@@ -183,24 +183,37 @@ service openOrdersSrv {
                 // BL_MANDT_INV_LAST,
 
         }
-    entity baseEntity     as projection on rootEntity{
-        *,
-        IFNULL(TM_SHIPMENT_CURRENT_STATUS_ELEM, TM_SHIPMENT_CURRENT_STATUS_COMP) as TM_SHIPMENT_CURRENT_STATUS : String(250)
-    }
-        
 
-    
+    entity baseEntity            as
+        projection on rootEntity {
+            *,
+            IFNULL(
+                TM_SHIPMENT_CURRENT_STATUS_ELEM, TM_SHIPMENT_CURRENT_STATUS_COMP
+            ) as TM_SHIPMENT_CURRENT_STATUS : String(250)
+        }
+
+
     @readonly
     entity allIssues      as projection on baseEntity;
     entity valueHelps     as projection on baseEntity; 
 
-    entity issueDetailsContacts as select * from db_app.Contacts; 
-    entity Services as select * from db_app.Services; 
+    entity issueDetailsContacts  as select * from db_app.Contacts;
+    entity Services              as select * from db_app.Services;
+    entity FinalOrderLine        as select * from db_app.FinalOrderLine;
+    entity ScheduleLineRequested as select * from db_app.ScheduleLineRequested;
+    entity ScheduleLineConfirmed as select * from db_app.ScheduleLineConfirmed;
+    entity WorkflowPartner       as select * from db_app.WorkflowPartner;
+    entity FollowUpNotes         as select * from db_app.FollowUpNotes;
+    entity ReasonComments        as select * from db_app.ReasonComments;
+    entity dueDateLimit          as projection on db_app.DUE_DATE_LIMIT;
 
-    entity FollowUpNotes as select * from db_app.FollowUpNotes;
-    entity ReasonComments as select * from db_app.ReasonComments;
-    entity dueDateLimit as projection on db_app.DUE_DATE_LIMIT; 
-    
     // Sales order details from generic service
-    entity salesOrderDetails as select * from db_app.SALESORDER_DETAILS (IP_LANG : LEFT(UPPER($user.locale),2));
+    entity salesOrderDetails     as
+        select * from db_app.SALESORDER_DETAILS (
+            IP_LANG:LEFT(
+                UPPER(
+                    $user.locale
+                ), 2
+            )
+        );
 };
