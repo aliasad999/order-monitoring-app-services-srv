@@ -23,5 +23,11 @@
         "object": "otc.csc.db.app_service.views::CV_OPEN_ORDERLIST_FINAL",
         "schema": "_PLACEHOLDER_"
       }
+    },
+    "OPENORDERS_DB_SALESORDER_DETAILS": {
+      "target": {
+        "object": "otc.csc.db.generic_service.views::CV_SALESORDER",
+        "schema": "_PLACEHOLDER_"
+      }
     }     
 }

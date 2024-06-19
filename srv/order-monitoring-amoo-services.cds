@@ -200,4 +200,7 @@ service openOrdersSrv {
     entity FollowUpNotes as select * from db_app.FollowUpNotes;
     entity ReasonComments as select * from db_app.ReasonComments;
     entity dueDateLimit as projection on db_app.DUE_DATE_LIMIT; 
+    
+    // Sales order details from generic service
+    entity salesOrderDetails as select * from db_app.SALESORDER_DETAILS (IP_LANG : LEFT(UPPER($user.locale),2));
 };
