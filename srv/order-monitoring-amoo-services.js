@@ -301,9 +301,10 @@ class openOrdersSrv extends cds.ApplicationService {
                 "SO_ERDAT_ITEM",
                 "SO_EDATU_REQUESTED",
                 "SO_EDATU_CONFIRMED",
-                "SO_LDDAT",
                 "SO_PRSDT",
                 "SO_F_TDDAT",
+                "SO_F_LDDAT",
+                "SO_F_DGLTP",
                 "DL_LFDAT",
                 "DL_HSDAT",
                 "DL_VFDAT",
@@ -313,9 +314,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 "TM_DATBG",
                 "TM_DPTEN",
                 "TM_DATEN",
-                "SO_F_LDDAT",
                 "TM_AR_DATE",
-                "SO_F_DGLTP",
                 "SO_DUE_DATE"]
             for (let i = 0; i < req.query.SELECT.where?.length; i++) {
                 const item = req.query.SELECT.where[i];
@@ -430,9 +429,10 @@ class openOrdersSrv extends cds.ApplicationService {
                 "SO_ERDAT_ITEM",
                 "SO_EDATU_REQUESTED",
                 "SO_EDATU_CONFIRMED",
-                "SO_LDDAT",
                 "SO_PRSDT",
                 "SO_F_TDDAT",
+                "SO_F_LDDAT",
+                "SO_F_DGLTP",
                 "DL_LFDAT",
                 "DL_HSDAT",
                 "DL_VFDAT",
@@ -442,9 +442,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 "TM_DATBG",
                 "TM_DPTEN",
                 "TM_DATEN",
-                "SO_F_LDDAT",
                 "TM_AR_DATE",
-                "SO_F_DGLTP",
                 "SO_DUE_DATE"]
                 data.forEach((item) => {
                     item.id = uuid.v1()
