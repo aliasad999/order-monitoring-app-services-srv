@@ -20,7 +20,7 @@
     
     "OPENORDERS_DB_OPENORDERSLIST": {
       "target": {
-        "object": "otc.csc.db.nps.views::CV_OPEN_ORDERLIST_FINAL",
+        "object": "otc.csc.db.app_service.views::CV_OPEN_ORDERLIST_FINAL",
         "schema": "_PLACEHOLDER_"
       }
     },
