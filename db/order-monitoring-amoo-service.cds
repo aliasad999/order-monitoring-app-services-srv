@@ -217,7 +217,6 @@ entity ![OPENORDERSLIST] {
 }
 
 entity Contacts {
-        key SapClient       : String(3);
         key PersonalNumber  : String(8);
             PersonalName    : String(40);
             EmailAddress    : String(241);
@@ -225,6 +224,14 @@ entity Contacts {
             SalesDocument   : String(10);
             OrderItem       : String(6);
             PartnerFunction : String(2);
+            Material        : String(18);
+}
+
+entity ContactsOptions {
+        key OptionKey       : String(10);
+            OptionText      : String;
+            VBELN    : String(10);
+            POSNR    : String(6);
 }
 
 entity FollowUpNotes {
