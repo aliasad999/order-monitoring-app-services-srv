@@ -232,6 +232,7 @@ entity ContactsOptions {
             OptionText      : String;
             VBELN    : String(10);
             POSNR    : String(6);
+            MANDT    : String(3);
 }
 
 entity FollowUpNotes {
