@@ -380,7 +380,7 @@ class openOrdersSrv extends cds.ApplicationService {
          * @param {function} - The callback function containing the code that runs when the event is triggered
          * @param {object} req - The request object containing request details
          * */
-        this.before("READ", "*", async (req, next) => {       
+        this.before("READ", "allIssues", async (req, next) => {       
             // Check if auth table is filled
             if(req.user.id !== "anonymous"){
                 const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
@@ -435,7 +435,7 @@ class openOrdersSrv extends cds.ApplicationService {
               }
         });
         
-        this.on("READ", "*", async (req, next) => {
+        this.on("READ", "allIssues", async (req, next) => {
             // OTC-24554 Partner Settings Functionality
             // Begin of Code OTC-24554
             // *-------------------------------------------------------------------*
@@ -515,7 +515,7 @@ class openOrdersSrv extends cds.ApplicationService {
          * @param {object} req - The request object containing request details
          * */
         
-        this.after("READ", "*", async (data, req) => {
+        this.after("READ", "allIssues", async (data, req) => {
             if (req.target.name != 'openOrdersSrv.valueHelps'){
             // needed for cache .. to make value helps dynamic. we are using unique session ID to cache based on authorization token.
             let sessionID = req.headers['authorization'] || req.headers['x-username'];
