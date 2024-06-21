@@ -226,7 +226,7 @@ annotate service.baseEntity with {
     // BL_VBELN_INV_LAST           @title: '{i18n>BL_VBELN_INV_LAST}'           @sap.Label: '{i18n>BL_VBELN_INV_LAST}'   @Common.IsDigitSequence: true;
     // BL_XBLNR                    @title: '{i18n>BL_XBLNR}'                    @sap.Label: '{i18n>BL_XBLNR}';
 };
-annotate service.baseEntity with {
+annotate service.allIssues with {
     SO_KWMENG          @Measures.Unit          : SO_VRKME;
     SO_VRKME           @Semantics.unitOfMeasure: 'unit-of-measure';
     SO_KBMENG          @Measures.Unit          : SO_VRKME;
@@ -792,7 +792,11 @@ annotate service.allIssues with {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: SO_KWMENG,
                 ValueListProperty: 'SO_KWMENG'
-            }
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_VRKME'
+            },
         ]
     }
 };
@@ -810,7 +814,11 @@ annotate service.allIssues with {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: SO_KBMENG,
                 ValueListProperty: 'SO_KBMENG'
-            }
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_VRKME'
+            },
         ]
     }
 };
@@ -828,7 +836,11 @@ annotate service.allIssues with {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: SO_UNCONFIRMED_QTY,
                 ValueListProperty: 'SO_UNCONFIRMED_QTY'
-            }
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_VRKME'
+            },
         ]
     }
 };
@@ -928,7 +940,11 @@ annotate service.allIssues with {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: SO_KBETR,
                 ValueListProperty: 'SO_KBETR'
-            }
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_WAERS'
+            },
         ]
     }
 };
@@ -946,6 +962,10 @@ annotate service.allIssues with {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: SO_KPEIN,
                 ValueListProperty: 'SO_KPEIN'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_KMEIN'
             }
         ]
     }
@@ -964,6 +984,10 @@ annotate service.allIssues with {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: SO_NETWR,
                 ValueListProperty: 'SO_NETWR'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_WAERK'
             }
         ]
     }
@@ -1368,6 +1392,10 @@ annotate service.allIssues with {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: DL_LFIMG,
                 ValueListProperty: 'DL_LFIMG'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'DL_VRKME'
             }
         ]
     }
@@ -1619,6 +1647,10 @@ annotate service.allIssues with {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: DL_PEND_DEL_QUAN,
                 ValueListProperty: 'DL_PEND_DEL_QUAN'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'DL_VRKME'
             }
         ]
     }
@@ -2094,6 +2126,10 @@ annotate service.allIssues with {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: SO_F_PSMNG,
                 ValueListProperty: 'SO_F_PSMNG'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_F_AMEIN'
             }
         ]
     }
@@ -2163,4 +2199,59 @@ annotate service.allIssues with {
         ]
     }
 };
+
+annotate service.allIssues with {
+    SO_NPS
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_NPS}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_NPS,
+            ValueListProperty: 'SO_NPS'
+        }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_ISSUE_LOCATION
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_ISSUE_LOCATION}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_ISSUE_LOCATION,
+            ValueListProperty: 'SO_ISSUE_LOCATION'
+        }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_ISSUE_LOCATION_ITEM
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_ISSUE_LOCATION_ITEM}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_ISSUE_LOCATION_ITEM,
+            ValueListProperty: 'SO_ISSUE_LOCATION_ITEM'
+        }
+
+        ]
+    }
+};
+     
 // ------------------------------Value Helps All Issues----------------------------
