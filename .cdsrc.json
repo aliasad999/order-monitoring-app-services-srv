@@ -1,0 +1,49 @@
+{
+    "requires": {
+        "auth": "xsuaa",
+        "db": {
+            "kind": "hana",
+            "pool": {
+                "acquireTimeoutMillis": 5000,
+                "min": 0,
+                "max": 1000,
+                "fifo": true
+            }
+        },
+        "authService": {
+            "kind": "rest",
+            "credentials": {
+                "destination": "APIM_DEV",
+                "path": "it/omg/omc-auth/v1"
+            }
+        },
+        "contactsService": {
+            "kind": "odata",
+            "credentials": {
+                "destination": "APIM_DEV",
+                "path": "/it/omg/omc/so-fulfillment/v1"
+            }
+        },
+        "servicesService": {
+            "kind": "odata",
+            "credentials": {
+                "destination": "APIM_DEV",
+                "path": "/it/omg/omc/dsl-services/v1"
+            }
+        },
+        "orderChangeService": {
+            "kind": "odata",
+            "credentials": {
+                "destination": "APIM_DEV",
+                "path": "/it/omg/omc/order-change/v1"
+            }
+        },
+        "creditManagerService": {
+            "kind": "odata",
+            "credentials": {
+                "destination": "APIM_DEV",
+                "path": "/it/omg/omc/info-credit-manager/v1"
+            }
+        }
+    }
+}

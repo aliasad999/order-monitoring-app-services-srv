@@ -198,6 +198,7 @@ service openOrdersSrv {
     entity valueHelps     as projection on baseEntity; 
 
     entity issueDetailsContacts  as select * from db_app.Contacts;
+    entity ContactsOptions       as select * from db_app.ContactsOptions;
     entity Services              as select * from db_app.Services;
     entity FinalOrderLine        as select * from db_app.FinalOrderLine;
     entity ScheduleLineRequested as select * from db_app.ScheduleLineRequested;

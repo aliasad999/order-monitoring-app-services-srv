@@ -39,8 +39,46 @@ class openOrdersSrv extends cds.ApplicationService {
             return lt_finalOrderLines;
         });
 
-        this.on("READ", "issueDetailsContacts", async (req, next) => {
+        this.on("READ", "ContactsOptions", async (req, next) => { 
+            let orderData = await SELECT.from('openOrdersSrv.salesOrderDetails').byKey(req.query.SELECT.where);
+            var allOrders = {};
+            if(orderData.VBELN) allOrders.myOrder = orderData.VBELN;
+            if(orderData.FIRST_SO) allOrders.firstOrder = orderData.FIRST_SO;
+            if(orderData.NEXT_SO) allOrders.nextOrder = orderData.NEXT_SO;
+            if(orderData.FINAL_SO) allOrders.finalOrder = orderData.FINAL_SO;
+
+            var bAllOrdersEqual = true;
+            for(const property in allOrders){
+                if(allOrders[property] !== orderData.VBELN){
+                    bAllOrdersEqual = false;
+                }
+            }
+            var orderSelection = [];
+            if(bAllOrdersEqual){
+                // only show my order
+                orderSelection.push(_buildContactOption(allOrders.myOrder, orderData.POSNR, "myOrder", "My order"));
+            }else{
+                if(allOrders.firstOrder){
+                    // show first order
+                    orderSelection.push(_buildContactOption(allOrders.firstOrder, orderData.FIRST_POSNR, "firstOrder", "First order"));
+                }
+                if(allOrders.nextOrder && (allOrders.nextOrder !== allOrders.finalOrder || orderData.NEXT_POSNR !== orderData.FINAL_POSNR)){
+                    // show next order
+                    orderSelection.push(_buildContactOption(allOrders.nextOrder, orderData.NEXT_POSNR, "nextOrder", "Next order"));
+                }
+                if(allOrders.finalOrder && (allOrders.firstOrder !== allOrders.finalOrder || orderData.FIRST_POSNR !== orderData.FINAL_POSNR)){
+                    // show final order
+                    orderSelection.push(_buildContactOption(allOrders.finalOrder, orderData.FINAL_POSNR, "finalOrder", "Final order"));
+                }
+                
+            }
+
+            return orderSelection;
+        });
+
+        this.on("READ", "issueDetailsContacts", async (req, next) => { 
             let lt_contacts = [];
+            let lt_test = [];
             try {
                 let contactsQuery = SELECT.from('ContactSet').limit(req.query.SELECT.limit);
                 if (req.query.SELECT.where) {
@@ -50,10 +88,55 @@ class openOrdersSrv extends cds.ApplicationService {
                     contactsQuery.orderBy(req.query.SELECT.orderBy);
                 }
                 const apiManagementService = await cds.connect.to('contactsService');
-                // lt_contacts = await apiManagementService.get("/ContactSet?$filter=SapClient eq '100' and SalesDocument eq '0005508482' and OrderItem eq '000010'");
+                const creditManagerService = await cds.connect.to('creditManagerService');
+                // GET Sales Order NUmber and Order Item from WHERE Clause
+                var saleOrder = "";
+                var orderItem = "";
+                var indexOfKey = 1;
+                var iterator = 0;
+                for (const element of req.query.SELECT.where) {
+                    iterator++;
+                    // check if element is the property needed
+                    if(element.ref){
+                        if(element.ref[0] === 'SalesDocument'){
+                            indexOfKey = iterator;
+                        }
+                        if(element.ref[0] === 'OrderItem'){
+                            indexOfKey = iterator;
+                        }
+                    }
+                    // get value for selected properties
+                    if(indexOfKey + 2 === iterator){
+                        if(element.val.length === 6){
+                            orderItem = element.val;
+                        }else{
+                            saleOrder = element.val;
+                        }
+                        
+                    }
+                }
+                let language = req.locale.toUpperCase();
+                let creditMngrQuery = SELECT.from('CreditManagerSet').byKey({OrderNumber: saleOrder, Language:language});
+                // Run queries
                 lt_contacts = await apiManagementService.tx(req).send({
                     query: contactsQuery
                 });
+                let creditManager = await creditManagerService.tx(req).send({
+                    query: creditMngrQuery
+                });
+                if(creditManager && creditManager.NameCreditManager){
+                    let CMEntry = {
+                        "SapClient": "100",
+                        "PersonalName": creditManager.NameCreditManager,
+                        "EmailAddress": creditManager.SmtpAddress,
+                        "PhoneNumber":creditManager.TelnrCall,
+                        "PersonalNumber": null,
+                        "SalesDocument": saleOrder,
+                        "OrderItem": orderItem,
+                        "PartnerFunction": creditManager.PartnerRole
+                    }
+                    lt_contacts.push(CMEntry);
+                }
             } catch (error) {
                 // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
                 req.error(413, error)
@@ -303,7 +386,7 @@ class openOrdersSrv extends cds.ApplicationService {
          * @param {function} - The callback function containing the code that runs when the event is triggered
          * @param {object} req - The request object containing request details
          * */
-        this.before("READ", "*", async (req, next) => {
+        this.before("READ", "allIssues", async (req, next) => {       
             // Check if auth table is filled
             if (req.user.id !== "anonymous") {
                 const { VBAKAuthObjectKeys } = await cds.entities('srvOpenOrders');
@@ -357,8 +440,8 @@ class openOrdersSrv extends cds.ApplicationService {
                 }
             }
         });
-
-        this.on("READ", "*", async (req, next) => {
+        
+        this.on("READ", "allIssues", async (req, next) => {
             // OTC-24554 Partner Settings Functionality
             // Begin of Code OTC-24554
             // *-------------------------------------------------------------------*
@@ -437,57 +520,56 @@ class openOrdersSrv extends cds.ApplicationService {
          * @param {array} data - The array containing the result from the backend request
          * @param {object} req - The request object containing request details
          * */
-
-        this.after("READ", "*", async (data, req) => {
-            if (req.target.name != 'openOrdersSrv.valueHelps') {
-                // needed for cache .. to make value helps dynamic. we are using unique session ID to cache based on authorization token.
-                let sessionID = req.headers['authorization'] || req.headers['x-username'];
-                if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.select) {
-                    // do nothing
-                } else {
-                    // cache the query, so that all filter conditions can be consumed.. when any valuehelp is called.
-                    let query = req.query;
-                    query.SELECT.where = req.query.SELECT.where;
-                    const queryString = JSON.stringify(query);
-                    const queryId = `${sessionID}AMOOQuery`
-                    sessionCache.set(queryId, queryString);
-                }
-                if (Array.isArray(data)) {
-                    var dateProps = [
-                        "SO_ERDAT_ORDER",
-                        "SO_ERDAT_ITEM",
-                        "SO_EDATU_REQUESTED",
-                        "SO_EDATU_CONFIRMED",
-                        "SO_LDDAT",
-                        "SO_PRSDT",
-                        "SO_F_TDDAT",
-                        "DL_LFDAT",
-                        "DL_HSDAT",
-                        "DL_VFDAT",
-                        "DL_WADAT",
-                        "DL_WADAT_IST",
-                        "TM_DPTBG",
-                        "TM_DATBG",
-                        "TM_DPTEN",
-                        "TM_DATEN",
-                        "SO_F_LDDAT",
-                        "TM_AR_DATE",
-                        "SO_F_DGLTP",
-                        "SO_DUE_DATE"]
-                    data.forEach((item) => {
-                        item.id = uuid.v1()
-                        dateProps.forEach((property) => {
-                            const dateString = item[property]
-                            if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
-                                const year = parseInt(dateString.substring(0, 4), 10);
-                                const month = parseInt(dateString.substring(4, 6), 10) - 1;
-                                const day = parseInt(dateString.substring(6, 8), 10);
-                                item[property] = new Date(year, month, day);
-                            } else {
-                                item[property] = null
-                            }
-
-                        })
+        
+        this.after("READ", "allIssues", async (data, req) => {
+            if (req.target.name != 'openOrdersSrv.valueHelps'){
+            // needed for cache .. to make value helps dynamic. we are using unique session ID to cache based on authorization token.
+            let sessionID = req.headers['authorization'] || req.headers['x-username'];
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.select) {
+                // do nothing
+            } else {
+                // cache the query, so that all filter conditions can be consumed.. when any valuehelp is called.
+                let query = req.query;
+                query.SELECT.where = req.query.SELECT.where;
+                const queryString = JSON.stringify(query);
+                const queryId = `${sessionID}AMOOQuery`
+                sessionCache.set(queryId, queryString);
+            }
+            if (Array.isArray(data)) {
+                var dateProps = [
+                "SO_ERDAT_ORDER",
+                "SO_ERDAT_ITEM",
+                "SO_EDATU_REQUESTED",
+                "SO_EDATU_CONFIRMED",
+                "SO_LDDAT",
+                "SO_PRSDT",
+                "SO_F_TDDAT",
+                "DL_LFDAT",
+                "DL_HSDAT",
+                "DL_VFDAT",
+                "DL_WADAT",
+                "DL_WADAT_IST",
+                "TM_DPTBG",
+                "TM_DATBG",
+                "TM_DPTEN",
+                "TM_DATEN",
+                "SO_F_LDDAT",
+                "TM_AR_DATE",
+                "SO_F_DGLTP",
+                "SO_DUE_DATE"]
+                data.forEach((item) => {
+                    item.id = uuid.v1()
+                    dateProps.forEach((property) => {
+                       const dateString = item[property]
+                       if (dateString &&  dateString != "00000000" && dateString != "0000-00-00" && dateString != "--"){
+                            const year = parseInt(dateString.substring(0, 4), 10);
+                            const month = parseInt(dateString.substring(4, 6), 10) - 1; 
+                            const day = parseInt(dateString.substring(6, 8), 10);
+                            item[property] = new Date(year, month, day);
+                        } else{
+                            item[property] = null
+                        }
+                        
                     })
                 }
             }
@@ -526,23 +608,15 @@ function getBundle(locale) {
     return textBundle.getTextBundle(locale)
 }
 function checkScope(req, next, scope) {
-    return req.user.is(scope) ? true : false;
-
+    return req.user.is(scope) ?  true :  false;
+        
 }
 
-function transformResponse(data) {
-    if (Array.isArray(data)) {
-        return data.map(item => transformResponse(item));
-    } else if (typeof data === 'object' && data !== null) {
-        const transformed = {};
-        for (const key in data) {
-            if (key !== "__metadata" && key !== "d" && key !== "results") {
-                transformed[key] = transformResponse(data[key]);
-            } else if (key === "results") {
-                return transformResponse(data[key]);
-            }
-        }
-        return transformed;
+function _buildContactOption(order, item, key, text){
+    return {
+        OptionKey: key,
+        OptionText: order + " / " + item + " - " + text,
+        VBELN: order,	
+        POSNR: item
     }
-    return data;
 }
