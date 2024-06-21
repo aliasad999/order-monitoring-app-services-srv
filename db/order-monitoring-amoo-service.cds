@@ -403,7 +403,7 @@ entity ScheduleLineRequested {
             FinalOrder : String(10);
             FinalItem  : String(6);
             NextOrder  : String(10);
-            SlDate     : DateTime;
+            SlDate     : String;
             NextItem   : String(6);
             Quantity   : Decimal(13, 3);
             Nps        : String(2);
@@ -420,7 +420,7 @@ entity ScheduleLineConfirmed {
             SalesUnit  : String(3);
             NextOrder  : String(10);
             NextItem   : String(6);
-            SlDate     : DateTime;
+            SlDate     : String;
             Nps        : String(2);
 }
 
@@ -458,23 +458,23 @@ entity FinalOrderLine {
             FirstItem               : String(6);
             FirstOrder              : String(10);
 
-            OrdWFPartnersFinalOrder : Association to many WorkflowPartner
-                                              on  OrdWFPartnersFinalOrder.Nps        = Nps
-                                              and OrdWFPartnersFinalOrder.NextOrder  = NextOrder
-                                              and OrdWFPartnersFinalOrder.NextItem   = NextItem
-                                              and OrdWFPartnersFinalOrder.FinalOrder = FinalOrder
-                                              and OrdWFPartnersFinalOrder.FinalItem  = FinalItem
-                                              and OrdWFPartnersFinalOrder.OrderNo    = MyOrder
-                                              and OrdWFPartnersFinalOrder.ItemNo     = MyItem;
+            OrdWFPartnersAssociationFinalOrder : Association to many WorkflowPartner
+                                              on  OrdWFPartnersAssociationFinalOrder.Nps        = Nps
+                                              and OrdWFPartnersAssociationFinalOrder.NextOrder  = NextOrder
+                                              and OrdWFPartnersAssociationFinalOrder.NextItem   = NextItem
+                                              and OrdWFPartnersAssociationFinalOrder.FinalOrder = FinalOrder
+                                              and OrdWFPartnersAssociationFinalOrder.FinalItem  = FinalItem
+                                              and OrdWFPartnersAssociationFinalOrder.OrderNo    = MyOrder
+                                              and OrdWFPartnersAssociationFinalOrder.ItemNo     = MyItem;
 
-            OrdWFPartnersNextOrder  : Association to many WorkflowPartner
-                                              on  OrdWFPartnersNextOrder.Nps        = Nps
-                                              and OrdWFPartnersNextOrder.NextOrder  = NextOrder
-                                              and OrdWFPartnersNextOrder.NextItem   = NextItem
-                                              and OrdWFPartnersNextOrder.FinalOrder = FinalOrder
-                                              and OrdWFPartnersNextOrder.FinalItem  = FinalItem
-                                              and OrdWFPartnersNextOrder.OrderNo    = MyOrder
-                                              and OrdWFPartnersNextOrder.ItemNo     = MyItem;
+            OrdWFPartnersAssociationNextOrder  : Association to many WorkflowPartner
+                                              on  OrdWFPartnersAssociationNextOrder.Nps        = Nps
+                                              and OrdWFPartnersAssociationNextOrder.NextOrder  = NextOrder
+                                              and OrdWFPartnersAssociationNextOrder.NextItem   = NextItem
+                                              and OrdWFPartnersAssociationNextOrder.FinalOrder = FinalOrder
+                                              and OrdWFPartnersAssociationNextOrder.FinalItem  = FinalItem
+                                              and OrdWFPartnersAssociationNextOrder.OrderNo    = MyOrder
+                                              and OrdWFPartnersAssociationNextOrder.ItemNo     = MyItem;
 
             OrdSchedReqAssociation  : Association to many ScheduleLineRequested
                                               on  OrdSchedReqAssociation.MyOrder    = MyOrder
