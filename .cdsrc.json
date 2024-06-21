@@ -21,28 +21,28 @@
             "kind": "odata",
             "credentials": {
                 "destination": "APIM_DEV",
-                "path": "/it/omg/so_fulfillment/v1"
+                "path": "/it/omg/omc/so-fulfillment/v1"
             }
         },
         "servicesService": {
             "kind": "odata",
             "credentials": {
                 "destination": "APIM_DEV",
-                "path": "/it/omg/dsl_services"
+                "path": "/it/omg/omc/dsl-services/v1"
             }
         },
         "orderChangeService": {
             "kind": "odata",
             "credentials": {
                 "destination": "APIM_DEV",
-                "path": "/it/omg/order_change/v1"
+                "path": "/it/omg/omc/order-change/v1"
             }
         },
         "creditManagerService": {
             "kind": "odata",
             "credentials": {
                 "destination": "APIM_DEV",
-                "path": "/it/omg/info_credit_manager/v1"
+                "path": "/it/omg/omc/info-credit-manager/v1"
             }
         }
     }
