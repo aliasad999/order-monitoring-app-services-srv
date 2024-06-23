@@ -29,5 +29,35 @@
         "object": "otc.csc.db.generic_service.views::CV_SALESORDER",
         "schema": "_PLACEHOLDER_"
       }
-    }     
-}
+    },
+    "OPENORDERS_DB_PREDEF_REASON_COMMENTS": {
+      "target": {
+        "object": "otc.csc.db.base.views::CV_PREDEF_REASON_COMMENTS",
+        "schema": "_PLACEHOLDER_"
+      }
+    },
+    "OPENORDERS_DB_PREDEF_REASON_BUCKETS": {
+      "target": {
+        "object": "otc.csc.db.base.views::CV_PREDEF_REASON_BUCKETS",
+        "schema": "_PLACEHOLDER_"
+      }
+    },
+    "OPENORDERS_DB_REASON_COMMENTS": {
+      "target": {
+        "object": "otc.csc.db.base.views::CV_REASON_COMMENT_ENTRIES",
+        "schema": "_PLACEHOLDER_"
+      }
+    },
+    "OPENORDERS_DB_PREDEF_FOLLOWUP_NOTES": {
+      "target": {
+        "object": "otc.csc.db.base.views::CV_PREDEF_FOLLOWUP_NOTES",
+        "schema": "_PLACEHOLDER_"
+      }
+    },
+    "OPENORDERS_DB_SO_FOLLOWUP_NOTES": {
+      "target": {
+        "object": "otc.csc.db.base.views::CV_SO_FOLLOWUP_NOTES",
+        "schema": "_PLACEHOLDER_"
+      }
+    }  
+}     
