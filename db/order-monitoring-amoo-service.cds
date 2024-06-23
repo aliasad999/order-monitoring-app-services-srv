@@ -280,15 +280,6 @@ entity ![SO_FOLLOWUP_NOTES] {
         Created_At: DateTime;
 }
 
-
-
-// entity ReasonComments {
-//         key SalesOrder   : String(10);
-//         key OrderItem    : String(6);
-//         key ReasonBucket : String(2);
-//             ReasonCode   : String(2);
-// }
-
 entity ![DUE_DATE_LIMIT] {
         userId   : User;
         dayLimit : Integer;
