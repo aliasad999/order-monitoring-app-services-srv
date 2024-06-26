@@ -81,10 +81,10 @@ class openOrdersSrv extends cds.ApplicationService {
             let lt_test = [];
             try {
                 let contactsQuery = SELECT.from('ContactSet').limit(req.query.SELECT.limit);
-                if (req.query.SELECT.where) {
+                if(req.query.SELECT.where){
                     contactsQuery.where(req.query.SELECT.where);
                 }
-                if (req.query.SELECT.orderBy) {
+                if(req.query.SELECT.orderBy){
                     contactsQuery.orderBy(req.query.SELECT.orderBy);
                 }
                 const apiManagementService = await cds.connect.to('contactsService');
@@ -145,14 +145,14 @@ class openOrdersSrv extends cds.ApplicationService {
             return lt_contacts;
         });
 
-        this.on("READ", "Services", async (req, next) => {
+        this.on("READ", "Services", async (req, next) => { 
             let lt_services = [];
             try {
                 let contactsQuery = SELECT.from('ServicesSet').limit(req.query.SELECT.limit);
-                if (req.query.SELECT.where) {
+                if(req.query.SELECT.where){
                     contactsQuery.where(req.query.SELECT.where);
                 }
-                if (req.query.SELECT.orderBy) {
+                if(req.query.SELECT.orderBy){
                     contactsQuery.orderBy(req.query.SELECT.orderBy);
                 }
                 const apiManagementService = await cds.connect.to('servicesService');
@@ -178,37 +178,37 @@ class openOrdersSrv extends cds.ApplicationService {
                 // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
                 req.error(413, 'ERROR_AUTH_CALL')
             }
+                         
+            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+            await DELETE.from(VBAKAuthObjectKeys).where ({USERID: userID});
 
-            const { VBAKAuthObjectKeys } = await cds.entities('srvOpenOrders');
-            await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
-
-            if (lt_result.length !== 0) {
+            if (lt_result.length !== 0){
                 lt_result.forEach((set) => {
                     set.USERID = userID;
                 })
 
                 await INSERT.into(VBAKAuthObjectKeys, lt_result);
-            } else {
+            }else{
                 return false;
-            }
+            }           
             return true;
-
+            
         });
 
-        /**
-      * This event is triggered before the backend request for order list data
-      * @param {string} "READ" - The type of backend request
-      * @param {string} "valueHelps" - The name of the entity set
-      * @param {function} - The callback function containing the code that runs when the event is triggered
-      * @param {object} req - The request object containing request details
-      * */
-        this.before("READ", "valueHelps", async (req) => {
+           /**
+         * This event is triggered before the backend request for order list data
+         * @param {string} "READ" - The type of backend request
+         * @param {string} "valueHelps" - The name of the entity set
+         * @param {function} - The callback function containing the code that runs when the event is triggered
+         * @param {object} req - The request object containing request details
+         * */
+           this.before("READ", "valueHelps", async (req) => {       
             // Check if auth table is filled
-            if (req.user.id !== "anonymous") {
-                const { VBAKAuthObjectKeys } = await cds.entities('srvOpenOrders');
+            if(req.user.id !== "anonymous"){
+                const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
                 let userID = req.user.id;
-                let authSet = await SELECT.from(VBAKAuthObjectKeys).where({ USERID: userID });
-                if (authSet.length === 0) {
+                let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
+                if(authSet.length === 0){
                     req.error(413, 'NO_AUTH_VALUE_HELP')
                 }
             }
@@ -229,7 +229,7 @@ class openOrdersSrv extends cds.ApplicationService {
             const db = cds.transaction(req);
             let lt_result = []
             // if session id is there, get the cach-ed query and execute it.
-            if (sessionCache.get(queryId)) {
+            if (sessionCache.get(queryId) )  {
                 const queryString = sessionCache.get(queryId);
                 const query = JSON.parse(queryString);
                 query.SELECT.from.ref[0] = 'openOrdersSrv.allIssues'
@@ -279,11 +279,11 @@ class openOrdersSrv extends cds.ApplicationService {
                         const fields = req._query["search-focus"].split(',')
                         let queryCount = 0;
                         // sometimes there is a cached query but it has no
-                        let lt_count = query.SELECT.where
-                            ? await db.run(SELECT.from('openOrdersSrv_allIssues').columns(`countdistinct(${fields})`).where(query.SELECT.where))
+                        let lt_count = query.SELECT.where 
+                            ? await db.run(SELECT.from('openOrdersSrv_allIssues').columns(`countdistinct(${fields})`).where(query.SELECT.where)) 
                             : await db.run(SELECT.from('openOrdersSrv_allIssues').columns(`countdistinct(${fields})`));
 
-                        if (lt_count.length > 0) {
+                        if(lt_count.length > 0){
                             queryCount = lt_count[0][Object.keys(lt_count[0])[0]];
                         }
                         lt_result.push({ $count: queryCount })
@@ -319,7 +319,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     try {
                         let queryCount = 0;
                         let lt_count = await db.run(SELECT.from('openOrdersSrv_allIssues').columns(`countdistinct(${fields})`))
-                        if (lt_count.length > 0) {
+                        if(lt_count.length > 0){
                             queryCount = lt_count[0][Object.keys(lt_count[0])[0]];
                         }
                         lt_result.push({ $count: queryCount })
@@ -358,17 +358,17 @@ class openOrdersSrv extends cds.ApplicationService {
             // since there is a virtual id field, adding a random guid to each record of the result set.
             if (Array.isArray(data)) {
                 data.forEach((item) => {
-                    item.id = uuid.v1()
+                    item.id = uuid.v1()  
                 })
             }
         });
 
-        this.on("READ", "dueDateLimit", async (req, next) => {
+        this.on("READ","dueDateLimit", async (req,next)=>{
             const db = cds.transaction(req);
             const result = await db.run(req.query)
             return result
         })
-        this.on("CREATE", "dueDateLimit", async (req) => {
+        this.on("CREATE", "dueDateLimit", async ( req) => {
             const { dueDateLimit } = cds.entities('openOrdersSrv');
             debugger;
             let entryExist = await SELECT('dayLimit').from(dueDateLimit).where({ userId: req.query.INSERT.entries[0].userId })
@@ -376,7 +376,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 await UPDATE(dueDateLimit).set({ dayLimit: req.query.INSERT.entries[0].dayLimit }).where({ userId: req.query.INSERT.entries[0].userId });
             else
                 await INSERT.into(dueDateLimit).entries({ userId: req.query.INSERT.entries[0].userId, dayLimit: req.query.INSERT.entries[0].dayLimit })
-
+ 
         })
 
         /**
@@ -388,16 +388,16 @@ class openOrdersSrv extends cds.ApplicationService {
          * */
         this.before("READ", "allIssues", async (req, next) => {       
             // Check if auth table is filled
-            if (req.user.id !== "anonymous") {
-                const { VBAKAuthObjectKeys } = await cds.entities('srvOpenOrders');
+            if(req.user.id !== "anonymous"){
+                const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
                 let userID = req.user.id;
-                let authSet = await SELECT.from(VBAKAuthObjectKeys).where({ USERID: userID });
-
-                if (authSet.length === 0) {
+                let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
+                
+                if(authSet.length === 0){
                     req.error(413, 'NO_AUTH_LIST')
                 }
             }
-
+         
             cds
                 .connect("db")
                 .then(({ db }) =>
@@ -431,14 +431,14 @@ class openOrdersSrv extends cds.ApplicationService {
             for (let i = 0; i < req.query.SELECT.where?.length; i++) {
                 const item = req.query.SELECT.where[i];
                 if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
-                    for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
-                        if (req.query.SELECT.where[j].val !== undefined) {
-                            req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
-                            break;
-                        }
+                  for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
+                    if (req.query.SELECT.where[j].val !== undefined) {
+                        req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
+                      break;  
                     }
+                  }
                 }
-            }
+              }
         });
         
         this.on("READ", "allIssues", async (req, next) => {
@@ -475,14 +475,14 @@ class openOrdersSrv extends cds.ApplicationService {
 
                     let partnersQueryParsed;
                     // Construct queries 
-                    if (partnersQuery.length > 0) {
+                    if(partnersQuery.length > 0 ){
                         let queryString = "(" + partnersQuery.join(' or ') + ")";
                         partnersQueryParsed = cds.parse.expr(queryString);
                     }
 
                     // Add queries to request
                     let requestQuery = req.query.SELECT.where || [];
-                    if (partnersQuery.length > 0) {
+                    if(partnersQuery.length > 0){
                         if (requestQuery.length > 0) {
                             requestQuery.push('and');
                         }
@@ -495,14 +495,14 @@ class openOrdersSrv extends cds.ApplicationService {
             // *-------------------------------------------------------------------*
             // End of Code OTC-24554
 
-            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols) {
-                try {
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' &&  req.headers?.countcols) {
+                try { 
                     const db = cds.transaction(req);
-                    let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  openOrdersSrv_allIssues   ) `)
+                    let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  openOrdersSrv_allIssues   ) ` )
                     if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
-                    const distinctCount = (req.query.SELECT.where) ?
-                        await db.run(query)
-                        : await db.run(query)
+                    const distinctCount = (req.query.SELECT.where) ? 
+                    await db.run(query)
+                    : await db.run(query)
                     return req.reply({ $count: Object.values(distinctCount[0])[0] })
                 } catch (error) {
                     log.error("[order-monitoring-app-services.js] - Count query failed ! " + JSON.stringify(error));
@@ -571,8 +571,9 @@ class openOrdersSrv extends cds.ApplicationService {
                         }
                         
                     })
-                }
+                })
             }
+        }
 
         });
 
