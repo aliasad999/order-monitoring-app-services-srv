@@ -27,23 +27,26 @@
   },
   "devDependencies": {
     "@cap-js/sqlite": "1.5.0",
-    "@sap/hdi-deploy": "4.9.2",
+    "@sap/hdi-deploy": "4.9.5",
     "axios": "^1.6.7",
     "chai": "^4.4.1",
     "chai-as-promised": "^7.1.1",
     "chai-subset": "^1.6.0",
-    "date-fns": "^3.3.1",
+    "date-fns": "^3.6.0",
     "jest": "^29.7.0",
     "sqlite3": "^5"
   },
   "scripts": {
-    "bind": "cds bind -2  order-monitoring-xsuaa:order-monitoring-xsuaa-key && cds bind -2  order-monitoring-destination:order-monitoring-destination-content-order-monitoring-destination-credentials &&  cds bind -2  order-monitoring-app-services-hdi:hana-key &&    cds bind -2  order-monitoring-connectivity:con-key",
+    "bind": "cds bind -2  order-monitoring-xsuaa:order-monitoring-xsuaa-key && cds bind -2  order-monitoring-destination:order-monitoring-destination-content-order-monitoring-destination-credentials &&  cds bind -2  order-monitoring-app-services-hdi:SharedDevKey &&    cds bind -2  order-monitoring-connectivity:con-key",
     "start": "node ${NODE_ARGS} ./node_modules/@sap/cds/bin/cds-serve",
     "test": "mocha srv/tests/test.js --timeout 150000 --exit",
+    "test-amoo": "mocha srv/tests/test-amoo.js --timeout 150000 --exit",
     "start:backend": "cds watch",
     "build:cds": "cds build",
     "install:all": "npm-recursive-install",
     "start:approuter": "cd approuter && npm run start",
+    "deploy:qa": "mbt build && cf deploy mta_archives/order-monitoring-app-services_1.0.0.mtar -e mtaext_qa.mtaext",
+    "deploy:dev": "mbt build && cf deploy mta_archives/order-monitoring-app-services_1.0.0.mtar", 
     "watch-allorders": "cds watch --open allorders/webapp/index.html?sap-ui-xx-viewCache=false",
     "undeploy": "cf undeploy allmyorders --delete-services --delete-service-keys --delete-service-brokers",
     "build": "mbt build",
@@ -58,25 +61,6 @@
     },
     "hana": {
       "deploy-format": "hdbtable"
-    },
-    "requires": {
-      "auth": "xsuaa",
-      "db": {
-        "kind": "hana",
-        "pool": {
-          "acquireTimeoutMillis": 5000,
-          "min": 0,
-          "max": 1000,
-          "fifo": true
-        }
-      },
-      "authService": {
-        "kind": "rest",
-        "credentials": {
-          "destination": "PersonalizationService",
-          "path": "it/omg/omc-auth/v1"
-        }
-      }
     }
   }
 }

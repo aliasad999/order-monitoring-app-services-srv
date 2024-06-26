@@ -30,9 +30,11 @@ mta_archives/
 *.flattened-pom.xml
 
 # IDEs
-# .vscode
+.vscode
 # .idea
 
 .npmrc
 .env
 .env1
+# auto generated wildcard
+db/.env
