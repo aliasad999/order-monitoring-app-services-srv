@@ -44,6 +44,13 @@
                 "destination": "APIM_DEV",
                 "path": "/it/omg/omc/info-credit-manager/v1"
             }
+        },
+        "hanaService": {
+            "kind": "odata",
+            "credentials": {
+                "destination": "APIM_DEV",
+                "path": "/it/omg/omc/amoo-utils/v1"
+            }
         }
     }
 }

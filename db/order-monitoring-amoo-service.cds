@@ -241,11 +241,43 @@ entity FollowUpNotes {
         key FollowupNote : String(2);
 }
 
-entity ReasonComments {
-        key SalesOrder   : String(10);
-        key OrderItem    : String(6);
-        key ReasonBucket : String(2);
-            ReasonCode   : String(2);
+@cds.persistence.exists
+entity ![PREDEF_REASON_BUCKETS] {
+        key Bucket: String(2);
+        key Language: String(2);
+        Bucket_Text: String(255)
+}
+
+@cds.persistence.exists
+entity ![PREDEF_REASON_COMMENTS] {
+        key Bucket: String(2);
+        key Language: String(2);
+        key Reason_Code: String(2);
+        Reason_Text: String(255)
+}
+
+@cds.persistence.exists
+entity ![REASON_COMMENTS] {
+        key Order_Number: String(10);
+        key Item_Number: String(6);
+        key Bucket: String(2);
+        key Language: String(2);
+        Reason_Code: String(2);
+}
+
+@cds.persistence.exists
+entity ![PREDEF_FOLLOWUP_NOTES] {
+        key Predefined_Id: String(5);
+        Language: String(2);
+        Predefined_Content: String(50);
+}
+
+@cds.persistence.exists
+entity ![SO_FOLLOWUP_NOTES] {
+        Key Order_Number: String(10);
+        Key Order_Item: String(6);
+        Key Predefined_Id: String(5);
+        Created_At: DateTime;
 }
 
 entity ![DUE_DATE_LIMIT] {
