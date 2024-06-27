@@ -20,7 +20,7 @@
         "contactsService": {
             "kind": "odata",
             "credentials": {
-                "destination": "APIM",
+                "destination": "APIM_DEV",
                 "path": "/it/omg/omc/so-fulfillment/v1"
             }
         },
@@ -34,7 +34,7 @@
         "orderChangeService": {
             "kind": "odata",
             "credentials": {
-                "destination": "APIM",
+                "destination": "APIM_DEV",
                 "path": "/it/omg/omc/order-change/v1"
             }
         },
