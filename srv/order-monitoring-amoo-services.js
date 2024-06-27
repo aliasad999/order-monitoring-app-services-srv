@@ -11,6 +11,14 @@ class openOrdersSrv extends cds.ApplicationService {
 
     init() {
 
+        this.on("submitOrderChange", async req => { 
+            let data = JSON.parse(req.data.payload); // parse stringified object
+            let response = {
+                response : "Everything went well"
+            }
+            return JSON.stringify(response);
+        });
+
         this.on("READ", "FinalOrderLine", async (req, next) => {
             let lt_finalOrderLines = [];
             try {

@@ -205,6 +205,8 @@ service openOrdersSrv {
     entity ScheduleLineConfirmed as select * from db_app.ScheduleLineConfirmed;
     entity WorkflowPartner       as select * from db_app.WorkflowPartner;
 
+    action   submitOrderChange(payload : String)       returns String;
+
     entity PredefFollowUpNotes         as select from db_app.PREDEF_FOLLOWUP_NOTES {
         Predefined_Id as FollowUpNoteId,
         Language,
