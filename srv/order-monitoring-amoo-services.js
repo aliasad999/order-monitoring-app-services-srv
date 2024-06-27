@@ -43,7 +43,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 req.error(413, error)
             }
 
-            lt_finalOrderLines = transformResponse(lt_finalOrderLines);
+            // lt_finalOrderLines = transformResponse(lt_finalOrderLines);
             return lt_finalOrderLines;
         });
 

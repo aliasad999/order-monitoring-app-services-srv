@@ -440,9 +440,9 @@ entity ScheduleLineRequested {
         key SalesOrder     : String(10);
         key SalesOrderItem : String(6);
         key SlNum          : String(4);
-            SlDate         : Date;
             Quantity       : Decimal(13, 3);
             SalesUnit      : String(3);
+            SlDate         : DateTime;
 }
 
 entity ScheduleLineConfirmed {
@@ -451,7 +451,7 @@ entity ScheduleLineConfirmed {
         key SlNum          : String(4);
             Quantity       : Decimal(13, 3);
             SalesUnit      : String(3);
-            SlDate         : Date;
+            SlDate         : DateTime;
 }
 
 entity WorkflowPartner {
