@@ -284,6 +284,9 @@ entity ![DUE_DATE_LIMIT] {
         userId   : User;
         dayLimit : Integer;
 }
+entity ![UNRESTRICTED_USER] {
+        key userId   : User;
+}
 
 entity Services {
         key SalesOrder            : String(10);

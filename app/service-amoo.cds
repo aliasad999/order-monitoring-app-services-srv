@@ -253,127 +253,127 @@ annotate service.allIssues with {
 
 annotate service.allIssues with {
     @Common.Text           : SO_LANDX
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_LAND1                  @title: '{i18n>SO_LAND1}'        @sap.Label: '{i18n>SO_LAND1}';
     @Common.TextFor
     SO_LANDX                  ;
     @Common.Text           : SO_MAKTX
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_MATNR                   @title: '{i18n>SO_MAKTX}'                    @sap.Label: '{i18n>SO_MATNR}';
     @Common.TextFor
     SO_MAKTX                   ; 
     @Common.Text           : SO_AG_PARTNER_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_AG_PARTNER               @title: '{i18n>SO_AG_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AG_PARTNER}';
     @Common.TextFor
     SO_AG_PARTNER_NAME;
     @Common.Text           : SO_WE_PARTNER_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_WE_PARTNER               @title: '{i18n>SO_WE_PARTNER_NAME}'               @sap.Label: '{i18n>SO_WE_PARTNER}';
     @Common.TextFor
     SO_WE_PARTNER_NAME;
     @Common.Text           : SO_VKORG_NAME1
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_VKORG                    @title: '{i18n>SO_VKORG_NAME1}'                    @sap.Label: '{i18n>SO_VKORG}';
     @Common.TextFor
     SO_VKORG_NAME1              ;
     @Common.Text           : SO_FAKSP_VTEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_FAKSP                    @title: '{i18n>SO_FAKSP}'                    @sap.Label: '{i18n>SO_FAKSP}';
     @Common.TextFor
     SO_FAKSP_VTEXT             ;     
     @Common.Text           : SO_SUPPLY_SITUATION_DESCR
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_SUPPLY_SITUATION         @title: '{i18n>SO_SUPPLY_SITUATION}'         @sap.Label: '{i18n>SO_SUPPLY_SITUATION}';
     @Common.TextFor
     SO_SUPPLY_SITUATION_DESCR   ;
     @Common.Text           : SO_PSTYV_VTEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_PSTYV                    @title: '{i18n>SO_PSTYV}'                    @sap.Label: '{i18n>SO_PSTYV}';
     @Common.TextFor
     SO_PSTYV_VTEXT              ;
     @Common.Text           : SO_VKBUR_BEZEI
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_VKBUR                    @title: '{i18n>SO_VKBUR}'                    @sap.Label: '{i18n>SO_VKBUR}';
     @Common.TextFor
     SO_VKBUR_BEZEI              ;
     @Common.Text           : SO_ABGRU_BEZEI
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_ABGRU                    @title: '{i18n>SO_ABGRU}'                    @sap.Label: '{i18n>SO_ABGRU}';
     @Common.TextFor
     SO_ABGRU_BEZEI              ;
     @Common.Text           : SO_CO_PARTNER_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_CO_PARTNER               @title: '{i18n>SO_CO_PARTNER}'               @sap.Label: '{i18n>SO_CO_PARTNER}';
     @Common.TextFor
     SO_CO_PARTNER_NAME          ;
     @Common.Text           : SO_NY_PARTNER_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_NY_PARTNER               @title: '{i18n>SO_NY_PARTNER}'               @sap.Label: '{i18n>SO_NY_PARTNER}';
     @Common.TextFor
     SO_NY_PARTNER_NAME          ;
     @Common.Text           : SO_AS_PARTNER_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_AS_PARTNER               @title: '{i18n>SO_AS_PARTNER}'               @sap.Label: '{i18n>SO_AS_PARTNER}';
     @Common.TextFor
     SO_AS_PARTNER_NAME          ;
     @Common.Text           : SO_VE_PARTNER_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_VE_PARTNER               @title: '{i18n>SO_VE_PARTNER}'               @sap.Label: '{i18n>SO_VE_PARTNER}';
     @Common.TextFor
     SO_VE_PARTNER_NAME          ;
     @Common.Text           : SO_AM_PARTNER_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_AM_PARTNER               @title: '{i18n>SO_AM_PARTNER}'               @sap.Label: '{i18n>SO_AM_PARTNER}';
     @Common.TextFor
     SO_AM_PARTNER_NAME          ;
     @Common.Text           : SO_BSARK_VTEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_BSARK                    @title: '{i18n>SO_BSARK}'                    @sap.Label: '{i18n>SO_BSARK}';
     @Common.TextFor
     SO_BSARK_VTEXT              ;
     @Common.Text           : SO_TRAGR_VTEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_TRAGR                    @title: '{i18n>SO_TRAGR}'                    @sap.Label: '{i18n>SO_TRAGR}';
     @Common.TextFor
     SO_TRAGR_VTEXT              ;
     @Common.Text           : SO_VKGRP_BEZEI
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_VKGRP                    @title: '{i18n>SO_VKGRP}'                    @sap.Label: '{i18n>SO_VKGRP}';
     @Common.TextFor
     SO_VKGRP_BEZEI              ;
     @Common.Text           : SO_F_VSBED_VTEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_F_VSBED                  @title: '{i18n>SO_F_VSBED}'                  @sap.Label: '{i18n>SO_TRAGR}';
     @Common.TextFor
     SO_F_VSBED_VTEXT            ;
     @Common.Text           : SO_F_VKORG_VTEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_F_VKORG                  @title: '{i18n>SO_F_VKORG}'                  @sap.Label: '{i18n>SO_F_VKORG}';
     @Common.TextFor
     SO_F_VKORG_VTEXT            ;
     @Common.Text           : SO_F_AS_PARTNER_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     SO_F_AS_PARTNER               @title: '{i18n>SO_F_AS_PARTNER}'               @sap.Label: '{i18n>SO_F_AS_PARTNER}' ;
     @Common.TextFor
     SO_F_AS_PARTNER_NAME          ;
     @Common.Text           : DL_LFART_VTEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     DL_LFART                    @title: '{i18n>DL_LFART}'                    @sap.Label: '{i18n>DL_LFART}';
     @Common.TextFor
     DL_LFART_VTEXT                ;
     @Common.Text           : TM_VSART_BEZEI
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     TM_VSART                    @title: '{i18n>TM_VSART}'                    @sap.Label: '{i18n>TM_VSART}';
     @Common.TextFor 
     TM_VSART_BEZEI;
     @Common.Text           : TM_TDLNR_NAME1
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     TM_TDLNR                    @title: '{i18n>TM_TDLNR}'                    @sap.Label: '{i18n>TM_TDLNR}';
     @Common.TextFor
     TM_TDLNR_NAME1;
     @Common.Text : TM_STTRG_DDTEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #textFirst
     TM_STTRG                    @title: '{i18n>TM_STTRG}'                    @sap.Label: '{i18n>TM_STTRG}';
     @Common.TextFor
     TM_STTRG_DDTEXT      ;  
