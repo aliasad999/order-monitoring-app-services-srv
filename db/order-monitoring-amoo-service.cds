@@ -228,11 +228,11 @@ entity Contacts {
 }
 
 entity ContactsOptions {
-        key OptionKey       : String(10);
-            OptionText      : String;
-            VBELN    : String(10);
-            POSNR    : String(6);
-            MANDT    : String(3);
+        key OptionKey  : String(10);
+            OptionText : String;
+            VBELN      : String(10);
+            POSNR      : String(6);
+            MANDT      : String(3);
 }
 
 entity FollowUpNotes {
@@ -243,41 +243,41 @@ entity FollowUpNotes {
 
 @cds.persistence.exists
 entity ![PREDEF_REASON_BUCKETS] {
-        key Bucket: String(2);
-        key Language: String(2);
-        Bucket_Text: String(255)
+        key Bucket      : String(2);
+        key Language    : String(2);
+            Bucket_Text : String(255)
 }
 
 @cds.persistence.exists
 entity ![PREDEF_REASON_COMMENTS] {
-        key Bucket: String(2);
-        key Language: String(2);
-        key Reason_Code: String(2);
-        Reason_Text: String(255)
+        key Bucket      : String(2);
+        key Language    : String(2);
+        key Reason_Code : String(2);
+            Reason_Text : String(255)
 }
 
 @cds.persistence.exists
 entity ![REASON_COMMENTS] {
-        key Order_Number: String(10);
-        key Item_Number: String(6);
-        key Bucket: String(2);
-        key Language: String(2);
-        Reason_Code: String(2);
+        key Order_Number : String(10);
+        key Item_Number  : String(6);
+        key Bucket       : String(2);
+        key Language     : String(2);
+            Reason_Code  : String(2);
 }
 
 @cds.persistence.exists
 entity ![PREDEF_FOLLOWUP_NOTES] {
-        key Predefined_Id: String(5);
-        Language: String(2);
-        Predefined_Content: String(50);
+        key Predefined_Id      : String(5);
+            Language           : String(2);
+            Predefined_Content : String(50);
 }
 
 @cds.persistence.exists
 entity ![SO_FOLLOWUP_NOTES] {
-        Key Order_Number: String(10);
-        Key Order_Item: String(6);
-        Key Predefined_Id: String(5);
-        Created_At: DateTime;
+        key Order_Number  : String(10);
+        key Order_Item    : String(6);
+        key Predefined_Id : String(5);
+            Created_At    : DateTime;
 }
 
 entity ![DUE_DATE_LIMIT] {
@@ -437,100 +437,64 @@ entity ![SALESORDER_DETAILS](IP_LANG : String(2)) {
 }
 
 entity ScheduleLineRequested {
-        key MyOrder    : String(10);
-        key MyItem     : String(6);
-        key SlNum      : String(4);
-            FinalOrder : String(10);
-            FinalItem  : String(6);
-            NextOrder  : String(10);
-            SlDate     : DateTime;
-            NextItem   : String(6);
-            Quantity   : Decimal(13, 3);
-            Nps        : String(2);
-            SalesUnit  : String(3);
+        key SalesOrder     : String(10);
+        key SalesOrderItem : String(6);
+        key SlNum          : String(4);
+            SlDate         : Date;
+            Quantity       : Decimal(13, 3);
+            SalesUnit      : String(3);
 }
 
 entity ScheduleLineConfirmed {
-        key FinalOrder : String(10);
-        key FinalItem  : String(6);
-        key SlNum      : String(4);
-            MyOrder    : String(10);
-            Quantity   : Decimal(13, 3);
-            MyItem     : String(6);
-            SalesUnit  : String(3);
-            NextOrder  : String(10);
-            NextItem   : String(6);
-            SlDate     : DateTime;
-            Nps        : String(2);
+        key SalesOrder     : String(10);
+        key SalesOrderItem : String(6);
+        key SlNum          : String(4);
+            Quantity       : Decimal(13, 3);
+            SalesUnit      : String(3);
+            SlDate         : Date;
 }
 
 entity WorkflowPartner {
-        key PartnFn    : String(2);
-        key OrderNo    : String(10);
-        key ItemNo     : String(6);
-            FinalOrder : String(10);
-            FinalItem  : String(6);
-            NextOrder  : String(10);
-            Usrid      : String(30);
-            NextItem   : String(6);
-            Name       : String(40);
-            Nps        : String(2);
-            MailAddr   : String(241);
-            TelNum     : String(241);
+        key PartnFn        : String(2);
+        key SalesOrder     : String(10);
+        key SalesOrderItem : String(6);
+            Usrid          : String(30);
+            Name           : String(40);
+            MailAddr       : String(241);
+            TelNum         : String(241);
 }
 
 entity FinalOrderLine {
-        key MyOrder                 : String(10);
-        key Nps                     : String(2);
-        key MyItem                  : String(6);
-        key FinalOrder              : String(10);
-        key FinalItem               : String(6);
-        key NextItem                : String(6);
-        key NextOrder               : String(10);
-            Editable                : Boolean;
-            BusProc                 : String(60);
-            PurchaseOrder           : String(20);
-            ShippingCondition       : String(2);
-            ShipToCountry           : String(3);
-            SubmitWorkflow          : Boolean;
-            SubmitChangeSap         : Boolean;
-            SendEmail               : Boolean;
-            FirstItem               : String(6);
-            FirstOrder              : String(10);
+        key SalesOrder                         : String(10);
+        key SalesOrderItem                     : String(6);
+            FinalOrder                         : String(10);
+            FinalItem                          : String(6);
+            NextItem                           : String(6);
+            NextOrder                          : String(10);
+            Editable                           : Boolean;
+            BusProc                            : String(60);
+            PurchaseOrder                      : String(20);
+            ShippingCondition                  : String(2);
+            ShipToCountry                      : String(3);
+            SubmitWorkflow                     : Boolean;
+            SubmitChangeSap                    : Boolean;
+            SendEmail                          : Boolean;
+            FirstItem                          : String(6);
+            FirstOrder                         : String(10);
 
-            OrdWFPartnersFinalOrder : Association to many WorkflowPartner
-                                              on  OrdWFPartnersFinalOrder.Nps        = Nps
-                                              and OrdWFPartnersFinalOrder.NextOrder  = NextOrder
-                                              and OrdWFPartnersFinalOrder.NextItem   = NextItem
-                                              and OrdWFPartnersFinalOrder.FinalOrder = FinalOrder
-                                              and OrdWFPartnersFinalOrder.FinalItem  = FinalItem
-                                              and OrdWFPartnersFinalOrder.OrderNo    = MyOrder
-                                              and OrdWFPartnersFinalOrder.ItemNo     = MyItem;
+            OrdWFPartnersAssociationFinalOrder : Association to many WorkflowPartner
+                                                         on  OrdWFPartnersAssociationFinalOrder.SalesOrder     = SalesOrder
+                                                         and OrdWFPartnersAssociationFinalOrder.SalesOrderItem = SalesOrderItem;
 
-            OrdWFPartnersNextOrder  : Association to many WorkflowPartner
-                                              on  OrdWFPartnersNextOrder.Nps        = Nps
-                                              and OrdWFPartnersNextOrder.NextOrder  = NextOrder
-                                              and OrdWFPartnersNextOrder.NextItem   = NextItem
-                                              and OrdWFPartnersNextOrder.FinalOrder = FinalOrder
-                                              and OrdWFPartnersNextOrder.FinalItem  = FinalItem
-                                              and OrdWFPartnersNextOrder.OrderNo    = MyOrder
-                                              and OrdWFPartnersNextOrder.ItemNo     = MyItem;
+            OrdWFPartnersAssociationNextOrder  : Association to many WorkflowPartner
+                                                         on  OrdWFPartnersAssociationNextOrder.SalesOrder     = SalesOrder
+                                                         and OrdWFPartnersAssociationNextOrder.SalesOrderItem = SalesOrderItem;
 
-            OrdSchedReqAssociation  : Association to many ScheduleLineRequested
-                                              on  OrdSchedReqAssociation.MyOrder    = MyOrder
-                                              and OrdSchedReqAssociation.MyItem     = MyItem
-                                              and OrdSchedReqAssociation.Nps        = Nps
-                                              and OrdSchedReqAssociation.NextOrder  = NextOrder
-                                              and OrdSchedReqAssociation.NextItem   = NextItem
-                                              and OrdSchedReqAssociation.FinalOrder = FinalOrder
-                                              and OrdSchedReqAssociation.FinalItem  = FinalItem;
+            OrdSchedReqAssociation             : Association to many ScheduleLineRequested
+                                                         on  OrdSchedReqAssociation.SalesOrder     = SalesOrder
+                                                         and OrdSchedReqAssociation.SalesOrderItem = SalesOrderItem;
 
-            OrdSchedConfAssociation : Association to many ScheduleLineConfirmed
-                                              on  OrdSchedConfAssociation.MyOrder    = MyOrder
-                                              and OrdSchedConfAssociation.MyItem     = MyItem
-                                              and OrdSchedConfAssociation.FinalOrder = FinalOrder
-                                              and OrdSchedConfAssociation.FinalItem  = FinalItem
-                                              and OrdSchedConfAssociation.NextOrder  = NextOrder
-                                              and OrdSchedConfAssociation.NextItem   = NextItem
-                                              and OrdSchedConfAssociation.Nps        = Nps;
+            OrdSchedConfAssociation            : Association to many ScheduleLineConfirmed
+                                                         on  OrdSchedConfAssociation.SalesOrder     = SalesOrder
+                                                         and OrdSchedConfAssociation.SalesOrderItem = SalesOrderItem;
 }

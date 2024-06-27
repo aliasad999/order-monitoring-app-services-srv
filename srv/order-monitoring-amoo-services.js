@@ -10,19 +10,32 @@ const enableHints = require("./plugins/enable_hints");
 class openOrdersSrv extends cds.ApplicationService {
 
     init() {
-        
-        this.on("READ", "FinalOrderLine", async (req, next) => { 
+
+        this.on("submitOrderChange", async req => { 
+            let data = JSON.parse(req.data.payload); // parse stringified object
+            let response = {
+                response : "Everything went well"
+            }
+            return JSON.stringify(response);
+        });
+
+        this.on("READ", "FinalOrderLine", async (req, next) => {
             let lt_finalOrderLines = [];
             try {
                 let orderLineQuery = SELECT.from('FinalOrderLineSet').limit(req.query.SELECT.limit);
-                if(req.query.SELECT.where){
+
+                if (req.query.SELECT.where) {
                     orderLineQuery.where(req.query.SELECT.where);
                 }
-                if(req.query.SELECT.orderBy){
+                if (req.query.SELECT.orderBy) {
                     orderLineQuery.orderBy(req.query.SELECT.orderBy);
                 }
+
+                if (req.query.SELECT.columns) {
+                    orderLineQuery.SELECT.columns = req.query.SELECT.columns
+                }
                 const apiManagementService = await cds.connect.to('orderChangeService');
-                
+
                 lt_finalOrderLines = await apiManagementService.tx(req).send({
                     query: orderLineQuery
                 });
@@ -30,6 +43,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 req.error(413, error)
             }
 
+            lt_finalOrderLines = transformResponse(lt_finalOrderLines);
             return lt_finalOrderLines;
         });
 
