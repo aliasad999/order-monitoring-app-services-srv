@@ -10,7 +10,17 @@ const enableHints = require("./plugins/enable_hints");
 class openOrdersSrv extends cds.ApplicationService {
 
     init() {
-
+    // only needed to run this when the server is starting
+        const {allIssues} = cds.entities('openOrdersSrv')
+        this._textKeys = []
+        let data = allIssues.elements
+            for (let key in data) {
+                if (data[key]["@Common.Text"] && data[key]["@Common.Text"]["="]) {
+                    this._textKeys.push({ key: key, value: data[key]["@Common.Text"]["="] });
+                }
+            }
+        // only needed to run this when the server is starting
+        
         this.on("submitOrderChange", async req => { 
             let data = JSON.parse(req.data.payload); // parse stringified object
             let response = {
@@ -405,7 +415,13 @@ class openOrdersSrv extends cds.ApplicationService {
                     req.error(413, 'NO_AUTH_LIST')
                 }
             }
-         
+            req.query.SELECT.orderBy && req.query.SELECT.orderBy.forEach(order => {
+                this._textKeys.forEach(item => {
+                  if (order.ref.includes(item.key)) {
+                    order.ref = [item.value];
+                  }
+                });
+              });
             cds
                 .connect("db")
                 .then(({ db }) =>
