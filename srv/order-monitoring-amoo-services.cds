@@ -196,7 +196,7 @@ service openOrdersSrv {
     @readonly
     entity allIssues      as projection on baseEntity;
     entity valueHelps     as projection on baseEntity; 
-
+    entity unrestrictedUser  as projection on db_app.UNRESTRICTED_USER;
     entity issueDetailsContacts  as select * from db_app.Contacts;
     entity ContactsOptions       as select * from db_app.ContactsOptions;
     entity Services              as select * from db_app.Services;
