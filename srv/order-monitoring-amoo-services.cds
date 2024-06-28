@@ -4,6 +4,10 @@ using { ContactsService as orderContacts } from './external/ContactsService';
 // using { CreditManagerService as creditManagerService } from './external/CreditManagerService';
 using { DSLServicesService as DSLServicesService } from './external/DSLServicesService';
 using { AMOOUtilsService as AMOOUtilsService } from './external/AMOOUtilsService';
+// using { LORDOdataOrderService as LORDOdataOrderService } from './external/LORDOdataOrderService';
+// using { YRDSDV1Foe1Service as YRDSDV1Foe1Service } from './external/YRDSDV1Foe1Service';
+// using { ATPService as ATPService } from './external/ATPService';
+// using { CSEUCockpitService as CSEUCockpitService } from './external/CSEUCockpitService';
 
 service openOrdersSrv {
     entity rootEntity as select from db_app.OPENORDERSLIST {
