@@ -236,7 +236,7 @@ class openOrdersSrv extends cds.ApplicationService {
             return lt_contacts;
         });
 
-        this.on("READ", "Services", async (req, next) => {
+        this.on("READ", "ServicesSet", async (req, next) => {
             let lt_services = [];
             try {
                 // let contactsQuery = SELECT.from('ServicesSet').limit(req.query.SELECT.limit);
