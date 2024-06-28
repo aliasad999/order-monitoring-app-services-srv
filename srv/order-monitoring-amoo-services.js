@@ -246,7 +246,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 // if (req.query.SELECT.orderBy) {
                 //     contactsQuery.orderBy(req.query.SELECT.orderBy);
                 // }
-                const apiManagementService = await cds.connect.to('servicesService');
+                const apiManagementService = await cds.connect.to('DSLServicesService');
                 // lt_contacts = await apiManagementService.get("/ContactSet?$filter=SapClient eq '100' and SalesDocument eq '0005508482' and OrderItem eq '000010'");
                 lt_services = await apiManagementService.tx(req).send({
                     query: req.query
