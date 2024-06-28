@@ -17,36 +17,41 @@
                 "path": "it/omg/omc-auth/v1"
             }
         },
-        "contactsService": {
-            "kind": "odata",
+        "ContactsService": {
+            "kind": "odata-v2",
+            "model": "srv/external/ContactsService",
             "credentials": {
                 "destination": "APIM_DEV",
                 "path": "/it/omg/omc/so-fulfillment/v1"
             }
         },
-        "servicesService": {
-            "kind": "odata",
+        "DSLServicesService": {
+            "kind": "odata-v2",
+            "model": "srv/external/DSLServicesService",
             "credentials": {
                 "destination": "APIM",
                 "path": "/it/omg/omc/dsl-services/v1"
             }
         },
-        "orderChangeService": {
-            "kind": "odata",
+        "OrderChangeService": {
+            "kind": "odata-v2",
+            "model": "srv/external/OrderChangeService",
             "credentials": {
                 "destination": "APIM_DEV",
                 "path": "/it/omg/omc/order-change/v1"
             }
         },
-        "creditManagerService": {
-            "kind": "odata",
+        "CreditManagerService": {
+            "kind": "odata-v2",
+            "model": "srv/external/CreditManagerService",
             "credentials": {
                 "destination": "APIM",
                 "path": "/it/omg/omc/info-credit-manager/v1"
             }
         },
-        "hanaService": {
-            "kind": "odata",
+        "AMOOUtilsService": {
+            "kind": "odata-v2",
+            "model": "srv/external/AMOOUtilsService",
             "credentials": {
                 "destination": "APIM",
                 "path": "/it/omg/omc/amoo-utils/v1"

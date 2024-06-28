@@ -64,13 +64,13 @@ class openOrdersSrv extends cds.ApplicationService {
             return JSON.stringify(response);
         });
 
-        this.on("READ", "FinalOrderLine", async (req, next) => {
+        this.on("READ", "FinalOrderLineSet", async (req, next) => {
             let lt_finalOrderLines = [];
             try {
                 let orderLineQuery = SELECT.from('FinalOrderLineSet').limit(req.query.SELECT.limit);
 
-                if (req.query.SELECT.where) {
-                    orderLineQuery.where(req.query.SELECT.where);
+                if (req.query.SELECT.from.ref[0].where) {
+                    orderLineQuery.where(req.query.SELECT.from.ref[0].where);
                 }
                 if (req.query.SELECT.orderBy) {
                     orderLineQuery.orderBy(req.query.SELECT.orderBy);
@@ -79,70 +79,107 @@ class openOrdersSrv extends cds.ApplicationService {
                 if (req.query.SELECT.columns) {
                     orderLineQuery.SELECT.columns = req.query.SELECT.columns
                 }
-                const apiManagementService = await cds.connect.to('orderChangeService');
+                const apiManagementService = await cds.connect.to('OrderChangeService');
 
                 lt_finalOrderLines = await apiManagementService.tx(req).send({
                     query: orderLineQuery
                 });
-                var date = lt_finalOrderLines[0].OrdSchedReqAssociation[0].SlDate;
-                lt_finalOrderLines[0].OrdSchedReqAssociation[0].SlDate = ODataV2toODataV4DateTime(date).substring(0,10);
+                // Convert Date fields
+                // if(lt_finalOrderLines.length > 0){
+                //     lt_finalOrderLines[0].OrdSchedReqAssociation.forEach(function(element){
+                //         element.SlDate = ODataV2toODataV4DateTime(element.SlDate).substring(0,10);
+                //     })
+                //     lt_finalOrderLines[0].OrdSchedConfAssociation.forEach(function(element){
+                //         element.SlDate = ODataV2toODataV4DateTime(element.SlDate).substring(0,10);
+                //     })
+                // }
 
             } catch (error) {
                 req.error(413, error)
             }
-            return lt_finalOrderLines;
+            return lt_finalOrderLines[0];
         });
 
         this.on("READ", "ContactsOptions", async (req, next) => {
-            let orderData = await SELECT.from('openOrdersSrv.salesOrderDetails').byKey(req.query.SELECT.where);
-            var allOrders = {};
-            if (orderData.VBELN) allOrders.myOrder = orderData.VBELN;
-            if (orderData.FIRST_SO) allOrders.firstOrder = orderData.FIRST_SO;
-            if (orderData.NEXT_SO) allOrders.nextOrder = orderData.NEXT_SO;
-            if (orderData.FINAL_SO) allOrders.finalOrder = orderData.FINAL_SO;
-
-            var bAllOrdersEqual = true;
-            for (const property in allOrders) {
-                if (allOrders[property] !== orderData.VBELN) {
-                    bAllOrdersEqual = false;
-                }
-            }
             var orderSelection = [];
-            if (bAllOrdersEqual) {
-                // only show my order
-                orderSelection.push(_buildContactOption(allOrders.myOrder, orderData.POSNR, "myOrder", "My order"));
-            } else {
-                if (allOrders.firstOrder) {
-                    // show first order
-                    orderSelection.push(_buildContactOption(allOrders.firstOrder, orderData.FIRST_POSNR, "firstOrder", "First order"));
+            let orderData = await SELECT.from('openOrdersSrv.salesOrderDetails').byKey(req.query.SELECT.where);
+            if (orderData) {
+                var allOrders = {};
+                if (orderData.VBELN) allOrders.myOrder = orderData.VBELN;
+                if (orderData.FIRST_SO) allOrders.firstOrder = orderData.FIRST_SO;
+                if (orderData.NEXT_SO) allOrders.nextOrder = orderData.NEXT_SO;
+                if (orderData.FINAL_SO) allOrders.finalOrder = orderData.FINAL_SO;
+
+                var bAllOrdersEqual = true;
+                for (const property in allOrders) {
+                    if (allOrders[property] !== orderData.VBELN) {
+                        bAllOrdersEqual = false;
+                    }
                 }
-                if (allOrders.nextOrder && (allOrders.nextOrder !== allOrders.finalOrder || orderData.NEXT_POSNR !== orderData.FINAL_POSNR)) {
-                    // show next order
-                    orderSelection.push(_buildContactOption(allOrders.nextOrder, orderData.NEXT_POSNR, "nextOrder", "Next order"));
-                }
-                if (allOrders.finalOrder && (allOrders.firstOrder !== allOrders.finalOrder || orderData.FIRST_POSNR !== orderData.FINAL_POSNR)) {
-                    // show final order
-                    orderSelection.push(_buildContactOption(allOrders.finalOrder, orderData.FINAL_POSNR, "finalOrder", "Final order"));
+                if (bAllOrdersEqual) {
+                    // only show my order
+                    orderSelection.push(_buildContactOption(allOrders.myOrder, orderData.POSNR, "myOrder", "My order"));
+                } else {
+                    if (allOrders.firstOrder) {
+                        // show first order
+                        orderSelection.push(_buildContactOption(allOrders.firstOrder, orderData.FIRST_POSNR, "firstOrder", "First order"));
+                    }
+                    if (allOrders.nextOrder && (allOrders.nextOrder !== allOrders.finalOrder || orderData.NEXT_POSNR !== orderData.FINAL_POSNR)) {
+                        // show next order
+                        orderSelection.push(_buildContactOption(allOrders.nextOrder, orderData.NEXT_POSNR, "nextOrder", "Next order"));
+                    }
+                    if (allOrders.finalOrder && (allOrders.firstOrder !== allOrders.finalOrder || orderData.FIRST_POSNR !== orderData.FINAL_POSNR)) {
+                        // show final order
+                        orderSelection.push(_buildContactOption(allOrders.finalOrder, orderData.FINAL_POSNR, "finalOrder", "Final order"));
+                    }
+
                 }
 
+            }else{
+                // GET Sales Order NUmber and Order Item from WHERE Clause
+                var saleOrder = "";
+                var orderItem = "";
+                var indexOfKey = 1;
+                var iterator = 0;
+                for (const element of req.query.SELECT.where) {
+                    iterator++;
+                    // check if element is the property needed
+                    if (element.ref) {
+                        if (element.ref[0] === 'VBELN') {
+                            indexOfKey = iterator;
+                        }
+                        if (element.ref[0] === 'POSNR') {
+                            indexOfKey = iterator;
+                        }
+                    }
+                    // get value for selected properties
+                    if (indexOfKey + 2 === iterator) {
+                        if (element.val.length === 6) {
+                            orderItem = element.val;
+                        } else {
+                            saleOrder = element.val;
+                        }
+
+                    }
+                }
+                orderSelection.push(_buildContactOption(saleOrder, orderItem, "myOrder", "My order"));
             }
 
             return orderSelection;
         });
 
-        this.on("READ", "issueDetailsContacts", async (req, next) => {
+        this.on("READ", "ContactSet", async (req, next) => {
             let lt_contacts = [];
-            let lt_test = [];
             try {
-                let contactsQuery = SELECT.from('ContactSet').limit(req.query.SELECT.limit);
-                if (req.query.SELECT.where) {
-                    contactsQuery.where(req.query.SELECT.where);
-                }
-                if (req.query.SELECT.orderBy) {
-                    contactsQuery.orderBy(req.query.SELECT.orderBy);
-                }
-                const apiManagementService = await cds.connect.to('contactsService');
-                const creditManagerService = await cds.connect.to('creditManagerService');
+                // let contactsQuery = SELECT.from('ContactSet').limit(req.query.SELECT.limit);
+                // if (req.query.SELECT.where) {
+                //     contactsQuery.where(req.query.SELECT.where);
+                // }
+                // if (req.query.SELECT.orderBy) {
+                //     contactsQuery.orderBy(req.query.SELECT.orderBy);
+                // }
+                const apiManagementService = await cds.connect.to('ContactsService');
+                const creditManagerService = await cds.connect.to('CreditManagerService');
                 // GET Sales Order NUmber and Order Item from WHERE Clause
                 var saleOrder = "";
                 var orderItem = "";
@@ -173,7 +210,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 let creditMngrQuery = SELECT.from('CreditManagerSet').byKey({ OrderNumber: saleOrder, Language: language });
                 // Run queries
                 lt_contacts = await apiManagementService.tx(req).send({
-                    query: contactsQuery
+                    query: req.query
                 });
                 let creditManager = await creditManagerService.tx(req).send({
                     query: creditMngrQuery
@@ -202,17 +239,17 @@ class openOrdersSrv extends cds.ApplicationService {
         this.on("READ", "Services", async (req, next) => {
             let lt_services = [];
             try {
-                let contactsQuery = SELECT.from('ServicesSet').limit(req.query.SELECT.limit);
-                if (req.query.SELECT.where) {
-                    contactsQuery.where(req.query.SELECT.where);
-                }
-                if (req.query.SELECT.orderBy) {
-                    contactsQuery.orderBy(req.query.SELECT.orderBy);
-                }
+                // let contactsQuery = SELECT.from('ServicesSet').limit(req.query.SELECT.limit);
+                // if (req.query.SELECT.where) {
+                //     contactsQuery.where(req.query.SELECT.where);
+                // }
+                // if (req.query.SELECT.orderBy) {
+                //     contactsQuery.orderBy(req.query.SELECT.orderBy);
+                // }
                 const apiManagementService = await cds.connect.to('servicesService');
                 // lt_contacts = await apiManagementService.get("/ContactSet?$filter=SapClient eq '100' and SalesDocument eq '0005508482' and OrderItem eq '000010'");
                 lt_services = await apiManagementService.tx(req).send({
-                    query: contactsQuery
+                    query: req.query
                 });
             } catch (error) {
                 req.error(413, error)

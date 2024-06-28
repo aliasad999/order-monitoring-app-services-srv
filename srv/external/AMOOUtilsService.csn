@@ -1,0 +1,4703 @@
+{
+ "meta": {
+  "creator": "cds-dk 7.9.4"
+ },
+ "$version": "2.0",
+ "definitions": {
+  "AMOOUtilsService": {
+   "kind": "service",
+   "@cds.external": true,
+   "@m.IsDefaultEntityContainer": "true"
+  },
+  "AMOOUtilsService.Quotations": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "MANDT": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "MANDT"
+    },
+    "QUOTATION": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "QUOTATION"
+    },
+    "QUOTATION_ITEM": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "QUOTATION_ITEM"
+    },
+    "CREATION_DATE": {
+     "type": "cds.Date",
+     "@sap.label": "CREATION_DATE",
+     "@sap.display.format": "Date"
+    },
+    "LAST_CHANGED": {
+     "type": "cds.Date",
+     "@sap.label": "LAST_CHANGED",
+     "@sap.display.format": "Date"
+    },
+    "SOLD_TO": {
+     "type": "cds.String",
+     "length": 50,
+     "@sap.label": "SOLD_TO"
+    },
+    "SHIP_TO": {
+     "type": "cds.String",
+     "length": 50,
+     "@sap.label": "SHIP_TO"
+    },
+    "REQUESTED_DLV_DATE": {
+     "type": "cds.Date",
+     "@sap.label": "REQUESTED_DLV_DATE",
+     "@sap.display.format": "Date"
+    },
+    "VALID_FROM": {
+     "type": "cds.Date",
+     "@sap.label": "VALID_FROM",
+     "@sap.display.format": "Date"
+    },
+    "VALID_TO": {
+     "type": "cds.Date",
+     "@sap.label": "VALID_TO",
+     "@sap.display.format": "Date"
+    },
+    "INCO_TERMS": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "INCO_TERMS"
+    },
+    "ORDER_REASON": {
+     "type": "cds.String",
+     "length": 46,
+     "@sap.label": "ORDER_REASON"
+    },
+    "CUSTOMER_PO": {
+     "type": "cds.String",
+     "length": 35,
+     "@sap.label": "CUSTOMER_PO"
+    },
+    "PARTNER_FUNCTION_AM": {
+     "type": "cds.String",
+     "length": 55,
+     "@sap.label": "PARTNER_FUNCTION_AM"
+    },
+    "PARTNER_FUNCTION_CSO": {
+     "type": "cds.String",
+     "length": 55,
+     "@sap.label": "PARTNER_FUNCTION_CSO"
+    },
+    "MATERIAL": {
+     "type": "cds.String",
+     "length": 60,
+     "@sap.label": "MATERIAL"
+    },
+    "QUANTITY": {
+     "type": "cds.Decimal",
+     "precision": 16,
+     "scale": 3,
+     "@sap.label": "QUANTITY",
+     "@sap.unit": "UOM_QUANTITY"
+    },
+    "UOM_QUANTITY": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "UOM_QUANTITY",
+     "@sap.semantics": "unit-of-measure"
+    },
+    "PRICE": {
+     "type": "cds.Decimal",
+     "precision": 16,
+     "scale": 2,
+     "@sap.label": "PRICE",
+     "@sap.unit": "PRICE_UNIT"
+    },
+    "PRICE_UNIT": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "PRICE_UNIT",
+     "@sap.semantics": "currency-code"
+    },
+    "DELIVERY_DATE": {
+     "type": "cds.Date",
+     "@sap.label": "DELIVERY_DATE",
+     "@sap.display.format": "Date"
+    },
+    "INVOICE_DATE": {
+     "type": "cds.Date",
+     "@sap.label": "INVOICE_DATE",
+     "@sap.display.format": "Date"
+    },
+    "INCO_TERMS_ITEMS": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "INCO_TERMS_ITEMS"
+    },
+    "PLANT": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "PLANT"
+    },
+    "DV_PARTNER": {
+     "type": "cds.String",
+     "length": 50,
+     "@sap.label": "DV_PARTNER"
+    },
+    "PO_DETAILS": {
+     "type": "cds.String",
+     "length": 35,
+     "@sap.label": "PO_DETAILS"
+    },
+    "SHIP_TO_PO_DETAILS": {
+     "type": "cds.String",
+     "length": 35,
+     "@sap.label": "SHIP_TO_PO_DETAILS"
+    },
+    "CUSTOMER_MATERIAL": {
+     "type": "cds.String",
+     "length": 35,
+     "@sap.label": "CUSTOMER_MATERIAL"
+    },
+    "PO_DATE": {
+     "type": "cds.Date",
+     "@sap.label": "PO_DATE",
+     "@sap.display.format": "Date"
+    },
+    "CREATED_BY": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.label": "CREATED_BY"
+    },
+    "ORDER_QUANTITY": {
+     "type": "cds.Decimal",
+     "precision": 16,
+     "scale": 3,
+     "@sap.label": "ORDER_QUANTITY",
+     "@sap.unit": "UOM_ORDER_QUANTITY"
+    },
+    "CONFIRMED_QUANTITY": {
+     "type": "cds.Decimal",
+     "precision": 16,
+     "scale": 3,
+     "@sap.label": "CONFIRMED_QUANTITY",
+     "@sap.unit": "UOM_ORDER_QUANTITY"
+    },
+    "UOM_ORDER_QUANTITY": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "UOM_ORDER_QUANTITY",
+     "@sap.semantics": "unit-of-measure"
+    },
+    "NET_PRICE": {
+     "type": "cds.Decimal",
+     "precision": 16,
+     "scale": 2,
+     "@sap.label": "NET_PRICE",
+     "@sap.unit": "PRICE_UNIT"
+    },
+    "SEQUENCE_NUMBER": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "SEQUENCE_NUMBER"
+    },
+    "SALES_ORGANIZATION": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "SALES_ORGANIZATION"
+    },
+    "DISTRIBUTION_CHANNEL": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "DISTRIBUTION_CHANNEL"
+    },
+    "SOLD_TO_LOWER": {
+     "type": "cds.String",
+     "length": 50,
+     "@sap.label": "SOLD_TO_LOWER"
+    },
+    "SHIP_TO_LOWER": {
+     "type": "cds.String",
+     "length": 50,
+     "@sap.label": "SHIP_TO_LOWER"
+    },
+    "INCO_TERMS_LOWER": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "INCO_TERMS_LOWER"
+    },
+    "PARTNER_FUNCTION_CSO_LOWER": {
+     "type": "cds.String",
+     "length": 55,
+     "@sap.label": "PARTNER_FUNCTION_CSO_LOWER"
+    },
+    "PARTNER_FUNCTION_AM_LOWER": {
+     "type": "cds.String",
+     "length": 55,
+     "@sap.label": "PARTNER_FUNCTION_AM_LOWER"
+    },
+    "INCO_TERMS_ITEMS_LOWER": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "INCO_TERMS_ITEMS_LOWER"
+    },
+    "PO_DETAILS_LOWER": {
+     "type": "cds.String",
+     "length": 35,
+     "@sap.label": "PO_DETAILS_LOWER"
+    },
+    "DV_PARTNER_LOWER": {
+     "type": "cds.String",
+     "length": 50,
+     "@sap.label": "DV_PARTNER_LOWER"
+    },
+    "SHIP_TO_PO_DETAILS_LOWER": {
+     "type": "cds.String",
+     "length": 35,
+     "@sap.label": "SHIP_TO_PO_DETAILS_LOWER"
+    },
+    "MATERIAL_LOWER": {
+     "type": "cds.String",
+     "length": 60,
+     "@sap.label": "MATERIAL_LOWER"
+    },
+    "CUSTOMER_PO_LOWER": {
+     "type": "cds.String",
+     "length": 35,
+     "@sap.label": "CUSTOMER_PO_LOWER"
+    },
+    "CREATED_BY_LOWER": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.label": "CREATED_BY_LOWER"
+    },
+    "CUSTOMER_MATERIAL_LOWER": {
+     "type": "cds.String",
+     "length": 35,
+     "@sap.label": "CUSTOMER_MATERIAL_LOWER"
+    },
+    "ORDER_REASON_LOWER": {
+     "type": "cds.String",
+     "length": 46,
+     "@sap.label": "ORDER_REASON_LOWER"
+    }
+   }
+  },
+  "AMOOUtilsService.CockpitResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "aggregate",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "Total": {
+     "type": "cds.Integer",
+     "@sap.label": "MaxDays",
+     "@sap.aggregation.role": "dimension"
+    },
+    "NR_OF_SO_OVERDUE": {
+     "type": "cds.Integer",
+     "@sap.label": "NumberOfSalesOrderWithOverdue",
+     "@sap.aggregation.role": "measure",
+     "@sap.filterable": "false"
+    },
+    "NR_OF_SO_DUEWITHIN": {
+     "type": "cds.Integer",
+     "@sap.label": "NumberOfSalesOrderWithDueWithin",
+     "@sap.aggregation.role": "measure",
+     "@sap.filterable": "false"
+    },
+    "NR_OF_SO_DUEAFTER": {
+     "type": "cds.Integer",
+     "@sap.label": "NumberOfSalesOrderWithDueAfter",
+     "@sap.aggregation.role": "measure",
+     "@sap.filterable": "false"
+    },
+    "DueDays": {
+     "type": "cds.Integer",
+     "@sap.label": "DueDays",
+     "@sap.aggregation.role": "measure",
+     "@sap.filterable": "false"
+    }
+   }
+  },
+  "AMOOUtilsService.Cockpit": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "p_mandt": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Client",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "100"
+     }
+    },
+    "due_catalog": {
+     "key": true,
+     "type": "cds.Integer",
+     "@sap.label": "due_catalog",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "0"
+     }
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.CockpitResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.CockpitTotalResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "aggregate",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "INITIAL_SALES_ORDER": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "INITIAL_SALES_ORDER",
+     "@sap.aggregation.role": "dimension"
+    }
+   }
+  },
+  "AMOOUtilsService.CockpitTotal": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "p_mandt": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "p_mandt",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "100"
+     }
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.CockpitTotalResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.OverviewResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "aggregate",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "SALESORDER": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "SALESORDER",
+     "@sap.aggregation.role": "dimension"
+    },
+    "CUSTOMERNAME": {
+     "type": "cds.String",
+     "length": 35,
+     "@sap.label": "CUSTOMERNAME",
+     "@sap.aggregation.role": "dimension"
+    },
+    "NPS": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "NPS",
+     "@sap.aggregation.role": "dimension"
+    },
+    "CUSTOMERNUMBER": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "CUSTOMERNUMBER",
+     "@sap.aggregation.role": "dimension"
+    },
+    "NPSDescription": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "NPSDescription",
+     "@sap.aggregation.role": "dimension"
+    },
+    "DUEDATE": {
+     "type": "cds.Date",
+     "@sap.label": "DUEDATE",
+     "@sap.aggregation.role": "dimension",
+     "@sap.display.format": "Date"
+    }
+   }
+  },
+  "AMOOUtilsService.Overview": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "due_catalog": {
+     "key": true,
+     "type": "cds.Integer",
+     "@sap.label": "due_catalog",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "p_mandt": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "p_mandt",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "100"
+     }
+    },
+    "p_lang": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "p_lang",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "EN"
+     }
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.OverviewResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.MostAffectedCustomersResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "aggregate",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "MANDT": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "MANDT",
+     "@sap.aggregation.role": "dimension"
+    },
+    "KUNNR": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "KUNNR",
+     "@sap.aggregation.role": "dimension"
+    },
+    "NUMBER_OF_CHANGES_CAUSED_BY_BASF": {
+     "type": "cds.Integer",
+     "@sap.label": "NUMBER_OF_CHANGES_CAUSED_BY_BASF",
+     "@sap.aggregation.role": "dimension"
+    },
+    "NUMBER_OF_POSNR": {
+     "type": "cds.Integer",
+     "@sap.label": "NUMBER_OF_POSNR",
+     "@sap.aggregation.role": "dimension"
+    },
+    "PERCENTAGE": {
+     "type": "cds.Integer",
+     "@sap.label": "PERCENTAGE",
+     "@sap.aggregation.role": "dimension"
+    },
+    "CUSTOMER_NAME": {
+     "type": "cds.String",
+     "length": 70,
+     "@sap.label": "CUSTOMER_NAME",
+     "@sap.aggregation.role": "dimension"
+    }
+   }
+  },
+  "AMOOUtilsService.MostAffectedCustomers": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "p_mandt": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "p_mandt",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.MostAffectedCustomersResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.SalesOrderListNumResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "aggregate",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "NR_OF_ISSUE": {
+     "type": "cds.Integer",
+     "@sap.label": "NR_OF_ISSUE",
+     "@sap.aggregation.role": "dimension"
+    },
+    "NR_OF_ISSUE_FOR_NPS10": {
+     "type": "cds.Integer",
+     "@sap.label": "NR_OF_ISSUE_FOR_NPS10",
+     "@sap.aggregation.role": "dimension"
+    },
+    "NR_OF_ISSUE_FOR_NPS20": {
+     "type": "cds.Integer",
+     "@sap.label": "NR_OF_ISSUE_FOR_NPS20",
+     "@sap.aggregation.role": "dimension"
+    },
+    "NR_OF_ISSUE_FOR_NPS30": {
+     "type": "cds.Integer",
+     "@sap.label": "NR_OF_ISSUE_FOR_NPS30",
+     "@sap.aggregation.role": "dimension"
+    },
+    "NR_OF_ISSUE_FOR_NPS40": {
+     "type": "cds.Integer",
+     "@sap.label": "NR_OF_ISSUE_FOR_NPS40",
+     "@sap.aggregation.role": "dimension"
+    },
+    "NR_OF_ISSUE_FOR_NPS50": {
+     "type": "cds.Integer",
+     "@sap.label": "NR_OF_ISSUE_FOR_NPS50",
+     "@sap.aggregation.role": "dimension"
+    },
+    "NR_OF_ISSUE_FOR_NPS60": {
+     "type": "cds.Integer",
+     "@sap.label": "NR_OF_ISSUE_FOR_NPS60",
+     "@sap.aggregation.role": "dimension"
+    },
+    "NR_OF_ISSUE_FOR_NPS70": {
+     "type": "cds.Integer",
+     "@sap.label": "NR_OF_ISSUE_FOR_NPS70",
+     "@sap.aggregation.role": "dimension"
+    },
+    "NR_OF_ISSUE_FOR_NPS80": {
+     "type": "cds.Integer",
+     "@sap.label": "NR_OF_ISSUE_FOR_NPS80",
+     "@sap.aggregation.role": "dimension"
+    },
+    "NR_OF_ISSUE_FOR_NPS99": {
+     "type": "cds.Integer",
+     "@sap.label": "NR_OF_ISSUE_FOR_NPS99",
+     "@sap.aggregation.role": "dimension"
+    },
+    "NR_OF_ISSUE_FOR_NPS90": {
+     "type": "cds.Integer",
+     "@sap.label": "NR_OF_ISSUE_FOR_NPS90",
+     "@sap.aggregation.role": "dimension"
+    },
+    "NR_OF_ISSUE_FOR_NPS95": {
+     "type": "cds.Integer",
+     "@sap.label": "NR_OF_ISSUE_FOR_NPS95",
+     "@sap.aggregation.role": "dimension"
+    }
+   }
+  },
+  "AMOOUtilsService.SalesOrderListNum": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "due_catalog": {
+     "key": true,
+     "type": "cds.Integer",
+     "@sap.label": "due_catalog",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "p_mandt": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "p_mandt",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "100"
+     }
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.SalesOrderListNumResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.SalesOrderListResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "SalesOrder": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "SalesOrder"
+    },
+    "SalesOrderItem": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "SalesOrderItem"
+    },
+    "RootCauseOrder": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "RootCauseOrder"
+    },
+    "IssueLocation": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.label": "IssueLocation"
+    },
+    "NPS": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "NPS"
+    },
+    "DueDate": {
+     "type": "cds.Date",
+     "@sap.label": "DueDate",
+     "@sap.display.format": "Date"
+    },
+    "SalesOrg": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "SalesOrg"
+    },
+    "SalesOrgName": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "SalesOrgName"
+    },
+    "SoldToParty": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "SoldToParty"
+    },
+    "SoldToPartyName": {
+     "type": "cds.String",
+     "length": 85,
+     "@sap.label": "SoldToPartyName"
+    },
+    "ShipToParty": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "ShipToParty"
+    },
+    "ShipToPartyName": {
+     "type": "cds.String",
+     "length": 85,
+     "@sap.label": "ShipToPartyName"
+    },
+    "CustomerReference": {
+     "type": "cds.String",
+     "length": 35,
+     "@sap.label": "CustomerReference"
+    },
+    "VEPartner": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "VEPartner"
+    },
+    "VEPartnerName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "VEPartnerName"
+    },
+    "Note": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "Note"
+    },
+    "Status": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Status"
+    },
+    "ASPartner": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "ASPartner"
+    },
+    "ASPartnerName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "ASPartnerName"
+    },
+    "OrderType": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "OrderType"
+    },
+    "OrderTypeDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "OrderTypeDesc"
+    },
+    "POType": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "POType"
+    },
+    "POTypeDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "POTypeDesc"
+    },
+    "DocumentType": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "DocumentType"
+    },
+    "InitialDocumentType": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "InitialDocumentType"
+    },
+    "DIFF_CONF_REQ_DATE": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "DIFF_CONF_REQ_DATE"
+    },
+    "SUPPLY_POINT": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "SUPPLY_POINT"
+    },
+    "CUSTOMER_PRIORITY": {
+     "type": "cds.String",
+     "length": 30,
+     "@sap.label": "CUSTOMER_PRIORITY"
+    },
+    "GROUP_COMPANY": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "GROUP_COMPANY"
+    },
+    "DISTRIBUTION_CHANNEL": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "DISTRIBUTION_CHANNEL"
+    },
+    "BILLING_BLOCK": {
+     "type": "cds.String",
+     "length": 250,
+     "@sap.label": "BILLING_BLOCK"
+    }
+   }
+  },
+  "AMOOUtilsService.SalesOrderList": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "p_mandt": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "p_mandt",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "100"
+     }
+    },
+    "p_nps": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "p_nps",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "00"
+     }
+    },
+    "due_catalog": {
+     "key": true,
+     "type": "cds.Integer",
+     "@sap.label": "due_catalog",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "0"
+     }
+    },
+    "p_lang": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "p_lang",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "EN"
+     }
+    },
+    "p_issueLocation": {
+     "key": true,
+     "type": "cds.Integer",
+     "@sap.label": "p_issueLocation",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "1"
+     }
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.SalesOrderListResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.SalesOrderListItemLevelResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "NPS": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "NPS"
+    },
+    "SalesOrder": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "SalesOrder"
+    },
+    "SalesOrderItem": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "SalesOrderItem"
+    },
+    "RootCauseOrder": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "RootCauseOrder"
+    },
+    "RootCauseOrderItem": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "RootCauseOrderItem"
+    },
+    "DueDate": {
+     "type": "cds.Date",
+     "@sap.label": "DueDate",
+     "@sap.display.format": "Date"
+    },
+    "IssueLocation": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.label": "IssueLocation"
+    },
+    "IssueLocationItem": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "IssueLocationItem"
+    },
+    "Status": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Status"
+    },
+    "MaterialNo": {
+     "type": "cds.String",
+     "length": 18,
+     "@sap.label": "MaterialNo"
+    },
+    "MaterialName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "MaterialName"
+    },
+    "SoldToParty": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "SoldToParty"
+    },
+    "SoldToPartyName": {
+     "type": "cds.String",
+     "length": 85,
+     "@sap.label": "SoldToPartyName"
+    },
+    "ShipToParty": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "ShipToParty"
+    },
+    "ShipToPartyName": {
+     "type": "cds.String",
+     "length": 85,
+     "@sap.label": "ShipToPartyName"
+    },
+    "CustomerReference": {
+     "type": "cds.String",
+     "length": 35,
+     "@sap.label": "CustomerReference"
+    },
+    "SalesOrg": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "SalesOrg"
+    },
+    "SalesOrgName": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "SalesOrgName"
+    },
+    "Note": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "Note"
+    },
+    "RequestedDelDate": {
+     "type": "cds.Date",
+     "@sap.label": "RequestedDelDate",
+     "@sap.display.format": "Date"
+    },
+    "RequestedQuantity": {
+     "type": "cds.Decimal",
+     "precision": 34,
+     "scale": 0,
+     "@sap.label": "RequestedQuantity"
+    },
+    "RequestedQuantityUnit": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "RequestedQuantityUnit"
+    },
+    "Plant": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Plant"
+    },
+    "OrderType": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "OrderType"
+    },
+    "OrderTypeDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "OrderTypeDesc"
+    },
+    "POType": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "POType"
+    },
+    "POTypeDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "POTypeDesc"
+    },
+    "Incoterm1": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Incoterm1"
+    },
+    "Incoterm2": {
+     "type": "cds.String",
+     "length": 28,
+     "@sap.label": "Incoterm2"
+    },
+    "PaymentTerm": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "PaymentTerm"
+    },
+    "VEPartner": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "VEPartner"
+    },
+    "VEPartnerName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "VEPartnerName"
+    },
+    "ASPartner": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "ASPartner"
+    },
+    "ASPartnerName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "ASPartnerName"
+    },
+    "DocumentType": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "DocumentType"
+    },
+    "InitialDocumentType": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "InitialDocumentType"
+    },
+    "DIFF_CONF_REQ_DATE": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "DIFF_CONF_REQ_DATE"
+    },
+    "GROUP_COMPANY": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "GROUP_COMPANY"
+    },
+    "SUPPLY_POINT": {
+     "type": "cds.String",
+     "length": 30,
+     "@sap.label": "SUPPLY_POINT"
+    },
+    "CUSTOMER_PRIORITY": {
+     "type": "cds.String",
+     "length": 30,
+     "@sap.label": "CUSTOMER_PRIORITY"
+    },
+    "TM_DOC_NO": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "TM_DOC_NO"
+    },
+    "FORWARDER_NAME": {
+     "type": "cds.String",
+     "length": 35,
+     "@sap.label": "FORWARDER_NAME"
+    },
+    "VESSEL_NAME": {
+     "type": "cds.String",
+     "length": 35,
+     "@sap.label": "VESSEL_NAME"
+    },
+    "CONTAINER_NO": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "CONTAINER_NO"
+    },
+    "ShipmentETA": {
+     "type": "cds.Date",
+     "@sap.label": "ShipmentETA",
+     "@sap.display.format": "Date"
+    },
+    "ShipmentETD": {
+     "type": "cds.Date",
+     "@sap.label": "ShipmentETD",
+     "@sap.display.format": "Date"
+    },
+    "ConfDelDate": {
+     "type": "cds.Date",
+     "@sap.label": "ConfDelDate",
+     "@sap.display.format": "Date"
+    },
+    "SHIPPING_TYPE": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "SHIPPING_TYPE"
+    },
+    "SHIP_TYPE_DESC": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "SHIP_TYPE_DESC"
+    },
+    "LoadingDate": {
+     "type": "cds.Date",
+     "@sap.label": "LoadingDate",
+     "@sap.display.format": "Date"
+    },
+    "SHIP_STAT_DESC": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "SHIP_STAT_DESC"
+    },
+    "SHIP_STATR_DESC": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "SHIP_STATR_DESC"
+    },
+    "DISTRIBUTION_CHANNEL": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "DISTRIBUTION_CHANNEL"
+    },
+    "DELIVERY": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "DELIVERY"
+    },
+    "REQ_TEXT": {
+     "type": "cds.String",
+     "length": 250,
+     "@sap.label": "REQ_TEXT"
+    },
+    "BILLING_BLOCK_ITEM": {
+     "type": "cds.String",
+     "length": 250,
+     "@sap.label": "BILLING_BLOCK_ITEM"
+    },
+    "EDITABLE": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "EDITABLE"
+    },
+    "SBU": {
+     "type": "cds.String",
+     "length": 18,
+     "@sap.label": "SBU"
+    },
+    "PlannedDelDate": {
+     "type": "cds.Date",
+     "@sap.label": "PlannedDelDate",
+     "@sap.display.format": "Date"
+    },
+    "LEVEL_TYPE": {
+     "type": "cds.String",
+     "length": 7,
+     "@sap.label": "LEVEL_TYPE"
+    },
+    "NEXT_ORDER": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "NEXT_ORDER"
+    },
+    "FINAL_ORDER": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "FINAL_ORDER"
+    },
+    "STATUS_BIZAGI": {
+     "type": "cds.String",
+     "length": 100,
+     "@sap.label": "STATUS_BIZAGI"
+    },
+    "ISSUE_DESCRIPTION": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "ISSUE_DESCRIPTION"
+    },
+    "FA_TRACKING_ID": {
+     "type": "cds.String",
+     "length": 35,
+     "@sap.label": "FA_TRACKING_ID"
+    },
+    "LC_NUMBER": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "LC_NUMBER"
+    },
+    "CUSTOMER_MAT_REFERENCE": {
+     "type": "cds.String",
+     "length": 100,
+     "@sap.label": "CUSTOMER_MAT_REFERENCE"
+    },
+    "CONFIRMED_QUANTITY": {
+     "type": "cds.Decimal",
+     "precision": 34,
+     "scale": 0,
+     "@sap.label": "CONFIRMED_QUANTITY"
+    },
+    "PENDING_DEL_QTY": {
+     "type": "cds.Decimal",
+     "precision": 34,
+     "scale": 0,
+     "@sap.label": "PENDING_DEL_QTY"
+    },
+    "UNCONFIRMED_QUANTITY": {
+     "type": "cds.Decimal",
+     "precision": 34,
+     "scale": 0,
+     "@sap.label": "UNCONFIRMED_QUANTITY"
+    },
+    "DELIVERY_TYPE": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "DELIVERY_TYPE"
+    },
+    "STORAGE_LOCATION": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "STORAGE_LOCATION"
+    },
+    "SUPPLYING_PLANT": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "SUPPLYING_PLANT"
+    },
+    "SELLING_INVOICE": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "SELLING_INVOICE"
+    },
+    "CreationDate": {
+     "type": "cds.Date",
+     "@sap.label": "CreationDate",
+     "@sap.display.format": "Date"
+    },
+    "FIRST_ORDER": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "FIRST_ORDER"
+    },
+    "PENDING_DEL_QTY_UNIT": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "PENDING_DEL_QTY_UNIT"
+    },
+    "TRACKING_ID": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.label": "TRACKING_ID"
+    },
+    "HOM_REMARK": {
+     "type": "cds.String",
+     "length": 4000,
+     "@sap.label": "HOM_REMARK"
+    },
+    "FOLLOWUP_NOTE": {
+     "type": "cds.String",
+     "length": 50,
+     "@sap.label": "FOLLOWUP_NOTE"
+    },
+    "MRP_CONTROLLER": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "MRP_CONTROLLER"
+    },
+    "SHIP_TO_COUNTRY_NAME": {
+     "type": "cds.String",
+     "length": 25,
+     "@sap.label": "SHIP_TO_COUNTRY_NAME"
+    },
+    "REASON_CODE_BUCKET_1": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "REASON_CODE_BUCKET_1"
+    },
+    "REASON_CODE_BUCKET_2": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "REASON_CODE_BUCKET_2"
+    },
+    "REASON_CODE_BUCKET_3": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "REASON_CODE_BUCKET_3"
+    },
+    "REASON_CODE_BUCKET_4": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "REASON_CODE_BUCKET_4"
+    },
+    "REASON_CODE_BUCKET_5": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "REASON_CODE_BUCKET_5"
+    },
+    "ETA_UPDATED": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "ETA_UPDATED"
+    },
+    "ITEM_CATEGORY": {
+     "type": "cds.String",
+     "length": 30,
+     "@sap.label": "ITEM_CATEGORY"
+    },
+    "COM_TRACKING_ID": {
+     "type": "cds.String",
+     "length": 50,
+     "@sap.label": "COM_TRACKING_ID"
+    },
+    "SUPPLY_SITUATION": {
+     "type": "cds.String",
+     "length": 50,
+     "@sap.label": "SUPPLY SITUATION"
+    },
+    "DELIVERY_QTY": {
+     "type": "cds.Decimal",
+     "precision": 34,
+     "scale": 0,
+     "@sap.label": "DELIVERY QUANTITY"
+    },
+    "SUPPLIER_PO": {
+     "type": "cds.String",
+     "length": 35,
+     "@sap.label": "SUPPLIER PO"
+    },
+    "PRICING_DATE": {
+     "type": "cds.Date",
+     "@sap.label": "PRICING_DATE",
+     "@sap.display.format": "Date"
+    },
+    "BILLING_DOCUMENT": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "BILLING_DOCUMENT"
+    },
+    "DEL_QTY_UNIT": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "DEL_QTY_UNIT"
+    },
+    "MDB": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "MDB"
+    },
+    "BACKORDER": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "BACKORDER"
+    },
+    "CO_PARTNER": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "CO_PARTNER"
+    },
+    "CO_PARTNER_NAME": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "CO_PARTNER_NAME"
+    },
+    "NY_PARTNER": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "NY_PARTNER"
+    },
+    "NY_PARTNER_NAME": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "NY_PARTNER_NAME"
+    },
+    "SHIPMNT_ATA": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "SHIPMNT_ATA"
+    },
+    "SHIPMNT_ATD": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "SHIPMNT_ATD"
+    },
+    "ShipmentATA": {
+     "type": "cds.Date",
+     "@sap.label": "ShipmentATA",
+     "@sap.display.format": "Date"
+    },
+    "ShipmentATD": {
+     "type": "cds.Date",
+     "@sap.label": "ShipmentATD",
+     "@sap.display.format": "Date"
+    },
+    "PRICE_PER_UNIT": {
+     "type": "cds.String",
+     "length": 30,
+     "@sap.label": "PRICE_PER_UNIT"
+    },
+    "NET_AMOUNT": {
+     "type": "cds.String",
+     "length": 25,
+     "@sap.label": "NET_AMOUNT"
+    },
+    "BATCH_NUMBER": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "BATCH_NUMBER"
+    },
+    "DATE_OF_MANUF": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "DATE_OF_MANUF"
+    },
+    "SHELF_LIFE_EXP_DATE": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "SHELF_LIFE_EXP_DATE"
+    },
+    "NOTA_FISCAL": {
+     "type": "cds.String",
+     "length": 16,
+     "@sap.label": "NOTA_FISCAL"
+    },
+    "DateOfManufacturing": {
+     "type": "cds.Date",
+     "@sap.label": "DateOfManufacturing",
+     "@sap.display.format": "Date"
+    },
+    "ShelfLifeExpDate": {
+     "type": "cds.Date",
+     "@sap.label": "ShelfLifeExpDate",
+     "@sap.display.format": "Date"
+    },
+    "AM_PARTNER": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "AM_PARTNER"
+    },
+    "AM_PARTNER_NAME": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "AM_PARTNER_NAME"
+    },
+    "BIZAGI_CASE": {
+     "type": "cds.String",
+     "length": 16,
+     "@sap.label": "BIZAGI_CASE"
+    },
+    "SHIP_TO_CITY_NAME": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "SHIP_TO_CITY_NAME"
+    },
+    "BIZAGI_ID": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "BIZAGI_ID"
+    },
+    "PROD_ALLOC": {
+     "type": "cds.String",
+     "length": 18,
+     "@sap.label": "PROD_ALLOC"
+    },
+    "PRICE_FOLLOW_UP_IND": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "PRICE_FOLLOW_UP_IND"
+    },
+    "EMAIL_ID": {
+     "type": "cds.String",
+     "length": 250,
+     "@sap.label": "EMAIL_ID"
+    },
+    "EMAIL_SENT_DATE": {
+     "type": "cds.String",
+     "length": 16,
+     "@sap.label": "EMAIL_SENT_DATE"
+    },
+    "EMAIL_SEND_DATE_F": {
+     "type": "cds.String",
+     "length": 16,
+     "@sap.label": "EMAIL_SEND_DATE_F"
+    },
+    "SALES_OFFICE": {
+     "type": "cds.String",
+     "length": 27,
+     "@sap.label": "SALES_OFFICE"
+    },
+    "SALES_GROUP": {
+     "type": "cds.String",
+     "length": 27,
+     "@sap.label": "SALES_GROUP"
+    },
+    "BL_ATTACHED": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "BL_ATTACHED"
+    },
+    "ROUTE": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "ROUTE"
+    },
+    "SHIPMENT_STATUS": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "SHIPMENT_STATUS"
+    },
+    "PROCESS_ORDER_NUMBER": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "PROCESS_ORDER_NUMBER"
+    },
+    "BASIC_FINISH_DATE": {
+     "type": "cds.Date",
+     "@sap.label": "BASIC_FINISH_DATE",
+     "@sap.display.format": "Date"
+    },
+    "ITEM_QUANTITY": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "ITEM_QUANTITY"
+    },
+    "PLANNED_GI_DATE": {
+     "type": "cds.Date",
+     "@sap.label": "PLANNED_GI_DATE",
+     "@sap.display.format": "Date"
+    },
+    "ACTUAL_GI_DATE": {
+     "type": "cds.Date",
+     "@sap.label": "ACTUAL_GI_DATE",
+     "@sap.display.format": "Date"
+    },
+    "TRANSPORTATION_PLANNED_DATE": {
+     "type": "cds.Date",
+     "@sap.label": "TRANSPORTATION_PLANNED_DATE",
+     "@sap.display.format": "Date"
+    },
+    "STATUS_CODE": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "STATUS_CODE"
+    },
+    "SHIPPING_CONDITION": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "SHIPPING_CONDITION"
+    },
+    "ALPHA_CODE": {
+     "type": "cds.String",
+     "length": 18,
+     "@sap.label": "ALPHA_CODE"
+    },
+    "TRANSPORTATION_GROUP": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "TRANSPORTATION_GROUP"
+    }
+   }
+  },
+  "AMOOUtilsService.SalesOrderListItemLevel": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "p_mandt": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "p_mandt",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "100"
+     }
+    },
+    "p_nps": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "p_nps",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "00"
+     }
+    },
+    "due_catalog": {
+     "key": true,
+     "type": "cds.Integer",
+     "@sap.label": "due_catalog",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "0"
+     }
+    },
+    "p_lang": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "p_lang",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "EN"
+     }
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.SalesOrderListItemLevelResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.SalesOrderFollowupNotes": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "CREATED_AT": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTime",
+     "@sap.label": "CREATED_AT"
+    },
+    "ORDER_ITEM": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "ORDER_ITEM"
+    },
+    "ORDER_NUMBER": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "ORDER_NUMBER"
+    },
+    "PREDEFINED_ID": {
+     "type": "cds.String",
+     "length": 5,
+     "@sap.label": "PREDEFINED_ID"
+    }
+   }
+  },
+  "AMOOUtilsService.SalesOrderPredefinedNotes": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "LANGUAGE": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "LANGUAGE"
+    },
+    "PREDEFINED_CONTENT": {
+     "type": "cds.String",
+     "length": 50,
+     "@sap.label": "PREDEFINED_CONTENT"
+    },
+    "PREDEFINED_ID": {
+     "type": "cds.String",
+     "length": 5,
+     "@sap.label": "PREDEFINED_ID"
+    }
+   }
+  },
+  "AMOOUtilsService.NPSTextResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "NPSDescription": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "NPSDescription"
+    },
+    "NPS": {
+     "type": "cds.String",
+     "length": 25,
+     "@sap.label": "NPS"
+    }
+   }
+  },
+  "AMOOUtilsService.NPSText": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "p_mandt": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "p_mandt",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "100"
+     }
+    },
+    "p_lang": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "p_lang",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "EN"
+     }
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.NPSTextResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.APACReasonBucketsResult": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "BUCKET_TEXT": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "BUCKET_TEXT"
+    },
+    "BUCKET": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "BUCKET"
+    }
+   }
+  },
+  "AMOOUtilsService.APACReasonBuckets": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "languageCode": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Language Code",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "EN"
+     }
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.APACReasonBucketsResult",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.APACReasonCodesResult": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "REASON_CODE": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "REASON_CODE"
+    },
+    "REASON_TEXT": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "REASON_TEXT"
+    },
+    "BUCKET": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "BUCKET"
+    }
+   }
+  },
+  "AMOOUtilsService.APACReasonCodes": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "languageCode": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Language Code",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "EN"
+     }
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.APACReasonCodesResult",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.APACReasonEntriesResult": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "ORDER_NUMBER": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "ORDER_NUMBER"
+    },
+    "ITEM_NUMBER": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "ITEM_NUMBER"
+    },
+    "LANGUAGE": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "LANGUAGE"
+    },
+    "REASON_CODE": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "REASON_CODE"
+    },
+    "BUCKET_TEXT": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "BUCKET_TEXT"
+    },
+    "BUCKET": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "BUCKET"
+    },
+    "REASON_TEXT": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "REASON_TEXT"
+    }
+   }
+  },
+  "AMOOUtilsService.APACReasonEntries": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "orderNumber": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "Sales Order Number",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "itemNumber": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "Item Number",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "languageCode": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Language",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "EN"
+     }
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.APACReasonEntriesResult",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.APACDelayReasons": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "ORDER_NUMBER": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true
+    },
+    "ITEM_NUMBER": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "notNull": true
+    },
+    "BUCKET": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true
+    },
+    "LANGUAGE": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true
+    },
+    "REASON_CODE": {
+     "type": "cds.String",
+     "length": 2
+    }
+   }
+  },
+  "AMOOUtilsService.APACDelayReasonsLog": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "ORDER_NUMBER": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true
+    },
+    "ITEM_NUMBER": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "notNull": true
+    },
+    "BUCKET": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true
+    },
+    "LANGUAGE": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true
+    },
+    "ACTION": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "notNull": true
+    },
+    "DATE": {
+     "key": true,
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTime",
+     "notNull": true
+    },
+    "REASON_CODE": {
+     "type": "cds.String",
+     "length": 2
+    }
+   }
+  },
+  "AMOOUtilsService.SalesOrderNotesFollowup": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "ORDER_NUMBER": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true
+    },
+    "ORDER_ITEM": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "notNull": true
+    },
+    "PREDEFINED_ID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true
+    },
+    "CREATED_AT": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTime"
+    }
+   }
+  },
+  "AMOOUtilsService.SalesOrderNotesFollowupTest": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "ORDER_NUMBER": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true
+    },
+    "ORDER_ITEM": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "notNull": true
+    },
+    "PREDEFINED_ID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true
+    },
+    "CREATED_AT": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTime"
+    }
+   }
+  },
+  "AMOOUtilsService.ShipmentUpdates": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "SHIPMENT_NUMBER": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true
+    },
+    "PLANNED_SHIPMENT_END_DATE": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "LAST_CHANGED": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ETA_UPDATED": {
+     "type": "cds.String",
+     "length": 3
+    }
+   }
+  },
+  "AMOOUtilsService.APACDelayReasonsLogErrors": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "ORDER_NUMBER": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true
+    },
+    "ITEM_NUMBER": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "notNull": true
+    },
+    "BUCKET": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true
+    },
+    "LANGUAGE": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true
+    },
+    "ACTION": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "notNull": true
+    },
+    "DATE": {
+     "key": true,
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTime",
+     "notNull": true
+    },
+    "REASON_CODE": {
+     "type": "cds.String",
+     "length": 2
+    }
+   }
+  },
+  "AMOOUtilsService.ShipmentMarkedDelivered": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "SHIPMENT_NUM": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true
+    },
+    "DELIVERY_NUM": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true
+    },
+    "STATUS_DATE": {
+     "type": "cds.String",
+     "length": 12
+    },
+    "STATUS_CODE": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "USER_ID": {
+     "type": "cds.String",
+     "length": 12
+    }
+   }
+  },
+  "AMOOUtilsService.ShipmentMarkedResult": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "SHIPMENT_NUM": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "SHIPMENT_NUM"
+    },
+    "DELIVERY_NUM": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "DELIVERY_NUM"
+    },
+    "STATUS_DATE": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.label": "STATUS_DATE"
+    },
+    "STATUS_CODE": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "STATUS_CODE"
+    },
+    "USER_ID": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.label": "USER_ID"
+    }
+   }
+  },
+  "AMOOUtilsService.ShipmentMarkedDeliveredEntries": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "pi_userid": {
+     "key": true,
+     "type": "cds.String",
+     "length": 12,
+     "@sap.label": "User ID",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "pi_statusdate": {
+     "key": true,
+     "type": "cds.String",
+     "length": 12,
+     "@sap.label": "Status Date",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.ShipmentMarkedResult",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.IssueMasterResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "aggregate",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "INITIAL_SALES_ORDER_ITEM": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "INITIAL_SALES_ORDER_ITEM",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SUBSEQUENT_ORDER": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "SUBSEQUENT_ORDER",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SUBSEQUENT_ORDER_ITEM": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "SUBSEQUENT_ORDER_ITEM",
+     "@sap.aggregation.role": "dimension"
+    },
+    "LEVEL": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "LEVEL",
+     "@sap.aggregation.role": "dimension"
+    },
+    "INITIAL_SALES_ORDER": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "INITIAL_SALES_ORDER",
+     "@sap.aggregation.role": "dimension"
+    },
+    "LEVEL_TYPE": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "LEVEL_TYPE",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ISSUE": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "ISSUE",
+     "@sap.aggregation.role": "dimension"
+    },
+    "NPS": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "NPS",
+     "@sap.aggregation.role": "dimension"
+    },
+    "DUE_DATE": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "DUE_DATE",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ISSUE_DETAIL": {
+     "type": "cds.String",
+     "length": 60,
+     "@sap.label": "ISSUE_DETAIL",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ISSUE_LOCATION": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.label": "ISSUE_LOCATION",
+     "@sap.aggregation.role": "dimension"
+    },
+    "IssueDescription": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "IssueDescription",
+     "@sap.aggregation.role": "dimension"
+    },
+    "NPSDescription": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "NPSDescription",
+     "@sap.aggregation.role": "dimension"
+    },
+    "DOCUMENT_TYPE": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "DOCUMENT_TYPE",
+     "@sap.aggregation.role": "dimension"
+    },
+    "DocumentTypeDescription": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "DocumentTypeDescription",
+     "@sap.aggregation.role": "dimension"
+    },
+    "DUE_DATE_E": {
+     "type": "cds.Date",
+     "@sap.label": "DUE_DATE_E",
+     "@sap.aggregation.role": "dimension",
+     "@sap.display.format": "Date"
+    },
+    "DueDate": {
+     "type": "cds.Date",
+     "@sap.label": "DueDate",
+     "@sap.aggregation.role": "dimension",
+     "@sap.display.format": "Date"
+    }
+   }
+  },
+  "AMOOUtilsService.IssueMaster": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "p_sales_order": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "SalesOrderNumber",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "p_mandt": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Client",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "100"
+     }
+    },
+    "p_lang": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "p_lang",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "EN"
+     }
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.IssueMasterResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.IssueHeaderResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "aggregate",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "ShipCondition": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "ShipCondition",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SoldToParty": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "SoldToParty",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SalesOrder": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "SalesOrder",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ShipConditionName": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "ShipConditionName",
+     "@sap.aggregation.role": "dimension"
+    },
+    "CustomerReference": {
+     "type": "cds.String",
+     "length": 35,
+     "@sap.label": "Customer purchase order number",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SoldToPartyName": {
+     "type": "cds.String",
+     "length": 85,
+     "@sap.label": "SoldToPartyName",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ShipToParty": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "ShipToParty",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ShipToPartyName": {
+     "type": "cds.String",
+     "length": 85,
+     "@sap.label": "ShipToPartyName",
+     "@sap.aggregation.role": "dimension"
+    }
+   }
+  },
+  "AMOOUtilsService.IssueHeader": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "p_mandt": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "p_mandt",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "100"
+     }
+    },
+    "sales_order": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "sales_order",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "p_lang": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "p_lang",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "EN"
+     }
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.IssueHeaderResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.IssueDetailResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "aggregate",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "RootCauseOrder": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "RootCauseOrder",
+     "@sap.aggregation.role": "dimension"
+    },
+    "RootCauseItem": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "RootCauseItem",
+     "@sap.aggregation.role": "dimension"
+    },
+    "Quantity": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "scale": 3,
+     "@sap.label": "Quantity",
+     "@sap.aggregation.role": "dimension"
+    },
+    "Material": {
+     "type": "cds.String",
+     "length": 18,
+     "@sap.label": "Material",
+     "@sap.aggregation.role": "dimension"
+    },
+    "Unit": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Unit",
+     "@sap.aggregation.role": "dimension"
+    },
+    "FirstDate": {
+     "type": "cds.Date",
+     "@sap.label": "FirstDate",
+     "@sap.aggregation.role": "dimension",
+     "@sap.display.format": "Date"
+    },
+    "MaterialName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "MaterialName",
+     "@sap.aggregation.role": "dimension"
+    },
+    "Plant": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Plant (Own or External)",
+     "@sap.aggregation.role": "dimension"
+    }
+   }
+  },
+  "AMOOUtilsService.IssueDetail": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "p_mandt": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "p_mandt",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "100"
+     }
+    },
+    "p_DetailSalesOrderNumber": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "p_DetailSalesOrderNumber",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "p_DetailSalesOrderItemNumber": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "p_DetailSalesOrderItemNumber",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "p_lang": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "p_lang",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "EN"
+     }
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.IssueDetailResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.IssueReasonResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "aggregate",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "IssueReason": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "IssueReason",
+     "@sap.aggregation.role": "dimension"
+    }
+   }
+  },
+  "AMOOUtilsService.IssueReason": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "p_mandt": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "p_mandt",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "100"
+     }
+    },
+    "p_SalesOrderNumber": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "p_SalesOrderNumber",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "p_SalesOrderItemNumber": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "p_SalesOrderItemNumber",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "p_DetailSalesOrderNumber": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "p_DetailSalesOrderNumber",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "p_DetailSalesOrderItemNumber": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "p_DetailSalesOrderItemNumber",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "p_IssueId": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "p_IssueId",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "01"
+     }
+    },
+    "p_NPSId": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "p_NPSId",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "01"
+     }
+    },
+    "p_issue_location": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "p_issue_location",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "p_lang": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "p_lang",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "EN"
+     }
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.IssueReasonResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.SalesOrderFulfillmentContactQueryResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "aggregate",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "PersonnelName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "PersonnelName",
+     "@sap.aggregation.role": "dimension"
+    },
+    "EmailAddress": {
+     "type": "cds.String",
+     "length": 241,
+     "@sap.label": "EmailAddress",
+     "@sap.aggregation.role": "dimension"
+    },
+    "PhoneNumber": {
+     "type": "cds.String",
+     "length": 241,
+     "@sap.label": "PhoneNumber",
+     "@sap.aggregation.role": "dimension"
+    },
+    "Personnel": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "Personnel Number",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SAPClient": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Client",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SalesDocument": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "Sales and Distribution Document Number",
+     "@sap.aggregation.role": "dimension"
+    },
+    "PartnerFunction": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Partner Function",
+     "@sap.aggregation.role": "dimension"
+    }
+   }
+  },
+  "AMOOUtilsService.SalesOrderFulfillmentContactQuery": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "P_SAPClient": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "SAP Client",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "100"
+     }
+    },
+    "P_SalesOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "Sales Order",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "P_SalesOrderItem": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "P_SalesOrderItem",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "000000"
+     }
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.SalesOrderFulfillmentContactQueryResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.SalesOrderProcessFlowQueryResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "aggregate",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "SAPClient": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "SAP Client",
+     "@sap.aggregation.role": "dimension"
+    },
+    "PrecedingDocument": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.label": "Preceding Document",
+     "@sap.aggregation.role": "dimension"
+    },
+    "PrecedingDocumentCategory": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Preceding Document Category",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SubsequentDocument": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.label": "Subsequent Document",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SubsequentDocumentCategory": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Subsequent Document Category",
+     "@sap.aggregation.role": "dimension"
+    },
+    "DeliveryDocumentIsRequired": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Delivery Document Is Required",
+     "@sap.aggregation.role": "dimension"
+    },
+    "BillingDocumentIsRequired": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Billing Document Is Required",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SalesOrder": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "Sales Order",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SalesOrderType": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Sales Order Type",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SalesOrganization": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Sales Organization",
+     "@sap.aggregation.role": "dimension"
+    },
+    "DistributionChannel": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Distribution Channel",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OrganizationDivision": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Organization Division",
+     "@sap.aggregation.role": "dimension"
+    }
+   }
+  },
+  "AMOOUtilsService.SalesOrderProcessFlowQuery": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "P_SAPClient": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "SAP Client",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.SalesOrderProcessFlowQueryResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.SalesOrderProcessItemQueryResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "aggregate",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "SAPClient": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "SAP Client",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SalesOrder": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "Sales Order",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SalesOrderItem": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "Sales Order Item",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SalesOrderItemText": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Sales Order Item Text",
+     "@sap.aggregation.role": "dimension"
+    },
+    "Material": {
+     "type": "cds.String",
+     "length": 18,
+     "@sap.label": "Material",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SalesOrganization": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Sales Organization",
+     "@sap.aggregation.role": "dimension"
+    },
+    "DistributionChannel": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Distribution Channel",
+     "@sap.aggregation.role": "dimension"
+    },
+    "Division": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Division",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OrderQuantityUnit": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Order Quantity Unit",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OrderQuantityUnit_E": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Order Quantity Unit",
+     "@sap.aggregation.role": "dimension",
+     "@sap.semantics": "unit-of-measure"
+    },
+    "InvoicingStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Invoicing Status",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ShippingStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Shipping Status",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OrderQuantity": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "scale": 3,
+     "@sap.label": "Order Quantity",
+     "@sap.aggregation.role": "measure",
+     "@sap.filterable": "false",
+     "@sap.unit": "OrderQuantityUnit_E"
+    },
+    "InvoicedQuantityInOrderQtyUnit": {
+     "type": "cds.Decimal",
+     "precision": 13,
+     "scale": 3,
+     "@sap.label": "Invoiced Quantity In Order Quantity Unit",
+     "@sap.aggregation.role": "measure",
+     "@sap.filterable": "false",
+     "@sap.unit": "OrderQuantityUnit_E"
+    },
+    "ShippedQuantityInOrderQtyUnit": {
+     "type": "cds.Decimal",
+     "precision": 13,
+     "scale": 3,
+     "@sap.label": "Shipped Quantity In Order Quantity Unit",
+     "@sap.aggregation.role": "measure",
+     "@sap.filterable": "false",
+     "@sap.unit": "OrderQuantityUnit_E"
+    },
+    "NextPlannedProdAvailDate_E": {
+     "type": "cds.Date",
+     "@sap.label": "Next Planned Product Availability Date",
+     "@sap.aggregation.role": "measure",
+     "@sap.filterable": "false",
+     "@sap.display.format": "Date"
+    }
+   }
+  },
+  "AMOOUtilsService.SalesOrderProcessItemQuery": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "P_SAPClient": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "SAP Client",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.SalesOrderProcessItemQueryResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.SalesOrderFulfillmentIssueQueryResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "aggregate",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "DueDays": {
+     "type": "cds.Integer",
+     "@sap.label": "DueDays",
+     "@sap.aggregation.role": "dimension"
+    },
+    "RequestedDeliveryDate_E": {
+     "type": "cds.Date",
+     "@sap.label": "RequestedDeliveryDate_E",
+     "@sap.aggregation.role": "dimension",
+     "@sap.display.format": "Date"
+    },
+    "RequestedDeliveryDate_E_1": {
+     "type": "cds.Date",
+     "@sap.label": "RequestedDeliveryDate_E_1",
+     "@sap.aggregation.role": "dimension",
+     "@sap.display.format": "Date"
+    },
+    "DueDays_1": {
+     "type": "cds.Integer",
+     "@sap.label": "DueDays_1",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SalesOrder": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "SalesOrder",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SalesOrderItem": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "SalesOrderItem",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SubSalesOrder": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "SubSalesOrder",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SubSalesOrderItem": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "SubSalesOrderItem",
+     "@sap.aggregation.role": "dimension"
+    },
+    "LEVEL": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "LEVEL",
+     "@sap.aggregation.role": "dimension"
+    },
+    "LEVEL_TYPE": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "LEVEL_TYPE",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ISSUE": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "ISSUE",
+     "@sap.aggregation.role": "dimension"
+    },
+    "NPS": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "NPS",
+     "@sap.aggregation.role": "dimension"
+    },
+    "DUE_DATE": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "DUE_DATE",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ISSUE_DETAIL": {
+     "type": "cds.String",
+     "length": 60,
+     "@sap.label": "ISSUE_DETAIL",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ISSUE_LOCATION": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.label": "ISSUE_LOCATION",
+     "@sap.aggregation.role": "dimension"
+    },
+    "DOCUMENT_TYPE": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "DOCUMENT_TYPE",
+     "@sap.aggregation.role": "dimension"
+    },
+    "RequestedDeliveryDate": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "RequestedDeliveryDate",
+     "@sap.aggregation.role": "dimension"
+    },
+    "DeliveryDocument": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "DeliveryDocument",
+     "@sap.aggregation.role": "dimension"
+    },
+    "PurchasingDocument": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "PurchasingDocument",
+     "@sap.aggregation.role": "dimension"
+    },
+    "BillingDocument": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "BillingDocument",
+     "@sap.aggregation.role": "dimension"
+    },
+    "IssueDescription": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "IssueDescription",
+     "@sap.aggregation.role": "dimension"
+    },
+    "Issue": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "Issue",
+     "@sap.aggregation.role": "dimension"
+    }
+   }
+  },
+  "AMOOUtilsService.SalesOrderFulfillmentIssueQuery": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "P_SAPClient": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "SAP Client",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "P_LANG": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "P_LANG",
+     "@sap.parameter": "mandatory",
+     "notNull": true,
+     "default": {
+      "val": "EN"
+     }
+    },
+    "P_SalesOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "P_SalesOrder",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.SalesOrderFulfillmentIssueQueryResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.BillingDocumentQueryResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "aggregate",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "SAPClient": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "SAP Client",
+     "@sap.aggregation.role": "dimension"
+    },
+    "BillingDocument": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "Billing Document",
+     "@sap.aggregation.role": "dimension"
+    },
+    "BillingDocumentType": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Billing Document Type",
+     "@sap.aggregation.role": "dimension"
+    },
+    "BillingDocumentTypeName": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Billing Document Type Name",
+     "@sap.aggregation.role": "dimension"
+    },
+    "BillingDocumentDate": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "Billing Document Date (int)",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SalesOrganization": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Sales Organization",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SalesOrganizationName": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Sales Organization Name",
+     "@sap.aggregation.role": "dimension"
+    },
+    "PayerParty": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "Payer Party",
+     "@sap.aggregation.role": "dimension"
+    },
+    "PayerPartyName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Payer Party Name",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SoldToParty": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "Sold-To Party",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SoldToPartyName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Sold-To Party Name",
+     "@sap.aggregation.role": "dimension"
+    },
+    "TransactionCurrency": {
+     "type": "cds.String",
+     "length": 5,
+     "@sap.label": "Transaction Currency",
+     "@sap.aggregation.role": "dimension"
+    },
+    "AccountingPostingStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Accounting Posting Status",
+     "@sap.aggregation.role": "dimension"
+    },
+    "BillingDocumentIsCancelled": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Billing Document Is Cancelled",
+     "@sap.aggregation.role": "dimension"
+    },
+    "CustomerPaymentTerms": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Customer Payment Terms",
+     "@sap.aggregation.role": "dimension"
+    },
+    "CustomerPaymentTermsName": {
+     "type": "cds.String",
+     "length": 30,
+     "@sap.label": "Customer Payment Terms Name",
+     "@sap.aggregation.role": "dimension"
+    },
+    "AccountingTransferStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "AccountingTransferStatus",
+     "@sap.aggregation.role": "dimension"
+    },
+    "AccountingTransferStatusDesc": {
+     "type": "cds.String",
+     "length": 60,
+     "@sap.label": "AccountingTransferStatusDesc",
+     "@sap.aggregation.role": "dimension"
+    },
+    "BillingDocumentDate_E": {
+     "type": "cds.Date",
+     "@sap.label": "Billing Document Date",
+     "@sap.aggregation.role": "dimension",
+     "@sap.display.format": "Date"
+    }
+   }
+  },
+  "AMOOUtilsService.BillingDocumentQuery": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "P_SAPClient": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "SAP Client",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.BillingDocumentQueryResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.DeliveryDocumentQueryResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "aggregate",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "SAPClient": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "SAP Client",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OutboundDelivery": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "Outbound Delivery",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SalesOrganization": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Sales Organization",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SoldToParty": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "Sold-To Party",
+     "@sap.aggregation.role": "dimension"
+    },
+    "SoldToPartyName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Sold-To Party Name",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ShipToParty": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "Ship-To Party",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ShipToPartyName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Ship-To Party Name",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ShippingType": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Shipping Type",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ShippingTypeName": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Shipping Type Name",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ShippingCondition": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Shipping Condition",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ShippingConditionName": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Shipping Condition Name",
+     "@sap.aggregation.role": "dimension"
+    },
+    "IncotermsTransferLocation": {
+     "type": "cds.String",
+     "length": 28,
+     "@sap.label": "Incoterms Transfer Location",
+     "@sap.aggregation.role": "dimension"
+    },
+    "IncotermsClassification": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Incoterms Classification",
+     "@sap.aggregation.role": "dimension"
+    },
+    "IncotermsClassificationName": {
+     "type": "cds.String",
+     "length": 30,
+     "@sap.label": "Incoterms Classification Name",
+     "@sap.aggregation.role": "dimension"
+    },
+    "PlanedGoodsIssueDate": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "Planed Goods Issue Date (int)",
+     "@sap.aggregation.role": "dimension"
+    },
+    "DeliveryDate": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "Delivery Date (int)",
+     "@sap.aggregation.role": "dimension"
+    },
+    "TotalCreditCheckStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Total Credit Check Status",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ShippingPoint": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Shipping Point",
+     "@sap.aggregation.role": "dimension"
+    },
+    "PickingDate": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "Picking Date",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OverallPackingStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Overall Packing Status",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OverallPackingStatusDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Overall Packing Status Description",
+     "@sap.aggregation.role": "dimension"
+    },
+    "HeaderWeightUnit": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Header Weight Unit",
+     "@sap.aggregation.role": "dimension"
+    },
+    "TotalNumberOfPackage": {
+     "type": "cds.String",
+     "length": 5,
+     "@sap.label": "Total Number of Package",
+     "@sap.aggregation.role": "dimension"
+    },
+    "CompleteDeliveryIsDefined": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Complete Delivery is defined",
+     "@sap.aggregation.role": "dimension"
+    },
+    "CustomerCreditAccount": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "Customer Credit Account",
+     "@sap.aggregation.role": "dimension"
+    },
+    "CustomerCreditAccountName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Customer Credit Account Name",
+     "@sap.aggregation.role": "dimension"
+    },
+    "CustomerClassification": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Customer Classification",
+     "@sap.aggregation.role": "dimension"
+    },
+    "CustomerClassificationDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Customer Classification Description",
+     "@sap.aggregation.role": "dimension"
+    },
+    "CustomerName": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Customer Name",
+     "@sap.aggregation.role": "dimension"
+    },
+    "CustomerRiskCategory": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Customer Risk Category",
+     "@sap.aggregation.role": "dimension"
+    },
+    "CustomerRiskCategoryDesc": {
+     "type": "cds.String",
+     "length": 30,
+     "@sap.label": "Customer Risk Category Description",
+     "@sap.aggregation.role": "dimension"
+    },
+    "CreditControlAreaCrcy": {
+     "type": "cds.String",
+     "length": 5,
+     "@sap.label": "Credit Control Area Currency",
+     "@sap.aggregation.role": "dimension",
+     "@sap.semantics": "currency-code"
+    },
+    "DunningLevel": {
+     "type": "cds.Integer",
+     "@sap.label": "Dunning Level",
+     "@sap.aggregation.role": "dimension"
+    },
+    "TransactionCurrency": {
+     "type": "cds.String",
+     "length": 5,
+     "@sap.label": "Transaction Currency",
+     "@sap.aggregation.role": "dimension",
+     "@sap.semantics": "currency-code"
+    },
+    "HeaderWeightUnit_E": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Header Weight Unit",
+     "@sap.aggregation.role": "dimension",
+     "@sap.semantics": "unit-of-measure"
+    },
+    "LastDunningDate": {
+     "type": "cds.Date",
+     "@sap.label": "Last Dunning Date",
+     "@sap.aggregation.role": "dimension",
+     "@sap.display.format": "Date"
+    },
+    "OverallSDProcessStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Overall Process Status of all Items",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OverallSDProcessStatusDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Overall Process Status Description",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OverallGoodsMovementStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Overall Goods Movement Status",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OverallGoodsMovementStatusDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Overall Goods Movement Status Description",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OverallPickingStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Overall Picking Status",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OverallPickingStatusDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Overall Picking Status Description",
+     "@sap.aggregation.role": "dimension"
+    },
+    "HdrGeneralIncompletionStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Header General Incompletion Status",
+     "@sap.aggregation.role": "dimension"
+    },
+    "HdrGenIncompletionStatusDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Header General Incompletion Status Description",
+     "@sap.aggregation.role": "dimension"
+    },
+    "HdrGoodsMvtIncompletionStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Header Goods Movement Incompletion Status",
+     "@sap.aggregation.role": "dimension"
+    },
+    "HdrGoodsMvtIncompltnStatusDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Header Goods Movement Incompletion Status Description",
+     "@sap.aggregation.role": "dimension"
+    },
+    "HeaderPickgIncompletionStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Header Picking Incompletion Status",
+     "@sap.aggregation.role": "dimension"
+    },
+    "HdrPickgIncompltnStatusDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Header Picking Incompletion Status Description",
+     "@sap.aggregation.role": "dimension"
+    },
+    "HeaderPackingIncompletionSts": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Header Packing Incompletion Status",
+     "@sap.aggregation.role": "dimension"
+    },
+    "HdrPackingIncompltnStatusDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Header Packing Incompletion Status Description",
+     "@sap.aggregation.role": "dimension"
+    },
+    "HeaderDelivIncompletionStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Header Delivery Incompletion Status",
+     "@sap.aggregation.role": "dimension"
+    },
+    "HdrDelivIncompletionStatusDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Header Delivery Incompletion Status Description",
+     "@sap.aggregation.role": "dimension"
+    },
+    "HeaderBillgIncompletionStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Header Billing Incompletion Status",
+     "@sap.aggregation.role": "dimension"
+    },
+    "HdrBillgIncompletionStatusDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Header Billing Incompletion Status Description",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OvrlItmPickingIncompletionSts": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Overall Item Picking Incompletion Status",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OvrlItmPickingIncompltnStsDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Overall Item Picking Incompletion Status Description",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OvrlItmPackingIncompletionSts": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Overall Item Packing Incompletion Status",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OvrlItmPackingIncompltnStsDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Overall Item Packing Incompletion Status Description",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OvrlItmDelivIncompletionSts": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Overall Item Delivery Incompletion Status",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OvrlItmDelivIncompltnStsDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Overall Item Delivery Incompletion Status Description",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OvrlItmGeneralIncompletionSts": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Overall Item General Incompletion Status",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OvrlItmGenIncompletionStsDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Overall Item General Incompletion Status Description",
+     "@sap.aggregation.role": "dimension"
+    },
+    "HeaderBillingBlockReason": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Header Billing Block Reason",
+     "@sap.aggregation.role": "dimension"
+    },
+    "BillingBlockReasonDescription": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Billing Block Reason Description",
+     "@sap.aggregation.role": "dimension"
+    },
+    "DeliveryBlockReason": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "Delivery Block Reason",
+     "@sap.aggregation.role": "dimension"
+    },
+    "DeliveryBlockReasonText": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Delivery Block Reason Text",
+     "@sap.aggregation.role": "dimension"
+    },
+    "CompanyCode": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Company Code",
+     "@sap.aggregation.role": "dimension"
+    },
+    "CustCrdtCnsmpnPercent": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "scale": 2,
+     "@sap.label": "Customer Credit Consumption Percent",
+     "@sap.aggregation.role": "dimension"
+    },
+    "StatisticsCurrency": {
+     "type": "cds.String",
+     "length": 5,
+     "@sap.label": "Statistics Currency",
+     "@sap.aggregation.role": "dimension",
+     "@sap.semantics": "currency-code"
+    },
+    "OverallWarehouseActivityStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Overall Warehouse Activity Status",
+     "@sap.aggregation.role": "dimension"
+    },
+    "OvrlWarehouseActyStatusDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Overall Warehouse Activity Status Description",
+     "@sap.aggregation.role": "dimension"
+    },
+    "TransportationPlanningDate": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "Transportation Planning Date (int)",
+     "@sap.aggregation.role": "dimension"
+    },
+    "TransportationPlanningStatus": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Transportation Planning Status",
+     "@sap.aggregation.role": "dimension"
+    },
+    "TransportationPlanningStsDesc": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.label": "Transportation Planning Status Description",
+     "@sap.aggregation.role": "dimension"
+    },
+    "CreditControlArea": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Credit Control Area",
+     "@sap.aggregation.role": "dimension"
+    },
+    "BillingDocumentDate": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "Billing Document Date (int)",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ActualGoodsMovementDate": {
+     "type": "cds.String",
+     "length": 8,
+     "@sap.label": "Actual Goods Movement Date (int)",
+     "@sap.aggregation.role": "dimension"
+    },
+    "CustomerCreditLimitAmount_E.CURRENCY": {
+     "type": "cds.String",
+     "length": 5
+    },
+    "CustomerCreditExposureAmount_E.CURRENCY": {
+     "type": "cds.String",
+     "length": 5
+    },
+    "CustomerRemainingCreditAmount_E.CURRENCY": {
+     "type": "cds.String",
+     "length": 5
+    },
+    "ActualDeliveryAmount_E.CURRENCY": {
+     "type": "cds.String",
+     "length": 5
+    },
+    "TransportationPlanningDate_E": {
+     "type": "cds.Date",
+     "@sap.label": "Transportation Planning Date",
+     "@sap.aggregation.role": "dimension",
+     "@sap.display.format": "Date"
+    },
+    "PlanedGoodsIssueDate_E": {
+     "type": "cds.Date",
+     "@sap.label": "Planed Goods Issue Date",
+     "@sap.aggregation.role": "dimension",
+     "@sap.display.format": "Date"
+    },
+    "DeliveryDate_E": {
+     "type": "cds.Date",
+     "@sap.label": "Delivery Date",
+     "@sap.aggregation.role": "dimension",
+     "@sap.display.format": "Date"
+    },
+    "PickingDate_E": {
+     "type": "cds.Date",
+     "@sap.label": "Picking Date",
+     "@sap.aggregation.role": "dimension",
+     "@sap.display.format": "Date"
+    },
+    "LastDunningDate_E": {
+     "type": "cds.Date",
+     "@sap.label": "Last Dunning Date",
+     "@sap.aggregation.role": "dimension",
+     "@sap.display.format": "Date"
+    },
+    "BillingDocumentDate_E": {
+     "type": "cds.Date",
+     "@sap.label": "Billing Document Date",
+     "@sap.aggregation.role": "dimension",
+     "@sap.display.format": "Date"
+    },
+    "ActualGoodsMovementDate_E": {
+     "type": "cds.Date",
+     "@sap.label": "Actual Goods Movement Date",
+     "@sap.aggregation.role": "dimension",
+     "@sap.display.format": "Date"
+    },
+    "HeaderGrossWeight": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "scale": 3,
+     "@sap.label": "Header Gross Weight",
+     "@sap.aggregation.role": "measure",
+     "@sap.filterable": "false",
+     "@sap.unit": "HeaderWeightUnit_E"
+    },
+    "HeaderNetWeight": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "scale": 3,
+     "@sap.label": "Header Net Weight",
+     "@sap.aggregation.role": "measure",
+     "@sap.filterable": "false",
+     "@sap.unit": "HeaderWeightUnit_E"
+    },
+    "CustomerCreditLimitAmount_E": {
+     "type": "cds.Decimal",
+     "precision": 26,
+     "scale": 6,
+     "@sap.label": "Customer Credit Limit Amount",
+     "@sap.aggregation.role": "measure",
+     "@sap.filterable": "false",
+     "@sap.unit": "CreditControlAreaCrcy"
+    },
+    "CustomerCreditExposureAmount_E": {
+     "type": "cds.Decimal",
+     "precision": 26,
+     "scale": 6,
+     "@sap.label": "Customer Credit Exposure Amount",
+     "@sap.aggregation.role": "measure",
+     "@sap.filterable": "false",
+     "@sap.unit": "CreditControlAreaCrcy"
+    },
+    "CustomerRemainingCreditAmount_E": {
+     "type": "cds.Decimal",
+     "precision": 26,
+     "scale": 6,
+     "@sap.label": "Customer Remaining Credit Amount",
+     "@sap.aggregation.role": "measure",
+     "@sap.filterable": "false",
+     "@sap.unit": "CreditControlAreaCrcy"
+    },
+    "ActualDeliveryAmount_E": {
+     "type": "cds.Decimal",
+     "precision": 26,
+     "scale": 6,
+     "@sap.label": "Actual Delivery Amount",
+     "@sap.aggregation.role": "measure",
+     "@sap.filterable": "false",
+     "@sap.unit": "TransactionCurrency"
+    },
+    "CustRevnLast12MnthInStstcCrcy_E": {
+     "type": "cds.Decimal",
+     "precision": 26,
+     "scale": 6,
+     "@sap.label": "Customer Revenue last 12 Month in Statistic Currency",
+     "@sap.aggregation.role": "measure",
+     "@sap.filterable": "false",
+     "@sap.unit": "StatisticsCurrency"
+    }
+   }
+  },
+  "AMOOUtilsService.DeliveryDocumentQuery": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "P_SAPClient": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "SAP Client",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.DeliveryDocumentQueryResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.PurchaseOrderScheduleLineQueryResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "aggregate",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "SAPClient": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "SAP Client",
+     "@sap.aggregation.role": "dimension"
+    },
+    "PurchasingDocument": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "Purchasing Document",
+     "@sap.aggregation.role": "dimension"
+    },
+    "PurchasingDocumentType": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Purchasing Document Type",
+     "@sap.aggregation.role": "dimension"
+    },
+    "PurchasingDocumentItem": {
+     "type": "cds.String",
+     "length": 5,
+     "@sap.label": "Purchasing Document Item",
+     "@sap.aggregation.role": "dimension"
+    },
+    "PurchasingDocumentItemText": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Purchasing Document Item Text",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ScheduleLine": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Schedule Line",
+     "@sap.aggregation.role": "dimension"
+    },
+    "PurchasingGroup": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Purchasing Group",
+     "@sap.aggregation.role": "dimension"
+    },
+    "PurchasingOrganisation": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Purchasing Organization",
+     "@sap.aggregation.role": "dimension"
+    },
+    "Material": {
+     "type": "cds.String",
+     "length": 18,
+     "@sap.label": "Material",
+     "@sap.aggregation.role": "dimension"
+    },
+    "Plant": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Plant",
+     "@sap.aggregation.role": "dimension"
+    },
+    "PurgDocOrderQuantityUnit_E": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Purchasing Document Order Quantity Unit",
+     "@sap.aggregation.role": "dimension",
+     "@sap.semantics": "unit-of-measure"
+    },
+    "IsCompletelyDelivered": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Is Completely Delivered",
+     "@sap.aggregation.role": "dimension"
+    },
+    "IsFinallyInvoiced": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Is Finally Invoiced",
+     "@sap.aggregation.role": "dimension"
+    },
+    "GoodsReceiptIsExpected": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "Goods Receipt Is Expected",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ScheduleLineDeliveryDate_E": {
+     "type": "cds.Date",
+     "@sap.label": "Schedule Line Delivery Date",
+     "@sap.aggregation.role": "dimension",
+     "@sap.display.format": "Date"
+    },
+    "ScheduleLineOrderQuantity": {
+     "type": "cds.Decimal",
+     "precision": 13,
+     "scale": 3,
+     "@sap.label": "Schedule Line Order Quantity",
+     "@sap.aggregation.role": "measure",
+     "@sap.filterable": "false",
+     "@sap.unit": "PurgDocOrderQuantityUnit_E"
+    },
+    "RoughGoodsReceiptQty": {
+     "type": "cds.Decimal",
+     "precision": 13,
+     "scale": 3,
+     "@sap.label": "Quantity of Goods Received",
+     "@sap.aggregation.role": "measure",
+     "@sap.filterable": "false",
+     "@sap.unit": "PurgDocOrderQuantityUnit_E"
+    }
+   }
+  },
+  "AMOOUtilsService.PurchaseOrderScheduleLineQuery": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "P_SAPClient": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "SAP Client",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.PurchaseOrderScheduleLineQueryResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.PersonelSettingResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "aggregate",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "MANDT": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "BASF_USER": {
+     "type": "cds.String",
+     "length": 12
+    },
+    "PERSONA": {
+     "type": "cds.String",
+     "length": 20
+    },
+    "STOCK_REPLENISHMENT": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "TIMEFRAME": {
+     "type": "cds.Integer",
+     "@sap.label": "TIMEFRAME",
+     "@sap.aggregation.role": "measure",
+     "@sap.filterable": "false"
+    },
+    "ML_ACTIVE": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "ML_THRESHOLD": {
+     "type": "cds.Integer",
+     "@sap.label": "Machine Learning threshold",
+     "@sap.aggregation.role": "measure",
+     "@sap.filterable": "false"
+    }
+   }
+  },
+  "AMOOUtilsService.PersonelSetting": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "p_mandt": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "p_mandt",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.PersonelSettingResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.TrainingDocumentResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "aggregate",
+   "elements": {
+    "CODE": {
+     "key": true,
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true
+    },
+    "MANDT": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Client",
+     "@sap.aggregation.role": "dimension"
+    },
+    "URL": {
+     "type": "cds.String",
+     "length": 255,
+     "@sap.label": "URL for the SAP Portal",
+     "@sap.aggregation.role": "dimension"
+    }
+   }
+  },
+  "AMOOUtilsService.TrainingDocument": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "IP_CODE": {
+     "key": true,
+     "type": "cds.String",
+     "length": 5,
+     "@sap.label": "IP_CODE",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.TrainingDocumentResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.MrpPlannerResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "aggregate",
+   "elements": {
+    "VBELN": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true
+    },
+    "MANDT": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "Client",
+     "@sap.aggregation.role": "dimension"
+    },
+    "POSNR": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "Sales Document Item",
+     "@sap.aggregation.role": "dimension"
+    },
+    "WERKS": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Plant (Own or External)",
+     "@sap.aggregation.role": "dimension"
+    },
+    "MATNR": {
+     "type": "cds.String",
+     "length": 18,
+     "@sap.label": "Material Number",
+     "@sap.aggregation.role": "dimension"
+    },
+    "DISPO": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "MRP Controller",
+     "@sap.aggregation.role": "dimension"
+    },
+    "DSNAM": {
+     "type": "cds.String",
+     "length": 18,
+     "@sap.label": "Name of MRP controller",
+     "@sap.aggregation.role": "dimension"
+    },
+    "DSTEL": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.label": "MRP controller's telephone number",
+     "@sap.aggregation.role": "dimension"
+    },
+    "PARTNER_ROLE": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "PARTNER_ROLE",
+     "@sap.aggregation.role": "dimension"
+    }
+   }
+  },
+  "AMOOUtilsService.MrpPlanner": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "IP_VBELN": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "IP_VBELN",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "IP_POSNR": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "IP_POSNR",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "IP_MATNR": {
+     "key": true,
+     "type": "cds.String",
+     "length": 18,
+     "@sap.label": "IP_MATNR",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.MrpPlannerResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.ELEMENTUMResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "aggregate",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "ELEM_ATTR_15_01": {
+     "type": "cds.String",
+     "length": 120,
+     "@sap.label": "ELEM_ATTR_15_01",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ELEM_ATTR_15_02": {
+     "type": "cds.String",
+     "length": 120,
+     "@sap.label": "ELEM_ATTR_15_02",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ELEM_ATTR_15_03": {
+     "type": "cds.String",
+     "length": 120,
+     "@sap.label": "ELEM_ATTR_15_03",
+     "@sap.aggregation.role": "dimension"
+    },
+    "ELEM_ATTR_15_04": {
+     "type": "cds.String",
+     "length": 120,
+     "@sap.label": "ELEM_ATTR_15_04",
+     "@sap.aggregation.role": "dimension"
+    }
+   }
+  },
+  "AMOOUtilsService.Elementum": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "p_tdocnum": {
+     "key": true,
+     "type": "cds.String",
+     "length": 120,
+     "@sap.label": "p_tdocnum",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.ELEMENTUMResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  }
+ }
+}
