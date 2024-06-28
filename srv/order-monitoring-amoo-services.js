@@ -84,6 +84,9 @@ class openOrdersSrv extends cds.ApplicationService {
                 lt_finalOrderLines = await apiManagementService.tx(req).send({
                     query: orderLineQuery
                 });
+                var date = lt_finalOrderLines[0].OrdSchedReqAssociation[0].SlDate;
+                lt_finalOrderLines[0].OrdSchedReqAssociation[0].SlDate = ODataV2toODataV4DateTime(date).substring(0,10);
+
             } catch (error) {
                 req.error(413, error)
             }
@@ -677,4 +680,11 @@ function _buildContactOption(order, item, key, text) {
         VBELN: order,
         POSNR: item
     }
+}
+
+function ODataV2toODataV4DateTime(value) {
+    var thenum = value.match(/\d+/)[0];
+    if (!thenum)
+        return value
+    return new Date(Number(thenum)).toISOString()
 }
