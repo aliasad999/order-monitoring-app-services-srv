@@ -288,27 +288,27 @@ entity ![DUE_DATE_LIMIT] {
 entity ![UNRESTRICTED_USER] {
         key userId   : User;
 }
-entity Services {
-        key SalesOrder            : String(10);
-        key SalesOrderItem        : String(6);
-        key ServiceId             : String(5);
-        key DslServiceType        : String(3);
-            ServiceLevelText      : String(60);
-            Language              : String(2);
-            Service               : String(40);
-            ServiceRequested      : Boolean;
-            CurrentOrderCondition : String(100);
-            Specification         : String(100);
-            ServiceLevel          : String(1);
-            ResultsIcon           : String(1);
-            Zcomment              : String(100);
-            SurchargeDiscount     : String(10);
-            Amount                : Decimal(14, 3);
-            Currency              : String(5);
-            WorkflowStatus        : String(4);
-            ExceptionCategory     : String(25);
+// entity Services {
+//         key SalesOrder            : String(10);
+//         key SalesOrderItem        : String(6);
+//         key ServiceId             : String(5);
+//         key DslServiceType        : String(3);
+//             ServiceLevelText      : String(60);
+//             Language              : String(2);
+//             Service               : String(40);
+//             ServiceRequested      : Boolean;
+//             CurrentOrderCondition : String(100);
+//             Specification         : String(100);
+//             ServiceLevel          : String(1);
+//             ResultsIcon           : String(1);
+//             Zcomment              : String(100);
+//             SurchargeDiscount     : String(10);
+//             Amount                : Decimal(14, 3);
+//             Currency              : String(5);
+//             WorkflowStatus        : String(4);
+//             ExceptionCategory     : String(25);
 
-}
+// }
 
 @cds.persistence.exists
 @cds.persistence.calcview
