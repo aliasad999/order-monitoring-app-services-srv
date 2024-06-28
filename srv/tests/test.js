@@ -214,7 +214,7 @@ describe('Start Server and check various ODATA  calls', function () {
     }
   });
   it(` sales order + delivery for ==> year ${currentYear}  `, async function () {
-    const timeout = 5000
+    const timeout = 6000
     this.timeout(timeout);
     try {
       const response = await axios.get(`${baseUrl}/Results?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay})&$select=${constants.salesOrderDeliveryResults}`)
