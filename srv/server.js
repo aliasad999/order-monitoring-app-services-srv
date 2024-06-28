@@ -6,7 +6,6 @@ var bodyParser = require('body-parser');
 require('hdb/lib/protocol/common/Constants').MAX_PACKET_SIZE = Math.pow(4,15);
 
 const fesr = require("@sap/fesr-to-otel-js");
-
 module.exports = cds.server;
 
 cds.on('bootstrap', (app) => {
