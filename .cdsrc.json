@@ -20,7 +20,7 @@
         "contactsService": {
             "kind": "odata",
             "credentials": {
-                "destination": "APIM",
+                "destination": "APIM_DEV",
                 "path": "/it/omg/omc/so-fulfillment/v1"
             }
         },
@@ -34,7 +34,7 @@
         "orderChangeService": {
             "kind": "odata",
             "credentials": {
-                "destination": "APIM",
+                "destination": "APIM_DEV",
                 "path": "/it/omg/omc/order-change/v1"
             }
         },
@@ -55,28 +55,28 @@
         "atpService": {
             "kind": "odata",
             "credentials": {
-                "destination": "APIM",
+                "destination": "APIM_DEV",
                 "path": "/it/omg/omc/atp/v1"
             }
         },
         "cseuCockpitService": {
             "kind": "odata",
             "credentials": {
-                "destination": "APIM",
+                "destination": "APIM_DEV",
                 "path": "/it/omg/omc/cseu-cockpit/v1"
             }
         },
         "lordOdataOrderService": {
             "kind": "odata",
             "credentials": {
-                "destination": "APIM",
+                "destination": "APIM_DEV",
                 "path": "/it/omg/omc/lord-odata-order/v1"
             }
         },
         "yrdsdv1Foe1Service": {
             "kind": "odata",
             "credentials": {
-                "destination": "APIM",
+                "destination": "APIM_DEV",
                 "path": "/it/omg/omc/yrdsdv1-foe-1/v1"
             }
         }
