@@ -209,6 +209,7 @@ entity ![OPENORDERSLIST] {
         ISSUE_LOCATION                     : String(10);
         ISSUE_LOCATION_ITEM                : String(6);
         NOTE_TEXT                          : String(1000);
+        IGNORED                            : Boolean;
 // BL_VBELN_INV_FIRST                 : String(10);
 // BL_VBELN_INV_LAST                  : String(10);
 // XBLNR                              : String(16);
@@ -287,7 +288,6 @@ entity ![DUE_DATE_LIMIT] {
 entity ![UNRESTRICTED_USER] {
         key userId   : User;
 }
-
 entity Services {
         key SalesOrder            : String(10);
         key SalesOrderItem        : String(6);
@@ -501,3 +501,14 @@ entity FinalOrderLine {
                                                          on  OrdSchedConfAssociation.SalesOrder     = SalesOrder
                                                          and OrdSchedConfAssociation.SalesOrderItem = SalesOrderItem;
 }
+@cds.persistence.exists
+entity ![IGNORED_SO] {
+        key MANDT    : String(3);
+        key USERNAME : String(12);
+        key VBELN    : String(10);
+        key POSNR    : String(6);
+        key NPS      : String(3);
+            VALID_TO : String(8);
+            COMMENT  : String(255);
+            IGNORED  : Boolean
+};

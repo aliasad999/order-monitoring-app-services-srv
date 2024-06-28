@@ -58,5 +58,11 @@
       "object": "otc.csc.db.base.views::CV_SO_FOLLOWUP_NOTES",
       "schema.configure": "otc-csc-hdi/schema"
     }
+  },
+  "OPENORDERS_DB_IGNORED_SO": {
+    "target": {
+      "object": "otc.csc.db.base.tables::IGNORED_SO",
+      "schema.configure": "otc-csc-hdi/schema"
+    }
   }
 }

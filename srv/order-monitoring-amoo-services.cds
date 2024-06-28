@@ -174,7 +174,8 @@ service openOrdersSrv {
                 DUE_DATE_FORMATTED                                       as SO_DUE_DATE,
                 ISSUE_LOCATION                                           as SO_ISSUE_LOCATION,
                 ISSUE_LOCATION_ITEM                                      as SO_ISSUE_LOCATION_ITEM,
-                virtual 0                                                as criticalityDueDate : Integer
+                virtual 0                                                as criticalityDueDate : Integer,
+                IGNORED                                                  as SO_IGNORED
                 // Billing Fields to be added later
                 // BL_VBELN_INV_FIRST                                       as BL_VBELN_INV_FIRST,
                 // BL_VBELN_INV_LAST                                        as BL_VBELN_INV_LAST,
@@ -252,4 +253,5 @@ service openOrdersSrv {
                 ), 2
             )
         );
+    entity ignoreSalesOrder as projection on db_app.IGNORED_SO;
 };
