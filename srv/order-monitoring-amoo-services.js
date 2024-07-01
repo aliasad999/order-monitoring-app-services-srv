@@ -732,7 +732,7 @@ class openOrdersSrv extends cds.ApplicationService {
             return predefFUNotes;
         });
 
-        this.on("READ", "SalesOrderFollowupNotes", async req => {
+        this.on("READ", "FollowupNotes", async req => {
             let followupNotes = [];
             try {
                 const AMOOService = await cds.connect.to('AMOOUtilsService');

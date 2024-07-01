@@ -222,7 +222,7 @@ service openOrdersSrv {
     entity ReasonComments as select * from AMOOUtilsService.APACDelayReasons;
 
     entity PredefinedFollowupNotes as select * from AMOOUtilsService.PredefinedFollowupNotes;
-    entity SalesOrderFollowupNotes as select * from AMOOUtilsService.FollowupNotes;
+    entity FollowupNotes as select * from AMOOUtilsService.FollowupNotes;
     entity dueDateLimit          as projection on db_app.DUE_DATE_LIMIT;
 
     // Sales order details from generic service
