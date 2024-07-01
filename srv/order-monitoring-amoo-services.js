@@ -688,7 +688,7 @@ class openOrdersSrv extends cds.ApplicationService {
             return reasonBuckets;
         });
 
-        this.on("READ", "PredefinedReasonComments", async req => {
+        this.on("READ", "PredefReasonComments", async req => {
             let predefReasonComments = [];
             try {
                 const AMOOService = await cds.connect.to('AMOOUtilsService');
@@ -718,7 +718,7 @@ class openOrdersSrv extends cds.ApplicationService {
             return reasonEntries;
         });
 
-        this.on("READ", "PredefinedFollowupNotes", async req => {
+        this.on("READ", "PredefFollowupNotes", async req => {
             let predefFUNotes = [];
             try {
                 const AMOOService = await cds.connect.to('AMOOUtilsService');
