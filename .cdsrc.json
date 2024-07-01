@@ -53,7 +53,7 @@
             "kind": "odata-v2",
             "model": "srv/external/AMOOUtilsService",
             "credentials": {
-                "destination": "APIM",
+                "destination": "APIM_DEV",
                 "path": "/it/omg/omc/amoo-utils/v1"
             }
         },
