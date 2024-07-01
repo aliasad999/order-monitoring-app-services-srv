@@ -227,10 +227,10 @@ service openOrdersSrv {
         REASON_TEXT as ReasonComment
     };
     entity ReasonComments as select from AMOOUtilsService.APACDelayReasons {
-        ORDER_NUMBER as SalesOrder,
-        ITEM_NUMBER as OrderItem,
-        BUCKET as BucketKey,
-        LANGUAGE as Language,
+        key ORDER_NUMBER as SalesOrder,
+        key ITEM_NUMBER as OrderItem,
+        key BUCKET as BucketKey,
+        key LANGUAGE as Language,
         REASON_CODE as ReasonCodeKey
     };
 
