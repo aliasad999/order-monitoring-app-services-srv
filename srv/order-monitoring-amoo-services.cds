@@ -217,40 +217,12 @@ service openOrdersSrv {
 
     action   submitOrderChange(payload : String)       returns String;
 
-    entity PredefFollowUpNotes         as select from db_app.PREDEF_FOLLOWUP_NOTES {
-        Predefined_Id as FollowUpNoteId,
-        Language,
-        Predefined_Content as FollowUpNoteContent
-    };
+    entity PredefReasonBuckets as select * from AMOOUtilsService.PredefinedReasonBuckets;
+    entity PredefinedReasonComments as select * from AMOOUtilsService.PredefinedReasonComments;
+    entity ReasonComments as select * from AMOOUtilsService.APACDelayReasons;
 
-    entity FollowupNotes as select from db_app.SO_FOLLOWUP_NOTES {
-        Order_Number as SalesOrder,
-        Order_Item as OrderItem,
-        Predefined_Id as FollowUpNoteId,
-        Created_At as CreatedAt
-
-    };
-
-
-
-    entity PredefReasonBuckets as select from db_app.PREDEF_REASON_BUCKETS {
-        Bucket as BucketKey,
-        Language,
-        Bucket_Text as BucketText
-    };
-    entity PredefReasonComments as select from db_app.PREDEF_REASON_COMMENTS {
-        Bucket as BucketKey,
-        Language,
-        Reason_Code as ReasonCodeKey,
-        Reason_Text as ReasonComment
-    };
-    entity ReasonComments        as select from db_app.REASON_COMMENTS {
-        Order_Number as SalesOrder,
-        Item_Number as OrderItem,
-        Bucket as BucketKey,
-        Language,
-        Reason_Code as ReasonCodeKey
-    };
+    entity PredefinedFollowupNotes as select * from AMOOUtilsService.PredefinedFollowupNotes;
+    entity FollowupNotes as select * from AMOOUtilsService.FollowupNotes;
     entity dueDateLimit          as projection on db_app.DUE_DATE_LIMIT;
 
     // Sales order details from generic service

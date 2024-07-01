@@ -1,6 +1,6 @@
 {
  "meta": {
-  "creator": "cds-dk 7.9.4"
+  "creator": "cds-dk 7.8.2"
  },
  "$version": "2.0",
  "definitions": {
@@ -2379,6 +2379,110 @@
       "max": "*"
      },
      "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.PredefinedReasonBuckets": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "BUCKET": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true
+    },
+    "LANGUAGE": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true
+    },
+    "BUCKET_TEXT": {
+     "type": "cds.String",
+     "length": 255
+    }
+   }
+  },
+  "AMOOUtilsService.PredefinedReasonComments": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "BUCKET": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true
+    },
+    "LANGUAGE": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true
+    },
+    "REASON_CODE": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true
+    },
+    "REASON_TEXT": {
+     "type": "cds.String",
+     "length": 255
+    }
+   }
+  },
+  "AMOOUtilsService.PredefinedFollowupNotes": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "PREDEFINED_ID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true
+    },
+    "LANGUAGE": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true
+    },
+    "PREDEFINED_CONTENT": {
+     "type": "cds.String",
+     "length": 50
+    }
+   }
+  },
+  "AMOOUtilsService.FollowupNotes": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "PREDEFINED_ID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true
+    },
+    "ORDER_NUMBER": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true
+    },
+    "ORDER_ITEM": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "notNull": true
+    },
+    "CREATED_AT": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTime"
     }
    }
   },
