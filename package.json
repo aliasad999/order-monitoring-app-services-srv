@@ -61,6 +61,12 @@
     },
     "hana": {
       "deploy-format": "hdbtable"
+    },
+    "requires": {
+      "AMOOUtilsService": {
+        "kind": "odata-v2",
+        "model": "srv/external/AMOOUtilsService"
+      }
     }
   }
 }

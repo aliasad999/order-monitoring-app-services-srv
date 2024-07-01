@@ -674,6 +674,78 @@ class openOrdersSrv extends cds.ApplicationService {
 
         });
 
+        this.on("READ", "PredefReasonBuckets", async req => {
+            let reasonBuckets = [];
+            try {
+                const AMOOService = await cds.connect.to('AMOOUtilsService');
+                reasonBuckets = await AMOOService.tx(req).send({
+                    query: req.query
+                });
+            } catch (error) {
+                req.error(413, error)
+            }
+
+            return reasonBuckets;
+        });
+
+        this.on("READ", "PredefinedReasonComments", async req => {
+            let predefReasonComments = [];
+            try {
+                const AMOOService = await cds.connect.to('AMOOUtilsService');
+                predefReasonComments = await AMOOService.tx(req).send({
+                    query: req.query
+                });
+            } catch (error) {
+                req.error(413, error)
+            }
+
+            return predefReasonComments;
+        });
+
+
+
+        this.on("READ", "ReasonComments", async req => {
+            let reasonEntries = [];
+            try {
+                const AMOOService = await cds.connect.to('AMOOUtilsService');
+                reasonEntries = await AMOOService.tx(req).send({
+                    query: req.query
+                });
+            } catch (error) {
+                req.error(413, error)
+            }
+
+            return reasonEntries;
+        });
+
+        this.on("READ", "PredefinedFollowupNotes", async req => {
+            let predefFUNotes = [];
+            try {
+                const AMOOService = await cds.connect.to('AMOOUtilsService');
+                predefFUNotes = await AMOOService.tx(req).send({
+                    query: req.query
+                });
+            } catch (error) {
+                req.error(413, error)
+            }
+
+            return predefFUNotes;
+        });
+
+        this.on("READ", "SalesOrderFollowupNotes", async req => {
+            let followupNotes = [];
+            try {
+                const AMOOService = await cds.connect.to('AMOOUtilsService');
+                followupNotes = await AMOOService.tx(req).send({
+                    query: req.query
+                });
+            } catch (error) {
+                req.error(413, error)
+            }
+
+            return followupNotes;
+        });
+
         return super.init();
     }
 }
