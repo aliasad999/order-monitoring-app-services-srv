@@ -385,7 +385,7 @@ annotate service.allIssues with {
 
 annotate service.allIssues with {
     criticalityDueDate        @UI                     : {Hidden: true};
-    SO_MANDT                  @UI                     : {Hidden: true};
+    // SO_MANDT                  @UI                     : {Hidden: true};
     SO_CO_PARTNER_NAME        @UI                     : {Hidden: true};
     SO_NY_PARTNER_NAME        @UI                     : {Hidden: true};
     SO_AS_PARTNER_NAME        @UI                     : {Hidden: true};
@@ -420,9 +420,9 @@ annotate service.allIssues with {
     SO_F_AMEIN                @UI                     : {Hidden: true};
     SO_F_AS_PARTNER_NAME      @UI                     : {Hidden: true};
     DL_LFART_VTEXT            @UI                     : {Hidden: true};
-    id                        @UI                     : {Hidden: true};
-    DL_MANDT                  @UI                     : {Hidden: true};
-    TM_MANDT                  @UI                     : {Hidden: true};
+    // id                        @UI                     : {Hidden: true};
+    // DL_MANDT                  @UI                     : {Hidden: true};
+    // TM_MANDT                  @UI                     : {Hidden: true};
     // BL_MANDT_INV_FIRST     @UI                     : {Hidden: true};
     // BL_MANDT_INV_LAST      @UI                     : {Hidden: true};
     DL_HSDAT                  @UI                     : {Hidden: true};

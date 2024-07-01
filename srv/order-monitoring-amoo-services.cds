@@ -1,4 +1,13 @@
 using openorders.db as db_app from '../db/order-monitoring-amoo-service';
+using {OrderChangeService as orderChange} from './external/OrderChangeService';
+using { ContactsService as orderContacts } from './external/ContactsService';
+// using { CreditManagerService as creditManagerService } from './external/CreditManagerService';
+using { DSLServicesService as DSLServicesService } from './external/DSLServicesService';
+using { AMOOUtilsService as AMOOUtilsService } from './external/AMOOUtilsService';
+// using { LORDOdataOrderService as LORDOdataOrderService } from './external/LORDOdataOrderService';
+// using { YRDSDV1Foe1Service as YRDSDV1Foe1Service } from './external/YRDSDV1Foe1Service';
+// using { ATPService as ATPService } from './external/ATPService';
+// using { CSEUCockpitService as CSEUCockpitService } from './external/CSEUCockpitService';
 
 service openOrdersSrv {
     entity rootEntity as select from db_app.OPENORDERSLIST {
@@ -198,13 +207,13 @@ service openOrdersSrv {
     entity allIssues      as projection on baseEntity;
     entity valueHelps     as projection on baseEntity; 
     entity unrestrictedUser  as projection on db_app.UNRESTRICTED_USER;
-    entity issueDetailsContacts  as select * from db_app.Contacts;
+    entity ContactSet  as select * from orderContacts.ContactSet;
     entity ContactsOptions       as select * from db_app.ContactsOptions;
-    entity Services              as select * from db_app.Services;
-    entity FinalOrderLine        as select * from db_app.FinalOrderLine;
-    entity ScheduleLineRequested as select * from db_app.ScheduleLineRequested;
-    entity ScheduleLineConfirmed as select * from db_app.ScheduleLineConfirmed;
-    entity WorkflowPartner       as select * from db_app.WorkflowPartner;
+    entity ServicesSet              as select * from DSLServicesService.ServicesSet;
+    entity FinalOrderLineSet     as select * from orderChange.FinalOrderLineSet;
+    entity ScheduleLineRequestedSet as select * from orderChange.ScheduleLineRequestedSet;
+    entity ScheduleLineConfirmedSet as select * from orderChange.ScheduleLineConfirmedSet;
+    entity WorkflowPartnerSet       as select * from orderChange.WorkflowPartnerSet;
 
     action   submitOrderChange(payload : String)       returns String;
 

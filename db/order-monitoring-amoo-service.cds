@@ -217,17 +217,6 @@ entity ![OPENORDERSLIST] {
 // BL_MANDT_INV_LAST                  : String(3);
 }
 
-entity Contacts {
-        key PersonalNumber  : String(8);
-            PersonalName    : String(40);
-            EmailAddress    : String(241);
-            PhoneNumber     : String(241);
-            SalesDocument   : String(10);
-            OrderItem       : String(6);
-            PartnerFunction : String(2);
-            Material        : String(18);
-}
-
 entity ContactsOptions {
         key OptionKey  : String(10);
             OptionText : String;
@@ -287,27 +276,6 @@ entity ![DUE_DATE_LIMIT] {
 }
 entity ![UNRESTRICTED_USER] {
         key userId   : User;
-}
-entity Services {
-        key SalesOrder            : String(10);
-        key SalesOrderItem        : String(6);
-        key ServiceId             : String(5);
-        key DslServiceType        : String(3);
-            ServiceLevelText      : String(60);
-            Language              : String(2);
-            Service               : String(40);
-            ServiceRequested      : Boolean;
-            CurrentOrderCondition : String(100);
-            Specification         : String(100);
-            ServiceLevel          : String(1);
-            ResultsIcon           : String(1);
-            Zcomment              : String(100);
-            SurchargeDiscount     : String(10);
-            Amount                : Decimal(14, 3);
-            Currency              : String(5);
-            WorkflowStatus        : String(4);
-            ExceptionCategory     : String(25);
-
 }
 
 @cds.persistence.exists
@@ -439,68 +407,6 @@ entity ![SALESORDER_DETAILS](IP_LANG : String(2)) {
             SO_LAST_UPDATE         : Timestamp;
 }
 
-entity ScheduleLineRequested {
-        key SalesOrder     : String(10);
-        key SalesOrderItem : String(6);
-        key SlNum          : String(4);
-            SlDate         : Date;
-            Quantity       : Decimal(13, 3);
-            SalesUnit      : String(3);
-}
-
-entity ScheduleLineConfirmed {
-        key SalesOrder     : String(10);
-        key SalesOrderItem : String(6);
-        key SlNum          : String(4);
-            Quantity       : Decimal(13, 3);
-            SalesUnit      : String(3);
-            SlDate         : Date;
-}
-
-entity WorkflowPartner {
-        key PartnFn        : String(2);
-        key SalesOrder     : String(10);
-        key SalesOrderItem : String(6);
-            Usrid          : String(30);
-            Name           : String(40);
-            MailAddr       : String(241);
-            TelNum         : String(241);
-}
-
-entity FinalOrderLine {
-        key SalesOrder                         : String(10);
-        key SalesOrderItem                     : String(6);
-            FinalOrder                         : String(10);
-            FinalItem                          : String(6);
-            NextItem                           : String(6);
-            NextOrder                          : String(10);
-            Editable                           : Boolean;
-            BusProc                            : String(60);
-            PurchaseOrder                      : String(20);
-            ShippingCondition                  : String(2);
-            ShipToCountry                      : String(3);
-            SubmitWorkflow                     : Boolean;
-            SubmitChangeSap                    : Boolean;
-            SendEmail                          : Boolean;
-            FirstItem                          : String(6);
-            FirstOrder                         : String(10);
-
-            OrdWFPartnersAssociationFinalOrder : Association to many WorkflowPartner
-                                                         on  OrdWFPartnersAssociationFinalOrder.SalesOrder     = SalesOrder
-                                                         and OrdWFPartnersAssociationFinalOrder.SalesOrderItem = SalesOrderItem;
-
-            OrdWFPartnersAssociationNextOrder  : Association to many WorkflowPartner
-                                                         on  OrdWFPartnersAssociationNextOrder.SalesOrder     = SalesOrder
-                                                         and OrdWFPartnersAssociationNextOrder.SalesOrderItem = SalesOrderItem;
-
-            OrdSchedReqAssociation             : Association to many ScheduleLineRequested
-                                                         on  OrdSchedReqAssociation.SalesOrder     = SalesOrder
-                                                         and OrdSchedReqAssociation.SalesOrderItem = SalesOrderItem;
-
-            OrdSchedConfAssociation            : Association to many ScheduleLineConfirmed
-                                                         on  OrdSchedConfAssociation.SalesOrder     = SalesOrder
-                                                         and OrdSchedConfAssociation.SalesOrderItem = SalesOrderItem;
-}
 @cds.persistence.exists
 entity ![IGNORED_SO] {
         key MANDT    : String(3);
