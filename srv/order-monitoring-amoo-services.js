@@ -718,9 +718,6 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.on("CREATE", "ReasonComments", async req => {
-            // debugger;
-            // let test = cds.entities('ReasonComments');
-            // // console.log(test);
             try {
                 const AMOOService = await cds.connect.to('AMOOUtilsService');
                 let postReq = await AMOOService.tx(req).send({
@@ -728,6 +725,20 @@ class openOrdersSrv extends cds.ApplicationService {
                 });
 
                 return postReq;
+                
+            } catch (error) {
+                req.error(413, error)
+            }
+        });
+
+        this.on("DELETE", "ReasonComments", async req => {
+            try {
+                const AMOOService = await cds.connect.to('AMOOUtilsService');
+                let deleteReq = await AMOOService.tx(req).send({
+                    query: req.query
+                });
+
+                return deleteReq;
                 
             } catch (error) {
                 req.error(413, error)
@@ -760,6 +771,34 @@ class openOrdersSrv extends cds.ApplicationService {
             }
 
             return followupNotes;
+        });
+
+        this.on("CREATE", "FollowupNotes", async req => {
+            try {
+                const AMOOService = await cds.connect.to('AMOOUtilsService');
+                let postReq = await AMOOService.tx(req).send({
+                    query: req.query
+                });
+
+                return postReq;
+                
+            } catch (error) {
+                req.error(413, error)
+            }
+        });
+
+        this.on("DELETE", "FollowupNotes", async req => {
+            try {
+                const AMOOService = await cds.connect.to('AMOOUtilsService');
+                let deleteReq = await AMOOService.tx(req).send({
+                    query: req.query
+                });
+
+                return deleteReq;
+                
+            } catch (error) {
+                req.error(413, error)
+            }
         });
 
         return super.init();
