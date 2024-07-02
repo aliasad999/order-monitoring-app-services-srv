@@ -242,7 +242,8 @@ service openOrdersSrv {
     entity FollowupNotes as select from AMOOUtilsService.FollowupNotes {
         ORDER_NUMBER as SalesOrder,
         ORDER_ITEM as OrderItem,
-        PREDEFINED_ID as FollowupNote
+        PREDEFINED_ID as FollowupNote,
+        CREATED_AT as CreatedAt
     };
     entity dueDateLimit          as projection on db_app.DUE_DATE_LIMIT;
 
@@ -252,7 +253,7 @@ service openOrdersSrv {
             IP_LANG:LEFT(
                 UPPER(
                     $user.locale
-                ), 2
+                ), 
             )
         );
     entity ignoreSalesOrder as projection on db_app.IGNORED_SO;
