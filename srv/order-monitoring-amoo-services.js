@@ -461,7 +461,6 @@ class openOrdersSrv extends cds.ApplicationService {
         })
         this.on("CREATE", "dueDateLimit", async (req) => {
             const { dueDateLimit } = cds.entities('openOrdersSrv');
-            debugger;
             let entryExist = await SELECT('dayLimit').from(dueDateLimit).where({ userId: req.query.INSERT.entries[0].userId })
             if (entryExist.length != 0)
                 await UPDATE(dueDateLimit).set({ dayLimit: req.query.INSERT.entries[0].dayLimit }).where({ userId: req.query.INSERT.entries[0].userId });
@@ -688,7 +687,7 @@ class openOrdersSrv extends cds.ApplicationService {
             return reasonBuckets;
         });
 
-        this.on("READ", "PredefinedReasonComments", async req => {
+        this.on("READ", "PredefReasonComments", async req => {
             let predefReasonComments = [];
             try {
                 const AMOOService = await cds.connect.to('AMOOUtilsService');
@@ -718,7 +717,24 @@ class openOrdersSrv extends cds.ApplicationService {
             return reasonEntries;
         });
 
-        this.on("READ", "PredefinedFollowupNotes", async req => {
+        this.on("CREATE", "ReasonComments", async req => {
+            // debugger;
+            // let test = cds.entities('ReasonComments');
+            // // console.log(test);
+            try {
+                const AMOOService = await cds.connect.to('AMOOUtilsService');
+                let postReq = await AMOOService.tx(req).send({
+                    query: req.query
+                });
+
+                return postReq;
+                
+            } catch (error) {
+                req.error(413, error)
+            }
+        });
+
+        this.on("READ", "PredefFollowupNotes", async req => {
             let predefFUNotes = [];
             try {
                 const AMOOService = await cds.connect.to('AMOOUtilsService');
