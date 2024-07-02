@@ -218,12 +218,33 @@ service openOrdersSrv {
 
     action   submitOrderChange(payload : String)       returns String;
 
-    entity PredefReasonBuckets as select * from AMOOUtilsService.PredefinedReasonBuckets;
-    entity PredefinedReasonComments as select * from AMOOUtilsService.PredefinedReasonComments;
-    entity ReasonComments as select * from AMOOUtilsService.APACDelayReasons;
+    entity PredefReasonBuckets as select from AMOOUtilsService.PredefinedReasonBuckets {
+        key BUCKET as BucketKey,
+        BUCKET_TEXT as BucketText
+    };
+    entity PredefReasonComments as select from AMOOUtilsService.PredefinedReasonComments {
+        key BUCKET as BucketKey,
+        key REASON_CODE as ReasonCodeKey,
+        REASON_TEXT as ReasonComment
+    };
+    entity ReasonComments as select from AMOOUtilsService.APACDelayReasons {
+        key ORDER_NUMBER as SalesOrder,
+        key ITEM_NUMBER as OrderItem,
+        key BUCKET as BucketKey,
+        key LANGUAGE as Language,
+        REASON_CODE as ReasonCodeKey
+    };
 
-    entity PredefinedFollowupNotes as select * from AMOOUtilsService.PredefinedFollowupNotes;
-    entity FollowupNotes as select * from AMOOUtilsService.FollowupNotes;
+    entity PredefFollowupNotes as select from AMOOUtilsService.PredefinedFollowupNotes {
+        PREDEFINED_ID as FollowUpNoteId,
+        PREDEFINED_CONTENT as FollowUpNoteContent,
+        LANGUAGE as Language
+    };
+    entity FollowupNotes as select from AMOOUtilsService.FollowupNotes {
+        ORDER_NUMBER as SalesOrder,
+        ORDER_ITEM as OrderItem,
+        PREDEFINED_ID as FollowupNote
+    };
     entity dueDateLimit          as projection on db_app.DUE_DATE_LIMIT;
 
     // Sales order details from generic service
