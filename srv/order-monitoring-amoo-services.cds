@@ -207,6 +207,7 @@ service openOrdersSrv {
     entity allIssues      as projection on baseEntity;
     entity valueHelps     as projection on baseEntity; 
     entity unrestrictedUser  as projection on db_app.UNRESTRICTED_USER;
+    entity orderChangeUsers as projection on db_app.orderChangeUsers;
     entity ContactSet  as select * from orderContacts.ContactSet;
     entity ContactsOptions       as select * from db_app.ContactsOptions;
     entity ServicesSet              as select * from DSLServicesService.ServicesSet;

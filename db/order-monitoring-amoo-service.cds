@@ -233,6 +233,11 @@ entity ![UNRESTRICTED_USER] {
         key userId   : User;
 }
 
+entity orderChangeUsers{
+        key userId : User;
+        active: Boolean;
+}
+
 @cds.persistence.exists
 @cds.persistence.calcview
 entity ![SALESORDER_DETAILS](IP_LANG : String(2)) {

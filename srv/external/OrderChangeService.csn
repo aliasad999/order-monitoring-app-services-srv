@@ -230,11 +230,44 @@
      "@sap.filterable": "false",
      "notNull": true
     },
+    "SalesOrg": {
+     "type": "cds.String",
+     "length": 4,
+     "@sap.unicode": "false",
+     "@sap.label": "Sales Org.",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.sortable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "SalesOrgText": {
+     "type": "cds.String",
+     "length": 20,
+     "@sap.unicode": "false",
+     "@sap.label": "Name",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.sortable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
     "FinalItem": {
      "type": "cds.String",
      "length": 6,
      "@sap.unicode": "false",
      "@sap.label": "Item",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.sortable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "ProcessOrder": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.unicode": "false",
+     "@sap.label": "Order",
      "@sap.creatable": "false",
      "@sap.updatable": "false",
      "@sap.sortable": "false",

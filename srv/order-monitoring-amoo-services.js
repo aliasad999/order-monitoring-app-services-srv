@@ -65,7 +65,12 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.on("READ", "FinalOrderLineSet", async (req, next) => {
-            let lt_finalOrderLines = [];
+            let finalOrderLine = [{}];
+            let editableFlag = true;
+            let userIsActive = await SELECT.from('orderChangeUsers').where({ userId: req.user.id, active: true });
+            if(userIsActive.length === 0){
+                editableFlag = false;
+            }
             try {
                 let orderLineQuery = SELECT.from('FinalOrderLineSet').limit(req.query.SELECT.limit);
 
@@ -81,23 +86,19 @@ class openOrdersSrv extends cds.ApplicationService {
                 }
                 const apiManagementService = await cds.connect.to('OrderChangeService');
 
-                lt_finalOrderLines = await apiManagementService.tx(req).send({
+                finalOrderLine = await apiManagementService.tx(req).send({
                     query: orderLineQuery
                 });
-                // Convert Date fields
-                // if(lt_finalOrderLines.length > 0){
-                //     lt_finalOrderLines[0].OrdSchedReqAssociation.forEach(function(element){
-                //         element.SlDate = ODataV2toODataV4DateTime(element.SlDate).substring(0,10);
-                //     })
-                //     lt_finalOrderLines[0].OrdSchedConfAssociation.forEach(function(element){
-                //         element.SlDate = ODataV2toODataV4DateTime(element.SlDate).substring(0,10);
-                //     })
-                // }
+                
+                // Update editable flag based on the BTP table of active users
+                if(finalOrderLine.SalesOrder && !editableFlag){
+                    finalOrderLine.Editable = editableFlag;
+                }
 
             } catch (error) {
                 req.error(413, error)
             }
-            return lt_finalOrderLines[0];
+            return finalOrderLine[0];
         });
 
         this.on("READ", "ContactsOptions", async (req, next) => {
