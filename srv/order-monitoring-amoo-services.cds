@@ -217,6 +217,7 @@ service openOrdersSrv {
     entity WorkflowPartnerSet       as select * from orderChange.WorkflowPartnerSet;
 
     action   submitOrderChange(payload : String)       returns String;
+    action   submitOrderChangeWF(payload : String)       returns String;
 
     entity PredefReasonBuckets as select from AMOOUtilsService.PredefinedReasonBuckets {
         key BUCKET as BucketKey,

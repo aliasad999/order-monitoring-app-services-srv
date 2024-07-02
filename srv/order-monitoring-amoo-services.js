@@ -21,6 +21,49 @@ class openOrdersSrv extends cds.ApplicationService {
         }
         // only needed to run this when the server is starting
 
+        this.on("submitOrderChangeWF", async req => {
+            let reqData = JSON.parse(req.data.payload); // parse stringified object
+            let reasonCode = "KU";
+            if (reqData.internal) {
+                reasonCode = "WD";
+            }
+            let postData = {
+                "DocumentNumber": reqData.SalesOrder,
+                "to_Items": [
+                    {
+                        "DocumentNumber": reqData.SalesOrder,
+                        "DocumentItem": reqData.SalesOrderItem,
+                        "ReasonCode": reasonCode,
+                        "Cause": "0001",
+                        "to_ScheduleLines": [
+                            {
+                                "DocumentNumber": reqData.SalesOrder,
+                                "DocumentItem": reqData.SalesOrderItem,
+                                "ScheduleLineNumber": "0001",
+                                "OrderQuantity": reqData.Quantity,
+                                "DeliveryDate": reqData.Date
+                            }
+                        ]
+                    }
+                ]
+            }
+            try {
+                const orderChangeSAPSrv = await cds.connect.to('yrdsdv1Foe1Service');
+                lt_finalOrderLines = await apiManagementService.tx(req).send({
+                    method: "POST",
+                    path: "/SalesOrderHeaderSet",
+                    data: postData
+                });
+            } catch (error) {
+                req.error(413, error)
+            }
+
+            let response = {
+                response: "Everything went well"
+            }
+            return JSON.stringify(response);
+        });
+
         this.on("submitOrderChange", async req => {
             let reqData = JSON.parse(req.data.payload); // parse stringified object
             let reasonCode = "KU";
@@ -65,9 +108,10 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.on("READ", "FinalOrderLineSet", async (req, next) => {
-            let finalOrderLine = [{}];
+            let finalOrderLine = {};
             let editableFlag = true;
-            let userIsActive = await SELECT.from('orderChangeUsers').where({ userId: req.user.id, active: true });
+            const { orderChangeUsers } = await cds.entities('openOrdersSrv');
+            let userIsActive = await SELECT.from(orderChangeUsers).where({ userId: req.user.id, active: true });
             if(userIsActive.length === 0){
                 editableFlag = false;
             }
@@ -89,16 +133,24 @@ class openOrdersSrv extends cds.ApplicationService {
                 finalOrderLine = await apiManagementService.tx(req).send({
                     query: orderLineQuery
                 });
+
+                if(finalOrderLine.length > 0){
+                    finalOrderLine = finalOrderLine[0];
+                }else{
+                    // no data
+                    return {};
+                }
                 
                 // Update editable flag based on the BTP table of active users
                 if(finalOrderLine.SalesOrder && !editableFlag){
                     finalOrderLine.Editable = editableFlag;
                 }
+                finalOrderLine.Editable = true;
 
             } catch (error) {
                 req.error(413, error)
             }
-            return finalOrderLine[0];
+            return finalOrderLine;
         });
 
         this.on("READ", "ContactsOptions", async (req, next) => {
