@@ -406,6 +406,7 @@ annotate service.allIssues with {
     SO_BSARK_VTEXT            @UI                     : {Hidden: true};
     SO_VKBUR_BEZEI            @UI                     : {Hidden: true};
     SO_F_POSNR                @UI                     : {Hidden: true};
+    SO_I_POSNR                @UI                     : {Hidden: true};
     SO_VBTYP                  @UI                     : {Hidden: true};
     SO_TRAGR_VTEXT            @UI                     : {Hidden: true};
     SO_VKGRP_BEZEI            @UI                     : {Hidden: true};
