@@ -84,6 +84,11 @@
         "YRDSDV1Foe1Service": {
             "kind": "odata-v2",
             "model": "srv/external/YRDSDV1Foe1Service",
+            "csrf": {  
+                "method": "get",  
+                "url": "/$metadata"
+            },
+            "csrfInBatch": true,
             "credentials": {
                 "destination": "APIM_DEV",
                 "path": "/it/omg/omc/yrdsdv1-foe-1/v1"

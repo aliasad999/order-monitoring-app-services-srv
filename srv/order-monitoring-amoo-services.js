@@ -91,8 +91,21 @@ class openOrdersSrv extends cds.ApplicationService {
                 ]
             }
             try {
-                const orderChangeSAPSrv = await cds.connect.to('yrdsdv1Foe1Service');
-                lt_finalOrderLines = await apiManagementService.tx(req).send({
+                const apiManagementService = await cds.connect.to('OrderChangeService');
+
+                finalOrderLine = await apiManagementService.send({
+                    method: 'GET',
+                    path: "/$metadata"
+                });
+                const orderChangeSAPSrv = await cds.connect.to('YRDSDV1Foe1Service');
+                test = await orderChangeSAPSrv.tx(req).send({
+                    method: "GET",
+                    path: "/$metadata",
+                    headers: {
+                        'x-csrf-token': 'fetch'
+                    }
+                });
+                lt_finalOrderLines = await orderChangeSAPSrv.tx(req).send({
                     method: "POST",
                     path: "/SalesOrderHeaderSet",
                     data: postData
