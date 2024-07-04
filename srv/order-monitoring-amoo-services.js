@@ -460,14 +460,10 @@ class openOrdersSrv extends cds.ApplicationService {
             const result = await db.run(req.query)
             return result
         })
-        this.on("CREATE", "dueDateLimit", async (req) => {
+        this.on("CREATE", "dueDateLimit", async (req,next) => {
             const { dueDateLimit } = cds.entities('openOrdersSrv');
-            let entryExist = await SELECT('dayLimit').from(dueDateLimit).where({ userId: req.query.INSERT.entries[0].userId })
-            if (entryExist.length != 0)
-                await UPDATE(dueDateLimit).set({ dayLimit: req.query.INSERT.entries[0].dayLimit }).where({ userId: req.query.INSERT.entries[0].userId });
-            else
-                await INSERT.into(dueDateLimit).entries({ userId: req.query.INSERT.entries[0].userId, dayLimit: req.query.INSERT.entries[0].dayLimit })
-
+            await UPSERT.into(dueDateLimit).entries(req.query.INSERT.entries);
+            return  SELECT('*').from(dueDateLimit).byKey({ userId: req.query.INSERT.entries[0].userId })
         })
 
         /**

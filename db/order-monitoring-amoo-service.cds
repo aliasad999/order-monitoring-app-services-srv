@@ -226,7 +226,7 @@ entity ContactsOptions {
 }
 
 entity ![DUE_DATE_LIMIT] {
-        userId   : User;
+        key userId   : User;
         dayLimit : Integer;
 }
 entity ![UNRESTRICTED_USER] {
