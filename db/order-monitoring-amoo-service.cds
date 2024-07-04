@@ -378,3 +378,7 @@ entity ![IGNORED_SO] {
             COMMENT  : String(255);
             IGNORED  : Boolean
 };
+
+type issue_reason{
+        text: String(255)
+}

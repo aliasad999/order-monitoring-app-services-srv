@@ -200,7 +200,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
                 }
 
-            }else{
+            } else {
                 // GET Sales Order NUmber and Order Item from WHERE Clause
                 var saleOrder = "";
                 var orderItem = "";
@@ -865,7 +865,124 @@ class openOrdersSrv extends cds.ApplicationService {
                 req.error(413, error)
             }
         });
+        this.on("getIssueReason", async (req) => {
+            let issueReason = []
+            let creditData = {}
+            let idocData = []
+            let atpData = []
+            const { salesOrder, salesOrderItem, detailsSalesOrder,
+                DetailsSalesOrderItem, issue, nps, issue_location, material,
+                plant, quantity, uom, dueDate, firstDate } = req.data;
+            try {
+                const AMOOUtilsService = await cds.connect.to('AMOOUtilsService');
+                const query = `/IssueReason(p_mandt='100',p_SalesOrderNumber='${salesOrder}',p_SalesOrderItemNumber='${salesOrderItem}',p_DetailSalesOrderNumber='${detailsSalesOrder}',p_DetailSalesOrderItemNumber='${DetailsSalesOrderItem}',p_IssueId='${issue}',p_NPSId='${nps}',p_issue_location='${issue_location}',p_lang='EN')/Results?sap-client=100`
+                issueReason = await AMOOUtilsService.tx(req).send({
+                    method: "GET",
+                    path: query
+                });
+            } catch (error) {
+                console.error('Error fetching issue reason:', error);
+            }
+            if (issue === '06') {
+                const CreditManagerService = await cds.connect.to('CreditManagerService');
+                try {
+                    creditData = await CreditManagerService.run(SELECT.from('OrderBlockSet').byKey({
+                        OrderNumber: detailsSalesOrder,
+                        Language: req.user.locale.toUpperCase()
+                    }).columns("Text1", "Text2", "Text3", "Text4"))
+                } catch (error) {
+                    console.error('Error fetching credit status:', error);
+                }
+            }
+            if (issue === '08' || issue === '11') {
+                const messageType = issue === '08' ? 'ZDESADV' : 'ZORDERS';
+                try {
+                    const CSEUCockpitService = await cds.connect.to('CSEUCockpitService');
+                    idocData = await CSEUCockpitService.run(SELECT.from('FailedIDocSet').where({
+                        MessageType: messageType,
+                        PONumber: issue_location,
+                        Direction: '2'
+                    }))
 
+                } catch (error) {
+                    console.error('Error fetching failed iDocs:', error);
+                }
+            }
+            if (['10', '20', '30', '40'].includes(nps)) {
+                try {
+                    // const CSEUCockpitService = await cds.connect.to('CSEUCockpitService');
+                    // atpPalData = await CSEUCockpitService.run(SELECT.from('ATPPalStatusSet').where({
+                    //     OrderNumber: salesOrder,
+                    //     OrderItem: salesOrderItem,
+                    //     Material: material,
+                    //     Location: plant,
+                    //     Quantity: quantity,
+                    //     UoM: uom
+                    // }))
+                    const ATPService = await cds.connect.to('ATPService');
+                    let atpSystemCheck = await ATPService.run(SELECT.from('ATPCheckSystemSet').where({
+                        Material: material,
+                        Plant: plant
+                    }))
+                    if (atpSystemCheck[0].System != ' ') {
+                        let dateToday = new Date();
+                        let sCheckingRule = " ";
+                        dateToday = dateToday.setUTCHours(0, 0, 0, 0);
+                        let requestedDate = new Date(firstDate)
+                        requestedDate = requestedDate.setUTCHours(0, 0, 0, 0);
+                        let sDate = new Date(requestedDate > dateToday ? requestedDate : dateToday).toLocaleDateString("en-GB").split("/").reverse().join("");
+                        switch (nps) {
+                            case "30":
+                                sCheckingRule = "A";
+                                break;
+                            case "40":
+                                
+                                let dateMs = Math.abs(new Date(dueDate).getTime() - dateToday);
+                                let days = 1000 * 3600 * 24;
+                                let dateDifference = dateMs / days;
+                                const db = cds.transaction(req);
+                                let timeFrame = await db.run(SELECT.from('openOrdersSrv.dueDateLimit').where({ userId: req.user.id }))
+                                sCheckingRule = dueDate > dateToday && dateDifference >= timeFrame[0].dayLimit ? "A" : "B";
+                        }
+                        atpData = await ATPService.run(SELECT.from('ATPCheckR3Set').where({
+                            Material: material,
+                            Plant: plant,
+                            RequestedQuantityUnit: uom,
+                            CheckingRule: sCheckingRule,
+                            Date: sDate,
+                            SalesOrderDocument: salesOrder,
+                            SalesOrderItem: salesOrderItem
+                        }))
+                    }
+                } catch (error) {
+                    console.error('Error fetching ATP Pal status:', error);
+                }
+            }
+            const combinedResults = [];
+            issueReason.forEach((item) => {
+                combinedResults.push({ text: item.IssueReason })
+            })
+            for (const prop in creditData) {
+                if (creditData.hasOwnProperty(prop)) {
+                    combinedResults.push({ text: creditData[prop] })
+                }
+            }
+            if (idocData.length != 0) {
+                combinedResults.push(...idocData);
+            }
+            if (atpData.length != 0) {
+                if (atpData[0].Date === new Date().toLocaleDateString("en-GB").split("/").reverse().join("")) {
+                    combinedResults.push({
+                        "text": `Current ATP Quantity = ${atpData[0].ATPQuantity} / ${atpData[0].RequestedQuantityUnit}`
+                    });
+                } else {
+                    combinedResults.push({
+                        "text": `ATP Quantity = ${atpData[0].ATPQuantity} / ${atpData[0].RequestedQuantityUnit} on ${atpData[0].ATPQuantityDate}`
+                    });
+                }
+            }
+            return combinedResults;
+        })
         return super.init();
     }
 }

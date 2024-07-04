@@ -99,6 +99,7 @@ service openOrdersSrv {
                 _BASF_LOFCR                                              as SO_BASF_LOFCR,
                 GUSCON_LEVEL                                             as SO_GUSCON_LEVEL,
                 FIRST_SO                                                 as SO_I_VBELN,
+                FIRST_POSNR                                              as SO_I_POSNR,
                 LEVEL_TYPE                                               as SO_LEVEL_TYPE,
                 NEXT_SO                                                  as SO_N_VBELN,
                 FINAL_SO                                                 as SO_F_VBELN,
@@ -259,4 +260,5 @@ service openOrdersSrv {
             )
         );
     entity ignoreSalesOrder as projection on db_app.IGNORED_SO;
+    function getIssueReason(salesOrder : String(10), salesOrderItem : String(6), detailsSalesOrder : String(10), DetailsSalesOrderItem : String(6), issue : String(2), nps : String(3), issue_location : String(10), material: String(18), plant:String(4),quantity:Decimal(13,3),uom:String(3), dueDate:Date, firstDate:Date) returns array of db_app.issue_reason
 };
