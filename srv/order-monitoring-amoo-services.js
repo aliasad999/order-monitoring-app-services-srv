@@ -22,46 +22,7 @@ class openOrdersSrv extends cds.ApplicationService {
         // only needed to run this when the server is starting
 
         this.on("submitOrderChangeWF", async req => {
-            let reqData = JSON.parse(req.data.payload); // parse stringified object
-            let reasonCode = "KU";
-            if (reqData.internal) {
-                reasonCode = "WD";
-            }
-            let postData = {
-                "DocumentNumber": reqData.SalesOrder,
-                "to_Items": [
-                    {
-                        "DocumentNumber": reqData.SalesOrder,
-                        "DocumentItem": reqData.SalesOrderItem,
-                        "ReasonCode": reasonCode,
-                        "Cause": "0001",
-                        "to_ScheduleLines": [
-                            {
-                                "DocumentNumber": reqData.SalesOrder,
-                                "DocumentItem": reqData.SalesOrderItem,
-                                "ScheduleLineNumber": "0001",
-                                "OrderQuantity": reqData.Quantity,
-                                "DeliveryDate": reqData.Date
-                            }
-                        ]
-                    }
-                ]
-            }
-            try {
-                const orderChangeSAPSrv = await cds.connect.to('yrdsdv1Foe1Service');
-                lt_finalOrderLines = await apiManagementService.tx(req).send({
-                    method: "POST",
-                    path: "/SalesOrderHeaderSet",
-                    data: postData
-                });
-            } catch (error) {
-                req.error(413, error)
-            }
 
-            let response = {
-                response: "Everything went well"
-            }
-            return JSON.stringify(response);
         });
 
         this.on("submitOrderChange", async req => {
@@ -83,31 +44,19 @@ class openOrdersSrv extends cds.ApplicationService {
                                 "DocumentNumber": reqData.SalesOrder,
                                 "DocumentItem": reqData.SalesOrderItem,
                                 "ScheduleLineNumber": "0001",
-                                "OrderQuantity": reqData.Quantity,
-                                "DeliveryDate": reqData.Date
+                                "OrderQuantity": reqData.RequestedScheduleLines.Quantity,
+                                "DeliveryDate": reqData.RequestedScheduleLines.Date
                             }
                         ]
                     }
                 ]
             }
             try {
-                // var query = INSERT.into('SalesOrderHeaderSet').entries(postData);
-                cds.env.features.fetch_csrf = true
-                var query = SELECT.from('SalesOrderHeaderSet').byKey({DocumentNumber: '3380976587'})
                 const orderChangeSAPSrv = await cds.connect.to('YRDSDV1Foe1Service');
-                var test = await orderChangeSAPSrv.send({
-                    method: 'GET',
-                    path: "/$metadata"
-                });
-                // var test1 = await orderChangeSAPSrv.create('SalesOrderHeaderSet').entries(postData)
-                req.headers['x-csrf-token'] = 'bcLPLhrjda2ecmFWNK46KQ==';
-                lt_finalOrderLines = await orderChangeSAPSrv.tx(req).send({
+                let lt_finalOrderLines = await orderChangeSAPSrv.tx(req).send({
                     method: "POST",
                     path: "/SalesOrderHeaderSet",
-                    data: postData,
-                    headers: {
-                        'x-csrf-token': 'bcLPLhrjda2ecmFWNK46KQ=='
-                    }
+                    data: postData
                 });
             } catch (error) {
                 req.error(413, error)
@@ -118,6 +67,21 @@ class openOrdersSrv extends cds.ApplicationService {
             }
             return JSON.stringify(response);
         });
+
+        this.on("CREATE", "SalesOrderHeaderSet", async (req) => {
+            try {
+                const orderChangeSAPSrv = await cds.connect.to('YRDSDV1Foe1Service');
+                let postReq = await orderChangeSAPSrv.tx(req).send({
+                    query: req.query
+                });
+
+                return postReq;
+                
+            } catch (error) {
+                req.error(413, error)
+            }
+
+        })
 
         this.on("READ", "FinalOrderLineSet", async (req, next) => {
             let finalOrderLine = {};
