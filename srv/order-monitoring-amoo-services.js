@@ -91,24 +91,23 @@ class openOrdersSrv extends cds.ApplicationService {
                 ]
             }
             try {
-                const apiManagementService = await cds.connect.to('OrderChangeService');
-
-                finalOrderLine = await apiManagementService.send({
+                // var query = INSERT.into('SalesOrderHeaderSet').entries(postData);
+                cds.env.features.fetch_csrf = true
+                var query = SELECT.from('SalesOrderHeaderSet').byKey({DocumentNumber: '3380976587'})
+                const orderChangeSAPSrv = await cds.connect.to('YRDSDV1Foe1Service');
+                var test = await orderChangeSAPSrv.send({
                     method: 'GET',
                     path: "/$metadata"
                 });
-                const orderChangeSAPSrv = await cds.connect.to('YRDSDV1Foe1Service');
-                test = await orderChangeSAPSrv.tx(req).send({
-                    method: "GET",
-                    path: "/$metadata",
-                    headers: {
-                        'x-csrf-token': 'fetch'
-                    }
-                });
+                // var test1 = await orderChangeSAPSrv.create('SalesOrderHeaderSet').entries(postData)
+                req.headers['x-csrf-token'] = 'bcLPLhrjda2ecmFWNK46KQ==';
                 lt_finalOrderLines = await orderChangeSAPSrv.tx(req).send({
                     method: "POST",
                     path: "/SalesOrderHeaderSet",
-                    data: postData
+                    data: postData,
+                    headers: {
+                        'x-csrf-token': 'bcLPLhrjda2ecmFWNK46KQ=='
+                    }
                 });
             } catch (error) {
                 req.error(413, error)
