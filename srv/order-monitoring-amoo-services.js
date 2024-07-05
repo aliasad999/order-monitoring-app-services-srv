@@ -22,7 +22,20 @@ class openOrdersSrv extends cds.ApplicationService {
         // only needed to run this when the server is starting
 
         this.on("submitOrderChangeWF", async req => {
+            var payload = {} // add hardcoded payload here to test
+              
+            try {
+                const bizagiSrv = await cds.connect.to('BizagiService');
+                var bizagiCall = await bizagiSrv.tx(req).send({
+                    method: "POST",
+                    path: "/",
+                    data: payload
+                });
+            } catch (error) {
+                req.error(413, error)
+            }
 
+            return bizagiCall
         });
 
         this.on("submitOrderChange", async req => {

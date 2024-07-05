@@ -37,7 +37,7 @@
             "kind": "odata-v2",
             "model": "srv/external/OrderChangeService",
             "credentials": {
-                "destination": "APIM_DEV",
+                "destination": "APIM",
                 "path": "/it/omg/omc/order-change/v1"
             }
         },
@@ -53,7 +53,7 @@
             "kind": "odata-v2",
             "model": "srv/external/AMOOUtilsService",
             "credentials": {
-                "destination": "APIM_DEV",
+                "destination": "APIM",
                 "path": "/it/omg/omc/amoo-utils/v1"
             }
         },
@@ -102,9 +102,9 @@
             }
         },
         "BizagiService": {
-            "kind": "odata-v2",
+            "kind": "odata",
             "credentials": {
-                "destination": "APIM",
+                "destination": "APIM_DEV",
                 "path": "/it/bizagiodata/v1"
             }
         }
