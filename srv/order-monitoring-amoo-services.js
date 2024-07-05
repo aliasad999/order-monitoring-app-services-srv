@@ -21,6 +21,23 @@ class openOrdersSrv extends cds.ApplicationService {
         }
         // only needed to run this when the server is starting
 
+        this.on("submitOrderChangeWF", async req => {
+            var payload = {} // add hardcoded payload here to test
+              
+            try {
+                const bizagiSrv = await cds.connect.to('BizagiService');
+                var bizagiCall = await bizagiSrv.tx(req).send({
+                    method: "POST",
+                    path: "/",
+                    data: payload
+                });
+            } catch (error) {
+                req.error(413, error)
+            }
+
+            return bizagiCall
+        });
+
         this.on("submitOrderChange", async req => {
             let reqData = JSON.parse(req.data.payload); // parse stringified object
             let reasonCode = "KU";
@@ -40,16 +57,16 @@ class openOrdersSrv extends cds.ApplicationService {
                                 "DocumentNumber": reqData.SalesOrder,
                                 "DocumentItem": reqData.SalesOrderItem,
                                 "ScheduleLineNumber": "0001",
-                                "OrderQuantity": reqData.Quantity,
-                                "DeliveryDate": reqData.Date
+                                "OrderQuantity": reqData.RequestedScheduleLines.Quantity,
+                                "DeliveryDate": reqData.RequestedScheduleLines.Date
                             }
                         ]
                     }
                 ]
             }
             try {
-                const orderChangeSAPSrv = await cds.connect.to('yrdsdv1Foe1Service');
-                lt_finalOrderLines = await apiManagementService.tx(req).send({
+                const orderChangeSAPSrv = await cds.connect.to('YRDSDV1Foe1Service');
+                let lt_finalOrderLines = await orderChangeSAPSrv.tx(req).send({
                     method: "POST",
                     path: "/SalesOrderHeaderSet",
                     data: postData
@@ -64,10 +81,26 @@ class openOrdersSrv extends cds.ApplicationService {
             return JSON.stringify(response);
         });
 
+        this.on("CREATE", "SalesOrderHeaderSet", async (req) => {
+            try {
+                const orderChangeSAPSrv = await cds.connect.to('YRDSDV1Foe1Service');
+                let postReq = await orderChangeSAPSrv.tx(req).send({
+                    query: req.query
+                });
+
+                return postReq;
+                
+            } catch (error) {
+                req.error(413, error)
+            }
+
+        })
+
         this.on("READ", "FinalOrderLineSet", async (req, next) => {
-            let finalOrderLine = [{}];
+            let finalOrderLine = {};
             let editableFlag = true;
-            let userIsActive = await SELECT.from('orderChangeUsers').where({ userId: req.user.id, active: true });
+            const { orderChangeUsers } = await cds.entities('openOrdersSrv');
+            let userIsActive = await SELECT.from(orderChangeUsers).where({ userId: req.user.id, active: true });
             if(userIsActive.length === 0){
                 editableFlag = false;
             }
@@ -89,16 +122,24 @@ class openOrdersSrv extends cds.ApplicationService {
                 finalOrderLine = await apiManagementService.tx(req).send({
                     query: orderLineQuery
                 });
+
+                if(finalOrderLine.length > 0){
+                    finalOrderLine = finalOrderLine[0];
+                }else{
+                    // no data
+                    return {};
+                }
                 
                 // Update editable flag based on the BTP table of active users
                 if(finalOrderLine.SalesOrder && !editableFlag){
                     finalOrderLine.Editable = editableFlag;
                 }
+                finalOrderLine.Editable = true;
 
             } catch (error) {
                 req.error(413, error)
             }
-            return finalOrderLine[0];
+            return finalOrderLine;
         });
 
         this.on("READ", "ContactsOptions", async (req, next) => {
