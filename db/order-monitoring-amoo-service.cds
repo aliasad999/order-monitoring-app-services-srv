@@ -210,6 +210,7 @@ entity ![OPENORDERSLIST] {
         ISSUE_LOCATION_ITEM                : String(6);
         NOTE_TEXT                          : String(1000);
         IGNORED                            : Boolean;
+        ETA_UPDATED                        : String(3);
 // BL_VBELN_INV_FIRST                 : String(10);
 // BL_VBELN_INV_LAST                  : String(10);
 // XBLNR                              : String(16);
@@ -227,15 +228,16 @@ entity ContactsOptions {
 
 entity ![DUE_DATE_LIMIT] {
         key userId   : User;
-        dayLimit : Integer;
-}
-entity ![UNRESTRICTED_USER] {
-        key userId   : User;
+            dayLimit : Integer;
 }
 
-entity orderChangeUsers{
+entity ![UNRESTRICTED_USER] {
         key userId : User;
-        active: Boolean;
+}
+
+entity orderChangeUsers {
+        key userId : User;
+            active : Boolean;
 }
 
 @cds.persistence.exists
@@ -379,6 +381,6 @@ entity ![IGNORED_SO] {
             IGNORED  : Boolean
 };
 
-type issue_reason{
-        text: String(255)
+type issue_reason {
+        text : String(255)
 }
