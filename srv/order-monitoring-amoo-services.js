@@ -779,6 +779,10 @@ class openOrdersSrv extends cds.ApplicationService {
                 return deleteReq;
                 
             } catch (error) {
+                if (error.reason.response.status === 204) {
+                    // This is not an error, supress it
+                    return null;
+                }
                 req.error(413, error)
             }
         });
@@ -835,6 +839,10 @@ class openOrdersSrv extends cds.ApplicationService {
                 return deleteReq;
                 
             } catch (error) {
+                if (error.reason.response.status === 204) {
+                    // This is not an error, supress it
+                    return null;
+                }
                 req.error(413, error)
             }
         });
