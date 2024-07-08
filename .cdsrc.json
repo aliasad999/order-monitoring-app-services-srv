@@ -69,7 +69,7 @@
             "kind": "odata-v2",
             "model": "srv/external/CSEUCockpitService",
             "credentials": {
-                "destination": "APIM_DEV",
+                "destination": "APIM",
                 "path": "/it/omg/omc/cseu-cockpit/v1"
             }
         },
