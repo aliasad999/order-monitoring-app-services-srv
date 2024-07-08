@@ -102,9 +102,9 @@
             }
         },
         "BizagiService": {
-            "kind": "odata",
+            "kind": "rest",
             "credentials": {
-                "destination": "APIM_DEV",
+                "destination": "Bizagi",
                 "path": "/it/bizagiodata/v1"
             }
         }
