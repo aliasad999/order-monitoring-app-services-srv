@@ -37,7 +37,7 @@
             "kind": "odata-v2",
             "model": "srv/external/OrderChangeService",
             "credentials": {
-                "destination": "APIM_DEV",
+                "destination": "APIM",
                 "path": "/it/omg/omc/order-change/v1"
             }
         },
@@ -53,7 +53,7 @@
             "kind": "odata-v2",
             "model": "srv/external/AMOOUtilsService",
             "credentials": {
-                "destination": "APIM_DEV",
+                "destination": "APIM",
                 "path": "/it/omg/omc/amoo-utils/v1"
             }
         },
@@ -77,16 +77,35 @@
             "kind": "odata-v2",
             "model": "srv/external/LORDOdataOrderService",
             "credentials": {
-                "destination": "APIM_DEV",
+                "destination": "APIM",
                 "path": "/it/omg/omc/lord-odata-order/v1"
             }
         },
         "YRDSDV1Foe1Service": {
             "kind": "odata-v2",
             "model": "srv/external/YRDSDV1Foe1Service",
+            "csrf": {
+                "method": "get",
+                "url": "/it/omg/omc/yrdsdv1-foe-1/v1/"
+            },
+            "csrfInBatch": false,
             "credentials": {
                 "destination": "APIM_DEV",
                 "path": "/it/omg/omc/yrdsdv1-foe-1/v1"
+            }
+        },
+        "OrderChangeCPIFlow": {
+            "kind": "rest",
+            "credentials": {
+                "destination": "CPI",
+                "path": "/http/DIL/Fiori"
+            }
+        },
+        "BizagiService": {
+            "kind": "odata",
+            "credentials": {
+                "destination": "APIM_DEV",
+                "path": "/it/bizagiodata/v1"
             }
         }
     }
