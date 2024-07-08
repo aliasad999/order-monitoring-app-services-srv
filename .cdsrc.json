@@ -21,7 +21,7 @@
             "kind": "odata-v2",
             "model": "srv/external/ContactsService",
             "credentials": {
-                "destination": "APIM_DEV",
+                "destination": "APIM",
                 "path": "/it/omg/omc/so-fulfillment/v1"
             }
         },
@@ -61,7 +61,7 @@
             "kind": "odata-v2",
             "model": "srv/external/ATPService",
             "credentials": {
-                "destination": "APIM_DEV",
+                "destination": "APIM",
                 "path": "/it/omg/omc/atp/v1"
             }
         },
@@ -69,7 +69,7 @@
             "kind": "odata-v2",
             "model": "srv/external/CSEUCockpitService",
             "credentials": {
-                "destination": "APIM_DEV",
+                "destination": "APIM",
                 "path": "/it/omg/omc/cseu-cockpit/v1"
             }
         },
@@ -90,7 +90,7 @@
             },
             "csrfInBatch": false,
             "credentials": {
-                "destination": "APIM_DEV",
+                "destination": "APIM",
                 "path": "/it/omg/omc/yrdsdv1-foe-1/v1"
             }
         },
