@@ -7,7 +7,7 @@ using { AMOOUtilsService as AMOOUtilsService } from './external/AMOOUtilsService
 // using { LORDOdataOrderService as LORDOdataOrderService } from './external/LORDOdataOrderService';
 using { YRDSDV1Foe1Service as YRDSDV1Foe1Service } from './external/YRDSDV1Foe1Service';
 // using { ATPService as ATPService } from './external/ATPService';
-// using { CSEUCockpitService as CSEUCockpitService } from './external/CSEUCockpitService';
+using { CSEUCockpitService as CSEUCockpitService } from './external/CSEUCockpitService';
 
 service openOrdersSrv {
     entity rootEntity as select from db_app.OPENORDERSLIST {
@@ -185,7 +185,8 @@ service openOrdersSrv {
                 ISSUE_LOCATION                                           as SO_ISSUE_LOCATION,
                 ISSUE_LOCATION_ITEM                                      as SO_ISSUE_LOCATION_ITEM,
                 virtual 0                                                as criticalityDueDate : Integer,
-                IGNORED                                                  as SO_IGNORED
+                IGNORED                                                  as SO_IGNORED,
+                ETA_UPDATED                                              as TM_SHIPMENT_ETA_UPDATED
                 // Billing Fields to be added later
                 // BL_VBELN_INV_FIRST                                       as BL_VBELN_INV_FIRST,
                 // BL_VBELN_INV_LAST                                        as BL_VBELN_INV_LAST,
@@ -252,6 +253,9 @@ service openOrdersSrv {
         CREATED_AT as CreatedAt
     };
     entity dueDateLimit          as projection on db_app.DUE_DATE_LIMIT;
+
+    entity ChangeDocSet as projection on CSEUCockpitService.ChangeDocSet
+    entity ShipmentUpdates as projection on AMOOUtilsService.ShipmentUpdates;
 
     // Sales order details from generic service
     entity salesOrderDetails     as

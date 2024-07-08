@@ -779,6 +779,10 @@ class openOrdersSrv extends cds.ApplicationService {
                 return deleteReq;
                 
             } catch (error) {
+                if (error.reason.response.status === 204) {
+                    // This is not an error, supress it
+                    return null;
+                }
                 req.error(413, error)
             }
         });
@@ -835,9 +839,55 @@ class openOrdersSrv extends cds.ApplicationService {
                 return deleteReq;
                 
             } catch (error) {
+                if (error.reason.response.status === 204) {
+                    // This is not an error, supress it
+                    return null;
+                }
                 req.error(413, error)
             }
         });
+
+        this.on("READ", "ChangeDocSet", async req => {
+            let lt_changeDocs = [];
+            try {
+                // let contactsQuery = SELECT.from('ServicesSet').limit(req.query.SELECT.limit);
+                // if (req.query.SELECT.where) {
+                //     contactsQuery.where(req.query.SELECT.where);
+                // }
+                // if (req.query.SELECT.orderBy) {
+                //     contactsQuery.orderBy(req.query.SELECT.orderBy);
+                // }
+                const apiManagementService = await cds.connect.to('CSEUCockpitService');
+                // lt_contacts = await apiManagementService.get("/ContactSet?$filter=SapClient eq '100' and SalesDocument eq '0005508482' and OrderItem eq '000010'");
+                lt_changeDocs = await apiManagementService.tx(req).send({
+                    query: req.query
+                });
+            } catch (error) {
+                req.error(413, error)
+            }
+
+            return lt_changeDocs;
+        })
+
+        this.on("UPDATE", "ShipmentUpdates", async req => {
+            try {
+                const AMOOService = await cds.connect.to('AMOOUtilsService');
+                let updateReq = await AMOOService.tx(req).send({
+                    query: req.query
+                });
+
+                return updateReq;
+                
+            } catch (error) {
+                if (error.reason.response.status === 204) {
+                    // This is actually not an error - supress it 
+                    return null;
+                } else {
+                    req.error(413, error)
+                }
+            }
+        })
+
         this.on("getIssueReason", async (req) => {
             let issueReason = []
             let creditData = {}
