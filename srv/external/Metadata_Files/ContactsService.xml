@@ -11,6 +11,7 @@
          <EntityType Name="Contact" sap:content-version="1">
             <Key>
                <PropertyRef Name="PersonalNumber"/>
+               <PropertyRef Name="PartnerFunction"/>
             </Key>
             <Property Name="Material"
                       Type="Edm.String"

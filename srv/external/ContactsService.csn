@@ -32,6 +32,18 @@
      "@sap.filterable": "false",
      "notNull": true
     },
+    "PartnerFunction": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "@sap.unicode": "false",
+     "@sap.label": "Partner Functn",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.sortable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
     "Material": {
      "type": "cds.String",
      "length": 18,
@@ -92,17 +104,6 @@
      "length": 6,
      "@sap.unicode": "false",
      "@sap.label": "Item",
-     "@sap.creatable": "false",
-     "@sap.updatable": "false",
-     "@sap.sortable": "false",
-     "@sap.filterable": "false",
-     "notNull": true
-    },
-    "PartnerFunction": {
-     "type": "cds.String",
-     "length": 2,
-     "@sap.unicode": "false",
-     "@sap.label": "Partner Functn",
      "@sap.creatable": "false",
      "@sap.updatable": "false",
      "@sap.sortable": "false",
