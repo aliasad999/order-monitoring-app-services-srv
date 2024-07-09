@@ -360,6 +360,14 @@
                                 Relationship="BASF.CSEU_ORDER_CHANGE_SRV.OrdSchedConfAssociation"
                                 FromRole="FromRole_OrdSchedConfAssociation"
                                 ToRole="ToRole_OrdSchedConfAssociation"/>
+            <NavigationProperty Name="OrdDeliveries"
+                                Relationship="BASF.CSEU_ORDER_CHANGE_SRV.OrdDeliveries"
+                                FromRole="FromRole_OrdDeliveries"
+                                ToRole="ToRole_OrdDeliveries"/>
+            <NavigationProperty Name="OrdShipments"
+                                Relationship="BASF.CSEU_ORDER_CHANGE_SRV.OrdShipments"
+                                FromRole="FromRole_OrdShipments"
+                                ToRole="ToRole_OrdShipments"/>
          </EntityType>
          <EntityType Name="ScheduleLineRequested" sap:content-version="1">
             <Key>
@@ -431,6 +439,113 @@
                       sap:filterable="false"
                       sap:semantics="unit-of-measure"/>
          </EntityType>
+         <EntityType Name="Delivery" sap:content-version="1">
+            <Key>
+               <PropertyRef Name="SalesOrder"/>
+               <PropertyRef Name="SalesOrderItem"/>
+               <PropertyRef Name="DeliveryNumber"/>
+               <PropertyRef Name="DeliveryItem"/>
+            </Key>
+            <Property Name="SalesOrder"
+                      Type="Edm.String"
+                      Nullable="false"
+                      MaxLength="10"
+                      sap:unicode="false"
+                      sap:label="SD Document"
+                      sap:creatable="false"
+                      sap:updatable="false"
+                      sap:sortable="false"
+                      sap:filterable="false"/>
+            <Property Name="SalesOrderItem"
+                      Type="Edm.String"
+                      Nullable="false"
+                      MaxLength="6"
+                      sap:unicode="false"
+                      sap:label="Item"
+                      sap:creatable="false"
+                      sap:updatable="false"
+                      sap:sortable="false"
+                      sap:filterable="false"/>
+            <Property Name="DeliveryNumber"
+                      Type="Edm.String"
+                      Nullable="false"
+                      MaxLength="10"
+                      sap:unicode="false"
+                      sap:label="SD Document"
+                      sap:creatable="false"
+                      sap:updatable="false"
+                      sap:sortable="false"
+                      sap:filterable="false"/>
+            <Property Name="DeliveryItem"
+                      Type="Edm.String"
+                      Nullable="false"
+                      MaxLength="6"
+                      sap:unicode="false"
+                      sap:label="Item"
+                      sap:creatable="false"
+                      sap:updatable="false"
+                      sap:sortable="false"
+                      sap:filterable="false"/>
+         </EntityType>
+         <EntityType Name="Shipment" sap:content-version="1">
+            <Key>
+               <PropertyRef Name="SalesOrder"/>
+               <PropertyRef Name="SalesOrderItem"/>
+               <PropertyRef Name="DeliveryNumber"/>
+               <PropertyRef Name="DeliveryItem"/>
+               <PropertyRef Name="ShipmentNumber"/>
+            </Key>
+            <Property Name="SalesOrder"
+                      Type="Edm.String"
+                      Nullable="false"
+                      MaxLength="10"
+                      sap:unicode="false"
+                      sap:label="SD Document"
+                      sap:creatable="false"
+                      sap:updatable="false"
+                      sap:sortable="false"
+                      sap:filterable="false"/>
+            <Property Name="SalesOrderItem"
+                      Type="Edm.String"
+                      Nullable="false"
+                      MaxLength="6"
+                      sap:unicode="false"
+                      sap:label="Item"
+                      sap:creatable="false"
+                      sap:updatable="false"
+                      sap:sortable="false"
+                      sap:filterable="false"/>
+            <Property Name="DeliveryNumber"
+                      Type="Edm.String"
+                      Nullable="false"
+                      MaxLength="10"
+                      sap:unicode="false"
+                      sap:label="SD Document"
+                      sap:creatable="false"
+                      sap:updatable="false"
+                      sap:sortable="false"
+                      sap:filterable="false"/>
+            <Property Name="DeliveryItem"
+                      Type="Edm.String"
+                      Nullable="false"
+                      MaxLength="6"
+                      sap:unicode="false"
+                      sap:label="Item"
+                      sap:creatable="false"
+                      sap:updatable="false"
+                      sap:sortable="false"
+                      sap:filterable="false"/>
+            <Property Name="ShipmentNumber"
+                      Type="Edm.String"
+                      Nullable="false"
+                      MaxLength="10"
+                      sap:unicode="false"
+                      sap:label="Shipment Number"
+                      sap:creatable="false"
+                      sap:updatable="false"
+                      sap:sortable="false"
+                      sap:filterable="false"/>
+         </EntityType>
          <Association Name="OrdWFPartnersAssociationNextOrder" sap:content-version="1">
             <End Type="BASF.CSEU_ORDER_CHANGE_SRV.FinalOrderLine"
                  Multiplicity="1"
@@ -485,6 +600,42 @@
                </Dependent>
             </ReferentialConstraint>
          </Association>
+         <Association Name="OrdDeliveries" sap:content-version="1">
+            <End Type="BASF.CSEU_ORDER_CHANGE_SRV.FinalOrderLine"
+                 Multiplicity="1"
+                 Role="FromRole_OrdDeliveries"/>
+            <End Type="BASF.CSEU_ORDER_CHANGE_SRV.Delivery"
+                 Multiplicity="*"
+                 Role="ToRole_OrdDeliveries"/>
+            <ReferentialConstraint>
+               <Principal Role="FromRole_OrdDeliveries">
+                  <PropertyRef Name="SalesOrder"/>
+                  <PropertyRef Name="SalesOrderItem"/>
+               </Principal>
+               <Dependent Role="ToRole_OrdDeliveries">
+                  <PropertyRef Name="SalesOrder"/>
+                  <PropertyRef Name="SalesOrderItem"/>
+               </Dependent>
+            </ReferentialConstraint>
+         </Association>
+         <Association Name="OrdShipments" sap:content-version="1">
+            <End Type="BASF.CSEU_ORDER_CHANGE_SRV.FinalOrderLine"
+                 Multiplicity="1"
+                 Role="FromRole_OrdShipments"/>
+            <End Type="BASF.CSEU_ORDER_CHANGE_SRV.Shipment"
+                 Multiplicity="*"
+                 Role="ToRole_OrdShipments"/>
+            <ReferentialConstraint>
+               <Principal Role="FromRole_OrdShipments">
+                  <PropertyRef Name="SalesOrder"/>
+                  <PropertyRef Name="SalesOrderItem"/>
+               </Principal>
+               <Dependent Role="ToRole_OrdShipments">
+                  <PropertyRef Name="SalesOrder"/>
+                  <PropertyRef Name="SalesOrderItem"/>
+               </Dependent>
+            </ReferentialConstraint>
+         </Association>
          <Association Name="OrdWFPartnersAssociationFinalOrder" sap:content-version="1">
             <End Type="BASF.CSEU_ORDER_CHANGE_SRV.FinalOrderLine"
                  Multiplicity="1"
@@ -534,6 +685,31 @@
                        sap:deletable="false"
                        sap:pageable="false"
                        sap:content-version="1"/>
+            <EntitySet Name="DeliverySet"
+                       EntityType="BASF.CSEU_ORDER_CHANGE_SRV.Delivery"
+                       sap:creatable="false"
+                       sap:updatable="false"
+                       sap:deletable="false"
+                       sap:pageable="false"
+                       sap:addressable="false"
+                       sap:content-version="1"/>
+            <EntitySet Name="ShipmentSet"
+                       EntityType="BASF.CSEU_ORDER_CHANGE_SRV.Shipment"
+                       sap:creatable="false"
+                       sap:updatable="false"
+                       sap:deletable="false"
+                       sap:pageable="false"
+                       sap:addressable="false"
+                       sap:content-version="1"/>
+            <AssociationSet Name="OrdShipmentsSet"
+                            Association="BASF.CSEU_ORDER_CHANGE_SRV.OrdShipments"
+                            sap:creatable="false"
+                            sap:updatable="false"
+                            sap:deletable="false"
+                            sap:content-version="1">
+               <End EntitySet="FinalOrderLineSet" Role="FromRole_OrdShipments"/>
+               <End EntitySet="ShipmentSet" Role="ToRole_OrdShipments"/>
+            </AssociationSet>
             <AssociationSet Name="OrdSchedReqAssociationSet"
                             Association="BASF.CSEU_ORDER_CHANGE_SRV.OrdSchedReqAssociation"
                             sap:creatable="false"
@@ -554,6 +730,15 @@
                     Role="FromRole_OrdWFPartnersAssociationFinalOrder"/>
                <End EntitySet="WorkflowPartnerSet"
                     Role="ToRole_OrdWFPartnersAssociationFinalOrder"/>
+            </AssociationSet>
+            <AssociationSet Name="OrdDeliveriesSet"
+                            Association="BASF.CSEU_ORDER_CHANGE_SRV.OrdDeliveries"
+                            sap:creatable="false"
+                            sap:updatable="false"
+                            sap:deletable="false"
+                            sap:content-version="1">
+               <End EntitySet="FinalOrderLineSet" Role="FromRole_OrdDeliveries"/>
+               <End EntitySet="DeliverySet" Role="ToRole_OrdDeliveries"/>
             </AssociationSet>
             <AssociationSet Name="OrdSchedConfAssociationSet"
                             Association="BASF.CSEU_ORDER_CHANGE_SRV.OrdSchedConfAssociation"
