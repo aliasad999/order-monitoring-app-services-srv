@@ -151,9 +151,16 @@ class openOrdersSrv extends cds.ApplicationService {
                 finalOrderLine = await apiManagementService.tx(req).send({
                     query: orderLineQuery
                 });
-                let bizagiStatus = await AMOOUtilsService.tx(req).send({
-                    query: bizagiQuery
-                });
+                let bizagiStatus = null;
+                try {
+                    bizagiStatus = await AMOOUtilsService.tx(req).send({
+                        query: bizagiQuery
+                    });
+                }catch(error){
+                    if(error.reason.response.status !== 404){
+                        req.error(413, error) 
+                    }
+                }             
 
                 if(finalOrderLine.length > 0){
                     finalOrderLine = finalOrderLine[0];
@@ -166,6 +173,10 @@ class openOrdersSrv extends cds.ApplicationService {
                 if(finalOrderLine.SalesOrder && !editableFlag){
                     finalOrderLine.Editable = editableFlag;
                 }
+                finalOrderLine.BizagiCaseInProgress = false;
+                finalOrderLine.BizagiCaseStatus = '';
+                finalOrderLine.BizagiCaseID = '';
+                finalOrderLine.BizagiCase = '';
                 if(bizagiStatus){
                     // Add Bizagi Case information only if not approved to block order change UI
                     if(bizagiStatus.STATUS.indexOf("Approved") < 0 ){
