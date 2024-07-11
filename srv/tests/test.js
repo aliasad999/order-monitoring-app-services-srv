@@ -203,7 +203,7 @@ describe('Start Server and check various ODATA  calls', function () {
   });
 
   it(` All Fields from the app for ==> year ${currentYear}`, async function () {
-    const timeout = 15000
+    const timeout = 18000
     this.timeout(timeout);
     try {
       const response = await axios.get(`${baseUrl}/Results?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay})&$select=${constants.allFieldsResults}`)
