@@ -22,14 +22,14 @@ class openOrdersSrv extends cds.ApplicationService {
         // only needed to run this when the server is starting
 
         this.on("submitOrderChangeWF", async req => {
-            var payload = {} // add hardcoded payload here to test
+            let reqData = JSON.parse(req.data.payload); // parse stringified object
               
             try {
                 const bizagiSrv = await cds.connect.to('BizagiService');
                 var bizagiCall = await bizagiSrv.tx(req).send({
                     method: "POST",
                     path: "/",
-                    data: payload
+                    data: reqData
                 });
             } catch (error) {
                 req.error(413, error)
@@ -99,6 +99,8 @@ class openOrdersSrv extends cds.ApplicationService {
         this.on("READ", "FinalOrderLineSet", async (req, next) => {
             let finalOrderLine = {};
             let editableFlag = true;
+            let saleOrder = "";
+            let orderItem = "";
             const { orderChangeUsers } = await cds.entities('openOrdersSrv');
             let userIsActive = await SELECT.from(orderChangeUsers).where({ userId: req.user.id, active: true });
             if(userIsActive.length === 0){
@@ -109,6 +111,30 @@ class openOrdersSrv extends cds.ApplicationService {
 
                 if (req.query.SELECT.from.ref[0].where) {
                     orderLineQuery.where(req.query.SELECT.from.ref[0].where);
+                    // GET Sales Order NUmber and Order Item from WHERE Clause
+                    let indexOfKey = 1;
+                    let iterator = 0;
+                    for (const element of req.query.SELECT.from.ref[0].where) {
+                        iterator++;
+                        // check if element is the property needed
+                        if (element.ref) {
+                            if (element.ref[0] === 'SalesOrder') {
+                                indexOfKey = iterator;
+                            }
+                            if (element.ref[0] === 'SalesOrderItem') {
+                                indexOfKey = iterator;
+                            }
+                        }
+                        // get value for selected properties
+                        if (indexOfKey + 2 === iterator) {
+                            if (element.val.length === 6) {
+                                orderItem = element.val;
+                            } else {
+                                saleOrder = element.val;
+                            }
+
+                        }
+                    }
                 }
                 if (req.query.SELECT.orderBy) {
                     orderLineQuery.orderBy(req.query.SELECT.orderBy);
@@ -118,10 +144,23 @@ class openOrdersSrv extends cds.ApplicationService {
                     orderLineQuery.SELECT.columns = req.query.SELECT.columns
                 }
                 const apiManagementService = await cds.connect.to('OrderChangeService');
+                const AMOOUtilsService = await cds.connect.to('AMOOUtilsService');
+
+                let bizagiQuery = SELECT.from('BizagiCaseStatus').byKey({ SALES_ORDER: saleOrder, SALES_ORDER_ITEM: orderItem})
 
                 finalOrderLine = await apiManagementService.tx(req).send({
                     query: orderLineQuery
                 });
+                let bizagiStatus = null;
+                try {
+                    bizagiStatus = await AMOOUtilsService.tx(req).send({
+                        query: bizagiQuery
+                    });
+                }catch(error){
+                    if(error.reason.response.status !== 404){
+                        req.error(413, error) 
+                    }
+                }             
 
                 if(finalOrderLine.length > 0){
                     finalOrderLine = finalOrderLine[0];
@@ -134,7 +173,24 @@ class openOrdersSrv extends cds.ApplicationService {
                 if(finalOrderLine.SalesOrder && !editableFlag){
                     finalOrderLine.Editable = editableFlag;
                 }
-                finalOrderLine.Editable = true;
+                finalOrderLine.BizagiCaseInProgress = false;
+                finalOrderLine.BizagiCaseStatus = '';
+                finalOrderLine.BizagiCaseID = '';
+                finalOrderLine.BizagiCase = '';
+                if(bizagiStatus){
+                    // Add Bizagi Case information only if not approved to block order change UI
+                    if(bizagiStatus.STATUS.indexOf("Approved") < 0 ){
+                        finalOrderLine.Editable = false;
+                        finalOrderLine.BizagiCaseInProgress = true;
+                        finalOrderLine.BizagiCaseStatus = bizagiStatus.STATUS;
+                        finalOrderLine.BizagiCaseID = bizagiStatus.CASE_ID;
+                        finalOrderLine.BizagiCase = bizagiStatus.BIZAGI_CASE;
+                    }
+                }
+
+
+                //TEMPORARY
+                // finalOrderLine.Editable = true;
 
             } catch (error) {
                 req.error(413, error)

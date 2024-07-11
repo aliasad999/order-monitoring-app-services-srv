@@ -5,7 +5,7 @@ using { ContactsService as orderContacts } from './external/ContactsService';
 using { DSLServicesService as DSLServicesService } from './external/DSLServicesService';
 using { AMOOUtilsService as AMOOUtilsService } from './external/AMOOUtilsService';
 // using { LORDOdataOrderService as LORDOdataOrderService } from './external/LORDOdataOrderService';
-using { YRDSDV1Foe1Service as YRDSDV1Foe1Service } from './external/YRDSDV1Foe1Service';
+// using { YRDSDV1Foe1Service as YRDSDV1Foe1Service } from './external/YRDSDV1Foe1Service';
 // using { ATPService as ATPService } from './external/ATPService';
 using { CSEUCockpitService as CSEUCockpitService } from './external/CSEUCockpitService';
 
@@ -213,13 +213,18 @@ service openOrdersSrv {
     entity ContactSet  as select * from orderContacts.ContactSet;
     entity ContactsOptions       as select * from db_app.ContactsOptions;
     entity ServicesSet              as select * from DSLServicesService.ServicesSet;
-    entity FinalOrderLineSet     as select * from orderChange.FinalOrderLineSet;
+    entity FinalOrderLineSet     
+        as select from orderChange.FinalOrderLineSet {
+        *,
+        '' as BizagiCaseStatus : String(100),
+        '' as BizagiCaseID : String(10),
+        '' as BizagiCase : String(16),
+        false as BizagiCaseInProgress : Boolean 
+    };
     entity ScheduleLineRequestedSet as select * from orderChange.ScheduleLineRequestedSet;
     entity ScheduleLineConfirmedSet as select * from orderChange.ScheduleLineConfirmedSet;
     entity WorkflowPartnerSet       as select * from orderChange.WorkflowPartnerSet;
-    entity SalesOrderHeaderSet as projection on YRDSDV1Foe1Service.SalesOrderHeaderSet;
-    entity SalesOrderItemSet as projection on YRDSDV1Foe1Service.SalesOrderItemSet;
-    entity SalesOrderScheduleLinesSet as projection on YRDSDV1Foe1Service.SalesOrderScheduleLinesSet;
+    entity BizagiCaseStatus as projection on AMOOUtilsService.BizagiCaseStatus;
 
     action   submitOrderChange(payload : String)       returns String;
     action   submitOrderChangeWF(payload : String)       returns String;

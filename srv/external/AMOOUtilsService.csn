@@ -1,6 +1,6 @@
 {
  "meta": {
-  "creator": "cds-dk 7.8.2"
+  "creator": "cds-dk 7.9.4"
  },
  "$version": "2.0",
  "definitions": {
@@ -8,288 +8,6 @@
    "kind": "service",
    "@cds.external": true,
    "@m.IsDefaultEntityContainer": "true"
-  },
-  "AMOOUtilsService.Quotations": {
-   "kind": "entity",
-   "@cds.external": true,
-   "@cds.persistence.skip": true,
-   "elements": {
-    "GenID": {
-     "key": true,
-     "type": "cds.String",
-     "length": 40,
-     "@sap.filterable": "false",
-     "notNull": true
-    },
-    "MANDT": {
-     "type": "cds.String",
-     "length": 3,
-     "@sap.label": "MANDT"
-    },
-    "QUOTATION": {
-     "type": "cds.String",
-     "length": 10,
-     "@sap.label": "QUOTATION"
-    },
-    "QUOTATION_ITEM": {
-     "type": "cds.String",
-     "length": 6,
-     "@sap.label": "QUOTATION_ITEM"
-    },
-    "CREATION_DATE": {
-     "type": "cds.Date",
-     "@sap.label": "CREATION_DATE",
-     "@sap.display.format": "Date"
-    },
-    "LAST_CHANGED": {
-     "type": "cds.Date",
-     "@sap.label": "LAST_CHANGED",
-     "@sap.display.format": "Date"
-    },
-    "SOLD_TO": {
-     "type": "cds.String",
-     "length": 50,
-     "@sap.label": "SOLD_TO"
-    },
-    "SHIP_TO": {
-     "type": "cds.String",
-     "length": 50,
-     "@sap.label": "SHIP_TO"
-    },
-    "REQUESTED_DLV_DATE": {
-     "type": "cds.Date",
-     "@sap.label": "REQUESTED_DLV_DATE",
-     "@sap.display.format": "Date"
-    },
-    "VALID_FROM": {
-     "type": "cds.Date",
-     "@sap.label": "VALID_FROM",
-     "@sap.display.format": "Date"
-    },
-    "VALID_TO": {
-     "type": "cds.Date",
-     "@sap.label": "VALID_TO",
-     "@sap.display.format": "Date"
-    },
-    "INCO_TERMS": {
-     "type": "cds.String",
-     "length": 40,
-     "@sap.label": "INCO_TERMS"
-    },
-    "ORDER_REASON": {
-     "type": "cds.String",
-     "length": 46,
-     "@sap.label": "ORDER_REASON"
-    },
-    "CUSTOMER_PO": {
-     "type": "cds.String",
-     "length": 35,
-     "@sap.label": "CUSTOMER_PO"
-    },
-    "PARTNER_FUNCTION_AM": {
-     "type": "cds.String",
-     "length": 55,
-     "@sap.label": "PARTNER_FUNCTION_AM"
-    },
-    "PARTNER_FUNCTION_CSO": {
-     "type": "cds.String",
-     "length": 55,
-     "@sap.label": "PARTNER_FUNCTION_CSO"
-    },
-    "MATERIAL": {
-     "type": "cds.String",
-     "length": 60,
-     "@sap.label": "MATERIAL"
-    },
-    "QUANTITY": {
-     "type": "cds.Decimal",
-     "precision": 16,
-     "scale": 3,
-     "@sap.label": "QUANTITY",
-     "@sap.unit": "UOM_QUANTITY"
-    },
-    "UOM_QUANTITY": {
-     "type": "cds.String",
-     "length": 3,
-     "@sap.label": "UOM_QUANTITY",
-     "@sap.semantics": "unit-of-measure"
-    },
-    "PRICE": {
-     "type": "cds.Decimal",
-     "precision": 16,
-     "scale": 2,
-     "@sap.label": "PRICE",
-     "@sap.unit": "PRICE_UNIT"
-    },
-    "PRICE_UNIT": {
-     "type": "cds.String",
-     "length": 3,
-     "@sap.label": "PRICE_UNIT",
-     "@sap.semantics": "currency-code"
-    },
-    "DELIVERY_DATE": {
-     "type": "cds.Date",
-     "@sap.label": "DELIVERY_DATE",
-     "@sap.display.format": "Date"
-    },
-    "INVOICE_DATE": {
-     "type": "cds.Date",
-     "@sap.label": "INVOICE_DATE",
-     "@sap.display.format": "Date"
-    },
-    "INCO_TERMS_ITEMS": {
-     "type": "cds.String",
-     "length": 40,
-     "@sap.label": "INCO_TERMS_ITEMS"
-    },
-    "PLANT": {
-     "type": "cds.String",
-     "length": 4,
-     "@sap.label": "PLANT"
-    },
-    "DV_PARTNER": {
-     "type": "cds.String",
-     "length": 50,
-     "@sap.label": "DV_PARTNER"
-    },
-    "PO_DETAILS": {
-     "type": "cds.String",
-     "length": 35,
-     "@sap.label": "PO_DETAILS"
-    },
-    "SHIP_TO_PO_DETAILS": {
-     "type": "cds.String",
-     "length": 35,
-     "@sap.label": "SHIP_TO_PO_DETAILS"
-    },
-    "CUSTOMER_MATERIAL": {
-     "type": "cds.String",
-     "length": 35,
-     "@sap.label": "CUSTOMER_MATERIAL"
-    },
-    "PO_DATE": {
-     "type": "cds.Date",
-     "@sap.label": "PO_DATE",
-     "@sap.display.format": "Date"
-    },
-    "CREATED_BY": {
-     "type": "cds.String",
-     "length": 12,
-     "@sap.label": "CREATED_BY"
-    },
-    "ORDER_QUANTITY": {
-     "type": "cds.Decimal",
-     "precision": 16,
-     "scale": 3,
-     "@sap.label": "ORDER_QUANTITY",
-     "@sap.unit": "UOM_ORDER_QUANTITY"
-    },
-    "CONFIRMED_QUANTITY": {
-     "type": "cds.Decimal",
-     "precision": 16,
-     "scale": 3,
-     "@sap.label": "CONFIRMED_QUANTITY",
-     "@sap.unit": "UOM_ORDER_QUANTITY"
-    },
-    "UOM_ORDER_QUANTITY": {
-     "type": "cds.String",
-     "length": 3,
-     "@sap.label": "UOM_ORDER_QUANTITY",
-     "@sap.semantics": "unit-of-measure"
-    },
-    "NET_PRICE": {
-     "type": "cds.Decimal",
-     "precision": 16,
-     "scale": 2,
-     "@sap.label": "NET_PRICE",
-     "@sap.unit": "PRICE_UNIT"
-    },
-    "SEQUENCE_NUMBER": {
-     "type": "cds.String",
-     "length": 4,
-     "@sap.label": "SEQUENCE_NUMBER"
-    },
-    "SALES_ORGANIZATION": {
-     "type": "cds.String",
-     "length": 4,
-     "@sap.label": "SALES_ORGANIZATION"
-    },
-    "DISTRIBUTION_CHANNEL": {
-     "type": "cds.String",
-     "length": 2,
-     "@sap.label": "DISTRIBUTION_CHANNEL"
-    },
-    "SOLD_TO_LOWER": {
-     "type": "cds.String",
-     "length": 50,
-     "@sap.label": "SOLD_TO_LOWER"
-    },
-    "SHIP_TO_LOWER": {
-     "type": "cds.String",
-     "length": 50,
-     "@sap.label": "SHIP_TO_LOWER"
-    },
-    "INCO_TERMS_LOWER": {
-     "type": "cds.String",
-     "length": 40,
-     "@sap.label": "INCO_TERMS_LOWER"
-    },
-    "PARTNER_FUNCTION_CSO_LOWER": {
-     "type": "cds.String",
-     "length": 55,
-     "@sap.label": "PARTNER_FUNCTION_CSO_LOWER"
-    },
-    "PARTNER_FUNCTION_AM_LOWER": {
-     "type": "cds.String",
-     "length": 55,
-     "@sap.label": "PARTNER_FUNCTION_AM_LOWER"
-    },
-    "INCO_TERMS_ITEMS_LOWER": {
-     "type": "cds.String",
-     "length": 40,
-     "@sap.label": "INCO_TERMS_ITEMS_LOWER"
-    },
-    "PO_DETAILS_LOWER": {
-     "type": "cds.String",
-     "length": 35,
-     "@sap.label": "PO_DETAILS_LOWER"
-    },
-    "DV_PARTNER_LOWER": {
-     "type": "cds.String",
-     "length": 50,
-     "@sap.label": "DV_PARTNER_LOWER"
-    },
-    "SHIP_TO_PO_DETAILS_LOWER": {
-     "type": "cds.String",
-     "length": 35,
-     "@sap.label": "SHIP_TO_PO_DETAILS_LOWER"
-    },
-    "MATERIAL_LOWER": {
-     "type": "cds.String",
-     "length": 60,
-     "@sap.label": "MATERIAL_LOWER"
-    },
-    "CUSTOMER_PO_LOWER": {
-     "type": "cds.String",
-     "length": 35,
-     "@sap.label": "CUSTOMER_PO_LOWER"
-    },
-    "CREATED_BY_LOWER": {
-     "type": "cds.String",
-     "length": 12,
-     "@sap.label": "CREATED_BY_LOWER"
-    },
-    "CUSTOMER_MATERIAL_LOWER": {
-     "type": "cds.String",
-     "length": 35,
-     "@sap.label": "CUSTOMER_MATERIAL_LOWER"
-    },
-    "ORDER_REASON_LOWER": {
-     "type": "cds.String",
-     "length": 46,
-     "@sap.label": "ORDER_REASON_LOWER"
-    }
-   }
   },
   "AMOOUtilsService.CockpitResults": {
    "kind": "entity",
@@ -1561,11 +1279,6 @@
      "length": 40,
      "@sap.label": "SHIP_TO_CITY_NAME"
     },
-    "BIZAGI_ID": {
-     "type": "cds.String",
-     "length": 10,
-     "@sap.label": "BIZAGI_ID"
-    },
     "PROD_ALLOC": {
      "type": "cds.String",
      "length": 18,
@@ -1583,13 +1296,18 @@
     },
     "EMAIL_SENT_DATE": {
      "type": "cds.String",
-     "length": 16,
+     "length": 11,
      "@sap.label": "EMAIL_SENT_DATE"
     },
     "EMAIL_SEND_DATE_F": {
      "type": "cds.String",
-     "length": 16,
+     "length": 11,
      "@sap.label": "EMAIL_SEND_DATE_F"
+    },
+    "BIZAGI_ID": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "BIZAGI_ID"
     },
     "SALES_OFFICE": {
      "type": "cds.String",
@@ -1613,12 +1331,12 @@
     },
     "SHIPMENT_STATUS": {
      "type": "cds.String",
-     "length": 40,
+     "length": 100,
      "@sap.label": "SHIPMENT_STATUS"
     },
     "PROCESS_ORDER_NUMBER": {
      "type": "cds.String",
-     "length": 40,
+     "length": 12,
      "@sap.label": "PROCESS_ORDER_NUMBER"
     },
     "BASIC_FINISH_DATE": {
@@ -1628,7 +1346,7 @@
     },
     "ITEM_QUANTITY": {
      "type": "cds.String",
-     "length": 40,
+     "length": 17,
      "@sap.label": "ITEM_QUANTITY"
     },
     "PLANNED_GI_DATE": {
@@ -1653,17 +1371,17 @@
     },
     "SHIPPING_CONDITION": {
      "type": "cds.String",
-     "length": 2,
+     "length": 100,
      "@sap.label": "SHIPPING_CONDITION"
     },
     "ALPHA_CODE": {
      "type": "cds.String",
-     "length": 18,
+     "length": 100,
      "@sap.label": "ALPHA_CODE"
     },
     "TRANSPORTATION_GROUP": {
      "type": "cds.String",
-     "length": 4,
+     "length": 100,
      "@sap.label": "TRANSPORTATION_GROUP"
     }
    }
@@ -2100,53 +1818,6 @@
     }
    }
   },
-  "AMOOUtilsService.APACDelayReasonsLog": {
-   "kind": "entity",
-   "@cds.external": true,
-   "@cds.persistence.skip": true,
-   "elements": {
-    "ORDER_NUMBER": {
-     "key": true,
-     "type": "cds.String",
-     "length": 10,
-     "notNull": true
-    },
-    "ITEM_NUMBER": {
-     "key": true,
-     "type": "cds.String",
-     "length": 6,
-     "notNull": true
-    },
-    "BUCKET": {
-     "key": true,
-     "type": "cds.String",
-     "length": 2,
-     "notNull": true
-    },
-    "LANGUAGE": {
-     "key": true,
-     "type": "cds.String",
-     "length": 2,
-     "notNull": true
-    },
-    "ACTION": {
-     "key": true,
-     "type": "cds.String",
-     "length": 6,
-     "notNull": true
-    },
-    "DATE": {
-     "key": true,
-     "type": "cds.DateTime",
-     "@odata.Type": "Edm.DateTime",
-     "notNull": true
-    },
-    "REASON_CODE": {
-     "type": "cds.String",
-     "length": 2
-    }
-   }
-  },
   "AMOOUtilsService.SalesOrderNotesFollowup": {
    "kind": "entity",
    "@cds.external": true,
@@ -2462,12 +2133,6 @@
    "@cds.external": true,
    "@cds.persistence.skip": true,
    "elements": {
-    "PREDEFINED_ID": {
-     "key": true,
-     "type": "cds.String",
-     "length": 5,
-     "notNull": true
-    },
     "ORDER_NUMBER": {
      "key": true,
      "type": "cds.String",
@@ -2478,6 +2143,12 @@
      "key": true,
      "type": "cds.String",
      "length": 6,
+     "notNull": true
+    },
+    "PREDEFINED_ID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 5,
      "notNull": true
     },
     "CREATED_AT": {
@@ -3112,6 +2783,167 @@
       "max": "*"
      },
      "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.NotesResults": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "elements": {
+    "GenID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "CLIENT": {
+     "type": "cds.String",
+     "length": 3,
+     "@sap.label": "CLIENT"
+    },
+    "UTCTIME": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "scale": 0,
+     "@sap.label": "UTCTIME"
+    },
+    "VBELN": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "VBELN"
+    },
+    "POSNR": {
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "POSNR"
+    },
+    "NOTE_TITLE": {
+     "type": "cds.String",
+     "length": 60,
+     "@sap.label": "NOTE_TITLE"
+    },
+    "LANGUAGE": {
+     "type": "cds.String",
+     "length": 2,
+     "@sap.label": "LANGUAGE"
+    },
+    "LAST_NOTE_FLAG": {
+     "type": "cds.String",
+     "length": 1,
+     "@sap.label": "LAST_NOTE_FLAG"
+    },
+    "NOTE_TEXT": {
+     "type": "cds.String",
+     "length": 1000,
+     "@sap.label": "NOTE_TEXT"
+    },
+    "USERNAME": {
+     "type": "cds.String",
+     "length": 12,
+     "@sap.label": "USERNAME"
+    }
+   }
+  },
+  "AMOOUtilsService.NotesEntries": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.addressable": "false",
+   "@sap.semantics": "parameters",
+   "elements": {
+    "IP_VBELN": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "IP_VBELN",
+     "@sap.parameter": "mandatory",
+     "notNull": true
+    },
+    "Results": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "AMOOUtilsService.NotesResults",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.DeleteNotes": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "VBELN": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true
+    },
+    "POSNR": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "notNull": true
+    },
+    "UTCTIME": {
+     "key": true,
+     "type": "cds.Decimal",
+     "precision": 15,
+     "scale": 0,
+     "notNull": true
+    }
+   }
+  },
+  "AMOOUtilsService.UpdateNotes": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "CLIENT": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true
+    },
+    "UTCTIME": {
+     "key": true,
+     "type": "cds.Decimal",
+     "precision": 15,
+     "scale": 0,
+     "notNull": true
+    },
+    "VBELN": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "notNull": true
+    },
+    "POSNR": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "notNull": true
+    },
+    "LANGUAGE": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "NOTE_TITLE": {
+     "type": "cds.String",
+     "length": 60
+    },
+    "NOTE_TEXT": {
+     "type": "cds.String",
+     "length": 1000
+    },
+    "USERNAME": {
+     "type": "cds.String",
+     "length": 12
     }
    }
   },
@@ -4171,6 +4003,42 @@
       "max": "*"
      },
      "keys": []
+    }
+   }
+  },
+  "AMOOUtilsService.BizagiCaseStatus": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "SALES_ORDER": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "SALES_ORDER",
+     "notNull": true
+    },
+    "SALES_ORDER_ITEM": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.label": "SALES_ORDER_ITEM",
+     "notNull": true
+    },
+    "BIZAGI_CASE": {
+     "type": "cds.String",
+     "length": 16,
+     "@sap.label": "BIZAGI_CASE"
+    },
+    "STATUS": {
+     "type": "cds.String",
+     "length": 100,
+     "@sap.label": "STATUS"
+    },
+    "CASE_ID": {
+     "type": "cds.String",
+     "length": 10,
+     "@sap.label": "CASE_ID"
     }
    }
   }
