@@ -224,6 +224,8 @@ service openOrdersSrv {
     entity ScheduleLineRequestedSet as select * from orderChange.ScheduleLineRequestedSet;
     entity ScheduleLineConfirmedSet as select * from orderChange.ScheduleLineConfirmedSet;
     entity WorkflowPartnerSet       as select * from orderChange.WorkflowPartnerSet;
+    entity DeliverySet       as select * from orderChange.DeliverySet;
+    entity ShipmentSet       as select * from orderChange.ShipmentSet;
     entity BizagiCaseStatus as projection on AMOOUtilsService.BizagiCaseStatus;
 
     action   submitOrderChange(payload : String)       returns String;
