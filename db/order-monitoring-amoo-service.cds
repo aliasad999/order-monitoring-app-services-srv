@@ -209,7 +209,7 @@ entity ![OPENORDERSLIST] {
         ISSUE_LOCATION                     : String(10);
         ISSUE_LOCATION_ITEM                : String(6);
         NOTE_TEXT                          : String(1000);
-        IGNORED                            : Boolean;
+        IGNORED                            : Integer;
         ETA_UPDATED                        : String(3);
 // BL_VBELN_INV_FIRST                 : String(10);
 // BL_VBELN_INV_LAST                  : String(10);
@@ -372,7 +372,7 @@ entity ![SALESORDER_DETAILS](IP_LANG : String(2)) {
 @cds.persistence.exists
 entity ![IGNORED_SO] {
         key MANDT    : String(3);
-        key USERNAME : String(12);
+        key USERNAME : String(50);
         key VBELN    : String(10);
         key POSNR    : String(6);
         key NPS      : String(3);
