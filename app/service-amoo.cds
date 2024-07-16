@@ -2671,6 +2671,23 @@ annotate service.allIssues with {
         ]
     }
 };
+annotate service.allIssues with {
+    TM_SHIPMENT_ETA_UPDATED
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>TM_SHIPMENT_ETA_UPDATED}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: TM_SHIPMENT_ETA_UPDATED,
+            ValueListProperty: 'TM_SHIPMENT_ETA_UPDATED'
+        }
+
+        ]
+    }
+};
 
 annotate service.allIssues with {
     BL_POSNR_INV_FIRST
