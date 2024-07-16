@@ -654,10 +654,10 @@ annotate service.allIssues with {
     SO_MANDT           @UI                     : {Hidden: true};     
     DL_MANDT           @UI                     : {Hidden: true};
     TM_MANDT            @UI                     : {Hidden: true};
-    BL_MANDT_INV_FIRST @UI                     : {Hidden: true};
-    BL_MANDT_INV_LAST  @UI                     : {Hidden: true};           
-    // BL_POSNR_INV_LAST  @UI                     : {Hidden: true};           
-    // BL_POSNR_INV_FIRST  @UI                     : {Hidden: true};     
+    BL_MANDT_INV_FIRST  @UI                     : {Hidden: true};
+    BL_MANDT_INV_LAST   @UI                     : {Hidden: true};           
+    BL_FKART_FIRST      @UI                     : {Hidden: true};           
+    BL_FKART_LAST       @UI                     : {Hidden: true};     
     BL_FKIMG_FIRST    @Measures.Unit          : BL_VRKME_FIRST;                                       
     BL_FKIMG_LAST     @Measures.Unit          : BL_VRKME_LAST;                                       
     BL_VRKME_FIRST   @Semantics.unitOfMeasure: 'unit-of-measure';
