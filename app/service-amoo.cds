@@ -648,6 +648,7 @@ annotate service.allIssues with {
     DL_VRKME           @Semantics.unitOfMeasure: 'unit-of-measure';
     DL_PEND_DEL_QUAN   @Measures.Unit          : DL_VRKME;
     id                 @UI                     : {Hidden: true};
+    SO_DOC_TYP         @UI                     : {Hidden: true};
     SO_IGNORED         @UI                     : {Hidden: true};     
     SO_MANDT           @UI                     : {Hidden: true};     
     DL_MANDT           @UI                     : {Hidden: true};

@@ -199,7 +199,8 @@ service openOrdersSrv {
                 BL_VRKME_FIRST                                           as BL_VRKME_FIRST,
                 BL_VRKME_LAST                                            as BL_VRKME_LAST,                     
                 BL_FKART_FIRST                                           as BL_FKART_FIRST,
-                BL_FKART_LAST                                            as BL_FKART_LAST                     
+                BL_FKART_LAST                                            as BL_FKART_LAST,
+                DOCUMENT_TYPE                                            as SO_DOC_TYP                 
 
         }
 

@@ -224,6 +224,7 @@ entity ![OPENORDERSLIST] {
         BL_VRKME_LAST                      : String(3);     
         BL_FKART_FIRST                     : String(4);
         BL_FKART_LAST                      : String(4);
+        DOCUMENT_TYPE                      : String(1);
 }
 
 entity ContactsOptions {
