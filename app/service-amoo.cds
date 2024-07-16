@@ -613,19 +613,20 @@ annotate service.baseEntity with {
     TM_STTRG_DDTEXT             @title: '{i18n>TM_STTRG_DDTEXT}'             @sap.Label: '{i18n>TM_STTRG_DDTEXT}';
     TM_SHIPMENT_ALERT           @title: '{i18n>TM_SHIPMENT_ALERT}'           @sap.Label: '{i18n>TM_SHIPMENT_ALERT}';
     TM_SHIPMENT_CURRENT_STATUS  @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'  @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
-    SO_NPS                      @title: '{i18n>SO_NPS}'                         @sap.Label: '{i18n>SO_NPS}';
-    SO_ISSUE                       @title: '{i18n>SO_ISSUE}'                       @sap.Label: '{i18n>TSO_ISSUE}';
-    SO_DUE_DATE                    @title: '{i18n>SO_DUE_DATE}'                    @sap.Label: '{i18n>SO_DUE_DATE}'            @sap.filter.restriction:'interval';
-    SO_ISSUE_LOCATION              @title: '{i18n>SO_ISSUE_LOCATION}'              @sap.Label: '{i18n>SO_ISSUE_LOCATION}';
-    SO_ISSUE_LOCATION_ITEM         @title: '{i18n>SO_ISSUE_LOCATION_ITEM}'         @sap.Label: '{i18n>SO_ISSUE_LOCATION_ITEM}';
-    criticalityDueDate              @title: '{i18n>dueDateCriticality}'        @sap.Label: '{i18n>dueDateCriticality}' ;
-    BL_VBELN_INV_FIRST              @title: '{i18n>BL_VBELN_INV_FIRST}'          @sap.Label: '{i18n>BL_VBELN_INV_FIRST}';
-    BL_POSNR_INV_FIRST              @title: '{i18n>BL_POSNR_INV_FIRST}'          @sap.Label: '{i18n>BL_POSNR_INV_FIRST}';
+    SO_NPS                      @title: '{i18n>SO_NPS}'                      @sap.Label: '{i18n>SO_NPS}';
+    SO_ISSUE                    @title: '{i18n>SO_ISSUE}'                    @sap.Label: '{i18n>TSO_ISSUE}';
+    SO_DUE_DATE                 @title: '{i18n>SO_DUE_DATE}'                 @sap.Label: '{i18n>SO_DUE_DATE}'         @sap.filter.restriction:'interval';
+    SO_ISSUE_LOCATION           @title: '{i18n>SO_ISSUE_LOCATION}'           @sap.Label: '{i18n>SO_ISSUE_LOCATION}';
+    SO_ISSUE_LOCATION_ITEM      @title: '{i18n>SO_ISSUE_LOCATION_ITEM}'      @sap.Label: '{i18n>SO_ISSUE_LOCATION_ITEM}';
+    criticalityDueDate          @title: '{i18n>dueDateCriticality}'          @sap.Label: '{i18n>dueDateCriticality}' ;
+    TM_SHIPMENT_ETA_UPDATED     @title: '{i18n>TM_SHIPMENT_ETA_UPDATED}'     @sap.Label: '{i18n>TM_SHIPMENT_ETA_UPDATED}';
+    BL_VBELN_INV_FIRST          @title: '{i18n>BL_VBELN_INV_FIRST}'          @sap.Label: '{i18n>BL_VBELN_INV_FIRST}';
+    BL_POSNR_INV_FIRST          @title: '{i18n>BL_POSNR_INV_FIRST}'          @sap.Label: '{i18n>BL_POSNR_INV_FIRST}';
     BL_FKIMG_FIRST              @title: '{i18n>BL_FKIMG_FIRST}'          @sap.Label: '{i18n>BL_FKIMG_FIRST}';
-    BL_FKIMG_LAST              @title: '{i18n>BL_FKIMG_LAST}'          @sap.Label: '{i18n>BL_FKIMG_LAST}';
-    BL_FKART_LAST              @title: '{i18n>BL_FKART_LAST}'          @sap.Label: '{i18n>BL_FKART_LAST}';
+    BL_FKIMG_LAST               @title: '{i18n>BL_FKIMG_LAST}'          @sap.Label: '{i18n>BL_FKIMG_LAST}';
+    BL_FKART_LAST               @title: '{i18n>BL_FKART_LAST}'          @sap.Label: '{i18n>BL_FKART_LAST}';
     BL_VRKME_FIRST              @title: '{i18n>BL_VRKME_FIRST}'          @sap.Label: '{i18n>BL_VRKME_LAST}';
-    BL_VRKME_LAST              @title: '{i18n>BL_VRKME_LAST}'          @sap.Label: '{i18n>BL_POSNR_INV_FIRST}';
+    BL_VRKME_LAST               @title: '{i18n>BL_VRKME_LAST}'          @sap.Label: '{i18n>BL_POSNR_INV_FIRST}';
     BL_FKART_FIRST              @title: '{i18n>BL_FKART_FIRST}'          @sap.Label: '{i18n>BL_FKART_FIRST}';
     // BL_VBELN_INV_FIRST          @title: '{i18n>BL_VBELN_INV_FIRST}'          @sap.Label: '{i18n>BL_VBELN_INV_FIRST}'  @Common.IsDigitSequence: true;
     // BL_VBELN_INV_LAST           @title: '{i18n>BL_VBELN_INV_LAST}'           @sap.Label: '{i18n>BL_VBELN_INV_LAST}'   @Common.IsDigitSequence: true;
@@ -2665,6 +2666,23 @@ annotate service.allIssues with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_ISSUE_LOCATION_ITEM,
             ValueListProperty: 'SO_ISSUE_LOCATION_ITEM'
+        }
+
+        ]
+    }
+};
+annotate service.allIssues with {
+    TM_SHIPMENT_ETA_UPDATED
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>TM_SHIPMENT_ETA_UPDATED}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: TM_SHIPMENT_ETA_UPDATED,
+            ValueListProperty: 'TM_SHIPMENT_ETA_UPDATED'
         }
 
         ]
