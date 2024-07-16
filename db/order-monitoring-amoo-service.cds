@@ -211,11 +211,20 @@ entity ![OPENORDERSLIST] {
         NOTE_TEXT                          : String(1000);
         IGNORED                            : Integer;
         ETA_UPDATED                        : String(3);
-// BL_VBELN_INV_FIRST                 : String(10);
-// BL_VBELN_INV_LAST                  : String(10);
-// XBLNR                              : String(16);
-// BL_MANDT_INV_FIRST                 : String(3);
-// BL_MANDT_INV_LAST                  : String(3);
+        BL_VBELN_INV_FIRST                 : String(10);
+        BL_POSNR_INV_FIRST                 : String(6);
+        BL_VBELN_INV_LAST                  : String(10);
+        BL_POSNR_INV_LAST                 : String(6);
+        XBLNR                              : String(16);
+        BL_MANDT_INV_FIRST                 : String(3);
+        BL_MANDT_INV_LAST                  : String(3);
+        BL_FKIMG_FIRST                     : Decimal(15,3);
+        BL_FKIMG_LAST                     : Decimal(15,3);
+        BL_VRKME_FIRST                     : String(3);
+        BL_VRKME_LAST                      : String(3);     
+        BL_FKART_FIRST                     : String(4);
+        BL_FKART_LAST                      : String(4);
+        DOCUMENT_TYPE                      : String(1);
 }
 
 entity ContactsOptions {

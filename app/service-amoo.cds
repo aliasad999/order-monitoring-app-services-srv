@@ -620,6 +620,14 @@ annotate service.baseEntity with {
     SO_ISSUE_LOCATION_ITEM      @title: '{i18n>SO_ISSUE_LOCATION_ITEM}'      @sap.Label: '{i18n>SO_ISSUE_LOCATION_ITEM}';
     criticalityDueDate          @title: '{i18n>dueDateCriticality}'          @sap.Label: '{i18n>dueDateCriticality}' ;
     TM_SHIPMENT_ETA_UPDATED     @title: '{i18n>TM_SHIPMENT_ETA_UPDATED}'     @sap.Label: '{i18n>TM_SHIPMENT_ETA_UPDATED}';
+    BL_VBELN_INV_FIRST          @title: '{i18n>BL_VBELN_INV_FIRST}'          @sap.Label: '{i18n>BL_VBELN_INV_FIRST}';
+    BL_POSNR_INV_FIRST          @title: '{i18n>BL_POSNR_INV_FIRST}'          @sap.Label: '{i18n>BL_POSNR_INV_FIRST}';
+    BL_FKIMG_FIRST              @title: '{i18n>BL_FKIMG_FIRST}'          @sap.Label: '{i18n>BL_FKIMG_FIRST}';
+    BL_FKIMG_LAST               @title: '{i18n>BL_FKIMG_LAST}'          @sap.Label: '{i18n>BL_FKIMG_LAST}';
+    BL_FKART_LAST               @title: '{i18n>BL_FKART_LAST}'          @sap.Label: '{i18n>BL_FKART_LAST}';
+    BL_VRKME_FIRST              @title: '{i18n>BL_VRKME_FIRST}'          @sap.Label: '{i18n>BL_VRKME_LAST}';
+    BL_VRKME_LAST               @title: '{i18n>BL_VRKME_LAST}'          @sap.Label: '{i18n>BL_POSNR_INV_FIRST}';
+    BL_FKART_FIRST              @title: '{i18n>BL_FKART_FIRST}'          @sap.Label: '{i18n>BL_FKART_FIRST}';
     // BL_VBELN_INV_FIRST          @title: '{i18n>BL_VBELN_INV_FIRST}'          @sap.Label: '{i18n>BL_VBELN_INV_FIRST}'  @Common.IsDigitSequence: true;
     // BL_VBELN_INV_LAST           @title: '{i18n>BL_VBELN_INV_LAST}'           @sap.Label: '{i18n>BL_VBELN_INV_LAST}'   @Common.IsDigitSequence: true;
     // BL_XBLNR                    @title: '{i18n>BL_XBLNR}'                    @sap.Label: '{i18n>BL_XBLNR}';
@@ -641,12 +649,20 @@ annotate service.allIssues with {
     DL_VRKME           @Semantics.unitOfMeasure: 'unit-of-measure';
     DL_PEND_DEL_QUAN   @Measures.Unit          : DL_VRKME;
     id                 @UI                     : {Hidden: true};
+    SO_DOC_TYP         @UI                     : {Hidden: true};
     SO_IGNORED         @UI                     : {Hidden: true};     
     SO_MANDT           @UI                     : {Hidden: true};     
     DL_MANDT           @UI                     : {Hidden: true};
     TM_MANDT            @UI                     : {Hidden: true};
-    // BL_MANDT_INV_FIRST @UI                     : {Hidden: true};
-    // BL_MANDT_INV_LAST  @UI                     : {Hidden: true};           
+    BL_MANDT_INV_FIRST @UI                     : {Hidden: true};
+    BL_MANDT_INV_LAST  @UI                     : {Hidden: true};           
+    // BL_POSNR_INV_LAST  @UI                     : {Hidden: true};           
+    // BL_POSNR_INV_FIRST  @UI                     : {Hidden: true};     
+    BL_FKIMG_FIRST    @Measures.Unit          : BL_VRKME_FIRST;                                       
+    BL_FKIMG_LAST     @Measures.Unit          : BL_VRKME_LAST;                                       
+    BL_VRKME_FIRST   @Semantics.unitOfMeasure: 'unit-of-measure';
+    BL_VRKME_LAST     @Semantics.unitOfMeasure: 'unit-of-measure';
+    
 
 };
 
@@ -819,6 +835,8 @@ annotate service.allIssues with {
     SO_F_AMEIN                @UI                     : {Hidden: true};
     SO_F_AS_PARTNER_NAME      @UI                     : {Hidden: true};
     DL_LFART_VTEXT            @UI                     : {Hidden: true};
+    BL_VRKME_FIRST            @UI                     : {Hidden: true};
+    BL_VRKME_LAST             @UI                     : {Hidden: true};
     // id                        @UI                     : {Hidden: true};
     // DL_MANDT                  @UI                     : {Hidden: true};
     // TM_MANDT                  @UI                     : {Hidden: true};
@@ -2650,6 +2668,83 @@ annotate service.allIssues with {
             ValueListProperty: 'SO_ISSUE_LOCATION_ITEM'
         }
 
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    BL_POSNR_INV_FIRST
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_POSNR_INV_FIRST}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: BL_POSNR_INV_FIRST,
+            ValueListProperty: 'BL_POSNR_INV_FIRST'
+        }
+
+        ]
+    }
+    @Common.IsDigitSequence: true
+};
+annotate service.allIssues with {
+    BL_POSNR_INV_LAST
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_POSNR_INV_LAST}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: BL_POSNR_INV_LAST,
+            ValueListProperty: 'BL_POSNR_INV_LAST'
+        }
+
+        ]
+    }
+    @Common.IsDigitSequence: true
+};
+annotate service.allIssues with {
+    BL_FKIMG_FIRST
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_FKIMG_FIRST}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: BL_FKIMG_FIRST,
+                ValueListProperty: 'BL_FKIMG_FIRST'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'BL_VRKME_FIRST'
+            }
+        ]
+    }
+};
+annotate service.allIssues with {
+    BL_FKIMG_LAST
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_FKIMG_LAST}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: BL_FKIMG_LAST,
+                ValueListProperty: 'BL_FKIMG_LAST'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'BL_VRKME_LAST'
+            }
         ]
     }
 };
