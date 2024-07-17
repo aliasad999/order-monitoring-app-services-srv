@@ -622,15 +622,22 @@ annotate service.baseEntity with {
     TM_SHIPMENT_ETA_UPDATED     @title: '{i18n>TM_SHIPMENT_ETA_UPDATED}'     @sap.Label: '{i18n>TM_SHIPMENT_ETA_UPDATED}';
     BL_VBELN_INV_FIRST          @title: '{i18n>BL_VBELN_INV_FIRST}'          @sap.Label: '{i18n>BL_VBELN_INV_FIRST}';
     BL_POSNR_INV_FIRST          @title: '{i18n>BL_POSNR_INV_FIRST}'          @sap.Label: '{i18n>BL_POSNR_INV_FIRST}';
-    BL_FKIMG_FIRST              @title: '{i18n>BL_FKIMG_FIRST}'          @sap.Label: '{i18n>BL_FKIMG_FIRST}';
-    BL_FKIMG_LAST               @title: '{i18n>BL_FKIMG_LAST}'          @sap.Label: '{i18n>BL_FKIMG_LAST}';
-    BL_FKART_LAST               @title: '{i18n>BL_FKART_LAST}'          @sap.Label: '{i18n>BL_FKART_LAST}';
-    BL_VRKME_FIRST              @title: '{i18n>BL_VRKME_FIRST}'          @sap.Label: '{i18n>BL_VRKME_LAST}';
-    BL_VRKME_LAST               @title: '{i18n>BL_VRKME_LAST}'          @sap.Label: '{i18n>BL_POSNR_INV_FIRST}';
-    BL_FKART_FIRST              @title: '{i18n>BL_FKART_FIRST}'          @sap.Label: '{i18n>BL_FKART_FIRST}';
-    // BL_VBELN_INV_FIRST          @title: '{i18n>BL_VBELN_INV_FIRST}'          @sap.Label: '{i18n>BL_VBELN_INV_FIRST}'  @Common.IsDigitSequence: true;
-    // BL_VBELN_INV_LAST           @title: '{i18n>BL_VBELN_INV_LAST}'           @sap.Label: '{i18n>BL_VBELN_INV_LAST}'   @Common.IsDigitSequence: true;
-    // BL_XBLNR                    @title: '{i18n>BL_XBLNR}'                    @sap.Label: '{i18n>BL_XBLNR}';
+    BL_FKIMG_FIRST              @title: '{i18n>BL_FKIMG_FIRST}'              @sap.Label: '{i18n>BL_FKIMG_FIRST}';
+    BL_VRKME_FIRST              @title: '{i18n>BL_VRKME_FIRST}'              @sap.Label: '{i18n>BL_VRKME_LAST}';
+    BL_FKART_FIRST              @title: '{i18n>BL_FKART_FIRST}'              @sap.Label: '{i18n>BL_FKART_FIRST}';
+    BL_VBELN_INV_LAST           @title: '{i18n>BL_VBELN_INV_LAST}'           @sap.Label: '{i18n>BL_VBELN_INV_LAST}'  @Common.IsDigitSequence: true;
+    BL_POSNR_INV_LAST           @title: '{i18n>BL_POSNR_INV_LAST}'           @sap.Label: '{i18n>BL_POSNR_INV_LAST}'   @Common.IsDigitSequence: true;
+    BL_FKIMG_LAST               @title: '{i18n>BL_FKIMG_LAST}'               @sap.Label: '{i18n>BL_FKIMG_LAST}';
+    BL_FKART_LAST               @title: '{i18n>BL_FKART_LAST}'               @sap.Label: '{i18n>BL_FKART_LAST}';
+    BL_VRKME_LAST               @title: '{i18n>BL_VRKME_LAST}'               @sap.Label: '{i18n>BL_POSNR_INV_FIRST}';
+    BL_XBLNR                    @title: '{i18n>BL_XBLNR}'                    @sap.Label: '{i18n>BL_XBLNR}';
+    SO_FOLLOWUP_NOTES_LANG      @title: '{i18n>SO_FOLLOWUP_NOTES_LANG}'      @sap.Label: '{i18n>SO_FOLLOWUP_NOTES_LANG}';
+    SO_REASON_CODE_01_LANG      @title: '{i18n>SO_REASON_CODE_01_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_01_LANG}';
+    SO_REASON_CODE_02_LANG      @title: '{i18n>SO_REASON_CODE_02_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_02_LANG}';
+    SO_REASON_CODE_03_LANG      @title: '{i18n>SO_REASON_CODE_03_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_03_LANG}';
+    SO_REASON_CODE_04_LANG      @title: '{i18n>SO_REASON_CODE_04_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_04_LANG}';
+    SO_REASON_CODE_05_LANG      @title: '{i18n>SO_REASON_CODE_05_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_05_LANG}';
+
 };
 annotate service.allIssues with {
     SO_KWMENG          @Measures.Unit          : SO_VRKME;
@@ -2768,5 +2775,112 @@ annotate service.allIssues with {
         ]
     }
 };
+
+annotate service.allIssues with {
+    SO_FOLLOWUP_NOTES_LANG
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_FOLLOWUP_NOTES_LANG}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_FOLLOWUP_NOTES_LANG,
+            ValueListProperty: 'SO_FOLLOWUP_NOTES_LANG'
+        }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_REASON_CODE_01_LANG
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_REASON_CODE_01_LANG}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_REASON_CODE_01_LANG,
+            ValueListProperty: 'SO_REASON_CODE_01_LANG'
+        }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_REASON_CODE_02_LANG
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_REASON_CODE_02_LANG}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_REASON_CODE_02_LANG,
+            ValueListProperty: 'SO_REASON_CODE_02_LANG'
+        }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_REASON_CODE_03_LANG
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_REASON_CODE_03_LANG}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_REASON_CODE_03_LANG,
+            ValueListProperty: 'SO_REASON_CODE_03_LANG'
+        }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_REASON_CODE_04_LANG
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_REASON_CODE_04_LANG}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_REASON_CODE_04_LANG,
+            ValueListProperty: 'SO_REASON_CODE_04_LANG'
+        }
+
+        ]
+    }
+};
      
+annotate service.allIssues with {
+    SO_REASON_CODE_05_LANG
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_REASON_CODE_05_LANG}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_REASON_CODE_05_LANG,
+            ValueListProperty: 'SO_REASON_CODE_05_LANG'
+        }
+
+        ]
+    }
+};
 // ------------------------------Value Helps All Issues----------------------------

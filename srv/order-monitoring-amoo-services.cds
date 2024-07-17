@@ -200,7 +200,13 @@ service openOrdersSrv {
                 BL_VRKME_LAST                                            as BL_VRKME_LAST,                     
                 BL_FKART_FIRST                                           as BL_FKART_FIRST,
                 BL_FKART_LAST                                            as BL_FKART_LAST,
-                DOCUMENT_TYPE                                            as SO_DOC_TYP                 
+                DOCUMENT_TYPE                                            as SO_DOC_TYP,
+                FOLLOWUP_NOTES_LANG                                      as SO_FOLLOWUP_NOTES_LANG,
+                REASON_CODE_01_LANG                                      as SO_REASON_CODE_01_LANG,
+                REASON_CODE_02_LANG                                      as SO_REASON_CODE_02_LANG,
+                REASON_CODE_03_LANG                                      as SO_REASON_CODE_03_LANG,
+                REASON_CODE_04_LANG                                      as SO_REASON_CODE_04_LANG,
+                REASON_CODE_05_LANG                                      as SO_REASON_CODE_05_LANG
 
         }
 

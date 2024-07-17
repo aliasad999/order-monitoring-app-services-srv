@@ -214,17 +214,23 @@ entity ![OPENORDERSLIST] {
         BL_VBELN_INV_FIRST                 : String(10);
         BL_POSNR_INV_FIRST                 : String(6);
         BL_VBELN_INV_LAST                  : String(10);
-        BL_POSNR_INV_LAST                 : String(6);
+        BL_POSNR_INV_LAST                  : String(6);
         XBLNR                              : String(16);
         BL_MANDT_INV_FIRST                 : String(3);
         BL_MANDT_INV_LAST                  : String(3);
         BL_FKIMG_FIRST                     : Decimal(15,3);
-        BL_FKIMG_LAST                     : Decimal(15,3);
+        BL_FKIMG_LAST                      : Decimal(15,3);
         BL_VRKME_FIRST                     : String(3);
-        BL_VRKME_LAST                      : String(3);     
+        BL_VRKME_LAST                      : String(3);
         BL_FKART_FIRST                     : String(4);
         BL_FKART_LAST                      : String(4);
         DOCUMENT_TYPE                      : String(1);
+        FOLLOWUP_NOTES_LANG                : String(50);
+        REASON_CODE_01_LANG                : String(255);
+        REASON_CODE_02_LANG                : String(255);
+        REASON_CODE_03_LANG                : String(255);
+        REASON_CODE_04_LANG                : String(255);
+        REASON_CODE_05_LANG                : String(255);
 }
 
 entity ContactsOptions {
