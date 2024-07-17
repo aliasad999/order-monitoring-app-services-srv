@@ -247,11 +247,13 @@ service openOrdersSrv {
 
     entity PredefReasonBuckets as select from AMOOUtilsService.PredefinedReasonBuckets {
         key BUCKET as BucketKey,
+        key LANGUAGE as Language,
         BUCKET_TEXT as BucketText
     };
     entity PredefReasonComments as select from AMOOUtilsService.PredefinedReasonComments {
         key BUCKET as BucketKey,
         key REASON_CODE as ReasonCodeKey,
+        key LANGUAGE as Language,
         REASON_TEXT as ReasonComment
     };
     entity ReasonComments as select from AMOOUtilsService.APACDelayReasons {
