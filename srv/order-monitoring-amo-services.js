@@ -411,6 +411,39 @@ class srvOpenOrders extends cds.ApplicationService {
                 }
         })
         
+        this.on("CREATE", "ShipmentMarkedDelivered", async (req) => {
+
+            try {
+                const AMOOService = await cds.connect.to('AMOOUtilsService');
+                const postReq = await AMOOService.tx(req).send({
+                    query: req.query
+                });
+
+                return postReq;
+
+            } catch (error) {
+                req.error(413, error.message || 'An error occurred while updating the shipment');
+            }
+        });
+
+       this.on("DELETE", "ShipmentMarkedDelivered", async (req) => {
+        try {
+            const AMOOService = await cds.connect.to('AMOOUtilsService');
+            const deleteReq = await AMOOService.tx(req).send({
+                query: req.query
+            });
+
+            return deleteReq;
+
+        } catch (error) {
+            if (error.reason.response.status === 204) {
+                // This is not an error, supress it
+                return null;
+            }
+            req.error(413, error.message || 'An error occurred while deleting the shipment');
+        }
+    });
+
         return super.init();
     }
 }

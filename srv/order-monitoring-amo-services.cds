@@ -1,4 +1,5 @@
 using allorders.db as db_app from '../db/order-monitoring-amo-service';
+using { AMOOUtilsService as AMOOUtilsService } from './external/AMOOUtilsService';
 
 service srvOpenOrders {
 
@@ -227,5 +228,5 @@ service srvOpenOrders {
           *
     };
     
-
+    entity ShipmentMarkedDelivered as select from AMOOUtilsService.ShipmentMarkedDelivered;
 }

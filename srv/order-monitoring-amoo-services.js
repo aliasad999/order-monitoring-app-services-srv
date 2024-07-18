@@ -23,7 +23,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
         this.on("submitOrderChangeWF", async req => {
             let reqData = JSON.parse(req.data.payload); // parse stringified object
-              
+
             try {
                 const bizagiSrv = await cds.connect.to('BizagiService');
                 var bizagiCall = await bizagiSrv.tx(req).send({
@@ -89,7 +89,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 });
 
                 return postReq;
-                
+
             } catch (error) {
                 req.error(413, error)
             }
@@ -103,7 +103,7 @@ class openOrdersSrv extends cds.ApplicationService {
             let orderItem = "";
             const { orderChangeUsers } = await cds.entities('openOrdersSrv');
             let userIsActive = await SELECT.from(orderChangeUsers).where({ userId: req.user.id, active: true });
-            if(userIsActive.length === 0){
+            if (userIsActive.length === 0) {
                 editableFlag = false;
             }
             try {
@@ -146,7 +146,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 const apiManagementService = await cds.connect.to('OrderChangeService');
                 const AMOOUtilsService = await cds.connect.to('AMOOUtilsService');
 
-                let bizagiQuery = SELECT.from('BizagiCaseStatus').byKey({ SALES_ORDER: saleOrder, SALES_ORDER_ITEM: orderItem})
+                let bizagiQuery = SELECT.from('BizagiCaseStatus').byKey({ SALES_ORDER: saleOrder, SALES_ORDER_ITEM: orderItem })
 
                 finalOrderLine = await apiManagementService.tx(req).send({
                     query: orderLineQuery
@@ -156,30 +156,30 @@ class openOrdersSrv extends cds.ApplicationService {
                     bizagiStatus = await AMOOUtilsService.tx(req).send({
                         query: bizagiQuery
                     });
-                }catch(error){
-                    if(error.reason.response.status !== 404){
-                        req.error(413, error) 
+                } catch (error) {
+                    if (error.reason.response.status !== 404) {
+                        req.error(413, error)
                     }
-                }             
+                }
 
-                if(finalOrderLine.length > 0){
+                if (finalOrderLine.length > 0) {
                     finalOrderLine = finalOrderLine[0];
-                }else{
+                } else {
                     // no data
                     return {};
                 }
-                
+
                 // Update editable flag based on the BTP table of active users
-                if(finalOrderLine.SalesOrder && !editableFlag){
+                if (finalOrderLine.SalesOrder && !editableFlag) {
                     finalOrderLine.Editable = editableFlag;
                 }
                 finalOrderLine.BizagiCaseInProgress = false;
                 finalOrderLine.BizagiCaseStatus = '';
                 finalOrderLine.BizagiCaseID = '';
                 finalOrderLine.BizagiCase = '';
-                if(bizagiStatus){
+                if (bizagiStatus) {
                     // Add Bizagi Case information only if not approved to block order change UI
-                    if(bizagiStatus.STATUS.indexOf("Approved") < 0 ){
+                    if (bizagiStatus.STATUS.indexOf("Approved") < 0) {
                         finalOrderLine.Editable = false;
                         finalOrderLine.BizagiCaseInProgress = true;
                         finalOrderLine.BizagiCaseStatus = bizagiStatus.STATUS;
@@ -557,10 +557,10 @@ class openOrdersSrv extends cds.ApplicationService {
             const result = await db.run(req.query)
             return result
         })
-        this.on("CREATE", "dueDateLimit", async (req,next) => {
+        this.on("CREATE", "dueDateLimit", async (req, next) => {
             const { dueDateLimit } = cds.entities('openOrdersSrv');
             await UPSERT.into(dueDateLimit).entries(req.query.INSERT.entries);
-            return  SELECT('*').from(dueDateLimit).byKey({ userId: req.query.INSERT.entries[0].userId })
+            return SELECT('*').from(dueDateLimit).byKey({ userId: req.query.INSERT.entries[0].userId })
         })
 
         /**
@@ -818,7 +818,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 });
 
                 return postReq;
-                
+
             } catch (error) {
                 req.error(413, error)
             }
@@ -832,7 +832,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 });
 
                 return deleteReq;
-                
+
             } catch (error) {
                 if (error.reason.response.status === 204) {
                     // This is not an error, supress it
@@ -878,7 +878,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 });
 
                 return postReq;
-                
+
             } catch (error) {
                 req.error(413, error)
             }
@@ -892,7 +892,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 });
 
                 return deleteReq;
-                
+
             } catch (error) {
                 if (error.reason.response.status === 204) {
                     // This is not an error, supress it
@@ -932,7 +932,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 });
 
                 return updateReq;
-                
+
             } catch (error) {
                 if (error.reason.response.status === 204) {
                     // This is actually not an error - supress it 
@@ -1014,7 +1014,7 @@ class openOrdersSrv extends cds.ApplicationService {
                                 sCheckingRule = "A";
                                 break;
                             case "40":
-                                
+
                                 let dateMs = Math.abs(new Date(dueDate).getTime() - dateToday);
                                 let days = 1000 * 3600 * 24;
                                 let dateDifference = dateMs / days;
@@ -1061,6 +1061,7 @@ class openOrdersSrv extends cds.ApplicationService {
             }
             return combinedResults;
         })
+
         return super.init();
     }
 }
