@@ -231,6 +231,10 @@ entity ![OPENORDERSLIST] {
         REASON_CODE_03_LANG                : String(255);
         REASON_CODE_04_LANG                : String(255);
         REASON_CODE_05_LANG                : String(255);
+        DEV_CONF_DATE                      : String(12);
+        EMAIL                              : String(241);
+        EMAIL_SEND_DATE_F                  : String(8);
+        EMAIL_SENT_ON                      : String(8);
 }
 
 entity ContactsOptions {

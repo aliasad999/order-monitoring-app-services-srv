@@ -637,6 +637,10 @@ annotate service.baseEntity with {
     SO_REASON_CODE_03_LANG      @title: '{i18n>SO_REASON_CODE_03_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_03_LANG}';
     SO_REASON_CODE_04_LANG      @title: '{i18n>SO_REASON_CODE_04_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_04_LANG}';
     SO_REASON_CODE_05_LANG      @title: '{i18n>SO_REASON_CODE_05_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_05_LANG}';
+    SO_DEV_CONF_DATE            @title: '{i18n>SO_DEV_CONF_DATE}'            @sap.Label: '{i18n>SO_DEV_CONF_DATE}';
+    SO_EMAIL                    @title: '{i18n>SO_EMAIL}'                    @sap.Label: '{i18n>SO_EMAIL}';
+    SO_EMAIL_SEND_DATE_F        @title: '{i18n>SO_EMAIL_SEND_DATE_F}'        @sap.Label: '{i18n>SO_EMAIL_SEND_DATE_F}';
+    SO_EMAIL_SENT_ON            @title: '{i18n>SO_EMAIL_SENT_ON}'            @sap.Label: '{i18n>SO_EMAIL_SENT_ON}';
 
 };
 annotate service.allIssues with {
@@ -2878,6 +2882,78 @@ annotate service.allIssues with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_REASON_CODE_05_LANG,
             ValueListProperty: 'SO_REASON_CODE_05_LANG'
+        }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_DEV_CONF_DATE
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_DEV_CONF_DATE}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_DEV_CONF_DATE,
+            ValueListProperty: 'SO_DEV_CONF_DATE'
+        }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_EMAIL
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_EMAIL}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_EMAIL,
+            ValueListProperty: 'SO_EMAIL'
+        }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_EMAIL_SEND_DATE_F
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_EMAIL_SEND_DATE_F}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_EMAIL_SEND_DATE_F,
+            ValueListProperty: 'SO_EMAIL_SEND_DATE_F'
+        }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_EMAIL_SENT_ON
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_EMAIL_SENT_ON}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_EMAIL_SENT_ON,
+            ValueListProperty: 'SO_EMAIL_SENT_ON'
         }
 
         ]

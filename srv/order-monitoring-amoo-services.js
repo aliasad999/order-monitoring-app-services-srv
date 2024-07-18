@@ -710,7 +710,6 @@ class openOrdersSrv extends cds.ApplicationService {
          * @param {array} data - The array containing the result from the backend request
          * @param {object} req - The request object containing request details
          * */
-
         this.after("READ", "allIssues", async (data, req) => {
             if (req.target.name != 'openOrdersSrv.valueHelps') {
                 // needed for cache .. to make value helps dynamic. we are using unique session ID to cache based on authorization token.
