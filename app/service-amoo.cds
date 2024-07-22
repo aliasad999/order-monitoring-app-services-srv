@@ -2107,24 +2107,24 @@ annotate service.allIssues with {
     
 };
 
-// annotate service.allIssues with {
-//     SO_GUSCON_LEVEL
-//     @Common.ValueList      : {
-//         $Type                  : 'Common.ValueListType',
-//         Label                  : '{@i18n>SO_GUSCON_LEVEL}',
-//         CollectionPath         : 'valueHelps',
-//         DistinctValuesSupported: true,
-//         SearchSupported        : true,
-//         Parameters             : [{
-//             $Type            : 'Common.ValueListParameterInOut',
-//             LocalDataProperty: SO_GUSCON_LEVEL,
-//             ValueListProperty: 'SO_GUSCON_LEVEL'
-//         }
+annotate service.allIssues with {
+    SO_GUSCON_LEVEL
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_GUSCON_LEVEL}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_GUSCON_LEVEL,
+            ValueListProperty: 'SO_GUSCON_LEVEL'
+        }
 
-//         ]
-//     }
-//     @Common.IsDigitSequence: true
-// };
+        ]
+    }
+    @Common.IsDigitSequence: true
+};
 
 annotate service.allIssues with {
     SO_I_VBELN
