@@ -206,7 +206,7 @@ entity ![OPENORDERSLIST] {
         ISSUE                              : String(2);
         DUE_DATE                           : String(8);
         DUE_DATE_FORMATTED                 : Date = DUE_DATE;
-        ISSUE_LOCATION                     : String(10);
+        ISSUE_LOCATION                     : String(12);
         ISSUE_LOCATION_ITEM                : String(6);
         NOTE_TEXT                          : String(1000);
         IGNORED                            : Integer;

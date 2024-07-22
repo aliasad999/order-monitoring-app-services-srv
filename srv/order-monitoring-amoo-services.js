@@ -449,7 +449,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     // End of ISSUE 343357
                     query.SELECT.columns.length = 0;
                     query.SELECT.columns = req.query.SELECT.columns;
-                    query.SELECT.orderBy.length = 0;
+                    if (query.SELECT.orderBy) query.SELECT.orderBy.length = 0;
                     query.SELECT.orderBy = req.query.SELECT.orderBy;
                     try {
                         lt_result = await db.run(query)
