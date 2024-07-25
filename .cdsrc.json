@@ -68,8 +68,13 @@
         "CSEUCockpitService": {
             "kind": "odata-v2",
             "model": "srv/external/CSEUCockpitService",
+            "csrf": {
+                "method": "get",
+                "url": "/it/omg/omc/cseu-cockpit/v1/"
+            },
+            "csrfInBatch": false,
             "credentials": {
-                "destination": "APIM",
+                "destination": "APIM_DEV",
                 "path": "/it/omg/omc/cseu-cockpit/v1"
             }
         },
