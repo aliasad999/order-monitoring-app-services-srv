@@ -247,9 +247,11 @@ service openOrdersSrv {
     entity DeliverySet       as select * from orderChange.DeliverySet;
     entity ShipmentSet       as select * from orderChange.ShipmentSet;
     entity BizagiCaseStatus as projection on AMOOUtilsService.BizagiCaseStatus;
+    entity RejCodesSet as projection on CSEUCockpitService.RejCodesSet;
 
     action   submitOrderChange(payload : String)       returns String;
     action   submitOrderChangeWF(payload : String)       returns String;
+    action   cancelOrder(payload: String)               returns String;
 
     entity PredefReasonBuckets as select from AMOOUtilsService.PredefinedReasonBuckets {
         key BUCKET as BucketKey,

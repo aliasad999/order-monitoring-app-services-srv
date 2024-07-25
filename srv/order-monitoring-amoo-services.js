@@ -21,6 +21,38 @@ class openOrdersSrv extends cds.ApplicationService {
         }
         // only needed to run this when the server is starting
 
+        this.on("cancelOrder", async req => {
+            let reqData = JSON.parse(req.data.payload); // parse stringified object
+
+            try {
+                const CSEUCockpitService = await cds.connect.to('CSEUCockpitService');
+                var cancelOrderCall = await CSEUCockpitService.tx(req).send({
+                    method: "POST",
+                    path: "/OrderSet",
+                    data: reqData
+                });
+            } catch (error) {
+                req.error(413, error)
+            }
+
+            let response = "SUCCESS"
+            return response;
+        });
+
+        this.on("READ", "RejCodesSet", async (req, next) => {
+            let rejectCodes = [];
+            try {
+                const CSEUCockpitService = await cds.connect.to('CSEUCockpitService');
+                rejectCodes = await CSEUCockpitService.tx(req).send({
+                    query: req.query
+                });
+            } catch (error) {
+                req.error(413, error)
+            }
+
+            return rejectCodes;
+        });
+
         this.on("submitOrderChangeWF", async req => {
             let reqData = JSON.parse(req.data.payload); // parse stringified object
 
