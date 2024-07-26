@@ -615,8 +615,8 @@ annotate service.baseEntity with {
     TM_SHIPMENT_CURRENT_STATUS  @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'  @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
     SO_NPS                      @title: '{i18n>SO_NPS}'                      @sap.Label: '{i18n>SO_NPS}';
     SO_NPS_DESCRIPTION          @title: '{i18n>SO_NPS}'                      @sap.Label: '{i18n>SO_NPS}';
-    SO_ISSUE                    @title: '{i18n>SO_ISSUE}'                    @sap.Label: '{i18n>TSO_ISSUE}';
-    SO_ISSUE_DESCRIPTION        @title: '{i18n>SO_ISSUE}'                    @sap.Label: '{i18n>TSO_ISSUE}';
+    SO_ISSUE                    @title: '{i18n>SO_ISSUE}'                    @sap.Label: '{i18n>SO_ISSUE}';
+    SO_ISSUE_DESCRIPTION        @title: '{i18n>SO_ISSUE}'                    @sap.Label: '{i18n>SO_ISSUE}';
     SO_DUE_DATE                 @title: '{i18n>SO_DUE_DATE}'                 @sap.Label: '{i18n>SO_DUE_DATE}'         @sap.filter.restriction:'interval';
     SO_ISSUE_LOCATION           @title: '{i18n>SO_ISSUE_LOCATION}'           @sap.Label: '{i18n>SO_ISSUE_LOCATION}';
     SO_ISSUE_LOCATION_ITEM      @title: '{i18n>SO_ISSUE_LOCATION_ITEM}'      @sap.Label: '{i18n>SO_ISSUE_LOCATION_ITEM}';
