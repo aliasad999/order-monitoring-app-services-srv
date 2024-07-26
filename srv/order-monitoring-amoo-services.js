@@ -21,6 +21,38 @@ class openOrdersSrv extends cds.ApplicationService {
         }
         // only needed to run this when the server is starting
 
+        this.on("cancelOrder", async req => {
+            let reqData = JSON.parse(req.data.payload); // parse stringified object
+
+            try {
+                const CSEUCockpitService = await cds.connect.to('CSEUCockpitService');
+                var cancelOrderCall = await CSEUCockpitService.tx(req).send({
+                    method: "POST",
+                    path: "/OrderSet",
+                    data: reqData
+                });
+            } catch (error) {
+                req.error(413, error)
+            }
+
+            let response = "SUCCESS"
+            return response;
+        });
+
+        this.on("READ", "RejCodesSet", async (req, next) => {
+            let rejectCodes = [];
+            try {
+                const CSEUCockpitService = await cds.connect.to('CSEUCockpitService');
+                rejectCodes = await CSEUCockpitService.tx(req).send({
+                    query: req.query
+                });
+            } catch (error) {
+                req.error(413, error)
+            }
+
+            return rejectCodes;
+        });
+
         this.on("submitOrderChangeWF", async req => {
             let reqData = JSON.parse(req.data.payload); // parse stringified object
 
@@ -544,12 +576,14 @@ class openOrdersSrv extends cds.ApplicationService {
         * @param {object} req - The request object containing request details
         * */
         this.after("READ", "valueHelps", async (data, req) => {
+            data = Array.isArray(data) ? data : [data]
             // since there is a virtual id field, adding a random guid to each record of the result set.
-            if (Array.isArray(data)) {
-                data.forEach((item) => {
+            data.forEach((item) => {
                     item.id = uuid.v1()
-                })
-            }
+                    if ('SO_NPS' in item ) item.SO_NPS_DESCRIPTION =  getBundle(req.user.locale).getText(`nps${item.SO_NPS}`)
+                    if ('SO_ISSUE' in item ) item.SO_ISSUE_DESCRIPTION = getBundle(req.user.locale).getText(`OrderIssue${item.SO_ISSUE}`)
+            })
+            
         });
 
         this.on("READ", "dueDateLimit", async (req, next) => {
@@ -724,7 +758,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     const queryId = `${sessionID}AMOOQuery`
                     sessionCache.set(queryId, queryString);
                 }
-                if (Array.isArray(data)) {
+                data = Array.isArray(data) ? data : [data]
                     var dateProps = [
                         "SO_ERDAT_ORDER",
                         "SO_ERDAT_ITEM",
@@ -748,6 +782,8 @@ class openOrdersSrv extends cds.ApplicationService {
                         "SO_DUE_DATE"]
                     data.forEach((item) => {
                         item.id = uuid.v1()
+                        if ('SO_NPS' in item ) item.SO_NPS_DESCRIPTION =  getBundle(req.user.locale).getText(`nps${item.SO_NPS}`)
+                        if ('SO_ISSUE' in item ) item.SO_ISSUE_DESCRIPTION = getBundle(req.user.locale).getText(`OrderIssue${item.SO_ISSUE}`)
                         dateProps.forEach((property) => {
                             const dateString = item[property]
                             if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
@@ -761,7 +797,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
                         })
                     })
-                }
+                
             }
 
         });

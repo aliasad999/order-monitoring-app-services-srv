@@ -180,7 +180,9 @@ service openOrdersSrv {
                 STTRG                                                    as TM_STTRG,
                 STTRG_DDTEXT_LANG                                        as TM_STTRG_DDTEXT,
                 NPS                                                      as SO_NPS,
+                virtual null                                             as SO_NPS_DESCRIPTION : String(100),
                 ISSUE                                                    as SO_ISSUE,
+                virtual null                                             as SO_ISSUE_DESCRIPTION : String(100),
                 DUE_DATE_FORMATTED                                       as SO_DUE_DATE,
                 ISSUE_LOCATION                                           as SO_ISSUE_LOCATION,
                 ISSUE_LOCATION_ITEM                                      as SO_ISSUE_LOCATION_ITEM,
@@ -245,9 +247,11 @@ service openOrdersSrv {
     entity DeliverySet       as select * from orderChange.DeliverySet;
     entity ShipmentSet       as select * from orderChange.ShipmentSet;
     entity BizagiCaseStatus as projection on AMOOUtilsService.BizagiCaseStatus;
+    entity RejCodesSet as projection on CSEUCockpitService.RejCodesSet;
 
     action   submitOrderChange(payload : String)       returns String;
     action   submitOrderChangeWF(payload : String)       returns String;
+    action   cancelOrder(payload: String)               returns String;
 
     entity PredefReasonBuckets as select from AMOOUtilsService.PredefinedReasonBuckets {
         key BUCKET as BucketKey,
