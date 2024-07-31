@@ -2693,28 +2693,6 @@ annotate service.allIssues with {
 };
 
 annotate service.allIssues with {
-    SO_ISSUE
-    @Common.ValueList: {
-        $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>SO_ISSUE}',
-        CollectionPath         : 'valueHelps',
-        DistinctValuesSupported: true,
-        SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_ISSUE,
-            ValueListProperty: 'SO_ISSUE'
-        },
-        {
-                $Type            : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty: 'SO_ISSUE_DESCRIPTION'
-            }
-
-        ]
-    }
-};
-
-annotate service.allIssues with {
     SO_ISSUE_LOCATION
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
