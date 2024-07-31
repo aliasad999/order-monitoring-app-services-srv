@@ -2,13 +2,25 @@ using openOrdersSrv as service from '../srv/order-monitoring-amoo-services.cds';
 annotate service.allIssues with @Consumption.dbHints: ['USE_HEX_PLAN','HEX_INDEX_JOIN'];
 annotate service.valueHelps with @Consumption.dbHints: ['USE_HEX_PLAN','HEX_INDEX_JOIN'];
 
+annotate service.valueHelps with {
+    @Common.Text           : SO_NPS_DESCRIPTION
+    @Common.TextArrangement: #TextOnly
+    SO_NPS                  @title: '{i18n>SO_NPS}'        @sap.Label: '{i18n>SO_NPS}';
+    SO_NPS_DESCRIPTION @UI                     : {Hidden: true};
+    @Common.Text           : SO_ISSUE_DESCRIPTION
+    @Common.TextArrangement: #TextOnly
+    SO_ISSUE                  @title: '{i18n>SO_ISSUE}'        @sap.Label: '{i18n>SO_ISSUE}';
+    SO_ISSUE_DESCRIPTION @UI                     : {Hidden: true};
+}
+
 annotate service.allIssues with @(UI: {SelectionFields: [
     SO_VBELN,
     SO_VKORG,
     SO_VTWEG,
     SO_EDATU_REQUESTED,
     SO_AG_PARTNER,
-    SO_WE_PARTNER
+    SO_WE_PARTNER,
+    SO_ISSUE
 ],
 });
 // ------------- different tabs qualifier for lineitems-------
@@ -2658,15 +2670,11 @@ annotate service.allIssues with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_NPS,
             ValueListProperty: 'SO_NPS'
-        },
-        {
-            $Type            : 'Common.ValueListParameterDisplayOnly',
-            ValueListProperty: 'SO_NPS_DESCRIPTION'
         }
-
         ]
     }
 };
+
 annotate service.allIssues with {
     SO_ISSUE
     @Common.ValueList: {
@@ -2679,12 +2687,7 @@ annotate service.allIssues with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_ISSUE,
             ValueListProperty: 'SO_ISSUE'
-        },
-        {
-                $Type            : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty: 'SO_ISSUE_DESCRIPTION'
-            }
-
+        }
         ]
     }
 };
