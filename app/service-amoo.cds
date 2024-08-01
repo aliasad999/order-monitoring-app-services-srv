@@ -696,12 +696,12 @@ annotate service.allIssues with {
 
 annotate service.allIssues with {
     @Common.Text           : SO_NPS_DESCRIPTION
-    @Common.TextArrangement: #TextOnly
+    @Common.TextArrangement: #TextFirst
     SO_NPS                  @title: '{i18n>SO_NPS}'        @sap.Label: '{i18n>SO_NPS}';
     @Common.TextFor
     SO_NPS_DESCRIPTION                  ;
     @Common.Text           : SO_ISSUE_DESCRIPTION
-    @Common.TextArrangement: #TextOnly
+    @Common.TextArrangement: #TextFirst
     SO_ISSUE                  @title: '{i18n>SO_ISSUE}'        @sap.Label: '{i18n>SO_ISSUE}';
     @Common.TextFor
     SO_ISSUE_DESCRIPTION                  ;

@@ -16,7 +16,17 @@ class openOrdersSrv extends cds.ApplicationService {
         let data = allIssues.elements
         for (let key in data) {
             if (data[key]["@Common.Text"] && data[key]["@Common.Text"]["="]) {
-                this._textKeys.push({ key: key, value: data[key]["@Common.Text"]["="] });
+                switch( key){
+                    case 'SO_NPS':
+                        this._textKeys.push({ key: key, value: 'SO_NPS' });    
+                    break; 
+                    case 'SO_ISSUE':
+                        this._textKeys.push({ key: key, value: 'SO_ISSUE' });   
+                    break; 
+                    default:
+                        this._textKeys.push({ key: key, value: data[key]["@Common.Text"]["="] });
+                    break;
+            }
             }
         }
         // only needed to run this when the server is starting
@@ -617,7 +627,7 @@ class openOrdersSrv extends cds.ApplicationService {
             }
             req.query.SELECT.orderBy && req.query.SELECT.orderBy.forEach(order => {
                 this._textKeys.forEach(item => {
-                    if (order.ref.includes(item.key)) {
+                    if (order.ref.includes(item.key) ) {
                         order.ref = [item.value];
                     }
                 });
