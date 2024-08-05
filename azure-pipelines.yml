@@ -4,12 +4,18 @@ resources:
       type: git
       name: SAP CI CD/Azure DevOps Pipeline Templates
 
+parameters:
+- name: TransportID
+  displayName: Transport Request (Import in Cloud TMS on the QA Node)
+  type: number
+  default: 0
+
 trigger:
 - main
 
 extends:
   template: BTP-Template-Prod.yml@Template
   parameters:
+    TRANSPORT_ID: ${{ parameters.TransportID }}
     SAP_SYSTEMS: 
       - 'CLOUD'
-
