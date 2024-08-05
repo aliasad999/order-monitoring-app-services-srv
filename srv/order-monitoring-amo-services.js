@@ -461,11 +461,13 @@ module.exports = {
  */
 function removeDuplicates(fields, lt_result) {
     if (fields) {
-        lt_result = lt_result.map(obj => {
-            const newObj = {};
-            fields.forEach(field => newObj[field] = obj[field]);
-            return newObj;
-        });
+        lt_result = lt_result
+            .filter(obj => fields.every(field => obj[field] !== null)) // Remove null values
+            .map(obj => {
+                const newObj = {};
+                fields.forEach(field => newObj[field] = obj[field]);
+                return newObj;
+            });
     } else {
         // lt_result = lt_result.map((obj) => (obj));
     }
