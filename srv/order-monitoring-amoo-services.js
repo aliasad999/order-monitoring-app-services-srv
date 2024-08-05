@@ -1060,13 +1060,13 @@ class openOrdersSrv extends cds.ApplicationService {
                                 sCheckingRule = "A";
                                 break;
                             case "40":
-
-                                let dateMs = Math.abs(new Date(dueDate).getTime() - dateToday);
+                                let dueDateMs = new Date(dueDate).setUTCHours(0, 0, 0, 0);
+                                let dateMs = Math.abs(dueDateMs - dateToday);
                                 let days = 1000 * 3600 * 24;
                                 let dateDifference = dateMs / days;
                                 const db = cds.transaction(req);
                                 let timeFrame = await db.run(SELECT.from('openOrdersSrv.dueDateLimit').where({ userId: req.user.id }))
-                                sCheckingRule = dueDate > dateToday && dateDifference >= timeFrame[0].dayLimit ? "A" : "B";
+                                sCheckingRule = dueDateMs > dateToday && dateDifference >= timeFrame[0].dayLimit ? "A" : "B";
                         }
                         atpData = await ATPService.run(SELECT.from('ATPCheckR3Set').where({
                             Material: material,
