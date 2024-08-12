@@ -235,6 +235,8 @@ entity ![OPENORDERSLIST] {
         EMAIL                              : String(241);
         EMAIL_SEND_DATE_F                  : String(8);
         EMAIL_SENT_ON                      : String(8);
+        MDB                                : String(3);
+        MDB_TEXT                           : String(60);
 }
 
 entity ContactsOptions {
@@ -250,9 +252,9 @@ entity ![DUE_DATE_LIMIT] {
             dayLimit : Integer;
 }
 
-entity ![UNRESTRICTED_USER] {
-        key userId : User;
-}
+// entity ![UNRESTRICTED_USER] {
+//         key userId : User;
+// }
 
 entity orderChangeUsers {
         key userId : User;

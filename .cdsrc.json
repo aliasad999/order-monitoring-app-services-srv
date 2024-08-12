@@ -81,6 +81,10 @@
         "LORDOdataOrderService": {
             "kind": "odata-v2",
             "model": "srv/external/LORDOdataOrderService",
+            "csrf": {
+                "method": "get",
+                "url": "/it/omg/omc/lord-odata-order/v1/"
+            },
             "credentials": {
                 "destination": "APIM",
                 "path": "/it/omg/omc/lord-odata-order/v1"
@@ -111,6 +115,18 @@
             "credentials": {
                 "destination": "Bizagi",
                 "path": "/it/bizagiodata/v1"
+            }
+        },
+        "createDelivery":{
+            "kind": "odata-v2",
+            "csrf": {
+                "method": "get",
+                "url": "/it/omg/omc/sofm-delivery/v1"
+            },
+            "csrfInBatch": false,
+            "credentials": {
+                "destination": "APIM",
+                "path": "/it/omg/omc/sofm-delivery/v1"
             }
         }
     }

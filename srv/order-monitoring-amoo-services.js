@@ -16,20 +16,78 @@ class openOrdersSrv extends cds.ApplicationService {
         let data = allIssues.elements
         for (let key in data) {
             if (data[key]["@Common.Text"] && data[key]["@Common.Text"]["="]) {
-                switch( key){
+                switch (key) {
                     case 'SO_NPS':
-                        this._textKeys.push({ key: key, value: 'SO_NPS' });    
-                    break; 
+                        this._textKeys.push({ key: key, value: 'SO_NPS' });
+                        break;
                     case 'SO_ISSUE':
-                        this._textKeys.push({ key: key, value: 'SO_ISSUE' });   
-                    break; 
+                        this._textKeys.push({ key: key, value: 'SO_ISSUE' });
+                        break;
                     default:
                         this._textKeys.push({ key: key, value: data[key]["@Common.Text"]["="] });
-                    break;
-            }
+                        break;
+                }
             }
         }
         // only needed to run this when the server is starting
+
+        // START OF REMOVE DELIVERY BLOCK //
+        this.on("RemoveDeliveryBlock", async req => {
+            let salesOrder = req.data.SalesOrderID;
+            let salesOrderItem = req.data.ItemID;
+            let functionPath = `/RemoveDeliveryBlock?SalesOrderID='${salesOrder}'&ItemID='${salesOrderItem}'`
+            try {
+                const LORDOdataOrderService = await cds.connect.to('LORDOdataOrderService');
+                var releaseBillingBlockCall = await LORDOdataOrderService.tx(req).send({
+                    method: "POST",
+                    path: functionPath
+                });
+            } catch (error) {
+                req.error(413, error)
+            }
+
+            let response = "SUCCESS"
+            return response;
+        });
+
+        this.on("UPDATE", "LORDHeaderSet", async req => {
+            try {
+                const LORDOdataOrderService = await cds.connect.to('LORDOdataOrderService');
+                let updateReq = await LORDOdataOrderService.tx(req).send({
+                    query: req.query
+                });
+
+                return updateReq;
+
+            } catch (error) {
+                if (error.reason.response.status === 204) {
+                    // This is actually not an error - supress it 
+                    return null;
+                } else {
+                    req.error(413, error)
+                }
+            }
+        })
+
+        this.on("UPDATE", "LORDItemSet", async req => {
+            try {
+                const LORDOdataOrderService = await cds.connect.to('LORDOdataOrderService');
+                let updateReq = await LORDOdataOrderService.tx(req).send({
+                    query: req.query
+                });
+
+                return updateReq;
+
+            } catch (error) {
+                if (error.reason.response.status === 204) {
+                    // This is actually not an error - supress it 
+                    return null;
+                } else {
+                    req.error(413, error)
+                }
+            }
+        })
+        // END OF REMOVE DELIVERY BLOCK //
 
         this.on("cancelOrder", async req => {
             let reqData = JSON.parse(req.data.payload); // parse stringified object
@@ -589,11 +647,11 @@ class openOrdersSrv extends cds.ApplicationService {
             data = Array.isArray(data) ? data : [data]
             // since there is a virtual id field, adding a random guid to each record of the result set.
             data.forEach((item) => {
-                    item.id = uuid.v1()
-                    if ('SO_NPS' in item ) item.SO_NPS_DESCRIPTION =  getBundle(req.user.locale).getText(`nps${item.SO_NPS}`)
-                    if ('SO_ISSUE' in item ) item.SO_ISSUE_DESCRIPTION = getBundle(req.user.locale).getText(`OrderIssue${item.SO_ISSUE}`)
+                item.id = uuid.v1()
+                if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = getBundle(req.user.locale).getText(`nps${item.SO_NPS}`)
+                if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = getBundle(req.user.locale).getText(`OrderIssue${item.SO_ISSUE}`)
             })
-            
+
         });
 
         this.on("READ", "dueDateLimit", async (req, next) => {
@@ -606,7 +664,61 @@ class openOrdersSrv extends cds.ApplicationService {
             await UPSERT.into(dueDateLimit).entries(req.query.INSERT.entries);
             return SELECT('*').from(dueDateLimit).byKey({ userId: req.query.INSERT.entries[0].userId })
         })
+        this.on("createDeliveryforAllItem", async (req) => {
+            const { allIssues } = cds.entities('openOrdersSrv');
+            let lt_items = []
+            let date = new Date()
+            const lt_result = await SELECT.columns(['SO_VBELN', 'SO_POSNR', 'SO_DUE_DATE']).from(allIssues).where({ SO_VBELN: req.data.salesOrder, SO_NPS: '40' })
+            lt_result.forEach((item) => {
+                lt_items.push(item.SO_POSNR)
+            })
+            let biggerDate = lt_result.reduce((latest, current) => {
+                const latestDate = parseDate(latest.SO_DUE_DATE);
+                const currentDate = parseDate(current.SO_DUE_DATE);
+                return currentDate > latestDate ? current : latest;
+            });
+            if (date > biggerDate.SO_DUE_DATE) biggerDate.SO_DUE_DATE = date;
+            const oURLParam = {
+                SalesOrderID: req.data.salesOrder,
+                ItemIDs: lt_items.join(","),
+                DueDate: biggerDate.SO_DUE_DATE.toISOString().split('.')[0],
+                RollbackOnError: 0
+            };
+            const baseURL = 'CreateDeliveryForOrderItems';
+            const queryString = encodeParams(oURLParam);
+            const fullURL = `${baseURL}?${queryString}`;
+            const createDelivery = await cds.connect.to('createDelivery');
+            try {
+                const responseDelivery = await createDelivery.tx(req).send({
+                    method: req.method,
+                    path: fullURL
+                });
+                return sendDeliveryResponse(req, responseDelivery)
 
+            } catch (error) {
+                req.error(error.message)
+            }
+        })
+        this.on("createDeliveryforItem", async (req) => {
+            // CreateDeliveryForOrder?SalesOrderID='7012471445'&ItemID='20'
+            const oURLParam = {
+                SalesOrderID: req.data.salesOrder,
+                ItemID: req.data.salesOrderItem
+            };
+            const baseURL = 'CreateDeliveryForOrder';
+            const queryString = encodeParams(oURLParam);
+            const fullURL = `${baseURL}?${queryString}`;
+            const createDelivery = await cds.connect.to('createDelivery');
+            try {
+                const responseDelivery = await createDelivery.tx(req).send({
+                    method: req.method,
+                    path: fullURL,
+                });
+                return sendDeliveryResponse(req, responseDelivery)
+            } catch (error) {
+                req.error(error.message);
+            }
+        })
         /**
          * This event is triggered before the backend request for order list data
          * @param {string} "READ" - The type of backend request
@@ -614,7 +726,7 @@ class openOrdersSrv extends cds.ApplicationService {
          * @param {function} - The callback function containing the code that runs when the event is triggered
          * @param {object} req - The request object containing request details
          * */
-        this.before("READ", "allIssues", async (req, next) => {
+        this.before("READ", ["allIssues", "allIssuesDetails"], async (req, next) => {
             // Check if auth table is filled
             if (req.user.id !== "anonymous") {
                 const { VBAKAuthObjectKeys } = await cds.entities('srvOpenOrders');
@@ -627,7 +739,7 @@ class openOrdersSrv extends cds.ApplicationService {
             }
             req.query.SELECT.orderBy && req.query.SELECT.orderBy.forEach(order => {
                 this._textKeys.forEach(item => {
-                    if (order.ref.includes(item.key) ) {
+                    if (order.ref.includes(item.key)) {
                         order.ref = [item.value];
                     }
                 });
@@ -675,7 +787,7 @@ class openOrdersSrv extends cds.ApplicationService {
             }
         });
 
-        this.on("READ", "allIssues", async (req, next) => {
+        this.on("READ", ["allIssues", "allIssuesDetails"], async (req, next) => {
             // OTC-24554 Partner Settings Functionality
             // Begin of Code OTC-24554
             // *-------------------------------------------------------------------*
@@ -729,7 +841,24 @@ class openOrdersSrv extends cds.ApplicationService {
             // *-------------------------------------------------------------------*
             // End of Code OTC-24554
 
-            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols) {
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols ) {
+                if (req.target.name === 'openOrdersSrv.allIssues'){
+                let nps10, nps20, nps30, nps40, nps50, nps60, nps70, nps80, nps90, nps95, nps99, nps00;
+                let tabs = {}
+                try {
+                    const db = cds.transaction(req);
+                    const where = convertCQNtoCQL(req.query.SELECT.where)
+                    const sQuery = `CALL"npsValueExist"(IV_WHERECLAUSE => '${where}',LT_NPS_TAB => ?)`;
+                    const npstabs = await db.run(sQuery)
+                    tabs = npstabs.reduce((acc, item) => {
+                        acc[`nps${item.ID}`] = item.FLAG;
+                        return acc;
+                    }, {});
+                } catch (error) {
+                    log.error("[order-monitoring-app-services.js] - if exist query failed ! " + JSON.stringify(error));
+                    req.error(error)
+                }
+
                 try {
                     const db = cds.transaction(req);
                     let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  openOrdersSrv_allIssues   ) `)
@@ -737,12 +866,32 @@ class openOrdersSrv extends cds.ApplicationService {
                     const distinctCount = (req.query.SELECT.where) ?
                         await db.run(query)
                         : await db.run(query)
+                    let data = JSON.stringify({
+                        "nps10": tabs.nps10,
+                        "nps20": tabs.nps20,
+                        "nps30": tabs.nps30,
+                        "nps40": tabs.nps40,
+                        "nps50": tabs.nps50,
+                        "nps60": tabs.nps60,
+                        "nps70": tabs.nps70,
+                        "nps80": tabs.nps80,
+                        "nps90": tabs.nps90,
+                        "nps95": tabs.nps95,
+                        "nps99": tabs.nps99,
+                        "nps00": tabs.nps0
+                    })
+                    req.res.setHeader('custom', data)
                     return req.reply({ $count: Object.values(distinctCount[0])[0] })
+
                 } catch (error) {
                     log.error("[order-monitoring-app-services.js] - Count query failed ! " + JSON.stringify(error));
                     req.error(error)
                 }
             }
+            else {
+                return req.reply({ $count: 0 })
+            }
+        }
             await next(req)
         })
 
@@ -754,60 +903,63 @@ class openOrdersSrv extends cds.ApplicationService {
          * @param {array} data - The array containing the result from the backend request
          * @param {object} req - The request object containing request details
          * */
-        this.after("READ", "allIssues", async (data, req) => {
+        this.after("READ", ["allIssues", "allIssuesDetails"], async (data, req) => {
             if (req.target.name != 'openOrdersSrv.valueHelps') {
                 // needed for cache .. to make value helps dynamic. we are using unique session ID to cache based on authorization token.
                 let sessionID = req.headers['authorization'] || req.headers['x-username'];
                 if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.select) {
                     // do nothing
                 } else {
+
                     // cache the query, so that all filter conditions can be consumed.. when any valuehelp is called.
-                    let query = req.query;
-                    query.SELECT.where = req.query.SELECT.where;
-                    const queryString = JSON.stringify(query);
-                    const queryId = `${sessionID}AMOOQuery`
-                    sessionCache.set(queryId, queryString);
+                    if (req.target.name === 'openOrdersSrv.allIssues') {
+                        let query = req.query;
+                        query.SELECT.where = req.query.SELECT.where;
+                        const queryString = JSON.stringify(query);
+                        const queryId = `${sessionID}AMOOQuery`
+                        sessionCache.set(queryId, queryString);
+                    }
                 }
                 data = Array.isArray(data) ? data : [data]
-                    var dateProps = [
-                        "SO_ERDAT_ORDER",
-                        "SO_ERDAT_ITEM",
-                        "SO_EDATU_REQUESTED",
-                        "SO_EDATU_CONFIRMED",
-                        "SO_LDDAT",
-                        "SO_PRSDT",
-                        "SO_F_TDDAT",
-                        "DL_LFDAT",
-                        "DL_HSDAT",
-                        "DL_VFDAT",
-                        "DL_WADAT",
-                        "DL_WADAT_IST",
-                        "TM_DPTBG",
-                        "TM_DATBG",
-                        "TM_DPTEN",
-                        "TM_DATEN",
-                        "SO_F_LDDAT",
-                        "TM_AR_DATE",
-                        "SO_F_DGLTP",
-                        "SO_DUE_DATE"]
-                    data.forEach((item) => {
-                        item.id = uuid.v1()
-                        if ('SO_NPS' in item ) item.SO_NPS_DESCRIPTION =  getBundle(req.user.locale).getText(`nps${item.SO_NPS}`)
-                        if ('SO_ISSUE' in item ) item.SO_ISSUE_DESCRIPTION = getBundle(req.user.locale).getText(`OrderIssue${item.SO_ISSUE}`)
-                        dateProps.forEach((property) => {
-                            const dateString = item[property]
-                            if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
-                                const year = parseInt(dateString.substring(0, 4), 10);
-                                const month = parseInt(dateString.substring(4, 6), 10) - 1;
-                                const day = parseInt(dateString.substring(6, 8), 10);
-                                item[property] = new Date(year, month, day);
-                            } else {
-                                item[property] = null
-                            }
+                var dateProps = [
+                    "SO_ERDAT_ORDER",
+                    "SO_ERDAT_ITEM",
+                    "SO_EDATU_REQUESTED",
+                    "SO_EDATU_CONFIRMED",
+                    "SO_LDDAT",
+                    "SO_PRSDT",
+                    "SO_F_TDDAT",
+                    "DL_LFDAT",
+                    "DL_HSDAT",
+                    "DL_VFDAT",
+                    "DL_WADAT",
+                    "DL_WADAT_IST",
+                    "TM_DPTBG",
+                    "TM_DATBG",
+                    "TM_DPTEN",
+                    "TM_DATEN",
+                    "SO_F_LDDAT",
+                    "TM_AR_DATE",
+                    "SO_F_DGLTP",
+                    "SO_DUE_DATE"]
+                data.forEach((item) => {
+                    item.id = uuid.v1()
+                    if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = getBundle(req.user.locale).getText(`nps${item.SO_NPS}`)
+                    if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = getBundle(req.user.locale).getText(`OrderIssue${item.SO_ISSUE}`)
+                    dateProps.forEach((property) => {
+                        const dateString = item[property]
+                        if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
+                            const year = parseInt(dateString.substring(0, 4), 10);
+                            const month = parseInt(dateString.substring(4, 6), 10) - 1;
+                            const day = parseInt(dateString.substring(6, 8), 10);
+                            item[property] = new Date(year, month, day);
+                        } else {
+                            item[property] = null
+                        }
 
-                        })
                     })
-                
+                })
+
             }
 
         });
@@ -1145,7 +1297,12 @@ function checkScope(req, next, scope) {
     return req.user.is(scope) ? true : false;
 
 }
-
+function parseDate(dateString) {
+    const year = parseInt(dateString.substring(0, 4), 10);
+    const month = parseInt(dateString.substring(4, 6), 10) - 1; // Months are 0-based
+    const day = parseInt(dateString.substring(6, 8), 10);
+    return new Date(year, month, day);
+}
 function _buildContactOption(order, item, key, text) {
     return {
         OptionKey: key,
@@ -1154,7 +1311,111 @@ function _buildContactOption(order, item, key, text) {
         POSNR: item
     }
 }
+function sendDeliveryResponse(req, responseDelivery) {
+    let messageSet = new Set();
+    let error = false;
+    responseDelivery = Array.isArray(responseDelivery) ? responseDelivery : [responseDelivery]
+    responseDelivery.forEach((item) => {
+        if (item.Status === 'E') {
+            error = true;
+            messageSet.add(item.Message);
+        }
+    });
+    if (error) {
+        let message = Array.from(messageSet).join(' ');
+        req.error(message);
+        return false;
+    }
+    return true;
+}
+function convertCQNtoCQL(where) {
+    const requestQuery = [...where];
+    // Helper function to process nested expressions
+    for (let i = requestQuery.length - 1; i >= 0; i--) {
+        if (requestQuery[i].ref && requestQuery[i].ref[0] === 'SO_NPS' || requestQuery[i].ref && requestQuery[i].ref[0] === 'SO_IGNORED') {
+            requestQuery.splice(i, 4);
+        }
+    }
+    function processExpression(expr) {
+        let cqlParts = [];
+        let i = 0;
 
+        while (i < expr.length) {
+            const item = expr[i];
+
+            if (typeof item === 'object') {
+                if (item.xpr) {
+                    // Recursively process nested expressions
+                    cqlParts.push(`(${processExpression(item.xpr)})`);
+                } else if (item.ref) {
+                    // Handle reference
+                    cqlParts.push(item.ref.join('.'));
+                } else if (item.val !== undefined) {
+                    // Handle value when is empty is selected --> define conditions
+                    if (item.val === null) {
+                        cqlParts.push('NULL');
+                    } else {
+                        cqlParts.push(typeof item.val === 'string' ? `''${item.val}''` : item.val);
+                    }
+                } else if (item.func && item.func.toLowerCase() === 'contains') {
+                    // Handle 'contains' function --> define conditions
+                    const column = item.args[0].ref.join('.');
+                    const value = item.args[1].val;
+                    cqlParts.push(`${column} LIKE ''%'' || ''${value}'' || ''%'' ESCAPE ''^''`);
+                }
+                else if (item.func && item.func.toLowerCase() === 'startswith') {
+                    // Handle 'startswith' function --> define conditions
+                    const column = item.args[0].ref.join('.');
+                    const value = item.args[1].val;
+                    cqlParts.push(`${column} LIKE  ''${value}'' || ''%'' ESCAPE ''^''`);
+                }
+                else if (item.func && item.func.toLowerCase() === 'endswith') {
+                    // Handle 'endswith' function --> define conditions
+                    const column = item.args[0].ref.join('.');
+                    const value = item.args[1].val;
+                    cqlParts.push(`${column} LIKE ''%'' || ''${value}''  ESCAPE ''^''`);
+                }
+            } else if (typeof item === 'string') {
+                if (item.toLowerCase() === 'or') {
+                    cqlParts.push(item.toUpperCase());
+                } else if (item.toLowerCase() === 'and') {
+                    // Process AND conditions
+                    cqlParts.push('AND');
+                } else {
+                    // Handle operators (=, >=, <=, !=)
+                    cqlParts.push(item);
+                }
+            }
+            i++;
+        }
+
+        return cqlParts.join(' ').trim();
+    }
+
+    // Start processing from the top-level requestQuery array
+    let cql = processExpression(requestQuery);
+
+    // Clean up unnecessary spaces and extra parentheses
+    cql = cql.replace(/\s*\(\s*/g, ' (').replace(/\s*\)\s*/g, ') ')
+        .replace(/\s+\(\s+/g, ' (')
+        .replace(/\s+\)\s+/g, ')')
+        .replace(/\s*\(\s*\)/g, '') // Remove empty parentheses if any
+        .trim();
+
+    return cql;
+}
+
+function encodeParams(params) {
+    return Object.entries(params)
+        .map(([key, value]) => {
+            if (key === 'DueDate') value = `datetime'${value}'`;
+            else if (key === 'SalesOrderID') value = `'${value}'`;
+            else if (key === 'ItemIDs') value = `'${value.split(',').map(id => id.replace(/^0+/, '')).join(',')}'`;
+            else if (key === 'ItemID') value = `'${value.replace(/^0+/, '')}'`
+            return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+        })
+        .join('&');
+}
 function ODataV2toODataV4DateTime(value) {
     var thenum = value.match(/\d+/)[0];
     if (!thenum)

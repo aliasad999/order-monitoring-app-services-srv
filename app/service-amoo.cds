@@ -655,6 +655,8 @@ annotate service.baseEntity with {
     SO_EMAIL                    @title: '{i18n>SO_EMAIL}'                    @sap.Label: '{i18n>SO_EMAIL}';
     SO_EMAIL_SEND_DATE_F        @title: '{i18n>SO_EMAIL_SEND_DATE_F}'        @sap.Label: '{i18n>SO_EMAIL_SEND_DATE_F}';
     SO_EMAIL_SENT_ON            @title: '{i18n>SO_EMAIL_SENT_ON}'            @sap.Label: '{i18n>SO_EMAIL_SENT_ON}';
+    SO_MDB                      @title: '{i18n>SO_MDB}'                      @sap.Label: '{i18n>SO_MDB}';
+    SO_MDB_TEXT                 @title: '{i18n>SO_MDB_TEXT}'                 @sap.Label: '{i18n>SO_MDB_TEXT}';
 
 };
 annotate service.allIssues with {
@@ -830,6 +832,11 @@ annotate service.allIssues with {
     TM_STTRG                    @title: '{i18n>TM_STTRG}'                    @sap.Label: '{i18n>TM_STTRG}';
     @Common.TextFor
     TM_STTRG_DDTEXT      ;  
+    @Common.Text : SO_MDB_TEXT
+    @Common.TextArrangement: #TextFirst
+    SO_MDB                    @title: '{i18n>SO_MDB}'                    @sap.Label: '{i18n>SO_MDB}';
+    @Common.TextFor
+    SO_MDB_TEXT      ;  
     // BL_VBELN_INV_FIRST          @title: '{i18n>BL_VBELN_INV_FIRST}'          @sap.Label: '{i18n>BL_VBELN_INV_FIRST}';
     // BL_VBELN_INV_LAST           @title: '{i18n>BL_VBELN_INV_LAST}'           @sap.Label: '{i18n>BL_VBELN_INV_LAST}';
     // BL_XBLNR                    @title: '{i18n>BL_XBLNR}'                    @sap.Label: '{i18n>BL_XBLNR}';
@@ -894,6 +901,7 @@ annotate service.allIssues with {
     DL_VGPOS                  @UI                     : {Hidden: true};
     DL_POSAR                  @UI                     : {Hidden: true};
     DL_VRKME                  @UI                     : {Hidden: true};
+    SO_MDB_TEXT               @UI                     : {Hidden: true};
 }
 
 // ------------------------------Value Helps All Issues----------------------------
@@ -2983,7 +2991,28 @@ annotate service.allIssues with {
         ]
     }
 };
+annotate service.allIssues with {
+    SO_MDB
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_MDB}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_MDB,
+                ValueListProperty: 'SO_MDB'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_MDB_TEXT'
+            }
 
+        ]
+    }
+};
 annotate service.allIssues with {
     SO_EMAIL_SENT_ON
     @Common.ValueList: {

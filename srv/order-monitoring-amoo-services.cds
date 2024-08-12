@@ -4,7 +4,7 @@ using { ContactsService as orderContacts } from './external/ContactsService';
 // using { CreditManagerService as creditManagerService } from './external/CreditManagerService';
 using { DSLServicesService as DSLServicesService } from './external/DSLServicesService';
 using { AMOOUtilsService as AMOOUtilsService } from './external/AMOOUtilsService';
-// using { LORDOdataOrderService as LORDOdataOrderService } from './external/LORDOdataOrderService';
+using { LORDOdataOrderService as LORDOdataOrderService } from './external/LORDOdataOrderService';
 // using { YRDSDV1Foe1Service as YRDSDV1Foe1Service } from './external/YRDSDV1Foe1Service';
 // using { ATPService as ATPService } from './external/ATPService';
 using { CSEUCockpitService as CSEUCockpitService } from './external/CSEUCockpitService';
@@ -212,7 +212,9 @@ service openOrdersSrv {
                 DEV_CONF_DATE                                            as SO_DEV_CONF_DATE,
                 EMAIL                                                    as SO_EMAIL,
                 EMAIL_SEND_DATE_F                                        as SO_EMAIL_SEND_DATE_F,
-                EMAIL_SENT_ON                                            as SO_EMAIL_SENT_ON
+                EMAIL_SENT_ON                                            as SO_EMAIL_SENT_ON,
+                MDB                                                      as SO_MDB,
+                MDB_TEXT                                                 as SO_MDB_TEXT
 
         }
 
@@ -227,8 +229,9 @@ service openOrdersSrv {
 
     @readonly
     entity allIssues      as projection on baseEntity;
+    entity allIssuesDetails      as projection on allIssues;
     entity valueHelps     as projection on baseEntity; 
-    entity unrestrictedUser  as projection on db_app.UNRESTRICTED_USER;
+    // entity unrestrictedUser  as projection on db_app.UNRESTRICTED_USER;
     entity orderChangeUsers as projection on db_app.orderChangeUsers;
     entity ContactSet  as select * from orderContacts.ContactSet;
     entity ContactsOptions       as select * from db_app.ContactsOptions;
@@ -248,10 +251,13 @@ service openOrdersSrv {
     entity ShipmentSet       as select * from orderChange.ShipmentSet;
     entity BizagiCaseStatus as projection on AMOOUtilsService.BizagiCaseStatus;
     entity RejCodesSet as projection on CSEUCockpitService.RejCodesSet;
+    entity LORDHeaderSet as projection on LORDOdataOrderService.HeaderSet;
+    entity LORDItemSet as projection on LORDOdataOrderService.ItemSet;
 
     action   submitOrderChange(payload : String)       returns String;
     action   submitOrderChangeWF(payload : String)       returns String;
     action   cancelOrder(payload: String)               returns String;
+    action   RemoveDeliveryBlock(SalesOrderID: String(10), ItemID: String(6)) returns String;
 
     entity PredefReasonBuckets as select from AMOOUtilsService.PredefinedReasonBuckets {
         key BUCKET as BucketKey,
@@ -298,5 +304,7 @@ service openOrdersSrv {
             )
         );
     entity ignoreSalesOrder as projection on db_app.IGNORED_SO;
-    function getIssueReason(salesOrder : String(10), salesOrderItem : String(6), detailsSalesOrder : String(10), DetailsSalesOrderItem : String(6), issue : String(2), nps : String(3), issue_location : String(12), material: String(18), plant:String(4),quantity:Decimal(13,3),uom:String(3), dueDate:Date, firstDate:Date) returns array of db_app.issue_reason
+    function getIssueReason(salesOrder : String(10), salesOrderItem : String(6), detailsSalesOrder : String(10), DetailsSalesOrderItem : String(6), issue : String(2), nps : String(3), issue_location : String(12), material: String(18), plant:String(4),quantity:Decimal(13,3),uom:String(3), dueDate:Date, firstDate:Date) returns array of db_app.issue_reason;
+    action createDeliveryforAllItem(salesOrder: String(10)) returns Boolean;
+    action createDeliveryforItem(salesOrder: String(10), salesOrderItem : String(6)) returns Boolean;
 };
