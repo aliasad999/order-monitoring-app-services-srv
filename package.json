@@ -28,7 +28,7 @@
   "devDependencies": {
     "@cap-js/sqlite": "1.5.0",
     "@sap/hdi-deploy": "4.9.5",
-    "axios": "^1.6.7",
+    "axios": "^1.7.2",
     "chai": "^4.4.1",
     "chai-as-promised": "^7.1.1",
     "chai-subset": "^1.6.0",
