@@ -1401,7 +1401,8 @@ function convertCQNtoCQL(where) {
         .replace(/\s+\)\s+/g, ')')
         .replace(/\s*\(\s*\)/g, '') // Remove empty parentheses if any
         .trim();
-
+    cql = cql.replace(/= NULL/g, 'IS NULL');
+    cql = cql.replace(/!IS NULL/g, 'IS NOT NULL');
     return cql;
 }
 

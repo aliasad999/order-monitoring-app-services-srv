@@ -519,8 +519,8 @@ annotate service.baseEntity with {
     SO_AS_PARTNER_NAME          @title: '{i18n>SO_AS_PARTNER_NAME}'          @sap.Label: '{i18n>SO_AS_PARTNER_NAME}';
     SO_VE_PARTNER               @title: '{i18n>SO_VE_PARTNER}'               @sap.Label: '{i18n>SO_VE_PARTNER}'       @Common.IsDigitSequence: true;
     SO_VE_PARTNER_NAME          @title: '{i18n>SO_VE_PARTNER_NAME}'          @sap.Label: '{i18n>SO_VE_PARTNER_NAME}';
-    SO_AM_PARTNER               @title: '{i18n>SO_AM_PARTNER}'               @sap.Label: '{i18n>SO_AM_PARTNER}';
-    SO_AM_PARTNER_NAME          @title: '{i18n>SO_AM_PARTNER_NAME}'          @sap.Label: '{i18n>SO_AM_PARTNER_NAME}'  @Common.IsDigitSequence: true;
+    SO_AM_PARTNER               @title: '{i18n>SO_AM_PARTNER}'               @sap.Label: '{i18n>SO_AM_PARTNER}' @Common.IsDigitSequence: true;
+    SO_AM_PARTNER_NAME          @title: '{i18n>SO_AM_PARTNER_NAME}'          @sap.Label: '{i18n>SO_AM_PARTNER_NAME}'  ;
     SO_KNREF_HEAD               @title: '{i18n>SO_KNREF_HEAD}'               @sap.Label: '{i18n>SO_KNREF_HEAD}';
     SO_VBUND                    @title: '{i18n>SO_VBUND}'                    @sap.Label: '{i18n>SO_VBUND}';
     SO_EDATU_REQUESTED          @title: '{i18n>SO_EDATU_REQUESTED}'          @sap.Label: '{i18n>SO_EDATU_REQUESTED}'  @sap.filter.restriction:'interval';
@@ -634,8 +634,8 @@ annotate service.baseEntity with {
     SO_ISSUE_LOCATION_ITEM      @title: '{i18n>SO_ISSUE_LOCATION_ITEM}'      @sap.Label: '{i18n>SO_ISSUE_LOCATION_ITEM}';
     criticalityDueDate          @title: '{i18n>dueDateCriticality}'          @sap.Label: '{i18n>dueDateCriticality}' ;
     TM_SHIPMENT_ETA_UPDATED     @title: '{i18n>TM_SHIPMENT_ETA_UPDATED}'     @sap.Label: '{i18n>TM_SHIPMENT_ETA_UPDATED}';
-    BL_VBELN_INV_FIRST          @title: '{i18n>BL_VBELN_INV_FIRST}'          @sap.Label: '{i18n>BL_VBELN_INV_FIRST}';
-    BL_POSNR_INV_FIRST          @title: '{i18n>BL_POSNR_INV_FIRST}'          @sap.Label: '{i18n>BL_POSNR_INV_FIRST}';
+    BL_VBELN_INV_FIRST          @title: '{i18n>BL_VBELN_INV_FIRST}'          @sap.Label: '{i18n>BL_VBELN_INV_FIRST}' @Common.IsDigitSequence: true;
+    BL_POSNR_INV_FIRST          @title: '{i18n>BL_POSNR_INV_FIRST}'          @sap.Label: '{i18n>BL_POSNR_INV_FIRST}' @Common.IsDigitSequence: true;
     BL_FKIMG_FIRST              @title: '{i18n>BL_FKIMG_FIRST}'              @sap.Label: '{i18n>BL_FKIMG_FIRST}';
     BL_VRKME_FIRST              @title: '{i18n>BL_VRKME_FIRST}'              @sap.Label: '{i18n>BL_VRKME_LAST}';
     BL_FKART_FIRST              @title: '{i18n>BL_FKART_FIRST}'              @sap.Label: '{i18n>BL_FKART_FIRST}';
@@ -2304,62 +2304,62 @@ annotate service.allIssues with {
     }
 };
 
-// annotate service.allIssues with {
-//     BL_VBELN_INV_FIRST
-//     @Common.ValueList      : {
-//         $Type                  : 'Common.ValueListType',
-//         Label                  : '{@i18n>BL_VBELN_INV_FIRST}',
-//         CollectionPath         : 'valueHelps',
-//         DistinctValuesSupported: true,
-//         SearchSupported        : true,
-//         Parameters             : [{
-//             $Type            : 'Common.ValueListParameterInOut',
-//             LocalDataProperty: BL_VBELN_INV_FIRST,
-//             ValueListProperty: 'BL_VBELN_INV_FIRST'
-//         }
+annotate service.allIssues with {
+    BL_VBELN_INV_FIRST
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_VBELN_INV_FIRST}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: BL_VBELN_INV_FIRST,
+            ValueListProperty: 'BL_VBELN_INV_FIRST'
+        }
 
-//         ]
-//     }
-//     @Common.IsDigitSequence: true
-// };
+        ]
+    }
+    @Common.IsDigitSequence: true
+};
 
-// annotate service.allIssues with {
-//     BL_VBELN_INV_LAST
-//     @Common.ValueList      : {
-//         $Type                  : 'Common.ValueListType',
-//         Label                  : '{@i18n>BL_VBELN_INV_LAST}',
-//         CollectionPath         : 'valueHelps',
-//         DistinctValuesSupported: true,
-//         SearchSupported        : true,
-//         Parameters             : [{
-//             $Type            : 'Common.ValueListParameterInOut',
-//             LocalDataProperty: BL_VBELN_INV_LAST,
-//             ValueListProperty: 'BL_VBELN_INV_LAST'
-//         }
+annotate service.allIssues with {
+    BL_VBELN_INV_LAST
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_VBELN_INV_LAST}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: BL_VBELN_INV_LAST,
+            ValueListProperty: 'BL_VBELN_INV_LAST'
+        }
 
-//         ]
-//     }
-//     @Common.IsDigitSequence: true
-// };
+        ]
+    }
+    @Common.IsDigitSequence: true
+};
 
-// annotate service.allIssues with {
-//     BL_XBLNR
-//     @Common.ValueList: {
-//         $Type                  : 'Common.ValueListType',
-//         Label                  : '{@i18n>BL_XBLNR}',
-//         CollectionPath         : 'valueHelps',
-//         DistinctValuesSupported: true,
-//         SearchSupported        : true,
-//         Parameters             : [{
-//             $Type            : 'Common.ValueListParameterInOut',
-//             LocalDataProperty: BL_XBLNR,
-//             ValueListProperty: 'BL_XBLNR'
-//         }
+annotate service.allIssues with {
+    BL_XBLNR
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_XBLNR}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: BL_XBLNR,
+            ValueListProperty: 'BL_XBLNR'
+        }
 
-//         ]
-//     }
-// // @Common.IsDigitSequence: true
-// };
+        ]
+    }
+    @Common.IsDigitSequence: true
+};
 
 annotate service.allIssues with {
     SO_TRAGR
