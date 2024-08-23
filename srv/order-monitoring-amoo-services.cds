@@ -191,7 +191,12 @@ service openOrdersSrv {
                 ETA_UPDATED                                              as TM_SHIPMENT_ETA_UPDATED,
                 BL_VBELN_INV_FIRST                                       as BL_VBELN_INV_FIRST,
                 BL_VBELN_INV_LAST                                        as BL_VBELN_INV_LAST,
-                XBLNR                                                    as BL_XBLNR,
+                 case
+                    when BL_FKART_LAST = 'Z6OR' 
+                    then XBLNR
+                    else null
+                end                                                      as BL_XBLNR: String(250),
+                
                 BL_POSNR_INV_LAST                                        as BL_POSNR_INV_LAST,
                 BL_POSNR_INV_FIRST                                       as BL_POSNR_INV_FIRST,
                 BL_MANDT_INV_FIRST,
