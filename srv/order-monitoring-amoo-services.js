@@ -804,15 +804,15 @@ class openOrdersSrv extends cds.ApplicationService {
                         let partnerNumber = settingsEntry.PARTNER_NUMBER;
                         switch (settingsEntry.PARTNER_ROLE) {
                             case 'VE':
-                                partnersQuery.push(`SO_VE_PARTNER = ${partnerNumber}`);
+                                partnersQuery.push(`SO_VE_PARTNER = '${partnerNumber}'`);
                                 break;
 
                             case 'AS':
-                                partnersQuery.push(`SO_AS_PARTNER = ${partnerNumber}`);
+                                partnersQuery.push(`SO_AS_PARTNER = '${partnerNumber}'`);
                                 break;
 
                             case 'AM':
-                                partnersQuery.push(`SO_AM_PARTNER = ${partnerNumber}`);
+                                partnersQuery.push(`SO_AM_PARTNER = '${partnerNumber}'`);
                                 break;
                             default:
                                 break;
@@ -1403,6 +1403,7 @@ function convertCQNtoCQL(where) {
         .trim();
     cql = cql.replace(/= NULL/g, 'IS NULL');
     cql = cql.replace(/!IS NULL/g, 'IS NOT NULL');
+    cql = cql.replace(/(?<!\bAND\b)$/i, ' AND');
     return cql;
 }
 
