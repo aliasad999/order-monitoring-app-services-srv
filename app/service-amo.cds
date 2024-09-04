@@ -144,6 +144,8 @@ annotate service.valueHelps with {
     SO_F_AMEIN                  @title: '{i18n>SO_F_AMEIN}'                  @sap.Label: '{i18n>SO_F_AMEIN}';
     SO_F_AS_PARTNER             @title: '{i18n>SO_F_AS_PARTNER}'             @sap.Label: '{i18n>SO_F_AS_PARTNER}'     @Common.IsDigitSequence: true;
     SO_F_AS_PARTNER_NAME        @title: '{i18n>SO_F_AS_PARTNER_NAME}'        @sap.Label: '{i18n>SO_F_AS_PARTNER_NAME}';
+    SO_DCP_ITEM_STATUS          @title: '{i18n>SO_DCP_ITEM_STATUS}'        @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
+    SO_DCP_ITEM_STATUS_DESCRIPTION @title: '{i18n>SO_DCP_ITEM_STATUS}'        @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
 };
 
 annotate service.Results with {
@@ -365,6 +367,11 @@ annotate service.Results with {
     SO_ABGRU;
     @Common.TextFor
     SO_ABGRU_BEZEI;
+    @Common.Text           : SO_DCP_ITEM_STATUS_DESCRIPTION
+    @Common.TextArrangement: #TextLast
+    SO_DCP_ITEM_STATUS                  @title: '{i18n>SO_DCP_ITEM_STATUS}'        @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
+    @Common.TextFor
+    SO_DCP_ITEM_STATUS_DESCRIPTION                  ;
 
 }
 
@@ -438,6 +445,7 @@ annotate service.Results with {
     SO_F_VKORG_VTEXT          @UI                     : {Hidden: true};
     SO_F_AMEIN                @UI                     : {Hidden: true};
     SO_F_AS_PARTNER_NAME      @UI                     : {Hidden: true};
+    SO_DCP_ITEM_STATUS_DESCRIPTION      @UI                     : {Hidden: true};
 }
 
 annotate service.valueHelps with {
@@ -2287,6 +2295,29 @@ annotate service.Results with {
             {
                 $Type            : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty: 'SO_ABGRU_BEZEI'
+            }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_DCP_ITEM_STATUS
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_DCP_ITEM_STATUS}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_DCP_ITEM_STATUS,
+                ValueListProperty: 'SO_DCP_ITEM_STATUS'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_DCP_ITEM_STATUS_DESCRIPTION'
             }
 
         ]

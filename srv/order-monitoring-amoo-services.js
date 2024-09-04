@@ -23,6 +23,9 @@ class openOrdersSrv extends cds.ApplicationService {
                     case 'SO_ISSUE':
                         this._textKeys.push({ key: key, value: 'SO_ISSUE' });
                         break;
+                    case 'SO_DCP_ITEM_STATUS':
+                        this._textKeys.push({ key: key, value: 'SO_DCP_ITEM_STATUS' });
+                        break;
                     default:
                         this._textKeys.push({ key: key, value: data[key]["@Common.Text"]["="] });
                         break;
@@ -650,6 +653,11 @@ class openOrdersSrv extends cds.ApplicationService {
                 item.id = uuid.v1()
                 if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = getBundle(req.user.locale).getText(`nps${item.SO_NPS}`)
                 if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = getBundle(req.user.locale).getText(`OrderIssue${item.SO_ISSUE}`)
+                if ('SO_DCP_ITEM_STATUS' in item){
+                    if(item.SO_DCP_ITEM_STATUS){
+                        item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
+                    }  
+                } 
             })
 
         });
@@ -946,6 +954,11 @@ class openOrdersSrv extends cds.ApplicationService {
                     item.id = uuid.v1()
                     if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = getBundle(req.user.locale).getText(`nps${item.SO_NPS}`)
                     if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = getBundle(req.user.locale).getText(`OrderIssue${item.SO_ISSUE}`)
+                    if ('SO_DCP_ITEM_STATUS' in item){
+                        if(item.SO_DCP_ITEM_STATUS){
+                            item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
+                        }  
+                    } 
                     dateProps.forEach((property) => {
                         const dateString = item[property]
                         if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {

@@ -56,7 +56,6 @@ class srvOpenOrders extends cds.ApplicationService {
             if(authSet.length === 0){
                 req.error(413, 'NO_AUTH_LIST')
             }
-        
             cds
                 .connect("db")
                 .then(({ db }) =>
@@ -212,6 +211,11 @@ class srvOpenOrders extends cds.ApplicationService {
                 "TM_AR_DATE"]
                 data.forEach((item) => {
                     item.id = uuid.v1()
+                    if ('SO_DCP_ITEM_STATUS' in item){
+                        if(item.SO_DCP_ITEM_STATUS){
+                            item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
+                        }
+                    } 
                     dateProps.forEach((property) => {
                        const dateString = item[property]
                        if (dateString &&  dateString != "00000000" && dateString != "0000-00-00" && dateString != "--"){
@@ -299,7 +303,9 @@ class srvOpenOrders extends cds.ApplicationService {
                         // req.header.select will have the string of visible columns. 
                         //this parameater has been manually set to header on every request
                         const selectedField = req._query && req._query['$select']
-                        const fields = selectedField && selectedField.split(',');
+                        let fields = selectedField && selectedField.split(',');
+                        // Workaround for DCP STatus - Need a better fix
+                        fields = fields.filter(e => e !== 'SO_DCP_ITEM_STATUS_DESCRIPTION');
                         // remove duplicates based on fields in the valuehelp dialog box
                         lt_result = removeDuplicates(fields, lt_result);
                     } catch (error) {
@@ -386,10 +392,16 @@ class srvOpenOrders extends cds.ApplicationService {
         * @param {object} req - The request object containing request details
         * */
         this.after("READ", "valueHelps", async (data, req) => {
+            data = Array.isArray(data) ? data : [data]
             // since there is a virtual id field, adding a random guid to each record of the result set.
             if (Array.isArray(data)) {
                 data.forEach((item) => {
-                    item.id = uuid.v1()  
+                    item.id = uuid.v1()
+                    if ('SO_DCP_ITEM_STATUS' in item){
+                        if(item.SO_DCP_ITEM_STATUS){
+                            item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
+                        }
+                    }  
                 })
             }
         })

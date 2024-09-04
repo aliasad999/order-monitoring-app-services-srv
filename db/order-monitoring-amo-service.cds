@@ -208,7 +208,8 @@ entity ![RESULTS] {
         TM_MANDT                           : String(3);
         BL_MANDT_INV_FIRST                 : String(3);
         BL_MANDT_INV_LAST                  : String(3);
-        ABGRU_BEZEI_LANG                   : String(40);     
+        ABGRU_BEZEI_LANG                   : String(40);
+        DCP_ITEM_STATUS                    : String(2);     
 
 }
 

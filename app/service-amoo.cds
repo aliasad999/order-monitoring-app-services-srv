@@ -11,6 +11,10 @@ annotate service.valueHelps with {
     @Common.TextArrangement: #TextOnly
     SO_ISSUE                  @title: '{i18n>SO_ISSUE}'        @sap.Label: '{i18n>SO_ISSUE}';
     SO_ISSUE_DESCRIPTION @UI                     : {Hidden: true};
+    @Common.Text           : SO_DCP_ITEM_STATUS_DESCRIPTION
+    @Common.TextArrangement: #TextOnly
+    SO_DCP_ITEM_STATUS                  @title: '{i18n>SO_DCP_ITEM_STATUS}'        @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
+    SO_DCP_ITEM_STATUS_DESCRIPTION @UI                     : {Hidden: true};
 }
 
 annotate service.allIssues with @(UI: {SelectionFields: [
@@ -629,6 +633,8 @@ annotate service.baseEntity with {
     SO_NPS_DESCRIPTION          @title: '{i18n>SO_NPS}'                      @sap.Label: '{i18n>SO_NPS}';
     SO_ISSUE                    @title: '{i18n>SO_ISSUE}'                    @sap.Label: '{i18n>SO_ISSUE}';
     SO_ISSUE_DESCRIPTION        @title: '{i18n>SO_ISSUE}'                    @sap.Label: '{i18n>SO_ISSUE}';
+    SO_DCP_ITEM_STATUS                      @title: '{i18n>SO_DCP_ITEM_STATUS}'                      @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
+    SO_DCP_ITEM_STATUS_DESCRIPTION          @title: '{i18n>SO_DCP_ITEM_STATUS}'                      @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
     SO_DUE_DATE                 @title: '{i18n>SO_DUE_DATE}'                 @sap.Label: '{i18n>SO_DUE_DATE}'         @sap.filter.restriction:'interval';
     SO_ISSUE_LOCATION           @title: '{i18n>SO_ISSUE_LOCATION}'           @sap.Label: '{i18n>SO_ISSUE_LOCATION}';
     SO_ISSUE_LOCATION_ITEM      @title: '{i18n>SO_ISSUE_LOCATION_ITEM}'      @sap.Label: '{i18n>SO_ISSUE_LOCATION_ITEM}';
@@ -697,6 +703,11 @@ annotate service.allIssues with {
 };
 
 annotate service.allIssues with {
+    @Common.Text           : SO_DCP_ITEM_STATUS_DESCRIPTION
+    @Common.TextArrangement: #TextFirst
+    SO_DCP_ITEM_STATUS                  @title: '{i18n>SO_DCP_ITEM_STATUS}'        @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
+    @Common.TextFor
+    SO_DCP_ITEM_STATUS_DESCRIPTION                  ;
     @Common.Text           : SO_NPS_DESCRIPTION
     @Common.TextArrangement: #TextFirst
     SO_NPS                  @title: '{i18n>SO_NPS}'        @sap.Label: '{i18n>SO_NPS}';
@@ -856,6 +867,7 @@ annotate service.allIssues with {
     SO_LANDX                  @UI                     : {Hidden: true};
     SO_NPS_DESCRIPTION        @UI                     : {Hidden: true};
     SO_ISSUE_DESCRIPTION      @UI                     : {Hidden: true};
+    SO_DCP_ITEM_STATUS_DESCRIPTION  @UI                     : {Hidden: true};
     SO_SPART                  @UI                     : {Hidden: true};
     SO_ABGRU_BEZEI            @UI                     : {Hidden: true};
     SO_ABSTA                  @UI                     : {Hidden: true};
@@ -2695,6 +2707,23 @@ annotate service.allIssues with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_ISSUE,
             ValueListProperty: 'SO_ISSUE'
+        }
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_DCP_ITEM_STATUS
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_DCP_ITEM_STATUS}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_DCP_ITEM_STATUS,
+            ValueListProperty: 'SO_DCP_ITEM_STATUS'
         }
         ]
     }
