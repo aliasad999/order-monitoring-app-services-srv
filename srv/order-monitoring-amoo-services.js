@@ -738,6 +738,7 @@ class openOrdersSrv extends cds.ApplicationService {
          * */
         this.before("READ", ["allIssues", "allIssuesDetails"], async (req, next) => {
             // Check if auth table is filled
+            if (req.headers?.export === 'true') await cds.run(`SET 'APPLICATION' = 'CAPServicesExport'`);
             if (req.user.id !== "anonymous") {
                 const { VBAKAuthObjectKeys } = await cds.entities('srvOpenOrders');
                 let userID = req.user.id;
