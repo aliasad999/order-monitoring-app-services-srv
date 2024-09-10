@@ -237,7 +237,7 @@ entity ![OPENORDERSLIST] {
         EMAIL_SENT_ON                      : String(8);
         MDB                                : String(3);
         MDB_TEXT                           : String(60);
-        DCP_ITEM_STATUS                    : String(2);
+        // DCP_ITEM_STATUS                    : String(2);
 }
 
 entity ContactsOptions {

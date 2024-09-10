@@ -10,7 +10,9 @@ const enableHints = require("./plugins/enable_hints");
 class srvOpenOrders extends cds.ApplicationService {
 
     init() {
-
+        this.before('READ','*',async(req,next)=>{
+            await cds.run(`SET 'APPLICATION' = 'CAPServices'`);
+        })
         this.on("getVBAKAuthObjKeys", async req => {
             let lt_result = [];
             let userID = req.user.id;
