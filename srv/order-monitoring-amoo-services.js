@@ -33,7 +33,7 @@ class openOrdersSrv extends cds.ApplicationService {
             }
         }
         // only needed to run this when the server is starting
-        this.before('READ','*',async(req,next)=>{
+        this.before('*','*',async(req,next)=>{
             await cds.run(`SET 'APPLICATION' = 'CAPServices'`);
         })
         // START OF REMOVE DELIVERY BLOCK //
