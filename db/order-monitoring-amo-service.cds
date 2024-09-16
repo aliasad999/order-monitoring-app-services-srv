@@ -210,8 +210,12 @@ entity ![RESULTS] {
         BL_MANDT_INV_LAST                  : String(3);
         ABGRU_BEZEI_LANG                   : String(40);
         // DCP_ITEM_STATUS                    : String(2);     
+        ERDAT_DEL                          : String(8);	
+        ERDAT_DEL_DATE                     : Date = ERDAT_DEL;	
+        LDDAT_DEL                          : String(8);	
+        LDDAT_DEL_DATE                     : Date = LDDAT_DEL;	
 
-}
+}	
 
 entity PARTNER_SETTINGS {
         CLIENT         : String(3);

@@ -663,6 +663,8 @@ annotate service.baseEntity with {
     SO_EMAIL_SENT_ON            @title: '{i18n>SO_EMAIL_SENT_ON}'            @sap.Label: '{i18n>SO_EMAIL_SENT_ON}';
     SO_MDB                      @title: '{i18n>SO_MDB}'                      @sap.Label: '{i18n>SO_MDB}';
     SO_MDB_TEXT                 @title: '{i18n>SO_MDB_TEXT}'                 @sap.Label: '{i18n>SO_MDB_TEXT}';
+    DL_ERDAT                    @title: '{i18n>DL_ERDAT}'                    @sap.Label: '{i18n>DL_ERDAT}'            @sap.filter.restriction:'interval';
+    DL_LDDAT                    @title: '{i18n>DL_LDDAT}'                    @sap.Label: '{i18n>DL_LDDAT}'            @sap.filter.restriction:'interval';
 
 };
 annotate service.allIssues with {

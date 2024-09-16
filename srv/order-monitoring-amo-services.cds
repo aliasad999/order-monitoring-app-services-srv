@@ -192,7 +192,9 @@ service srvOpenOrders {
           MANDT_DEL as DL_MANDT,
           TM_MANDT,
           BL_MANDT_INV_FIRST,
-          BL_MANDT_INV_LAST
+          BL_MANDT_INV_LAST,
+          ERDAT_DEL_DATE    as DL_ERDAT,
+          LDDAT_DEL_DATE    as DL_LDDAT
           
     };
 

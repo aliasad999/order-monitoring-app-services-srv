@@ -146,6 +146,9 @@ annotate service.valueHelps with {
     SO_F_AS_PARTNER_NAME        @title: '{i18n>SO_F_AS_PARTNER_NAME}'        @sap.Label: '{i18n>SO_F_AS_PARTNER_NAME}';
     SO_DCP_ITEM_STATUS          @title: '{i18n>SO_DCP_ITEM_STATUS}'        @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
     SO_DCP_ITEM_STATUS_DESCRIPTION @title: '{i18n>SO_DCP_ITEM_STATUS}'        @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
+    DL_ERDAT                    @title: '{i18n>DL_ERDAT}'                    @sap.Label: '{i18n>DL_ERDAT}';
+    DL_LDDAT                    @title: '{i18n>DL_LDDAT}'                    @sap.Label: '{i18n>DL_LDDAT}';
+
 };
 
 annotate service.Results with {
@@ -372,6 +375,8 @@ annotate service.Results with {
     SO_DCP_ITEM_STATUS                  @title: '{i18n>SO_DCP_ITEM_STATUS}'        @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
     @Common.TextFor
     SO_DCP_ITEM_STATUS_DESCRIPTION                  ;
+    DL_ERDAT                    @title: '{i18n>DL_ERDAT}'                    @sap.Label: '{i18n>DL_ERDAT}';
+    DL_LDDAT                    @title: '{i18n>DL_LDDAT}'                    @sap.Label: '{i18n>DL_LDDAT}';
 
 }
 

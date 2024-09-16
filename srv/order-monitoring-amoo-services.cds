@@ -221,7 +221,9 @@ service openOrdersSrv {
                 EMAIL_SEND_DATE_F                                        as SO_EMAIL_SEND_DATE_F,
                 EMAIL_SENT_ON                                            as SO_EMAIL_SENT_ON,
                 MDB                                                      as SO_MDB,
-                MDB_TEXT                                                 as SO_MDB_TEXT
+                MDB_TEXT                                                 as SO_MDB_TEXT,
+                ERDAT_DEL_DATE                                           as DL_ERDAT,
+                LDDAT_DEL_DATE                                           as DL_LDDAT
 
         }
 
