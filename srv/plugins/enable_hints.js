@@ -28,6 +28,7 @@ Object.assign(SelectBuilder.prototype, {
     return result;
   },
   _withHint(result) {
+    result.sql = result.sql.replace(/ with parameters \(.*\)$/, '');
     result.sql = result.sql.concat(
       ` WITH HINT(${this._obj.SELECT.withHint.join(",")})`
     );
