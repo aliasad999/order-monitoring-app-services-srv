@@ -88,7 +88,9 @@ class srvOpenOrders extends cds.ApplicationService {
                 "TM_DPTEN",
                 "TM_DATEN",
                 "SO_F_LDDAT",
-                "TM_AR_DATE"]
+                "TM_AR_DATE",
+                "SO_F_DGLTP"
+            ]
             for (let i = 0; i < req.query.SELECT.where.length; i++) {
                 const item = req.query.SELECT.where[i];
                 if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
@@ -215,7 +217,9 @@ class srvOpenOrders extends cds.ApplicationService {
                 "TM_DPTEN",
                 "TM_DATEN",
                 "SO_F_LDDAT",
-                "TM_AR_DATE"]
+                "TM_AR_DATE",
+                "SO_F_DGLTP"
+                ]
                 data.forEach((item) => {
                     item.id = uuid.v1()
                     if ('SO_DCP_ITEM_STATUS' in item){
