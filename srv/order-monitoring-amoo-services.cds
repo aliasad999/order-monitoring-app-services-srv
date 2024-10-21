@@ -223,7 +223,8 @@ service openOrdersSrv {
                 MDB                                                      as SO_MDB,
                 MDB_TEXT                                                 as SO_MDB_TEXT,
                 ERDAT_DEL_DATE                                           as DL_ERDAT,
-                LDDAT_DEL_DATE                                           as DL_LDDAT
+                LDDAT_DEL_DATE                                           as DL_LDDAT,
+                NO_AUTH as NO_AUTH
 
         }
 

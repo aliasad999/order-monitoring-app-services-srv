@@ -854,6 +854,29 @@ class openOrdersSrv extends cds.ApplicationService {
             // *-------------------------------------------------------------------*
             // End of Code OTC-24554
 
+            // Authorization flag in order to retrieve only authorized results
+            if(req.query.SELECT.where && req.query.SELECT.where.length > 0){
+                // check if NoAuth filter already exists, if so, modify the value instead of adding the filter again
+                let NoAuthIndex = req.query.SELECT.where.findIndex((filterElement) => {
+                    if(filterElement.ref && filterElement.ref[0] === 'NO_AUTH'){
+                        return true;
+                    }
+                    return false;
+                });
+                if(NoAuthIndex < 0){
+                    req.query.SELECT.where.push('and', {ref : ['NO_AUTH']}, '=', {val : false});
+                }else{
+                    NoAuthIndex = NoAuthIndex + 2;
+                    req.query.SELECT.where[NoAuthIndex].val = false;
+                }
+            }else{
+                // add the filter directly if no where clause
+                req.query.SELECT.where = [
+                    {ref : ['NO_AUTH']}, '=', {val : false}
+                ]
+            }
+            // End of authorization flag implementation
+
             if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols ) {
                 if (req.target.name === 'openOrdersSrv.allIssues'){
                 let nps10, nps20, nps30, nps40, nps50, nps60, nps70, nps80, nps90, nps95, nps99, nps00;
