@@ -17,6 +17,7 @@ class srvOpenOrders extends cds.ApplicationService {
         this.on("getVBAKAuthObjKeys", async req => {
             const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
             const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
+            let updateNeeded = false;
             let lt_result = [];
             let userID = req.user.id;
             let vbakAuths = await SELECT.from(VBAKAuthObjectKeys).where`USERID = ${userID}`.limit(1);
