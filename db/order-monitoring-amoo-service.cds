@@ -218,8 +218,8 @@ entity ![OPENORDERSLIST] {
         XBLNR                              : String(16);
         BL_MANDT_INV_FIRST                 : String(3);
         BL_MANDT_INV_LAST                  : String(3);
-        BL_FKIMG_FIRST                     : Decimal(15,3);
-        BL_FKIMG_LAST                      : Decimal(15,3);
+        BL_FKIMG_FIRST                     : Decimal(15, 3);
+        BL_FKIMG_LAST                      : Decimal(15, 3);
         BL_VRKME_FIRST                     : String(3);
         BL_VRKME_LAST                      : String(3);
         BL_FKART_FIRST                     : String(4);
@@ -238,10 +238,12 @@ entity ![OPENORDERSLIST] {
         MDB                                : String(3);
         MDB_TEXT                           : String(60);
         // DCP_ITEM_STATUS                    : String(2);
-        ERDAT_DEL                          : String(8);	
-        ERDAT_DEL_DATE                     : Date = ERDAT_DEL;	
-        LDDAT_DEL                          : String(8);	
+        ERDAT_DEL                          : String(8);
+        ERDAT_DEL_DATE                     : Date = ERDAT_DEL;
+        LDDAT_DEL                          : String(8);
         LDDAT_DEL_DATE                     : Date = LDDAT_DEL;
+        PERFK                              : String(2);
+        PERFK_LTEXT_LANG                   : String(50);
 }
 
 entity ContactsOptions {
