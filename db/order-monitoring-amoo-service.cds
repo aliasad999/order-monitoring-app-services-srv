@@ -242,7 +242,6 @@ entity ![OPENORDERSLIST] {
         ERDAT_DEL_DATE                     : Date = ERDAT_DEL;	
         LDDAT_DEL                          : String(8);	
         LDDAT_DEL_DATE                     : Date = LDDAT_DEL;
-        NO_AUTH : Boolean;	
 }
 
 entity ContactsOptions {
