@@ -240,6 +240,7 @@ entity VBAKAUTH {
         key VTWEG  : String(2);
         key SPART  : String(2);
         key USERID : String;
+        LAST_UPDATE: Timestamp;
 }
 
 @cds.persistence.exists

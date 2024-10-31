@@ -496,7 +496,14 @@ module.exports = {
 function removeDuplicates(fields, lt_result) {
     if (fields) {
         lt_result = lt_result
-            .filter(obj => fields.every(field => obj[field] !== null)) // Remove null values
+            .filter(obj => {
+                // if all values are null, then allNull will be true
+                // if not, allNull will be false
+                // return value is the opposite of that to do the right filtering
+                var allNull = fields.every(field => obj[field] === null);
+                return !allNull;
+            })
+            // .filter(obj => fields.every(field => obj[field] !== null)) // Remove null values
             .map(obj => {
                 const newObj = {};
                 fields.forEach(field => newObj[field] = obj[field]);
