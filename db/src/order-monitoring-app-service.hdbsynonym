@@ -65,5 +65,11 @@
         "object": "otc.csc.db.base.tables::IGNORED_SO",
         "schema": "_PLACEHOLDER_"
       }
-    }  
+    },
+    "ALLORDERS_DB_PARTNER_SETTINGS_DB": {
+        "target": {
+            "object": "otc.csc.db.base.tables::PARTNER_SETTINGS",
+            "schema": "_PLACEHOLDER_"
+        }
+    }
 }     
