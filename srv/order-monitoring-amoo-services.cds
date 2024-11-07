@@ -54,7 +54,10 @@ service openOrdersSrv {
                 EDATU_REQUESTED_DATE                                     as SO_EDATU_REQUESTED,
                 KWMENG                                                   as SO_KWMENG,
                 VRKME                                                    as SO_VRKME,
-                EDATU_CONFIRMED_DATE                                     as SO_EDATU_CONFIRMED,
+                case
+                    when EDATU_CONFIRMED_DATE = '00000000' 
+                    then null
+                    else EDATU_CONFIRMED_DATE end                              as SO_EDATU_CONFIRMED : Date,
                 KBMENG                                                   as SO_KBMENG,
                 UNCONFIRMED_QTY                                          as SO_UNCONFIRMED_QTY,
                 REQ_TEXT                                                 as SO_REQ_TEXT,
@@ -91,7 +94,10 @@ service openOrdersSrv {
                 IFNULL(INCO1_ITEM, INCO1_HEAD)                           as SO_INCO1                    : String(3),
                 IFNULL(INCO2_ITEM, INCO2_HEAD)                           as SO_INCO2                    : String(28),
                 IFNULL(ZTERM_ITEM, ZTERM_HEAD)                           as SO_ZTERM                    : String(4),
-                PRSDT_DATE                                               as SO_PRSDT,
+                case
+                    when PRSDT_DATE = '00000000' 
+                    then null
+                    else PRSDT_DATE end                                  as SO_PRSDT : Date,
                 ZZ0S2REVG2                                               as SO_ZZ0S2REVG2,
                 ZZDKPPRODB                                               as SO_ZZDKPPRODB,
                 BSARK                                                    as SO_BSARK,
@@ -118,10 +124,18 @@ service openOrdersSrv {
                 IFNULL(F_AS_PARTNER_NAME_ITM, F_AS_PARTNER_NAME_HEAD)    as SO_F_AS_PARTNER_NAME       : String(40),
                 F_LDDAT_DATE                                             as SO_F_LDDAT,
                 F_LGORT                                                  as SO_F_LGORT,
-                F_TDDAT_DATE                                             as SO_F_TDDAT,
+                case
+                    when F_TDDAT_DATE = '00000000' 
+                    then null
+                    else F_TDDAT_DATE end                                as SO_F_TDDAT : Date,
                 F_ZZ0S2MATUG                                             as SO_F_ZZ0S2MATUG,
                 F_AUFNR                                                  as SO_F_AUFNR,
-                F_DGLTP_DATE                                             as SO_F_DGLTP,
+                
+                case
+                    when F_DGLTP_DATE = '00000000' 
+                    then null
+                    else F_DGLTP_DATE end                                as SO_F_DGLTP : Date,
+                
                 F_AMEIN                                                  as SO_F_AMEIN,
                 F_PSMNG                                                  as SO_F_PSMNG,
                 F_VSBED                                                  as SO_F_VSBED,
@@ -131,8 +145,14 @@ service openOrdersSrv {
                 VBELN_DEL                                                as DL_VBELN,
                 POSNR_DEL                                                as DL_POSNR,
                 CHARG                                                    as DL_CHARG,
-                HSDAT_DATE                                               as DL_HSDAT,
-                VFDAT_DATE                                               as DL_VFDAT,
+                case
+                    when HSDAT_DATE = '00000000' 
+                    then null
+                    else HSDAT_DATE end                                  as DL_HSDAT : Date,
+                case
+                    when VFDAT_DATE = '00000000' 
+                    then null
+                    else VFDAT_DATE end                                  as DL_VFDAT : Date,
                 LFIMG                                                    as DL_LFIMG,
                 VRKME_1                                                  as DL_VRKME,         
                 POSAR                                                    as DL_POSAR,              
@@ -140,22 +160,47 @@ service openOrdersSrv {
                 VGPOS                                                    as DL_VGPOS,               
                 LFART                                                    as DL_LFART,
                 LFART_VTEXT_LANG                                         as DL_LFART_VTEXT,
-                LFDAT_DATE                                               as DL_LFDAT,
+                case
+                    when LFDAT_DATE = '00000000' 
+                    then null
+                    else LFDAT_DATE end                                  as DL_LFDAT : Date,
                 TRAID                                                    as DL_TRAID,
                 ZZ0S2BLNR                                                as DL_ZZ0S2BLNR,
                 PEND_DEL_QUAN                                            as DL_PEND_DEL_QUAN,
-                WADAT_DATE                                               as DL_WADAT,
-                WADAT_IST_DATE                                           as DL_WADAT_IST,
+                case
+                    when WADAT_DATE = '00000000' 
+                    then null
+                    else WADAT_DATE end                                  as DL_WADAT : Date,
+                case
+                    when WADAT_IST_DATE = '00000000' 
+                    then null
+                    else WADAT_IST_DATE end                              as DL_WADAT_IST : Date,
+                
                 MANDT_TM                                                 as TM_MANDT,
                 TKNUM                                                    as TM_TKNUM,
                 VSART                                                    as TM_VSART,
                 VSART_BEZEI_LANG                                         as TM_VSART_BEZEI,
                 EXTI1                                                    as TM_EXTI1,
-                DPTBG_DATE                                               as TM_DPTBG,
-                DATBG_DATE                                               as TM_DATBG,
-                DPTEN_DATE                                               as TM_DPTEN,
-                DATEN_DATE                                               as TM_DATEN,
-                AR_DATE_DATE                                             as TM_AR_DATE,
+                case
+                    when DPTBG_DATE = '00000000' 
+                    then null
+                    else DPTBG_DATE end                              as TM_DPTBG : Date,
+                case
+                    when DATBG_DATE = '00000000' 
+                    then null
+                    else DATBG_DATE end                              as TM_DATBG : Date,
+                case
+                    when DPTEN_DATE = '00000000' 
+                    then null
+                    else DPTEN_DATE end                              as TM_DPTEN : Date,
+                case
+                    when DATEN_DATE = '00000000' 
+                    then null
+                    else DATEN_DATE end                              as TM_DATEN : Date,
+                case
+                    when AR_DATE_DATE = '00000000' 
+                    then null
+                    else AR_DATE_DATE end                              as TM_AR_DATE : Date,
                 TDLNR                                                    as TM_TDLNR,
                 TDLNR_NAME1                                              as TM_TDLNR_NAME1,
                 @UI.Hidden: true
@@ -183,7 +228,10 @@ service openOrdersSrv {
                 virtual null                                             as SO_NPS_DESCRIPTION : String(100),
                 ISSUE                                                    as SO_ISSUE,
                 virtual null                                             as SO_ISSUE_DESCRIPTION : String(100),
-                DUE_DATE_FORMATTED                                       as SO_DUE_DATE,
+                case
+                    when DUE_DATE_FORMATTED = '00000000' 
+                    then null
+                    else DUE_DATE_FORMATTED end                              as SO_DUE_DATE : Date,
                 ISSUE_LOCATION                                           as SO_ISSUE_LOCATION,
                 ISSUE_LOCATION_ITEM                                      as SO_ISSUE_LOCATION_ITEM,
                 // DCP_ITEM_STATUS                                          as SO_DCP_ITEM_STATUS,     
@@ -222,8 +270,16 @@ service openOrdersSrv {
                 EMAIL_SENT_ON                                            as SO_EMAIL_SENT_ON,
                 MDB                                                      as SO_MDB,
                 MDB_TEXT                                                 as SO_MDB_TEXT,
-                ERDAT_DEL_DATE                                           as DL_ERDAT,
-                LDDAT_DEL_DATE                                           as DL_LDDAT
+                case
+                    when ERDAT_DEL_DATE = '00000000' 
+                    then null
+                    else ERDAT_DEL_DATE end                              as DL_ERDAT : Date,
+                case
+                    when LDDAT_DEL_DATE = '00000000' 
+                    then null
+                    else LDDAT_DEL_DATE end                              as DL_LDDAT : Date,
+                
+                
 
         }
 

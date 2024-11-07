@@ -63,7 +63,10 @@ service srvOpenOrders {
           SO_EDATU_REQUESTED_DATE as SO_EDATU_REQUESTED,
           KWMENG as SO_KWMENG ,
           VRKME as SO_VRKME,
-          SO_EDATU_CONFIRMED_DATE as SO_EDATU_CONFIRMED,
+          case
+                    when SO_EDATU_CONFIRMED_DATE = '00000000' 
+                    then null
+                    else SO_EDATU_CONFIRMED_DATE end                              as SO_EDATU_CONFIRMED : Date,
           KBMENG as SO_KBMENG,
           UNCONFIRMED_QTY as SO_UNCONFIRMED_QTY,
           REQ_TEXT as SO_REQ_TEXT,
@@ -99,7 +102,10 @@ service srvOpenOrders {
           IFNULL(INCO1_ITEM, INCO1_HEAD) AS SO_INCO1 : String(3),
           IFNULL(INCO2_ITEM, INCO2_HEAD) AS SO_INCO2 : String(28),
           IFNULL(ZTERM_ITEM, ZTERM_HEAD) AS SO_ZTERM : String(4),
-          SO_PRSDT_DATE as SO_PRSDT,
+          case
+                    when SO_PRSDT_DATE = '00000000' 
+                    then null
+                    else SO_PRSDT_DATE end                              as SO_PRSDT : Date,
           ZZ0S2REVG2 as SO_ZZ0S2REVG2 ,
           ZZDKPPRODB as SO_ZZDKPPRODB ,
           BSARK as SO_BSARK ,
@@ -122,15 +128,25 @@ service srvOpenOrders {
           F_WERKS as SO_F_WERKS,
           F_VKORG as SO_F_VKORG,
           F_VKORG_NAME1 as SO_F_VKORG_VTEXT,
-          SO_F_TDDAT_DATE as  SO_F_TDDAT,
+          case
+                    when SO_F_TDDAT_DATE = '00000000' 
+                    then null
+                    else SO_F_TDDAT_DATE end                              as SO_F_TDDAT : Date,
           F_ZZ0S2MATUG as SO_F_ZZ0S2MATUG,
           F_VSBED as SO_F_VSBED,
           F_VSBED_VTEXT_LANG as SO_F_VSBED_VTEXT,
           F_AUFNR as SO_F_AUFNR,
-          SO_F_DGLTP_DATE as SO_F_DGLTP,
+          case
+                    when SO_F_DGLTP_DATE = '00000000' 
+                    then null
+                    else SO_F_DGLTP_DATE end                              as SO_F_DGLTP : Date,
           F_PSMNG as SO_F_PSMNG,
           F_AMEIN as SO_F_AMEIN,
-          SO_F_LDDAT_DATE as SO_F_LDDAT,
+          case
+                    when SO_F_LDDAT_DATE = '00000000' 
+                    then null
+                    else SO_F_LDDAT_DATE end                              as SO_F_LDDAT : Date,
+          
           IFNULL(F_AS_PARTNER_ITM, F_AS_PARTNER_HEAD) AS SO_F_AS_PARTNER : String(8),
           IFNULL(F_AS_PARTNER_NAME_ITM, F_AS_PARTNER_NAME_HEAD) AS SO_F_AS_PARTNER_NAME : String(40),
           // DCP_ITEM_STATUS                    as SO_DCP_ITEM_STATUS,     
@@ -145,14 +161,31 @@ service srvOpenOrders {
           VGPOS as DL_VGPOS,
           LFART as DL_LFART,
           LFART_VTEXT_LANG as DL_LFART_VTEXT ,
-          DL_LFDAT_DATE as DL_LFDAT,
-          DL_HSDAT_DATE as DL_HSDAT,
-          DL_VFDAT_DATE as DL_VFDAT,
+          case
+                    when DL_LFDAT_DATE = '00000000' 
+                    then null
+                    else DL_LFDAT_DATE end                              as DL_LFDAT : Date,
+                
+          case
+                    when DL_HSDAT_DATE = '00000000' 
+                    then null
+                    else DL_HSDAT_DATE end                              as DL_HSDAT : Date,
+          case
+                    when DL_VFDAT_DATE = '00000000' 
+                    then null
+                    else DL_VFDAT_DATE end                              as DL_VFDAT : Date,
+          
           TRAID as DL_TRAID,
           ZZ0S2BLNR as DL_ZZ0S2BLNR,
           PEND_DEL_QUAN as DL_PEND_DEL_QUAN,
-          DL_WADAT_DATE as DL_WADAT,
-          DL_WADAT_IST_DATE as DL_WADAT_IST,
+          case
+                    when DL_WADAT_DATE = '00000000' 
+                    then null
+                    else DL_WADAT_DATE end                              as DL_WADAT : Date,        
+          case
+                    when DL_WADAT_IST_DATE = '00000000' 
+                    then null
+                    else DL_WADAT_IST_DATE end                              as DL_WADAT_IST : Date,        
           NOTE_TEXT as LAST_NOTE,
           TKNUM as TM_TKNUM, 
           VSART as TM_VSART, 
@@ -177,11 +210,26 @@ service srvOpenOrders {
           end as TM_SHIPMENT_ALERT : String(250),  
           TRACKING_ID_ELEM as TM_TRACKING_ID_ELEM,
           TRACKING_ID_COMP as TM_TRACKING_ID_COMP,
-          TM_DPTBG_DATE as TM_DPTBG,
-          TM_DATBG_DATE as TM_DATBG,
-          TM_DPTEN_DATE as TM_DPTEN,
-          TM_DATEN_DATE as TM_DATEN,
-          TM_AR_DATE_DATE as TM_AR_DATE,
+          case
+                    when TM_DPTBG_DATE = '00000000' 
+                    then null
+                    else TM_DPTBG_DATE end                              as TM_DPTBG : Date,        
+          case
+                    when TM_DATBG_DATE = '00000000' 
+                    then null
+                    else TM_DATBG_DATE end                              as TM_DATBG : Date,        
+          case
+                    when TM_DPTEN_DATE = '00000000' 
+                    then null
+                    else TM_DPTEN_DATE end                              as TM_DPTEN : Date,        
+          case
+                    when TM_DATEN_DATE = '00000000' 
+                    then null
+                    else TM_DATEN_DATE end                              as TM_DATEN : Date,
+          case
+                    when TM_AR_DATE_DATE = '00000000' 
+                    then null
+                    else TM_AR_DATE_DATE end                              as TM_AR_DATE : Date,
           STTRG as TM_STTRG,
           STTRG_DDTEXT_LANG as TM_STTRG_DDTEXT,
           BL_VBELN_INV_FIRST as BL_VBELN_INV_FIRST ,
@@ -193,8 +241,15 @@ service srvOpenOrders {
           TM_MANDT,
           BL_MANDT_INV_FIRST,
           BL_MANDT_INV_LAST,
-          ERDAT_DEL_DATE    as DL_ERDAT,
-          LDDAT_DEL_DATE    as DL_LDDAT
+          case
+                    when ERDAT_DEL_DATE = '00000000' 
+                    then null
+                    else ERDAT_DEL_DATE end                              as DL_ERDAT : Date,        
+          case
+                    when LDDAT_DEL_DATE = '00000000' 
+                    then null
+                    else LDDAT_DEL_DATE end                              as DL_LDDAT : Date,        
+          
           
     };
 
