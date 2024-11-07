@@ -804,7 +804,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 const item = req.query.SELECT.where[i];
                 if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
                     for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
-                        if (req.query.SELECT.where[j].val !== undefined) {
+                        if ( typeof(req.query.SELECT.where[j].val) === 'string' && req.query.SELECT.where[j].val.includes('-') && req.query.SELECT.where[j].val !== undefined && req.query.SELECT.where[j].val !== null )   {
                             req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
                             break;
                         }

@@ -102,17 +102,17 @@ class srvOpenOrders extends cds.ApplicationService {
                 "TM_AR_DATE",
                 "SO_F_DGLTP"
             ]
-            for (let i = 0; i < req.query.SELECT.where.length; i++) {
+            for (let i = 0; i < req.query.SELECT.where?.length; i++) {
                 const item = req.query.SELECT.where[i];
                 if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
-                  for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
-                    if (req.query.SELECT.where[j].val !== undefined) {
-                        req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
-                      break;  
+                    for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
+                        if ( typeof(req.query.SELECT.where[j].val) === 'string' && req.query.SELECT.where[j].val.includes('-') && req.query.SELECT.where[j].val !== undefined && req.query.SELECT.where[j].val !== null )   {
+                            req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
+                            break;
+                        }
                     }
-                  }
                 }
-              }
+            }
         });
         
         this.on("READ", "Results", async (req, next) => {
