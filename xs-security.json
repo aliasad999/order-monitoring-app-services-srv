@@ -17,6 +17,14 @@
 		{
 			"name": "$XSAPPNAME.SystemScope",
 			"description": "System-to-system scope"
+		},
+		{
+			"name": "$XSAPPNAME.OMAPIsAuthorizedAccess",
+			"description": "OM APIs with access based on authorization"
+		},
+		{
+			"name": "$XSAPPNAME.OMAPIsFullAccess",
+			"description": "OM APIs with full access"
 		}
 	],
 	"role-templates": [
@@ -43,6 +51,22 @@
 			"scope-references": [
 				"$XSAPPNAME.AppAccess"
 			]
+		},
+		{
+			"name": "RtOMAPIsAuthorizedAccess",
+			"description": "Order Monitoring APIs with access based on authorization",
+			"default-role-name": "OM APIs Authorized",
+			"scope-references": [
+				"$XSAPPNAME.OMAPIsAuthorizedAccess"
+			]
+		},
+		{
+			"name": "RtOMAPIsFullAccess",
+			"description": "Order Monitoring APIs with full access",
+			"default-role-name": "OM APIs Full",
+			"scope-references": [
+				"$XSAPPNAME.OMAPIsFullAccess"
+			]
 		}
 	],
 	"role-collections": [
@@ -65,6 +89,20 @@
 			"description": "Role Collection for App Access rights",
 			"role-template-references": [
 				"$XSAPPNAME.RtAppAccess"
+			]
+		},
+		{
+			"name": "RcOMAPIsAuthorizedAccess",
+			"description": "Role Colletion for OM APIs with access based on authorization",
+			"role-template-references": [
+				"$XSAPPNAME.RtOMAPIsAuthorizedAccess"
+			]
+		},
+		{
+			"name": "RcOMAPIsFullAccess",
+			"description": "Role Colletion for OM APIs access",
+			"role-template-references": [
+				"$XSAPPNAME.RtOMAPIsFullAccess"
 			]
 		}
 	],
