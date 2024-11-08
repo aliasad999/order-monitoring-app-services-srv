@@ -64,5 +64,11 @@
       "object": "otc.csc.db.base.tables::IGNORED_SO",
       "schema.configure": "otc-csc-hdi/schema"
     }
+  },
+  "ALLORDERS_DB_PARTNER_SETTINGS_DB": {
+    "target": {
+      "object": "otc.csc.db.base.tables::PARTNER_SETTINGS",
+      "schema.configure": "otc-csc-hdi/schema"
+    }
   }
 }

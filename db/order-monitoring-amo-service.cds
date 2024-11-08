@@ -244,7 +244,6 @@ entity VBAKAUTH {
 }
 
 @cds.persistence.exists
-
 entity ![ST_NOTES] {
         CLIENT         : String(3);
         UTCTIME        : Decimal(15) not null;
@@ -255,4 +254,14 @@ entity ![ST_NOTES] {
         NOTE_TEXT      : String(1000);
         USERNAME       : String(12);
         LAST_NOTE_FLAG : String(1);
+}
+
+@cds.persistence.exists
+entity PARTNER_SETTINGS_DB {
+        key CLIENT         : String(3);
+        key BASF_USER      : String(12);
+        key PARTNER_ROLE   : String(2);
+        key PARTNER_NUMBER : String(8);
+        ACTIVE         : String(1);
+        COMMT          : String(50);
 }

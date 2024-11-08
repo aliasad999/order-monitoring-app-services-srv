@@ -313,14 +313,8 @@ service srvOpenOrders {
           LAST_NOTE_FLAG
     };
 
-  entity PartnerSettings         as
-    select from db_app.PARTNER_SETTINGS {
-      key CLIENT,
-      key BASF_USER,
-      key PARTNER_ROLE,
-      key PARTNER_NUMBER,
-          *
-    };
-
-  entity ShipmentMarkedDelivered as select from AMOOUtilsService.ShipmentMarkedDelivered;
+  entity PartnerSettings as
+    select from db_app.PARTNER_SETTINGS_DB;
+    
+    entity ShipmentMarkedDelivered as select from AMOOUtilsService.ShipmentMarkedDelivered;
 }
