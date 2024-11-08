@@ -412,3 +412,4 @@ entity ![IGNORED_SO] {
 type issue_reason {
         text : String(255)
 }
+

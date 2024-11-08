@@ -265,3 +265,26 @@ entity PARTNER_SETTINGS_DB {
         ACTIVE         : String(1);
         COMMT          : String(50);
 }
+
+entity variants {
+        key id               : UUID;
+            fileName         : String(255);
+            fileType         : String(10);
+            changeType       : String(40);
+            reference        : String(100);
+            packageName      : String(100);
+            content          : LargeString;
+            namespace        : String(100);
+            creation         : DateTime default current_timestamp;
+            originalLanguage : String(2);
+            conditions       : String(254);
+            contexts         : String(254);
+            supportGenerator : String(100);
+            supportService   : String(30);
+            supportUser      : String(100);
+            layer            : String(20);
+            selector         : String(255);
+            texts            : LargeString;
+            variantName      : String(255);
+            variantId        : String(100);
+};
