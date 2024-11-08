@@ -1,51 +1,78 @@
 using openorders.db as db_app from '../db/order-monitoring-amoo-service';
 using {OrderChangeService as orderChange} from './external/OrderChangeService';
-using { ContactsService as orderContacts } from './external/ContactsService';
+using {ContactsService as orderContacts} from './external/ContactsService';
 // using { CreditManagerService as creditManagerService } from './external/CreditManagerService';
-using { DSLServicesService as DSLServicesService } from './external/DSLServicesService';
-using { AMOOUtilsService as AMOOUtilsService } from './external/AMOOUtilsService';
-using { LORDOdataOrderService as LORDOdataOrderService } from './external/LORDOdataOrderService';
+using {DSLServicesService as DSLServicesService} from './external/DSLServicesService';
+using {AMOOUtilsService as AMOOUtilsService} from './external/AMOOUtilsService';
+using {LORDOdataOrderService as LORDOdataOrderService} from './external/LORDOdataOrderService';
 // using { YRDSDV1Foe1Service as YRDSDV1Foe1Service } from './external/YRDSDV1Foe1Service';
 // using { ATPService as ATPService } from './external/ATPService';
-using { CSEUCockpitService as CSEUCockpitService } from './external/CSEUCockpitService';
+using {CSEUCockpitService as CSEUCockpitService} from './external/CSEUCockpitService';
 
 service openOrdersSrv {
-    entity rootEntity as select from db_app.OPENORDERSLIST {
-            key null                                                     as id                          : UUID,
-                MANDT                                                    as SO_MANDT,
-                VBELN                                                    as SO_VBELN,
-                POSNR                                                    as SO_POSNR,
-                ERDAT_ORDER_DATE                                         as SO_ERDAT_ORDER,
-                ERDAT_ITEM_DATE                                          as SO_ERDAT_ITEM,
-                AUART                                                    as SO_AUART,
-                WERKS                                                    as SO_WERKS,
-                VTWEG                                                    as SO_VTWEG,
-                MATNR                                                    as SO_MATNR,
-                MAKTX_LANG                                               as SO_MAKTX,
-                KDMAT                                                    as SO_KDMAT,
-                AG_PARTNER                                               as SO_AG_PARTNER,
-                AG_PARTNER_NAME1 || ' ' || AG_PARTNER_NAME2              as SO_AG_PARTNER_NAME          : String(70),
-                WE_PARTNER                                               as SO_WE_PARTNER,
-                WE_PARTNER_NAME1 || ' ' || WE_PARTNER_NAME2              as SO_WE_PARTNER_NAME          : String(70),
-                LAND1                                                    as SO_LAND1,
-                LANDX_LANG                                               as SO_LANDX,
-                ORT01                                                    as SO_ORT01,
-                VKORG                                                    as SO_VKORG,
-                VKORG_NAME1                                              as SO_VKORG_NAME1,
-                IFNULL(CO_PARTNER_ITM, CO_PARTNER_HEAD)                  as SO_CO_PARTNER               : String(10),
-                IFNULL((CO_PARTNER_NAME1_HEAD || CO_PARTNER_NAME2_HEAD), 
-                       (CO_PARTNER_NAME1_ITM || CO_PARTNER_NAME2_ITM))   as SO_CO_PARTNER_NAME          : String(70),
-                IFNULL(NY_PARTNER_ITM, NY_PARTNER_HEAD)                  as SO_NY_PARTNER               : String(10),
-                IFNULL((NY_PARTNER_NAME1_HEAD || NY_PARTNER_NAME2_HEAD), 
-                       (NY_PARTNER_NAME1_ITM || NY_PARTNER_NAME2_ITM))   as SO_NY_PARTNER_NAME          : String(70),
-                IFNULL(AS_PARTNER_ITM, AS_PARTNER_HEAD)                  as SO_AS_PARTNER               : String(8),
-                IFNULL(AS_PARTNER_NAME_ITM, AS_PARTNER_NAME_HEAD)        as SO_AS_PARTNER_NAME          : String(40),
-                IFNULL(VE_PARTNER_ITM, VE_PARTNER_HEAD)                  as SO_VE_PARTNER               : String(8),
-                IFNULL(VE_PARTNER_NAME_ITM, VE_PARTNER_NAME_HEAD)        as SO_VE_PARTNER_NAME          : String(40),
-                IFNULL(AM_PARTNER_ITM, AM_PARTNER_HEAD)                  as SO_AM_PARTNER               : String(8),
-                IFNULL(AM_PARTNER_NAME_ITM, AM_PARTNER_NAME_HEAD)        as SO_AM_PARTNER_NAME          : String(40),
-                KNREF_HEAD                                               as SO_KNREF_HEAD,
-                KNREF_ITM                                                as SO_KNREF_ITM,
+    entity rootEntity               as
+        select from db_app.OPENORDERSLIST {
+            key null                                        as id                              : UUID,
+                MANDT                                       as SO_MANDT,
+                VBELN                                       as SO_VBELN,
+                POSNR                                       as SO_POSNR,
+                ERDAT_ORDER_DATE                            as SO_ERDAT_ORDER,
+                ERDAT_ITEM_DATE                             as SO_ERDAT_ITEM,
+                AUART                                       as SO_AUART,
+                WERKS                                       as SO_WERKS,
+                VTWEG                                       as SO_VTWEG,
+                MATNR                                       as SO_MATNR,
+                MAKTX_LANG                                  as SO_MAKTX,
+                KDMAT                                       as SO_KDMAT,
+                AG_PARTNER                                  as SO_AG_PARTNER,
+                AG_PARTNER_NAME1 || ' ' || AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME              : String(70),
+                WE_PARTNER                                  as SO_WE_PARTNER,
+                WE_PARTNER_NAME1 || ' ' || WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME              : String(70),
+                LAND1                                       as SO_LAND1,
+                LANDX_LANG                                  as SO_LANDX,
+                ORT01                                       as SO_ORT01,
+                VKORG                                       as SO_VKORG,
+                VKORG_NAME1                                 as SO_VKORG_NAME1,
+                IFNULL(
+                    CO_PARTNER_ITM, CO_PARTNER_HEAD
+                )                                           as SO_CO_PARTNER                   : String(10),
+                IFNULL(
+                    (
+                        CO_PARTNER_NAME1_HEAD || CO_PARTNER_NAME2_HEAD
+                    ), (
+                        CO_PARTNER_NAME1_ITM || CO_PARTNER_NAME2_ITM
+                    )
+                )                                           as SO_CO_PARTNER_NAME              : String(70),
+                IFNULL(
+                    NY_PARTNER_ITM, NY_PARTNER_HEAD
+                )                                           as SO_NY_PARTNER                   : String(10),
+                IFNULL(
+                    (
+                        NY_PARTNER_NAME1_HEAD || NY_PARTNER_NAME2_HEAD
+                    ), (
+                        NY_PARTNER_NAME1_ITM || NY_PARTNER_NAME2_ITM
+                    )
+                )                                           as SO_NY_PARTNER_NAME              : String(70),
+                IFNULL(
+                    AS_PARTNER_ITM, AS_PARTNER_HEAD
+                )                                           as SO_AS_PARTNER                   : String(8),
+                IFNULL(
+                    AS_PARTNER_NAME_ITM, AS_PARTNER_NAME_HEAD
+                )                                           as SO_AS_PARTNER_NAME              : String(40),
+                IFNULL(
+                    VE_PARTNER_ITM, VE_PARTNER_HEAD
+                )                                           as SO_VE_PARTNER                   : String(8),
+                IFNULL(
+                    VE_PARTNER_NAME_ITM, VE_PARTNER_NAME_HEAD
+                )                                           as SO_VE_PARTNER_NAME              : String(40),
+                IFNULL(
+                    AM_PARTNER_ITM, AM_PARTNER_HEAD
+                )                                           as SO_AM_PARTNER                   : String(8),
+                IFNULL(
+                    AM_PARTNER_NAME_ITM, AM_PARTNER_NAME_HEAD
+                )                                           as SO_AM_PARTNER_NAME              : String(40),
+                KNREF_HEAD                                  as SO_KNREF_HEAD,
+                KNREF_ITM                                   as SO_KNREF_ITM,
                 case
                     when VBUND is not null and VBUND <> '' 
                     then 'X'
@@ -62,10 +89,14 @@ service openOrdersSrv {
                 UNCONFIRMED_QTY                                          as SO_UNCONFIRMED_QTY,
                 REQ_TEXT                                                 as SO_REQ_TEXT,
                 case
-                    when FAKSP =  '' or FAKSP is null 
-                    then FAKSK
-                    else FAKSP
-                end                                                      as SO_FAKSP                    : String(2),
+                    when
+                        FAKSP    =  ''
+                        or FAKSP is null
+                    then
+                        FAKSK
+                    else
+                        FAKSP
+                end                                         as SO_FAKSP                        : String(2),
                 case
                     when FAKSP_VTEXT_LANG =  '' or FAKSP_VTEXT_LANG is null 
                     then FAKSK_VTEXT_LANG
@@ -205,16 +236,24 @@ service openOrdersSrv {
                 TDLNR_NAME1                                              as TM_TDLNR_NAME1,
                 @UI.Hidden: true
                 case
-                    when STATUS_REASON_CODE_TEXT_ELEM = '' or STATUS_REASON_CODE_TEXT_ELEM is null
-                    then STATUS_CODE_TEXT_ELEM
-                    else STATUS_CODE_TEXT_ELEM || ' (' || STATUS_REASON_CODE_ELEM || ' - ' || STATUS_REASON_CODE_TEXT_ELEM || ')'
-                end                                                      as TM_SHIPMENT_CURRENT_STATUS_ELEM : String(250),
+                    when
+                        STATUS_REASON_CODE_TEXT_ELEM    =  ''
+                        or STATUS_REASON_CODE_TEXT_ELEM is null
+                    then
+                        STATUS_CODE_TEXT_ELEM
+                    else
+                        STATUS_CODE_TEXT_ELEM || ' (' || STATUS_REASON_CODE_ELEM || ' - ' || STATUS_REASON_CODE_TEXT_ELEM || ')'
+                end                                         as TM_SHIPMENT_CURRENT_STATUS_ELEM : String(250),
                 @UI.Hidden: true
                 case
-                    when REASON_CODE_TEXT_COMP = '' or REASON_CODE_TEXT_COMP is null
-                    then STATUS_CODE_TEXT_COMP
-                    else STATUS_CODE_TEXT_COMP || ' (' || REASON_CODE_COMP || ' - ' || REASON_CODE_TEXT_COMP || ')'
-                end                                                      as TM_SHIPMENT_CURRENT_STATUS_COMP : String(250),
+                    when
+                        REASON_CODE_TEXT_COMP    =  ''
+                        or REASON_CODE_TEXT_COMP is null
+                    then
+                        STATUS_CODE_TEXT_COMP
+                    else
+                        STATUS_CODE_TEXT_COMP || ' (' || REASON_CODE_COMP || ' - ' || REASON_CODE_TEXT_COMP || ')'
+                end                                         as TM_SHIPMENT_CURRENT_STATUS_COMP : String(250),
                 case
                     when ALERT_STATUS_REASON_CODE_TEXT_ELEM = '' or ALERT_STATUS_REASON_CODE_TEXT_ELEM is null
                     then ALERT_STATUS_CODE_TEXT_ELEM
@@ -236,19 +275,22 @@ service openOrdersSrv {
                 ISSUE_LOCATION_ITEM                                      as SO_ISSUE_LOCATION_ITEM,
                 // DCP_ITEM_STATUS                                          as SO_DCP_ITEM_STATUS,     
                 // virtual null                                             as SO_DCP_ITEM_STATUS_DESCRIPTION : String(50),
-                virtual 0                                                as criticalityDueDate : Integer,
-                IGNORED                                                  as SO_IGNORED,
-                ETA_UPDATED                                              as TM_SHIPMENT_ETA_UPDATED,
-                BL_VBELN_INV_FIRST                                       as BL_VBELN_INV_FIRST,
-                BL_VBELN_INV_LAST                                        as BL_VBELN_INV_LAST,
-                 case
-                    when BL_FKART_LAST = 'Z6OR' 
-                    then XBLNR
-                    else null
-                end                                                      as BL_XBLNR: String(250),
-                
-                BL_POSNR_INV_LAST                                        as BL_POSNR_INV_LAST,
-                BL_POSNR_INV_FIRST                                       as BL_POSNR_INV_FIRST,
+                virtual 0                                   as criticalityDueDate              : Integer,
+                IGNORED                                     as SO_IGNORED,
+                ETA_UPDATED                                 as TM_SHIPMENT_ETA_UPDATED,
+                BL_VBELN_INV_FIRST                          as BL_VBELN_INV_FIRST,
+                BL_VBELN_INV_LAST                           as BL_VBELN_INV_LAST,
+                case
+                    when
+                        BL_FKART_LAST = 'Z6OR'
+                    then
+                        XBLNR
+                    else
+                        null
+                end                                         as BL_XBLNR                        : String(250),
+
+                BL_POSNR_INV_LAST                           as BL_POSNR_INV_LAST,
+                BL_POSNR_INV_FIRST                          as BL_POSNR_INV_FIRST,
                 BL_MANDT_INV_FIRST,
                 BL_MANDT_INV_LAST,
                 BL_FKIMG_FIRST                                           as BL_FKIMG_FIRST,
@@ -278,12 +320,14 @@ service openOrdersSrv {
                     when LDDAT_DEL_DATE = '00000000' 
                     then null
                     else LDDAT_DEL_DATE end                              as DL_LDDAT : Date,
+                PERFK                                       as SO_PERFK,
+                PERFK_LTEXT_LANG                            as SO_PERFK_LTEXT_LANG
                 
                 
 
         }
 
-    entity baseEntity            as
+    entity baseEntity               as
         projection on rootEntity {
             *,
             IFNULL(
@@ -293,83 +337,94 @@ service openOrdersSrv {
 
 
     @readonly
-    entity allIssues      as projection on baseEntity;
-    entity allIssuesDetails      as projection on allIssues;
-    entity valueHelps     as projection on baseEntity; 
+    entity allIssues                as projection on baseEntity;
+
+    entity allIssuesDetails         as projection on allIssues;
+    entity valueHelps               as projection on baseEntity;
     // entity unrestrictedUser  as projection on db_app.UNRESTRICTED_USER;
-    entity orderChangeUsers as projection on db_app.orderChangeUsers;
-    entity ContactSet  as select * from orderContacts.ContactSet;
-    entity ContactsOptions       as select * from db_app.ContactsOptions;
+    entity orderChangeUsers         as projection on db_app.orderChangeUsers;
+    entity ContactSet               as select * from orderContacts.ContactSet;
+    entity ContactsOptions          as select * from db_app.ContactsOptions;
     entity ServicesSet              as select * from DSLServicesService.ServicesSet;
-    entity FinalOrderLineSet     
-        as select from orderChange.FinalOrderLineSet {
-        *,
-        '' as BizagiCaseStatus : String(100),
-        '' as BizagiCaseID : String(10),
-        '' as BizagiCase : String(16),
-        false as BizagiCaseInProgress : Boolean 
-    };
+
+    entity FinalOrderLineSet        as
+        select from orderChange.FinalOrderLineSet {
+            *,
+            ''    as BizagiCaseStatus     : String(100),
+            ''    as BizagiCaseID         : String(10),
+            ''    as BizagiCase           : String(16),
+            false as BizagiCaseInProgress : Boolean
+        };
+
     entity ScheduleLineRequestedSet as select * from orderChange.ScheduleLineRequestedSet;
     entity ScheduleLineConfirmedSet as select * from orderChange.ScheduleLineConfirmedSet;
     entity WorkflowPartnerSet       as select * from orderChange.WorkflowPartnerSet;
-    entity DeliverySet       as select * from orderChange.DeliverySet;
-    entity ShipmentSet       as select * from orderChange.ShipmentSet;
-    entity BizagiCaseStatus as projection on AMOOUtilsService.BizagiCaseStatus;
-    entity RejCodesSet as projection on CSEUCockpitService.RejCodesSet;
-    entity LORDHeaderSet as projection on LORDOdataOrderService.HeaderSet;
-    entity LORDItemSet as projection on LORDOdataOrderService.ItemSet;
+    entity DeliverySet              as select * from orderChange.DeliverySet;
+    entity ShipmentSet              as select * from orderChange.ShipmentSet;
+    entity BizagiCaseStatus         as projection on AMOOUtilsService.BizagiCaseStatus;
+    entity RejCodesSet              as projection on CSEUCockpitService.RejCodesSet;
+    entity LORDHeaderSet            as projection on LORDOdataOrderService.HeaderSet;
+    entity LORDItemSet              as projection on LORDOdataOrderService.ItemSet;
+    action   submitOrderChange(payload : String)                                                                                                                                                                                                                                                                                             returns String;
+    action   submitOrderChangeWF(payload : String)                                                                                                                                                                                                                                                                                           returns String;
+    action   cancelOrder(payload : String)                                                                                                                                                                                                                                                                                                   returns String;
+    action   RemoveDeliveryBlock(SalesOrderID : String(10), ItemID : String(6))                                                                                                                                                                                                                                                              returns String;
 
-    action   submitOrderChange(payload : String)       returns String;
-    action   submitOrderChangeWF(payload : String)       returns String;
-    action   cancelOrder(payload: String)               returns String;
-    action   RemoveDeliveryBlock(SalesOrderID: String(10), ItemID: String(6)) returns String;
+    entity PredefReasonBuckets      as
+        select from AMOOUtilsService.PredefinedReasonBuckets {
+            key BUCKET      as BucketKey,
+            key LANGUAGE    as Language,
+                BUCKET_TEXT as BucketText
+        };
 
-    entity PredefReasonBuckets as select from AMOOUtilsService.PredefinedReasonBuckets {
-        key BUCKET as BucketKey,
-        key LANGUAGE as Language,
-        BUCKET_TEXT as BucketText
-    };
-    entity PredefReasonComments as select from AMOOUtilsService.PredefinedReasonComments {
-        key BUCKET as BucketKey,
-        key REASON_CODE as ReasonCodeKey,
-        key LANGUAGE as Language,
-        REASON_TEXT as ReasonComment
-    };
-    entity ReasonComments as select from AMOOUtilsService.APACDelayReasons {
-        key ORDER_NUMBER as SalesOrder,
-        key ITEM_NUMBER as OrderItem,
-        key BUCKET as BucketKey,
-        key LANGUAGE as Language,
-        REASON_CODE as ReasonCodeKey
-    };
+    entity PredefReasonComments     as
+        select from AMOOUtilsService.PredefinedReasonComments {
+            key BUCKET      as BucketKey,
+            key REASON_CODE as ReasonCodeKey,
+            key LANGUAGE    as Language,
+                REASON_TEXT as ReasonComment
+        };
 
-    entity PredefFollowupNotes as select from AMOOUtilsService.PredefinedFollowupNotes {
-        PREDEFINED_ID as FollowUpNoteId,
-        PREDEFINED_CONTENT as FollowUpNoteContent,
-        LANGUAGE as Language
-    };
-    entity FollowupNotes as select from AMOOUtilsService.FollowupNotes {
-        ORDER_NUMBER as SalesOrder,
-        ORDER_ITEM as OrderItem,
-        PREDEFINED_ID as FollowupNote,
-        CREATED_AT as CreatedAt
-    };
-    entity dueDateLimit          as projection on db_app.DUE_DATE_LIMIT;
+    entity ReasonComments           as
+        select from AMOOUtilsService.APACDelayReasons {
+            key ORDER_NUMBER as SalesOrder,
+            key ITEM_NUMBER  as OrderItem,
+            key BUCKET       as BucketKey,
+            key LANGUAGE     as Language,
+                REASON_CODE  as ReasonCodeKey
+        };
 
-    entity ChangeDocSet as projection on CSEUCockpitService.ChangeDocSet
-    entity ShipmentUpdates as projection on AMOOUtilsService.ShipmentUpdates;
+    entity PredefFollowupNotes      as
+        select from AMOOUtilsService.PredefinedFollowupNotes {
+            PREDEFINED_ID      as FollowUpNoteId,
+            PREDEFINED_CONTENT as FollowUpNoteContent,
+            LANGUAGE           as Language
+        };
+
+    entity FollowupNotes            as
+        select from AMOOUtilsService.FollowupNotes {
+            ORDER_NUMBER  as SalesOrder,
+            ORDER_ITEM    as OrderItem,
+            PREDEFINED_ID as FollowupNote,
+            CREATED_AT    as CreatedAt
+        };
+
+    entity dueDateLimit             as projection on db_app.DUE_DATE_LIMIT;
+    entity ChangeDocSet             as projection on CSEUCockpitService.ChangeDocSet
+    entity ShipmentUpdates          as projection on AMOOUtilsService.ShipmentUpdates;
 
     // Sales order details from generic service
-    entity salesOrderDetails     as
+    entity salesOrderDetails        as
         select * from db_app.SALESORDER_DETAILS (
             IP_LANG:LEFT(
                 UPPER(
                     $user.locale
-                ), 
+                ),
             )
         );
-    entity ignoreSalesOrder as projection on db_app.IGNORED_SO;
-    function getIssueReason(salesOrder : String(10), salesOrderItem : String(6), detailsSalesOrder : String(10), DetailsSalesOrderItem : String(6), issue : String(2), nps : String(3), issue_location : String(12), material: String(18), plant:String(4),quantity:Decimal(13,3),uom:String(3), dueDate:Date, firstDate:Date) returns array of db_app.issue_reason;
-    action createDeliveryforAllItem(salesOrder: String(10)) returns Boolean;
-    action createDeliveryforItem(salesOrder: String(10), salesOrderItem : String(6)) returns Boolean;
+
+    entity ignoreSalesOrder         as projection on db_app.IGNORED_SO;
+    function getIssueReason(salesOrder : String(10), salesOrderItem : String(6), detailsSalesOrder : String(10), DetailsSalesOrderItem : String(6), issue : String(2), nps : String(3), issue_location : String(12), material : String(18), plant : String(4), quantity : Decimal(13, 3), uom : String(3), dueDate : Date, firstDate : Date) returns array of db_app.issue_reason;
+    action   createDeliveryforAllItem(salesOrder : String(10))                                                                                                                                                                                                                                                                               returns Boolean;
+    action   createDeliveryforItem(salesOrder : String(10), salesOrderItem : String(6))                                                                                                                                                                                                                                                      returns Boolean;
 };

@@ -665,6 +665,8 @@ annotate service.baseEntity with {
     SO_MDB_TEXT                 @title: '{i18n>SO_MDB_TEXT}'                 @sap.Label: '{i18n>SO_MDB_TEXT}';
     DL_ERDAT                    @title: '{i18n>DL_ERDAT}'                    @sap.Label: '{i18n>DL_ERDAT}'            @sap.filter.restriction:'interval';
     DL_LDDAT                    @title: '{i18n>DL_LDDAT}'                    @sap.Label: '{i18n>DL_LDDAT}'            @sap.filter.restriction:'interval';
+    SO_PERFK                        @title: '{i18n>SO_PERFK}'                    @sap.Label: '{i18n>SO_PERFK}';
+    SO_PERFK_LTEXT_LANG             @title: '{i18n>SO_PERFK}'                    @sap.Label: '{i18n>SO_PERFK}';
 
 };
 annotate service.allIssues with {
@@ -850,6 +852,11 @@ annotate service.allIssues with {
     SO_MDB                    @title: '{i18n>SO_MDB}'                    @sap.Label: '{i18n>SO_MDB}';
     @Common.TextFor
     SO_MDB_TEXT      ;  
+    @Common.Text           : SO_PERFK_LTEXT_LANG
+    @Common.TextArrangement: #TextLast
+    SO_PERFK                    @title: '{i18n>SO_PERFK}'                    @sap.Label: '{i18n>SO_PERFK}';
+    @Common.TextFor
+    SO_PERFK_LTEXT_LANG;
     // BL_VBELN_INV_FIRST          @title: '{i18n>BL_VBELN_INV_FIRST}'          @sap.Label: '{i18n>BL_VBELN_INV_FIRST}';
     // BL_VBELN_INV_LAST           @title: '{i18n>BL_VBELN_INV_LAST}'           @sap.Label: '{i18n>BL_VBELN_INV_LAST}';
     // BL_XBLNR                    @title: '{i18n>BL_XBLNR}'                    @sap.Label: '{i18n>BL_XBLNR}';
@@ -916,6 +923,7 @@ annotate service.allIssues with {
     DL_POSAR                  @UI                     : {Hidden: true};
     DL_VRKME                  @UI                     : {Hidden: true};
     SO_MDB_TEXT               @UI                     : {Hidden: true};
+    SO_PERFK_LTEXT_LANG            @UI                     : {Hidden: true};
 }
 
 // ------------------------------Value Helps All Issues----------------------------
@@ -3057,6 +3065,28 @@ annotate service.allIssues with {
             LocalDataProperty: SO_EMAIL_SENT_ON,
             ValueListProperty: 'SO_EMAIL_SENT_ON'
         }
+
+        ]
+    }
+};
+annotate service.allIssues with {
+    SO_PERFK
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_PERFK}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_PERFK,
+                ValueListProperty: 'SO_PERFK'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_PERFK_LTEXT_LANG'
+            }
 
         ]
     }

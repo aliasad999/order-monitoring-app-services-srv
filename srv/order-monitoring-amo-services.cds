@@ -1,14 +1,14 @@
 using allorders.db as db_app from '../db/order-monitoring-amo-service';
-using { AMOOUtilsService as AMOOUtilsService } from './external/AMOOUtilsService';
+using {AMOOUtilsService as AMOOUtilsService} from './external/AMOOUtilsService';
 
 service srvOpenOrders {
 
-  entity VBAKAuthObjectKeys as select from db_app.VBAKAUTH;
+  entity VBAKAuthObjectKeys      as select from db_app.VBAKAUTH;
   function getVBAKAuthObjKeys() returns Boolean;
 
   @readonly
   @cds.redirection.target: true
-  entity HOMRemarks         as
+  entity HOMRemarks              as
     select from db_app.RESULTS {
       key VBELN as SO_VBELN,
       key POSNR as SO_POSNR,
@@ -16,46 +16,74 @@ service srvOpenOrders {
           VKORG as VKORG,
           VTWEG as VTWEG,
           SPART as SPART,
-          
+
     };
+
   @readonly
   @cds.redirection.target: true
-  entity BaseEntity         as
-    select from db_app.RESULTS
-     {
-      key null as id : UUID,
-          MANDT as SO_MANDT,
-          VBELN as SO_VBELN,
-          POSNR as SO_POSNR,
-          SO_ERDAT_ORDER_DATE as SO_ERDAT_ORDER,
-          SO_ERDAT_ITEM_DATE as SO_ERDAT_ITEM,
-          AUART as SO_AUART,
-          WERKS as SO_WERKS,
-          VTWEG as SO_VTWEG,
-          MATNR as SO_MATNR,
-          MAKTX_LANG as SO_MAKTX,
-          KDMAT as SO_KDMAT,
-          AG_PARTNER as SO_AG_PARTNER,
-          AG_PARTNER_NAME1 || ' ' || AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME : String(70),
-          WE_PARTNER as SO_WE_PARTNER,
-          WE_PARTNER_NAME1 || ' ' || WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME : String(70),
-          IFNULL(CO_PARTNER_ITM, CO_PARTNER_HEAD) AS SO_CO_PARTNER : String(10),
-          IFNULL((CO_PARTNER_NAME1_HEAD || CO_PARTNER_NAME2_HEAD), (CO_PARTNER_NAME1_ITM || CO_PARTNER_NAME2_ITM)) AS SO_CO_PARTNER_NAME : String(70),
-          IFNULL(NY_PARTNER_ITM, NY_PARTNER_HEAD) AS SO_NY_PARTNER : String(10),
-          IFNULL((NY_PARTNER_NAME1_HEAD || NY_PARTNER_NAME2_HEAD), (NY_PARTNER_NAME1_ITM || NY_PARTNER_NAME2_ITM)) AS SO_NY_PARTNER_NAME : String(70),
-          IFNULL(AS_PARTNER_ITM, AS_PARTNER_HEAD) AS SO_AS_PARTNER : String(8),
-          IFNULL(AS_PARTNER_NAME_ITM, AS_PARTNER_NAME_HEAD) AS SO_AS_PARTNER_NAME : String(40),
-          IFNULL(VE_PARTNER_ITM, VE_PARTNER_HEAD) AS SO_VE_PARTNER : String(8),
-          IFNULL(VE_PARTNER_NAME_ITM, VE_PARTNER_NAME_HEAD) AS SO_VE_PARTNER_NAME : String(40),
-          IFNULL(AM_PARTNER_ITM, AM_PARTNER_HEAD) AS SO_AM_PARTNER : String(8),
-          IFNULL(AM_PARTNER_NAME_ITM, AM_PARTNER_NAME_HEAD) AS SO_AM_PARTNER_NAME : String(40),
-          LAND1 as SO_LAND1,
-          LANDX_LANG as SO_LANDX,
-          ORT01 as SO_ORT01,
-          VKORG as SO_VKORG,
-          VKORG_NAME1 as SO_VKORG_NAME1,
-          KNREF_HEAD as SO_KNREF_HEAD,
-          KNREF_ITM as SO_KNREF_ITM,
+  entity BaseEntity              as
+    select from db_app.RESULTS {
+      key null                                        as id                              : UUID,
+          MANDT                                       as SO_MANDT,
+          VBELN                                       as SO_VBELN,
+          POSNR                                       as SO_POSNR,
+          SO_ERDAT_ORDER_DATE                         as SO_ERDAT_ORDER,
+          SO_ERDAT_ITEM_DATE                          as SO_ERDAT_ITEM,
+          AUART                                       as SO_AUART,
+          WERKS                                       as SO_WERKS,
+          VTWEG                                       as SO_VTWEG,
+          MATNR                                       as SO_MATNR,
+          MAKTX_LANG                                  as SO_MAKTX,
+          KDMAT                                       as SO_KDMAT,
+          AG_PARTNER                                  as SO_AG_PARTNER,
+          AG_PARTNER_NAME1 || ' ' || AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME              : String(70),
+          WE_PARTNER                                  as SO_WE_PARTNER,
+          WE_PARTNER_NAME1 || ' ' || WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME              : String(70),
+          IFNULL(
+            CO_PARTNER_ITM, CO_PARTNER_HEAD
+          )                                           as SO_CO_PARTNER                   : String(10),
+          IFNULL(
+            (
+              CO_PARTNER_NAME1_HEAD || CO_PARTNER_NAME2_HEAD
+            ), (
+              CO_PARTNER_NAME1_ITM || CO_PARTNER_NAME2_ITM
+            )
+          )                                           as SO_CO_PARTNER_NAME              : String(70),
+          IFNULL(
+            NY_PARTNER_ITM, NY_PARTNER_HEAD
+          )                                           as SO_NY_PARTNER                   : String(10),
+          IFNULL(
+            (
+              NY_PARTNER_NAME1_HEAD || NY_PARTNER_NAME2_HEAD
+            ), (
+              NY_PARTNER_NAME1_ITM || NY_PARTNER_NAME2_ITM
+            )
+          )                                           as SO_NY_PARTNER_NAME              : String(70),
+          IFNULL(
+            AS_PARTNER_ITM, AS_PARTNER_HEAD
+          )                                           as SO_AS_PARTNER                   : String(8),
+          IFNULL(
+            AS_PARTNER_NAME_ITM, AS_PARTNER_NAME_HEAD
+          )                                           as SO_AS_PARTNER_NAME              : String(40),
+          IFNULL(
+            VE_PARTNER_ITM, VE_PARTNER_HEAD
+          )                                           as SO_VE_PARTNER                   : String(8),
+          IFNULL(
+            VE_PARTNER_NAME_ITM, VE_PARTNER_NAME_HEAD
+          )                                           as SO_VE_PARTNER_NAME              : String(40),
+          IFNULL(
+            AM_PARTNER_ITM, AM_PARTNER_HEAD
+          )                                           as SO_AM_PARTNER                   : String(8),
+          IFNULL(
+            AM_PARTNER_NAME_ITM, AM_PARTNER_NAME_HEAD
+          )                                           as SO_AM_PARTNER_NAME              : String(40),
+          LAND1                                       as SO_LAND1,
+          LANDX_LANG                                  as SO_LANDX,
+          ORT01                                       as SO_ORT01,
+          VKORG                                       as SO_VKORG,
+          VKORG_NAME1                                 as SO_VKORG_NAME1,
+          KNREF_HEAD                                  as SO_KNREF_HEAD,
+          KNREF_ITM                                   as SO_KNREF_ITM,
           case
             when VBUND is not null and VBUND <> '' then 'X'
             else ''
@@ -248,24 +276,31 @@ service srvOpenOrders {
           case
                     when LDDAT_DEL_DATE = '00000000' 
                     then null
-                    else LDDAT_DEL_DATE end                              as DL_LDDAT : Date,        
+                    else LDDAT_DEL_DATE end                              as DL_LDDAT : Date,     
+          PERFK                                       as SO_PERFK,
+          PERFK_LTEXT_LANG                            as SO_PERFK_LTEXT_LANG   
           
           
     };
 
-    entity Results as projection on BaseEntity {
+  entity Results                 as
+    projection on BaseEntity {
       *,
-      IFNULL(TM_SHIPMENT_CURRENT_STATUS_ELEM, TM_SHIPMENT_CURRENT_STATUS_COMP) as TM_SHIPMENT_CURRENT_STATUS : String(250)
+      IFNULL(
+        TM_SHIPMENT_CURRENT_STATUS_ELEM, TM_SHIPMENT_CURRENT_STATUS_COMP
+      ) as TM_SHIPMENT_CURRENT_STATUS : String(250)
     };
 
-    entity valueHelps as projection on BaseEntity {
+  entity valueHelps              as
+    projection on BaseEntity {
       *,
-      IFNULL(TM_SHIPMENT_CURRENT_STATUS_ELEM, TM_SHIPMENT_CURRENT_STATUS_COMP) as TM_SHIPMENT_CURRENT_STATUS : String(250)
+      IFNULL(
+        TM_SHIPMENT_CURRENT_STATUS_ELEM, TM_SHIPMENT_CURRENT_STATUS_COMP
+      ) as TM_SHIPMENT_CURRENT_STATUS : String(250)
     };
 
 
-
-  entity notes           as
+  entity notes                   as
     select from db_app.ST_NOTES {
       key UTCTIME,
       key CLIENT,
@@ -278,7 +313,7 @@ service srvOpenOrders {
           LAST_NOTE_FLAG
     };
 
-  entity PartnerSettings as
+  entity PartnerSettings         as
     select from db_app.PARTNER_SETTINGS {
       key CLIENT,
       key BASF_USER,
@@ -286,6 +321,6 @@ service srvOpenOrders {
       key PARTNER_NUMBER,
           *
     };
-    
-    entity ShipmentMarkedDelivered as select from AMOOUtilsService.ShipmentMarkedDelivered;
+
+  entity ShipmentMarkedDelivered as select from AMOOUtilsService.ShipmentMarkedDelivered;
 }

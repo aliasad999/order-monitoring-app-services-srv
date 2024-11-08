@@ -2,7 +2,7 @@ namespace allorders.db;
 
 @cds.persistence.exists
 entity ![RESULTS] {
-        
+
         MANDT                              : String(3);
         VBELN                              : String(10);
         POSNR                              : String(6);
@@ -14,7 +14,7 @@ entity ![RESULTS] {
         WERKS                              : String(4);
         VTWEG                              : String(2);
         MATNR                              : String(18);
-        MAKTX_LANG                              : String(40);
+        MAKTX_LANG                         : String(40);
         KDMAT                              : String(35);
         AG_PARTNER                         : String(10);
         AG_PARTNER_NAME1                   : String(35);
@@ -47,7 +47,7 @@ entity ![RESULTS] {
         AM_PARTNER_ITM                     : String(8);
         AM_PARTNER_NAME_ITM                : String(40);
         LAND1                              : String(3);
-        LANDX_LANG                              : String(15);
+        LANDX_LANG                         : String(15);
         ORT01                              : String(35);
         VKORG                              : String(4);
         VKORG_NAME1                        : String(40);
@@ -64,8 +64,8 @@ entity ![RESULTS] {
         UNCONFIRMED_QTY                    : Decimal(15, 3);
         REQ_TEXT                           : String(250);
         FAKSP                              : String(2);
-        FAKSP_VTEXT_LANG                        : String(20);
-        F_LGORT                            : String(4);               
+        FAKSP_VTEXT_LANG                   : String(20);
+        F_LGORT                            : String(4);
         SUPPLY_SITUATION                   : Int16;
         SUPPLY_SITUATION_DESCR             : String(60);
         KBETR                              : Decimal(11, 2);
@@ -80,11 +80,11 @@ entity ![RESULTS] {
         WAERK                              : String(5);
         HTEXT                              : String(4000);
         PSTYV                              : String(4);
-        PSTYV_VTEXT_LANG                        : String(20);
+        PSTYV_VTEXT_LANG                   : String(20);
         DISPO                              : String(3);
         KOSCH                              : String(18);
         VKBUR                              : String(4);
-        VKBUR_BEZEI_LANG                        : String(20);
+        VKBUR_BEZEI_LANG                   : String(20);
         ABGRU                              : String(2);
         ABSTA                              : String(1);
         KNUMV                              : String(10);
@@ -100,8 +100,8 @@ entity ![RESULTS] {
         ZZ0S2REVG2                         : String(10);
         ZZDKPPRODB                         : String(18);
         BSARK                              : String(4);
-        BSARK_VTEXT_LANG                        : String(20);
-        _BASF_LOFCR                         : String(20);
+        BSARK_VTEXT_LANG                   : String(20);
+        _BASF_LOFCR                        : String(20);
         GUSCON                             : String(15);
         GUSCON_ITM                         : String(6);
         GUSCON_LEVEL                       : String(2);
@@ -168,7 +168,7 @@ entity ![RESULTS] {
         LANGUAGE                           : String(2);
         TKNUM                              : String(10);
         VSART                              : String(2);
-        VSART_BEZEI_LANG                        : String(20);
+        VSART_BEZEI_LANG                   : String(20);
         EXTI1                              : String(20);
         TDLNR                              : String(10);
         TDLNR_NAME1                        : String(35);
@@ -209,13 +209,15 @@ entity ![RESULTS] {
         BL_MANDT_INV_FIRST                 : String(3);
         BL_MANDT_INV_LAST                  : String(3);
         ABGRU_BEZEI_LANG                   : String(40);
-        // DCP_ITEM_STATUS                    : String(2);     
-        ERDAT_DEL                          : String(8);	
-        ERDAT_DEL_DATE                     : Date = ERDAT_DEL;	
-        LDDAT_DEL                          : String(8);	
-        LDDAT_DEL_DATE                     : Date = LDDAT_DEL;	
+        // DCP_ITEM_STATUS                    : String(2);
+        ERDAT_DEL                          : String(8);
+        ERDAT_DEL_DATE                     : Date = ERDAT_DEL;
+        LDDAT_DEL                          : String(8);
+        LDDAT_DEL_DATE                     : Date = LDDAT_DEL;
+        PERFK                              : String(2);
+        PERFK_LTEXT_LANG                   : String(50);
 
-}	
+}
 
 entity PARTNER_SETTINGS {
         CLIENT         : String(3);
@@ -238,18 +240,19 @@ entity VBAKAUTH {
         key VTWEG  : String(2);
         key SPART  : String(2);
         key USERID : String;
+        LAST_UPDATE: Timestamp;
 }
 
 @cds.persistence.exists
 
 entity ![ST_NOTES] {
-        CLIENT     : String(3);
-        UTCTIME    : Decimal(15) not null;
-        VBELN      : String(10);
-        POSNR      : String(6);
-        LANGUAGE   : String(2);
-        NOTE_TITLE : String(60);
-        NOTE_TEXT  : String(1000);
-        USERNAME   : String(12);
-        LAST_NOTE_FLAG: String(1);
+        CLIENT         : String(3);
+        UTCTIME        : Decimal(15) not null;
+        VBELN          : String(10);
+        POSNR          : String(6);
+        LANGUAGE       : String(2);
+        NOTE_TITLE     : String(60);
+        NOTE_TEXT      : String(1000);
+        USERNAME       : String(12);
+        LAST_NOTE_FLAG : String(1);
 }
