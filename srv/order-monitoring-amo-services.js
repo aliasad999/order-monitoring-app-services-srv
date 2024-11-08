@@ -6,6 +6,7 @@ const status = require('http-status');
 const textBundle = require('./utils/textBundle')
 const log = require("cf-nodejs-logging-support");
 const enableHints = require("./plugins/enable_hints");
+const { startOfToday } = require('date-fns');
 
 class srvOpenOrders extends cds.ApplicationService {
 
@@ -14,32 +15,42 @@ class srvOpenOrders extends cds.ApplicationService {
             await cds.run(`SET 'APPLICATION' = 'CAPServices'`);
         })
         this.on("getVBAKAuthObjKeys", async req => {
+            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+            const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
+            let updateNeeded = false;
             let lt_result = [];
             let userID = req.user.id;
-            // let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
-            try {
-                const service = await cds.connect.to('authService');
-                lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100");
-                
-            } catch (error) {
-                // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
-                req.error(413, 'ERROR_AUTH_CALL')
+            let vbakAuths = await SELECT.from(VBAKAuthObjectKeys).where`USERID = ${userID}`.limit(1);
+            // Avoid updating authorizations more than once a day
+            // Update only if table empty or outdated
+            if (vbakAuths.length > 0) {
+                if ((vbakAuths[0].LAST_UPDATE === null || vbakAuths[0].LAST_UPDATE < todayDate)) {
+                    updateNeeded = true;
+                }
+            } else {
+                updateNeeded = true;
             }
-                         
-            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
-            await DELETE.from(VBAKAuthObjectKeys).where ({USERID: userID});
-
-            if (lt_result.length !== 0){
-                lt_result.forEach((set) => {
-                    set.USERID = userID;
-                })
-
-                await INSERT.into(VBAKAuthObjectKeys, lt_result);
-            }else{
-                return false;
-            }           
-            return true;
-            
+            if (updateNeeded) {
+                let SQLdate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+                try {
+                    const service = await cds.connect.to('authService');
+                    lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100");
+        
+                } catch (error) {
+                    req.error(413, 'ERROR_AUTH_CALL')
+                }
+                await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
+        
+                if (lt_result.length !== 0) {
+                    lt_result.forEach((set) => {
+                        set.LAST_UPDATE = SQLdate;
+                        set.USERID = userID;
+                    })
+                    await INSERT.into(VBAKAuthObjectKeys, lt_result);
+                }
+                return true;
+            }        
+            return false;
         });
 
         /**
@@ -91,17 +102,17 @@ class srvOpenOrders extends cds.ApplicationService {
                 "TM_AR_DATE",
                 "SO_F_DGLTP"
             ]
-            for (let i = 0; i < req.query.SELECT.where.length; i++) {
+            for (let i = 0; i < req.query.SELECT.where?.length; i++) {
                 const item = req.query.SELECT.where[i];
                 if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
-                  for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
-                    if (req.query.SELECT.where[j].val !== undefined) {
-                        req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
-                      break;  
+                    for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
+                        if ( typeof(req.query.SELECT.where[j].val) === 'string' && req.query.SELECT.where[j].val.includes('-') && req.query.SELECT.where[j].val !== undefined && req.query.SELECT.where[j].val !== null )   {
+                            req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
+                            break;
+                        }
                     }
-                  }
                 }
-              }
+            }
         });
         
         this.on("READ", "Results", async (req, next) => {
@@ -485,6 +496,13 @@ module.exports = {
 function removeDuplicates(fields, lt_result) {
     if (fields) {
         lt_result = lt_result
+            // .filter(obj => {
+            //     // if all values are null, then allNull will be true
+            //     // if not, allNull will be false
+            //     // return value is the opposite of that to do the right filtering
+            //     var allNull = fields.every(field => obj[field] === null);
+            //     return !allNull;
+            // })
             .filter(obj => fields.every(field => obj[field] !== null)) // Remove null values
             .map(obj => {
                 const newObj = {};

@@ -6,6 +6,7 @@ const status = require('http-status');
 const textBundle = require('./utils/textBundle')
 const log = require("cf-nodejs-logging-support");
 const enableHints = require("./plugins/enable_hints");
+const { startOfToday } = require('date-fns');
 
 class openOrdersSrv extends cds.ApplicationService {
 
@@ -462,30 +463,42 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.on("getVBAKAuthObjKeys", async req => {
+            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+            const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
+            let updateNeeded = false;
             let lt_result = [];
             let userID = req.user.id;
-            // let authSet = await SELECT.from(VBAKAuthObjectKeys).where ({USERID: userID});
-            try {
-                const service = await cds.connect.to('authService');
-                lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100");
-            } catch (error) {
-                // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
-                req.error(413, 'ERROR_AUTH_CALL')
-            }
-
-            const { VBAKAuthObjectKeys } = await cds.entities('srvOpenOrders');
-            await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
-
-            if (lt_result.length !== 0) {
-                lt_result.forEach((set) => {
-                    set.USERID = userID;
-                })
-
-                await INSERT.into(VBAKAuthObjectKeys, lt_result);
+            let vbakAuths = await SELECT.from(VBAKAuthObjectKeys).where`USERID = ${userID}`.limit(1);
+            // Avoid updating authorizations more than once a day
+            // Update only if table empty or outdated
+            if (vbakAuths.length > 0) {
+                if ((vbakAuths[0].LAST_UPDATE === null || vbakAuths[0].LAST_UPDATE < todayDate)) {
+                    updateNeeded = true;
+                }
             } else {
-                return false;
+                updateNeeded = true;
             }
-            return true;
+            if (updateNeeded) {
+                let SQLdate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+                try {
+                    const service = await cds.connect.to('authService');
+                    lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100");
+        
+                } catch (error) {
+                    req.error(413, 'ERROR_AUTH_CALL')
+                }
+                await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
+        
+                if (lt_result.length !== 0) {
+                    lt_result.forEach((set) => {
+                        set.LAST_UPDATE = SQLdate;
+                        set.USERID = userID;
+                    })
+                    await INSERT.into(VBAKAuthObjectKeys, lt_result);
+                }
+                return true;
+            }        
+            return false;
 
         });
 
@@ -791,7 +804,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 const item = req.query.SELECT.where[i];
                 if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
                     for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
-                        if (req.query.SELECT.where[j].val !== undefined) {
+                        if ( typeof(req.query.SELECT.where[j].val) === 'string' && req.query.SELECT.where[j].val.includes('-') && req.query.SELECT.where[j].val !== undefined && req.query.SELECT.where[j].val !== null )   {
                             req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
                             break;
                         }
@@ -1298,7 +1311,15 @@ module.exports = {
 function removeDuplicates(fields, lt_result) {
     if (fields) {
         lt_result = lt_result
-            .filter(obj => fields.every(field => obj[field] !== null)) // Remove null values
+            // .filter(obj => { // Remove entries with all null values
+            //     // if all values are null, then allNull will be true
+            //     // if not, allNull will be false
+            //     // return value is the opposite of that to do the right filtering
+            //     // true -- added to set / false -- not added to set
+            //     var allNull = fields.every(field => obj[field] === null);
+            //     return !allNull;
+            // })
+            .filter(obj => fields.every(field => obj[field] !== null)) 
             .map(obj => {
                 const newObj = {};
                 fields.forEach(field => newObj[field] = obj[field]);

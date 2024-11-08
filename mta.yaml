@@ -137,10 +137,6 @@ resources:
   #
   - name: order-monitoring-xsuaa
     type: org.cloudfoundry.existing-service
-    parameters:
-      path: ./xs-security.json
-      service: xsuaa
-      service-plan: application
 
   #
   #   ┌───────────────────────────────────────────┐   #
