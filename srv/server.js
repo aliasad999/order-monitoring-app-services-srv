@@ -73,6 +73,9 @@ async function upsertVariant(req, res, body) {
             if(body.content.favorite !== undefined){
                 updateObject.favorite = body.content.favorite;
             }
+            if(body.content.executeOnSelection !== undefined){
+                updateObject.executeOnSelection = body.content.executeOnSelection;
+            }
             if(!isEmpty(updateObject)){
                 await UPDATE(Variants, body.selector.variantId).with(updateObject)
             }  
