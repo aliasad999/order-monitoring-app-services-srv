@@ -52,21 +52,7 @@ async function upsertVariant(req, res, body) {
         if(body.fileName.indexOf("_updateVariant") < 0){
             await UPSERT.into(Variants).entries(variantData);
         }
-
-        // var entry = await SELECT.from(Variants).where `changeType = ${body.changeType} 
-        //     and fileType = ${body.fileType} 
-        //     and layer = ${body.layer} 
-        //     and supportUser = ${userId} 
-        //     and fileName = ${body.fileName}`;
-        // if(entry.length > 0){
-        //     variantData[0].id = entry[0].id;
-        //     await UPSERT.into(Variants).entries(variantData);
-        //     res.type('application/json').status(200).send(body);
-        // }else{
-        //     await INSERT.into(Variants).entries(variantData);
-        // }
         res.type('application/json').status(200).send(body);
-        
     } catch (err) {
         res.type('text/plain').status(500).send(`ERROR: ${err.toString()}`);
 		return;
@@ -162,133 +148,10 @@ cds.on('bootstrap', (app) => {
 
     app.put('/changes/:fileName', async (req, res) => {
         await upsertVariant(req, res, req.body);
-        // const { Variants } = await cds.entities("srvOpenOrders");
-		// var body = req.body;
-        // var userId = "GARCID42" //req.user.id;
-		// var fileNameInput = req.params.fileName;
-
-        // var generator = '';
-        // var service = '';
-        // var variantName = '';
-
-        // if (typeof body.support !== 'undefined') {
-        //     generator = body.support.generator;
-        //     service = body.support.service;
-        // }
-        // if (typeof body.texts !== 'undefined') {
-        //     if (typeof body.texts.variantName !== 'undefined') {
-        //         variantName = body.texts.variantName.value;
-        //     }
-        // }
-        // let variantData = [{
-        //     fileName: body.fileName,
-        //     fileType: body.fileType,
-        //     changeType: body.changeType,
-        //     reference: body.reference,
-        //     packageName: body.packageName,
-        //     content: JSON.stringify(body.content),
-        //     namespace: body.namespace,
-        //     originalLanguage: body.originalLanguage,
-        //     conditions: JSON.stringify(body.conditions),
-        //     contexts: JSON.stringify(body.contexts),
-        //     supportGenerator: generator,
-        //     supportService: service,
-        //     supportUser: userId,
-        //     layer: body.layer,
-        //     selector: JSON.stringify(body.selector),
-        //     texts: JSON.stringify(body.texts),
-        //     variantName: variantName,
-        //     variantId: body.variantId,
-        //     projectId: body.projectId,
-        //     standardVariant: body.standardVariant,
-        //     favorite: body.favorite,
-        //     executeOnSelection: body.executeOnSelection
-        // }];
-        // try{
-        //     if(body.fileName.indexOf("_updateVariant") < 0){
-        //         await UPSERT.into(Variants).entries(variantData);
-        //     }
-        //     // var entry = await SELECT.from(Variants).where `fileName = ${body.fileName}`;
-        //     // if(entry.length > 0){
-        //     //     variantData[0].id = entry[0].id;
-        //     //     await UPSERT.into(Variants).entries(variantData);
-        //     //     // res.type('application/json').status(200).send(body);
-        //     // }else{
-        //     //     await INSERT.into(Variants).entries(variantData);
-        //     // }
-        //     // await UPSERT.into(Variants).entries(variantData).where `fileName = ${fileNameInput}`;
-        //     res.type('application/json').status(200).send(body);
-        // }catch(err){
-        //     res.type('text/plain').status(500).send(`ERROR: ${err.toString()}`);
-        //    return;
-        // }
     });
 
     app.put('/variants/:fileName', async (req, res) => {
         await upsertVariant(req, res, req.body);
-        // const { Variants } = await cds.entities("srvOpenOrders");
-		// var body = req.body;
-        // var userId = "GARCID42" //req.user.id;
-		// var fileNameInput = req.params.fileName;
-
-        // var generator = '';
-        // var service = '';
-        // var variantName = '';
-
-        // if (typeof body.support !== 'undefined') {
-        //     generator = body.support.generator;
-        //     service = body.support.service;
-        // }
-        // if (typeof body.texts !== 'undefined') {
-        //     if (typeof body.texts.variantName !== 'undefined') {
-        //         variantName = body.texts.variantName.value;
-        //     }
-        // }
-        // let variantData = [{
-        //     fileName: body.fileName,
-        //     fileType: body.fileType,
-        //     changeType: body.changeType,
-        //     reference: body.reference,
-        //     packageName: body.packageName,
-        //     content: JSON.stringify(body.content),
-        //     namespace: body.namespace,
-        //     originalLanguage: body.originalLanguage,
-        //     conditions: JSON.stringify(body.conditions),
-        //     contexts: JSON.stringify(body.contexts),
-        //     supportGenerator: generator,
-        //     supportService: service,
-        //     supportUser: userId,
-        //     layer: body.layer,
-        //     selector: JSON.stringify(body.selector),
-        //     texts: JSON.stringify(body.texts),
-        //     variantName: variantName,
-        //     variantId: body.variantId,
-        //     projectId: body.projectId,
-        //     standardVariant: body.standardVariant,
-        //     favorite: body.favorite,
-        //     executeOnSelection: body.executeOnSelection
-        // }];
-        // try{
-        //     await UPSERT.into(Variants).entries(variantData);
-        //     // var entry = await SELECT.from(Variants).where `changeType = ${body.changeType} 
-        //     //     and fileType = ${body.fileType} 
-        //     //     and layer = ${body.layer} 
-        //     //     and supportUser = ${userId} 
-        //     //     and fileName = ${body.fileName}`;
-        //     // if(entry.length > 0){
-        //     //     variantData[0].id = entry[0].id;
-        //     //     await UPSERT.into(Variants).entries(variantData);
-        //     //     // res.type('application/json').status(200).send(body);
-        //     // }else{
-        //     //     await INSERT.into(Variants).entries(variantData);
-        //     // }
-        //     // await UPSERT.into(Variants).entries(variantData).where `fileName = ${fileNameInput}`;
-        //     res.type('application/json').status(200).send(body);
-        // }catch(err){
-        //     res.type('text/plain').status(500).send(`ERROR: ${err.toString()}`);
-        //    return;
-        // }
-
 	});
 })
 module.exports = cds.server
