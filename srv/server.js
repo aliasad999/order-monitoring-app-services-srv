@@ -9,7 +9,7 @@ const passport = require('passport');
 const { JWTStrategy } = require('@sap/xssec');
 
 xsenv.loadEnv();
-const xsuaaCredentials = xsenv.serviceCredentials({name: 'order-monitoring-xsuaa'});
+const xsuaaCredentials = xsenv.serviceCredentials({ tag: 'xsuaa' });
 passport.use(new JWTStrategy(xsuaaCredentials));
 
 const fesr = require("@sap/fesr-to-otel-js");
