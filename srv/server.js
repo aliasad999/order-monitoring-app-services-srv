@@ -14,6 +14,16 @@ passport.use(new JWTStrategy(xsuaaCredentials));
 
 const fesr = require("@sap/fesr-to-otel-js");
 
+function isEmpty(obj) {
+    for (var prop in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+        return false;
+        }
+    }
+
+    return true
+}
+
 async function upsertVariant(req, res, body) {
     const { Variants } = await cds.entities("srvOpenOrders");
 	// var body = req.body[0];
@@ -58,6 +68,14 @@ async function upsertVariant(req, res, body) {
     try {
         if(body.fileName.indexOf("_updateVariant") < 0){
             await UPSERT.into(Variants).entries(variantData);
+        }else{
+            var updateObject = {};
+            if(body.content.favorite !== undefined){
+                updateObject.favorite = body.content.favorite;
+            }
+            if(!isEmpty(updateObject)){
+                await UPDATE(Variants, body.selector.variantId).with(updateObject)
+            }  
         }
         res.type('application/json').status(200).send(body);
     } catch (err) {
