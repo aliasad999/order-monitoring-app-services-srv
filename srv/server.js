@@ -27,21 +27,21 @@ cds.on('bootstrap', (app) => {
 		res.type('text/html').status(200).send('');
 	});
 
-	app.post('/variants/', async(req, res) => {
+	app.post(['/variants/', '/changes/'], async(req, res) => {
 		await variantManager.upsertVariant(req, res, req.body[0]);
 	});
 
-    app.post('/changes/', async(req, res) => {
-		await variantManager.upsertVariant(req, res, req.body[0]);
-	});
+    // app.post('/changes/', async(req, res) => {
+	// 	await variantManager.upsertVariant(req, res, req.body[0]);
+	// });
 
-    app.put('/changes/:fileName', async (req, res) => {
+    app.put(['/changes/:fileName' , '/variants/:fileName'], async (req, res) => {
         await variantManager.upsertVariant(req, res, req.body);
     });
 
-    app.put('/variants/:fileName', async (req, res) => {
-        await variantManager.upsertVariant(req, res, req.body);
-	});
+    // app.put('/variants/:fileName', async (req, res) => {
+    //     await variantManager.upsertVariant(req, res, req.body);
+	// });
 
     app.get('/flex/data/:app?', async (req, res) => {
         await variantManager.getUserVariants(req,res);
