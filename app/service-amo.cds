@@ -157,6 +157,7 @@ annotate service.valueHelps with {
     DL_LDDAT                        @title: '{i18n>DL_LDDAT}'                    @sap.Label: '{i18n>DL_LDDAT}';
     SO_PERFK                        @title: '{i18n>SO_PERFK}'                    @sap.Label: '{i18n>SO_PERFK}';
     SO_PERFK_LTEXT_LANG             @title: '{i18n>SO_PERFK}'                    @sap.Label: '{i18n>SO_PERFK}';
+    SO_F_MBDAT                      @title: '{i18n>SO_F_MBDAT}'                  @sap.Label: '{i18n>SO_F_MBDAT}';
 };
 
 annotate service.Results with {
@@ -385,6 +386,7 @@ annotate service.Results with {
     SO_DCP_ITEM_STATUS_DESCRIPTION;
     DL_ERDAT                    @title: '{i18n>DL_ERDAT}'                    @sap.Label: '{i18n>DL_ERDAT}';
     DL_LDDAT                    @title: '{i18n>DL_LDDAT}'                    @sap.Label: '{i18n>DL_LDDAT}';
+    SO_F_MBDAT                  @title: '{i18n>SO_F_MBDAT}'                  @sap.Label: '{i18n>SO_F_MBDAT}';
 
     @Common.Text           : SO_PERFK_LTEXT_LANG
     @Common.TextArrangement: #TextLast
