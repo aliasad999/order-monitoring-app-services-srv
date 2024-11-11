@@ -318,5 +318,5 @@ service srvOpenOrders {
     
     entity ShipmentMarkedDelivered as select from AMOOUtilsService.ShipmentMarkedDelivered;
   
-  entity Variants as projection on db_app.variants;
+    entity Variants as projection on db_app.variants;
 }

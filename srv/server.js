@@ -4,13 +4,20 @@ const cds = require('@sap/cds')
 const express = require('express')()
 var bodyParser = require('body-parser');
 require('hdb/lib/protocol/common/Constants').MAX_PACKET_SIZE = Math.pow(4,15);
+const xsenv = require('@sap/xsenv');
+const passport = require('passport');
+const { JWTStrategy } = require('@sap/xssec');
+
+xsenv.loadEnv();
+const xsuaaCredentials = xsenv.serviceCredentials({name: 'order-monitoring-xsuaa'});
+passport.use(new JWTStrategy(xsuaaCredentials));
 
 const fesr = require("@sap/fesr-to-otel-js");
 
 async function upsertVariant(req, res, body) {
     const { Variants } = await cds.entities("srvOpenOrders");
 	// var body = req.body[0];
-    var userId = "GARCID42" //req.user.id;
+    var userId = req.user.id;
     var generator = '';
     var service = '';
     var variantName = '';
@@ -65,6 +72,8 @@ module.exports = cds.server;
 
 cds.on('bootstrap', (app) => {
     app.use(proxy());
+    app.use(passport.initialize());
+    app.use(passport.authenticate('JWT', { session: false }));  
     fesr.registerFesrEndpoint(app);
 
     var bodyParser = require('body-parser');
@@ -82,10 +91,18 @@ cds.on('bootstrap', (app) => {
 		await upsertVariant(req, res, req.body[0]);
 	});
 
+    app.put('/changes/:fileName', async (req, res) => {
+        await upsertVariant(req, res, req.body);
+    });
+
+    app.put('/variants/:fileName', async (req, res) => {
+        await upsertVariant(req, res, req.body);
+	});
+
     app.get('/flex/data/:app?', async (req, res) => {
         const { Variants } = await cds.entities("srvOpenOrders");
         var appInput = req.params.app;
-        var userId = "GARCID42" //req.user.id;
+        var userId = req.user.id;
         var userVariants = await SELECT.from(Variants).where `reference = ${appInput}
             and (( supportUser = ${userId} and layer = 'USER' ) or
                 layer = 'CUSTOMER' )`;
@@ -146,12 +163,5 @@ cds.on('bootstrap', (app) => {
         
 	});
 
-    app.put('/changes/:fileName', async (req, res) => {
-        await upsertVariant(req, res, req.body);
-    });
-
-    app.put('/variants/:fileName', async (req, res) => {
-        await upsertVariant(req, res, req.body);
-	});
 })
 module.exports = cds.server
