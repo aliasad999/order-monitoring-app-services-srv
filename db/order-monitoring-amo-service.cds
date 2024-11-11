@@ -209,14 +209,15 @@ entity ![RESULTS] {
         BL_MANDT_INV_FIRST                 : String(3);
         BL_MANDT_INV_LAST                  : String(3);
         ABGRU_BEZEI_LANG                   : String(40);
-        // DCP_ITEM_STATUS                    : String(2);
-        ERDAT_DEL                          : String(8);
-        ERDAT_DEL_DATE                     : Date = ERDAT_DEL;
-        LDDAT_DEL                          : String(8);
-        LDDAT_DEL_DATE                     : Date = LDDAT_DEL;
+        // DCP_ITEM_STATUS                    : String(2);     
+        ERDAT_DEL                          : String(8);	
+        ERDAT_DEL_DATE                     : Date = ERDAT_DEL;	
+        LDDAT_DEL                          : String(8);	
+        LDDAT_DEL_DATE                     : Date = LDDAT_DEL;	
         PERFK                              : String(2);
         PERFK_LTEXT_LANG                   : String(50);
-
+        F_MBDAT                            : String(8);
+        F_MBDAT_DATE                       : Date = F_MBDAT;
 }
 
 entity PARTNER_SETTINGS {

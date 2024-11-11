@@ -320,11 +320,12 @@ service openOrdersSrv {
                     when LDDAT_DEL_DATE = '00000000' 
                     then null
                     else LDDAT_DEL_DATE end                              as DL_LDDAT : Date,
+                case 
+                    when F_MBDAT_DATE = '00000000'
+                    then null 
+                    else  F_MBDAT_DATE end                               as SO_F_MBDAT : Date,
                 PERFK                                       as SO_PERFK,
                 PERFK_LTEXT_LANG                            as SO_PERFK_LTEXT_LANG
-                
-                
-
         }
 
     entity baseEntity               as
