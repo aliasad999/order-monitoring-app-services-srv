@@ -23,6 +23,7 @@ cds.on('bootstrap', (app) => {
     fesr.registerFesrEndpoint(app);
 	app.use(bodyParser.json());
 
+    // CLOUD Variant Management implementation
 	app.get('/actions/getcsrftoken/', (req, res) => {
 		res.type('text/html').status(200).send('');
 	});
@@ -31,17 +32,9 @@ cds.on('bootstrap', (app) => {
 		await variantManager.upsertVariant(req, res, req.body[0]);
 	});
 
-    // app.post('/changes/', async(req, res) => {
-	// 	await variantManager.upsertVariant(req, res, req.body[0]);
-	// });
-
     app.put(['/changes/:fileName' , '/variants/:fileName'], async (req, res) => {
         await variantManager.upsertVariant(req, res, req.body);
     });
-
-    // app.put('/variants/:fileName', async (req, res) => {
-    //     await variantManager.upsertVariant(req, res, req.body);
-	// });
 
     app.get('/flex/data/:app?', async (req, res) => {
         await variantManager.getUserVariants(req,res);
@@ -50,6 +43,7 @@ cds.on('bootstrap', (app) => {
     app.delete('/variants/:fileName', async (req, res) => {
         await variantManager.deleteVariant(req,res);
 	});
+    // END OF CLOUD Variant Management implementation
 
 })
 module.exports = cds.server
