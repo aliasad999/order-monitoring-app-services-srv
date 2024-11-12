@@ -319,4 +319,6 @@ service srvOpenOrders {
     select from db_app.PARTNER_SETTINGS_DB;
     
     entity ShipmentMarkedDelivered as select from AMOOUtilsService.ShipmentMarkedDelivered;
+  
+    entity Variants as projection on db_app.variants;
 }
