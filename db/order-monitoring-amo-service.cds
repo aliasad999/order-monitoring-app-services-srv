@@ -209,14 +209,15 @@ entity ![RESULTS] {
         BL_MANDT_INV_FIRST                 : String(3);
         BL_MANDT_INV_LAST                  : String(3);
         ABGRU_BEZEI_LANG                   : String(40);
-        // DCP_ITEM_STATUS                    : String(2);
-        ERDAT_DEL                          : String(8);
-        ERDAT_DEL_DATE                     : Date = ERDAT_DEL;
-        LDDAT_DEL                          : String(8);
-        LDDAT_DEL_DATE                     : Date = LDDAT_DEL;
+        // DCP_ITEM_STATUS                    : String(2);     
+        ERDAT_DEL                          : String(8);	
+        ERDAT_DEL_DATE                     : Date = ERDAT_DEL;	
+        LDDAT_DEL                          : String(8);	
+        LDDAT_DEL_DATE                     : Date = LDDAT_DEL;	
         PERFK                              : String(2);
         PERFK_LTEXT_LANG                   : String(50);
-
+        F_MBDAT                            : String(8);
+        F_MBDAT_DATE                       : Date = F_MBDAT;
 }
 
 entity PARTNER_SETTINGS {
@@ -236,11 +237,11 @@ entity PARTNER_SETTINGS {
 // }
 @cds.persistence.exists
 entity VBAKAUTH {
-        key VKORG  : String(4);
-        key VTWEG  : String(2);
-        key SPART  : String(2);
-        key USERID : String;
-        LAST_UPDATE: Timestamp;
+        key VKORG       : String(4);
+        key VTWEG       : String(2);
+        key SPART       : String(2);
+        key USERID      : String;
+            LAST_UPDATE : Timestamp;
 }
 
 @cds.persistence.exists
@@ -262,6 +263,33 @@ entity PARTNER_SETTINGS_DB {
         key BASF_USER      : String(12);
         key PARTNER_ROLE   : String(2);
         key PARTNER_NUMBER : String(8);
-        ACTIVE         : String(1);
-        COMMT          : String(50);
+            ACTIVE         : String(1);
+            COMMT          : String(50);
 }
+
+entity variants {
+        // key id                 : UUID;
+        key fileName           : String(255);
+            fileType           : String(10);
+            changeType         : String(40);
+            reference          : String(100);
+            packageName        : String(100);
+            content            : LargeString;
+            namespace          : String(100);
+            creation           : DateTime default current_timestamp;
+            originalLanguage   : String(2);
+            conditions         : String(254);
+            contexts           : String(254);
+            supportGenerator   : String(100);
+            supportService     : String(30);
+            supportUser        : String(100);
+            layer              : String(20);
+            selector           : String(255);
+            texts              : LargeString;
+            variantName        : String(255);
+            variantId          : String(100);
+            projectId          : String(100);
+            standardVariant    : Boolean;
+            favorite           : Boolean;
+            executeOnSelection : Boolean;
+};

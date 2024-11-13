@@ -665,8 +665,9 @@ annotate service.baseEntity with {
     SO_MDB_TEXT                 @title: '{i18n>SO_MDB_TEXT}'                 @sap.Label: '{i18n>SO_MDB_TEXT}';
     DL_ERDAT                    @title: '{i18n>DL_ERDAT}'                    @sap.Label: '{i18n>DL_ERDAT}'            @sap.filter.restriction:'interval';
     DL_LDDAT                    @title: '{i18n>DL_LDDAT}'                    @sap.Label: '{i18n>DL_LDDAT}'            @sap.filter.restriction:'interval';
-    SO_PERFK                        @title: '{i18n>SO_PERFK}'                    @sap.Label: '{i18n>SO_PERFK}';
-    SO_PERFK_LTEXT_LANG             @title: '{i18n>SO_PERFK}'                    @sap.Label: '{i18n>SO_PERFK}';
+    SO_PERFK                    @title: '{i18n>SO_PERFK}'                    @sap.Label: '{i18n>SO_PERFK}';
+    SO_PERFK_LTEXT_LANG         @title: '{i18n>SO_PERFK}'                    @sap.Label: '{i18n>SO_PERFK}';
+    SO_F_MBDAT                  @title: '{i18n>SO_F_MBDAT}'                  @sap.Label: '{i18n>SO_F_MBDAT}'          @sap.filter.restriction:'interval';
 
 };
 annotate service.allIssues with {

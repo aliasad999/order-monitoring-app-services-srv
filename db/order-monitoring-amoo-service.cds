@@ -238,12 +238,14 @@ entity ![OPENORDERSLIST] {
         MDB                                : String(3);
         MDB_TEXT                           : String(60);
         // DCP_ITEM_STATUS                    : String(2);
-        ERDAT_DEL                          : String(8);
-        ERDAT_DEL_DATE                     : Date = ERDAT_DEL;
-        LDDAT_DEL                          : String(8);
-        LDDAT_DEL_DATE                     : Date = LDDAT_DEL;
+        ERDAT_DEL                          : String(8);	
+        ERDAT_DEL_DATE                     : Date = ERDAT_DEL;	
+        LDDAT_DEL                          : String(8);	
+        LDDAT_DEL_DATE                     : Date = LDDAT_DEL;	
         PERFK                              : String(2);
         PERFK_LTEXT_LANG                   : String(50);
+        F_MBDAT                            : String(8);
+        F_MBDAT_DATE                       : Date = F_MBDAT;
 }
 
 entity ContactsOptions {
@@ -395,6 +397,9 @@ entity ![SALESORDER_DETAILS](IP_LANG : String(2)) {
             FAKSK                  : String(2);
             FAKSK_VTEXT_LANG       : String(20);
             SO_LAST_UPDATE         : Timestamp;
+            MBDAT                  : String(8);
+            MBDAT_DATE             : Date = MBDAT;
+
 }
 
 @cds.persistence.exists
@@ -412,3 +417,4 @@ entity ![IGNORED_SO] {
 type issue_reason {
         text : String(255)
 }
+
