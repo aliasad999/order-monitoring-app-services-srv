@@ -1293,6 +1293,34 @@ class openOrdersSrv extends cds.ApplicationService {
             return combinedResults;
         })
 
+        this.on(("callChatbotService"), async (req) => {
+            try {
+                const data = {
+                    "messages": [
+                        {
+                            "role": "user",
+                            "content": "Hi"
+                        },
+                        {
+                            "role": "user",
+                            "content": "What is the status of the order 0163724185?"
+                        }
+                    ]
+                }
+                // const chatbotSrv = await cds.connect.to('ChatbotService');
+                // const chatbotCall = await chatbotSrv.tx(req).send({
+                //     method: "POST",
+                //     path: "/conversation",
+                //     data: data
+                // });
+                // console.log(chatbotCall);
+
+            } catch (e) {
+                console.log(e.message);
+            }
+            return "success";
+        })
+
         return super.init();
     }
 }

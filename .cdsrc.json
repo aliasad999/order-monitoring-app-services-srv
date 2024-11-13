@@ -117,6 +117,12 @@
                 "path": "/it/bizagiodata/v1"
             }
         },
+        "ChatbotService": {
+            "kind": "rest",
+            "credentials": {
+                "destination": "Chatbot_UI_token"
+            }
+        },
         "createDelivery":{
             "kind": "odata-v2",
             "csrf": {
