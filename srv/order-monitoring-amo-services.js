@@ -7,10 +7,14 @@ const textBundle = require('./utils/textBundle')
 const log = require("cf-nodejs-logging-support");
 const enableHints = require("./plugins/enable_hints");
 const { startOfToday } = require('date-fns');
+const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies') 
 
 class srvOpenOrders extends cds.ApplicationService {
 
-    init() {
+    async init() {
+        this._SpecialCurrencies = []
+        const {currencies} =  cds.entities('openOrdersSrv');
+        this._SpecialCurrencies  =  await SELECT.from(currencies)
         this.before('*','*',async(req,next)=>{
             await cds.run(`SET 'APPLICATION' = 'CAPServices'`);
         })
@@ -236,6 +240,10 @@ class srvOpenOrders extends cds.ApplicationService {
                 data.forEach((item) => {
                     item.id = uuid.v1()
                     if ('SO_DCP_ITEM_STATUS' in item){
+                        if ('SO_NETWR' in item) // Net Amount
+                            item.SO_NETWR = formatSpecialCurrencies(item.SO_NETWR, item.SO_WAERK, this._SpecialCurrencies);
+                        if ('SO_KBETR' in item) // Price Per Unit
+                            item.SO_KBETR = formatSpecialCurrencies(item.SO_KBETR, item.SO_WAERK, this._SpecialCurrencies);
                         if(item.SO_DCP_ITEM_STATUS){
                             item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
                         }

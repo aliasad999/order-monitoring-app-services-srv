@@ -7,13 +7,17 @@ const textBundle = require('./utils/textBundle')
 const log = require("cf-nodejs-logging-support");
 const enableHints = require("./plugins/enable_hints");
 const { startOfToday } = require('date-fns');
+const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies') 
 
 class openOrdersSrv extends cds.ApplicationService {
 
-    init() {
+    async init() {
         // only needed to run this when the server is starting
         const { allIssues } = cds.entities('openOrdersSrv')
         this._textKeys = []
+        this._SpecialCurrencies = []
+        const {currencies} =  cds.entities('openOrdersSrv');
+        this._SpecialCurrencies  =  await SELECT.from(currencies)
         let data = allIssues.elements
         for (let key in data) {
             if (data[key]["@Common.Text"] && data[key]["@Common.Text"]["="]) {
@@ -974,6 +978,10 @@ class openOrdersSrv extends cds.ApplicationService {
                     "SO_DUE_DATE"]
                 data.forEach((item) => {
                     item.id = uuid.v1()
+                    if ('SO_NETWR' in item) // Net Amount
+                        item.SO_NETWR = formatSpecialCurrencies(item.SO_NETWR, item.SO_WAERK, this._SpecialCurrencies);
+                    if ('SO_KBETR' in item) // Price Per Unit
+                        item.SO_KBETR = formatSpecialCurrencies(item.SO_KBETR, item.SO_WAERK, this._SpecialCurrencies);
                     if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = getBundle(req.user.locale).getText(`nps${item.SO_NPS}`)
                     if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = getBundle(req.user.locale).getText(`OrderIssue${item.SO_ISSUE}`)
                     if ('SO_DCP_ITEM_STATUS' in item){

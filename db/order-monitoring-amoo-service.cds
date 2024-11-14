@@ -145,7 +145,9 @@ entity ![OPENORDERSLIST] {
         F_VBELN                            : String(10);
         F_POSNR                            : String(6);
         MANDT_DEL                          : String(3);
-        VBELN_DEL                          : String(10);
+        VBELN_DEL                          : String(10);        
+        POSNR_DEL_HEAD                     : String(6);
+        LFIMG_HEAD                         : Decimal(15,3);
         POSNR_DEL                          : String(6);
         CHARG                              : String(10);
         HSDAT                              : String(8);
@@ -416,5 +418,11 @@ entity ![IGNORED_SO] {
 
 type issue_reason {
         text : String(255)
-}
+};
 
+
+
+entity ![currency]{
+        key currencyCode: String(3);
+        decimalPlaces: Integer;
+};
