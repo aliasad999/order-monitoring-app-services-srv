@@ -668,6 +668,8 @@ annotate service.baseEntity with {
     SO_PERFK                    @title: '{i18n>SO_PERFK}'                    @sap.Label: '{i18n>SO_PERFK}';
     SO_PERFK_LTEXT_LANG         @title: '{i18n>SO_PERFK}'                    @sap.Label: '{i18n>SO_PERFK}';
     SO_F_MBDAT                  @title: '{i18n>SO_F_MBDAT}'                  @sap.Label: '{i18n>SO_F_MBDAT}'          @sap.filter.restriction:'interval';
+    DL_POSNR_BATCH               @title: '{i18n>DL_POSNR_BATCH}'                  @sap.Label: '{i18n>DL_POSNR_BATCH}'      ;   
+    DL_LFIMG_BATCH               @title: '{i18n>DL_LFIMG_BATCH}'                  @sap.Label: '{i18n>DL_LFIMG_BATCH}'       ;  
 
 };
 annotate service.allIssues with {
@@ -684,6 +686,7 @@ annotate service.allIssues with {
     SO_F_PSMNG         @Measures.Unit          : SO_F_AMEIN;
     SO_F_AMEIN         @Semantics.unitOfMeasure: 'unit-of-measure';
     DL_LFIMG           @Measures.Unit          : DL_VRKME;
+    DL_LFIMG_BATCH     @Measures.Unit          : DL_VRKME;
     DL_VRKME           @Semantics.unitOfMeasure: 'unit-of-measure';
     DL_PEND_DEL_QUAN   @Measures.Unit          : DL_VRKME;
     id                 @UI                     : {Hidden: true};
@@ -3089,6 +3092,45 @@ annotate service.allIssues with {
                 ValueListProperty: 'SO_PERFK_LTEXT_LANG'
             }
 
+        ]
+    }
+};
+annotate service.allIssues with {
+    DL_POSNR_BATCH
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>DL_POSNR_BATCH}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: DL_POSNR_BATCH,
+                ValueListProperty: 'DL_POSNR_BATCH'
+            }
+
+        ]
+    }
+};
+annotate service.allIssues with {
+    DL_LFIMG_BATCH
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>DL_LFIMG_BATCH}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: DL_LFIMG_BATCH,
+                ValueListProperty: 'DL_LFIMG_BATCH'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'DL_VRKME'
+            }
         ]
     }
 };

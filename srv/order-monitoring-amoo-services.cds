@@ -10,6 +10,7 @@ using {LORDOdataOrderService as LORDOdataOrderService} from './external/LORDOdat
 using {CSEUCockpitService as CSEUCockpitService} from './external/CSEUCockpitService';
 
 service openOrdersSrv {
+    entity currencies as projection on db_app.currency;
     entity rootEntity               as
         select from db_app.OPENORDERSLIST {
             key null                                        as id                              : UUID,
@@ -174,7 +175,8 @@ service openOrdersSrv {
                 NOTE_TEXT                                                as LAST_NOTE,
                 MANDT_DEL                                                as DL_MANDT,
                 VBELN_DEL                                                as DL_VBELN,
-                POSNR_DEL                                                as DL_POSNR,
+                POSNR_DEL                                                as DL_POSNR_BATCH,
+                POSNR_DEL_HEAD                                           as DL_POSNR,
                 CHARG                                                    as DL_CHARG,
                 case
                     when HSDAT_DATE = '00000000' 
@@ -184,7 +186,8 @@ service openOrdersSrv {
                     when VFDAT_DATE = '00000000' 
                     then null
                     else VFDAT_DATE end                                  as DL_VFDAT : Date,
-                LFIMG                                                    as DL_LFIMG,
+                LFIMG                                                    as DL_LFIMG_BATCH,
+                LFIMG_HEAD                                               as DL_LFIMG,
                 VRKME_1                                                  as DL_VRKME,         
                 POSAR                                                    as DL_POSAR,              
                 VGBEL                                                    as DL_VGBEL,               

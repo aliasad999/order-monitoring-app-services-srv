@@ -142,6 +142,8 @@ entity ![RESULTS] {
         F_AS_PARTNER_ITM                   : String(8);
         F_AS_PARTNER_NAME_ITM              : String(40);
         VBELN_DEL                          : String(10);
+        POSNR_DEL_HEAD                     : String(6);
+        LFIMG_HEAD                         : Decimal(15,3);
         POSNR_DEL                          : String(6);
         CHARG                              : String(10);
         LFIMG                              : Decimal(13, 3);
