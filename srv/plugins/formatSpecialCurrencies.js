@@ -16,7 +16,7 @@ function formatSpecialCurrency(SO_NETWR, SO_WAERK, currencyTable) {
     const adjustedAmount = SO_NETWR * Math.pow(10, 2 - decimalPlaces);
     return adjustedAmount.toFixed(decimalPlaces)
     }
-    else return amount;
+    else return SO_NETWR;
 }
 
 module.exports = formatSpecialCurrency;
