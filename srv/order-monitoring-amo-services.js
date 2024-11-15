@@ -8,6 +8,7 @@ const log = require("cf-nodejs-logging-support");
 const enableHints = require("./plugins/enable_hints");
 const { startOfToday } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies') 
+const variantManagement = require('./utils/variantManagement');
 
 class srvOpenOrders extends cds.ApplicationService {
 
@@ -24,6 +25,17 @@ class srvOpenOrders extends cds.ApplicationService {
             let updateNeeded = false;
             let lt_result = [];
             let userID = req.user.id;
+            let AMOmigrationDone  = await variantManagement.checkIfMigrationNeeded(req,"ordermonitoring.allorders");
+            let AMOOmigrationDone  = await variantManagement.checkIfMigrationNeeded(req,"ordermonitoring.openorders");
+            if(AMOmigrationDone || AMOOmigrationDone){
+                await INSERT.into `allorders.db.variantMigration`.entries([{
+                    userId : userID,
+                    AMOvariantsMigrated : AMOmigrationDone,
+                    AMOOVariantsMigrated : AMOOmigrationDone
+                }])
+                console.log("everything went well, variant migrated")
+                // req.error(413, 'VARIANTS_MIGRATED')         
+            }
             let vbakAuths = await SELECT.from(VBAKAuthObjectKeys).where`USERID = ${userID}`.limit(1);
             // Avoid updating authorizations more than once a day
             // Update only if table empty or outdated

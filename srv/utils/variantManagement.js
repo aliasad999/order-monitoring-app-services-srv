@@ -10,6 +10,99 @@ const isEmpty = (obj) => {
     return true
 }
 
+const checkIfMigrationNeeded = async (req, appname) => {
+    let userID = req.user.id;
+    let variantsMigrationNeeded = false;
+    let lt_variants = {};
+    let userVariantsMigrated = await SELECT.from `allorders.db.variantMigration`.where`userId = ${userID}`;
+    if(userVariantsMigrated.length > 0){
+        if(!userVariantsMigrated[0].AMOvariantsMigrated && appname === "ordermonitoring.allorders"){
+            variantsMigrationNeeded = true
+        }
+        if(!userVariantsMigrated[0].AMOOvariantsMigrated && appname === "ordermonitoring.openorders"){
+            variantsMigrationNeeded = true
+        }
+    }else{
+        variantsMigrationNeeded = true
+    }
+    if(variantsMigrationNeeded){
+        var variantsMigrated = true;
+        try {
+            const PersService = await cds.connect.to('PersonalizationService');
+            lt_variants = await PersService.get(`/flex/data/${appname}`);   
+        } catch (error) {
+            req.error(413, 'ERROR_AUTH_CALL');
+        }
+        if(lt_variants.changes && lt_variants.changes.length > 0){
+            lt_variants.changes.forEach(async (variant) => {
+                if(variant.changeType !== 'updateVariant'){
+                    let migrated = await migrateVariant(userID, variant);
+                    if(!migrated){
+                        variantsMigrated = false;
+                    }
+                }
+            })
+        }
+        if(variantsMigrated){
+            return true;
+        }
+        return false;
+    }
+}
+
+const migrateVariant = async (reqUser, body) => {
+    const { Variants } = await cds.entities("srvOpenOrders");
+    var userID = '';
+    var generator = '';
+    var service = '';
+    var variantName = '';
+
+    if (typeof body.support !== 'undefined') {
+        generator = body.support.generator;
+        service = body.support.service;
+        userID = body.support.user;
+        // avoid adding other users variants
+        if(userID !== reqUser){
+            return true;
+        }
+    }
+    if (typeof body.texts !== 'undefined') {
+        if (typeof body.texts.variantName !== 'undefined') {
+            variantName = body.texts.variantName.value;
+        }
+    }
+    let variantData = [{
+        fileName: body.fileName,
+        fileType: body.fileType,
+        changeType: body.changeType,
+        reference: body.reference,
+        packageName: body.packageName,
+        content: JSON.stringify(body.content),
+        namespace: body.namespace,
+        originalLanguage: body.originalLanguage,
+        conditions: JSON.stringify(body.conditions),
+        contexts: JSON.stringify(body.contexts),
+        supportGenerator: generator,
+        supportService: service,
+        supportUser: reqUser,
+        layer: body.layer,
+        selector: JSON.stringify(body.selector),
+        texts: JSON.stringify(body.texts),
+        variantName: variantName,
+        variantId: body.variantId,
+        projectId: body.projectId,
+        standardVariant: body.standardVariant,
+        favorite: body.favorite,
+        executeOnSelection: body.executeOnSelection
+    }];
+    try {
+        await UPSERT.into(Variants).entries(variantData)
+        return true;
+    } catch (err) {
+        return false;
+    }
+}
+
 const upsertVariant = async (req, res, body) => {
     const { Variants } = await cds.entities("srvOpenOrders");
     // var body = req.body[0];
@@ -140,5 +233,7 @@ const deleteVariant = async (req, res) => {
 module.exports = {
     upsertVariant,
     deleteVariant,
-    getUserVariants
+    getUserVariants,
+    migrateVariant,
+    checkIfMigrationNeeded
 };

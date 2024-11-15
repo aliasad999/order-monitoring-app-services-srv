@@ -117,6 +117,13 @@
                 "path": "/it/bizagiodata/v1"
             }
         },
+        "PersonalizationService": {
+            "kind": "rest",
+            "credentials": {
+                "destination": "APIM_DEV",
+                "path": "/it/omg/omc-pers/v1"
+            }
+        },
         "createDelivery":{
             "kind": "odata-v2",
             "csrf": {
