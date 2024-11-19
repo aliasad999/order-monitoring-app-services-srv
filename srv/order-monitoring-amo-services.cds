@@ -1,10 +1,16 @@
 using allorders.db as db_app from '../db/order-monitoring-amo-service';
 using {AMOOUtilsService as AMOOUtilsService} from './external/AMOOUtilsService';
 
+type authCallReturn {
+    status: String;
+    context: String;
+    message: String;
+}
+
 service srvOpenOrders {
 
   entity VBAKAuthObjectKeys      as select from db_app.VBAKAUTH;
-  function getVBAKAuthObjKeys() returns Boolean;
+  function getVBAKAuthObjKeys() returns authCallReturn;
 
   @readonly
   @cds.redirection.target: true

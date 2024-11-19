@@ -31,7 +31,7 @@ const checkIfMigrationNeeded = async (req, appname) => {
             const PersService = await cds.connect.to('PersonalizationService');
             lt_variants = await PersService.get(`/flex/data/${appname}`);   
         } catch (error) {
-            req.error(413, 'ERROR_AUTH_CALL');
+            return "ERROR";
         }
         if(lt_variants.changes && lt_variants.changes.length > 0){
             lt_variants.changes.forEach(async (variant) => {

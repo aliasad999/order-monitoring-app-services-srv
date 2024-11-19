@@ -27,14 +27,24 @@ class srvOpenOrders extends cds.ApplicationService {
             let userID = req.user.id;
             let AMOmigrationDone  = await variantManagement.checkIfMigrationNeeded(req,"ordermonitoring.allorders");
             let AMOOmigrationDone  = await variantManagement.checkIfMigrationNeeded(req,"ordermonitoring.openorders");
+            if(AMOmigrationDone === "ERROR" || AMOOmigrationDone === "ERROR"){
+                return {
+                    status: "ERROR",
+                    context: "VARIANT_MIGRATION",
+                    message: "Variants migration failed, please refresh the browser."
+                };  
+            }
             if(AMOmigrationDone || AMOOmigrationDone){
-                await INSERT.into `allorders.db.variantMigration`.entries([{
+                await UPSERT.into `allorders.db.variantMigration`.entries([{
                     userId : userID,
                     AMOvariantsMigrated : AMOmigrationDone,
                     AMOOVariantsMigrated : AMOOmigrationDone
                 }])
-                console.log("everything went well, variant migrated")
-                // req.error(413, 'VARIANTS_MIGRATED')         
+                return {
+                    status: "SUCCESS",
+                    context: "VARIANT_MIGRATION",
+                    message: "Variants migration was done successfully, please refresh the browser before continuing."
+                };       
             }
             let vbakAuths = await SELECT.from(VBAKAuthObjectKeys).where`USERID = ${userID}`.limit(1);
             // Avoid updating authorizations more than once a day
@@ -53,6 +63,11 @@ class srvOpenOrders extends cds.ApplicationService {
                     lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100");
         
                 } catch (error) {
+                    return {
+                        status: "ERROR",
+                        context: "AUTH_CALL",
+                        message: "Authorization call failed."
+                    };
                     req.error(413, 'ERROR_AUTH_CALL')
                 }
                 await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
@@ -64,9 +79,17 @@ class srvOpenOrders extends cds.ApplicationService {
                     })
                     await INSERT.into(VBAKAuthObjectKeys, lt_result);
                 }
-                return true;
+                return {
+                    status: "SUCCESS",
+                    context: "AUTH_CALL",
+                    message: "Authorization data updated successfully."
+                };
             }        
-            return false;
+            return {
+                status: "SUCCESS",
+                context: "AUTH_CALL",
+                message: "Authorization call done but data not updated since it was not necessary."
+            };
         });
 
         /**

@@ -120,7 +120,7 @@
         "PersonalizationService": {
             "kind": "rest",
             "credentials": {
-                "destination": "APIM_DEV",
+                "destination": "APIM",
                 "path": "/it/omg/omc-pers/v1"
             }
         },
