@@ -29,7 +29,7 @@ class srvOpenOrders extends cds.ApplicationService {
             let globalError= [] ;
             let vbakAuths = await SELECT.from(VBAKAuthObjectKeys).where`USERID = ${userID}`.limit(1);
             // Avoid updating authorizations more than once a day
-            // Update only if table empty or outdated
+            // Update only if table empty or outdatedf
             if (vbakAuths.length > 0) {
                 if ((vbakAuths[0].LAST_UPDATE === null || vbakAuths[0].LAST_UPDATE < todayDate)) {
                     updateNeeded = true;
@@ -37,6 +37,7 @@ class srvOpenOrders extends cds.ApplicationService {
             } else {
                 updateNeeded = true;
             }
+            debugger;
             if (updateNeeded) {
                 let SQLdate = new Date().toISOString().slice(0, 19).replace('T', ' ');
                 try {
@@ -48,7 +49,7 @@ class srvOpenOrders extends cds.ApplicationService {
                 }
                 try {
                     const service = await cds.connect.to('authServiceEC');
-                    lt_resultEC = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
+                     lt_resultEC = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
                 } catch (error) {
                     globalError.push({user: 'noECUser',error: error})
                     err = 2 // EC called failed
@@ -61,19 +62,36 @@ class srvOpenOrders extends cds.ApplicationService {
                 let lt_ekko = lt_result.EKKO || []
                 lt_vbak = [...lt_vbak, ...lt_resultEC.VBAK];
                 lt_ekko = [...lt_ekko, ...lt_resultEC.EKKO];
-                if (lt_vbak.length !== 0) {
-                    lt_vbak.forEach((set) => {
+                const vbakSet = new Set();
+                const lt_vbakUnique = lt_vbak.filter(obj => {
+                    const key = `${obj.VKORG}-${obj.VTWEG}-${obj.SPART}`; 
+                    if (vbakSet.has(key)) {
+                        return false; 
+                    }
+                    vbakSet.add(key); 
+                        return true; 
+                });
+                if (lt_vbakUnique.length !== 0) {
+                    lt_vbakUnique.forEach((set) => {
                         set.LAST_UPDATE = SQLdate;
                         set.USERID = userID;
                     })
-                    await INSERT.into(VBAKAuthObjectKeys, lt_vbak);
+                    await INSERT.into(VBAKAuthObjectKeys, lt_vbakUnique);
                 }
-                if (lt_ekko.length !== 0) {
-                        lt_ekko.forEach((set) => {
+                let ekkoSet = new Set();
+                const lt_ekkoUnique = lt_ekko.filter(item => {
+                if (ekkoSet.has(item.EKORG)) {
+                    return false; 
+                }
+                ekkoSet.add(item.EKORG); 
+                return true; 
+                });
+                if (lt_ekkoUnique.length !== 0) {
+                    lt_ekkoUnique.forEach((set) => {
                             set.LAST_UPDATE = SQLdate;
                             set.USERID = userID;
                 })
-                    await INSERT.into(EKKOAuthObjectKeys, lt_ekko);
+                    await INSERT.into(EKKOAuthObjectKeys, lt_ekkoUnique);
                 }
                 // return true;
             }
