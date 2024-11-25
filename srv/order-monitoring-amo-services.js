@@ -37,7 +37,6 @@ class srvOpenOrders extends cds.ApplicationService {
             } else {
                 updateNeeded = true;
             }
-            debugger;
             if (updateNeeded) {
                 let SQLdate = new Date().toISOString().slice(0, 19).replace('T', ' ');
                 try {
