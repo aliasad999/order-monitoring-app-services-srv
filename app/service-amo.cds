@@ -158,8 +158,36 @@ annotate service.valueHelps with {
     SO_PERFK                        @title: '{i18n>SO_PERFK}'                    @sap.Label: '{i18n>SO_PERFK}';
     SO_PERFK_LTEXT_LANG             @title: '{i18n>SO_PERFK}'                    @sap.Label: '{i18n>SO_PERFK}';
     SO_F_MBDAT                      @title: '{i18n>SO_F_MBDAT}'                  @sap.Label: '{i18n>SO_F_MBDAT}';
-    DL_POSNR_BATCH               @title: '{i18n>DL_POSNR_BATCH}'                  @sap.Label: '{i18n>DL_POSNR_BATCH}'      ;   
-    DL_LFIMG_BATCH               @title: '{i18n>DL_LFIMG_BATCH}'                  @sap.Label: '{i18n>DL_LFIMG_BATCH}'       ;  
+    DL_POSNR_BATCH                  @title: '{i18n>DL_POSNR_BATCH}'              @sap.Label: '{i18n>DL_POSNR_BATCH}';
+    DL_LFIMG_BATCH                  @title: '{i18n>DL_LFIMG_BATCH}'              @sap.Label: '{i18n>DL_LFIMG_BATCH}';
+    SO_MANDT                        @title: '{i18n>SO_MANDT}'                    @sap.Label: '{i18n>SO_MANDT}';
+    DL_MANDT                        @title: '{i18n>DL_MANDT}'                    @sap.Label: '{i18n>DL_MANDT}';
+    TM_MANDT                        @title: '{i18n>TM_MANDT}'                    @sap.Label: '{i18n>TM_MANDT}';
+    BL_MANDT_INV_FIRST              @title: '{i18n>BL_MANDT_INV_FIRST}'          @sap.Label: '{i18n>BL_MANDT_INV_FIRST}';
+    BL_MANDT_INV_LAST               @title: '{i18n>BL_MANDT_INV_LAST}'           @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
+    SO_FIRST_SO_MANDT               @title: '{i18n>SO_FIRST_SO_MANDT}'           @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
+    SO_FINAL_SO_MANDT               @title: '{i18n>SO_FINAL_SO_MANDT}'           @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
+    PO_PRE_PO_MANDT                 @title: '{i18n>PO_PRE_PO_MANDT}'             @sap.Label: '{i18n>PO_PRE_PO_MANDT}';
+    PO_EBELN                        @title: '{i18n>PO_EBELN}'                    @sap.Label: '{i18n>PO_EBELN}'            @Common.IsDigitSequence: true;
+    PO_EBELP                        @title: '{i18n>PO_EBELP}'                    @sap.Label: '{i18n>PO_EBELP}'            @Common.IsDigitSequence: true;
+    PO_AEDAT_HEAD                   @title: '{i18n>PO_AEDAT_HEAD}'               @sap.Label: '{i18n>PO_AEDAT_HEAD}';
+    PO_AEDAT_ITEM                   @title: '{i18n>PO_AEDAT_ITEM}'               @sap.Label: '{i18n>PO_AEDAT_ITEM}';
+    PO_BSART                        @title: '{i18n>PO_BSART}'                    @sap.Label: '{i18n>PO_BSART}';
+    PO_BSART_BATXT                  @title: '{i18n>PO_BSART_BATXT}'              @sap.Label: '{i18n>PO_BSART_BATXT}';
+    PO_EKORG                        @title: '{i18n>PO_EKORG}'                    @sap.Label: '{i18n>PO_EKORG}';
+    PO_EKOTX                        @title: '{i18n>PO_EKOTX}'                    @sap.Label: '{i18n>PO_EKOTX}';
+    PO_EKGRP                        @title: '{i18n>PO_EKGRP}'                    @sap.Label: '{i18n>PO_EKGRP}';
+    PO_EKNAM                        @title: '{i18n>PO_EKNAM}'                    @sap.Label: '{i18n>PO_EKNAM}';
+    PO_EMATN                        @title: '{i18n>PO_EMATN}'                    @sap.Label: '{i18n>PO_EMATN}';
+    PO_WERKS_PO                     @title: '{i18n>PO_WERKS_PO}'                 @sap.Label: '{i18n>PO_WERKS_PO}';
+    PO_MENGE                        @title: '{i18n>PO_MENGE}'                    @sap.Label: '{i18n>PO_MENGE}';
+    PO_MEINS                        @title: '{i18n>PO_MEINS}'                    @sap.Label: '{i18n>PO_MEINS}';
+    PO_KUNNR                        @title: '{i18n>PO_KUNNR}'                    @sap.Label: '{i18n>PO_KUNNR}';
+    PO_KUNNR_NAME                   @title: '{i18n>PO_KUNNR_NAME}'               @sap.Label: '{i18n>PO_KUNNR_NAME}';
+    PO_PARTNER_9A_HEAD              @title: '{i18n>PO_PARTNER_9A_HEAD}'          @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
+    PO_PARTNER_9A_HEAD_NAME         @title: '{i18n>PO_PARTNER_9A_HEAD_NAME}'     @sap.Label: '{i18n>PO_PARTNER_9A_HEAD_NAME}';
+    PO_PARTNER_9O_HEAD              @title: '{i18n>PO_PARTNER_9O_HEAD}'          @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
+    PO_PARTNER_9O_HEAD_NAME         @title: '{i18n>PO_PARTNER_9O_HEAD_NAME}'     @sap.Label: '{i18n>PO_PARTNER_9O_HEAD_NAME}';
 };
 
 annotate service.Results with {
@@ -395,8 +423,48 @@ annotate service.Results with {
     SO_PERFK                    @title: '{i18n>SO_PERFK}'                    @sap.Label: '{i18n>SO_PERFK}';
     @Common.TextFor
     SO_PERFK_LTEXT_LANG;
-    DL_POSNR_BATCH               @title: '{i18n>DL_POSNR_BATCH}'                  @sap.Label: '{i18n>DL_POSNR_BATCH}'      ;   
-    DL_LFIMG_BATCH               @title: '{i18n>DL_LFIMG_BATCH}'                  @sap.Label: '{i18n>DL_LFIMG_BATCH}'       ;  
+    DL_POSNR_BATCH              @title: '{i18n>DL_POSNR_BATCH}'              @sap.Label: '{i18n>DL_POSNR_BATCH}';
+    DL_LFIMG_BATCH              @title: '{i18n>DL_LFIMG_BATCH}'              @sap.Label: '{i18n>DL_LFIMG_BATCH}';
+    SO_MANDT                    @title: '{i18n>SO_MANDT}'                    @sap.Label: '{i18n>SO_MANDT}';
+    DL_MANDT                    @title: '{i18n>DL_MANDT}'                    @sap.Label: '{i18n>DL_MANDT}';
+    TM_MANDT                    @title: '{i18n>TM_MANDT}'                    @sap.Label: '{i18n>TM_MANDT}';
+    BL_MANDT_INV_FIRST          @title: '{i18n>BL_MANDT_INV_FIRST}'          @sap.Label: '{i18n>BL_MANDT_INV_FIRST}';
+    BL_MANDT_INV_LAST           @title: '{i18n>BL_MANDT_INV_LAST}'           @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
+    SO_FIRST_SO_MANDT           @title: '{i18n>SO_FIRST_SO_MANDT}'           @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
+    SO_FINAL_SO_MANDT           @title: '{i18n>SO_FINAL_SO_MANDT}'           @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
+    PO_PRE_PO_MANDT             @title: '{i18n>PO_PRE_PO_MANDT}'             @sap.Label: '{i18n>PO_PRE_PO_MANDT}';
+    PO_EBELN                    @title: '{i18n>PO_EBELN}'                    @sap.Label: '{i18n>PO_EBELN}';
+    PO_EBELP                    @title: '{i18n>PO_EBELP}'                    @sap.Label: '{i18n>PO_EBELP}';
+    PO_AEDAT_HEAD               @title: '{i18n>PO_AEDAT_HEAD}'               @sap.Label: '{i18n>PO_AEDAT_HEAD}';
+    PO_AEDAT_ITEM               @title: '{i18n>PO_AEDAT_ITEM}'               @sap.Label: '{i18n>PO_AEDAT_ITEM}';
+    PO_EKORG                    @title: '{i18n>PO_EKORG}'                    @sap.Label: '{i18n>PO_EKORG}';
+    PO_EKOTX                    @title: '{i18n>PO_EKOTX}'                    @sap.Label: '{i18n>PO_EKOTX}';
+    PO_EKGRP                    @title: '{i18n>PO_EKGRP}'                    @sap.Label: '{i18n>PO_EKGRP}';
+    PO_EKNAM                    @title: '{i18n>PO_EKNAM}'                    @sap.Label: '{i18n>PO_EKNAM}';
+    PO_EMATN                    @title: '{i18n>PO_EMATN}'                    @sap.Label: '{i18n>PO_EMATN}';
+    PO_WERKS_PO                 @title: '{i18n>PO_WERKS_PO}'                 @sap.Label: '{i18n>PO_WERKS_PO}';
+    PO_MENGE                    @title: '{i18n>PO_MENGE}'                    @sap.Label: '{i18n>PO_MENGE}';
+    PO_MEINS                    @title: '{i18n>PO_MEINS}'                    @sap.Label: '{i18n>PO_MEINS}';
+    @Common.Text           : PO_KUNNR_NAME
+    @Common.TextArrangement: #TextLast
+    PO_KUNNR                    @title: '{i18n>PO_KUNNR}'                    @sap.Label: '{i18n>PO_KUNNR}';
+    @Common.TextFor
+    PO_KUNNR_NAME;
+    @Common.Text           : PO_PARTNER_9A_HEAD_NAME
+    @Common.TextArrangement: #TextLast
+    PO_PARTNER_9A_HEAD          @title: '{i18n>PO_PARTNER_9A_HEAD}'          @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
+    @Common.TextFor
+    PO_PARTNER_9A_HEAD_NAME;
+    @Common.Text           : PO_PARTNER_9O_HEAD_NAME
+    @Common.TextArrangement: #TextLast
+    PO_PARTNER_9O_HEAD          @title: '{i18n>PO_PARTNER_9O_HEAD}'          @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
+    @Common.TextFor
+    PO_PARTNER_9O_HEAD_NAME;
+    @Common.Text           : PO_BSART_BATXT
+    @Common.TextArrangement: #TextLast
+    PO_BSART                    @title: '{i18n>PO_BSART}'                    @sap.Label: '{i18n>PO_BSART}';
+    @Common.TextFor
+    PO_BSART_BATXT;  
 
 }
 
@@ -417,6 +485,8 @@ annotate service.Results with {
     DL_LFIMG                       @Measures.Unit          : DL_VRKME;
     DL_VRKME                       @Semantics.unitOfMeasure: 'unit-of-measure';
     DL_PEND_DEL_QUAN               @Measures.Unit          : DL_VRKME;
+    PO_MENGE                       @Measures.Unit          : PO_MEINS;
+    PO_MEINS                       @Semantics.unitOfMeasure: 'unit-of-measure';
     SO_CO_PARTNER_NAME             @UI                     : {Hidden: true};
     SO_NY_PARTNER_NAME             @UI                     : {Hidden: true};
     SO_AS_PARTNER_NAME             @UI                     : {Hidden: true};
@@ -434,11 +504,11 @@ annotate service.Results with {
     SO_VKBUR_BEZEI                 @UI                     : {Hidden: true};
     DL_LFART_VTEXT                 @UI                     : {Hidden: true};
     id                             @UI                     : {Hidden: true};
-    SO_MANDT                       @UI                     : {Hidden: true};
-    DL_MANDT                       @UI                     : {Hidden: true};
-    TM_MANDT                       @UI                     : {Hidden: true};
-    BL_MANDT_INV_FIRST             @UI                     : {Hidden: true};
-    BL_MANDT_INV_LAST              @UI                     : {Hidden: true};
+    // SO_MANDT                       @UI                     : {Hidden: true};
+    // DL_MANDT                       @UI                     : {Hidden: true};
+    // TM_MANDT                       @UI                     : {Hidden: true};
+    // BL_MANDT_INV_FIRST             @UI                     : {Hidden: true};
+    // BL_MANDT_INV_LAST              @UI                     : {Hidden: true};
     SO_SPART                       @UI                     : {Hidden: true};
     SO_ABGRU_BEZEI                 @UI                     : {Hidden: true};
     SO_ABSTA                       @UI                     : {Hidden: true};
@@ -471,6 +541,10 @@ annotate service.Results with {
     SO_F_AS_PARTNER_NAME           @UI                     : {Hidden: true};
     SO_DCP_ITEM_STATUS_DESCRIPTION @UI                     : {Hidden: true};
     SO_PERFK_LTEXT_LANG            @UI                     : {Hidden: true};
+    PO_KUNNR_NAME                  @UI                     : {Hidden: true};
+    PO_PARTNER_9A_HEAD_NAME        @UI                     : {Hidden: true};
+    PO_PARTNER_9O_HEAD_NAME        @UI                     : {Hidden: true};
+    PO_BSART_BATXT  @UI                     : {Hidden: true};
 }
 
 annotate service.valueHelps with {
@@ -490,12 +564,14 @@ annotate service.valueHelps with {
     DL_LFIMG_BATCH     @Measures.Unit          : DL_VRKME;
     DL_VRKME           @Semantics.unitOfMeasure: 'unit-of-measure';
     DL_PEND_DEL_QUAN   @Measures.Unit          : DL_VRKME;
+    PO_MENGE                       @Measures.Unit          : PO_MEINS;
+    PO_MEINS                       @Semantics.unitOfMeasure: 'unit-of-measure';
     id                 @UI                     : {Hidden: true};
-    SO_MANDT           @UI                     : {Hidden: true};
-    DL_MANDT           @UI                     : {Hidden: true};
-    TM_MANDT           @UI                     : {Hidden: true};
-    BL_MANDT_INV_FIRST @UI                     : {Hidden: true};
-    BL_MANDT_INV_LAST  @UI                     : {Hidden: true};
+// SO_MANDT           @UI                     : {Hidden: true};
+// DL_MANDT           @UI                     : {Hidden: true};
+// TM_MANDT           @UI                     : {Hidden: true};
+// BL_MANDT_INV_FIRST @UI                     : {Hidden: true};
+// BL_MANDT_INV_LAST  @UI                     : {Hidden: true};
 
 }
 
@@ -2375,6 +2451,7 @@ annotate service.Results with {
         ]
     }
 };
+
 annotate service.Results with {
     DL_POSNR_BATCH
     @Common.ValueList: {
@@ -2383,16 +2460,16 @@ annotate service.Results with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [
-            {
-                $Type            : 'Common.ValueListParameterInOut',
-                LocalDataProperty: DL_POSNR_BATCH,
-                ValueListProperty: 'DL_POSNR_BATCH'
-            }
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: DL_POSNR_BATCH,
+            ValueListProperty: 'DL_POSNR_BATCH'
+        }
 
         ]
     }
 };
+
 annotate service.Results with {
     DL_LFIMG_BATCH
     @Common.ValueList: {
@@ -2411,6 +2488,354 @@ annotate service.Results with {
                 $Type            : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty: 'DL_VRKME'
             }
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_MANDT
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_MANDT}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_MANDT,
+            ValueListProperty: 'SO_MANDT'
+        }]
+    }
+}
+
+annotate service.Results with {
+    DL_MANDT
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>DL_MANDT}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: DL_MANDT,
+            ValueListProperty: 'DL_MANDT'
+        }]
+    }
+}
+
+annotate service.Results with {
+    TM_MANDT
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>TM_MANDT}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: TM_MANDT,
+            ValueListProperty: 'TM_MANDT'
+        }]
+    }
+}
+
+annotate service.Results with {
+    BL_MANDT_INV_FIRST
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_MANDT_INV_FIRST}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: BL_MANDT_INV_FIRST,
+            ValueListProperty: 'BL_MANDT_INV_FIRST'
+        }]
+    }
+}
+
+annotate service.Results with {
+    BL_MANDT_INV_LAST
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_MANDT_INV_LAST}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: BL_MANDT_INV_LAST,
+            ValueListProperty: 'BL_MANDT_INV_LAST'
+        }]
+    }
+}
+
+annotate service.Results with {
+    SO_FIRST_SO_MANDT
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_FIRST_SO_MANDT}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_FIRST_SO_MANDT,
+            ValueListProperty: 'SO_FIRST_SO_MANDT'
+        }]
+    }
+}
+
+annotate service.Results with {
+    SO_FINAL_SO_MANDT
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_FINAL_SO_MANDT}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_FINAL_SO_MANDT,
+            ValueListProperty: 'SO_FINAL_SO_MANDT'
+        }]
+    }
+}
+
+annotate service.Results with {
+    PO_PRE_PO_MANDT
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_PRE_PO_MANDT}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_PRE_PO_MANDT,
+            ValueListProperty: 'PO_PRE_PO_MANDT'
+        }]
+    }
+}
+
+annotate service.Results with {
+    PO_EBELN
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EBELN}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EBELN,
+            ValueListProperty: 'PO_EBELN'
+        }]
+    }
+}
+
+annotate service.Results with {
+    PO_EBELP
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EBELP}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EBELP,
+            ValueListProperty: 'PO_EBELP'
+        }]
+    }
+}
+
+annotate service.Results with {
+    PO_BSART
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_BSART_BATXT}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_BSART,
+                ValueListProperty: 'PO_BSART'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_BSART_BATXT'
+            }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    PO_EKORG
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EKORG}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EKORG,
+            ValueListProperty: 'PO_EKORG'
+        }]
+    }
+}
+
+annotate service.Results with {
+    PO_EKOTX
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EKOTX}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EKOTX,
+            ValueListProperty: 'PO_EKOTX'
+        }]
+    }
+}
+
+annotate service.Results with {
+    PO_EKGRP
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EKGRP}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EKGRP,
+            ValueListProperty: 'PO_EKGRP'
+        }]
+    }
+}
+
+annotate service.Results with {
+    PO_EMATN
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EMATN}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EMATN,
+            ValueListProperty: 'PO_EMATN'
+        }]
+    }
+}
+
+annotate service.Results with {
+    PO_EKNAM
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EKNAM}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EKNAM,
+            ValueListProperty: 'PO_EKNAM'
+        }]
+    }
+}
+
+annotate service.Results with {
+    PO_WERKS_PO
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_WERKS_PO}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_WERKS_PO,
+            ValueListProperty: 'PO_WERKS_PO'
+        }]
+    }
+}
+
+annotate service.Results with {
+    PO_KUNNR
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_KUNNR_NAME}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_KUNNR,
+                ValueListProperty: 'PO_KUNNR'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_KUNNR_NAME'
+            }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    PO_PARTNER_9A_HEAD
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_PARTNER_9A_HEAD_NAME}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_PARTNER_9A_HEAD,
+                ValueListProperty: 'PO_PARTNER_9A_HEAD'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_PARTNER_9A_HEAD_NAME'
+            }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    PO_PARTNER_9O_HEAD
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_PARTNER_9O_HEAD_NAME}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_PARTNER_9O_HEAD,
+                ValueListProperty: 'PO_PARTNER_9O_HEAD'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_PARTNER_9O_HEAD_NAME'
+            }
+
         ]
     }
 };

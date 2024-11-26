@@ -8,6 +8,7 @@ const log = require("cf-nodejs-logging-support");
 const enableHints = require("./plugins/enable_hints");
 const { startOfToday } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies') 
+const serviceHelper = require('./utils/serviceHelper');
 
 class openOrdersSrv extends cds.ApplicationService {
 
@@ -781,30 +782,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
             req.query.SELECT.localized = false;
             req.query.SELECT.distinct = true;
-            const dateProps = [
-                "SO_ERDAT_ORDER",
-                "SO_ERDAT_ITEM",
-                "SO_EDATU_REQUESTED",
-                "SO_EDATU_CONFIRMED",
-                "SO_LDDAT",
-                "SO_PRSDT",
-                "SO_F_TDDAT",
-                "SO_F_MBDAT",
-                "DL_LFDAT",
-                "DL_HSDAT",
-                "DL_VFDAT",
-                "DL_WADAT",
-                "DL_WADAT_IST",
-                "DL_ERDAT",
-                "DL_LDDAT",
-                "TM_DPTBG",
-                "TM_DATBG",
-                "TM_DPTEN",
-                "TM_DATEN",
-                "SO_F_LDDAT",
-                "TM_AR_DATE",
-                "SO_F_DGLTP",
-                "SO_DUE_DATE"]
+            const dateProps = serviceHelper.getDateProps()
             for (let i = 0; i < req.query.SELECT.where?.length; i++) {
                 const item = req.query.SELECT.where[i];
                 if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
@@ -952,30 +930,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     }
                 }
                 data = Array.isArray(data) ? data : [data]
-                var dateProps = [
-                    "SO_ERDAT_ORDER",
-                    "SO_ERDAT_ITEM",
-                    "SO_EDATU_REQUESTED",
-                    "SO_EDATU_CONFIRMED",
-                    "SO_LDDAT",
-                    "SO_PRSDT",
-                    "SO_F_TDDAT",
-                    "SO_F_MBDAT",
-                    "DL_LFDAT",
-                    "DL_HSDAT",
-                    "DL_VFDAT",
-                    "DL_WADAT",
-                    "DL_WADAT_IST",
-                    "DL_ERDAT",
-                    "DL_LDDAT",
-                    "TM_DPTBG",
-                    "TM_DATBG",
-                    "TM_DPTEN",
-                    "TM_DATEN",
-                    "SO_F_LDDAT",
-                    "TM_AR_DATE",
-                    "SO_F_DGLTP",
-                    "SO_DUE_DATE"]
+                var dateProps = serviceHelper.getDateProps()
                 data.forEach((item) => {
                     item.id = uuid.v1()
                     if ('SO_NETWR' in item) // Net Amount

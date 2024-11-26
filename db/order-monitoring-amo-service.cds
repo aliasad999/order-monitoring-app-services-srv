@@ -143,7 +143,7 @@ entity ![RESULTS] {
         F_AS_PARTNER_NAME_ITM              : String(40);
         VBELN_DEL                          : String(10);
         POSNR_DEL_HEAD                     : String(6);
-        LFIMG_HEAD                         : Decimal(15,3);
+        LFIMG_HEAD                         : Decimal(15, 3);
         POSNR_DEL                          : String(6);
         CHARG                              : String(10);
         LFIMG                              : Decimal(13, 3);
@@ -211,15 +211,41 @@ entity ![RESULTS] {
         BL_MANDT_INV_FIRST                 : String(3);
         BL_MANDT_INV_LAST                  : String(3);
         ABGRU_BEZEI_LANG                   : String(40);
-        // DCP_ITEM_STATUS                    : String(2);     
-        ERDAT_DEL                          : String(8);	
-        ERDAT_DEL_DATE                     : Date = ERDAT_DEL;	
-        LDDAT_DEL                          : String(8);	
-        LDDAT_DEL_DATE                     : Date = LDDAT_DEL;	
+        // DCP_ITEM_STATUS                    : String(2);
+        ERDAT_DEL                          : String(8);
+        ERDAT_DEL_DATE                     : Date = ERDAT_DEL;
+        LDDAT_DEL                          : String(8);
+        LDDAT_DEL_DATE                     : Date = LDDAT_DEL;
         PERFK                              : String(2);
         PERFK_LTEXT_LANG                   : String(50);
         F_MBDAT                            : String(8);
         F_MBDAT_DATE                       : Date = F_MBDAT;
+        FINAL_SO_MANDT                     : String(3);
+        FIRST_SO_MANDT                     : String(3);
+        PRE_PO_MANDT                       : String(3);
+        EBELN                              : String(10);
+        EBELP                              : String(5);
+        AEDAT_HEAD                         : String(8);
+        AEDAT_HEAD_DATE                    : Date = AEDAT_HEAD;
+        AEDAT_ITEM                         : String(8);
+        AEDAT_ITEM_DATE                    : Date = AEDAT_ITEM;
+        BSART                              : String(4);
+        EKORG                              : String(4);
+        EKOTX                              : String(20);
+        EKGRP                              : String(3);
+        EKNAM                              : String(18);
+        EMATN                              : String(18);
+        WERKS_PO                           : String(4);
+        MENGE                              : Decimal(13, 3);
+        MEINS                              : String(3);
+        KUNNR                              : String(10);
+        KUNNR_NAME1                        : String(35);
+        KUNNR_NAME2                        : String(35);
+        PARTNER_9A_HEAD                    : String(12);
+        PARTNER_9A_HEAD_NAME               : String(80);
+        PARTNER_9O_HEAD                    : String(12);
+        PARTNER_9O_HEAD_NAME               : String(80);
+        BSART_BATXT                        : String(20);
 }
 
 entity PARTNER_SETTINGS {
@@ -270,7 +296,7 @@ entity PARTNER_SETTINGS_DB {
 }
 
 entity variants {
-        // key id                 : UUID;
+            // key id                 : UUID;
         key fileName           : String(255);
             fileType           : String(10);
             changeType         : String(40);

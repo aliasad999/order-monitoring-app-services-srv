@@ -14,7 +14,12 @@ service openOrdersSrv {
     entity rootEntity               as
         select from db_app.OPENORDERSLIST {
             key null                                        as id                              : UUID,
-                MANDT                                       as SO_MANDT,
+                // MANDT                                       as SO_MANDT,
+                case MANDT
+                    when '100' then 'Cobalt'
+                    when '200' then 'Star'
+                    when '300' then 'AP'
+                end                                         as SO_MANDT                 : String(20),
                 VBELN                                       as SO_VBELN,
                 POSNR                                       as SO_POSNR,
                 ERDAT_ORDER_DATE                            as SO_ERDAT_ORDER,
@@ -173,7 +178,12 @@ service openOrdersSrv {
                 F_VSBED                                                  as SO_F_VSBED,
                 F_VSBED_VTEXT_LANG                                       as SO_F_VSBED_VTEXT,
                 NOTE_TEXT                                                as LAST_NOTE,
-                MANDT_DEL                                                as DL_MANDT,
+                case MANDT_DEL
+                    when '100' then 'Cobalt'
+                    when '200' then 'Star'
+                    when '300' then 'AP'
+                end                                         as DL_MANDT                 : String(20),
+                // MANDT_DEL                                   as DL_MANDT,
                 VBELN_DEL                                                as DL_VBELN,
                 POSNR_DEL                                                as DL_POSNR_BATCH,
                 POSNR_DEL_HEAD                                           as DL_POSNR,
@@ -210,7 +220,12 @@ service openOrdersSrv {
                     then null
                     else WADAT_IST_DATE end                              as DL_WADAT_IST : Date,
                 
-                MANDT_TM                                                 as TM_MANDT,
+                // TM_MANDT,
+                case MANDT_TM
+                    when '100' then 'Cobalt'
+                    when '200' then 'Star'
+                    when '300' then 'AP'
+                end                                         as TM_MANDT                 : String(20),
                 TKNUM                                                    as TM_TKNUM,
                 VSART                                                    as TM_VSART,
                 VSART_BEZEI_LANG                                         as TM_VSART_BEZEI,
@@ -294,8 +309,18 @@ service openOrdersSrv {
 
                 BL_POSNR_INV_LAST                           as BL_POSNR_INV_LAST,
                 BL_POSNR_INV_FIRST                          as BL_POSNR_INV_FIRST,
-                BL_MANDT_INV_FIRST,
-                BL_MANDT_INV_LAST,
+                // BL_MANDT_INV_FIRST,
+                case BL_MANDT_INV_FIRST
+                    when '100' then 'Cobalt'
+                    when '200' then 'Star'
+                    when '300' then 'AP'
+                end                                         as BL_MANDT_INV_FIRST                 : String(20),
+                // BL_MANDT_INV_LAST,
+                case BL_MANDT_INV_LAST
+                    when '100' then 'Cobalt'
+                    when '200' then 'Star'
+                    when '300' then 'AP'
+                end                                         as BL_MANDT_INV_LAST                 : String(20),
                 BL_FKIMG_FIRST                                           as BL_FKIMG_FIRST,
                 BL_FKIMG_LAST                                            as BL_FKIMG_LAST,
                 BL_VRKME_FIRST                                           as BL_VRKME_FIRST,
@@ -328,7 +353,56 @@ service openOrdersSrv {
                     then null 
                     else  F_MBDAT_DATE end                               as SO_F_MBDAT : Date,
                 PERFK                                       as SO_PERFK,
-                PERFK_LTEXT_LANG                            as SO_PERFK_LTEXT_LANG
+                PERFK_LTEXT_LANG                            as SO_PERFK_LTEXT_LANG,
+                case FINAL_SO_MANDT
+                    when '100' then 'Cobalt'
+                    when '200' then 'Star'
+                    when '300' then 'AP'
+                end                                         as SO_FINAL_SO_MANDT                  : String(20),
+                case FIRST_SO_MANDT
+                    when '100' then 'Cobalt'
+                    when '200' then 'Star'
+                    when '300' then 'AP'
+                end                                         as SO_FIRST_SO_MANDT               : String(20),
+                case PRE_PO_MANDT
+                    when '100' then 'Cobalt'
+                    when '200' then 'Star'
+                    when '300' then 'AP'
+                end                                         as PO_PRE_PO_MANDT                 : String(20),
+                EBELN                                       as PO_EBELN,
+                EBELP                                       as PO_EBELP,
+                case
+                    when
+                    AEDAT_HEAD_DATE = '00000000'
+                    then
+                    null
+                    else
+                    AEDAT_HEAD_DATE
+                end                                         as PO_AEDAT_HEAD                   : Date,
+                case
+                    when
+                    AEDAT_ITEM_DATE = '00000000'
+                    then
+                    null
+                    else
+                    AEDAT_ITEM_DATE
+                end                                         as PO_AEDAT_ITEM                   : Date,
+                BSART                                       as PO_BSART,
+                EKORG                                       as PO_EKORG,
+                EKOTX                                       as PO_EKOTX,
+                EKGRP                                       as PO_EKGRP,
+                EKNAM                                       as PO_EKNAM,
+                EMATN                                       as PO_EMATN,
+                WERKS_PO                                    as PO_WERKS_PO,
+                MENGE                                       as PO_MENGE,
+                MEINS                                       as PO_MEINS,
+                KUNNR                                       as PO_KUNNR,
+                KUNNR_NAME1 || ' ' || KUNNR_NAME2           as PO_KUNNR_NAME                   : String(80),
+                PARTNER_9A_HEAD                             as PO_PARTNER_9A_HEAD,
+                PARTNER_9A_HEAD_NAME                        as PO_PARTNER_9A_HEAD_NAME,
+                PARTNER_9O_HEAD                             as PO_PARTNER_9O_HEAD,
+                PARTNER_9O_HEAD_NAME                        as PO_PARTNER_9O_HEAD_NAME,
+                BSART_BATXT                                 as PO_BSART_BATXT
         }
 
     entity baseEntity               as

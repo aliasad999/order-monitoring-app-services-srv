@@ -248,6 +248,32 @@ entity ![OPENORDERSLIST] {
         PERFK_LTEXT_LANG                   : String(50);
         F_MBDAT                            : String(8);
         F_MBDAT_DATE                       : Date = F_MBDAT;
+        FINAL_SO_MANDT                     : String(3);
+        FIRST_SO_MANDT                     : String(3);
+        PRE_PO_MANDT                       : String(3);
+        EBELN                              : String(10);
+        EBELP                              : String(5);
+        AEDAT_HEAD                         : String(8);
+        AEDAT_HEAD_DATE                    : Date = AEDAT_HEAD;
+        AEDAT_ITEM                         : String(8);
+        AEDAT_ITEM_DATE                    : Date = AEDAT_ITEM;
+        BSART                              : String(4);
+        EKORG                              : String(4);
+        EKOTX                              : String(20);
+        EKGRP                              : String(3);
+        EKNAM                              : String(18);
+        EMATN                              : String(18);
+        WERKS_PO                           : String(4);
+        MENGE                              : Decimal(13, 3);
+        MEINS                              : String(3);
+        KUNNR                              : String(10);
+        KUNNR_NAME1                        : String(35);
+        KUNNR_NAME2                        : String(35);
+        PARTNER_9A_HEAD                    : String(12);
+        PARTNER_9A_HEAD_NAME               : String(80);
+        PARTNER_9O_HEAD                    : String(12);
+        PARTNER_9O_HEAD_NAME               : String(80);
+        BSART_BATXT                        : String(20);
 }
 
 entity ContactsOptions {
