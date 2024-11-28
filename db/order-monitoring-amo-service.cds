@@ -246,6 +246,7 @@ entity ![RESULTS] {
         PARTNER_9O_HEAD                    : String(12);
         PARTNER_9O_HEAD_NAME               : String(80);
         BSART_BATXT                        : String(20);
+        BSTNK                              : String(20);
 }
 
 entity PARTNER_SETTINGS {

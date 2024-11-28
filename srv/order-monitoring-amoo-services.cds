@@ -403,6 +403,7 @@ service openOrdersSrv {
                 PARTNER_9O_HEAD                             as PO_PARTNER_9O_HEAD,
                 PARTNER_9O_HEAD_NAME                        as PO_PARTNER_9O_HEAD_NAME,
                 BSART_BATXT                                 as PO_BSART_BATXT
+                // BSTNK AS SO_BSTNK
         }
 
     entity baseEntity               as

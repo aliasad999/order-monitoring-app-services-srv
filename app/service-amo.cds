@@ -188,6 +188,7 @@ annotate service.valueHelps with {
     PO_PARTNER_9A_HEAD_NAME         @title: '{i18n>PO_PARTNER_9A_HEAD_NAME}'     @sap.Label: '{i18n>PO_PARTNER_9A_HEAD_NAME}';
     PO_PARTNER_9O_HEAD              @title: '{i18n>PO_PARTNER_9O_HEAD}'          @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
     PO_PARTNER_9O_HEAD_NAME         @title: '{i18n>PO_PARTNER_9O_HEAD_NAME}'     @sap.Label: '{i18n>PO_PARTNER_9O_HEAD_NAME}';
+    // SO_BSTNK         @title: '{i18n>SO_BSTNK}'     @sap.Label: '{i18n>SO_BSTNK}';
 };
 
 annotate service.Results with {
@@ -465,6 +466,7 @@ annotate service.Results with {
     PO_BSART                    @title: '{i18n>PO_BSART}'                    @sap.Label: '{i18n>PO_BSART}';
     @Common.TextFor
     PO_BSART_BATXT;  
+    // SO_BSTNK         @title: '{i18n>SO_BSTNK}'     @sap.Label: '{i18n>SO_BSTNK}';
 
 }
 
@@ -1423,6 +1425,24 @@ annotate service.Results with {
         ]
     }
 };
+
+// annotate service.Results with {
+//     SO_BSTNK
+//     @Common.ValueList: {
+//         $Type                  : 'Common.ValueListType',
+//         Label                  : '{@i18n>SO_BSTNK}',
+//         CollectionPath         : 'valueHelps',
+//         DistinctValuesSupported: true,
+//         SearchSupported        : true,
+//         Parameters             : [{
+//             $Type            : 'Common.ValueListParameterInOut',
+//             LocalDataProperty: SO_BSTNK,
+//             ValueListProperty: 'SO_BSTNK'
+//         }
+
+//         ]
+//     }
+// };
 
 annotate service.Results with {
     SO_ZZDKPPRODB
