@@ -1007,6 +1007,19 @@ class openOrdersSrv extends cds.ApplicationService {
 
         });
 
+        // ORDER CREATION HANDLERS
+        this.before("READ", "orderCreation", async (req, next) => {
+
+        });
+
+        this.on("READ", "orderCreation", async (req, next) => {
+
+        })
+
+        this.after("READ", "orderCreation", async (data, req) => {
+           
+        });
+
         this.on("READ", "PredefReasonBuckets", async req => {
             let reasonBuckets = [];
             try {
