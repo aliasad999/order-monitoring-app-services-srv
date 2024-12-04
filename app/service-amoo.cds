@@ -721,12 +721,12 @@ annotate service.allIssues with {
     id                 @UI                     : {Hidden: true};
     SO_DOC_TYP         @UI                     : {Hidden: true};
     SO_IGNORED         @UI                     : {Hidden: true};     
-    SO_MANDT           @UI                     : {Hidden: true};     
-    DL_MANDT           @UI                     : {Hidden: true};
-    TM_MANDT            @UI                     : {Hidden: true};
+    // SO_MANDT           @UI                     : {Hidden: true};     
+    // DL_MANDT           @UI                     : {Hidden: true};
+    // TM_MANDT            @UI                     : {Hidden: true};
 
-    BL_MANDT_INV_FIRST  @UI                     : {Hidden: true};
-    BL_MANDT_INV_LAST   @UI                     : {Hidden: true};           
+    // BL_MANDT_INV_FIRST  @UI                     : {Hidden: true};
+    // BL_MANDT_INV_LAST   @UI                     : {Hidden: true};           
     BL_FKART_FIRST      @UI                     : {Hidden: true};           
     BL_FKART_LAST       @UI                     : {Hidden: true};    
     BL_FKIMG_FIRST       @UI                     : {Hidden: true};    

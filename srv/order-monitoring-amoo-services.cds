@@ -15,11 +15,53 @@ service openOrdersSrv {
         select from db_app.OPENORDERSLIST {
             key null                                        as id                              : UUID,
                 // MANDT                                       as SO_MANDT,
+                // FINAL_SO_MANDT as SO_FINAL_SO_MANDT,
+                // FIRST_SO_MANDT as SO_FIRST_SO_MANDT,
+                // PO_MANDT as PO_MANDT,
+                // MANDT_DEL                                   as DL_MANDT,
+                // MANDT_TM as TM_MANDT,
+                // BL_MANDT_INV_FIRST,
+                // BL_MANDT_INV_LAST,
+                case BL_MANDT_INV_FIRST
+                    when '100' then 'Cobalt'
+                    when '200' then 'Star'
+                    when '300' then 'AP'
+                end                                         as BL_MANDT_INV_FIRST                 : String(20),
+                case BL_MANDT_INV_LAST
+                    when '100' then 'Cobalt'
+                    when '200' then 'Star'
+                    when '300' then 'AP'
+                end                                         as BL_MANDT_INV_LAST                 : String(20),
+                case MANDT_TM
+                    when '100' then 'Cobalt'
+                    when '200' then 'Star'
+                    when '300' then 'AP'
+                end                                         as TM_MANDT                 : String(20),
                 case MANDT
                     when '100' then 'Cobalt'
                     when '200' then 'Star'
                     when '300' then 'AP'
                 end                                         as SO_MANDT                 : String(20),
+                case MANDT_DEL
+                    when '100' then 'Cobalt'
+                    when '200' then 'Star'
+                    when '300' then 'AP'
+                end                                         as DL_MANDT                 : String(20),
+                case FINAL_SO_MANDT
+                    when '100' then 'Cobalt'
+                    when '200' then 'Star'
+                    when '300' then 'AP'
+                end                                         as SO_FINAL_SO_MANDT                  : String(20),
+                case FIRST_SO_MANDT
+                    when '100' then 'Cobalt'
+                    when '200' then 'Star'
+                    when '300' then 'AP'
+                end                                         as SO_FIRST_SO_MANDT               : String(20),
+                case PO_MANDT
+                    when '100' then 'Cobalt'
+                    when '200' then 'Star'
+                    when '300' then 'AP'
+                end                                         as PO_MANDT                 : String(20),
                 VBELN                                       as SO_VBELN,
                 POSNR                                       as SO_POSNR,
                 ERDAT_ORDER_DATE                            as SO_ERDAT_ORDER,
@@ -178,12 +220,6 @@ service openOrdersSrv {
                 F_VSBED                                                  as SO_F_VSBED,
                 F_VSBED_VTEXT_LANG                                       as SO_F_VSBED_VTEXT,
                 NOTE_TEXT                                                as LAST_NOTE,
-                case MANDT_DEL
-                    when '100' then 'Cobalt'
-                    when '200' then 'Star'
-                    when '300' then 'AP'
-                end                                         as DL_MANDT                 : String(20),
-                // MANDT_DEL                                   as DL_MANDT,
                 VBELN_DEL                                                as DL_VBELN,
                 POSNR_DEL                                                as DL_POSNR_BATCH,
                 POSNR_DEL_HEAD                                           as DL_POSNR,
@@ -218,14 +254,7 @@ service openOrdersSrv {
                 case
                     when WADAT_IST_DATE = '00000000' 
                     then null
-                    else WADAT_IST_DATE end                              as DL_WADAT_IST : Date,
-                
-                // TM_MANDT,
-                case MANDT_TM
-                    when '100' then 'Cobalt'
-                    when '200' then 'Star'
-                    when '300' then 'AP'
-                end                                         as TM_MANDT                 : String(20),
+                    else WADAT_IST_DATE end                              as DL_WADAT_IST : Date,               
                 TKNUM                                                    as TM_TKNUM,
                 VSART                                                    as TM_VSART,
                 VSART_BEZEI_LANG                                         as TM_VSART_BEZEI,
@@ -309,18 +338,6 @@ service openOrdersSrv {
 
                 BL_POSNR_INV_LAST                           as BL_POSNR_INV_LAST,
                 BL_POSNR_INV_FIRST                          as BL_POSNR_INV_FIRST,
-                // BL_MANDT_INV_FIRST,
-                case BL_MANDT_INV_FIRST
-                    when '100' then 'Cobalt'
-                    when '200' then 'Star'
-                    when '300' then 'AP'
-                end                                         as BL_MANDT_INV_FIRST                 : String(20),
-                // BL_MANDT_INV_LAST,
-                case BL_MANDT_INV_LAST
-                    when '100' then 'Cobalt'
-                    when '200' then 'Star'
-                    when '300' then 'AP'
-                end                                         as BL_MANDT_INV_LAST                 : String(20),
                 BL_FKIMG_FIRST                                           as BL_FKIMG_FIRST,
                 BL_FKIMG_LAST                                            as BL_FKIMG_LAST,
                 BL_VRKME_FIRST                                           as BL_VRKME_FIRST,
@@ -354,21 +371,6 @@ service openOrdersSrv {
                     else  F_MBDAT_DATE end                               as SO_F_MBDAT : Date,
                 PERFK                                       as SO_PERFK,
                 PERFK_LTEXT_LANG                            as SO_PERFK_LTEXT_LANG,
-                case FINAL_SO_MANDT
-                    when '100' then 'Cobalt'
-                    when '200' then 'Star'
-                    when '300' then 'AP'
-                end                                         as SO_FINAL_SO_MANDT                  : String(20),
-                case FIRST_SO_MANDT
-                    when '100' then 'Cobalt'
-                    when '200' then 'Star'
-                    when '300' then 'AP'
-                end                                         as SO_FIRST_SO_MANDT               : String(20),
-                case PO_MANDT
-                    when '100' then 'Cobalt'
-                    when '200' then 'Star'
-                    when '300' then 'AP'
-                end                                         as PO_MANDT                 : String(20),
                 EBELN                                       as PO_EBELN,
                 EBELP                                       as PO_EBELP,
                 case
