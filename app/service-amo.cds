@@ -167,7 +167,7 @@ annotate service.valueHelps with {
     BL_MANDT_INV_LAST               @title: '{i18n>BL_MANDT_INV_LAST}'           @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
     SO_FIRST_SO_MANDT               @title: '{i18n>SO_FIRST_SO_MANDT}'           @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
     SO_FINAL_SO_MANDT               @title: '{i18n>SO_FINAL_SO_MANDT}'           @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
-    PO_PRE_PO_MANDT                 @title: '{i18n>PO_PRE_PO_MANDT}'             @sap.Label: '{i18n>PO_PRE_PO_MANDT}';
+    PO_MANDT                 @title: '{i18n>PO_MANDT}'             @sap.Label: '{i18n>PO_MANDT}';
     PO_EBELN                        @title: '{i18n>PO_EBELN}'                    @sap.Label: '{i18n>PO_EBELN}'            @Common.IsDigitSequence: true;
     PO_EBELP                        @title: '{i18n>PO_EBELP}'                    @sap.Label: '{i18n>PO_EBELP}'            @Common.IsDigitSequence: true;
     PO_AEDAT_HEAD                   @title: '{i18n>PO_AEDAT_HEAD}'               @sap.Label: '{i18n>PO_AEDAT_HEAD}';
@@ -433,7 +433,7 @@ annotate service.Results with {
     BL_MANDT_INV_LAST           @title: '{i18n>BL_MANDT_INV_LAST}'           @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
     SO_FIRST_SO_MANDT           @title: '{i18n>SO_FIRST_SO_MANDT}'           @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
     SO_FINAL_SO_MANDT           @title: '{i18n>SO_FINAL_SO_MANDT}'           @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
-    PO_PRE_PO_MANDT             @title: '{i18n>PO_PRE_PO_MANDT}'             @sap.Label: '{i18n>PO_PRE_PO_MANDT}';
+    PO_MANDT             @title: '{i18n>PO_MANDT}'             @sap.Label: '{i18n>PO_MANDT}';
     PO_EBELN                    @title: '{i18n>PO_EBELN}'                    @sap.Label: '{i18n>PO_EBELN}';
     PO_EBELP                    @title: '{i18n>PO_EBELP}'                    @sap.Label: '{i18n>PO_EBELP}';
     PO_AEDAT_HEAD               @title: '{i18n>PO_AEDAT_HEAD}'               @sap.Label: '{i18n>PO_AEDAT_HEAD}';
@@ -2625,17 +2625,17 @@ annotate service.Results with {
 }
 
 annotate service.Results with {
-    PO_PRE_PO_MANDT
+    PO_MANDT
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>PO_PRE_PO_MANDT}',
+        Label                  : '{@i18n>PO_MANDT}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
             $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: PO_PRE_PO_MANDT,
-            ValueListProperty: 'PO_PRE_PO_MANDT'
+            LocalDataProperty: PO_MANDT,
+            ValueListProperty: 'PO_MANDT'
         }]
     }
 }

@@ -446,11 +446,11 @@ service srvOpenOrders {
             when '200' then 'Star'
             when '300' then 'AP'
           end                                         as SO_FIRST_SO_MANDT               : String(20),
-          case PRE_PO_MANDT
+          case PO_MANDT
             when '100' then 'Cobalt'
             when '200' then 'Star'
             when '300' then 'AP'
-          end                                         as PO_PRE_PO_MANDT                 : String(20),
+          end                                         as PO_MANDT                 : String(20),
           EBELN                                       as PO_EBELN,
           EBELP                                       as PO_EBELP,
           case

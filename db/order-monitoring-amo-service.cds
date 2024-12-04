@@ -222,7 +222,7 @@ entity ![RESULTS] {
         F_MBDAT_DATE                       : Date = F_MBDAT;
         FINAL_SO_MANDT                     : String(3);
         FIRST_SO_MANDT                     : String(3);
-        PRE_PO_MANDT                       : String(3);
+        PO_MANDT                       : String(3);
         EBELN                              : String(10);
         EBELP                              : String(5);
         AEDAT_HEAD                         : String(8);
