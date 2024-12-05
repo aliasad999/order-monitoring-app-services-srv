@@ -77,8 +77,6 @@ annotate service.orderCreation with {
     PO_DUE_DATE             @title: '{i18n>PO_DUE_DATE}'         @sap.Label: '{i18n>PO_DUE_DATE}';
     PO_ERROR_TEXT           @title: '{i18n>PO_ERROR_TEXT}'       @sap.Label: '{i18n>PO_ERROR_TEXT}';
     PO_BIM_ERROR_ID         @title: '{i18n>PO_BIM_ERROR_ID}'     @sap.Label: '{i18n>PO_BIM_ERROR_ID}';
-    PO_ISSUE          @title: '{i18n>PO_ISSUE}'       @sap.Label: '{i18n>PO_ISSUE}';
-    PO_NPS         @title: '{i18n>PO_NPS}'     @sap.Label: '{i18n>PO_NPS}';
 
     // FIELDS WITH TEXT ARRANGEMENT
     @Common.Text           : PO_KUNNR_NAME
@@ -101,6 +99,16 @@ annotate service.orderCreation with {
     PO_BSART                @title: '{i18n>PO_BSART}'            @sap.Label: '{i18n>PO_BSART}';
     @Common.TextFor
     PO_BSART_BATXT;
+    @Common.Text           : PO_NPS_TEXT
+    @Common.TextArrangement: #TextOnly
+    PO_NPS                @title: '{i18n>PO_NPS}'            @sap.Label: '{i18n>PO_NPS}';
+    @Common.TextFor
+    PO_NPS_TEXT;
+    @Common.Text           : PO_ISSUE_TEXT
+    @Common.TextArrangement: #TextOnly
+    PO_ISSUE                @title: '{i18n>PO_ISSUE}'            @sap.Label: '{i18n>PO_ISSUE}';
+    @Common.TextFor
+    PO_ISSUE_TEXT;
 
     // HIDDEN FIELDS
     PO_KUNNR_NAME           @UI   : {Hidden: true};
@@ -108,7 +116,9 @@ annotate service.orderCreation with {
     PO_PARTNER_9O_HEAD_NAME @UI   : {Hidden: true};
     PO_BSART_BATXT          @UI   : {Hidden: true};
     PO_BIM_ERROR_ID         @UI   : {Hidden: true};
-    PO_MEINS         @UI   : {Hidden: true};
+    PO_MEINS                @UI   : {Hidden: true};
+    PO_NPS_TEXT             @UI   : {Hidden: true};
+    PO_ISSUE_TEXT           @UI   : {Hidden: true};
 }
 
 // ------------- ORDER CREATION VALUE HELPS -------

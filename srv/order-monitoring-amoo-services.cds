@@ -552,7 +552,16 @@ service openOrdersSrv {
         PARTNER_9O_HEAD_NAME AS PO_PARTNER_9O_HEAD_NAME,
         BSART_BATXT AS PO_BSART_BATXT,
         NPS AS PO_NPS,
+        case NPS
+            when '01' then 'Order Creation'
+            else ''
+        end as PO_NPS_TEXT : String(30),
         ISSUE AS PO_ISSUE,
+        case ISSUE
+            when '40' then 'Sales Order Creation Outstanding'
+            when '41' then 'Error During Sales Order Creation'
+            else ''
+        end as PO_ISSUE_TEXT : String(60),
         DUE_DATE_FORMATTED AS PO_DUE_DATE,
         ERROR_TEXT AS PO_ERROR_TEXT,
         BIM_ERROR_ID AS PO_BIM_ERROR_ID
