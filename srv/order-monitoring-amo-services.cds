@@ -30,6 +30,7 @@ service srvOpenOrders {
             when '100' then 'Cobalt'
             when '200' then 'Star'
             when '300' then 'AP'
+            else 'No system defined'
           end                                         as SO_MANDT                 : String(20),
           VBELN                                       as SO_VBELN,
           POSNR                                       as SO_POSNR,
@@ -391,6 +392,7 @@ service srvOpenOrders {
             when '100' then 'Cobalt'
             when '200' then 'Star'
             when '300' then 'AP'
+            else 'No system defined'
           end                                         as DL_MANDT                 : String(20),
           // MANDT_DEL                                   as DL_MANDT,
           // TM_MANDT,
@@ -398,18 +400,21 @@ service srvOpenOrders {
             when '100' then 'Cobalt'
             when '200' then 'Star'
             when '300' then 'AP'
+            else 'No system defined'
           end                                         as TM_MANDT                 : String(20),
           // BL_MANDT_INV_FIRST,
           case BL_MANDT_INV_FIRST
             when '100' then 'Cobalt'
             when '200' then 'Star'
             when '300' then 'AP'
+            else 'No system defined'
           end                                         as BL_MANDT_INV_FIRST                 : String(20),
           // BL_MANDT_INV_LAST,
           case BL_MANDT_INV_LAST
             when '100' then 'Cobalt'
             when '200' then 'Star'
             when '300' then 'AP'
+            else 'No system defined'
           end                                         as BL_MANDT_INV_LAST                 : String(20),
           case
             when
@@ -441,16 +446,19 @@ service srvOpenOrders {
             when '100' then 'Cobalt'
             when '200' then 'Star'
             when '300' then 'AP'
+            else 'No system defined'
           end                                         as SO_FINAL_SO_MANDT                  : String(20),
           case FIRST_SO_MANDT
             when '100' then 'Cobalt'
             when '200' then 'Star'
             when '300' then 'AP'
+            else 'No system defined'
           end                                         as SO_FIRST_SO_MANDT               : String(20),
           case PO_MANDT
             when '100' then 'Cobalt'
             when '200' then 'Star'
             when '300' then 'AP'
+            else 'No system defined'
           end                                         as PO_MANDT                 : String(20),
           EBELN                                       as PO_EBELN,
           EBELP                                       as PO_EBELP,

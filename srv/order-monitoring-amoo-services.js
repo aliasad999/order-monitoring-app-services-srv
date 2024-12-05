@@ -963,15 +963,44 @@ class openOrdersSrv extends cds.ApplicationService {
 
         // ORDER CREATION HANDLERS
         this.before("READ", "orderCreation", async (req, next) => {
-
+            const dateProps = serviceHelper.getPODateProps()
+            for (let i = 0; i < req.query.SELECT.where?.length; i++) {
+                const item = req.query.SELECT.where[i];
+                if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
+                    for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
+                        if ( typeof(req.query.SELECT.where[j].val) === 'string' && req.query.SELECT.where[j].val.includes('-') && req.query.SELECT.where[j].val !== undefined && req.query.SELECT.where[j].val !== null )   {
+                            req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
+                            break;
+                        }
+                    }
+                }
+            }
         });
 
         this.on("READ", "orderCreation", async (req, next) => {
-
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' ) {
+                return req.reply({ $count: 0 })
+            }
+            await next(req)
         })
 
         this.after("READ", "orderCreation", async (data, req) => {
-           
+            data = Array.isArray(data) ? data : [data]
+            var dateProps = serviceHelper.getPODateProps()
+            data.forEach((item) => {
+                dateProps.forEach((property) => {
+                    const dateString = item[property]
+                    if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
+                        const year = parseInt(dateString.substring(0, 4), 10);
+                        const month = parseInt(dateString.substring(4, 6), 10) - 1;
+                        const day = parseInt(dateString.substring(6, 8), 10);
+                        item[property] = new Date(year, month, day);
+                    } else {
+                        item[property] = null
+                    }
+
+                })
+            })
         });
 
         this.on("READ", "PredefReasonBuckets", async req => {

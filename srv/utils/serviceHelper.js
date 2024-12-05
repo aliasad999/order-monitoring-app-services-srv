@@ -28,6 +28,15 @@ const getDateProps = () => {
     ]
 }
 
+const getPODateProps = () => {
+    return [
+        "PO_AEDAT_HEAD",
+        "PO_AEDAT_ITEM",
+        "PO_DUE_DATE"
+    ]
+}
+
 module.exports =  {
-    getDateProps
+    getDateProps,
+    getPODateProps
 }

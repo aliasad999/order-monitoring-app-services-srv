@@ -27,41 +27,49 @@ service openOrdersSrv {
                     when '100' then 'Cobalt'
                     when '200' then 'Star'
                     when '300' then 'AP'
+                    else 'No system defined'
                 end                                         as BL_MANDT_INV_FIRST                 : String(20),
                 case BL_MANDT_INV_LAST
                     when '100' then 'Cobalt'
                     when '200' then 'Star'
                     when '300' then 'AP'
+                    else 'No system defined'
                 end                                         as BL_MANDT_INV_LAST                 : String(20),
                 case MANDT_TM
                     when '100' then 'Cobalt'
                     when '200' then 'Star'
                     when '300' then 'AP'
+                    else 'No system defined'
                 end                                         as TM_MANDT                 : String(20),
                 case MANDT
                     when '100' then 'Cobalt'
                     when '200' then 'Star'
                     when '300' then 'AP'
+                    else 'No system defined'
                 end                                         as SO_MANDT                 : String(20),
                 case MANDT_DEL
                     when '100' then 'Cobalt'
                     when '200' then 'Star'
                     when '300' then 'AP'
+                    else 'No system defined'
                 end                                         as DL_MANDT                 : String(20),
                 case FINAL_SO_MANDT
                     when '100' then 'Cobalt'
                     when '200' then 'Star'
                     when '300' then 'AP'
+                    else 'No system defined'
                 end                                         as SO_FINAL_SO_MANDT                  : String(20),
                 case FIRST_SO_MANDT
                     when '100' then 'Cobalt'
                     when '200' then 'Star'
                     when '300' then 'AP'
+                    else 'No system defined'
                 end                                         as SO_FIRST_SO_MANDT               : String(20),
                 case PO_MANDT
                     when '100' then 'Cobalt'
                     when '200' then 'Star'
                     when '300' then 'AP'
+                    else 'No system defined'
                 end                                         as PO_MANDT                 : String(20),
                 VBELN                                       as SO_VBELN,
                 POSNR                                       as SO_POSNR,
@@ -515,6 +523,7 @@ service openOrdersSrv {
             when '100' then 'Cobalt'
             when '200' then 'Star'
             when '300' then 'AP'
+            else 'No system defined'
         end                                         as PO_MANDT                 : String(20),
         key EBELN AS PO_EBELN,
         key EBELP AS PO_EBELP,
