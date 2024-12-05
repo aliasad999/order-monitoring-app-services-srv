@@ -5,6 +5,9 @@
   "repository": "<Add your repository here>",
   "license": "UNLICENSED",
   "private": true,
+  "engines": {
+    "node": "20.x"
+  },
   "dependencies": {
     "@cap-js-community/odata-v2-adapter": "^1.13.6",
     "@sap-cloud-sdk/http-client": "3.11.0",
