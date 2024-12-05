@@ -48,13 +48,23 @@ annotate service.orderCreation with @UI.LineItem: {$value: [
     {Value: PO_EBELN},
     {Value: PO_EBELP},
     {Value: PO_AEDAT_HEAD},
-    {Value: PO_AEDAT_ITEM}
+    {Value: PO_AEDAT_ITEM},
+    {Value: PO_ISSUE_TEXT},
+    {Value: PO_NPS_TEXT},
+    {Value: PO_ERROR_TEXT},
+    {Value: PO_DUE_DATE}
 ]};
 
 // ------------- ORDER CREATION SELECTION FIELDS -------
 annotate service.orderCreation with @(UI: {SelectionFields: [
     PO_EBELN,
-    PO_EBELP
+    PO_EBELP,
+    PO_AEDAT_HEAD,
+    PO_AEDAT_ITEM,
+    PO_ISSUE_TEXT,
+    PO_NPS_TEXT,
+    PO_ERROR_TEXT,
+    PO_DUE_DATE
 ],
 
 });
@@ -76,7 +86,8 @@ annotate service.orderCreation with {
     PO_MEINS                @title: '{i18n>PO_MEINS}'            @sap.Label: '{i18n>PO_MEINS}'       @Semantics.unitOfMeasure: 'unit-of-measure';
     PO_DUE_DATE             @title: '{i18n>PO_DUE_DATE}'         @sap.Label: '{i18n>PO_DUE_DATE}';
     PO_ERROR_TEXT           @title: '{i18n>PO_ERROR_TEXT}'       @sap.Label: '{i18n>PO_ERROR_TEXT}';
-    PO_BIM_ERROR_ID         @title: '{i18n>PO_BIM_ERROR_ID}'     @sap.Label: '{i18n>PO_BIM_ERROR_ID}';
+    PO_ISSUE_TEXT           @title: '{i18n>PO_ISSUE}'       @sap.Label: '{i18n>PO_ISSUE}';
+    PO_NPS_TEXT         @title: '{i18n>PO_NPS}'     @sap.Label: '{i18n>PO_NPS}';
 
     // FIELDS WITH TEXT ARRANGEMENT
     @Common.Text           : PO_KUNNR_NAME
@@ -99,16 +110,6 @@ annotate service.orderCreation with {
     PO_BSART                @title: '{i18n>PO_BSART}'            @sap.Label: '{i18n>PO_BSART}';
     @Common.TextFor
     PO_BSART_BATXT;
-    @Common.Text           : PO_NPS_TEXT
-    @Common.TextArrangement: #TextOnly
-    PO_NPS                @title: '{i18n>PO_NPS}'            @sap.Label: '{i18n>PO_NPS}';
-    @Common.TextFor
-    PO_NPS_TEXT;
-    @Common.Text           : PO_ISSUE_TEXT
-    @Common.TextArrangement: #TextOnly
-    PO_ISSUE                @title: '{i18n>PO_ISSUE}'            @sap.Label: '{i18n>PO_ISSUE}';
-    @Common.TextFor
-    PO_ISSUE_TEXT;
 
     // HIDDEN FIELDS
     PO_KUNNR_NAME           @UI   : {Hidden: true};
@@ -117,8 +118,8 @@ annotate service.orderCreation with {
     PO_BSART_BATXT          @UI   : {Hidden: true};
     PO_BIM_ERROR_ID         @UI   : {Hidden: true};
     PO_MEINS                @UI   : {Hidden: true};
-    PO_NPS_TEXT             @UI   : {Hidden: true};
-    PO_ISSUE_TEXT           @UI   : {Hidden: true};
+    PO_ISSUE         @UI   : {Hidden: true};
+    PO_NPS                @UI   : {Hidden: true};
 }
 
 // ------------- ORDER CREATION VALUE HELPS -------
@@ -129,7 +130,7 @@ annotate service.orderCreation with {
 //     @Common.ValueList: {
 //         $Type                  : 'Common.ValueListType',
 //         Label                  : '{@i18n>PO_EBELN}',
-//         CollectionPath         : 'valueHelps',
+//         CollectionPath         : 'orderCreation',
 //         DistinctValuesSupported: true,
 //         SearchSupported        : true,
 //         Parameters             : [{
@@ -145,7 +146,7 @@ annotate service.orderCreation with {
 //     @Common.ValueList: {
 //         $Type                  : 'Common.ValueListType',
 //         Label                  : '{@i18n>PO_EBELP}',
-//         CollectionPath         : 'valueHelps',
+//         CollectionPath         : 'orderCreation',
 //         DistinctValuesSupported: true,
 //         SearchSupported        : true,
 //         Parameters             : [{
