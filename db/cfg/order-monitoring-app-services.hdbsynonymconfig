@@ -5,6 +5,12 @@
       "schema.configure": "otc-csc-hdi/schema"
     }
   },
+  "ALLORDERS_DB_EKKOAUTH": {
+    "target": {
+      "object": "otc.csc.db.base.tables::ST_EKKOAUTH",
+      "schema.configure": "otc-csc-hdi/schema"
+    }
+  },
   "ALLORDERS_DB_VBAKAUTH": {
     "target": {
       "object": "otc.csc.db.base.tables::ST_VBAKAUTH",

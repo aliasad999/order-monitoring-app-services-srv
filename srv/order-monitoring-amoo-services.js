@@ -8,6 +8,7 @@ const log = require("cf-nodejs-logging-support");
 const enableHints = require("./plugins/enable_hints");
 const { startOfToday } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies') 
+const serviceHelper = require('./utils/serviceHelper');
 
 class openOrdersSrv extends cds.ApplicationService {
 
@@ -781,30 +782,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
             req.query.SELECT.localized = false;
             req.query.SELECT.distinct = true;
-            const dateProps = [
-                "SO_ERDAT_ORDER",
-                "SO_ERDAT_ITEM",
-                "SO_EDATU_REQUESTED",
-                "SO_EDATU_CONFIRMED",
-                "SO_LDDAT",
-                "SO_PRSDT",
-                "SO_F_TDDAT",
-                "SO_F_MBDAT",
-                "DL_LFDAT",
-                "DL_HSDAT",
-                "DL_VFDAT",
-                "DL_WADAT",
-                "DL_WADAT_IST",
-                "DL_ERDAT",
-                "DL_LDDAT",
-                "TM_DPTBG",
-                "TM_DATBG",
-                "TM_DPTEN",
-                "TM_DATEN",
-                "SO_F_LDDAT",
-                "TM_AR_DATE",
-                "SO_F_DGLTP",
-                "SO_DUE_DATE"]
+            const dateProps = serviceHelper.getDateProps()
             for (let i = 0; i < req.query.SELECT.where?.length; i++) {
                 const item = req.query.SELECT.where[i];
                 if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
@@ -874,55 +852,54 @@ class openOrdersSrv extends cds.ApplicationService {
 
             if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols ) {
                 if (req.target.name === 'openOrdersSrv.allIssues'){
-                let nps10, nps20, nps30, nps40, nps50, nps60, nps70, nps80, nps90, nps95, nps99, nps00;
-                let tabs = {}
-                try {
-                    const db = cds.transaction(req);
-                    const where = convertCQNtoCQL(req.query.SELECT.where)
-                    const sQuery = `CALL"npsValueExist"(IV_WHERECLAUSE => '${where}',LT_NPS_TAB => ?)`;
-                    const npstabs = await db.run(sQuery)
-                    tabs = npstabs.reduce((acc, item) => {
-                        acc[`nps${item.ID}`] = item.FLAG;
-                        return acc;
-                    }, {});
-                } catch (error) {
-                    log.error("[order-monitoring-app-services.js] - if exist query failed ! " + JSON.stringify(error));
-                    req.error(error)
-                }
+                    let nps10, nps20, nps30, nps40, nps50, nps60, nps70, nps80, nps90, nps95, nps99, nps00;
+                    let tabs = {}
+                    try {
+                        const db = cds.transaction(req);
+                        const where = convertCQNtoCQL(req.query.SELECT.where)
+                        const sQuery = `CALL"npsValueExist"(IV_WHERECLAUSE => '${where}',LT_NPS_TAB => ?)`;
+                        const npstabs = await db.run(sQuery)
+                        tabs = npstabs.reduce((acc, item) => {
+                            acc[`nps${item.ID}`] = item.FLAG;
+                            return acc;
+                        }, {});
+                    } catch (error) {
+                        log.error("[order-monitoring-app-services.js] - if exist query failed ! " + JSON.stringify(error));
+                        req.error(error)
+                    }
 
-                try {
-                    const db = cds.transaction(req);
-                    let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  openOrdersSrv_allIssues   ) `)
-                    if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
-                    const distinctCount = (req.query.SELECT.where) ?
-                        await db.run(query)
-                        : await db.run(query)
-                    let data = JSON.stringify({
-                        "nps10": tabs.nps10,
-                        "nps20": tabs.nps20,
-                        "nps30": tabs.nps30,
-                        "nps40": tabs.nps40,
-                        "nps50": tabs.nps50,
-                        "nps60": tabs.nps60,
-                        "nps70": tabs.nps70,
-                        "nps80": tabs.nps80,
-                        "nps90": tabs.nps90,
-                        "nps95": tabs.nps95,
-                        "nps99": tabs.nps99,
-                        "nps00": tabs.nps0
-                    })
-                    req.res.setHeader('custom', data)
-                    return req.reply({ $count: Object.values(distinctCount[0])[0] })
+                    try {
+                        const db = cds.transaction(req);
+                        let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  openOrdersSrv_allIssues   ) `)
+                        if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
+                        const distinctCount = (req.query.SELECT.where) ?
+                            await db.run(query)
+                            : await db.run(query)
+                        let data = JSON.stringify({
+                            "nps10": tabs.nps10,
+                            "nps20": tabs.nps20,
+                            "nps30": tabs.nps30,
+                            "nps40": tabs.nps40,
+                            "nps50": tabs.nps50,
+                            "nps60": tabs.nps60,
+                            "nps70": tabs.nps70,
+                            "nps80": tabs.nps80,
+                            "nps90": tabs.nps90,
+                            "nps95": tabs.nps95,
+                            "nps99": tabs.nps99,
+                            "nps00": tabs.nps0
+                        })
+                        req.res.setHeader('custom', data)
+                        return req.reply({ $count: Object.values(distinctCount[0])[0] })
 
-                } catch (error) {
-                    log.error("[order-monitoring-app-services.js] - Count query failed ! " + JSON.stringify(error));
-                    req.error(error)
+                    } catch (error) {
+                        log.error("[order-monitoring-app-services.js] - Count query failed ! " + JSON.stringify(error));
+                        req.error(error)
+                    }
+                }else {
+                    return req.reply({ $count: 0 })
                 }
             }
-            else {
-                return req.reply({ $count: 0 })
-            }
-        }
             await next(req)
         })
 
@@ -952,30 +929,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     }
                 }
                 data = Array.isArray(data) ? data : [data]
-                var dateProps = [
-                    "SO_ERDAT_ORDER",
-                    "SO_ERDAT_ITEM",
-                    "SO_EDATU_REQUESTED",
-                    "SO_EDATU_CONFIRMED",
-                    "SO_LDDAT",
-                    "SO_PRSDT",
-                    "SO_F_TDDAT",
-                    "SO_F_MBDAT",
-                    "DL_LFDAT",
-                    "DL_HSDAT",
-                    "DL_VFDAT",
-                    "DL_WADAT",
-                    "DL_WADAT_IST",
-                    "DL_ERDAT",
-                    "DL_LDDAT",
-                    "TM_DPTBG",
-                    "TM_DATBG",
-                    "TM_DPTEN",
-                    "TM_DATEN",
-                    "SO_F_LDDAT",
-                    "TM_AR_DATE",
-                    "SO_F_DGLTP",
-                    "SO_DUE_DATE"]
+                var dateProps = serviceHelper.getDateProps()
                 data.forEach((item) => {
                     item.id = uuid.v1()
                     if ('SO_NETWR' in item) // Net Amount
