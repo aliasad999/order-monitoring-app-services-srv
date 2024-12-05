@@ -1,0 +1,121 @@
+{
+  "namespace": "allorders.db",
+  "definitions": {},
+  "extensions": [
+    {
+      "annotate": "openOrdersSrv.allIssues",
+      "elements": {
+        "SO_DCP_ITEM_STATUS": {
+          "@Common.Text": {
+            "=": "SO_DCP_ITEM_STATUS_DESCRIPTION"
+          },
+          "@Common.TextArrangement": {
+            "#": "TextFirst"
+          },
+          "@title": "{i18n>SO_DCP_ITEM_STATUS}",
+          "@sap.Label": "{i18n>SO_DCP_ITEM_STATUS}",
+          "@Common.ValueList.$Type": "Common.ValueListType",
+          "@Common.ValueList.Label": "{@i18n>SO_DCP_ITEM_STATUS}",
+          "@Common.ValueList.CollectionPath": "valueHelps",
+          "@Common.ValueList.DistinctValuesSupported": true,
+          "@Common.ValueList.SearchSupported": true,
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "SO_DCP_ITEM_STATUS"
+              },
+              "ValueListProperty": "SO_DCP_ITEM_STATUS"
+            }
+          ]
+        },
+        "SO_DCP_ITEM_STATUS_DESCRIPTION": {
+          "@Common.TextFor": true,
+          "@UI.Hidden": true
+        }
+      }
+    },
+    {
+      "annotate": "openOrdersSrv.baseEntity",
+      "elements": {
+        "SO_DCP_ITEM_STATUS": {
+          "@title": "{i18n>SO_DCP_ITEM_STATUS}",
+          "@sap.Label": "{i18n>SO_DCP_ITEM_STATUS}"
+        },
+        "SO_DCP_ITEM_STATUS_DESCRIPTION": {
+          "@title": "{i18n>SO_DCP_ITEM_STATUS}",
+          "@sap.Label": "{i18n>SO_DCP_ITEM_STATUS}"
+        }
+      }
+    },
+    {
+      "annotate": "openOrdersSrv.valueHelps",
+      "elements": {
+        "SO_DCP_ITEM_STATUS": {
+          "@Common.Text": {
+            "=": "SO_DCP_ITEM_STATUS_DESCRIPTION"
+          },
+          "@Common.TextArrangement": {
+            "#": "TextOnly"
+          },
+          "@title": "{i18n>SO_DCP_ITEM_STATUS}",
+          "@sap.Label": "{i18n>SO_DCP_ITEM_STATUS}"
+        },
+        "SO_DCP_ITEM_STATUS_DESCRIPTION": {
+          "@UI.Hidden": true
+        }
+      }
+    },
+    {
+      "annotate": "srvOpenOrders.Results",
+      "elements": {
+        "USERNAME": {
+          "@title": "{i18n>USERNAME}",
+          "@sap.Label": "{i18n>USERNAME}"
+        },
+        "SO_DCP_ITEM_STATUS": {
+          "@Common.Text": {
+            "=": "SO_DCP_ITEM_STATUS_DESCRIPTION"
+          },
+          "@Common.TextArrangement": {
+            "#": "TextLast"
+          },
+          "@title": "{i18n>SO_DCP_ITEM_STATUS}",
+          "@sap.Label": "{i18n>SO_DCP_ITEM_STATUS}",
+          "@Common.ValueList.$Type": "Common.ValueListType",
+          "@Common.ValueList.Label": "{@i18n>SO_DCP_ITEM_STATUS}",
+          "@Common.ValueList.CollectionPath": "valueHelps",
+          "@Common.ValueList.DistinctValuesSupported": true,
+          "@Common.ValueList.SearchSupported": true,
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "SO_DCP_ITEM_STATUS"
+              },
+              "ValueListProperty": "SO_DCP_ITEM_STATUS"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "SO_DCP_ITEM_STATUS_DESCRIPTION"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "annotate": "srvOpenOrders.valueHelps",
+      "elements": {
+        "SO_DCP_ITEM_STATUS": {
+          "@title": "{i18n>SO_DCP_ITEM_STATUS}",
+          "@sap.Label": "{i18n>SO_DCP_ITEM_STATUS}"
+        }
+      }
+    }
+  ],
+  "meta": {
+    "creator": "CDS Compiler v4.6.2",
+    "build": "CDS Build v7.6.1"
+  },
+  "$version": "2.0"
+}
