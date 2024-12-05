@@ -4,7 +4,8 @@ using {AMOOUtilsService as AMOOUtilsService} from './external/AMOOUtilsService';
 service srvOpenOrders {
 
   entity VBAKAuthObjectKeys      as select from db_app.VBAKAUTH;
-  function getVBAKAuthObjKeys() returns Boolean;
+  entity EKKOAuthObjectKeys      as select from db_app.EKKOAUTH;
+  function getVBAKAuthObjKeys() returns Integer;
 
   @readonly
   @cds.redirection.target: true

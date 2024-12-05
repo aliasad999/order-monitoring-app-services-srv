@@ -274,6 +274,13 @@ entity VBAKAUTH {
 }
 
 @cds.persistence.exists
+entity EKKOAUTH {
+        key EKORG       : String(4);
+        key USERID      : String;
+            LAST_UPDATE : Timestamp;
+}
+
+@cds.persistence.exists
 entity ![ST_NOTES] {
         CLIENT         : String(3);
         UTCTIME        : Decimal(15) not null;
