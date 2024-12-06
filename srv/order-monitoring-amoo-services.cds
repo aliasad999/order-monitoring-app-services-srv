@@ -9,6 +9,7 @@ using {LORDOdataOrderService as LORDOdataOrderService} from './external/LORDOdat
 // using { ATPService as ATPService } from './external/ATPService';
 using {CSEUCockpitService as CSEUCockpitService} from './external/CSEUCockpitService';
 
+
 service openOrdersSrv {
     entity currencies as projection on db_app.currency;
     entity rootEntity               as
@@ -26,41 +27,49 @@ service openOrdersSrv {
                     when '100' then 'Cobalt'
                     when '200' then 'Star'
                     when '300' then 'AP'
+                    else 'No system defined'
                 end                                         as BL_MANDT_INV_FIRST                 : String(20),
                 case BL_MANDT_INV_LAST
                     when '100' then 'Cobalt'
                     when '200' then 'Star'
                     when '300' then 'AP'
+                    else 'No system defined'
                 end                                         as BL_MANDT_INV_LAST                 : String(20),
                 case MANDT_TM
                     when '100' then 'Cobalt'
                     when '200' then 'Star'
                     when '300' then 'AP'
+                    else 'No system defined'
                 end                                         as TM_MANDT                 : String(20),
                 case MANDT
                     when '100' then 'Cobalt'
                     when '200' then 'Star'
                     when '300' then 'AP'
+                    else 'No system defined'
                 end                                         as SO_MANDT                 : String(20),
                 case MANDT_DEL
                     when '100' then 'Cobalt'
                     when '200' then 'Star'
                     when '300' then 'AP'
+                    else 'No system defined'
                 end                                         as DL_MANDT                 : String(20),
                 case FINAL_SO_MANDT
                     when '100' then 'Cobalt'
                     when '200' then 'Star'
                     when '300' then 'AP'
+                    else 'No system defined'
                 end                                         as SO_FINAL_SO_MANDT                  : String(20),
                 case FIRST_SO_MANDT
                     when '100' then 'Cobalt'
                     when '200' then 'Star'
                     when '300' then 'AP'
+                    else 'No system defined'
                 end                                         as SO_FIRST_SO_MANDT               : String(20),
                 case PO_MANDT
                     when '100' then 'Cobalt'
                     when '200' then 'Star'
                     when '300' then 'AP'
+                    else 'No system defined'
                 end                                         as PO_MANDT                 : String(20),
                 VBELN                                       as SO_VBELN,
                 POSNR                                       as SO_POSNR,
@@ -506,6 +515,55 @@ service openOrdersSrv {
 
     entity ignoreSalesOrder         as projection on db_app.IGNORED_SO;
     function getIssueReason(salesOrder : String(10), salesOrderItem : String(6), detailsSalesOrder : String(10), DetailsSalesOrderItem : String(6), issue : String(2), nps : String(3), issue_location : String(12), material : String(18), plant : String(4), quantity : Decimal(13, 3), uom : String(3), dueDate : Date, firstDate : Date) returns array of db_app.issue_reason;
-    action   createDeliveryforAllItem(salesOrder : String(10))                                                                                                                                                                                                                                                                               returns Boolean;
-    action   createDeliveryforItem(salesOrder : String(10), salesOrderItem : String(6))                                                                                                                                                                                                                                                      returns Boolean;
+    action   createDeliveryforAllItem(salesOrder : String(10))  returns Boolean;
+    action   createDeliveryforItem(salesOrder : String(10), salesOrderItem : String(6)) returns Boolean;
+    @readonly
+    entity orderCreation as projection on db_app.ORDER_CREATION{
+        key case MANDT
+            when '100' then 'Cobalt'
+            when '200' then 'Star'
+            when '300' then 'AP'
+            else 'No system defined'
+        end                                         as PO_MANDT                 : String(20),
+        key EBELN AS PO_EBELN,
+        key EBELP AS PO_EBELP,
+        case
+            when AEDAT_HEAD_DATE = '00000000' then null
+            else AEDAT_HEAD_DATE
+        end                                         as PO_AEDAT_HEAD                   : Date,
+        case
+            when AEDAT_ITEM_DATE = '00000000' then null
+            else AEDAT_ITEM_DATE
+        end                                         as PO_AEDAT_ITEM                   : Date,
+        BSART AS PO_BSART,
+        EKORG AS PO_EKORG,
+        EKOTX AS PO_EKOTX,
+        EKGRP AS PO_EKGRP,
+        EKNAM AS PO_EKNAM,
+        EMATN AS PO_EMATN,
+        WERKS AS PO_WERKS,
+        MENGE AS PO_MENGE,
+        MEINS AS PO_MEINS,
+        KUNNR AS PO_KUNNR,
+        KUNNR_NAME1 || ' ' || KUNNR_NAME2           as PO_KUNNR_NAME                   : String(80),
+        PARTNER_9A_HEAD AS PO_PARTNER_9A_HEAD,
+        PARTNER_9A_HEAD_NAME AS PO_PARTNER_9A_HEAD_NAME,
+        PARTNER_9O_HEAD AS PO_PARTNER_9O_HEAD,
+        PARTNER_9O_HEAD_NAME AS PO_PARTNER_9O_HEAD_NAME,
+        BSART_BATXT AS PO_BSART_BATXT,
+        NPS AS PO_NPS,
+        case NPS
+            when '01' then 'Order Creation'
+            else ''
+        end as PO_NPS_TEXT : String(30),
+        ISSUE AS PO_ISSUE,
+        case ISSUE
+            when '40' then 'Sales Order Creation Outstanding'
+            when '41' then 'Error During Sales Order Creation'
+            else ''
+        end as PO_ISSUE_TEXT : String(60),
+        DUE_DATE_FORMATTED AS PO_DUE_DATE,
+        ERROR_TEXT AS PO_ERROR_TEXT,
+        BIM_ERROR_ID AS PO_BIM_ERROR_ID
+    } ;
 };

@@ -77,5 +77,11 @@
           "object": "otc.csc.db.base.tables::PARTNER_SETTINGS",
           "schema": "_PLACEHOLDER_"
       }
+  },
+  "OPENORDERS_DB_ORDER_CREATION": {
+    "target": {
+      "object": "otc.csc.db.app_service.views::CV_ORDER_CREATION_NPS",
+      "schema": "_PLACEHOLDER_"
+    }
   }
 }     
