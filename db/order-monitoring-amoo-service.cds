@@ -485,16 +485,16 @@ entity ![ORDER_CREATION] {
         DUE_DATE_FORMATTED                 : Date = DUE_DATE;
         ERROR_TEXT : String(250);
         BIM_ERROR_ID : String(36);
+        ISSUE_TEXT: String(60);
+        NPS_TEXT: String(30);
 }
 
 // entity POIssues {
 //         key Issue : String(2);
-//         key Language: String(2);
-//         IssueText : String(60)
+//         IssueText : localized String(60);
 // }
 
 // entity PONPS {
 //         key NPS : String(2);
-//         key Language: String(2);
-//         NPSText : String(30)
+//         NPSText : localized String(30)
 // }
