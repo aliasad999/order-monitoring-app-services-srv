@@ -84,10 +84,10 @@ annotate service.orderCreation with {
     PO_WERKS                @title: '{i18n>PO_WERKS_PO}'         @sap.Label: '{i18n>PO_WERKS_PO}';
     PO_MENGE                @title: '{i18n>PO_MENGE}'            @sap.Label: '{i18n>PO_MENGE}'       @Measures.Unit          : PO_MEINS;
     PO_MEINS                @title: '{i18n>PO_MEINS}'            @sap.Label: '{i18n>PO_MEINS}'       @Semantics.unitOfMeasure: 'unit-of-measure';
-    PO_DUE_DATE             @title: '{i18n>PO_DUE_DATE}'         @sap.Label: '{i18n>PO_DUE_DATE}';
+    PO_DUE_DATE             @title: '{i18n>so_due_date}'         @sap.Label: '{i18n>so_due_date}';
     PO_ERROR_TEXT           @title: '{i18n>PO_ERROR_TEXT}'       @sap.Label: '{i18n>PO_ERROR_TEXT}';
-    PO_ISSUE_TEXT           @title: '{i18n>PO_ISSUE}'       @sap.Label: '{i18n>PO_ISSUE}';
-    PO_NPS_TEXT         @title: '{i18n>PO_NPS}'     @sap.Label: '{i18n>PO_NPS}';
+    PO_ISSUE_TEXT           @title: '{i18n>SO_ISSUE}'       @sap.Label: '{i18n>SO_ISSUE}';
+    PO_NPS_TEXT         @title: '{i18n>SO_NPS}'     @sap.Label: '{i18n>SO_NPS}';
 
     // FIELDS WITH TEXT ARRANGEMENT
     @Common.Text           : PO_KUNNR_NAME
