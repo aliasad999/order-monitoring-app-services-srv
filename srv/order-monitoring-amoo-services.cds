@@ -519,6 +519,7 @@ service openOrdersSrv {
     action   createDeliveryforItem(salesOrder : String(10), salesOrderItem : String(6)) returns Boolean;
     @readonly
     entity orderCreation as projection on db_app.ORDER_CREATION{
+        key null                                        as Id                              : UUID,
         key case MANDT
             when '100' then 'Cobalt'
             when '200' then 'Star'
@@ -566,4 +567,7 @@ service openOrdersSrv {
         ERROR_TEXT AS PO_ERROR_TEXT,
         BIM_ERROR_ID AS PO_BIM_ERROR_ID
     } ;
+
+    @readonly
+    entity OCValueHelps as projection on orderCreation;
 };

@@ -483,6 +483,6 @@ entity ![ORDER_CREATION] {
         ISSUE : String(2);
         DUE_DATE                           : String(8);
         DUE_DATE_FORMATTED                 : Date = DUE_DATE;
-        ERROR_TEXT : LargeString;
+        ERROR_TEXT : String(250);
         BIM_ERROR_ID : String(36);
 }
