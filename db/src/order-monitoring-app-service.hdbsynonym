@@ -1,75 +1,87 @@
 {
-    "ALLORDERS_DB_RESULTS": {
-        "target": {
-            "object": "otc.csc.db.base.views::CV_ORDERLIST_FINAL",
-            "schema": "_PLACEHOLDER_"
-          }
-    },
-    "ALLORDERS_DB_VBAKAUTH": {
-        "target": {
-            "object": "otc.csc.db.base.tables::ST_VBAKAUTH",
-            "schema": "_PLACEHOLDER_"
-        }
-    },
-      "ALLORDERS_DB_ST_NOTES": {
-        "target": {
-          "object": "otc.csc.db.base.tables::ST_NOTES",
+  "ALLORDERS_DB_RESULTS": {
+      "target": {
+          "object": "otc.csc.db.base.views::CV_ORDERLIST_FINAL",
           "schema": "_PLACEHOLDER_"
         }
-      },
-    
-    "OPENORDERS_DB_OPENORDERSLIST": {
+  },
+  "ALLORDERS_DB_EKKOAUTH": {
+  "target": {
+    "object": "otc.csc.db.base.tables::ST_EKKOAUTH",
+    "schema": "_PLACEHOLDER_"
+  }
+},
+  "ALLORDERS_DB_VBAKAUTH": {
       "target": {
-        "object": "otc.csc.db.app_service.views::CV_OPEN_ORDERLIST_FINAL",
+          "object": "otc.csc.db.base.tables::ST_VBAKAUTH",
+          "schema": "_PLACEHOLDER_"
+      }
+  },
+    "ALLORDERS_DB_ST_NOTES": {
+      "target": {
+        "object": "otc.csc.db.base.tables::ST_NOTES",
         "schema": "_PLACEHOLDER_"
       }
     },
-    "OPENORDERS_DB_SALESORDER_DETAILS": {
-      "target": {
-        "object": "otc.csc.db.generic_service.views::CV_SALESORDER",
-        "schema": "_PLACEHOLDER_"
-      }
-    },
-    "OPENORDERS_DB_PREDEF_REASON_COMMENTS": {
-      "target": {
-        "object": "otc.csc.db.base.views::CV_PREDEF_REASON_COMMENTS",
-        "schema": "_PLACEHOLDER_"
-      }
-    },
-    "OPENORDERS_DB_PREDEF_REASON_BUCKETS": {
-      "target": {
-        "object": "otc.csc.db.base.views::CV_PREDEF_REASON_BUCKETS",
-        "schema": "_PLACEHOLDER_"
-      }
-    },
-    "OPENORDERS_DB_REASON_COMMENTS": {
-      "target": {
-        "object": "otc.csc.db.base.views::CV_REASON_COMMENT_ENTRIES",
-        "schema": "_PLACEHOLDER_"
-      }
-    },
-    "OPENORDERS_DB_PREDEF_FOLLOWUP_NOTES": {
-      "target": {
-        "object": "otc.csc.db.base.views::CV_PREDEF_FOLLOWUP_NOTES",
-        "schema": "_PLACEHOLDER_"
-      }
-    },
-    "OPENORDERS_DB_SO_FOLLOWUP_NOTES": {
-      "target": {
-        "object": "otc.csc.db.base.views::CV_SO_FOLLOWUP_NOTES",
-        "schema": "_PLACEHOLDER_"
-      }
-    },
-    "OPENORDERS_DB_IGNORED_SO": {
-      "target": {
-        "object": "otc.csc.db.base.tables::IGNORED_SO",
-        "schema": "_PLACEHOLDER_"
-      }
-    },
-    "ALLORDERS_DB_PARTNER_SETTINGS_DB": {
-        "target": {
-            "object": "otc.csc.db.base.tables::PARTNER_SETTINGS",
-            "schema": "_PLACEHOLDER_"
-        }
+  
+  "OPENORDERS_DB_OPENORDERSLIST": {
+    "target": {
+      "object": "otc.csc.db.app_service.views::CV_OPEN_ORDERLIST_FINAL",
+      "schema": "_PLACEHOLDER_"
     }
+  },
+  "OPENORDERS_DB_SALESORDER_DETAILS": {
+    "target": {
+      "object": "otc.csc.db.generic_service.views::CV_SALESORDER",
+      "schema": "_PLACEHOLDER_"
+    }
+  },
+  "OPENORDERS_DB_PREDEF_REASON_COMMENTS": {
+    "target": {
+      "object": "otc.csc.db.base.views::CV_PREDEF_REASON_COMMENTS",
+      "schema": "_PLACEHOLDER_"
+    }
+  },
+  "OPENORDERS_DB_PREDEF_REASON_BUCKETS": {
+    "target": {
+      "object": "otc.csc.db.base.views::CV_PREDEF_REASON_BUCKETS",
+      "schema": "_PLACEHOLDER_"
+    }
+  },
+  "OPENORDERS_DB_REASON_COMMENTS": {
+    "target": {
+      "object": "otc.csc.db.base.views::CV_REASON_COMMENT_ENTRIES",
+      "schema": "_PLACEHOLDER_"
+    }
+  },
+  "OPENORDERS_DB_PREDEF_FOLLOWUP_NOTES": {
+    "target": {
+      "object": "otc.csc.db.base.views::CV_PREDEF_FOLLOWUP_NOTES",
+      "schema": "_PLACEHOLDER_"
+    }
+  },
+  "OPENORDERS_DB_SO_FOLLOWUP_NOTES": {
+    "target": {
+      "object": "otc.csc.db.base.views::CV_SO_FOLLOWUP_NOTES",
+      "schema": "_PLACEHOLDER_"
+    }
+  },
+  "OPENORDERS_DB_IGNORED_SO": {
+    "target": {
+      "object": "otc.csc.db.base.tables::IGNORED_SO",
+      "schema": "_PLACEHOLDER_"
+    }
+  },
+  "ALLORDERS_DB_PARTNER_SETTINGS_DB": {
+      "target": {
+          "object": "otc.csc.db.base.tables::PARTNER_SETTINGS",
+          "schema": "_PLACEHOLDER_"
+      }
+  },
+  "OPENORDERS_DB_ORDER_CREATION": {
+    "target": {
+      "object": "otc.csc.db.app_service.views::CV_ORDER_CREATION_NPS",
+      "schema": "_PLACEHOLDER_"
+    }
+  }
 }     

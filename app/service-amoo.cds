@@ -1,20 +1,33 @@
 using openOrdersSrv as service from '../srv/order-monitoring-amoo-services.cds';
-annotate service.allIssues with @Consumption.dbHints: ['USE_HEX_PLAN','HEX_INDEX_JOIN'];
-annotate service.valueHelps with @Consumption.dbHints: ['USE_HEX_PLAN','HEX_INDEX_JOIN'];
+
+annotate service.allIssues with @Consumption.dbHints: [
+    'USE_HEX_PLAN',
+    'HEX_INDEX_JOIN'
+];
+
+annotate service.valueHelps with @Consumption.dbHints: [
+    'USE_HEX_PLAN',
+    'HEX_INDEX_JOIN'
+];
+
+annotate service.orderCreation with @Consumption.dbHints: [
+    'USE_HEX_PLAN',
+    'HEX_INDEX_JOIN'
+];
 
 annotate service.valueHelps with {
     @Common.Text           : SO_NPS_DESCRIPTION
     @Common.TextArrangement: #TextOnly
-    SO_NPS                  @title: '{i18n>SO_NPS}'        @sap.Label: '{i18n>SO_NPS}';
-    SO_NPS_DESCRIPTION @UI                     : {Hidden: true};
+    SO_NPS                         @title: '{i18n>SO_NPS}'              @sap.Label: '{i18n>SO_NPS}';
+    SO_NPS_DESCRIPTION             @UI   : {Hidden: true};
     @Common.Text           : SO_ISSUE_DESCRIPTION
     @Common.TextArrangement: #TextOnly
-    SO_ISSUE                  @title: '{i18n>SO_ISSUE}'        @sap.Label: '{i18n>SO_ISSUE}';
-    SO_ISSUE_DESCRIPTION @UI                     : {Hidden: true};
+    SO_ISSUE                       @title: '{i18n>SO_ISSUE}'            @sap.Label: '{i18n>SO_ISSUE}';
+    SO_ISSUE_DESCRIPTION           @UI   : {Hidden: true};
     @Common.Text           : SO_DCP_ITEM_STATUS_DESCRIPTION
     @Common.TextArrangement: #TextOnly
-    SO_DCP_ITEM_STATUS                  @title: '{i18n>SO_DCP_ITEM_STATUS}'        @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
-    SO_DCP_ITEM_STATUS_DESCRIPTION @UI                     : {Hidden: true};
+    SO_DCP_ITEM_STATUS             @title: '{i18n>SO_DCP_ITEM_STATUS}'  @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
+    SO_DCP_ITEM_STATUS_DESCRIPTION @UI   : {Hidden: true};
 }
 
 annotate service.allIssues with @(UI: {SelectionFields: [
@@ -25,10 +38,134 @@ annotate service.allIssues with @(UI: {SelectionFields: [
     SO_AG_PARTNER,
     SO_WE_PARTNER,
     SO_ISSUE
+], });
+// -------------------------------------------------
+// ------------- ORDER CREATION ANNOTATIONS -------
+// -------------------------------------------------
+
+// ------------- ORDER CREATION LINE ITEM -------
+annotate service.orderCreation with @UI.LineItem: {$value: [
+    {Value: PO_EBELN},
+    {Value: PO_EBELP},
+    {Value: PO_AEDAT_HEAD},
+    {Value: PO_AEDAT_ITEM},
+    {Value: PO_ISSUE_TEXT},
+    {Value: PO_NPS_TEXT},
+    {Value: PO_ERROR_TEXT},
+    {Value: PO_DUE_DATE}
+]};
+
+// ------------- ORDER CREATION SELECTION FIELDS -------
+annotate service.orderCreation with @(UI: {SelectionFields: [
+    PO_EBELN,
+    PO_EBELP,
+    PO_AEDAT_HEAD,
+    PO_AEDAT_ITEM,
+    PO_ISSUE_TEXT,
+    PO_NPS_TEXT,
+    PO_ERROR_TEXT,
+    PO_DUE_DATE
 ],
+
 });
+
+// ------------- ORDER CREATION FIELD ANNOTATIONS -------
+annotate service.orderCreation with {
+    PO_MANDT                @title: '{i18n>PO_MANDT}'            @sap.Label: '{i18n>PO_MANDT}';
+    PO_EBELN                @title: '{i18n>PO_EBELN}'            @sap.Label: '{i18n>PO_EBELN}'       @Common.IsDigitSequence : true;
+    PO_EBELP                @title: '{i18n>PO_EBELP}'            @sap.Label: '{i18n>PO_EBELP}'       @Common.IsDigitSequence : true;
+    PO_AEDAT_HEAD           @title: '{i18n>PO_AEDAT_HEAD}'       @sap.Label: '{i18n>PO_AEDAT_HEAD}'  @sap.filter.restriction : 'interval';
+    PO_AEDAT_ITEM           @title: '{i18n>PO_AEDAT_ITEM}'       @sap.Label: '{i18n>PO_AEDAT_ITEM}'  @sap.filter.restriction : 'interval';
+    PO_EKORG                @title: '{i18n>PO_EKORG}'            @sap.Label: '{i18n>PO_EKORG}';
+    PO_EKOTX                @title: '{i18n>PO_EKOTX}'            @sap.Label: '{i18n>PO_EKOTX}';
+    PO_EKGRP                @title: '{i18n>PO_EKGRP}'            @sap.Label: '{i18n>PO_EKGRP}';
+    PO_EKNAM                @title: '{i18n>PO_EKNAM}'            @sap.Label: '{i18n>PO_EKNAM}';
+    PO_EMATN                @title: '{i18n>PO_EMATN}'            @sap.Label: '{i18n>PO_EMATN}';
+    PO_WERKS                @title: '{i18n>PO_WERKS_PO}'         @sap.Label: '{i18n>PO_WERKS_PO}';
+    PO_MENGE                @title: '{i18n>PO_MENGE}'            @sap.Label: '{i18n>PO_MENGE}'       @Measures.Unit          : PO_MEINS;
+    PO_MEINS                @title: '{i18n>PO_MEINS}'            @sap.Label: '{i18n>PO_MEINS}'       @Semantics.unitOfMeasure: 'unit-of-measure';
+    PO_DUE_DATE             @title: '{i18n>so_due_date}'         @sap.Label: '{i18n>so_due_date}';
+    PO_ERROR_TEXT           @title: '{i18n>PO_ERROR_TEXT}'       @sap.Label: '{i18n>PO_ERROR_TEXT}';
+    PO_ISSUE_TEXT           @title: '{i18n>SO_ISSUE}'       @sap.Label: '{i18n>SO_ISSUE}';
+    PO_NPS_TEXT         @title: '{i18n>SO_NPS}'     @sap.Label: '{i18n>SO_NPS}';
+
+    // FIELDS WITH TEXT ARRANGEMENT
+    @Common.Text           : PO_KUNNR_NAME
+    @Common.TextArrangement: #TextLast
+    PO_KUNNR                @title: '{i18n>PO_KUNNR}'            @sap.Label: '{i18n>PO_KUNNR}';
+    @Common.TextFor
+    PO_KUNNR_NAME;
+    @Common.Text           : PO_PARTNER_9A_HEAD_NAME
+    @Common.TextArrangement: #TextLast
+    PO_PARTNER_9A_HEAD      @title: '{i18n>PO_PARTNER_9A_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
+    @Common.TextFor
+    PO_PARTNER_9A_HEAD_NAME;
+    @Common.Text           : PO_PARTNER_9O_HEAD_NAME
+    @Common.TextArrangement: #TextLast
+    PO_PARTNER_9O_HEAD      @title: '{i18n>PO_PARTNER_9O_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
+    @Common.TextFor
+    PO_PARTNER_9O_HEAD_NAME;
+    @Common.Text           : PO_BSART_BATXT
+    @Common.TextArrangement: #TextLast
+    PO_BSART                @title: '{i18n>PO_BSART}'            @sap.Label: '{i18n>PO_BSART}';
+    @Common.TextFor
+    PO_BSART_BATXT;
+
+    // HIDDEN FIELDS
+    PO_KUNNR_NAME           @UI   : {Hidden: true};
+    PO_PARTNER_9A_HEAD_NAME @UI   : {Hidden: true};
+    PO_PARTNER_9O_HEAD_NAME @UI   : {Hidden: true};
+    PO_BSART_BATXT          @UI   : {Hidden: true};
+    PO_BIM_ERROR_ID         @UI   : {Hidden: true};
+    PO_MEINS                @UI   : {Hidden: true};
+    PO_ISSUE         @UI   : {Hidden: true};
+    PO_NPS                @UI   : {Hidden: true};
+}
+
+// ------------- ORDER CREATION VALUE HELPS -------
+// In Standby until we have a first implementation ready
+
+// annotate service.orderCreation with {
+//     PO_EBELN
+//     @Common.ValueList: {
+//         $Type                  : 'Common.ValueListType',
+//         Label                  : '{@i18n>PO_EBELN}',
+//         CollectionPath         : 'orderCreation',
+//         DistinctValuesSupported: true,
+//         SearchSupported        : true,
+//         Parameters             : [{
+//             $Type            : 'Common.ValueListParameterInOut',
+//             LocalDataProperty: PO_EBELN,
+//             ValueListProperty: 'PO_EBELN'
+//         }
+
+//         ]
+//     };
+
+//     PO_EBELP
+//     @Common.ValueList: {
+//         $Type                  : 'Common.ValueListType',
+//         Label                  : '{@i18n>PO_EBELP}',
+//         CollectionPath         : 'orderCreation',
+//         DistinctValuesSupported: true,
+//         SearchSupported        : true,
+//         Parameters             : [{
+//             $Type            : 'Common.ValueListParameterInOut',
+//             LocalDataProperty: PO_EBELP,
+//             ValueListProperty: 'PO_EBELP'
+//         }
+
+//         ]
+//     };
+// };
+
+// -------------------------------------------------
+// ------- END OF ORDER CREATION ANNOTATIONS -------
+// -------------------------------------------------
+
+
 // ------------- different tabs qualifier for lineitems-------
-annotate service.allIssues with @UI.LineItem#allIssues: {
+annotate service.allIssues with @UI.LineItem #allIssues: {
     ![@UI.Criticality]: 5,
     $value            : [
         {Value: SO_VBELN},
@@ -70,8 +207,8 @@ annotate service.allIssues with @UI.LineItem#allIssues: {
         {Value: TM_SHIPMENT_CURRENT_STATUS},
     ]
 };
-annotate service.allIssues with @UI.LineItem#nps10:{
-    $value            : [
+
+annotate service.allIssues with @UI.LineItem #nps10: {$value: [
     {Value: SO_VBELN},
     {Value: SO_POSNR},
     {Value: SO_DUE_DATE},
@@ -102,10 +239,9 @@ annotate service.allIssues with @UI.LineItem#nps10:{
     {Value: SO_BSTKD},
     {Value: SO_EDATU_REQUESTED},
     {Value: SO_KWMENG},
-    ]
-};
-annotate service.allIssues with @UI.LineItem#nps20:{
-    $value:[
+]};
+
+annotate service.allIssues with @UI.LineItem #nps20: {$value: [
     {Value: SO_VBELN},
     {Value: SO_POSNR},
     {Value: SO_DUE_DATE},
@@ -147,10 +283,9 @@ annotate service.allIssues with @UI.LineItem#nps20:{
     {Value: SO_N_VBELN},
     {Value: SO_F_VBELN},
 
-        ]
-};
-annotate service.allIssues with @UI.LineItem#nps30:{
-    $value:[
+]};
+
+annotate service.allIssues with @UI.LineItem #nps30: {$value: [
     {Value: SO_VBELN},
     {Value: SO_POSNR},
     {Value: SO_DUE_DATE},
@@ -192,11 +327,9 @@ annotate service.allIssues with @UI.LineItem#nps30:{
     {Value: SO_LEVEL_TYPE},
     {Value: SO_N_VBELN},
     {Value: SO_F_VBELN},
-    ]
-};
+]};
 
-annotate service.allIssues with @UI.LineItem#nps40:{
-    $value:[
+annotate service.allIssues with @UI.LineItem #nps40: {$value: [
     {Value: SO_VBELN},
     {Value: SO_POSNR},
     {Value: SO_DUE_DATE},
@@ -238,262 +371,254 @@ annotate service.allIssues with @UI.LineItem#nps40:{
     {Value: SO_F_VBELN},
     {Value: SO_ZTERM},
     {Value: SO_PRSDT},
-    ]
-};
-annotate service.allIssues with @UI.LineItem#nps50:{
-    $value:[
-        {Value: SO_VBELN},
-        {Value: SO_POSNR},
-        {Value: SO_DUE_DATE},
-        {Value: SO_NPS},
-        {Value: SO_ISSUE},
-        {Value: SO_MAKTX},
-        {Value: SO_MATNR},
-        {Value: SO_WERKS},
-        {Value: DL_CHARG},
-        // {Value: },^MDB block
-        {Value: DL_VBELN},
-        {Value: DL_POSNR},
-        {Value: DL_LFDAT},
-        {Value: SO_EDATU_CONFIRMED},
-        {Value: SO_KWMENG},
-        {Value: SO_KBMENG},
-        {Value: DL_PEND_DEL_QUAN},
-        {Value: DL_WADAT},
-        {Value: SO_WE_PARTNER_NAME},
-        {Value: SO_LAND1},
-        {Value: SO_LANDX},
-        {Value: SO_ORT01},
-        {Value: SO_ROUTE},
-        {Value: SO_INCO1},
-        {Value: SO_KBETR},
-        {Value: SO_NETWR},
-        {Value: SO_ZZDKPPRODB},
+]};
 
-    ]
-};
-annotate service.allIssues with @UI.LineItem#nps60:{
-    $value:[
-        {Value: SO_VBELN},
-        {Value: SO_POSNR},
-        {Value: SO_DUE_DATE},
-        {Value: SO_NPS},
-        {Value: SO_ISSUE},
-        {Value: SO_MAKTX},
-        {Value: SO_MATNR},
-        {Value: SO_WERKS},
-        {Value: DL_CHARG},
-        {Value: TM_TKNUM},
-        {Value: TM_VSART},
-        {Value: SO_WE_PARTNER_NAME},
-        {Value: SO_ORT01},
-        {Value: SO_LAND1},
-        {Value: DL_VBELN},
-        {Value: SO_WE_PARTNER},
-        {Value: DL_LFART},
-        {Value: SO_KWMENG},
-        {Value: SO_KBMENG},
-        {Value: DL_PEND_DEL_QUAN},
-        {Value: DL_LFDAT},
-        {Value: DL_WADAT},
-        {Value: SO_FAKSP},
-        {Value: DL_ZZ0S2BLNR},
-        {Value: TM_AR_DATE},
+annotate service.allIssues with @UI.LineItem #nps50: {$value: [
+    {Value: SO_VBELN},
+    {Value: SO_POSNR},
+    {Value: SO_DUE_DATE},
+    {Value: SO_NPS},
+    {Value: SO_ISSUE},
+    {Value: SO_MAKTX},
+    {Value: SO_MATNR},
+    {Value: SO_WERKS},
+    {Value: DL_CHARG},
+    // {Value: },^MDB block
+    {Value: DL_VBELN},
+    {Value: DL_POSNR},
+    {Value: DL_LFDAT},
+    {Value: SO_EDATU_CONFIRMED},
+    {Value: SO_KWMENG},
+    {Value: SO_KBMENG},
+    {Value: DL_PEND_DEL_QUAN},
+    {Value: DL_WADAT},
+    {Value: SO_WE_PARTNER_NAME},
+    {Value: SO_LAND1},
+    {Value: SO_LANDX},
+    {Value: SO_ORT01},
+    {Value: SO_ROUTE},
+    {Value: SO_INCO1},
+    {Value: SO_KBETR},
+    {Value: SO_NETWR},
+    {Value: SO_ZZDKPPRODB},
 
-    ]
-};
-annotate service.allIssues with @UI.LineItem#nps70:{
-    $value:[
-        {Value: SO_VBELN},
-        {Value: SO_POSNR},
-        {Value: SO_DUE_DATE},
-        {Value: SO_NPS},
-        {Value: SO_MAKTX},
-        {Value: SO_MATNR},
-        {Value: SO_WERKS},
-        {Value: DL_CHARG},
-        {Value: TM_TKNUM},
-        {Value: TM_SHIPMENT_ETA_UPDATED},
-        {Value: SO_WE_PARTNER_NAME},
-        {Value: SO_ORT01},
-        {Value: SO_LAND1},
-        {Value: SO_WE_PARTNER},
-        {Value: SO_NETWR},
-        {Value: DL_VBELN},
-        {Value: SO_KWMENG},
-        {Value: SO_KBMENG},
-        {Value: DL_PEND_DEL_QUAN},
-        {Value: DL_LFDAT},
-        {Value: DL_WADAT},
-        {Value: TM_DPTEN},
-        {Value: TM_DPTBG},
-        {Value: SO_EDATU_CONFIRMED},
-        {Value: DL_TRAID},
-        {Value: SO_F_LDDAT},
-        {Value: TM_TDLNR_NAME1},
-        {Value: SO_INCO1},
-        {Value: SO_ROUTE},
+]};
 
-    ]
-};
-annotate service.allIssues with @UI.LineItem#nps80:{
-    $value:[
-        {Value: SO_VBELN},
-        {Value: SO_POSNR},
-        {Value: SO_DUE_DATE},
-        {Value: SO_NPS},
-        {Value: SO_MAKTX},
-        {Value: SO_MATNR},
-        {Value: SO_WERKS},
-        {Value: DL_CHARG},
-        {Value: TM_TKNUM},
-        {Value: TM_SHIPMENT_ETA_UPDATED},
-        {Value: SO_WE_PARTNER_NAME},
-        {Value: SO_ORT01},
-        {Value: SO_LAND1},
-        {Value: SO_WE_PARTNER},
-        {Value: SO_F_VSBED_VTEXT},
-        {Value: TM_TDLNR_NAME1},
-        {Value: TM_EXTI1},
-        {Value: DL_TRAID},
-        {Value: SO_ROUTE},
-        {Value: DL_VBELN},
-        {Value: DL_WADAT},
-        {Value: DL_WADAT_IST},
-        {Value: SO_KBMENG},
-        {Value: TM_DPTEN},
-        {Value: TM_DPTBG},
-        {Value: SO_EDATU_CONFIRMED},
-        {Value: DL_PEND_DEL_QUAN},
-        {Value: SO_F_LDDAT},
-        {Value: SO_NETWR},
-        {Value: SO_ZZDKPPRODB},
-        {Value: SO_INCO1},
+annotate service.allIssues with @UI.LineItem #nps60: {$value: [
+    {Value: SO_VBELN},
+    {Value: SO_POSNR},
+    {Value: SO_DUE_DATE},
+    {Value: SO_NPS},
+    {Value: SO_ISSUE},
+    {Value: SO_MAKTX},
+    {Value: SO_MATNR},
+    {Value: SO_WERKS},
+    {Value: DL_CHARG},
+    {Value: TM_TKNUM},
+    {Value: TM_VSART},
+    {Value: SO_WE_PARTNER_NAME},
+    {Value: SO_ORT01},
+    {Value: SO_LAND1},
+    {Value: DL_VBELN},
+    {Value: SO_WE_PARTNER},
+    {Value: DL_LFART},
+    {Value: SO_KWMENG},
+    {Value: SO_KBMENG},
+    {Value: DL_PEND_DEL_QUAN},
+    {Value: DL_LFDAT},
+    {Value: DL_WADAT},
+    {Value: SO_FAKSP},
+    {Value: DL_ZZ0S2BLNR},
+    {Value: TM_AR_DATE},
 
-    ]
-};
-annotate service.allIssues with @UI.LineItem#nps90:{
-    $value:[
-        {Value: SO_VBELN},
-        {Value: SO_POSNR},
-        {Value: SO_MAKTX},
-        {Value: SO_WE_PARTNER_NAME},
-        {Value: SO_ORT01},
-        {Value: SO_LAND1},
-        {Value: DL_VBELN},
-        {Value: SO_ZZDKPPRODB},
-        {Value: DL_POSNR},
-        {Value: TM_SHIPMENT_ETA_UPDATED},
-        {Value: TM_SHIPMENT_CURRENT_STATUS},
-        {Value: TM_SHIPMENT_ALERT},
-        {Value: TM_TKNUM},
-        {Value: TM_DPTBG},
-        {Value: TM_DPTEN},
-        {Value: TM_DATBG},
-        {Value: TM_DATEN},
-        {Value: DL_LFDAT},
-        {Value: SO_EDATU_CONFIRMED},
-        {Value: TM_TDLNR_NAME1},
-        {Value: TM_EXTI1},
-        {Value: SO_INCO1},
-        {Value: SO_ROUTE},
-        {Value: DL_WADAT_IST},
-        {Value: SO_DUE_DATE},
-        {Value: SO_NPS},
+]};
 
-    ]
-};
-annotate service.allIssues with @UI.LineItem#nps95:{
-    $value:[
-        {Value: SO_VBELN},
-        {Value: SO_POSNR},
-        {Value: SO_MAKTX},
-        {Value: SO_WE_PARTNER_NAME},
-        {Value: SO_ORT01},
-        {Value: SO_LAND1},
-        {Value: DL_VBELN},
-        {Value: DL_POSNR},
-        {Value: TM_SHIPMENT_CURRENT_STATUS},
-        {Value: TM_SHIPMENT_ALERT},
-        {Value: SO_ZZDKPPRODB},
-        {Value: SO_EDATU_CONFIRMED},
-        {Value: DL_LFDAT},
-        {Value: TM_DPTEN},
-        {Value: TM_DATEN},
-        {Value: TM_TKNUM},
-        {Value: TM_TDLNR_NAME1},
-        {Value: SO_ROUTE},
+annotate service.allIssues with @UI.LineItem #nps70: {$value: [
+    {Value: SO_VBELN},
+    {Value: SO_POSNR},
+    {Value: SO_DUE_DATE},
+    {Value: SO_NPS},
+    {Value: SO_MAKTX},
+    {Value: SO_MATNR},
+    {Value: SO_WERKS},
+    {Value: DL_CHARG},
+    {Value: TM_TKNUM},
+    {Value: TM_SHIPMENT_ETA_UPDATED},
+    {Value: SO_WE_PARTNER_NAME},
+    {Value: SO_ORT01},
+    {Value: SO_LAND1},
+    {Value: SO_WE_PARTNER},
+    {Value: SO_NETWR},
+    {Value: DL_VBELN},
+    {Value: SO_KWMENG},
+    {Value: SO_KBMENG},
+    {Value: DL_PEND_DEL_QUAN},
+    {Value: DL_LFDAT},
+    {Value: DL_WADAT},
+    {Value: TM_DPTEN},
+    {Value: TM_DPTBG},
+    {Value: SO_EDATU_CONFIRMED},
+    {Value: DL_TRAID},
+    {Value: SO_F_LDDAT},
+    {Value: TM_TDLNR_NAME1},
+    {Value: SO_INCO1},
+    {Value: SO_ROUTE},
 
-    ]
-};
-annotate service.allIssues with @UI.LineItem#nps99:{
-    $value:[
-        {Value: SO_VBELN},
-        {Value: SO_POSNR},
-        {Value: SO_DUE_DATE},
-        {Value: SO_NPS},
-        {Value: SO_ISSUE},
-        {Value: DL_VBELN},
-        {Value: DL_POSNR},
-        {Value: SO_ISSUE_LOCATION},
-        {Value: SO_ISSUE_LOCATION_ITEM},
-        {Value: SO_FAKSP},
-        {Value: SO_FAKSP_VTEXT},
-        {Value: SO_WE_PARTNER_NAME},
-        {Value: SO_LAND1},
-        {Value: SO_AG_PARTNER_NAME},
-        {Value: DL_VGBEL},
-        {Value: DL_VGPOS},
-        {Value: SO_WERKS},
-        {Value: SO_NETWR},
-        {Value: SO_ZZDKPPRODB},
-        {Value: SO_MAKTX},
-        {Value: SO_ERDAT_ITEM},
+]};
 
-    ]
-};
-annotate service.allIssues with @UI.LineItem#nps00:{
-    $value:[
-        {Value: SO_VBELN},
-        {Value: SO_POSNR},
-        {Value: SO_DUE_DATE},
-        {Value: SO_NPS},
-        {Value: SO_ISSUE},
-        {Value: SO_ERDAT_ITEM},
-        {Value: SO_WE_PARTNER_NAME},
-        {Value: SO_LAND1},
-        {Value: SO_LANDX},
-        {Value: SO_ORT01},
-        {Value: SO_WERKS},
-        {Value: SO_MAKTX},
-        {Value: SO_MATNR},
-        {Value: SO_KDMAT},
-        {Value: SO_EDATU_REQUESTED},
-        {Value: SO_EDATU_CONFIRMED},
-        {Value: SO_ZZDKPPRODB},
-        {Value: DL_VBELN},
-        {Value: DL_POSNR},
-        {Value: TM_TKNUM},
-        {Value: DL_WADAT_IST},
-        {Value: TM_TDLNR},
-        {Value: TM_TDLNR_NAME1},
-        {Value: SO_VKORG_NAME1},
-        {Value: SO_VTWEG},
-        {Value: SO_KWMENG},
-        {Value: SO_KBMENG},
-        {Value: SO_NETWR},
-        {Value: SO_KBETR},
-        {Value: SO_ROUTE},
-        {Value: SO_F_LDDAT},
-        {Value: TM_SHIPMENT_ETA_UPDATED},
-        {Value: TM_DPTBG},
-        {Value: TM_DPTEN},
-        {Value: TM_DATBG},
-        {Value: TM_DATEN},
-        {Value: TM_SHIPMENT_CURRENT_STATUS},
+annotate service.allIssues with @UI.LineItem #nps80: {$value: [
+    {Value: SO_VBELN},
+    {Value: SO_POSNR},
+    {Value: SO_DUE_DATE},
+    {Value: SO_NPS},
+    {Value: SO_MAKTX},
+    {Value: SO_MATNR},
+    {Value: SO_WERKS},
+    {Value: DL_CHARG},
+    {Value: TM_TKNUM},
+    {Value: TM_SHIPMENT_ETA_UPDATED},
+    {Value: SO_WE_PARTNER_NAME},
+    {Value: SO_ORT01},
+    {Value: SO_LAND1},
+    {Value: SO_WE_PARTNER},
+    {Value: SO_F_VSBED_VTEXT},
+    {Value: TM_TDLNR_NAME1},
+    {Value: TM_EXTI1},
+    {Value: DL_TRAID},
+    {Value: SO_ROUTE},
+    {Value: DL_VBELN},
+    {Value: DL_WADAT},
+    {Value: DL_WADAT_IST},
+    {Value: SO_KBMENG},
+    {Value: TM_DPTEN},
+    {Value: TM_DPTBG},
+    {Value: SO_EDATU_CONFIRMED},
+    {Value: DL_PEND_DEL_QUAN},
+    {Value: SO_F_LDDAT},
+    {Value: SO_NETWR},
+    {Value: SO_ZZDKPPRODB},
+    {Value: SO_INCO1},
 
-    ]
-};
+]};
+
+annotate service.allIssues with @UI.LineItem #nps90: {$value: [
+    {Value: SO_VBELN},
+    {Value: SO_POSNR},
+    {Value: SO_MAKTX},
+    {Value: SO_WE_PARTNER_NAME},
+    {Value: SO_ORT01},
+    {Value: SO_LAND1},
+    {Value: DL_VBELN},
+    {Value: SO_ZZDKPPRODB},
+    {Value: DL_POSNR},
+    {Value: TM_SHIPMENT_ETA_UPDATED},
+    {Value: TM_SHIPMENT_CURRENT_STATUS},
+    {Value: TM_SHIPMENT_ALERT},
+    {Value: TM_TKNUM},
+    {Value: TM_DPTBG},
+    {Value: TM_DPTEN},
+    {Value: TM_DATBG},
+    {Value: TM_DATEN},
+    {Value: DL_LFDAT},
+    {Value: SO_EDATU_CONFIRMED},
+    {Value: TM_TDLNR_NAME1},
+    {Value: TM_EXTI1},
+    {Value: SO_INCO1},
+    {Value: SO_ROUTE},
+    {Value: DL_WADAT_IST},
+    {Value: SO_DUE_DATE},
+    {Value: SO_NPS},
+
+]};
+
+annotate service.allIssues with @UI.LineItem #nps95: {$value: [
+    {Value: SO_VBELN},
+    {Value: SO_POSNR},
+    {Value: SO_MAKTX},
+    {Value: SO_WE_PARTNER_NAME},
+    {Value: SO_ORT01},
+    {Value: SO_LAND1},
+    {Value: DL_VBELN},
+    {Value: DL_POSNR},
+    {Value: TM_SHIPMENT_CURRENT_STATUS},
+    {Value: TM_SHIPMENT_ALERT},
+    {Value: SO_ZZDKPPRODB},
+    {Value: SO_EDATU_CONFIRMED},
+    {Value: DL_LFDAT},
+    {Value: TM_DPTEN},
+    {Value: TM_DATEN},
+    {Value: TM_TKNUM},
+    {Value: TM_TDLNR_NAME1},
+    {Value: SO_ROUTE},
+
+]};
+
+annotate service.allIssues with @UI.LineItem #nps99: {$value: [
+    {Value: SO_VBELN},
+    {Value: SO_POSNR},
+    {Value: SO_DUE_DATE},
+    {Value: SO_NPS},
+    {Value: SO_ISSUE},
+    {Value: DL_VBELN},
+    {Value: DL_POSNR},
+    {Value: SO_ISSUE_LOCATION},
+    {Value: SO_ISSUE_LOCATION_ITEM},
+    {Value: SO_FAKSP},
+    {Value: SO_FAKSP_VTEXT},
+    {Value: SO_WE_PARTNER_NAME},
+    {Value: SO_LAND1},
+    {Value: SO_AG_PARTNER_NAME},
+    {Value: DL_VGBEL},
+    {Value: DL_VGPOS},
+    {Value: SO_WERKS},
+    {Value: SO_NETWR},
+    {Value: SO_ZZDKPPRODB},
+    {Value: SO_MAKTX},
+    {Value: SO_ERDAT_ITEM},
+
+]};
+
+annotate service.allIssues with @UI.LineItem #nps00: {$value: [
+    {Value: SO_VBELN},
+    {Value: SO_POSNR},
+    {Value: SO_DUE_DATE},
+    {Value: SO_NPS},
+    {Value: SO_ISSUE},
+    {Value: SO_ERDAT_ITEM},
+    {Value: SO_WE_PARTNER_NAME},
+    {Value: SO_LAND1},
+    {Value: SO_LANDX},
+    {Value: SO_ORT01},
+    {Value: SO_WERKS},
+    {Value: SO_MAKTX},
+    {Value: SO_MATNR},
+    {Value: SO_KDMAT},
+    {Value: SO_EDATU_REQUESTED},
+    {Value: SO_EDATU_CONFIRMED},
+    {Value: SO_ZZDKPPRODB},
+    {Value: DL_VBELN},
+    {Value: DL_POSNR},
+    {Value: TM_TKNUM},
+    {Value: DL_WADAT_IST},
+    {Value: TM_TDLNR},
+    {Value: TM_TDLNR_NAME1},
+    {Value: SO_VKORG_NAME1},
+    {Value: SO_VTWEG},
+    {Value: SO_KWMENG},
+    {Value: SO_KBMENG},
+    {Value: SO_NETWR},
+    {Value: SO_KBETR},
+    {Value: SO_ROUTE},
+    {Value: SO_F_LDDAT},
+    {Value: TM_SHIPMENT_ETA_UPDATED},
+    {Value: TM_DPTBG},
+    {Value: TM_DPTEN},
+    {Value: TM_DATBG},
+    {Value: TM_DATEN},
+    {Value: TM_SHIPMENT_CURRENT_STATUS},
+
+]};
+
 // ------------- different tabs qualifier for lineitems-------
 annotate service.baseEntity with {
     SO_VBELN                    @title: '{i18n>SO_VBELN}'                    @sap.Label: '{i18n>SO_VBELN}';
@@ -670,8 +795,38 @@ annotate service.baseEntity with {
     SO_F_MBDAT                  @title: '{i18n>SO_F_MBDAT}'                  @sap.Label: '{i18n>SO_F_MBDAT}'          @sap.filter.restriction:'interval';
     DL_POSNR_BATCH               @title: '{i18n>DL_POSNR_BATCH}'                  @sap.Label: '{i18n>DL_POSNR_BATCH}'      ;   
     DL_LFIMG_BATCH               @title: '{i18n>DL_LFIMG_BATCH}'                  @sap.Label: '{i18n>DL_LFIMG_BATCH}'       ;  
+    SO_MANDT                        @title: '{i18n>SO_MANDT}'                    @sap.Label: '{i18n>SO_MANDT}';
+    DL_MANDT                        @title: '{i18n>DL_MANDT}'                    @sap.Label: '{i18n>DL_MANDT}';
+    TM_MANDT                        @title: '{i18n>TM_MANDT}'                    @sap.Label: '{i18n>TM_MANDT}';
+    BL_MANDT_INV_FIRST              @title: '{i18n>BL_MANDT_INV_FIRST}'          @sap.Label: '{i18n>BL_MANDT_INV_FIRST}';
+    BL_MANDT_INV_LAST               @title: '{i18n>BL_MANDT_INV_LAST}'           @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
+    SO_FIRST_SO_MANDT               @title: '{i18n>SO_FIRST_SO_MANDT}'           @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
+    SO_FINAL_SO_MANDT               @title: '{i18n>SO_FINAL_SO_MANDT}'           @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
+    PO_MANDT                 @title: '{i18n>PO_MANDT}'             @sap.Label: '{i18n>PO_MANDT}';
+    PO_EBELN                        @title: '{i18n>PO_EBELN}'                    @sap.Label: '{i18n>PO_EBELN}'            @Common.IsDigitSequence: true;
+    PO_EBELP                        @title: '{i18n>PO_EBELP}'                    @sap.Label: '{i18n>PO_EBELP}'            @Common.IsDigitSequence: true;
+    PO_AEDAT_HEAD                   @title: '{i18n>PO_AEDAT_HEAD}'               @sap.Label: '{i18n>PO_AEDAT_HEAD}';
+    PO_AEDAT_ITEM                   @title: '{i18n>PO_AEDAT_ITEM}'               @sap.Label: '{i18n>PO_AEDAT_ITEM}';
+    PO_BSART                        @title: '{i18n>PO_BSART}'                    @sap.Label: '{i18n>PO_BSART}';
+    PO_BSART_BATXT                  @title: '{i18n>PO_BSART_BATXT}'              @sap.Label: '{i18n>PO_BSART_BATXT}';
+    PO_EKORG                        @title: '{i18n>PO_EKORG}'                    @sap.Label: '{i18n>PO_EKORG}';
+    PO_EKOTX                        @title: '{i18n>PO_EKOTX}'                    @sap.Label: '{i18n>PO_EKOTX}';
+    PO_EKGRP                        @title: '{i18n>PO_EKGRP}'                    @sap.Label: '{i18n>PO_EKGRP}';
+    PO_EKNAM                        @title: '{i18n>PO_EKNAM}'                    @sap.Label: '{i18n>PO_EKNAM}';
+    PO_EMATN                        @title: '{i18n>PO_EMATN}'                    @sap.Label: '{i18n>PO_EMATN}';
+    PO_WERKS_PO                     @title: '{i18n>PO_WERKS_PO}'                 @sap.Label: '{i18n>PO_WERKS_PO}';
+    PO_MENGE                        @title: '{i18n>PO_MENGE}'                    @sap.Label: '{i18n>PO_MENGE}';
+    PO_MEINS                        @title: '{i18n>PO_MEINS}'                    @sap.Label: '{i18n>PO_MEINS}';
+    PO_KUNNR                        @title: '{i18n>PO_KUNNR}'                    @sap.Label: '{i18n>PO_KUNNR}';
+    PO_KUNNR_NAME                   @title: '{i18n>PO_KUNNR_NAME}'               @sap.Label: '{i18n>PO_KUNNR_NAME}';
+    PO_PARTNER_9A_HEAD              @title: '{i18n>PO_PARTNER_9A_HEAD}'          @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
+    PO_PARTNER_9A_HEAD_NAME         @title: '{i18n>PO_PARTNER_9A_HEAD_NAME}'     @sap.Label: '{i18n>PO_PARTNER_9A_HEAD_NAME}';
+    PO_PARTNER_9O_HEAD              @title: '{i18n>PO_PARTNER_9O_HEAD}'          @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
+    PO_PARTNER_9O_HEAD_NAME         @title: '{i18n>PO_PARTNER_9O_HEAD_NAME}'     @sap.Label: '{i18n>PO_PARTNER_9O_HEAD_NAME}';
+    // SO_BSTNK         @title: '{i18n>SO_BSTNK}'     @sap.Label: '{i18n>SO_BSTNK}';
 
 };
+
 annotate service.allIssues with {
     SO_KWMENG          @Measures.Unit          : SO_VRKME;
     SO_VRKME           @Semantics.unitOfMeasure: 'unit-of-measure';
@@ -692,12 +847,12 @@ annotate service.allIssues with {
     id                 @UI                     : {Hidden: true};
     SO_DOC_TYP         @UI                     : {Hidden: true};
     SO_IGNORED         @UI                     : {Hidden: true};     
-    SO_MANDT           @UI                     : {Hidden: true};     
-    DL_MANDT           @UI                     : {Hidden: true};
-    TM_MANDT            @UI                     : {Hidden: true};
+    // SO_MANDT           @UI                     : {Hidden: true};     
+    // DL_MANDT           @UI                     : {Hidden: true};
+    // TM_MANDT            @UI                     : {Hidden: true};
 
-    BL_MANDT_INV_FIRST  @UI                     : {Hidden: true};
-    BL_MANDT_INV_LAST   @UI                     : {Hidden: true};           
+    // BL_MANDT_INV_FIRST  @UI                     : {Hidden: true};
+    // BL_MANDT_INV_LAST   @UI                     : {Hidden: true};           
     BL_FKART_FIRST      @UI                     : {Hidden: true};           
     BL_FKART_LAST       @UI                     : {Hidden: true};    
     BL_FKIMG_FIRST       @UI                     : {Hidden: true};    
@@ -706,6 +861,12 @@ annotate service.allIssues with {
     BL_FKIMG_LAST     @Measures.Unit          : BL_VRKME_LAST;                                       
     BL_VRKME_FIRST   @Semantics.unitOfMeasure: 'unit-of-measure';
     BL_VRKME_LAST     @Semantics.unitOfMeasure: 'unit-of-measure';
+    PO_KUNNR_NAME                  @UI                     : {Hidden: true};
+    PO_PARTNER_9A_HEAD_NAME        @UI                     : {Hidden: true};
+    PO_PARTNER_9O_HEAD_NAME        @UI                     : {Hidden: true};
+    PO_BSART_BATXT  @UI                     : {Hidden: true};
+    PO_MENGE                       @Measures.Unit          : PO_MEINS;
+    PO_MEINS                       @Semantics.unitOfMeasure: 'unit-of-measure';
     
 
 };
@@ -713,221 +874,241 @@ annotate service.allIssues with {
 annotate service.allIssues with {
     @Common.Text           : SO_DCP_ITEM_STATUS_DESCRIPTION
     @Common.TextArrangement: #TextFirst
-    SO_DCP_ITEM_STATUS                  @title: '{i18n>SO_DCP_ITEM_STATUS}'        @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
+    SO_DCP_ITEM_STATUS   @title: '{i18n>SO_DCP_ITEM_STATUS}'   @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
     @Common.TextFor
-    SO_DCP_ITEM_STATUS_DESCRIPTION                  ;
+    SO_DCP_ITEM_STATUS_DESCRIPTION;
     @Common.Text           : SO_NPS_DESCRIPTION
     @Common.TextArrangement: #TextFirst
-    SO_NPS                  @title: '{i18n>SO_NPS}'        @sap.Label: '{i18n>SO_NPS}';
+    SO_NPS               @title: '{i18n>SO_NPS}'               @sap.Label: '{i18n>SO_NPS}';
     @Common.TextFor
-    SO_NPS_DESCRIPTION                  ;
+    SO_NPS_DESCRIPTION;
     @Common.Text           : SO_ISSUE_DESCRIPTION
     @Common.TextArrangement: #TextFirst
-    SO_ISSUE                  @title: '{i18n>SO_ISSUE}'        @sap.Label: '{i18n>SO_ISSUE}';
+    SO_ISSUE             @title: '{i18n>SO_ISSUE}'             @sap.Label: '{i18n>SO_ISSUE}';
     @Common.TextFor
-    SO_ISSUE_DESCRIPTION                  ;
+    SO_ISSUE_DESCRIPTION;
     @Common.Text           : SO_LANDX
     @Common.TextArrangement: #TextFirst
-    SO_LAND1                  @title: '{i18n>SO_LAND1}'        @sap.Label: '{i18n>SO_LAND1}';
+    SO_LAND1             @title: '{i18n>SO_LAND1}'             @sap.Label: '{i18n>SO_LAND1}';
     @Common.TextFor
-    SO_LANDX                  ;
+    SO_LANDX;
     @Common.Text           : SO_MAKTX
     @Common.TextArrangement: #TextFirst
-    SO_MATNR                   @title: '{i18n>SO_MAKTX}'                    @sap.Label: '{i18n>SO_MATNR}';
+    SO_MATNR             @title: '{i18n>SO_MAKTX}'             @sap.Label: '{i18n>SO_MATNR}';
     @Common.TextFor
-    SO_MAKTX                   ; 
+    SO_MAKTX;
     @Common.Text           : SO_AG_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_AG_PARTNER               @title: '{i18n>SO_AG_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AG_PARTNER}';
+    SO_AG_PARTNER        @title: '{i18n>SO_AG_PARTNER_NAME}'   @sap.Label: '{i18n>SO_AG_PARTNER}';
     @Common.TextFor
     SO_AG_PARTNER_NAME;
     @Common.Text           : SO_WE_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_WE_PARTNER               @title: '{i18n>SO_WE_PARTNER_NAME}'               @sap.Label: '{i18n>SO_WE_PARTNER}';
+    SO_WE_PARTNER        @title: '{i18n>SO_WE_PARTNER_NAME}'   @sap.Label: '{i18n>SO_WE_PARTNER}';
     @Common.TextFor
     SO_WE_PARTNER_NAME;
     @Common.Text           : SO_VKORG_NAME1
     @Common.TextArrangement: #TextFirst
-    SO_VKORG                    @title: '{i18n>SO_VKORG_NAME1}'                    @sap.Label: '{i18n>SO_VKORG}';
+    SO_VKORG             @title: '{i18n>SO_VKORG_NAME1}'       @sap.Label: '{i18n>SO_VKORG}';
     @Common.TextFor
-    SO_VKORG_NAME1              ;
+    SO_VKORG_NAME1;
     @Common.Text           : SO_FAKSP_VTEXT
     @Common.TextArrangement: #TextFirst
-    SO_FAKSP                    @title: '{i18n>SO_FAKSP}'                    @sap.Label: '{i18n>SO_FAKSP}';
+    SO_FAKSP             @title: '{i18n>SO_FAKSP}'             @sap.Label: '{i18n>SO_FAKSP}';
     @Common.TextFor
-    SO_FAKSP_VTEXT             ;     
+    SO_FAKSP_VTEXT;
     @Common.Text           : SO_SUPPLY_SITUATION_DESCR
     @Common.TextArrangement: #TextFirst
-    SO_SUPPLY_SITUATION         @title: '{i18n>SO_SUPPLY_SITUATION}'         @sap.Label: '{i18n>SO_SUPPLY_SITUATION}';
+    SO_SUPPLY_SITUATION  @title: '{i18n>SO_SUPPLY_SITUATION}'  @sap.Label: '{i18n>SO_SUPPLY_SITUATION}';
     @Common.TextFor
-    SO_SUPPLY_SITUATION_DESCR   ;
+    SO_SUPPLY_SITUATION_DESCR;
     @Common.Text           : SO_PSTYV_VTEXT
     @Common.TextArrangement: #TextFirst
-    SO_PSTYV                    @title: '{i18n>SO_PSTYV}'                    @sap.Label: '{i18n>SO_PSTYV}';
+    SO_PSTYV             @title: '{i18n>SO_PSTYV}'             @sap.Label: '{i18n>SO_PSTYV}';
     @Common.TextFor
-    SO_PSTYV_VTEXT              ;
+    SO_PSTYV_VTEXT;
     @Common.Text           : SO_VKBUR_BEZEI
     @Common.TextArrangement: #TextFirst
-    SO_VKBUR                    @title: '{i18n>SO_VKBUR}'                    @sap.Label: '{i18n>SO_VKBUR}';
+    SO_VKBUR             @title: '{i18n>SO_VKBUR}'             @sap.Label: '{i18n>SO_VKBUR}';
     @Common.TextFor
-    SO_VKBUR_BEZEI              ;
+    SO_VKBUR_BEZEI;
     @Common.Text           : SO_ABGRU_BEZEI
     @Common.TextArrangement: #TextFirst
-    SO_ABGRU                    @title: '{i18n>SO_ABGRU}'                    @sap.Label: '{i18n>SO_ABGRU}';
+    SO_ABGRU             @title: '{i18n>SO_ABGRU}'             @sap.Label: '{i18n>SO_ABGRU}';
     @Common.TextFor
-    SO_ABGRU_BEZEI              ;
+    SO_ABGRU_BEZEI;
     @Common.Text           : SO_CO_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_CO_PARTNER               @title: '{i18n>SO_CO_PARTNER}'               @sap.Label: '{i18n>SO_CO_PARTNER}';
+    SO_CO_PARTNER        @title: '{i18n>SO_CO_PARTNER}'        @sap.Label: '{i18n>SO_CO_PARTNER}';
     @Common.TextFor
-    SO_CO_PARTNER_NAME          ;
+    SO_CO_PARTNER_NAME;
     @Common.Text           : SO_NY_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_NY_PARTNER               @title: '{i18n>SO_NY_PARTNER}'               @sap.Label: '{i18n>SO_NY_PARTNER}';
+    SO_NY_PARTNER        @title: '{i18n>SO_NY_PARTNER}'        @sap.Label: '{i18n>SO_NY_PARTNER}';
     @Common.TextFor
-    SO_NY_PARTNER_NAME          ;
+    SO_NY_PARTNER_NAME;
     @Common.Text           : SO_AS_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_AS_PARTNER               @title: '{i18n>SO_AS_PARTNER}'               @sap.Label: '{i18n>SO_AS_PARTNER}';
+    SO_AS_PARTNER        @title: '{i18n>SO_AS_PARTNER}'        @sap.Label: '{i18n>SO_AS_PARTNER}';
     @Common.TextFor
-    SO_AS_PARTNER_NAME          ;
+    SO_AS_PARTNER_NAME;
     @Common.Text           : SO_VE_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_VE_PARTNER               @title: '{i18n>SO_VE_PARTNER}'               @sap.Label: '{i18n>SO_VE_PARTNER}';
+    SO_VE_PARTNER        @title: '{i18n>SO_VE_PARTNER}'        @sap.Label: '{i18n>SO_VE_PARTNER}';
     @Common.TextFor
-    SO_VE_PARTNER_NAME          ;
+    SO_VE_PARTNER_NAME;
     @Common.Text           : SO_AM_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_AM_PARTNER               @title: '{i18n>SO_AM_PARTNER}'               @sap.Label: '{i18n>SO_AM_PARTNER}';
+    SO_AM_PARTNER        @title: '{i18n>SO_AM_PARTNER}'        @sap.Label: '{i18n>SO_AM_PARTNER}';
     @Common.TextFor
-    SO_AM_PARTNER_NAME          ;
+    SO_AM_PARTNER_NAME;
     @Common.Text           : SO_BSARK_VTEXT
     @Common.TextArrangement: #TextFirst
-    SO_BSARK                    @title: '{i18n>SO_BSARK}'                    @sap.Label: '{i18n>SO_BSARK}';
+    SO_BSARK             @title: '{i18n>SO_BSARK}'             @sap.Label: '{i18n>SO_BSARK}';
     @Common.TextFor
-    SO_BSARK_VTEXT              ;
+    SO_BSARK_VTEXT;
     @Common.Text           : SO_TRAGR_VTEXT
     @Common.TextArrangement: #TextFirst
-    SO_TRAGR                    @title: '{i18n>SO_TRAGR}'                    @sap.Label: '{i18n>SO_TRAGR}';
+    SO_TRAGR             @title: '{i18n>SO_TRAGR}'             @sap.Label: '{i18n>SO_TRAGR}';
     @Common.TextFor
-    SO_TRAGR_VTEXT              ;
+    SO_TRAGR_VTEXT;
     @Common.Text           : SO_VKGRP_BEZEI
     @Common.TextArrangement: #TextFirst
-    SO_VKGRP                    @title: '{i18n>SO_VKGRP}'                    @sap.Label: '{i18n>SO_VKGRP}';
+    SO_VKGRP             @title: '{i18n>SO_VKGRP}'             @sap.Label: '{i18n>SO_VKGRP}';
     @Common.TextFor
-    SO_VKGRP_BEZEI              ;
+    SO_VKGRP_BEZEI;
     @Common.Text           : SO_F_VSBED_VTEXT
     @Common.TextArrangement: #TextFirst
-    SO_F_VSBED                  @title: '{i18n>SO_F_VSBED}'                  @sap.Label: '{i18n>SO_TRAGR}';
+    SO_F_VSBED           @title: '{i18n>SO_F_VSBED}'           @sap.Label: '{i18n>SO_TRAGR}';
     @Common.TextFor
-    SO_F_VSBED_VTEXT            ;
+    SO_F_VSBED_VTEXT;
     @Common.Text           : SO_F_VKORG_VTEXT
     @Common.TextArrangement: #TextFirst
-    SO_F_VKORG                  @title: '{i18n>SO_F_VKORG}'                  @sap.Label: '{i18n>SO_F_VKORG}';
+    SO_F_VKORG           @title: '{i18n>SO_F_VKORG}'           @sap.Label: '{i18n>SO_F_VKORG}';
     @Common.TextFor
-    SO_F_VKORG_VTEXT            ;
+    SO_F_VKORG_VTEXT;
     @Common.Text           : SO_F_AS_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_F_AS_PARTNER               @title: '{i18n>SO_F_AS_PARTNER}'               @sap.Label: '{i18n>SO_F_AS_PARTNER}' ;
+    SO_F_AS_PARTNER      @title: '{i18n>SO_F_AS_PARTNER}'      @sap.Label: '{i18n>SO_F_AS_PARTNER}';
     @Common.TextFor
-    SO_F_AS_PARTNER_NAME          ;
+    SO_F_AS_PARTNER_NAME;
     @Common.Text           : DL_LFART_VTEXT
     @Common.TextArrangement: #TextFirst
-    DL_LFART                    @title: '{i18n>DL_LFART}'                    @sap.Label: '{i18n>DL_LFART}';
+    DL_LFART             @title: '{i18n>DL_LFART}'             @sap.Label: '{i18n>DL_LFART}';
     @Common.TextFor
-    DL_LFART_VTEXT                ;
+    DL_LFART_VTEXT;
     @Common.Text           : TM_VSART_BEZEI
     @Common.TextArrangement: #TextFirst
-    TM_VSART                    @title: '{i18n>TM_VSART}'                    @sap.Label: '{i18n>TM_VSART}';
-    @Common.TextFor 
+    TM_VSART             @title: '{i18n>TM_VSART}'             @sap.Label: '{i18n>TM_VSART}';
+    @Common.TextFor
     TM_VSART_BEZEI;
     @Common.Text           : TM_TDLNR_NAME1
     @Common.TextArrangement: #TextFirst
-    TM_TDLNR                    @title: '{i18n>TM_TDLNR}'                    @sap.Label: '{i18n>TM_TDLNR}';
+    TM_TDLNR             @title: '{i18n>TM_TDLNR}'             @sap.Label: '{i18n>TM_TDLNR}';
     @Common.TextFor
     TM_TDLNR_NAME1;
-    @Common.Text : TM_STTRG_DDTEXT
+    @Common.Text           : TM_STTRG_DDTEXT
     @Common.TextArrangement: #TextFirst
-    TM_STTRG                    @title: '{i18n>TM_STTRG}'                    @sap.Label: '{i18n>TM_STTRG}';
+    TM_STTRG             @title: '{i18n>TM_STTRG}'             @sap.Label: '{i18n>TM_STTRG}';
     @Common.TextFor
-    TM_STTRG_DDTEXT      ;  
-    @Common.Text : SO_MDB_TEXT
+    TM_STTRG_DDTEXT;
+    @Common.Text           : SO_MDB_TEXT
     @Common.TextArrangement: #TextFirst
-    SO_MDB                    @title: '{i18n>SO_MDB}'                    @sap.Label: '{i18n>SO_MDB}';
+    SO_MDB               @title: '{i18n>SO_MDB}'               @sap.Label: '{i18n>SO_MDB}';
     @Common.TextFor
-    SO_MDB_TEXT      ;  
+    SO_MDB_TEXT;
     @Common.Text           : SO_PERFK_LTEXT_LANG
     @Common.TextArrangement: #TextLast
-    SO_PERFK                    @title: '{i18n>SO_PERFK}'                    @sap.Label: '{i18n>SO_PERFK}';
+    SO_PERFK             @title: '{i18n>SO_PERFK}'             @sap.Label: '{i18n>SO_PERFK}';
     @Common.TextFor
     SO_PERFK_LTEXT_LANG;
+    @Common.Text           : PO_KUNNR_NAME
+    @Common.TextArrangement: #TextLast
+    PO_KUNNR                    @title: '{i18n>PO_KUNNR}'                    @sap.Label: '{i18n>PO_KUNNR}';
+    @Common.TextFor
+    PO_KUNNR_NAME;
+    @Common.Text           : PO_PARTNER_9A_HEAD_NAME
+    @Common.TextArrangement: #TextLast
+    PO_PARTNER_9A_HEAD          @title: '{i18n>PO_PARTNER_9A_HEAD}'          @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
+    @Common.TextFor
+    PO_PARTNER_9A_HEAD_NAME;
+    @Common.Text           : PO_PARTNER_9O_HEAD_NAME
+    @Common.TextArrangement: #TextLast
+    PO_PARTNER_9O_HEAD          @title: '{i18n>PO_PARTNER_9O_HEAD}'          @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
+    @Common.TextFor
+    PO_PARTNER_9O_HEAD_NAME;
+    @Common.Text           : PO_BSART_BATXT
+    @Common.TextArrangement: #TextLast
+    PO_BSART                    @title: '{i18n>PO_BSART}'                    @sap.Label: '{i18n>PO_BSART}';
+    @Common.TextFor
+    PO_BSART_BATXT;
     // BL_VBELN_INV_FIRST          @title: '{i18n>BL_VBELN_INV_FIRST}'          @sap.Label: '{i18n>BL_VBELN_INV_FIRST}';
     // BL_VBELN_INV_LAST           @title: '{i18n>BL_VBELN_INV_LAST}'           @sap.Label: '{i18n>BL_VBELN_INV_LAST}';
     // BL_XBLNR                    @title: '{i18n>BL_XBLNR}'                    @sap.Label: '{i18n>BL_XBLNR}';
 }
 
 annotate service.allIssues with {
-    criticalityDueDate        @UI                     : {Hidden: true};
+    criticalityDueDate             @UI: {Hidden: true};
     // SO_MANDT                  @UI                     : {Hidden: true};
-    SO_CO_PARTNER_NAME        @UI                     : {Hidden: true};
-    SO_NY_PARTNER_NAME        @UI                     : {Hidden: true};
-    SO_AS_PARTNER_NAME        @UI                     : {Hidden: true};
-    SO_VE_PARTNER_NAME        @UI                     : {Hidden: true};
-    SO_AM_PARTNER_NAME        @UI                     : {Hidden: true};
-    SO_AG_PARTNER_NAME        @UI                     : {Hidden: true};
-    SO_WE_PARTNER_NAME        @UI                     : {Hidden: true};
-    SO_MAKTX                  @UI                     : {Hidden: true};
-    SO_LANDX                  @UI                     : {Hidden: true};
-    SO_NPS_DESCRIPTION        @UI                     : {Hidden: true};
-    SO_ISSUE_DESCRIPTION      @UI                     : {Hidden: true};
-    SO_DCP_ITEM_STATUS_DESCRIPTION  @UI                     : {Hidden: true};
-    SO_SPART                  @UI                     : {Hidden: true};
-    SO_ABGRU_BEZEI            @UI                     : {Hidden: true};
-    SO_ABSTA                  @UI                     : {Hidden: true};
-    SO_KNUMV                  @UI                     : {Hidden: true};
-    SO_VKORG_NAME1            @UI                     : {Hidden: true};
-    SO_FAKSP_VTEXT            @UI                     : {Hidden: true};
-    SO_SUPPLY_SITUATION_DESCR @UI                     : {Hidden: true};
-    SO_PSTYV_VTEXT            @UI                     : {Hidden: true};
-    SO_BSARK_VTEXT            @UI                     : {Hidden: true};
-    SO_VKBUR_BEZEI            @UI                     : {Hidden: true};
-    SO_F_POSNR                @UI                     : {Hidden: true};
-    SO_I_POSNR                @UI                     : {Hidden: true};
-    SO_VBTYP                  @UI                     : {Hidden: true};
-    SO_TRAGR_VTEXT            @UI                     : {Hidden: true};
-    SO_VKGRP_BEZEI            @UI                     : {Hidden: true};
-    SO_F_VSBED_VTEXT          @UI                     : {Hidden: true};
-    SO_KNREF_ITM              @UI                     : {Hidden: true};
-    SO_VRKME                  @UI                     : {Hidden: true};
-    SO_WAERS                  @UI                     : {Hidden: true};
-    SO_KPEIN                  @UI                     : {Hidden: true};
-    SO_KMEIN                  @UI                     : {Hidden: true};
-    SO_WAERK                  @UI                     : {Hidden: true};
-    SO_F_VKORG_VTEXT          @UI                     : {Hidden: true};
-    SO_F_AMEIN                @UI                     : {Hidden: true};
-    SO_F_AS_PARTNER_NAME      @UI                     : {Hidden: true};
-    DL_LFART_VTEXT            @UI                     : {Hidden: true};
-    BL_VRKME_FIRST            @UI                     : {Hidden: true};
-    BL_VRKME_LAST             @UI                     : {Hidden: true};
+    SO_CO_PARTNER_NAME             @UI: {Hidden: true};
+    SO_NY_PARTNER_NAME             @UI: {Hidden: true};
+    SO_AS_PARTNER_NAME             @UI: {Hidden: true};
+    SO_VE_PARTNER_NAME             @UI: {Hidden: true};
+    SO_AM_PARTNER_NAME             @UI: {Hidden: true};
+    SO_AG_PARTNER_NAME             @UI: {Hidden: true};
+    SO_WE_PARTNER_NAME             @UI: {Hidden: true};
+    SO_MAKTX                       @UI: {Hidden: true};
+    SO_LANDX                       @UI: {Hidden: true};
+    SO_NPS_DESCRIPTION             @UI: {Hidden: true};
+    SO_ISSUE_DESCRIPTION           @UI: {Hidden: true};
+    SO_DCP_ITEM_STATUS_DESCRIPTION @UI: {Hidden: true};
+    SO_SPART                       @UI: {Hidden: true};
+    SO_ABGRU_BEZEI                 @UI: {Hidden: true};
+    SO_ABSTA                       @UI: {Hidden: true};
+    SO_KNUMV                       @UI: {Hidden: true};
+    SO_VKORG_NAME1                 @UI: {Hidden: true};
+    SO_FAKSP_VTEXT                 @UI: {Hidden: true};
+    SO_SUPPLY_SITUATION_DESCR      @UI: {Hidden: true};
+    SO_PSTYV_VTEXT                 @UI: {Hidden: true};
+    SO_BSARK_VTEXT                 @UI: {Hidden: true};
+    SO_VKBUR_BEZEI                 @UI: {Hidden: true};
+    SO_F_POSNR                     @UI: {Hidden: true};
+    SO_I_POSNR                     @UI: {Hidden: true};
+    SO_VBTYP                       @UI: {Hidden: true};
+    SO_TRAGR_VTEXT                 @UI: {Hidden: true};
+    SO_VKGRP_BEZEI                 @UI: {Hidden: true};
+    SO_F_VSBED_VTEXT               @UI: {Hidden: true};
+    SO_KNREF_ITM                   @UI: {Hidden: true};
+    SO_VRKME                       @UI: {Hidden: true};
+    SO_WAERS                       @UI: {Hidden: true};
+    SO_KPEIN                       @UI: {Hidden: true};
+    SO_KMEIN                       @UI: {Hidden: true};
+    SO_WAERK                       @UI: {Hidden: true};
+    SO_F_VKORG_VTEXT               @UI: {Hidden: true};
+    SO_F_AMEIN                     @UI: {Hidden: true};
+    SO_F_AS_PARTNER_NAME           @UI: {Hidden: true};
+    DL_LFART_VTEXT                 @UI: {Hidden: true};
+    BL_VRKME_FIRST                 @UI: {Hidden: true};
+    BL_VRKME_LAST                  @UI: {Hidden: true};
     // id                        @UI                     : {Hidden: true};
     // DL_MANDT                  @UI                     : {Hidden: true};
     // TM_MANDT                  @UI                     : {Hidden: true};
     // BL_MANDT_INV_FIRST     @UI                     : {Hidden: true};
     // BL_MANDT_INV_LAST      @UI                     : {Hidden: true};
-    DL_HSDAT                  @UI                     : {Hidden: true};
-    DL_VFDAT                  @UI                     : {Hidden: true};
+    DL_HSDAT                       @UI: {Hidden: true};
+    DL_VFDAT                       @UI: {Hidden: true};
     // Shipment Details Texts
-    TM_VSART_BEZEI            @UI                     : {Hidden: true};
-    TM_TDLNR_NAME1            @UI                     : {Hidden: true};
-    TM_STTRG_DDTEXT           @UI                     : {Hidden: true};
-    TM_TRACKING_ID_COMP       @UI                     : {Hidden: true};
-    DL_VGBEL                  @UI                     : {Hidden: true};
-    TM_TRACKING_ID_ELEM       @UI                     : {Hidden: true};
-    DL_VGPOS                  @UI                     : {Hidden: true};
-    DL_POSAR                  @UI                     : {Hidden: true};
-    DL_VRKME                  @UI                     : {Hidden: true};
-    SO_MDB_TEXT               @UI                     : {Hidden: true};
-    SO_PERFK_LTEXT_LANG            @UI                     : {Hidden: true};
+    TM_VSART_BEZEI                 @UI: {Hidden: true};
+    TM_TDLNR_NAME1                 @UI: {Hidden: true};
+    TM_STTRG_DDTEXT                @UI: {Hidden: true};
+    TM_TRACKING_ID_COMP            @UI: {Hidden: true};
+    DL_VGBEL                       @UI: {Hidden: true};
+    TM_TRACKING_ID_ELEM            @UI: {Hidden: true};
+    DL_VGPOS                       @UI: {Hidden: true};
+    DL_POSAR                       @UI: {Hidden: true};
+    DL_VRKME                       @UI: {Hidden: true};
+    SO_MDB_TEXT                    @UI: {Hidden: true};
+    SO_PERFK_LTEXT_LANG            @UI: {Hidden: true};
 }
 
 // ------------------------------Value Helps All Issues----------------------------
@@ -1774,6 +1955,24 @@ annotate service.allIssues with {
     }
 };
 
+// annotate service.allIssues with {
+//     SO_BSTNK
+//     @Common.ValueList: {
+//         $Type                  : 'Common.ValueListType',
+//         Label                  : '{@i18n>SO_BSTNK}',
+//         CollectionPath         : 'valueHelps',
+//         DistinctValuesSupported: true,
+//         SearchSupported        : true,
+//         Parameters             : [{
+//             $Type            : 'Common.ValueListParameterInOut',
+//             LocalDataProperty: SO_BSTNK,
+//             ValueListProperty: 'SO_BSTNK'
+//         }
+
+//         ]
+//     }
+// };
+
 annotate service.allIssues with {
     SO_ZZDKPPRODB
     @Common.ValueList: {
@@ -1834,24 +2033,24 @@ annotate service.allIssues with {
     }
 };
 
- annotate service.allIssues with {
-     DL_POSNR
-     @Common.ValueList: {
-         $Type                  : 'Common.ValueListType',
-         Label                  : '{@i18n>DL_POSNR}',
-         CollectionPath         : 'valueHelps',
-         DistinctValuesSupported: true,
-         SearchSupported        : true,
-         Parameters             : [{
-             $Type            : 'Common.ValueListParameterInOut',
-             LocalDataProperty: DL_POSNR,
-             ValueListProperty: 'DL_POSNR'
-         }
+annotate service.allIssues with {
+    DL_POSNR
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>DL_POSNR}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: DL_POSNR,
+            ValueListProperty: 'DL_POSNR'
+        }
 
-         ]
-     }
-     @Common.IsDigitSequence: true
- };
+        ]
+    }
+    @Common.IsDigitSequence: true
+};
 
 annotate service.allIssues with {
     DL_CHARG
@@ -1991,7 +2190,7 @@ annotate service.allIssues with {
 
 annotate service.allIssues with {
     DL_ZZ0S2BLNR
-    @Common.ValueList      : {
+    @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>DL_ZZ0S2BLNR}',
         CollectionPath         : 'valueHelps',
@@ -2150,7 +2349,7 @@ annotate service.allIssues with {
 
 annotate service.allIssues with {
     SO_BASF_LOFCR
-    @Common.ValueList      : {
+    @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>SO_BASF_LOFCR}',
         CollectionPath         : 'valueHelps',
@@ -2164,7 +2363,7 @@ annotate service.allIssues with {
 
         ]
     }
-    
+
 };
 
 annotate service.allIssues with {
@@ -2370,7 +2569,7 @@ annotate service.allIssues with {
 
 annotate service.allIssues with {
     BL_XBLNR
-    @Common.ValueList: {
+    @Common.ValueList      : {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>BL_XBLNR}',
         CollectionPath         : 'valueHelps',
@@ -2704,8 +2903,7 @@ annotate service.allIssues with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_NPS,
             ValueListProperty: 'SO_NPS'
-        }
-        ]
+        }]
     }
 };
 
@@ -2721,8 +2919,7 @@ annotate service.allIssues with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_ISSUE,
             ValueListProperty: 'SO_ISSUE'
-        }
-        ]
+        }]
     }
 };
 
@@ -2738,8 +2935,7 @@ annotate service.allIssues with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_DCP_ITEM_STATUS,
             ValueListProperty: 'SO_DCP_ITEM_STATUS'
-        }
-        ]
+        }]
     }
 };
 
@@ -2778,6 +2974,7 @@ annotate service.allIssues with {
         ]
     }
 };
+
 annotate service.allIssues with {
     TM_SHIPMENT_ETA_UPDATED
     @Common.ValueList: {
@@ -2814,6 +3011,7 @@ annotate service.allIssues with {
     }
     @Common.IsDigitSequence: true
 };
+
 annotate service.allIssues with {
     BL_POSNR_INV_LAST
     @Common.ValueList      : {
@@ -2832,15 +3030,17 @@ annotate service.allIssues with {
     }
     @Common.IsDigitSequence: true
 };
+
 annotate service.allIssues with {
     BL_FKIMG_FIRST
-    @Common.ValueList      : {
+    @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>BL_FKIMG_FIRST}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
+        Parameters             : [
+            {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: BL_FKIMG_FIRST,
                 ValueListProperty: 'BL_FKIMG_FIRST'
@@ -2852,15 +3052,17 @@ annotate service.allIssues with {
         ]
     }
 };
+
 annotate service.allIssues with {
     BL_FKIMG_LAST
-    @Common.ValueList      : {
+    @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>BL_FKIMG_LAST}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
+        Parameters             : [
+            {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: BL_FKIMG_LAST,
                 ValueListProperty: 'BL_FKIMG_LAST'
@@ -2962,7 +3164,7 @@ annotate service.allIssues with {
         ]
     }
 };
-     
+
 annotate service.allIssues with {
     SO_REASON_CODE_05_LANG
     @Common.ValueList: {
@@ -3034,6 +3236,7 @@ annotate service.allIssues with {
         ]
     }
 };
+
 annotate service.allIssues with {
     SO_MDB
     @Common.ValueList: {
@@ -3056,6 +3259,7 @@ annotate service.allIssues with {
         ]
     }
 };
+
 annotate service.allIssues with {
     SO_EMAIL_SENT_ON
     @Common.ValueList: {
@@ -3073,6 +3277,7 @@ annotate service.allIssues with {
         ]
     }
 };
+
 annotate service.allIssues with {
     SO_PERFK
     @Common.ValueList: {
@@ -3095,6 +3300,7 @@ annotate service.allIssues with {
         ]
     }
 };
+
 annotate service.allIssues with {
     DL_POSNR_BATCH
     @Common.ValueList: {
@@ -3103,16 +3309,16 @@ annotate service.allIssues with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [
-            {
-                $Type            : 'Common.ValueListParameterInOut',
-                LocalDataProperty: DL_POSNR_BATCH,
-                ValueListProperty: 'DL_POSNR_BATCH'
-            }
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: DL_POSNR_BATCH,
+            ValueListProperty: 'DL_POSNR_BATCH'
+        }
 
         ]
     }
 };
+
 annotate service.allIssues with {
     DL_LFIMG_BATCH
     @Common.ValueList: {
@@ -3131,6 +3337,353 @@ annotate service.allIssues with {
                 $Type            : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty: 'DL_VRKME'
             }
+        ]
+    }
+};
+annotate service.allIssues with {
+    SO_MANDT
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_MANDT}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_MANDT,
+            ValueListProperty: 'SO_MANDT'
+        }]
+    }
+}
+
+annotate service.allIssues with {
+    DL_MANDT
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>DL_MANDT}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: DL_MANDT,
+            ValueListProperty: 'DL_MANDT'
+        }]
+    }
+}
+
+annotate service.allIssues with {
+    TM_MANDT
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>TM_MANDT}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: TM_MANDT,
+            ValueListProperty: 'TM_MANDT'
+        }]
+    }
+}
+
+annotate service.allIssues with {
+    BL_MANDT_INV_FIRST
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_MANDT_INV_FIRST}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: BL_MANDT_INV_FIRST,
+            ValueListProperty: 'BL_MANDT_INV_FIRST'
+        }]
+    }
+}
+
+annotate service.allIssues with {
+    BL_MANDT_INV_LAST
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_MANDT_INV_LAST}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: BL_MANDT_INV_LAST,
+            ValueListProperty: 'BL_MANDT_INV_LAST'
+        }]
+    }
+}
+
+annotate service.allIssues with {
+    SO_FIRST_SO_MANDT
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_FIRST_SO_MANDT}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_FIRST_SO_MANDT,
+            ValueListProperty: 'SO_FIRST_SO_MANDT'
+        }]
+    }
+}
+
+annotate service.allIssues with {
+    SO_FINAL_SO_MANDT
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_FINAL_SO_MANDT}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_FINAL_SO_MANDT,
+            ValueListProperty: 'SO_FINAL_SO_MANDT'
+        }]
+    }
+}
+
+annotate service.allIssues with {
+    PO_MANDT
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_MANDT}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_MANDT,
+            ValueListProperty: 'PO_MANDT'
+        }]
+    }
+}
+
+annotate service.allIssues with {
+    PO_EBELN
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EBELN}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EBELN,
+            ValueListProperty: 'PO_EBELN'
+        }]
+    }
+}
+
+annotate service.allIssues with {
+    PO_EBELP
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EBELP}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EBELP,
+            ValueListProperty: 'PO_EBELP'
+        }]
+    }
+}
+
+annotate service.allIssues with {
+    PO_BSART
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_BSART_BATXT}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_BSART,
+                ValueListProperty: 'PO_BSART'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_BSART_BATXT'
+            }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    PO_EKORG
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EKORG}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EKORG,
+            ValueListProperty: 'PO_EKORG'
+        }]
+    }
+}
+
+annotate service.allIssues with {
+    PO_EKOTX
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EKOTX}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EKOTX,
+            ValueListProperty: 'PO_EKOTX'
+        }]
+    }
+}
+
+annotate service.allIssues with {
+    PO_EKGRP
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EKGRP}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EKGRP,
+            ValueListProperty: 'PO_EKGRP'
+        }]
+    }
+}
+
+annotate service.allIssues with {
+    PO_EMATN
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EMATN}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EMATN,
+            ValueListProperty: 'PO_EMATN'
+        }]
+    }
+}
+
+annotate service.allIssues with {
+    PO_EKNAM
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EKNAM}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EKNAM,
+            ValueListProperty: 'PO_EKNAM'
+        }]
+    }
+}
+
+annotate service.allIssues with {
+    PO_WERKS_PO
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_WERKS_PO}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_WERKS_PO,
+            ValueListProperty: 'PO_WERKS_PO'
+        }]
+    }
+}
+
+annotate service.allIssues with {
+    PO_KUNNR
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_KUNNR_NAME}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_KUNNR,
+                ValueListProperty: 'PO_KUNNR'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_KUNNR_NAME'
+            }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    PO_PARTNER_9A_HEAD
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_PARTNER_9A_HEAD_NAME}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_PARTNER_9A_HEAD,
+                ValueListProperty: 'PO_PARTNER_9A_HEAD'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_PARTNER_9A_HEAD_NAME'
+            }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    PO_PARTNER_9O_HEAD
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_PARTNER_9O_HEAD_NAME}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_PARTNER_9O_HEAD,
+                ValueListProperty: 'PO_PARTNER_9O_HEAD'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_PARTNER_9O_HEAD_NAME'
+            }
+
         ]
     }
 };
