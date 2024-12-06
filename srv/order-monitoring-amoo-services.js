@@ -1053,6 +1053,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     // ISSUE 343357 
                     // add skip and top parameters from real query
                     query.SELECT.limit = req.query.SELECT.limit;
+                    query.SELECT.distinct = true;
                     // End of ISSUE 343357
                     query.SELECT.columns.length = 0;
                     query.SELECT.columns = req.query.SELECT.columns;

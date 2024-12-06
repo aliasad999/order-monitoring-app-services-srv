@@ -486,3 +486,15 @@ entity ![ORDER_CREATION] {
         ERROR_TEXT : String(250);
         BIM_ERROR_ID : String(36);
 }
+
+// entity POIssues {
+//         key Issue : String(2);
+//         key Language: String(2);
+//         IssueText : String(60)
+// }
+
+// entity PONPS {
+//         key NPS : String(2);
+//         key Language: String(2);
+//         NPSText : String(30)
+// }
