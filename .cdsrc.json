@@ -117,12 +117,6 @@
                 "path": "/it/bizagiodata/v1"
             }
         },
-        "ChatbotService": {
-            "kind": "rest",
-            "credentials": {
-                "destination": "Chatbot_UI_token"
-            }
-        },
         "createDelivery":{
             "kind": "odata-v2",
             "csrf": {
@@ -134,6 +128,19 @@
                 "destination": "APIM",
                 "path": "/it/omg/omc/sofm-delivery/v1"
             }
+        },
+        "ChatbotServiceToken": {
+            "kind": "rest",
+            "credentials": {
+                "destination": "CHATBOT_TEMP_AAD"
+            }
+        },
+        "ChatbotService": {
+            "kind": "rest",
+            "credentials": {
+                "destination": "CHATBOT_TEMP_DEV"
+            }
         }
+
     }
 }

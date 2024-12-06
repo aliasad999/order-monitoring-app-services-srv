@@ -1317,13 +1317,12 @@ class openOrdersSrv extends cds.ApplicationService {
                         }
                     ]
                 }
-                // const chatbotSrv = await cds.connect.to('ChatbotService');
-                // const chatbotCall = await chatbotSrv.tx(req).send({
-                //     method: "POST",
-                //     path: "/conversation",
-                //     data: data
-                // });
-                // console.log(chatbotCall);
+                const chatbotSrv = await cds.connect.to('ChatbotServiceToken');
+                const chatbotCall = await chatbotSrv.tx(req).send({
+                    method: "POST",
+                });
+                
+                console.log(chatbotCall);
 
             } catch (e) {
                 console.log(e.message);
