@@ -8,9 +8,9 @@ build-parameters:
   before-all:
     - builder: custom
       commands:
-        - npm install --production
+        - npm ci --production
         - npx -p @sap/cds-dk cds build --production
-        - npm install --prefix ./gen/srv
+        - npm ci --prefix ./gen/srv
 modules:
   #
   #   ┌─────────────────────────────────────────┐   #

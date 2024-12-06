@@ -120,44 +120,289 @@ annotate service.orderCreation with {
     PO_MEINS                @UI   : {Hidden: true};
     PO_ISSUE         @UI   : {Hidden: true};
     PO_NPS                @UI   : {Hidden: true};
+    Id @UI   : {Hidden: true};
 }
 
 // ------------- ORDER CREATION VALUE HELPS -------
 // In Standby until we have a first implementation ready
 
-// annotate service.orderCreation with {
-//     PO_EBELN
-//     @Common.ValueList: {
-//         $Type                  : 'Common.ValueListType',
-//         Label                  : '{@i18n>PO_EBELN}',
-//         CollectionPath         : 'orderCreation',
-//         DistinctValuesSupported: true,
-//         SearchSupported        : true,
-//         Parameters             : [{
-//             $Type            : 'Common.ValueListParameterInOut',
-//             LocalDataProperty: PO_EBELN,
-//             ValueListProperty: 'PO_EBELN'
-//         }
+annotate service.orderCreation with {
+    PO_MANDT
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_MANDT}',
+        CollectionPath         : 'OCValueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_MANDT,
+            ValueListProperty: 'PO_MANDT'
+        }
 
-//         ]
-//     };
+        ]
+    };
 
-//     PO_EBELP
-//     @Common.ValueList: {
-//         $Type                  : 'Common.ValueListType',
-//         Label                  : '{@i18n>PO_EBELP}',
-//         CollectionPath         : 'orderCreation',
-//         DistinctValuesSupported: true,
-//         SearchSupported        : true,
-//         Parameters             : [{
-//             $Type            : 'Common.ValueListParameterInOut',
-//             LocalDataProperty: PO_EBELP,
-//             ValueListProperty: 'PO_EBELP'
-//         }
+    PO_EBELN
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EBELN}',
+        CollectionPath         : 'OCValueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EBELN,
+            ValueListProperty: 'PO_EBELN'
+        }
 
-//         ]
-//     };
-// };
+        ]
+    };
+
+    PO_EBELP
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EBELP}',
+        CollectionPath         : 'OCValueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EBELP,
+            ValueListProperty: 'PO_EBELP'
+        }
+
+        ]
+    };
+
+    PO_EKORG
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EKORG}',
+        CollectionPath         : 'OCValueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EKORG,
+            ValueListProperty: 'PO_EKORG'
+        }
+
+        ]
+    };
+    PO_EKOTX
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EKOTX}',
+        CollectionPath         : 'OCValueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EKOTX,
+            ValueListProperty: 'PO_EKOTX'
+        }
+
+        ]
+    };
+
+    PO_EKGRP
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EKGRP}',
+        CollectionPath         : 'OCValueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EKGRP,
+            ValueListProperty: 'PO_EKGRP'
+        }
+
+        ]
+    };
+
+    PO_EKNAM
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EKNAM}',
+        CollectionPath         : 'OCValueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EKNAM,
+            ValueListProperty: 'PO_EKNAM'
+        }
+
+        ]
+    };
+
+    PO_EMATN
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_EMATN}',
+        CollectionPath         : 'OCValueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_EMATN,
+            ValueListProperty: 'PO_EMATN'
+        }
+
+        ]
+    };
+
+    PO_WERKS
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_WERKS}',
+        CollectionPath         : 'OCValueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_WERKS,
+            ValueListProperty: 'PO_WERKS'
+        }
+
+        ]
+    };
+
+    PO_ERROR_TEXT
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_ERROR_TEXT}',
+        CollectionPath         : 'OCValueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_ERROR_TEXT,
+            ValueListProperty: 'PO_ERROR_TEXT'
+        }
+
+        ]
+    };
+
+    PO_ISSUE_TEXT
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_ISSUE_TEXT}',
+        CollectionPath         : 'OCValueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_ISSUE_TEXT,
+            ValueListProperty: 'PO_ISSUE_TEXT'
+        }
+
+        ]
+    };
+
+    PO_NPS_TEXT
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_NPS_TEXT}',
+        CollectionPath         : 'OCValueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_NPS_TEXT,
+            ValueListProperty: 'PO_NPS_TEXT'
+        }
+
+        ]
+    };
+
+    PO_KUNNR
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_KUNNR}',
+        CollectionPath         : 'OCValueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_KUNNR,
+                ValueListProperty: 'PO_KUNNR'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_KUNNR_NAME'
+            }
+
+        ]
+    };
+
+    PO_PARTNER_9A_HEAD
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_PARTNER_9A_HEAD}',
+        CollectionPath         : 'OCValueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_PARTNER_9A_HEAD,
+                ValueListProperty: 'PO_PARTNER_9A_HEAD'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_PARTNER_9A_HEAD_NAME'
+            }
+
+        ]
+    };
+
+    PO_PARTNER_9O_HEAD
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_PARTNER_9O_HEAD}',
+        CollectionPath         : 'OCValueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_PARTNER_9O_HEAD,
+                ValueListProperty: 'PO_PARTNER_9O_HEAD'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_PARTNER_9O_HEAD_NAME'
+            }
+
+        ]
+    };
+
+    PO_BSART
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>PO_BSART}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_BSART,
+                ValueListProperty: 'PO_BSART'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_BSART_BATXT'
+            }
+
+        ]
+    };
+
+};
 
 // -------------------------------------------------
 // ------- END OF ORDER CREATION ANNOTATIONS -------
