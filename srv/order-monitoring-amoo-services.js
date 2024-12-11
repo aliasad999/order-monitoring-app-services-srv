@@ -580,7 +580,16 @@ class openOrdersSrv extends cds.ApplicationService {
                         // req.header.select will have the string of visible columns. 
                         //this parameater has been manually set to header on every request
                         const selectedField = req._query && req._query['$select']
-                        const fields = selectedField && selectedField.split(',');
+                        let fields = selectedField && selectedField.split(',');
+                        fields = fields.filter((fieldName) => {
+                            const mandtFields = serviceHelper.getMandtFields();
+                            const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
+                            if(mandtTextFields.includes(fieldName)){
+                                return false;
+                            }else{
+                                return true;
+                            }
+                        });
                         // remove duplicates based on fields in the valuehelp dialog box
                         lt_result = removeDuplicates(fields, lt_result);
                     } catch (error) {
@@ -677,7 +686,16 @@ class openOrdersSrv extends cds.ApplicationService {
                     if(item.SO_DCP_ITEM_STATUS){
                         item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
                     }  
-                } 
+                }
+                let mandtFields = serviceHelper.getMandtFields();
+                // MANDANT TEXTS LOGIC -------------
+                mandtFields.forEach((mandt) => {
+                    const mandtProp = item[mandt];
+                    if(mandtProp){
+                        let mandtTxtField = mandt + "_TEXT";
+                        item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+                    }
+                })
             })
 
         });
@@ -943,6 +961,15 @@ class openOrdersSrv extends cds.ApplicationService {
                             item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
                         }  
                     } 
+                    let mandtFields = serviceHelper.getMandtFields();
+                    // MANDANT TEXTS LOGIC -------------
+                    mandtFields.forEach((mandt) => {
+                        const mandtProp = item[mandt];
+                        if(mandtProp){
+                            let mandtTxtField = mandt + "_TEXT";
+                            item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+                        }
+                    })
                     dateProps.forEach((property) => {
                         const dateString = item[property]
                         if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
@@ -1003,6 +1030,15 @@ class openOrdersSrv extends cds.ApplicationService {
             var dateProps = serviceHelper.getPODateProps()
             data.forEach((item) => {
                 item.Id = uuid.v1()
+                let mandtFields = serviceHelper.getMandtFields();
+                // MANDANT TEXTS LOGIC -------------
+                mandtFields.forEach((mandt) => {
+                    const mandtProp = item[mandt];
+                    if(mandtProp){
+                        let mandtTxtField = mandt + "_TEXT";
+                        item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+                    }
+                })
                 dateProps.forEach((property) => {
                     const dateString = item[property]
                     if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
@@ -1065,7 +1101,16 @@ class openOrdersSrv extends cds.ApplicationService {
                         // req.header.select will have the string of visible columns. 
                         //this parameater has been manually set to header on every request
                         const selectedField = req._query && req._query['$select']
-                        const fields = selectedField && selectedField.split(',');
+                        let fields = selectedField && selectedField.split(',');
+                        fields = fields.filter((fieldName) => {
+                            const mandtFields = serviceHelper.getMandtFields();
+                            const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
+                            if(mandtTextFields.includes(fieldName)){
+                                return false;
+                            }else{
+                                return true;
+                            }
+                        });
                         // remove duplicates based on fields in the valuehelp dialog box
                         lt_result = removeDuplicates(fields, lt_result);
                     } catch (error) {
@@ -1148,6 +1193,15 @@ class openOrdersSrv extends cds.ApplicationService {
             // since there is a virtual id field, adding a random guid to each record of the result set.
             data.forEach((item) => {
                 item.Id = uuid.v1()
+                let mandtFields = serviceHelper.getMandtFields();
+                // MANDANT TEXTS LOGIC -------------
+                mandtFields.forEach((mandt) => {
+                    const mandtProp = item[mandt];
+                    if(mandtProp){
+                        let mandtTxtField = mandt + "_TEXT";
+                        item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+                    }
+                })
             })
         });
         // END OF ORDER CREATION VALUE HELPS HANDLERS

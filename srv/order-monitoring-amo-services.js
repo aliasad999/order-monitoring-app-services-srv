@@ -19,6 +19,33 @@ class srvOpenOrders extends cds.ApplicationService {
         this.before('*','*',async(req,next)=>{
             await cds.run(`SET 'APPLICATION' = 'CAPServices'`);
         })
+
+
+        // test HANDLERS
+        this.before("READ", "testEntity", async (req, next) => {
+            cds
+                .connect("db")
+                .then(({ db }) =>
+                    db?.before("READ", (req) => enableHints(req)
+                    )
+                );
+
+            req.query.SELECT.localized = false;
+            req.query.SELECT.distinct = true;
+        });
+
+        this.on("READ", "testEntity", async (req, next) => {
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' ) {
+                return req.reply({ $count: 0 })
+            }
+            await next(req)
+        })
+
+        this.after("READ", "testEntity", async (data, req) => {
+
+        });
+        // END OF test HANDLERS
+
         this.on("getVBAKAuthObjKeys", async req => {
             const { VBAKAuthObjectKeys,EKKOAuthObjectKeys } = await cds.entities ('srvOpenOrders');
             const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
@@ -234,17 +261,26 @@ class srvOpenOrders extends cds.ApplicationService {
             }
             if (Array.isArray(data)) {
                 var dateProps = serviceHelper.getDateProps();
+                const mandtFields = serviceHelper.getMandtFields();
                 data.forEach((item) => {
                     item.id = uuid.v1()
                     if ('SO_DCP_ITEM_STATUS' in item) {
-                        if ('SO_NETWR' in item) // Net Amount
-                            item.SO_NETWR = formatSpecialCurrencies(item.SO_NETWR, item.SO_WAERK, this._SpecialCurrencies);
-                        if ('SO_KBETR' in item) // Price Per Unit
-                            item.SO_KBETR = formatSpecialCurrencies(item.SO_KBETR, item.SO_WAERK, this._SpecialCurrencies);
                         if (item.SO_DCP_ITEM_STATUS) {
                             item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
                         }
                     }
+                    if ('SO_NETWR' in item) // Net Amount
+                        item.SO_NETWR = formatSpecialCurrencies(item.SO_NETWR, item.SO_WAERK, this._SpecialCurrencies);
+                    if ('SO_KBETR' in item) // Price Per Unit
+                        item.SO_KBETR = formatSpecialCurrencies(item.SO_KBETR, item.SO_WAERK, this._SpecialCurrencies);
+                    // MANDANT TEXTS LOGIC -------------
+                    mandtFields.forEach((mandt) => {
+                        const mandtProp = item[mandt];
+                        if(mandtProp){
+                            let mandtTxtField = mandt + "_TEXT";
+                            item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+                        }
+                    })
                     dateProps.forEach((property) => {
                         const dateString = item[property]
                         if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
@@ -335,6 +371,15 @@ class srvOpenOrders extends cds.ApplicationService {
                         let fields = selectedField && selectedField.split(',');
                         // Workaround for DCP STatus - Need a better fix
                         fields = fields.filter(e => e !== 'SO_DCP_ITEM_STATUS_DESCRIPTION');
+                        fields = fields.filter((fieldName) => {
+                            const mandtFields = serviceHelper.getMandtFields();
+                            const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
+                            if(mandtTextFields.includes(fieldName)){
+                                return false;
+                            }else{
+                                return true;
+                            }
+                        });
                         // remove duplicates based on fields in the valuehelp dialog box
                         lt_result = removeDuplicates(fields, lt_result);
                     } catch (error) {
@@ -425,7 +470,16 @@ class srvOpenOrders extends cds.ApplicationService {
             // since there is a virtual id field, adding a random guid to each record of the result set.
             if (Array.isArray(data)) {
                 data.forEach((item) => {
-                    item.id = uuid.v1()
+                    item.id = uuid.v1();
+                    let mandtFields = serviceHelper.getMandtFields();
+                    // MANDANT TEXTS LOGIC -------------
+                    mandtFields.forEach((mandt) => {
+                        const mandtProp = item[mandt];
+                        if(mandtProp){
+                            let mandtTxtField = mandt + "_TEXT";
+                            item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+                        }
+                    })
                     if ('SO_DCP_ITEM_STATUS' in item) {
                         if (item.SO_DCP_ITEM_STATUS) {
                             item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)

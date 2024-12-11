@@ -25,13 +25,22 @@ service srvOpenOrders {
   entity BaseEntity              as
     select from db_app.RESULTS {
       key null                                        as id                              : UUID,
-          // MANDT                                       as SO_MANDT,
-          case MANDT
-            when '100' then 'Cobalt'
-            when '200' then 'Star'
-            when '300' then 'AP'
-            else 'No system defined'
-          end                                         as SO_MANDT                 : String(20),
+          MANDT                                       as SO_MANDT,
+          MANDT_DEL                                   as DL_MANDT,
+          TM_MANDT,
+          BL_MANDT_INV_FIRST,
+          BL_MANDT_INV_LAST,
+          FINAL_SO_MANDT as SO_FINAL_SO_MANDT,
+          FIRST_SO_MANDT as SO_FIRST_SO_MANDT,
+          PO_MANDT,
+          virtual null                                as SO_MANDT_TEXT  : String(20),
+          virtual null                                as DL_MANDT_TEXT  : String(20),
+          virtual null                                as TM_MANDT_TEXT  : String(20),
+          virtual null                                as BL_MANDT_INV_FIRST_TEXT  : String(20),
+          virtual null                                as BL_MANDT_INV_LAST_TEXT  : String(20),
+          virtual null                                as SO_FINAL_SO_MANDT_TEXT  : String(20),
+          virtual null                                as SO_FIRST_SO_MANDT_TEXT  : String(20),
+          virtual null                                as PO_MANDT_TEXT  : String(20),
           VBELN                                       as SO_VBELN,
           POSNR                                       as SO_POSNR,
           SO_ERDAT_ORDER_DATE                         as SO_ERDAT_ORDER,
@@ -103,14 +112,15 @@ service srvOpenOrders {
           SO_EDATU_REQUESTED_DATE                     as SO_EDATU_REQUESTED,
           KWMENG                                      as SO_KWMENG,
           VRKME                                       as SO_VRKME,
-          case
-            when
-              SO_EDATU_CONFIRMED_DATE = '00000000'
-            then
-              null
-            else
-              SO_EDATU_CONFIRMED_DATE
-          end                                         as SO_EDATU_CONFIRMED              : Date,
+          SO_EDATU_CONFIRMED_DATE as SO_EDATU_CONFIRMED,
+          // case
+          //   when
+          //     SO_EDATU_CONFIRMED_DATE = '00000000'
+          //   then
+          //     null
+          //   else
+          //     SO_EDATU_CONFIRMED_DATE
+          // end                                         as SO_EDATU_CONFIRMED              : Date,
           KBMENG                                      as SO_KBMENG,
           UNCONFIRMED_QTY                             as SO_UNCONFIRMED_QTY,
           REQ_TEXT                                    as SO_REQ_TEXT,
@@ -170,14 +180,15 @@ service srvOpenOrders {
           IFNULL(
             ZTERM_ITEM, ZTERM_HEAD
           )                                           as SO_ZTERM                        : String(4),
-          case
-            when
-              SO_PRSDT_DATE = '00000000'
-            then
-              null
-            else
-              SO_PRSDT_DATE
-          end                                         as SO_PRSDT                        : Date,
+          SO_PRSDT_DATE as SO_PRSDT,
+          // case
+          //   when
+          //     SO_PRSDT_DATE = '00000000'
+          //   then
+          //     null
+          //   else
+          //     SO_PRSDT_DATE
+          // end                                         as SO_PRSDT                        : Date,
           ZZ0S2REVG2                                  as SO_ZZ0S2REVG2,
           ZZDKPPRODB                                  as SO_ZZDKPPRODB,
           BSARK                                       as SO_BSARK,
@@ -200,36 +211,39 @@ service srvOpenOrders {
           F_WERKS                                     as SO_F_WERKS,
           F_VKORG                                     as SO_F_VKORG,
           F_VKORG_NAME1                               as SO_F_VKORG_VTEXT,
-          case
-            when
-              SO_F_TDDAT_DATE = '00000000'
-            then
-              null
-            else
-              SO_F_TDDAT_DATE
-          end                                         as SO_F_TDDAT                      : Date,
+          SO_F_TDDAT_DATE as SO_F_TDDAT,
+          // case
+          //   when
+          //     SO_F_TDDAT_DATE = '00000000'
+          //   then
+          //     null
+          //   else
+          //     SO_F_TDDAT_DATE
+          // end                                         as SO_F_TDDAT                      : Date,
           F_ZZ0S2MATUG                                as SO_F_ZZ0S2MATUG,
           F_VSBED                                     as SO_F_VSBED,
           F_VSBED_VTEXT_LANG                          as SO_F_VSBED_VTEXT,
           F_AUFNR                                     as SO_F_AUFNR,
-          case
-            when
-              SO_F_DGLTP_DATE = '00000000'
-            then
-              null
-            else
-              SO_F_DGLTP_DATE
-          end                                         as SO_F_DGLTP                      : Date,
+          SO_F_DGLTP_DATE as SO_F_DGLTP,
+          // case
+          //   when
+          //     SO_F_DGLTP_DATE = '00000000'
+          //   then
+          //     null
+          //   else
+          //     SO_F_DGLTP_DATE
+          // end                                         as SO_F_DGLTP                      : Date,
           F_PSMNG                                     as SO_F_PSMNG,
           F_AMEIN                                     as SO_F_AMEIN,
-          case
-            when
-              SO_F_LDDAT_DATE = '00000000'
-            then
-              null
-            else
-              SO_F_LDDAT_DATE
-          end                                         as SO_F_LDDAT                      : Date,
+          SO_F_LDDAT_DATE as SO_F_LDDAT,
+          // case
+          //   when
+          //     SO_F_LDDAT_DATE = '00000000'
+          //   then
+          //     null
+          //   else
+          //     SO_F_LDDAT_DATE
+          // end                                         as SO_F_LDDAT                      : Date,
 
           IFNULL(
             F_AS_PARTNER_ITM, F_AS_PARTNER_HEAD
@@ -251,51 +265,56 @@ service srvOpenOrders {
           VGPOS                                       as DL_VGPOS,
           LFART                                       as DL_LFART,
           LFART_VTEXT_LANG                            as DL_LFART_VTEXT,
-          case
-            when
-              DL_LFDAT_DATE = '00000000'
-            then
-              null
-            else
-              DL_LFDAT_DATE
-          end                                         as DL_LFDAT                        : Date,
+          DL_LFDAT_DATE as DL_LFDAT,
+          DL_HSDAT_DATE as DL_HSDAT,
+          DL_VFDAT_DATE as DL_VFDAT,
+          // case
+          //   when
+          //     DL_LFDAT_DATE = '00000000'
+          //   then
+          //     null
+          //   else
+          //     DL_LFDAT_DATE
+          // end                                         as DL_LFDAT                        : Date,
 
-          case
-            when
-              DL_HSDAT_DATE = '00000000'
-            then
-              null
-            else
-              DL_HSDAT_DATE
-          end                                         as DL_HSDAT                        : Date,
-          case
-            when
-              DL_VFDAT_DATE = '00000000'
-            then
-              null
-            else
-              DL_VFDAT_DATE
-          end                                         as DL_VFDAT                        : Date,
+          // case
+          //   when
+          //     DL_HSDAT_DATE = '00000000'
+          //   then
+          //     null
+          //   else
+          //     DL_HSDAT_DATE
+          // end                                         as DL_HSDAT                        : Date,
+          // case
+          //   when
+          //     DL_VFDAT_DATE = '00000000'
+          //   then
+          //     null
+          //   else
+          //     DL_VFDAT_DATE
+          // end                                         as DL_VFDAT                        : Date,
 
           TRAID                                       as DL_TRAID,
           ZZ0S2BLNR                                   as DL_ZZ0S2BLNR,
           PEND_DEL_QUAN                               as DL_PEND_DEL_QUAN,
-          case
-            when
-              DL_WADAT_DATE = '00000000'
-            then
-              null
-            else
-              DL_WADAT_DATE
-          end                                         as DL_WADAT                        : Date,
-          case
-            when
-              DL_WADAT_IST_DATE = '00000000'
-            then
-              null
-            else
-              DL_WADAT_IST_DATE
-          end                                         as DL_WADAT_IST                    : Date,
+          DL_WADAT_DATE as DL_WADAT,
+          DL_WADAT_IST_DATE as DL_WADAT_IST,
+          // case
+          //   when
+          //     DL_WADAT_DATE = '00000000'
+          //   then
+          //     null
+          //   else
+          //     DL_WADAT_DATE
+          // end                                         as DL_WADAT                        : Date,
+          // case
+          //   when
+          //     DL_WADAT_IST_DATE = '00000000'
+          //   then
+          //     null
+          //   else
+          //     DL_WADAT_IST_DATE
+          // end                                         as DL_WADAT_IST                    : Date,
           NOTE_TEXT                                   as LAST_NOTE,
           TKNUM                                       as TM_TKNUM,
           VSART                                       as TM_VSART,
@@ -341,46 +360,51 @@ service srvOpenOrders {
           end                                         as TM_SHIPMENT_ALERT               : String(250),
           TRACKING_ID_ELEM                            as TM_TRACKING_ID_ELEM,
           TRACKING_ID_COMP                            as TM_TRACKING_ID_COMP,
-          case
-            when
-              TM_DPTBG_DATE = '00000000'
-            then
-              null
-            else
-              TM_DPTBG_DATE
-          end                                         as TM_DPTBG                        : Date,
-          case
-            when
-              TM_DATBG_DATE = '00000000'
-            then
-              null
-            else
-              TM_DATBG_DATE
-          end                                         as TM_DATBG                        : Date,
-          case
-            when
-              TM_DPTEN_DATE = '00000000'
-            then
-              null
-            else
-              TM_DPTEN_DATE
-          end                                         as TM_DPTEN                        : Date,
-          case
-            when
-              TM_DATEN_DATE = '00000000'
-            then
-              null
-            else
-              TM_DATEN_DATE
-          end                                         as TM_DATEN                        : Date,
-          case
-            when
-              TM_AR_DATE_DATE = '00000000'
-            then
-              null
-            else
-              TM_AR_DATE_DATE
-          end                                         as TM_AR_DATE                      : Date,
+          TM_DPTBG_DATE as TM_DPTBG,
+          TM_DATBG_DATE as TM_DATBG,
+          TM_DPTEN_DATE as TM_DPTEN,
+          TM_DATEN_DATE as TM_DATEN,
+          TM_AR_DATE_DATE as TM_AR_DATE,
+          // case
+          //   when
+          //     TM_DPTBG_DATE = '00000000'
+          //   then
+          //     null
+          //   else
+          //     TM_DPTBG_DATE
+          // end                                         as TM_DPTBG                        : Date,
+          // case
+          //   when
+          //     TM_DATBG_DATE = '00000000'
+          //   then
+          //     null
+          //   else
+          //     TM_DATBG_DATE
+          // end                                         as TM_DATBG                        : Date,
+          // case
+          //   when
+          //     TM_DPTEN_DATE = '00000000'
+          //   then
+          //     null
+          //   else
+          //     TM_DPTEN_DATE
+          // end                                         as TM_DPTEN                        : Date,
+          // case
+          //   when
+          //     TM_DATEN_DATE = '00000000'
+          //   then
+          //     null
+          //   else
+          //     TM_DATEN_DATE
+          // end                                         as TM_DATEN                        : Date,
+          // case
+          //   when
+          //     TM_AR_DATE_DATE = '00000000'
+          //   then
+          //     null
+          //   else
+          //     TM_AR_DATE_DATE
+          // end                                         as TM_AR_DATE                      : Date,
           STTRG                                       as TM_STTRG,
           STTRG_DDTEXT_LANG                           as TM_STTRG_DDTEXT,
           BL_VBELN_INV_FIRST                          as BL_VBELN_INV_FIRST,
@@ -388,78 +412,38 @@ service srvOpenOrders {
           BL_VBELN_INV_LAST                           as BL_VBELN_INV_LAST,
           BL_POSNR_INV_LAST                           as BL_POSNR_INV_LAST,
           XBLNR                                       as BL_XBLNR,
-          case MANDT_DEL
-            when '100' then 'Cobalt'
-            when '200' then 'Star'
-            when '300' then 'AP'
-            else 'No system defined'
-          end                                         as DL_MANDT                 : String(20),
-          // MANDT_DEL                                   as DL_MANDT,
-          // TM_MANDT,
-          case TM_MANDT
-            when '100' then 'Cobalt'
-            when '200' then 'Star'
-            when '300' then 'AP'
-            else 'No system defined'
-          end                                         as TM_MANDT                 : String(20),
-          // BL_MANDT_INV_FIRST,
-          case BL_MANDT_INV_FIRST
-            when '100' then 'Cobalt'
-            when '200' then 'Star'
-            when '300' then 'AP'
-            else 'No system defined'
-          end                                         as BL_MANDT_INV_FIRST                 : String(20),
-          // BL_MANDT_INV_LAST,
-          case BL_MANDT_INV_LAST
-            when '100' then 'Cobalt'
-            when '200' then 'Star'
-            when '300' then 'AP'
-            else 'No system defined'
-          end                                         as BL_MANDT_INV_LAST                 : String(20),
-          case
-            when
-              ERDAT_DEL_DATE = '00000000'
-            then
-              null
-            else
-              ERDAT_DEL_DATE
-          end                                         as DL_ERDAT                        : Date,
-          case
-            when
-              LDDAT_DEL_DATE = '00000000'
-            then
-              null
-            else
-              LDDAT_DEL_DATE
-          end                                         as DL_LDDAT                        : Date,
+          
+          ERDAT_DEL_DATE as DL_ERDAT,
+          LDDAT_DEL_DATE as DL_LDDAT,
+          F_MBDAT_DATE as SO_F_MBDAT,
+          // case
+          //   when
+          //     ERDAT_DEL_DATE = '00000000'
+          //   then
+          //     null
+          //   else
+          //     ERDAT_DEL_DATE
+          // end                                         as DL_ERDAT                        : Date,
+          // case
+          //   when
+          //     LDDAT_DEL_DATE = '00000000'
+          //   then
+          //     null
+          //   else
+          //     LDDAT_DEL_DATE
+          // end                                         as DL_LDDAT                        : Date,
           PERFK                                       as SO_PERFK,
           PERFK_LTEXT_LANG                            as SO_PERFK_LTEXT_LANG,
-          case
-            when
-              F_MBDAT_DATE = '00000000'
-            then
-              null
-            else
-              F_MBDAT_DATE
-          end                                         as SO_F_MBDAT                      : Date,
-          case FINAL_SO_MANDT
-            when '100' then 'Cobalt'
-            when '200' then 'Star'
-            when '300' then 'AP'
-            else 'No system defined'
-          end                                         as SO_FINAL_SO_MANDT                  : String(20),
-          case FIRST_SO_MANDT
-            when '100' then 'Cobalt'
-            when '200' then 'Star'
-            when '300' then 'AP'
-            else 'No system defined'
-          end                                         as SO_FIRST_SO_MANDT               : String(20),
-          case PO_MANDT
-            when '100' then 'Cobalt'
-            when '200' then 'Star'
-            when '300' then 'AP'
-            else 'No system defined'
-          end                                         as PO_MANDT                 : String(20),
+          // case
+          //   when
+          //     F_MBDAT_DATE = '00000000'
+          //   then
+          //     null
+          //   else
+          //     F_MBDAT_DATE
+          // end                                         as SO_F_MBDAT                      : Date,
+          
+          
           EBELN                                       as PO_EBELN,
           EBELP                                       as PO_EBELP,
           case
@@ -530,4 +514,5 @@ service srvOpenOrders {
   entity PartnerSettings         as select from db_app.PARTNER_SETTINGS_DB;
   entity ShipmentMarkedDelivered as select from AMOOUtilsService.ShipmentMarkedDelivered;
   entity Variants                as projection on db_app.variants;
+
 }
