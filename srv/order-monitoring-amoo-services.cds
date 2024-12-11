@@ -23,6 +23,14 @@ service openOrdersSrv {
                 MANDT_TM as TM_MANDT,
                 BL_MANDT_INV_FIRST,
                 BL_MANDT_INV_LAST,
+                virtual null                                as SO_MANDT_TEXT  : String(20),
+                virtual null                                as DL_MANDT_TEXT  : String(20),
+                virtual null                                as TM_MANDT_TEXT  : String(20),
+                virtual null                                as BL_MANDT_INV_FIRST_TEXT  : String(20),
+                virtual null                                as BL_MANDT_INV_LAST_TEXT  : String(20),
+                virtual null                                as SO_FINAL_SO_MANDT_TEXT  : String(20),
+                virtual null                                as SO_FIRST_SO_MANDT_TEXT  : String(20),
+                virtual null                                as PO_MANDT_TEXT  : String(20),
                 // case BL_MANDT_INV_FIRST
                 //     when '100' then 'Cobalt'
                 //     when '200' then 'Star'
@@ -538,15 +546,10 @@ service openOrdersSrv {
     @readonly
     entity orderCreation as projection on db_app.ORDER_CREATION{
         key null                                        as Id                              : UUID,
-        // key case MANDT
-        //     when '100' then 'Cobalt'
-        //     when '200' then 'Star'
-        //     when '300' then 'AP'
-        //     else 'No system defined'
-        // end                                         as PO_MANDT                 : String(20),
         key MANDT as PO_MANDT,
         key EBELN AS PO_EBELN,
         key EBELP AS PO_EBELP,
+        virtual null as  PO_MANDT_TEXT : String(20),
         AEDAT_HEAD_DATE as PO_AEDAT_HEAD,
         AEDAT_ITEM_DATE as PO_AEDAT_ITEM,
         // case
