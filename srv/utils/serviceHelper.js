@@ -36,7 +36,35 @@ const getPODateProps = () => {
     ]
 }
 
+const getMandtFields = () => {
+    return [
+        "SO_MANDT",
+        "DL_MANDT",
+        "TM_MANDT",
+        "BL_MANDT_INV_FIRST",
+        "BL_MANDT_INV_LAST",
+        "SO_FINAL_SO_MANDT",
+        "SO_FIRST_SO_MANDT",
+        "PO_MANDT"
+    ]
+}
+
+const getMandtFieldsNames = (mandtFieldValue) => {
+    switch(mandtFieldValue){
+        case "100":
+            return "Cobalt";
+        case "200":
+            return "Star";
+        case "300":
+            return "AP";
+        default:
+            return "No System defined";
+    }
+}
+
 module.exports =  {
     getDateProps,
-    getPODateProps
+    getPODateProps,
+    getMandtFields,
+    getMandtFieldsNames
 }

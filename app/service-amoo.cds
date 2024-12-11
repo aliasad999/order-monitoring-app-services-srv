@@ -15,6 +15,11 @@ annotate service.orderCreation with @Consumption.dbHints: [
     'HEX_INDEX_JOIN'
 ];
 
+annotate service.OCValueHelps with @Consumption.dbHints: [
+    'USE_HEX_PLAN',
+    'HEX_INDEX_JOIN'
+];
+
 annotate service.valueHelps with {
     @Common.Text           : SO_NPS_DESCRIPTION
     @Common.TextArrangement: #TextOnly
