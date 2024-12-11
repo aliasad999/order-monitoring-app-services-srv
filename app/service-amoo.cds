@@ -75,7 +75,7 @@ annotate service.orderCreation with @(UI: {SelectionFields: [
 });
 
 // ------------- ORDER CREATION FIELD ANNOTATIONS -------
-annotate service.orderCreation with {
+annotate service.baseOrderCreation with {
     PO_EBELN                @title: '{i18n>PO_EBELN}'            @sap.Label: '{i18n>PO_EBELN}'       @Common.IsDigitSequence : true;
     PO_EBELP                @title: '{i18n>PO_EBELP}'            @sap.Label: '{i18n>PO_EBELP}'       @Common.IsDigitSequence : true;
     PO_AEDAT_HEAD           @title: '{i18n>PO_AEDAT_HEAD}'       @sap.Label: '{i18n>PO_AEDAT_HEAD}'  @sap.filter.restriction : 'interval';
@@ -92,7 +92,14 @@ annotate service.orderCreation with {
     PO_ERROR_TEXT           @title: '{i18n>PO_ERROR_TEXT}'       @sap.Label: '{i18n>PO_ERROR_TEXT}';
     PO_ISSUE_TEXT           @title: '{i18n>SO_ISSUE}'            @sap.Label: '{i18n>SO_ISSUE}';
     PO_NPS_TEXT             @title: '{i18n>SO_NPS}'              @sap.Label: '{i18n>SO_NPS}';
+    PO_KUNNR_NAME            @title: '{i18n>PO_KUNNR}'            @sap.Label: '{i18n>PO_KUNNR}';
+    PO_PARTNER_9A_HEAD_NAME  @title: '{i18n>PO_PARTNER_9A_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
+    PO_PARTNER_9O_HEAD_NAME  @title: '{i18n>PO_PARTNER_9O_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
+    PO_BSART_BATXT           @title: '{i18n>PO_BSART}'            @sap.Label: '{i18n>PO_BSART}';
+    PO_MANDT_TEXT            @title: '{i18n>PO_MANDT}'            @sap.Label: '{i18n>PO_MANDT}';
+}
 
+annotate service.orderCreation with {
     // FIELDS WITH TEXT ARRANGEMENT
     @Common.Text           : PO_KUNNR_NAME
     @Common.TextArrangement: #TextLast
@@ -134,14 +141,6 @@ annotate service.orderCreation with {
 }
 
 // ------------- ORDER CREATION VALUE HELPS -------
-annotate service.OCValueHelps with {
-    PO_KUNNR_NAME            @title: '{i18n>PO_KUNNR}'            @sap.Label: '{i18n>PO_KUNNR}';
-    PO_PARTNER_9A_HEAD_NAME  @title: '{i18n>PO_PARTNER_9A_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
-    PO_PARTNER_9O_HEAD_NAME  @title: '{i18n>PO_PARTNER_9O_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
-    PO_BSART_BATXT           @title: '{i18n>PO_BSART}'            @sap.Label: '{i18n>PO_BSART}';
-    PO_MANDT_TEXT            @title: '{i18n>PO_MANDT}'            @sap.Label: '{i18n>PO_MANDT}';
-}
-
 annotate service.orderCreation with {
     PO_MANDT
     @Common.ValueList: {

@@ -543,8 +543,10 @@ service openOrdersSrv {
     function getIssueReason(salesOrder : String(10), salesOrderItem : String(6), detailsSalesOrder : String(10), DetailsSalesOrderItem : String(6), issue : String(2), nps : String(3), issue_location : String(12), material : String(18), plant : String(4), quantity : Decimal(13, 3), uom : String(3), dueDate : Date, firstDate : Date) returns array of db_app.issue_reason;
     action   createDeliveryforAllItem(salesOrder : String(10))  returns Boolean;
     action   createDeliveryforItem(salesOrder : String(10), salesOrderItem : String(6)) returns Boolean;
+
+    /// ORDER CREATION ENTITIES
     @readonly
-    entity orderCreation as projection on db_app.ORDER_CREATION{
+    entity baseOrderCreation as projection on db_app.ORDER_CREATION{
         key null                                        as Id                              : UUID,
         key MANDT as PO_MANDT,
         key EBELN AS PO_EBELN,
@@ -552,14 +554,6 @@ service openOrdersSrv {
         virtual null as  PO_MANDT_TEXT : String(20),
         AEDAT_HEAD_DATE as PO_AEDAT_HEAD,
         AEDAT_ITEM_DATE as PO_AEDAT_ITEM,
-        // case
-        //     when AEDAT_HEAD_DATE = '00000000' then null
-        //     else AEDAT_HEAD_DATE
-        // end                                         as PO_AEDAT_HEAD                   : Date,
-        // case
-        //     when AEDAT_ITEM_DATE = '00000000' then null
-        //     else AEDAT_ITEM_DATE
-        // end                                         as PO_AEDAT_ITEM                   : Date,
         BSART AS PO_BSART,
         EKORG AS PO_EKORG,
         EKOTX AS PO_EKOTX,
@@ -584,8 +578,13 @@ service openOrdersSrv {
         ERROR_TEXT AS PO_ERROR_TEXT,
         BIM_ERROR_ID AS PO_BIM_ERROR_ID
     };
+    
+    @readonly
+    entity orderCreation as projection on baseOrderCreation;
 
     @readonly
-    entity OCValueHelps as projection on orderCreation;
+    entity OCValueHelps as projection on baseOrderCreation;
 
 };
+
+
