@@ -542,9 +542,11 @@ class openOrdersSrv extends cds.ApplicationService {
             let lt_result = []
             // if session id is there, get the cach-ed query and execute it.
             if (sessionCache.get(queryId)) {
+                let NPSTabSelected = req.headers.tabselected;
                 const queryString = sessionCache.get(queryId);
                 const query = JSON.parse(queryString);
                 query.SELECT.from.ref[0] = 'openOrdersSrv.allIssues'
+                serviceHelper.addOrRemoveNPSFilter(query, NPSTabSelected);
                 // make sure pagination is taken into account
                 // if (query.SELECT.limit.rows.val) query.SELECT.limit.rows.val = req.query.SELECT.limit.rows?.val;
                 //query.SELECT.distinct = true;

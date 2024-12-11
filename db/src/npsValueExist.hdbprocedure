@@ -14,13 +14,13 @@ BEGIN
     -- Execute the single SQL statement and store the results in the local table variable
     EXECUTE IMMEDIATE  :sql_stmt into lt_nps_tab;
     
-   --  sql_stmt = 'SELECT so_nps as id, TRUE AS flag FROM "OPENORDERSSRV_ALLISSUES" WHERE ' || :IV_whereClause || ' SO_IGNORED = 1';
-   --  EXECUTE IMMEDIATE  :sql_stmt into lt_ignore;
-   --   -- Check for the existence of rows in lt_ignore using a LIMIT query
-   --   lt_ignore_check = SELECT id FROM :lt_ignore LIMIT 1;
-   --  -- If lt_ignore_check has rows, add the (00, TRUE) row to lt_nps_tab
-   --  IF EXISTS (SELECT * FROM :lt_ignore_check) THEN
-   --      lt_nps_tab = SELECT * FROM :lt_nps_tab UNION ALL SELECT 00 AS id, TRUE AS flag FROM :lt_ignore;
-   --  END IF;
+    sql_stmt = 'SELECT so_nps as id, TRUE AS flag FROM "OPENORDERSSRV_ALLISSUES" WHERE ' || :IV_whereClause || ' SO_IGNORED = 1';
+    EXECUTE IMMEDIATE  :sql_stmt into lt_ignore;
+     -- Check for the existence of rows in lt_ignore using a LIMIT query
+     lt_ignore_check = SELECT id FROM :lt_ignore LIMIT 1;
+    -- If lt_ignore_check has rows, add the (00, TRUE) row to lt_nps_tab
+    IF EXISTS (SELECT * FROM :lt_ignore_check) THEN
+        lt_nps_tab = SELECT * FROM :lt_nps_tab UNION ALL SELECT 00 AS id, TRUE AS flag FROM :lt_ignore;
+    END IF;
       
 END;

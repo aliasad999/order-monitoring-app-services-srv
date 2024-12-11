@@ -1,5 +1,5 @@
 #!/bin/bash
-npm install --save-dev date-fns
+npm install
 yes | cf install-plugin DefaultEnv
 
 if [ $? -eq 0 ]; then
