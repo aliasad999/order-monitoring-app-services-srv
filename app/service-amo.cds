@@ -10,11 +10,6 @@ annotate service.valueHelps with @Consumption.dbHints: [
     'HEX_INDEX_JOIN'
 ];
 
-// annotate service.testEntity with @Consumption.dbHints: [
-//     'USE_HEX_PLAN',
-//     'HEX_INDEX_JOIN'
-// ];
-
 
 annotate service.valueHelps with {
     SO_VBELN                        @title: '{i18n>SO_VBELN}'                    @sap.Label: '{i18n>SO_VBELN}';

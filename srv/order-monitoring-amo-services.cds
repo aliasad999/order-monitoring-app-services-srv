@@ -41,54 +41,6 @@ service srvOpenOrders {
           virtual null                                as SO_FINAL_SO_MANDT_TEXT  : String(20),
           virtual null                                as SO_FIRST_SO_MANDT_TEXT  : String(20),
           virtual null                                as PO_MANDT_TEXT  : String(20),
-          // case MANDT
-          //   when '100' then 'Cobalt'
-          //   when '200' then 'Star'
-          //   when '300' then 'AP'
-          //   else 'No system defined'
-          // end                                         as SO_MANDT                 : String(20),
-          // case MANDT_DEL
-          //   when '100' then 'Cobalt'
-          //   when '200' then 'Star'
-          //   when '300' then 'AP'
-          //   else 'No system defined'
-          // end                                         as DL_MANDT                 : String(20),
-          // case TM_MANDT
-          //   when '100' then 'Cobalt'
-          //   when '200' then 'Star'
-          //   when '300' then 'AP'
-          //   else 'No system defined'
-          // end                                         as TM_MANDT                 : String(20),
-          // case BL_MANDT_INV_FIRST
-          //   when '100' then 'Cobalt'
-          //   when '200' then 'Star'
-          //   when '300' then 'AP'
-          //   else 'No system defined'
-          // end                                         as BL_MANDT_INV_FIRST                 : String(20),
-          // case BL_MANDT_INV_LAST
-          //   when '100' then 'Cobalt'
-          //   when '200' then 'Star'
-          //   when '300' then 'AP'
-          //   else 'No system defined'
-          // end                                         as BL_MANDT_INV_LAST                 : String(20),
-          // case FINAL_SO_MANDT
-          //   when '100' then 'Cobalt'
-          //   when '200' then 'Star'
-          //   when '300' then 'AP'
-          //   else 'No system defined'
-          // end                                         as SO_FINAL_SO_MANDT                  : String(20),
-          // case FIRST_SO_MANDT
-          //   when '100' then 'Cobalt'
-          //   when '200' then 'Star'
-          //   when '300' then 'AP'
-          //   else 'No system defined'
-          // end                                         as SO_FIRST_SO_MANDT               : String(20),
-          // case PO_MANDT
-          //   when '100' then 'Cobalt'
-          //   when '200' then 'Star'
-          //   when '300' then 'AP'
-          //   else 'No system defined'
-          // end                                         as PO_MANDT                 : String(20),
           VBELN                                       as SO_VBELN,
           POSNR                                       as SO_POSNR,
           SO_ERDAT_ORDER_DATE                         as SO_ERDAT_ORDER,
@@ -563,9 +515,4 @@ service srvOpenOrders {
   entity ShipmentMarkedDelivered as select from AMOOUtilsService.ShipmentMarkedDelivered;
   entity Variants                as projection on db_app.variants;
 
-  // @readonly
-  // entity testEntity as projection on db_app.RESULTS{
-  //   key null                                        as id                              : UUID,
-  //   *
-  // };
 }
