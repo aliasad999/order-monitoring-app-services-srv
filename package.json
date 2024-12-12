@@ -30,7 +30,6 @@
     "date-fns": "^4.1.0"
   },
   "devDependencies": {
-    "@cap-js/sqlite": "^1.7.7",
     "@sap/hdi-deploy": "^5.3.2",
     "axios": "^1.7.9",
     "chai": "^5.1.2",
