@@ -996,6 +996,9 @@ class openOrdersSrv extends cds.ApplicationService {
 
         // ORDER CREATION HANDLERS
         this.before("READ", "orderCreation", async (req, next) => {
+            req.query.SELECT.localized = false;
+            req.query.SELECT.distinct = true;
+
             const dateProps = serviceHelper.getPODateProps()
             for (let i = 0; i < req.query.SELECT.where?.length; i++) {
                 const item = req.query.SELECT.where[i];
@@ -1011,9 +1014,9 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.on("READ", "orderCreation", async (req, next) => {
-            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' ) {
-                return req.reply({ $count: 0 })
-            }
+            // if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' ) {
+            //     return req.reply({ $count: 1 })
+            // }
             await next(req)
         })
 
@@ -1095,7 +1098,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     // ISSUE 343357 
                     // add skip and top parameters from real query
                     query.SELECT.limit = req.query.SELECT.limit;
-                    query.SELECT.distinct = true;
+                    // query.SELECT.distinct = true;
                     // End of ISSUE 343357
                     query.SELECT.columns.length = 0;
                     query.SELECT.columns = req.query.SELECT.columns;

@@ -548,9 +548,9 @@ service openOrdersSrv {
     @readonly
     entity baseOrderCreation as projection on db_app.ORDER_CREATION{
         key null                                        as Id                              : UUID,
-        key MANDT as PO_MANDT,
-        key EBELN AS PO_EBELN,
-        key EBELP AS PO_EBELP,
+        MANDT as PO_MANDT,
+        EBELN AS PO_EBELN,
+        EBELP AS PO_EBELP,
         virtual null as  PO_MANDT_TEXT : String(20),
         AEDAT_HEAD_DATE as PO_AEDAT_HEAD,
         AEDAT_ITEM_DATE as PO_AEDAT_ITEM,
