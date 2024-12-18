@@ -1301,24 +1301,33 @@ class openOrdersSrv extends cds.ApplicationService {
 
         this.on(("callChatbotService"), async (req) => {
             try {
-                const data = {
-                    "messages": [
-                        {
-                            "role": "user",
-                            "content": "Hi"
-                        },
-                        {
-                            "role": "user",
-                            "content": "What is the status of the order 0163724185?"
-                        }
-                    ]
-                }
-                const chatbotSrv = await cds.connect.to('ChatbotServiceToken');
-                const chatbotCall = await chatbotSrv.tx(req).send({
-                    method: "POST",
-                });
-                
-                console.log(chatbotCall);
+
+                const netIq = req.headers.authorization.split(' ')[1];
+                const chatbotTemp = await cds.connect.to('ChatbotService');
+                // const payload = {
+                //     "messages": [
+                //         {
+                //             "role": "user",
+                //             "content": "What is the status of the order 0010010527"
+                //         }
+                //     ]
+                // }
+
+                const payload = JSON.parse(req.data.payload);
+
+                const response = await chatbotTemp.tx(req).send({
+                    method: 'POST',
+                    path: '/conversation', 
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        netiq: netIq
+                    },
+                    data: payload
+                  });
+
+                console.log(response);
+                return response;
 
             } catch (e) {
                 console.log(e.message);
