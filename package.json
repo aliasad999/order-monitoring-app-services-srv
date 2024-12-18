@@ -31,12 +31,7 @@
   },
   "devDependencies": {
     "@sap/hdi-deploy": "^5.3.2",
-    "axios": "^1.7.9",
-    "chai": "^5.1.2",
-    "chai-as-promised": "^8.0.1",
-    "chai-subset": "^1.6.0",
-    "jest": "^29.7.0",
-    "sqlite3": "^5.1.7"
+    "axios": "^1.7.9"
   },
   "scripts": {
     "bind": "cds bind -2  order-monitoring-xsuaa:order-monitoring-xsuaa-key && cds bind -2  order-monitoring-destination:order-monitoring-destination-content-order-monitoring-destination-credentials &&  cds bind -2  order-monitoring-app-services-hdi:SharedDevKey &&    cds bind -2  order-monitoring-connectivity:con-key",
