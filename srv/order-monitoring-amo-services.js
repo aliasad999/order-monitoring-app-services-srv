@@ -65,8 +65,10 @@ class srvOpenOrders extends cds.ApplicationService {
             } else {
                 updateNeeded = true;
             }
+
             if (updateNeeded) {
                 let SQLdate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+                /// COBALT AUTH CALL
                 try {
                     const service = await cds.connect.to('authService');
                     lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
@@ -74,6 +76,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     globalError.push({user: 'noCobaltUser',error: error})
                     err = 1 //Cobalt call failed
                 }
+                /// EC AUTH CALL
                 try {
                     const service = await cds.connect.to('authServiceEC');
                      lt_resultEC = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
@@ -83,44 +86,57 @@ class srvOpenOrders extends cds.ApplicationService {
                 }
                 await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
                 await DELETE.from(EKKOAuthObjectKeys).where({ USERID: userID });
-                lt_resultEC.VBAK = lt_resultEC.VBAK || []
-                lt_resultEC.EKKO = lt_resultEC.EKKO || []
-                let lt_vbak = lt_result.VBAK || []
-                let lt_ekko = lt_result.EKKO || []
-                lt_vbak = [...lt_vbak, ...lt_resultEC.VBAK];
-                lt_ekko = [...lt_ekko, ...lt_resultEC.EKKO];
-                const vbakSet = new Set();
-                const lt_vbakUnique = lt_vbak.filter(obj => {
-                    const key = `${obj.VKORG}-${obj.VTWEG}-${obj.SPART}`; 
-                    if (vbakSet.has(key)) {
-                        return false; 
-                    }
-                    vbakSet.add(key); 
-                        return true; 
-                });
-                if (lt_vbakUnique.length !== 0) {
-                    lt_vbakUnique.forEach((set) => {
-                        set.LAST_UPDATE = SQLdate;
-                        set.USERID = userID;
-                    })
-                    await INSERT.into(VBAKAuthObjectKeys, lt_vbakUnique);
-                }
-                let ekkoSet = new Set();
-                const lt_ekkoUnique = lt_ekko.filter(item => {
-                if (ekkoSet.has(item.EKORG)) {
-                    return false; 
-                }
-                ekkoSet.add(item.EKORG); 
-                return true; 
-                });
-                if (lt_ekkoUnique.length !== 0) {
-                    lt_ekkoUnique.forEach((set) => {
+
+                /// New Authorization scenario
+                if(lt_result.VBAK){
+                    lt_resultEC.VBAK = lt_resultEC.VBAK || []
+                    lt_resultEC.EKKO = lt_resultEC.EKKO || []
+                    let lt_vbak = lt_result.VBAK || []
+                    let lt_ekko = lt_result.EKKO || []
+                    lt_vbak = [...lt_vbak, ...lt_resultEC.VBAK];
+                    lt_ekko = [...lt_ekko, ...lt_resultEC.EKKO];
+                    const vbakSet = new Set();
+                    const lt_vbakUnique = lt_vbak.filter(obj => {
+                        const key = `${obj.VKORG}-${obj.VTWEG}-${obj.SPART}`; 
+                        if (vbakSet.has(key)) {
+                            return false; 
+                        }
+                        vbakSet.add(key); 
+                            return true; 
+                    });
+                    if (lt_vbakUnique.length !== 0) {
+                        lt_vbakUnique.forEach((set) => {
                             set.LAST_UPDATE = SQLdate;
                             set.USERID = userID;
-                })
-                    await INSERT.into(EKKOAuthObjectKeys, lt_ekkoUnique);
-                }
-                // return true;
+                        })
+                        await INSERT.into(VBAKAuthObjectKeys, lt_vbakUnique);
+                    }
+                    let ekkoSet = new Set();
+                    const lt_ekkoUnique = lt_ekko.filter(item => {
+                    if (ekkoSet.has(item.EKORG)) {
+                        return false; 
+                    }
+                    ekkoSet.add(item.EKORG); 
+                    return true; 
+                    });
+                    if (lt_ekkoUnique.length !== 0) {
+                        lt_ekkoUnique.forEach((set) => {
+                                set.LAST_UPDATE = SQLdate;
+                                set.USERID = userID;
+                    })
+                        await INSERT.into(EKKOAuthObjectKeys, lt_ekkoUnique);
+                    }
+                    // return true;
+                }else{ /// OLD Authorization scenario
+                    if (lt_result.length !== 0) {
+                        lt_result.forEach((set) => {
+                            set.LAST_UPDATE = SQLdate;
+                            set.USERID = userID;
+                        })
+                        await INSERT.into(VBAKAuthObjectKeys, lt_result);
+                    }
+                    return true;  
+                }               
             }
             if (globalError.length === 2)
                 req.error(globalError[0].error)
