@@ -135,7 +135,6 @@ class srvOpenOrders extends cds.ApplicationService {
                         })
                         await INSERT.into(VBAKAuthObjectKeys, lt_result);
                     }
-                    return true;  
                 }               
             }
             if (globalError.length === 2)
