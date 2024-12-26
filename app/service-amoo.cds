@@ -106,16 +106,16 @@ annotate service.orderCreation with {
     PO_KUNNR                @title: '{i18n>PO_KUNNR}'            @sap.Label: '{i18n>PO_KUNNR}';
     @Common.TextFor
     PO_KUNNR_NAME;
-    @Common.Text           : PO_PARTNER_9A_HEAD_NAME
-    @Common.TextArrangement: #TextLast
+    // @Common.Text           : PO_PARTNER_9A_HEAD_NAME
+    // @Common.TextArrangement: #TextLast
     PO_PARTNER_9A_HEAD      @title: '{i18n>PO_PARTNER_9A_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
-    @Common.TextFor
-    PO_PARTNER_9A_HEAD_NAME;
-    @Common.Text           : PO_PARTNER_9O_HEAD_NAME
-    @Common.TextArrangement: #TextLast
+    // @Common.TextFor
+    // PO_PARTNER_9A_HEAD_NAME;
+    //@Common.Text           : PO_PARTNER_9O_HEAD_NAME
+    // @Common.TextArrangement: #TextLast
     PO_PARTNER_9O_HEAD      @title: '{i18n>PO_PARTNER_9O_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
-    @Common.TextFor
-    PO_PARTNER_9O_HEAD_NAME;
+    // @Common.TextFor
+    // PO_PARTNER_9O_HEAD_NAME;
     @Common.Text           : PO_BSART_BATXT
     @Common.TextArrangement: #TextLast
     PO_BSART                @title: '{i18n>PO_BSART}'            @sap.Label: '{i18n>PO_BSART}';
@@ -370,11 +370,11 @@ annotate service.orderCreation with {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: PO_PARTNER_9A_HEAD,
                 ValueListProperty: 'PO_PARTNER_9A_HEAD'
-            },
-            {
-                $Type            : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty: 'PO_PARTNER_9A_HEAD_NAME'
             }
+            // {
+            //     $Type            : 'Common.ValueListParameterDisplayOnly',
+            //     ValueListProperty: 'PO_PARTNER_9A_HEAD_NAME'
+            // }
 
         ]
     };
@@ -391,11 +391,11 @@ annotate service.orderCreation with {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: PO_PARTNER_9O_HEAD,
                 ValueListProperty: 'PO_PARTNER_9O_HEAD'
-            },
-            {
-                $Type            : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty: 'PO_PARTNER_9O_HEAD_NAME'
             }
+            // {
+            //     $Type            : 'Common.ValueListParameterDisplayOnly',
+            //     ValueListProperty: 'PO_PARTNER_9O_HEAD_NAME'
+            // }
 
         ]
     };
@@ -1309,16 +1309,16 @@ annotate service.allIssues with {
     PO_KUNNR             @title: '{i18n>PO_KUNNR}'             @sap.Label: '{i18n>PO_KUNNR}';
     @Common.TextFor
     PO_KUNNR_NAME;
-    @Common.Text           : PO_PARTNER_9A_HEAD_NAME
-    @Common.TextArrangement: #TextLast
+    // @Common.Text           : PO_PARTNER_9A_HEAD_NAME
+    // @Common.TextArrangement: #TextLast
     PO_PARTNER_9A_HEAD   @title: '{i18n>PO_PARTNER_9A_HEAD}'   @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
-    @Common.TextFor
-    PO_PARTNER_9A_HEAD_NAME;
-    @Common.Text           : PO_PARTNER_9O_HEAD_NAME
-    @Common.TextArrangement: #TextLast
+    // @Common.TextFor
+    // PO_PARTNER_9A_HEAD_NAME;
+    // @Common.Text           : PO_PARTNER_9O_HEAD_NAME
+    // @Common.TextArrangement: #TextLast
     PO_PARTNER_9O_HEAD   @title: '{i18n>PO_PARTNER_9O_HEAD}'   @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
-    @Common.TextFor
-    PO_PARTNER_9O_HEAD_NAME;
+    // @Common.TextFor
+    // PO_PARTNER_9O_HEAD_NAME;
     @Common.Text           : PO_BSART_BATXT
     @Common.TextArrangement: #TextLast
     PO_BSART             @title: '{i18n>PO_BSART}'             @sap.Label: '{i18n>PO_BSART}';
@@ -4026,7 +4026,8 @@ annotate service.allIssues with {
     PO_PARTNER_9A_HEAD
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>PO_PARTNER_9A_HEAD_NAME}',
+        // Label                  : '{@i18n>PO_PARTNER_9A_HEAD_NAME}',
+        Label                  : '{@i18n>PO_PARTNER_9A_HEAD}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -4035,11 +4036,11 @@ annotate service.allIssues with {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: PO_PARTNER_9A_HEAD,
                 ValueListProperty: 'PO_PARTNER_9A_HEAD'
-            },
-            {
-                $Type            : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty: 'PO_PARTNER_9A_HEAD_NAME'
             }
+            // {
+            //     $Type            : 'Common.ValueListParameterDisplayOnly',
+            //     ValueListProperty: 'PO_PARTNER_9A_HEAD_NAME'
+            // }
 
         ]
     }
@@ -4049,7 +4050,8 @@ annotate service.allIssues with {
     PO_PARTNER_9O_HEAD
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>PO_PARTNER_9O_HEAD_NAME}',
+        // Label                  : '{@i18n>PO_PARTNER_9O_HEAD_NAME}',
+        Label                  : '{@i18n>PO_PARTNER_9O_HEAD}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -4058,11 +4060,11 @@ annotate service.allIssues with {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: PO_PARTNER_9O_HEAD,
                 ValueListProperty: 'PO_PARTNER_9O_HEAD'
-            },
-            {
-                $Type            : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty: 'PO_PARTNER_9O_HEAD_NAME'
             }
+            // {
+            //     $Type            : 'Common.ValueListParameterDisplayOnly',
+            //     ValueListProperty: 'PO_PARTNER_9O_HEAD_NAME'
+            // }
 
         ]
     }
