@@ -76,27 +76,30 @@ annotate service.orderCreation with @(UI: {SelectionFields: [
 
 // ------------- ORDER CREATION FIELD ANNOTATIONS -------
 annotate service.baseOrderCreation with {
-    PO_EBELN                @title: '{i18n>PO_EBELN}'            @sap.Label: '{i18n>PO_EBELN}'       @Common.IsDigitSequence : true;
-    PO_EBELP                @title: '{i18n>PO_EBELP}'            @sap.Label: '{i18n>PO_EBELP}'       @Common.IsDigitSequence : true;
-    PO_AEDAT_HEAD           @title: '{i18n>PO_AEDAT_HEAD}'       @sap.Label: '{i18n>PO_AEDAT_HEAD}'  @sap.filter.restriction : 'interval';
-    PO_AEDAT_ITEM           @title: '{i18n>PO_AEDAT_ITEM}'       @sap.Label: '{i18n>PO_AEDAT_ITEM}'  @sap.filter.restriction : 'interval';
-    PO_EKORG                @title: '{i18n>PO_EKORG}'            @sap.Label: '{i18n>PO_EKORG}';
-    PO_EKOTX                @title: '{i18n>PO_EKOTX}'            @sap.Label: '{i18n>PO_EKOTX}';
-    PO_EKGRP                @title: '{i18n>PO_EKGRP}'            @sap.Label: '{i18n>PO_EKGRP}';
-    PO_EKNAM                @title: '{i18n>PO_EKNAM}'            @sap.Label: '{i18n>PO_EKNAM}';
-    PO_EMATN                @title: '{i18n>PO_EMATN}'            @sap.Label: '{i18n>PO_EMATN}';
-    PO_WERKS                @title: '{i18n>PO_WERKS_PO}'         @sap.Label: '{i18n>PO_WERKS_PO}';
-    PO_MENGE                @title: '{i18n>PO_MENGE}'            @sap.Label: '{i18n>PO_MENGE}'       @Measures.Unit          : PO_MEINS;
-    PO_MEINS                @title: '{i18n>PO_MEINS}'            @sap.Label: '{i18n>PO_MEINS}'       @Semantics.unitOfMeasure: 'unit-of-measure';
-    PO_DUE_DATE             @title: '{i18n>so_due_date}'         @sap.Label: '{i18n>so_due_date}';
-    PO_ERROR_TEXT           @title: '{i18n>PO_ERROR_TEXT}'       @sap.Label: '{i18n>PO_ERROR_TEXT}';
-    PO_ISSUE_TEXT           @title: '{i18n>SO_ISSUE}'            @sap.Label: '{i18n>SO_ISSUE}';
-    PO_NPS_TEXT             @title: '{i18n>SO_NPS}'              @sap.Label: '{i18n>SO_NPS}';
-    PO_KUNNR_NAME            @title: '{i18n>PO_KUNNR}'            @sap.Label: '{i18n>PO_KUNNR}';
-    PO_PARTNER_9A_HEAD_NAME  @title: '{i18n>PO_PARTNER_9A_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
-    PO_PARTNER_9O_HEAD_NAME  @title: '{i18n>PO_PARTNER_9O_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
-    PO_BSART_BATXT           @title: '{i18n>PO_BSART}'            @sap.Label: '{i18n>PO_BSART}';
-    PO_MANDT_TEXT            @title: '{i18n>PO_MANDT}'            @sap.Label: '{i18n>PO_MANDT}';
+    PO_EBELN                @title: '{i18n>PO_EBELN}'                 @sap.Label: '{i18n>PO_EBELN}'       @Common.IsDigitSequence : true;
+    PO_EBELP                @title: '{i18n>PO_EBELP}'                 @sap.Label: '{i18n>PO_EBELP}'       @Common.IsDigitSequence : true;
+    PO_AEDAT_HEAD           @title: '{i18n>PO_AEDAT_HEAD}'            @sap.Label: '{i18n>PO_AEDAT_HEAD}'  @sap.filter.restriction : 'interval';
+    PO_AEDAT_ITEM           @title: '{i18n>PO_AEDAT_ITEM}'            @sap.Label: '{i18n>PO_AEDAT_ITEM}'  @sap.filter.restriction : 'interval';
+    PO_EKORG                @title: '{i18n>PO_EKORG}'                 @sap.Label: '{i18n>PO_EKORG}';
+    PO_EKOTX                @title: '{i18n>PO_EKOTX}'                 @sap.Label: '{i18n>PO_EKOTX}';
+    PO_EKGRP                @title: '{i18n>PO_EKGRP}'                 @sap.Label: '{i18n>PO_EKGRP}';
+    PO_EKNAM                @title: '{i18n>PO_EKNAM}'                 @sap.Label: '{i18n>PO_EKNAM}';
+    PO_EMATN                @title: '{i18n>PO_EMATN}'                 @sap.Label: '{i18n>PO_EMATN}';
+    PO_WERKS                @title: '{i18n>PO_WERKS_PO}'              @sap.Label: '{i18n>PO_WERKS_PO}';
+    PO_MENGE                @title: '{i18n>PO_MENGE}'                 @sap.Label: '{i18n>PO_MENGE}'       @Measures.Unit          : PO_MEINS;
+    PO_MEINS                @title: '{i18n>PO_MEINS}'                 @sap.Label: '{i18n>PO_MEINS}'       @Semantics.unitOfMeasure: 'unit-of-measure';
+    PO_DUE_DATE             @title: '{i18n>so_due_date}'              @sap.Label: '{i18n>so_due_date}';
+    PO_ERROR_TEXT           @title: '{i18n>PO_ERROR_TEXT}'            @sap.Label: '{i18n>PO_ERROR_TEXT}';
+    PO_ISSUE_TEXT           @title: '{i18n>SO_ISSUE}'                 @sap.Label: '{i18n>SO_ISSUE}';
+    PO_NPS_TEXT             @title: '{i18n>SO_NPS}'                   @sap.Label: '{i18n>SO_NPS}';
+    PO_KUNNR                @title: '{i18n>PO_KUNNR}'                 @sap.Label: '{i18n>PO_KUNNR}';
+    PO_KUNNR_NAME           @title: '{i18n>PO_KUNNR_NAME}'            @sap.Label: '{i18n>PO_KUNNR_NAME}';
+    PO_PARTNER_9A_HEAD      @title: '{i18n>PO_PARTNER_9A_HEAD}'       @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
+    PO_PARTNER_9A_HEAD_NAME @title: '{i18n>PO_PARTNER_9A_HEAD_NAME}'  @sap.Label: '{i18n>PO_PARTNER_9A_HEAD_NAME}';
+    PO_PARTNER_9O_HEAD      @title: '{i18n>PO_PARTNER_9O_HEAD}'       @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
+    PO_PARTNER_9O_HEAD_NAME @title: '{i18n>PO_PARTNER_9O_HEAD_NAME}'  @sap.Label: '{i18n>PO_PARTNER_9O_HEAD_NAME}';
+    PO_BSART_BATXT          @title: '{i18n>PO_BSART}'                 @sap.Label: '{i18n>PO_BSART}';
+    PO_MANDT_TEXT           @title: '{i18n>PO_MANDT}'                 @sap.Label: '{i18n>PO_MANDT}';
 }
 
 annotate service.orderCreation with {
@@ -126,6 +129,16 @@ annotate service.orderCreation with {
     PO_MANDT                @title: '{i18n>PO_MANDT}'            @sap.Label: '{i18n>PO_MANDT}';
     @Common.TextFor
     PO_MANDT_TEXT;
+    @Common.Text           : PO_EKOTX
+    @Common.TextArrangement: #TextLast
+    PO_EKORG                    @title: '{i18n>PO_EKORG}'                    @sap.Label: '{i18n>PO_EKORG}';
+    @Common.TextFor
+    PO_EKOTX;
+    @Common.Text           : PO_EKNAM
+    @Common.TextArrangement: #TextLast
+    PO_EKGRP                    @title: '{i18n>PO_EKGRP}'                    @sap.Label: '{i18n>PO_EKGRP}';
+    @Common.TextFor
+    PO_EKNAM;
 
     // HIDDEN FIELDS
     PO_KUNNR_NAME           @UI   : {Hidden: true};
@@ -138,6 +151,8 @@ annotate service.orderCreation with {
     PO_NPS                  @UI   : {Hidden: true};
     Id                      @UI   : {Hidden: true};
     PO_MANDT_TEXT           @UI   : {Hidden: true};
+    PO_EKNAM                @UI   : {Hidden: true};
+    PO_EKOTX                @UI   : {Hidden: true};
 }
 
 // ------------- ORDER CREATION VALUE HELPS -------
@@ -201,41 +216,51 @@ annotate service.orderCreation with {
         CollectionPath         : 'OCValueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: PO_EKORG,
-            ValueListProperty: 'PO_EKORG'
-        }
-
-        ]
-    };
-    PO_EKOTX
-    @Common.ValueList: {
-        $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>PO_EKOTX}',
-        CollectionPath         : 'OCValueHelps',
-        DistinctValuesSupported: true,
-        SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: PO_EKOTX,
-            ValueListProperty: 'PO_EKOTX'
-        }
-
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_EKORG,
+                ValueListProperty: 'PO_EKORG'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_EKOTX'
+            }
         ]
     };
 
-    PO_EKGRP
+    // PO_EKOTX
+    // @Common.ValueList: {
+    //     $Type                  : 'Common.ValueListType',
+    //     Label                  : '{@i18n>PO_EKOTX}',
+    //     CollectionPath         : 'OCValueHelps',
+    //     DistinctValuesSupported: true,
+    //     SearchSupported        : true,
+    //     Parameters             : [{
+    //         $Type            : 'Common.ValueListParameterInOut',
+    //         LocalDataProperty: PO_EKOTX,
+    //         ValueListProperty: 'PO_EKOTX'
+    //     }
+
+    //     ]
+    // };
+
+    PO_EKGRP 
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>PO_EKGRP}',
         CollectionPath         : 'OCValueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
+        Parameters             : [
+            {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: PO_EKGRP,
             ValueListProperty: 'PO_EKGRP'
+        },
+        {
+            $Type            : 'Common.ValueListParameterDisplayOnly',
+            ValueListProperty: 'PO_EKNAM'
         }
 
         ]
@@ -1149,7 +1174,8 @@ annotate service.allIssues with {
     SO_FINAL_SO_MANDT_TEXT  @UI                     : {Hidden: true};
     SO_FIRST_SO_MANDT_TEXT  @UI                     : {Hidden: true};
     PO_MANDT_TEXT           @UI                     : {Hidden: true};
-
+    PO_EKNAM                @UI                     : {Hidden: true};
+    PO_EKOTX                @UI                     : {Hidden: true};
 
 };
 
