@@ -229,21 +229,6 @@ annotate service.orderCreation with {
         ]
     };
 
-    // PO_EKOTX
-    // @Common.ValueList: {
-    //     $Type                  : 'Common.ValueListType',
-    //     Label                  : '{@i18n>PO_EKOTX}',
-    //     CollectionPath         : 'OCValueHelps',
-    //     DistinctValuesSupported: true,
-    //     SearchSupported        : true,
-    //     Parameters             : [{
-    //         $Type            : 'Common.ValueListParameterInOut',
-    //         LocalDataProperty: PO_EKOTX,
-    //         ValueListProperty: 'PO_EKOTX'
-    //     }
-
-    //     ]
-    // };
 
     PO_EKGRP 
     @Common.ValueList: {
@@ -1176,6 +1161,7 @@ annotate service.allIssues with {
     PO_MANDT_TEXT           @UI                     : {Hidden: true};
     PO_EKNAM                @UI                     : {Hidden: true};
     PO_EKOTX                @UI                     : {Hidden: true};
+    PO_EBELN                @UI                     : {Hidden: true};
 
 };
 

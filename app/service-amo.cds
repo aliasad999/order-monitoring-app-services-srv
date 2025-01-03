@@ -615,6 +615,7 @@ annotate service.Results with {
     PO_MANDT_TEXT                  @UI                     : {Hidden: true};
     PO_EKNAM                       @UI                     : {Hidden: true};
     PO_EKOTX                       @UI                     : {Hidden: true};
+    PO_EBELN                       @UI                     : {Hidden: true};
 }
 
 annotate service.valueHelps with {
@@ -637,6 +638,7 @@ annotate service.valueHelps with {
     PO_MENGE           @Measures.Unit          : PO_MEINS;
     PO_MEINS           @Semantics.unitOfMeasure: 'unit-of-measure';
     id                 @UI                     : {Hidden: true};
+    PO_EBELN           @UI                     : {Hidden: true};
 // SO_MANDT           @UI                     : {Hidden: true};
 // DL_MANDT           @UI                     : {Hidden: true};
 // TM_MANDT           @UI                     : {Hidden: true};
