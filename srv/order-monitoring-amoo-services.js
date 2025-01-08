@@ -1022,10 +1022,15 @@ class openOrdersSrv extends cds.ApplicationService {
 
         this.after("READ", "orderCreation", async (data, req) => {
             let sessionID = req.headers['authorization'] || req.headers['x-username'];
-            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.select) {
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                 // do nothing
             } else {
-
+                // Logic for filling up or not the tab icon
+                let dataFound = false;
+                if(data.length > 0){
+                    dataFound = true;
+                }
+                req.res.setHeader('ordercreationdata', dataFound)
                 // cache the query, so that all filter conditions can be consumed.. when any valuehelp is called.
                 if (req.target.name === 'openOrdersSrv.orderCreation') {
                     let query = req.query;
