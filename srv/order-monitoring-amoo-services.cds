@@ -459,7 +459,7 @@ service openOrdersSrv {
     action   submitOrderChangeWF(payload : String)                                                                                                                                                                                                                                                                                           returns String;
     action   cancelOrder(payload : String)                                                                                                                                                                                                                                                                                                   returns String;
     action   RemoveDeliveryBlock(SalesOrderID : String(10), ItemID : String(6))                                                                                                                                                                                                                                                              returns String;
-    function   callChatbotService(payload: String) returns String;
+    function callChatbotService(payload: String) returns String;
 
     entity PredefReasonBuckets      as
         select from AMOOUtilsService.PredefinedReasonBuckets {
