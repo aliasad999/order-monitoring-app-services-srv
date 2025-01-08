@@ -440,10 +440,16 @@ annotate service.Results with {
     PO_EBELP                    @title: '{i18n>PO_EBELP}'                    @sap.Label: '{i18n>PO_EBELP}';
     PO_AEDAT_HEAD               @title: '{i18n>PO_AEDAT_HEAD}'               @sap.Label: '{i18n>PO_AEDAT_HEAD}';
     PO_AEDAT_ITEM               @title: '{i18n>PO_AEDAT_ITEM}'               @sap.Label: '{i18n>PO_AEDAT_ITEM}';
+    @Common.Text           : PO_EKOTX
+    @Common.TextArrangement: #TextLast
     PO_EKORG                    @title: '{i18n>PO_EKORG}'                    @sap.Label: '{i18n>PO_EKORG}';
-    PO_EKOTX                    @title: '{i18n>PO_EKOTX}'                    @sap.Label: '{i18n>PO_EKOTX}';
+    @Common.TextFor
+    PO_EKOTX;
+    @Common.Text           : PO_EKNAM
+    @Common.TextArrangement: #TextLast
     PO_EKGRP                    @title: '{i18n>PO_EKGRP}'                    @sap.Label: '{i18n>PO_EKGRP}';
-    PO_EKNAM                    @title: '{i18n>PO_EKNAM}'                    @sap.Label: '{i18n>PO_EKNAM}';
+    @Common.TextFor
+    PO_EKNAM;
     PO_EMATN                    @title: '{i18n>PO_EMATN}'                    @sap.Label: '{i18n>PO_EMATN}';
     PO_WERKS_PO                 @title: '{i18n>PO_WERKS_PO}'                 @sap.Label: '{i18n>PO_WERKS_PO}';
     PO_MENGE                    @title: '{i18n>PO_MENGE}'                    @sap.Label: '{i18n>PO_MENGE}';
@@ -607,6 +613,9 @@ annotate service.Results with {
     SO_FINAL_SO_MANDT_TEXT         @UI                     : {Hidden: true};
     SO_FIRST_SO_MANDT_TEXT         @UI                     : {Hidden: true};
     PO_MANDT_TEXT                  @UI                     : {Hidden: true};
+    PO_EKNAM                       @UI                     : {Hidden: true};
+    PO_EKOTX                       @UI                     : {Hidden: true};
+    PO_EBELN                       @UI                     : {Hidden: true};
 }
 
 annotate service.valueHelps with {
@@ -629,6 +638,7 @@ annotate service.valueHelps with {
     PO_MENGE           @Measures.Unit          : PO_MEINS;
     PO_MEINS           @Semantics.unitOfMeasure: 'unit-of-measure';
     id                 @UI                     : {Hidden: true};
+    PO_EBELN           @UI                     : {Hidden: true};
 // SO_MANDT           @UI                     : {Hidden: true};
 // DL_MANDT           @UI                     : {Hidden: true};
 // TM_MANDT           @UI                     : {Hidden: true};
@@ -2811,27 +2821,17 @@ annotate service.Results with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: PO_EKORG,
-            ValueListProperty: 'PO_EKORG'
-        }]
-    }
-}
-
-annotate service.Results with {
-    PO_EKOTX
-    @Common.ValueList: {
-        $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>PO_EKOTX}',
-        CollectionPath         : 'valueHelps',
-        DistinctValuesSupported: true,
-        SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: PO_EKOTX,
-            ValueListProperty: 'PO_EKOTX'
-        }]
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_EKORG,
+                ValueListProperty: 'PO_EKORG'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_EKOTX'
+            }
+        ]
     }
 }
 
@@ -2843,11 +2843,17 @@ annotate service.Results with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: PO_EKGRP,
-            ValueListProperty: 'PO_EKGRP'
-        }]
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_EKGRP,
+                ValueListProperty: 'PO_EKGRP'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_EKNAM'
+            }
+        ]
     }
 }
 
@@ -2863,22 +2869,6 @@ annotate service.Results with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: PO_EMATN,
             ValueListProperty: 'PO_EMATN'
-        }]
-    }
-}
-
-annotate service.Results with {
-    PO_EKNAM
-    @Common.ValueList: {
-        $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>PO_EKNAM}',
-        CollectionPath         : 'valueHelps',
-        DistinctValuesSupported: true,
-        SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: PO_EKNAM,
-            ValueListProperty: 'PO_EKNAM'
         }]
     }
 }
@@ -2931,7 +2921,7 @@ annotate service.Results with {
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [
-            {
+             {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: PO_PARTNER_9A_HEAD,
                 ValueListProperty: 'PO_PARTNER_9A_HEAD'

@@ -474,9 +474,9 @@ service srvOpenOrders {
           KUNNR                                       as PO_KUNNR,
           KUNNR_NAME1 || ' ' || KUNNR_NAME2           as PO_KUNNR_NAME                   : String(80),
           PARTNER_9A_HEAD                             as PO_PARTNER_9A_HEAD,
-          PARTNER_9A_HEAD_NAME                        as PO_PARTNER_9A_HEAD_NAME,
+          // PARTNER_9A_HEAD_NAME                        as PO_PARTNER_9A_HEAD_NAME,
           PARTNER_9O_HEAD                             as PO_PARTNER_9O_HEAD,
-          PARTNER_9O_HEAD_NAME                        as PO_PARTNER_9O_HEAD_NAME,
+          // PARTNER_9O_HEAD_NAME                        as PO_PARTNER_9O_HEAD_NAME,
           BSART_BATXT                                 as PO_BSART_BATXT
           // BSTNK AS SO_BSTNK
     };
