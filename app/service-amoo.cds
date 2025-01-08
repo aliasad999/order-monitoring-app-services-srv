@@ -251,22 +251,6 @@ annotate service.orderCreation with {
         ]
     };
 
-    PO_EKNAM
-    @Common.ValueList: {
-        $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>PO_EKNAM}',
-        CollectionPath         : 'OCValueHelps',
-        DistinctValuesSupported: true,
-        SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: PO_EKNAM,
-            ValueListProperty: 'PO_EKNAM'
-        }
-
-        ]
-    };
-
     PO_EMATN
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -4047,11 +4031,11 @@ annotate service.allIssues with {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: PO_PARTNER_9A_HEAD,
                 ValueListProperty: 'PO_PARTNER_9A_HEAD'
-            },
-            {
-                $Type            : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty: 'PO_PARTNER_9A_HEAD_NAMe'
             }
+            // {
+            //     $Type            : 'Common.ValueListParameterDisplayOnly',
+            //     ValueListProperty: 'PO_PARTNER_9A_HEAD_NAME'
+            // }
         ]
     }
 };
@@ -4069,11 +4053,11 @@ annotate service.allIssues with {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: PO_PARTNER_9O_HEAD,
                 ValueListProperty: 'PO_PARTNER_9O_HEAD'
-            },
-            {
-                $Type            : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty: 'PO_PARTNER_9O_HEAD_NAME'
             }
+            // {
+            //     $Type            : 'Common.ValueListParameterDisplayOnly',
+            //     ValueListProperty: 'PO_PARTNER_9O_HEAD_NAME'
+            // }
         ]
     }
 };
