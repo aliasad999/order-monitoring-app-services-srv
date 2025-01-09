@@ -56,16 +56,13 @@ class srvOpenOrders extends cds.ApplicationService {
             let err = []
             let globalError= [] ;
             let userID = req.user.id;
+
+            // VARIANT MIGRATION LOGIC
             let AMOmigrationDone  = await variantManagement.checkIfMigrationNeeded(req,"ordermonitoring.allorders");
             let AMOOmigrationDone  = await variantManagement.checkIfMigrationNeeded(req,"ordermonitoring.openorders");
             if(AMOmigrationDone === "ERROR" || AMOOmigrationDone === "ERROR"){
                 err = 3; // variant migration failed
                 return err;
-                // return {
-                //     status: "ERROR",
-                //     context: "VARIANT_MIGRATION",
-                //     message: "Variants migration failed, please refresh the browser."
-                // };  
             }
             if(AMOmigrationDone || AMOOmigrationDone){
                 await UPSERT.into `allorders.db.variantMigration`.entries([{
@@ -74,13 +71,9 @@ class srvOpenOrders extends cds.ApplicationService {
                     AMOOVariantsMigrated : AMOOmigrationDone
                 }])
                 err = 4; // variant migration successful, refresh needed
-                return err;
-                // return {
-                //     status: "SUCCESS",
-                //     context: "VARIANT_MIGRATION",
-                //     message: "Variants migration was done successfully, please refresh the browser before continuing."
-                // };       
+                return err;       
             }
+            // VARIANT MIGRATION LOGIC END
             
             let vbakAuths = await SELECT.from(VBAKAuthObjectKeys).where`USERID = ${userID}`.limit(1);
             // Avoid updating authorizations more than once a day
