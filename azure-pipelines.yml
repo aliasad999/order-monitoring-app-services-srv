@@ -6,9 +6,19 @@ resources:
 
 parameters:
 - name: TransportID
-  displayName: Transport Request (Import in Cloud TMS on the QA Node)
+  displayName: Transport Request (Trigger via SAP Cloud Transport Management)
   type: number
   default: 0
+- name: Environnement 
+  displayName: QA or PRD
+  default: QA
+  values:
+  - QA
+  - PRD
+- name: SNChange 
+  displayName: Enter your ServiceNow Change Request (Only PRD)
+  type: string
+  default: CHGxxxxxx
 
 trigger:
 - main
@@ -17,5 +27,5 @@ extends:
   template: BTP-Template-Prod.yml@Template
   parameters:
     TRANSPORT_ID: ${{ parameters.TransportID }}
-    SAP_SYSTEMS: 
-      - 'CLOUD'
+    ENV: ${{ parameters.Environnement }}
+    CHANGE: ${{ parameters.SNChange }}

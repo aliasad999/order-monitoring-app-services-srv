@@ -9,12 +9,76 @@ using {LORDOdataOrderService as LORDOdataOrderService} from './external/LORDOdat
 // using { ATPService as ATPService } from './external/ATPService';
 using {CSEUCockpitService as CSEUCockpitService} from './external/CSEUCockpitService';
 
+
 service openOrdersSrv {
     entity currencies as projection on db_app.currency;
     entity rootEntity               as
         select from db_app.OPENORDERSLIST {
             key null                                        as id                              : UUID,
                 MANDT                                       as SO_MANDT,
+                FINAL_SO_MANDT as SO_FINAL_SO_MANDT,
+                FIRST_SO_MANDT as SO_FIRST_SO_MANDT,
+                PO_MANDT as PO_MANDT,
+                MANDT_DEL                                   as DL_MANDT,
+                MANDT_TM as TM_MANDT,
+                BL_MANDT_INV_FIRST,
+                BL_MANDT_INV_LAST,
+                virtual null                                as SO_MANDT_TEXT  : String(20),
+                virtual null                                as DL_MANDT_TEXT  : String(20),
+                virtual null                                as TM_MANDT_TEXT  : String(20),
+                virtual null                                as BL_MANDT_INV_FIRST_TEXT  : String(20),
+                virtual null                                as BL_MANDT_INV_LAST_TEXT  : String(20),
+                virtual null                                as SO_FINAL_SO_MANDT_TEXT  : String(20),
+                virtual null                                as SO_FIRST_SO_MANDT_TEXT  : String(20),
+                virtual null                                as PO_MANDT_TEXT  : String(20),
+                // case BL_MANDT_INV_FIRST
+                //     when '100' then 'Cobalt'
+                //     when '200' then 'Star'
+                //     when '300' then 'AP'
+                //     else 'No system defined'
+                // end                                         as BL_MANDT_INV_FIRST                 : String(20),
+                // case BL_MANDT_INV_LAST
+                //     when '100' then 'Cobalt'
+                //     when '200' then 'Star'
+                //     when '300' then 'AP'
+                //     else 'No system defined'
+                // end                                         as BL_MANDT_INV_LAST                 : String(20),
+                // case MANDT_TM
+                //     when '100' then 'Cobalt'
+                //     when '200' then 'Star'
+                //     when '300' then 'AP'
+                //     else 'No system defined'
+                // end                                         as TM_MANDT                 : String(20),
+                // case MANDT
+                //     when '100' then 'Cobalt'
+                //     when '200' then 'Star'
+                //     when '300' then 'AP'
+                //     else 'No system defined'
+                // end                                         as SO_MANDT                 : String(20),
+                // case MANDT_DEL
+                //     when '100' then 'Cobalt'
+                //     when '200' then 'Star'
+                //     when '300' then 'AP'
+                //     else 'No system defined'
+                // end                                         as DL_MANDT                 : String(20),
+                // case FINAL_SO_MANDT
+                //     when '100' then 'Cobalt'
+                //     when '200' then 'Star'
+                //     when '300' then 'AP'
+                //     else 'No system defined'
+                // end                                         as SO_FINAL_SO_MANDT                  : String(20),
+                // case FIRST_SO_MANDT
+                //     when '100' then 'Cobalt'
+                //     when '200' then 'Star'
+                //     when '300' then 'AP'
+                //     else 'No system defined'
+                // end                                         as SO_FIRST_SO_MANDT               : String(20),
+                // case PO_MANDT
+                //     when '100' then 'Cobalt'
+                //     when '200' then 'Star'
+                //     when '300' then 'AP'
+                //     else 'No system defined'
+                // end                                         as PO_MANDT                 : String(20),
                 VBELN                                       as SO_VBELN,
                 POSNR                                       as SO_POSNR,
                 ERDAT_ORDER_DATE                            as SO_ERDAT_ORDER,
@@ -82,10 +146,11 @@ service openOrdersSrv {
                 EDATU_REQUESTED_DATE                                     as SO_EDATU_REQUESTED,
                 KWMENG                                                   as SO_KWMENG,
                 VRKME                                                    as SO_VRKME,
-                case
-                    when EDATU_CONFIRMED_DATE = '00000000' 
-                    then null
-                    else EDATU_CONFIRMED_DATE end                              as SO_EDATU_CONFIRMED : Date,
+                EDATU_CONFIRMED_DATE as SO_EDATU_CONFIRMED,
+                // case
+                //     when EDATU_CONFIRMED_DATE = '00000000' 
+                //     then null
+                //     else EDATU_CONFIRMED_DATE end                              as SO_EDATU_CONFIRMED : Date,
                 KBMENG                                                   as SO_KBMENG,
                 UNCONFIRMED_QTY                                          as SO_UNCONFIRMED_QTY,
                 REQ_TEXT                                                 as SO_REQ_TEXT,
@@ -126,10 +191,11 @@ service openOrdersSrv {
                 IFNULL(INCO1_ITEM, INCO1_HEAD)                           as SO_INCO1                    : String(3),
                 IFNULL(INCO2_ITEM, INCO2_HEAD)                           as SO_INCO2                    : String(28),
                 IFNULL(ZTERM_ITEM, ZTERM_HEAD)                           as SO_ZTERM                    : String(4),
-                case
-                    when PRSDT_DATE = '00000000' 
-                    then null
-                    else PRSDT_DATE end                                  as SO_PRSDT : Date,
+                PRSDT_DATE as SO_PRSDT,
+                // case
+                //     when PRSDT_DATE = '00000000' 
+                //     then null
+                //     else PRSDT_DATE end                                  as SO_PRSDT : Date,
                 ZZ0S2REVG2                                               as SO_ZZ0S2REVG2,
                 ZZDKPPRODB                                               as SO_ZZDKPPRODB,
                 BSARK                                                    as SO_BSARK,
@@ -156,36 +222,37 @@ service openOrdersSrv {
                 IFNULL(F_AS_PARTNER_NAME_ITM, F_AS_PARTNER_NAME_HEAD)    as SO_F_AS_PARTNER_NAME       : String(40),
                 F_LDDAT_DATE                                             as SO_F_LDDAT,
                 F_LGORT                                                  as SO_F_LGORT,
-                case
-                    when F_TDDAT_DATE = '00000000' 
-                    then null
-                    else F_TDDAT_DATE end                                as SO_F_TDDAT : Date,
+                F_TDDAT_DATE as SO_F_TDDAT,
+                F_DGLTP_DATE as SO_F_DGLTP,
+                // case
+                //     when F_TDDAT_DATE = '00000000' 
+                //     then null
+                //     else F_TDDAT_DATE end                                as SO_F_TDDAT : Date,
+                // case
+                //     when F_DGLTP_DATE = '00000000' 
+                //     then null
+                //     else F_DGLTP_DATE end                                as SO_F_DGLTP : Date,
                 F_ZZ0S2MATUG                                             as SO_F_ZZ0S2MATUG,
                 F_AUFNR                                                  as SO_F_AUFNR,
-                
-                case
-                    when F_DGLTP_DATE = '00000000' 
-                    then null
-                    else F_DGLTP_DATE end                                as SO_F_DGLTP : Date,
-                
                 F_AMEIN                                                  as SO_F_AMEIN,
                 F_PSMNG                                                  as SO_F_PSMNG,
                 F_VSBED                                                  as SO_F_VSBED,
                 F_VSBED_VTEXT_LANG                                       as SO_F_VSBED_VTEXT,
                 NOTE_TEXT                                                as LAST_NOTE,
-                MANDT_DEL                                                as DL_MANDT,
                 VBELN_DEL                                                as DL_VBELN,
                 POSNR_DEL                                                as DL_POSNR_BATCH,
                 POSNR_DEL_HEAD                                           as DL_POSNR,
                 CHARG                                                    as DL_CHARG,
-                case
-                    when HSDAT_DATE = '00000000' 
-                    then null
-                    else HSDAT_DATE end                                  as DL_HSDAT : Date,
-                case
-                    when VFDAT_DATE = '00000000' 
-                    then null
-                    else VFDAT_DATE end                                  as DL_VFDAT : Date,
+                HSDAT_DATE as DL_HSDAT,
+                VFDAT_DATE as DL_VFDAT,
+                // case
+                //     when HSDAT_DATE = '00000000' 
+                //     then null
+                //     else HSDAT_DATE end                                  as DL_HSDAT : Date,
+                // case
+                //     when VFDAT_DATE = '00000000' 
+                //     then null
+                //     else VFDAT_DATE end                                  as DL_VFDAT : Date,
                 LFIMG                                                    as DL_LFIMG_BATCH,
                 LFIMG_HEAD                                               as DL_LFIMG,
                 VRKME_1                                                  as DL_VRKME,         
@@ -194,47 +261,53 @@ service openOrdersSrv {
                 VGPOS                                                    as DL_VGPOS,               
                 LFART                                                    as DL_LFART,
                 LFART_VTEXT_LANG                                         as DL_LFART_VTEXT,
-                case
-                    when LFDAT_DATE = '00000000' 
-                    then null
-                    else LFDAT_DATE end                                  as DL_LFDAT : Date,
+                LFDAT_DATE as DL_LFDAT,
+                WADAT_DATE as DL_WADAT,
+                WADAT_IST_DATE as DL_WADAT_IST,
+                // case
+                //     when LFDAT_DATE = '00000000' 
+                //     then null
+                //     else LFDAT_DATE end                                  as DL_LFDAT : Date,
+                // case
+                //     when WADAT_DATE = '00000000' 
+                //     then null
+                //     else WADAT_DATE end                                  as DL_WADAT : Date,
+                // case
+                //     when WADAT_IST_DATE = '00000000' 
+                //     then null
+                //     else WADAT_IST_DATE end                              as DL_WADAT_IST : Date,
                 TRAID                                                    as DL_TRAID,
                 ZZ0S2BLNR                                                as DL_ZZ0S2BLNR,
-                PEND_DEL_QUAN                                            as DL_PEND_DEL_QUAN,
-                case
-                    when WADAT_DATE = '00000000' 
-                    then null
-                    else WADAT_DATE end                                  as DL_WADAT : Date,
-                case
-                    when WADAT_IST_DATE = '00000000' 
-                    then null
-                    else WADAT_IST_DATE end                              as DL_WADAT_IST : Date,
-                
-                MANDT_TM                                                 as TM_MANDT,
+                PEND_DEL_QUAN                                            as DL_PEND_DEL_QUAN,              
                 TKNUM                                                    as TM_TKNUM,
                 VSART                                                    as TM_VSART,
                 VSART_BEZEI_LANG                                         as TM_VSART_BEZEI,
                 EXTI1                                                    as TM_EXTI1,
-                case
-                    when DPTBG_DATE = '00000000' 
-                    then null
-                    else DPTBG_DATE end                              as TM_DPTBG : Date,
-                case
-                    when DATBG_DATE = '00000000' 
-                    then null
-                    else DATBG_DATE end                              as TM_DATBG : Date,
-                case
-                    when DPTEN_DATE = '00000000' 
-                    then null
-                    else DPTEN_DATE end                              as TM_DPTEN : Date,
-                case
-                    when DATEN_DATE = '00000000' 
-                    then null
-                    else DATEN_DATE end                              as TM_DATEN : Date,
-                case
-                    when AR_DATE_DATE = '00000000' 
-                    then null
-                    else AR_DATE_DATE end                              as TM_AR_DATE : Date,
+                DPTBG_DATE as TM_DPTBG,
+                DATBG_DATE as TM_DATBG,
+                DPTEN_DATE as TM_DPTEN,
+                DATEN_DATE as TM_DATEN,
+                AR_DATE_DATE as TM_AR_DATE,
+                // case
+                //     when DPTBG_DATE = '00000000' 
+                //     then null
+                //     else DPTBG_DATE end                              as TM_DPTBG : Date,
+                // case
+                //     when DATBG_DATE = '00000000' 
+                //     then null
+                //     else DATBG_DATE end                              as TM_DATBG : Date,
+                // case
+                //     when DPTEN_DATE = '00000000' 
+                //     then null
+                //     else DPTEN_DATE end                              as TM_DPTEN : Date,
+                // case
+                //     when DATEN_DATE = '00000000' 
+                //     then null
+                //     else DATEN_DATE end                              as TM_DATEN : Date,
+                // case
+                //     when AR_DATE_DATE = '00000000' 
+                //     then null
+                //     else AR_DATE_DATE end                              as TM_AR_DATE : Date,
                 TDLNR                                                    as TM_TDLNR,
                 TDLNR_NAME1                                              as TM_TDLNR_NAME1,
                 @UI.Hidden: true
@@ -270,10 +343,11 @@ service openOrdersSrv {
                 virtual null                                             as SO_NPS_DESCRIPTION : String(100),
                 ISSUE                                                    as SO_ISSUE,
                 virtual null                                             as SO_ISSUE_DESCRIPTION : String(100),
-                case
-                    when DUE_DATE_FORMATTED = '00000000' 
-                    then null
-                    else DUE_DATE_FORMATTED end                              as SO_DUE_DATE : Date,
+                DUE_DATE_FORMATTED as SO_DUE_DATE,
+                // case
+                //     when DUE_DATE_FORMATTED = '00000000' 
+                //     then null
+                //     else DUE_DATE_FORMATTED end                              as SO_DUE_DATE : Date,
                 ISSUE_LOCATION                                           as SO_ISSUE_LOCATION,
                 ISSUE_LOCATION_ITEM                                      as SO_ISSUE_LOCATION_ITEM,
                 // DCP_ITEM_STATUS                                          as SO_DCP_ITEM_STATUS,     
@@ -294,8 +368,6 @@ service openOrdersSrv {
 
                 BL_POSNR_INV_LAST                           as BL_POSNR_INV_LAST,
                 BL_POSNR_INV_FIRST                          as BL_POSNR_INV_FIRST,
-                BL_MANDT_INV_FIRST,
-                BL_MANDT_INV_LAST,
                 BL_FKIMG_FIRST                                           as BL_FKIMG_FIRST,
                 BL_FKIMG_LAST                                            as BL_FKIMG_LAST,
                 BL_VRKME_FIRST                                           as BL_VRKME_FIRST,
@@ -315,20 +387,60 @@ service openOrdersSrv {
                 EMAIL_SENT_ON                                            as SO_EMAIL_SENT_ON,
                 MDB                                                      as SO_MDB,
                 MDB_TEXT                                                 as SO_MDB_TEXT,
-                case
-                    when ERDAT_DEL_DATE = '00000000' 
-                    then null
-                    else ERDAT_DEL_DATE end                              as DL_ERDAT : Date,
-                case
-                    when LDDAT_DEL_DATE = '00000000' 
-                    then null
-                    else LDDAT_DEL_DATE end                              as DL_LDDAT : Date,
-                case 
-                    when F_MBDAT_DATE = '00000000'
-                    then null 
-                    else  F_MBDAT_DATE end                               as SO_F_MBDAT : Date,
+                ERDAT_DEL_DATE as DL_ERDAT,
+                LDDAT_DEL_DATE as DL_LDDAT,
+                F_MBDAT_DATE as SO_F_MBDAT,
+                // case
+                //     when ERDAT_DEL_DATE = '00000000' 
+                //     then null
+                //     else ERDAT_DEL_DATE end                              as DL_ERDAT : Date,
+                // case
+                //     when LDDAT_DEL_DATE = '00000000' 
+                //     then null
+                //     else LDDAT_DEL_DATE end                              as DL_LDDAT : Date,
+                // case 
+                //     when F_MBDAT_DATE = '00000000'
+                //     then null 
+                //     else  F_MBDAT_DATE end                               as SO_F_MBDAT : Date,
                 PERFK                                       as SO_PERFK,
-                PERFK_LTEXT_LANG                            as SO_PERFK_LTEXT_LANG
+                PERFK_LTEXT_LANG                            as SO_PERFK_LTEXT_LANG,
+                EBELN                                       as PO_EBELN,
+                EBELP                                       as PO_EBELP,
+                AEDAT_HEAD_DATE as PO_AEDAT_HEAD,
+                AEDAT_ITEM_DATE as PO_AEDAT_ITEM,
+                // case
+                //     when
+                //     AEDAT_HEAD_DATE = '00000000'
+                //     then
+                //     null
+                //     else
+                //     AEDAT_HEAD_DATE
+                // end                                         as PO_AEDAT_HEAD                   : Date,
+                // case
+                //     when
+                //     AEDAT_ITEM_DATE = '00000000'
+                //     then
+                //     null
+                //     else
+                //     AEDAT_ITEM_DATE
+                // end                                         as PO_AEDAT_ITEM                   : Date,
+                BSART                                       as PO_BSART,
+                EKORG                                       as PO_EKORG,
+                EKOTX                                       as PO_EKOTX,
+                EKGRP                                       as PO_EKGRP,
+                EKNAM                                       as PO_EKNAM,
+                EMATN                                       as PO_EMATN,
+                WERKS_PO                                    as PO_WERKS_PO,
+                MENGE                                       as PO_MENGE,
+                MEINS                                       as PO_MEINS,
+                KUNNR                                       as PO_KUNNR,
+                KUNNR_NAME1 || ' ' || KUNNR_NAME2           as PO_KUNNR_NAME                   : String(80),
+                PARTNER_9A_HEAD                             as PO_PARTNER_9A_HEAD,
+                // PARTNER_9A_HEAD_NAME                        as PO_PARTNER_9A_HEAD_NAME,
+                PARTNER_9O_HEAD                             as PO_PARTNER_9O_HEAD,
+                // PARTNER_9O_HEAD_NAME                        as PO_PARTNER_9O_HEAD_NAME,
+                BSART_BATXT                                 as PO_BSART_BATXT
+                // BSTNK AS SO_BSTNK
         }
 
     entity baseEntity               as
@@ -429,6 +541,50 @@ service openOrdersSrv {
 
     entity ignoreSalesOrder         as projection on db_app.IGNORED_SO;
     function getIssueReason(salesOrder : String(10), salesOrderItem : String(6), detailsSalesOrder : String(10), DetailsSalesOrderItem : String(6), issue : String(2), nps : String(3), issue_location : String(12), material : String(18), plant : String(4), quantity : Decimal(13, 3), uom : String(3), dueDate : Date, firstDate : Date) returns array of db_app.issue_reason;
-    action   createDeliveryforAllItem(salesOrder : String(10))                                                                                                                                                                                                                                                                               returns Boolean;
-    action   createDeliveryforItem(salesOrder : String(10), salesOrderItem : String(6))                                                                                                                                                                                                                                                      returns Boolean;
+    action   createDeliveryforAllItem(salesOrder : String(10))  returns Boolean;
+    action   createDeliveryforItem(salesOrder : String(10), salesOrderItem : String(6)) returns Boolean;
+
+    /// ORDER CREATION ENTITIES
+    @readonly
+    entity baseOrderCreation as projection on db_app.ORDER_CREATION{
+        key null                                        as Id                              : UUID,
+        MANDT as PO_MANDT,
+        EBELN AS PO_EBELN,
+        EBELP AS PO_EBELP,
+        virtual null as  PO_MANDT_TEXT : String(20),
+        AEDAT_HEAD_DATE as PO_AEDAT_HEAD,
+        AEDAT_ITEM_DATE as PO_AEDAT_ITEM,
+        BSART AS PO_BSART,
+        EKORG AS PO_EKORG,
+        EKOTX AS PO_EKOTX,
+        EKGRP AS PO_EKGRP,
+        EKNAM AS PO_EKNAM,
+        EMATN AS PO_EMATN,
+        WERKS AS PO_WERKS,
+        MENGE AS PO_MENGE,
+        MEINS AS PO_MEINS,
+        KUNNR AS PO_KUNNR,
+        KUNNR_NAME1 || ' ' || KUNNR_NAME2           as PO_KUNNR_NAME                   : String(80),
+        PARTNER_9A_HEAD AS PO_PARTNER_9A_HEAD,
+        // PARTNER_9A_HEAD_NAME AS PO_PARTNER_9A_HEAD_NAME,
+        PARTNER_9O_HEAD AS PO_PARTNER_9O_HEAD,
+        // PARTNER_9O_HEAD_NAME AS PO_PARTNER_9O_HEAD_NAME,
+        BSART_BATXT AS PO_BSART_BATXT,
+        NPS AS PO_NPS,
+        NPS_TEXT as PO_NPS_TEXT,
+        ISSUE AS PO_ISSUE,
+        ISSUE_TEXT as PO_ISSUE_TEXT,
+        DUE_DATE_FORMATTED AS PO_DUE_DATE,
+        ERROR_TEXT AS PO_ERROR_TEXT,
+        BIM_ERROR_ID AS PO_BIM_ERROR_ID
+    };
+    
+    @readonly
+    entity orderCreation as projection on baseOrderCreation;
+
+    @readonly
+    entity OCValueHelps as projection on baseOrderCreation;
+
 };
+
+

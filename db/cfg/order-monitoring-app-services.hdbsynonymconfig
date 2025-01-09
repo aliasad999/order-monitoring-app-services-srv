@@ -5,6 +5,12 @@
       "schema.configure": "otc-csc-hdi/schema"
     }
   },
+  "ALLORDERS_DB_EKKOAUTH": {
+    "target": {
+      "object": "otc.csc.db.base.tables::ST_EKKOAUTH",
+      "schema.configure": "otc-csc-hdi/schema"
+    }
+  },
   "ALLORDERS_DB_VBAKAUTH": {
     "target": {
       "object": "otc.csc.db.base.tables::ST_VBAKAUTH",
@@ -68,6 +74,12 @@
   "ALLORDERS_DB_PARTNER_SETTINGS_DB": {
     "target": {
       "object": "otc.csc.db.base.tables::PARTNER_SETTINGS",
+      "schema.configure": "otc-csc-hdi/schema"
+    }
+  },
+  "OPENORDERS_DB_ORDER_CREATION": {
+    "target": {
+      "object": "otc.csc.db.app_service.views::CV_ORDER_CREATION_NPS",
       "schema.configure": "otc-csc-hdi/schema"
     }
   }

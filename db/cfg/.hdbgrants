@@ -4,14 +4,15 @@
             "container_roles": [
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_FINAL_VIEW_G#",
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_VBAKAUTH_G#",
+                "otc.csc.db.base.roles::EXTERNAL_ACCESS_EKKOAUTH_G#",
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_NOTES_G#",
                 "otc.csc.db.app_service.role::EXTERNAL_ACCESS_CV_OPEN_ORDERLIST_FINAL_G#",
                 "otc.csc.db.generic_service.roles::EXTERNAL_ACCESS_CV_SALESORDER_G#",
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_PREDEF_REASON_COMMENTS_VIEW_G#",
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_FOLLOWUP_NOTES_G#",
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_IGNORE_TABLE_G#",
-                "otc.csc.db.base.roles::EXTERNAL_ACCESS_PARTNER_SETTINGS_G#"
-
+                "otc.csc.db.base.roles::EXTERNAL_ACCESS_PARTNER_SETTINGS_G#",
+                "otc.csc.db.app_service.role::EXTERNAL_ACCESS_CV_ORDER_CREATION_G#"
                 
             ]
         },
@@ -19,13 +20,15 @@
             "container_roles": [
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_FINAL_VIEW",
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_VBAKAUTH",
+                "otc.csc.db.base.roles::EXTERNAL_ACCESS_EKKOAUTH",
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_NOTES",
                 "otc.csc.db.app_service.role::EXTERNAL_ACCESS_CV_OPEN_ORDERLIST_FINAL",
                 "otc.csc.db.generic_service.roles::EXTERNAL_ACCESS_CV_SALESORDER",
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_PREDEF_REASON_COMMENTS_VIEW",
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_FOLLOWUP_NOTES",
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_IGNORE_TABLE",
-                "otc.csc.db.base.roles::EXTERNAL_ACCESS_PARTNER_SETTINGS"
+                "otc.csc.db.base.roles::EXTERNAL_ACCESS_PARTNER_SETTINGS",
+                "otc.csc.db.app_service.role::EXTERNAL_ACCESS_CV_ORDER_CREATION"
             ]
         }
     }

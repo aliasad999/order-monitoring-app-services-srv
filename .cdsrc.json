@@ -10,6 +10,13 @@
                 "fifo": true
             }
         },
+        "authServiceEC": {
+            "kind": "rest",
+            "credentials": {
+                "destination": "APIM",
+                "path": "it/omg/omc/auth-ec/v1"
+            }
+        },
         "authService": {
             "kind": "rest",
             "credentials": {

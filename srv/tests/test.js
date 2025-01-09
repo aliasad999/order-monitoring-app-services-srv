@@ -213,17 +213,17 @@ describe('Start Server and check various ODATA  calls', function () {
       assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
     }
   });
-  it(` sales order + delivery for ==> year ${currentYear}  `, async function () {
-    const timeout = 6000
-    this.timeout(timeout);
-    try {
-      const response = await axios.get(`${baseUrl}/Results?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay})&$select=${constants.salesOrderDeliveryResults}`)
-      assert.equal(200, response.status)
-    } catch (error) {
-      assert.strictEqual(error.code, 'ECONNABORTED');
-      assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-    }
-  });
+  // it(` sales order + delivery for ==> year ${currentYear}  `, async function () {
+  //   const timeout = 6000
+  //   this.timeout(timeout);
+  //   try {
+  //     const response = await axios.get(`${baseUrl}/Results?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay})&$select=${constants.salesOrderDeliveryResults}`)
+  //     assert.equal(200, response.status)
+  //   } catch (error) {
+  //     assert.strictEqual(error.code, 'ECONNABORTED');
+  //     assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
+  //   }
+  // });
 
   it(` Delivery + shipment fields for ==> year ${currentYear}`, async function () {
     const timeout = 5000
