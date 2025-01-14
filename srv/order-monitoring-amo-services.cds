@@ -251,7 +251,7 @@ service srvOpenOrders {
           IFNULL(
             F_AS_PARTNER_NAME_ITM, F_AS_PARTNER_NAME_HEAD
           )                                           as SO_F_AS_PARTNER_NAME            : String(40),
-          // DCP_ITEM_STATUS                    as SO_DCP_ITEM_STATUS,
+          DCP_ITEM_STATUS                    as SO_DCP_ITEM_STATUS,
           virtual null                                as SO_DCP_ITEM_STATUS_DESCRIPTION  : String(50),
           VBELN_DEL                                   as DL_VBELN,
           POSNR_DEL                                   as DL_POSNR_BATCH,

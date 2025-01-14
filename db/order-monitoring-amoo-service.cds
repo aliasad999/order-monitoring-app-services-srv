@@ -239,7 +239,7 @@ entity ![OPENORDERSLIST] {
         EMAIL_SENT_ON                      : String(8);
         MDB                                : String(3);
         MDB_TEXT                           : String(60);
-        // DCP_ITEM_STATUS                    : String(2);
+        DCP_ITEM_STATUS                    : String(2);
         ERDAT_DEL                          : String(8);	
         ERDAT_DEL_DATE                     : Date = ERDAT_DEL;	
         LDDAT_DEL                          : String(8);	
