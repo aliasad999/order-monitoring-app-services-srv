@@ -8,6 +8,7 @@ const log = require("cf-nodejs-logging-support");
 const enableHints = require("./plugins/enable_hints");
 const { startOfToday } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies') 
+const variantManagement = require('./utils/variantManagement');
 const serviceHelper = require('./utils/serviceHelper') 
 
 class srvOpenOrders extends cds.ApplicationService {
@@ -52,9 +53,28 @@ class srvOpenOrders extends cds.ApplicationService {
             let updateNeeded = false;
             let lt_result = [];
             let lt_resultEC = [];
-            let userID = req.user.id;
             let err = []
             let globalError= [] ;
+            let userID = req.user.id;
+
+            // VARIANT MIGRATION LOGIC
+            let AMOmigrationDone  = await variantManagement.checkIfMigrationNeeded(req,"ordermonitoring.allorders");
+            let AMOOmigrationDone  = await variantManagement.checkIfMigrationNeeded(req,"ordermonitoring.openorders");
+            if(AMOmigrationDone === "ERROR" || AMOOmigrationDone === "ERROR"){
+                err = 3; // variant migration failed
+                return err;
+            }
+            if(AMOmigrationDone || AMOOmigrationDone){
+                await UPSERT.into `allorders.db.variantMigration`.entries([{
+                    userId : userID,
+                    AMOvariantsMigrated : AMOmigrationDone,
+                    AMOOVariantsMigrated : AMOOmigrationDone
+                }])
+                err = 4; // variant migration successful, refresh needed
+                return err;       
+            }
+            // VARIANT MIGRATION LOGIC END
+            
             let vbakAuths = await SELECT.from(VBAKAuthObjectKeys).where`USERID = ${userID}`.limit(1);
             // Avoid updating authorizations more than once a day
             // Update only if table empty or outdatedf
@@ -123,7 +143,7 @@ class srvOpenOrders extends cds.ApplicationService {
                         lt_ekkoUnique.forEach((set) => {
                                 set.LAST_UPDATE = SQLdate;
                                 set.USERID = userID;
-                    })
+                        })
                         await INSERT.into(EKKOAuthObjectKeys, lt_ekkoUnique);
                     }
                     // return true;

@@ -329,3 +329,9 @@ entity variants {
             favorite           : Boolean;
             executeOnSelection : Boolean;
 };
+
+entity variantMigration {
+        key userId : String;
+        AMOvariantsMigrated: Boolean;
+        AMOOvariantsMigrated: Boolean;
+}
