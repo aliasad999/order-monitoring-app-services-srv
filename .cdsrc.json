@@ -142,6 +142,12 @@
                 "destination": "CHATBOT_TEMP_AAD"
             }
         },
+        "ChatbotUiTokenService": {
+            "kind": "rest",
+            "credentials": {
+                "destination": "Chatbot_UI_token"
+            }
+        },
         "ChatbotService": {
             "kind": "rest",
             "credentials": {

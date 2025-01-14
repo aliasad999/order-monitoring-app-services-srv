@@ -1,4 +1,5 @@
 const cds = require("@sap/cds");
+const azureTokenSessionCache = require('./utils/azureTokenSessionCache');
 const NodeCache = require('node-cache');
 const sessionCache = new NodeCache();
 const uuid = require('uuid');
@@ -9,6 +10,7 @@ const enableHints = require("./plugins/enable_hints");
 const { startOfToday } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies')
 const serviceHelper = require('./utils/serviceHelper');
+const jwt = require("jsonwebtoken");
 
 class openOrdersSrv extends cds.ApplicationService {
 
@@ -1303,13 +1305,16 @@ class openOrdersSrv extends cds.ApplicationService {
             log.info("calling bot...");
 
             try {
-                // TODO const netIq = req.headers.authorization.split(' ')[1];
-                // log.info("netiq token", netIq);
-                const netIq = "Abc";
-                const chatbotTemp = await cds.connect.to('ChatbotService');
-            
+                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
+                const decodedToken = jwt.decode(tokenForUserInfo);
+                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
                 const payload = req.data.payload;
-                log.info("Payload received: ", payload);
+                const azureToken = azureTokenSessionCache.get(username);
+
+                log.info("azureToken: ", azureToken);
+                log.info("Username: ", username);
+
+                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
 
                 const response = await chatbotTemp.tx(req).send({
                     method: 'POST',
@@ -1317,7 +1322,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     headers: {
                         Accept: 'application/json',
                         'Content-Type': 'application/json',
-                        netiq: netIq
+                        'Authorization': 'Bearer ' + azureToken
                     },
                     data: payload
                 });

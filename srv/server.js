@@ -13,6 +13,8 @@ const variantManager = require('./utils/variantManagement');
 const path = require('path');
 const { cca } = require('./utils/msalConfig');
 require('hdb/lib/protocol/common/Constants').MAX_PACKET_SIZE = Math.pow(4,15);
+const azureTokenSessionCache = require('./utils/azureTokenSessionCache');
+const { log } = require('console');
 
 xsenv.loadEnv();
 const xsuaaCredentials = xsenv.serviceCredentials({ tag: 'xsuaa' });
@@ -97,9 +99,30 @@ cds.on('bootstrap', (app) => {
 
         try {
             const response = await cca.acquireTokenByCode(tokenRequest);
-            console.log("Access token acquired:", response.accessToken);
-            res.send("Login successful! Token acquired.");
-            // You can store the access token in session for future use.
+            const username = response.account.username.split('@')[0].toUpperCase();
+            const accessToken = response.accessToken;
+
+            console.log("Access token acquired:", accessToken);
+            console.log("Username: ",  username);
+
+            // res.send("Login successful! Token acquired. Please go back and make your first question to our bot!");
+            res.send(`
+                <html>
+                    <body>
+                        <h1>Login successful!</h1>
+                        <p>Token acuqired. This window will close automaticall. Please go back and make your first question to our bot!</p>
+                        <script>
+                            // Display message for a short time, then close the tab
+                            setTimeout(() => {
+                                window.close();
+                            }, 3000); // Adjust delay (3 seconds) if needed
+                        </script>
+                    </body>
+                </html>
+            `);
+
+            azureTokenSessionCache.set(username, accessToken);
+            
         } catch (error) {
             console.error("Error acquiring token:", error);
             res.status(500).send("Error acquiring token");
