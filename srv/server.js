@@ -110,7 +110,7 @@ cds.on('bootstrap', (app) => {
                 <html>
                     <body>
                         <h1>Login successful!</h1>
-                        <p>Token acuqired. This window will close automaticall. Please go back and make your first question to our bot!</p>
+                        <p>Token acuqired. This window will close automatically. Please go back and make your first question to our bot!</p>
                         <script>
                             // Display message for a short time, then close the tab
                             setTimeout(() => {
