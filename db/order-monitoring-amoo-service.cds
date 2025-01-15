@@ -239,7 +239,7 @@ entity ![OPENORDERSLIST] {
         EMAIL_SENT_ON                      : String(8);
         MDB                                : String(3);
         MDB_TEXT                           : String(60);
-        // DCP_ITEM_STATUS                    : String(2);
+        DCP_ITEM_STATUS                    : String(2);
         ERDAT_DEL                          : String(8);	
         ERDAT_DEL_DATE                     : Date = ERDAT_DEL;	
         LDDAT_DEL                          : String(8);	
@@ -483,6 +483,18 @@ entity ![ORDER_CREATION] {
         ISSUE : String(2);
         DUE_DATE                           : String(8);
         DUE_DATE_FORMATTED                 : Date = DUE_DATE;
-        ERROR_TEXT : LargeString;
+        ERROR_TEXT : String(250);
         BIM_ERROR_ID : String(36);
+        ISSUE_TEXT: String(60);
+        NPS_TEXT: String(30);
 }
+
+// entity POIssues {
+//         key Issue : String(2);
+//         IssueText : localized String(60);
+// }
+
+// entity PONPS {
+//         key NPS : String(2);
+//         NPSText : localized String(30)
+// }

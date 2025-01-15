@@ -160,14 +160,6 @@ annotate service.valueHelps with {
     SO_F_MBDAT                      @title: '{i18n>SO_F_MBDAT}'                  @sap.Label: '{i18n>SO_F_MBDAT}';
     DL_POSNR_BATCH                  @title: '{i18n>DL_POSNR_BATCH}'              @sap.Label: '{i18n>DL_POSNR_BATCH}';
     DL_LFIMG_BATCH                  @title: '{i18n>DL_LFIMG_BATCH}'              @sap.Label: '{i18n>DL_LFIMG_BATCH}';
-    SO_MANDT                        @title: '{i18n>SO_MANDT}'                    @sap.Label: '{i18n>SO_MANDT}';
-    DL_MANDT                        @title: '{i18n>DL_MANDT}'                    @sap.Label: '{i18n>DL_MANDT}';
-    TM_MANDT                        @title: '{i18n>TM_MANDT}'                    @sap.Label: '{i18n>TM_MANDT}';
-    BL_MANDT_INV_FIRST              @title: '{i18n>BL_MANDT_INV_FIRST}'          @sap.Label: '{i18n>BL_MANDT_INV_FIRST}';
-    BL_MANDT_INV_LAST               @title: '{i18n>BL_MANDT_INV_LAST}'           @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
-    SO_FIRST_SO_MANDT               @title: '{i18n>SO_FIRST_SO_MANDT}'           @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
-    SO_FINAL_SO_MANDT               @title: '{i18n>SO_FINAL_SO_MANDT}'           @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
-    PO_MANDT                 @title: '{i18n>PO_MANDT}'             @sap.Label: '{i18n>PO_MANDT}';
     PO_EBELN                        @title: '{i18n>PO_EBELN}'                    @sap.Label: '{i18n>PO_EBELN}'            @Common.IsDigitSequence: true;
     PO_EBELP                        @title: '{i18n>PO_EBELP}'                    @sap.Label: '{i18n>PO_EBELP}'            @Common.IsDigitSequence: true;
     PO_AEDAT_HEAD                   @title: '{i18n>PO_AEDAT_HEAD}'               @sap.Label: '{i18n>PO_AEDAT_HEAD}';
@@ -189,6 +181,24 @@ annotate service.valueHelps with {
     PO_PARTNER_9O_HEAD              @title: '{i18n>PO_PARTNER_9O_HEAD}'          @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
     PO_PARTNER_9O_HEAD_NAME         @title: '{i18n>PO_PARTNER_9O_HEAD_NAME}'     @sap.Label: '{i18n>PO_PARTNER_9O_HEAD_NAME}';
     // SO_BSTNK         @title: '{i18n>SO_BSTNK}'     @sap.Label: '{i18n>SO_BSTNK}';
+
+    ///// Mandants
+    SO_MANDT                        @title: '{i18n>SO_MANDT}'                    @sap.Label: '{i18n>SO_MANDT}';
+    DL_MANDT                        @title: '{i18n>DL_MANDT}'                    @sap.Label: '{i18n>DL_MANDT}';
+    TM_MANDT                        @title: '{i18n>TM_MANDT}'                    @sap.Label: '{i18n>TM_MANDT}';
+    BL_MANDT_INV_FIRST              @title: '{i18n>BL_MANDT_INV_FIRST}'          @sap.Label: '{i18n>BL_MANDT_INV_FIRST}';
+    BL_MANDT_INV_LAST               @title: '{i18n>BL_MANDT_INV_LAST}'           @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
+    SO_FIRST_SO_MANDT               @title: '{i18n>SO_FIRST_SO_MANDT}'           @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
+    SO_FINAL_SO_MANDT               @title: '{i18n>SO_FINAL_SO_MANDT}'           @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
+    PO_MANDT                        @title: '{i18n>PO_MANDT}'                    @sap.Label: '{i18n>PO_MANDT}';
+    SO_MANDT_TEXT                   @title: '{i18n>SO_MANDT}'                    @sap.Label: '{i18n>SO_MANDT}';
+    DL_MANDT_TEXT                   @title: '{i18n>DL_MANDT}'                    @sap.Label: '{i18n>DL_MANDT}';
+    TM_MANDT_TEXT                   @title: '{i18n>TM_MANDT}'                    @sap.Label: '{i18n>TM_MANDT}';
+    BL_MANDT_INV_FIRST_TEXT         @title: '{i18n>BL_MANDT_INV_FIRST}'          @sap.Label: '{i18n>BL_MANDT_INV_FIRST}';
+    BL_MANDT_INV_LAST_TEXT          @title: '{i18n>BL_MANDT_INV_LAST}'           @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
+    SO_FIRST_SO_MANDT_TEXT          @title: '{i18n>SO_FIRST_SO_MANDT}'           @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
+    SO_FINAL_SO_MANDT_TEXT          @title: '{i18n>SO_FINAL_SO_MANDT}'           @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
+    PO_MANDT_TEXT                   @title: '{i18n>PO_MANDT}'                    @sap.Label: '{i18n>PO_MANDT}';
 };
 
 annotate service.Results with {
@@ -426,22 +436,20 @@ annotate service.Results with {
     SO_PERFK_LTEXT_LANG;
     DL_POSNR_BATCH              @title: '{i18n>DL_POSNR_BATCH}'              @sap.Label: '{i18n>DL_POSNR_BATCH}';
     DL_LFIMG_BATCH              @title: '{i18n>DL_LFIMG_BATCH}'              @sap.Label: '{i18n>DL_LFIMG_BATCH}';
-    SO_MANDT                    @title: '{i18n>SO_MANDT}'                    @sap.Label: '{i18n>SO_MANDT}';
-    DL_MANDT                    @title: '{i18n>DL_MANDT}'                    @sap.Label: '{i18n>DL_MANDT}';
-    TM_MANDT                    @title: '{i18n>TM_MANDT}'                    @sap.Label: '{i18n>TM_MANDT}';
-    BL_MANDT_INV_FIRST          @title: '{i18n>BL_MANDT_INV_FIRST}'          @sap.Label: '{i18n>BL_MANDT_INV_FIRST}';
-    BL_MANDT_INV_LAST           @title: '{i18n>BL_MANDT_INV_LAST}'           @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
-    SO_FIRST_SO_MANDT           @title: '{i18n>SO_FIRST_SO_MANDT}'           @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
-    SO_FINAL_SO_MANDT           @title: '{i18n>SO_FINAL_SO_MANDT}'           @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
-    PO_MANDT             @title: '{i18n>PO_MANDT}'             @sap.Label: '{i18n>PO_MANDT}';
     PO_EBELN                    @title: '{i18n>PO_EBELN}'                    @sap.Label: '{i18n>PO_EBELN}';
     PO_EBELP                    @title: '{i18n>PO_EBELP}'                    @sap.Label: '{i18n>PO_EBELP}';
     PO_AEDAT_HEAD               @title: '{i18n>PO_AEDAT_HEAD}'               @sap.Label: '{i18n>PO_AEDAT_HEAD}';
     PO_AEDAT_ITEM               @title: '{i18n>PO_AEDAT_ITEM}'               @sap.Label: '{i18n>PO_AEDAT_ITEM}';
+    @Common.Text           : PO_EKOTX
+    @Common.TextArrangement: #TextLast
     PO_EKORG                    @title: '{i18n>PO_EKORG}'                    @sap.Label: '{i18n>PO_EKORG}';
-    PO_EKOTX                    @title: '{i18n>PO_EKOTX}'                    @sap.Label: '{i18n>PO_EKOTX}';
+    @Common.TextFor
+    PO_EKOTX;
+    @Common.Text           : PO_EKNAM
+    @Common.TextArrangement: #TextLast
     PO_EKGRP                    @title: '{i18n>PO_EKGRP}'                    @sap.Label: '{i18n>PO_EKGRP}';
-    PO_EKNAM                    @title: '{i18n>PO_EKNAM}'                    @sap.Label: '{i18n>PO_EKNAM}';
+    @Common.TextFor
+    PO_EKNAM;
     PO_EMATN                    @title: '{i18n>PO_EMATN}'                    @sap.Label: '{i18n>PO_EMATN}';
     PO_WERKS_PO                 @title: '{i18n>PO_WERKS_PO}'                 @sap.Label: '{i18n>PO_WERKS_PO}';
     PO_MENGE                    @title: '{i18n>PO_MENGE}'                    @sap.Label: '{i18n>PO_MENGE}';
@@ -465,8 +473,58 @@ annotate service.Results with {
     @Common.TextArrangement: #TextLast
     PO_BSART                    @title: '{i18n>PO_BSART}'                    @sap.Label: '{i18n>PO_BSART}';
     @Common.TextFor
-    PO_BSART_BATXT;  
+    PO_BSART_BATXT;
     // SO_BSTNK         @title: '{i18n>SO_BSTNK}'     @sap.Label: '{i18n>SO_BSTNK}';
+
+    ///// Mandants
+    @Common.Text           : SO_MANDT_TEXT
+    @Common.TextArrangement: #TextLast
+    SO_MANDT                    @title: '{i18n>SO_MANDT}'                    @sap.Label: '{i18n>SO_MANDT}';
+    @Common.TextFor
+    SO_MANDT_TEXT;
+
+    @Common.Text           : DL_MANDT_TEXT
+    @Common.TextArrangement: #TextLast
+    DL_MANDT                    @title: '{i18n>DL_MANDT}'                    @sap.Label: '{i18n>DL_MANDT}';
+    @Common.TextFor
+    DL_MANDT_TEXT;
+
+    @Common.Text           : TM_MANDT_TEXT
+    @Common.TextArrangement: #TextLast
+    TM_MANDT                    @title: '{i18n>TM_MANDT}'                    @sap.Label: '{i18n>TM_MANDT}';
+    @Common.TextFor
+    TM_MANDT_TEXT;
+
+    @Common.Text           : BL_MANDT_INV_FIRST_TEXT
+    @Common.TextArrangement: #TextLast
+    BL_MANDT_INV_FIRST          @title: '{i18n>BL_MANDT_INV_FIRST}'          @sap.Label: '{i18n>BL_MANDT_INV_FIRST}';
+    @Common.TextFor
+    BL_MANDT_INV_FIRST_TEXT;
+
+    @Common.Text           : BL_MANDT_INV_LAST_TEXT
+    @Common.TextArrangement: #TextLast
+    BL_MANDT_INV_LAST           @title: '{i18n>BL_MANDT_INV_LAST}'           @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
+    @Common.TextFor
+    BL_MANDT_INV_LAST_TEXT;
+
+    @Common.Text           : SO_FIRST_SO_MANDT_TEXT
+    @Common.TextArrangement: #TextLast
+    SO_FIRST_SO_MANDT           @title: '{i18n>SO_FIRST_SO_MANDT}'           @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
+    @Common.TextFor
+    SO_FIRST_SO_MANDT_TEXT;
+
+    @Common.Text           : SO_FINAL_SO_MANDT_TEXT
+    @Common.TextArrangement: #TextLast
+    SO_FINAL_SO_MANDT           @title: '{i18n>SO_FINAL_SO_MANDT}'           @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
+    @Common.TextFor
+    SO_FINAL_SO_MANDT_TEXT;
+
+    @Common.Text           : PO_MANDT_TEXT
+    @Common.TextArrangement: #TextLast
+    PO_MANDT                    @title: '{i18n>PO_MANDT}'                    @sap.Label: '{i18n>PO_MANDT}';
+    @Common.TextFor
+    PO_MANDT_TEXT;
+
 
 }
 
@@ -546,7 +604,18 @@ annotate service.Results with {
     PO_KUNNR_NAME                  @UI                     : {Hidden: true};
     PO_PARTNER_9A_HEAD_NAME        @UI                     : {Hidden: true};
     PO_PARTNER_9O_HEAD_NAME        @UI                     : {Hidden: true};
-    PO_BSART_BATXT  @UI                     : {Hidden: true};
+    PO_BSART_BATXT                 @UI                     : {Hidden: true};
+    SO_MANDT_TEXT                  @UI                     : {Hidden: true};
+    DL_MANDT_TEXT                  @UI                     : {Hidden: true};
+    TM_MANDT_TEXT                  @UI                     : {Hidden: true};
+    BL_MANDT_INV_FIRST_TEXT        @UI                     : {Hidden: true};
+    BL_MANDT_INV_LAST_TEXT         @UI                     : {Hidden: true};
+    SO_FINAL_SO_MANDT_TEXT         @UI                     : {Hidden: true};
+    SO_FIRST_SO_MANDT_TEXT         @UI                     : {Hidden: true};
+    PO_MANDT_TEXT                  @UI                     : {Hidden: true};
+    PO_EKNAM                       @UI                     : {Hidden: true};
+    PO_EKOTX                       @UI                     : {Hidden: true};
+    PO_EBELN                       @UI                     : {Hidden: true};
 }
 
 annotate service.valueHelps with {
@@ -566,9 +635,10 @@ annotate service.valueHelps with {
     DL_LFIMG_BATCH     @Measures.Unit          : DL_VRKME;
     DL_VRKME           @Semantics.unitOfMeasure: 'unit-of-measure';
     DL_PEND_DEL_QUAN   @Measures.Unit          : DL_VRKME;
-    PO_MENGE                       @Measures.Unit          : PO_MEINS;
-    PO_MEINS                       @Semantics.unitOfMeasure: 'unit-of-measure';
+    PO_MENGE           @Measures.Unit          : PO_MEINS;
+    PO_MEINS           @Semantics.unitOfMeasure: 'unit-of-measure';
     id                 @UI                     : {Hidden: true};
+    PO_EBELN           @UI                     : {Hidden: true};
 // SO_MANDT           @UI                     : {Hidden: true};
 // DL_MANDT           @UI                     : {Hidden: true};
 // TM_MANDT           @UI                     : {Hidden: true};
@@ -2520,11 +2590,17 @@ annotate service.Results with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_MANDT,
-            ValueListProperty: 'SO_MANDT'
-        }]
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_MANDT,
+                ValueListProperty: 'SO_MANDT'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_MANDT_TEXT'
+            }
+        ]
     }
 }
 
@@ -2536,11 +2612,17 @@ annotate service.Results with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: DL_MANDT,
-            ValueListProperty: 'DL_MANDT'
-        }]
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: DL_MANDT,
+                ValueListProperty: 'DL_MANDT'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'DL_MANDT_TEXT'
+            }
+        ]
     }
 }
 
@@ -2552,11 +2634,17 @@ annotate service.Results with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: TM_MANDT,
-            ValueListProperty: 'TM_MANDT'
-        }]
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: TM_MANDT,
+                ValueListProperty: 'TM_MANDT'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'TM_MANDT_TEXT'
+            }
+        ]
     }
 }
 
@@ -2568,11 +2656,17 @@ annotate service.Results with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: BL_MANDT_INV_FIRST,
-            ValueListProperty: 'BL_MANDT_INV_FIRST'
-        }]
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: BL_MANDT_INV_FIRST,
+                ValueListProperty: 'BL_MANDT_INV_FIRST'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'BL_MANDT_INV_FIRST_TEXT'
+            }
+        ]
     }
 }
 
@@ -2584,11 +2678,17 @@ annotate service.Results with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: BL_MANDT_INV_LAST,
-            ValueListProperty: 'BL_MANDT_INV_LAST'
-        }]
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: BL_MANDT_INV_LAST,
+                ValueListProperty: 'BL_MANDT_INV_LAST'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'BL_MANDT_INV_LAST_TEXT'
+            }
+        ]
     }
 }
 
@@ -2600,11 +2700,17 @@ annotate service.Results with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_FIRST_SO_MANDT,
-            ValueListProperty: 'SO_FIRST_SO_MANDT'
-        }]
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_FIRST_SO_MANDT,
+                ValueListProperty: 'SO_FIRST_SO_MANDT'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_FIRST_SO_MANDT_TEXT'
+            }
+        ]
     }
 }
 
@@ -2616,11 +2722,17 @@ annotate service.Results with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_FINAL_SO_MANDT,
-            ValueListProperty: 'SO_FINAL_SO_MANDT'
-        }]
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_FINAL_SO_MANDT,
+                ValueListProperty: 'SO_FINAL_SO_MANDT'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_FINAL_SO_MANDT_TEXT'
+            }
+        ]
     }
 }
 
@@ -2632,11 +2744,17 @@ annotate service.Results with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: PO_MANDT,
-            ValueListProperty: 'PO_MANDT'
-        }]
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_MANDT,
+                ValueListProperty: 'PO_MANDT'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_MANDT_TEXT'
+            }
+        ]
     }
 }
 
@@ -2703,27 +2821,17 @@ annotate service.Results with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: PO_EKORG,
-            ValueListProperty: 'PO_EKORG'
-        }]
-    }
-}
-
-annotate service.Results with {
-    PO_EKOTX
-    @Common.ValueList: {
-        $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>PO_EKOTX}',
-        CollectionPath         : 'valueHelps',
-        DistinctValuesSupported: true,
-        SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: PO_EKOTX,
-            ValueListProperty: 'PO_EKOTX'
-        }]
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_EKORG,
+                ValueListProperty: 'PO_EKORG'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_EKOTX'
+            }
+        ]
     }
 }
 
@@ -2735,11 +2843,17 @@ annotate service.Results with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: PO_EKGRP,
-            ValueListProperty: 'PO_EKGRP'
-        }]
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_EKGRP,
+                ValueListProperty: 'PO_EKGRP'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_EKNAM'
+            }
+        ]
     }
 }
 
@@ -2755,22 +2869,6 @@ annotate service.Results with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: PO_EMATN,
             ValueListProperty: 'PO_EMATN'
-        }]
-    }
-}
-
-annotate service.Results with {
-    PO_EKNAM
-    @Common.ValueList: {
-        $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>PO_EKNAM}',
-        CollectionPath         : 'valueHelps',
-        DistinctValuesSupported: true,
-        SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: PO_EKNAM,
-            ValueListProperty: 'PO_EKNAM'
         }]
     }
 }
@@ -2823,7 +2921,7 @@ annotate service.Results with {
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [
-            {
+             {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: PO_PARTNER_9A_HEAD,
                 ValueListProperty: 'PO_PARTNER_9A_HEAD'
