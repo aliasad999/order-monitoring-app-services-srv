@@ -11,7 +11,8 @@ const variantManager = require('./utils/variantManagement');
 // const authProvider = require('./auth/AuthProvider');
 // const { REDIRECT_URI, POST_LOGOUT_REDIRECT_URI } = require('./utils/authConfig');
 const path = require('path');
-const { cca } = require('./utils/msalConfig');
+const { getCca } = require('./utils/msalConfig');
+const chatbotArgusConfig =  require('./lib/chatbotArgusConfig.json');
 require('hdb/lib/protocol/common/Constants').MAX_PACKET_SIZE = Math.pow(4,15);
 const azureTokenSessionCache = require('./utils/azureTokenSessionCache');
 const { log } = require('console');
@@ -22,6 +23,9 @@ passport.use(new JWTStrategy(xsuaaCredentials));
 
 module.exports = cds.server;
 
+const cfEnvironment = process.env.CF_ENV; // get environment from User provided variables
+const chatbotConfig = chatbotArgusConfig["cfEnvironment"]; 
+
 cds.on('bootstrap', (app) => {
     // app.use(proxy());
     // app.use(passport.initialize());
@@ -29,7 +33,7 @@ cds.on('bootstrap', (app) => {
 
     const authCodeUrlParameters = {
         scopes: ["user.read"],
-        redirectUri: process.env.REDIRECT_URI
+        redirectUri: chatbotConfig.redirectUrl
     };
 
     fesr.registerFesrEndpoint(app);
@@ -79,14 +83,23 @@ cds.on('bootstrap', (app) => {
     //     res.sendFile(path.join(__dirname, 'views', 'index.html'));
     // });
 
-    app.get('/login', async (req, res) => {
-        try {
-            const authCodeUrl = await cca.getAuthCodeUrl(authCodeUrlParameters);
-            res.redirect(authCodeUrl);
-        } catch (error) {
-            console.error("Error generating auth code URL:", error);
-            res.status(500).send("Error generating auth code URL");
-        }
+    app.get('/login', (req, res) => {
+        // Use getCca to ensure cca is initialized
+        getCca().then(cca => {
+            // Once cca is available, get the authorization code URL
+            cca.getAuthCodeUrl(authCodeUrlParameters)
+                .then(authCodeUrl => {
+                    console.log("AuthCodeUrl: ", authCodeUrl);
+                    res.redirect(authCodeUrl);
+                })
+                .catch(error => {
+                    console.error("Error generating auth code URL:", error);
+                    res.status(500).send("Error generating auth code URL");
+                });
+        }).catch(error => {
+            console.error("Error initializing CCA:", error);
+            res.status(500).send("Error initializing CCA");
+        });
     });
 
     // Handle redirect (Azure AD sends the user back here after login)
