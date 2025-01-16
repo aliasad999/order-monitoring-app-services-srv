@@ -9,6 +9,7 @@
     "node": "20.x"
   },
   "dependencies": {
+    "@azure/msal-node": "^2.16.2",
     "@cap-js-community/odata-v2-adapter": "^1.13.8",
     "@sap-cloud-sdk/http-client": "^3.24.0",
     "@sap/cds": "7.6.1",
@@ -21,17 +22,25 @@
     "@sap/xssec": "3.6.1",
     "body-parser": "^1.20.3",
     "cf-nodejs-logging-support": "^7.4.0",
+    "date-fns": "^4.1.0",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "express-session": "^1.18.1",
     "http-status": "^2.0.0",
     "mocha": "^11.0.1",
     "node-cache": "^5.1.2",
+    "node-jose": "^2.2.0",
     "passport": "^0.7.0",
-    "uuid": "^11.0.3",
-    "date-fns": "^4.1.0"
+    "uuid": "^11.0.3"
   },
   "devDependencies": {
     "@sap/hdi-deploy": "^5.3.2",
-    "axios": "^1.7.9"
+    "axios": "^1.7.9",
+    "chai": "^4.4.1",
+    "chai-as-promised": "^7.1.1",
+    "chai-subset": "^1.6.0",
+    "jest": "^29.7.0",
+    "sqlite3": "^5"
   },
   "scripts": {
     "bind": "cds bind -2  order-monitoring-xsuaa:order-monitoring-xsuaa-key && cds bind -2  order-monitoring-destination:order-monitoring-destination-content-order-monitoring-destination-credentials &&  cds bind -2  order-monitoring-app-services-hdi:SharedDevKey &&    cds bind -2  order-monitoring-connectivity:con-key",
