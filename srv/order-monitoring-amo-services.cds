@@ -6,8 +6,6 @@ service srvOpenOrders {
   entity VBAKAuthObjectKeys      as select from db_app.VBAKAUTH;
   entity EKKOAuthObjectKeys      as select from db_app.EKKOAUTH;
   function getVBAKAuthObjKeys() returns Integer;
-  //function callChatbotService(payload: String) returns String;
-
 
   @readonly
   @cds.redirection.target: true
