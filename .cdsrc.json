@@ -142,25 +142,6 @@
                 "destination": "APIM",
                 "path": "/it/omg/omc/sofm-delivery/v1"
             }
-        },
-        "ChatbotServiceToken": {
-            "kind": "rest",
-            "credentials": {
-                "destination": "CHATBOT_TEMP_AAD"
-            }
-        },
-        "ChatbotUiTokenService": {
-            "kind": "rest",
-            "credentials": {
-                "destination": "Chatbot_UI_token"
-            }
-        },
-        "ChatbotService": {
-            "kind": "rest",
-            "credentials": {
-                "destination": "CHATBOT_TEMP_DEV"
-            }
         }
-
     }
 }
