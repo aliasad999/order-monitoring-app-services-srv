@@ -43,7 +43,7 @@
     "sqlite3": "^5"
   },
   "scripts": {
-    "bind": "cds bind -2  order-monitoring-xsuaa:order-monitoring-xsuaa-key && cds bind -2  order-monitoring-destination:order-monitoring-destination-content-order-monitoring-destination-credentials &&  cds bind -2  order-monitoring-app-services-hdi:SharedDevKey &&    cds bind -2  order-monitoring-connectivity:con-key",
+    "bind": "cds bind -2  order-monitoring-xsuaa:order-monitoring-xsuaa-key && cds bind -2  order-monitoring-destination:order-monitoring-destination-content-order-monitoring-destination-credentials &&  cds bind -2  order-monitoring-app-services-hdi:SharedDevKey &&    cds bind -2  order-monitoring-connectivity:con-key && cds bind -2 order-monitoring-credentials-store:credentials-store-key",
     "start": "node ${NODE_ARGS} ./node_modules/@sap/cds/bin/cds-serve",
     "test": "mocha srv/tests/test.js --timeout 150000 --exit",
     "test-amoo": "mocha srv/tests/test-amoo.js --timeout 150000 --exit",

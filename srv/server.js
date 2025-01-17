@@ -33,7 +33,7 @@ cds.on('bootstrap', (app) => {
 
     const authCodeUrlParameters = {
         scopes: ["user.read"],
-        redirectUri: chatbotConfig.redirectUrl
+        redirectUri: "https://port4004-workspaces-ws-cnl8f.eu10.applicationstudio.cloud.sap/callback"//chatbotConfig.redirectUrl TODO
     };
 
     fesr.registerFesrEndpoint(app);
