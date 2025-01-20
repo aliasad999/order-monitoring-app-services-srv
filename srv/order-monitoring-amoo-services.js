@@ -1299,9 +1299,93 @@ class openOrdersSrv extends cds.ApplicationService {
             return combinedResults;
         })
 
+        this.on("callChatbotHistoryService", async (req)=> {
+            log.info("Calling history");
+            try {
+                const netIq = req.headers.authorization.split(' ')[1];
+                log.info("netiq token", netIq);
+                // const netIq = "ABC"
+                const chatbotTemp = await cds.connect.to('ChatbotService');
+            
+                const response = await chatbotTemp.tx(req).send({
+                    method: 'GET',
+                    path: '/history/list',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        netiq: netIq,
+                    authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6InoxcnNZSEhKOS04bWdndDRIc1p1OEJLa0JQdyJ9.eyJhdWQiOiIzNzk2YzU1ZC1mY2I1LTQ2ZTktYWUxOC0zMWUzY2VlMzE5ZWMiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vZWNhYTM4NmItYzhkZi00Y2UwLWFkMDEtNzQwY2JkYjViYTU1L3YyLjAiLCJpYXQiOjE3MzcwNDQzOTgsIm5iZiI6MTczNzA0NDM5OCwiZXhwIjoxNzM3MDQ4NzQ2LCJhaW8iOiJBV1FBbS84WkFBQUF5WnUvYkxnMVUrekk3RUh2OFJyejNhMmdPdEdCNDRSU2RMbERaWWxWT0Z0ZWJxejJ1by9aNVVvSTRqOFkvM1hFeis3bC8vbHVuRDlMQjFYTFdqUldlc3hocFhXRFpYaWlma1BESE1ZU01DcFNHb3EyL3czbzhjTkxSQlZnOTBZUyIsImF6cCI6IjM3OTZjNTVkLWZjYjUtNDZlOS1hZTE4LTMxZTNjZWUzMTllYyIsImF6cGFjciI6IjEiLCJuYW1lIjoiSm9yZ2UgQWd1aXJyZSBkZWwgVmFsIiwib2lkIjoiMmYzMzBkOWYtNjI0YS00NDM4LTk1NmItZGRlNDhmNTEyZDBlIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiVTEwMTIxMzg0QGJhc2ZhZC5iYXNmLm5ldCIsInJoIjoiMS5BUXdBYXppcTdOX0k0RXl0QVhRTXZiVzZWVjNGbGplMV9PbEdyaGd4NDg3akdld01BRlFNQUEuIiwic2NwIjoiVXNlci5SZWFkIiwic3ViIjoiQTdBOTB1Rk52ZmpJLTdWOXNRdmxTRnZSSFBwUkZ5QzNhaFh1Q0t4aVdtQSIsInRpZCI6ImVjYWEzODZiLWM4ZGYtNGNlMC1hZDAxLTc0MGNiZGI1YmE1NSIsInV0aSI6Im54U0RpZ3FIa2s2dEFvdVZqZ1J2QUEiLCJ2ZXIiOiIyLjAifQ.hKZSFVdPyu0jGbaSMu8J0Pe8fCRhziNEm2eH3z4ebDoKoKkIxfj71m0MKFsMbA4Vj4uUars-Rb5FGoelM3QPhb2pDiF1_xqU5XJLL-hhN48pqU_hUDRARUepKnzswTnBaX1ltagz3adU3B3LTXdt5TXfLSWBHy0BKTghgaDvGiAeRKEFoQ2uOxvYpit16emc2TZOjxqVhTwfbvxeNq8-xPCuC5XoLK9KSje7pRNsam3mupPZX4_glXBUW5HF_yOeO8lK-jmy2WemydetlezE1MDlD2fGCNMlav_XVOAFpHsZqgwasUEIiFRAqPbynQjqT8KzcDMGrJ_6upw8g2rgcw'
+                    },
+                    
+                });
+                console.log(JSON.stringify(response))
+                //const message = response.choices[0].messages;
+                //console.log("Response message: ", message)
+                return JSON.stringify(response); // TODO: return history...
+            } catch (e) {
+                console.log(e.message);
+                return "An error occured.";
+            }
+            
+        })
+        this.on("callChatbotUpdateConversation", async (req) => {
+            console.log("calling UpdateConversation")
+            try {
+                const netIq = req.headers.authorization.split(' ')[1];
+                // log.info("netiq token", netIq);
+                //const netIq = "Abc";
+                const chatbotTemp = await cds.connect.to('ChatbotService');
+                const payload = req.data.payload;
+                log.info("Payload received: ", payload);
+                const response = await chatbotTemp.tx(req).send({
+                    method: 'POST',
+                    path: '/history/update',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        netiq: netIq,
+                        authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6InoxcnNZSEhKOS04bWdndDRIc1p1OEJLa0JQdyJ9.eyJhdWQiOiIzNzk2YzU1ZC1mY2I1LTQ2ZTktYWUxOC0zMWUzY2VlMzE5ZWMiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vZWNhYTM4NmItYzhkZi00Y2UwLWFkMDEtNzQwY2JkYjViYTU1L3YyLjAiLCJpYXQiOjE3MzcwNDQzOTgsIm5iZiI6MTczNzA0NDM5OCwiZXhwIjoxNzM3MDQ4NzQ2LCJhaW8iOiJBV1FBbS84WkFBQUF5WnUvYkxnMVUrekk3RUh2OFJyejNhMmdPdEdCNDRSU2RMbERaWWxWT0Z0ZWJxejJ1by9aNVVvSTRqOFkvM1hFeis3bC8vbHVuRDlMQjFYTFdqUldlc3hocFhXRFpYaWlma1BESE1ZU01DcFNHb3EyL3czbzhjTkxSQlZnOTBZUyIsImF6cCI6IjM3OTZjNTVkLWZjYjUtNDZlOS1hZTE4LTMxZTNjZWUzMTllYyIsImF6cGFjciI6IjEiLCJuYW1lIjoiSm9yZ2UgQWd1aXJyZSBkZWwgVmFsIiwib2lkIjoiMmYzMzBkOWYtNjI0YS00NDM4LTk1NmItZGRlNDhmNTEyZDBlIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiVTEwMTIxMzg0QGJhc2ZhZC5iYXNmLm5ldCIsInJoIjoiMS5BUXdBYXppcTdOX0k0RXl0QVhRTXZiVzZWVjNGbGplMV9PbEdyaGd4NDg3akdld01BRlFNQUEuIiwic2NwIjoiVXNlci5SZWFkIiwic3ViIjoiQTdBOTB1Rk52ZmpJLTdWOXNRdmxTRnZSSFBwUkZ5QzNhaFh1Q0t4aVdtQSIsInRpZCI6ImVjYWEzODZiLWM4ZGYtNGNlMC1hZDAxLTc0MGNiZGI1YmE1NSIsInV0aSI6Im54U0RpZ3FIa2s2dEFvdVZqZ1J2QUEiLCJ2ZXIiOiIyLjAifQ.hKZSFVdPyu0jGbaSMu8J0Pe8fCRhziNEm2eH3z4ebDoKoKkIxfj71m0MKFsMbA4Vj4uUars-Rb5FGoelM3QPhb2pDiF1_xqU5XJLL-hhN48pqU_hUDRARUepKnzswTnBaX1ltagz3adU3B3LTXdt5TXfLSWBHy0BKTghgaDvGiAeRKEFoQ2uOxvYpit16emc2TZOjxqVhTwfbvxeNq8-xPCuC5XoLK9KSje7pRNsam3mupPZX4_glXBUW5HF_yOeO8lK-jmy2WemydetlezE1MDlD2fGCNMlav_XVOAFpHsZqgwasUEIiFRAqPbynQjqT8KzcDMGrJ_6upw8g2rgcw'
+                    },
+                    data: payload
+                });
+                const message = response.messages;
+                console.log("Response message: ", response)
+                return JSON.stringify(response); // TODO: return history...
+            } catch (e) {
+                console.log(e.message);
+                return "An error occured.";
+            }
+        })
+        this.on("callChatbotGetConversation", async (req) => {
+            console.log("calling getConversation")
+            try {
+                const netIq = req.headers.authorization.split(' ')[1];
+                // log.info("netiq token", netIq);
+                //const netIq = "Abc";
+                const chatbotTemp = await cds.connect.to('ChatbotService');
+                const payload = req.data.payload;
+                log.info("Payload received: ", payload);
+                const response = await chatbotTemp.tx(req).send({
+                    method: 'POST',
+                    path: '/history/read',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        netiq: netIq,
+                        authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6InoxcnNZSEhKOS04bWdndDRIc1p1OEJLa0JQdyJ9.eyJhdWQiOiIzNzk2YzU1ZC1mY2I1LTQ2ZTktYWUxOC0zMWUzY2VlMzE5ZWMiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vZWNhYTM4NmItYzhkZi00Y2UwLWFkMDEtNzQwY2JkYjViYTU1L3YyLjAiLCJpYXQiOjE3MzcwNDQzOTgsIm5iZiI6MTczNzA0NDM5OCwiZXhwIjoxNzM3MDQ4NzQ2LCJhaW8iOiJBV1FBbS84WkFBQUF5WnUvYkxnMVUrekk3RUh2OFJyejNhMmdPdEdCNDRSU2RMbERaWWxWT0Z0ZWJxejJ1by9aNVVvSTRqOFkvM1hFeis3bC8vbHVuRDlMQjFYTFdqUldlc3hocFhXRFpYaWlma1BESE1ZU01DcFNHb3EyL3czbzhjTkxSQlZnOTBZUyIsImF6cCI6IjM3OTZjNTVkLWZjYjUtNDZlOS1hZTE4LTMxZTNjZWUzMTllYyIsImF6cGFjciI6IjEiLCJuYW1lIjoiSm9yZ2UgQWd1aXJyZSBkZWwgVmFsIiwib2lkIjoiMmYzMzBkOWYtNjI0YS00NDM4LTk1NmItZGRlNDhmNTEyZDBlIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiVTEwMTIxMzg0QGJhc2ZhZC5iYXNmLm5ldCIsInJoIjoiMS5BUXdBYXppcTdOX0k0RXl0QVhRTXZiVzZWVjNGbGplMV9PbEdyaGd4NDg3akdld01BRlFNQUEuIiwic2NwIjoiVXNlci5SZWFkIiwic3ViIjoiQTdBOTB1Rk52ZmpJLTdWOXNRdmxTRnZSSFBwUkZ5QzNhaFh1Q0t4aVdtQSIsInRpZCI6ImVjYWEzODZiLWM4ZGYtNGNlMC1hZDAxLTc0MGNiZGI1YmE1NSIsInV0aSI6Im54U0RpZ3FIa2s2dEFvdVZqZ1J2QUEiLCJ2ZXIiOiIyLjAifQ.hKZSFVdPyu0jGbaSMu8J0Pe8fCRhziNEm2eH3z4ebDoKoKkIxfj71m0MKFsMbA4Vj4uUars-Rb5FGoelM3QPhb2pDiF1_xqU5XJLL-hhN48pqU_hUDRARUepKnzswTnBaX1ltagz3adU3B3LTXdt5TXfLSWBHy0BKTghgaDvGiAeRKEFoQ2uOxvYpit16emc2TZOjxqVhTwfbvxeNq8-xPCuC5XoLK9KSje7pRNsam3mupPZX4_glXBUW5HF_yOeO8lK-jmy2WemydetlezE1MDlD2fGCNMlav_XVOAFpHsZqgwasUEIiFRAqPbynQjqT8KzcDMGrJ_6upw8g2rgcw'
+                    },
+                    data: payload
+                });
+                const message = response.messages;
+                console.log("Response message: ", message)
+                return JSON.stringify(message); // TODO: return history...
+            } catch (e) {
+                console.log(e.message);
+                return "An error occured.";
+            }
+        })
         this.on("callChatbotService", async (req) => {
             log.info("calling bot...");
-
             try {
                 // TODO const netIq = req.headers.authorization.split(' ')[1];
                 // log.info("netiq token", netIq);
@@ -1310,22 +1394,20 @@ class openOrdersSrv extends cds.ApplicationService {
             
                 const payload = req.data.payload;
                 log.info("Payload received: ", payload);
-
                 const response = await chatbotTemp.tx(req).send({
                     method: 'POST',
-                    path: '/conversation',
+                    path: '/history/generate',
                     headers: {
                         Accept: 'application/json',
                         'Content-Type': 'application/json',
-                        netiq: netIq
+                        netiq: netIq,
+                        authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6InoxcnNZSEhKOS04bWdndDRIc1p1OEJLa0JQdyJ9.eyJhdWQiOiIzNzk2YzU1ZC1mY2I1LTQ2ZTktYWUxOC0zMWUzY2VlMzE5ZWMiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vZWNhYTM4NmItYzhkZi00Y2UwLWFkMDEtNzQwY2JkYjViYTU1L3YyLjAiLCJpYXQiOjE3MzcwNDQzOTgsIm5iZiI6MTczNzA0NDM5OCwiZXhwIjoxNzM3MDQ4NzQ2LCJhaW8iOiJBV1FBbS84WkFBQUF5WnUvYkxnMVUrekk3RUh2OFJyejNhMmdPdEdCNDRSU2RMbERaWWxWT0Z0ZWJxejJ1by9aNVVvSTRqOFkvM1hFeis3bC8vbHVuRDlMQjFYTFdqUldlc3hocFhXRFpYaWlma1BESE1ZU01DcFNHb3EyL3czbzhjTkxSQlZnOTBZUyIsImF6cCI6IjM3OTZjNTVkLWZjYjUtNDZlOS1hZTE4LTMxZTNjZWUzMTllYyIsImF6cGFjciI6IjEiLCJuYW1lIjoiSm9yZ2UgQWd1aXJyZSBkZWwgVmFsIiwib2lkIjoiMmYzMzBkOWYtNjI0YS00NDM4LTk1NmItZGRlNDhmNTEyZDBlIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiVTEwMTIxMzg0QGJhc2ZhZC5iYXNmLm5ldCIsInJoIjoiMS5BUXdBYXppcTdOX0k0RXl0QVhRTXZiVzZWVjNGbGplMV9PbEdyaGd4NDg3akdld01BRlFNQUEuIiwic2NwIjoiVXNlci5SZWFkIiwic3ViIjoiQTdBOTB1Rk52ZmpJLTdWOXNRdmxTRnZSSFBwUkZ5QzNhaFh1Q0t4aVdtQSIsInRpZCI6ImVjYWEzODZiLWM4ZGYtNGNlMC1hZDAxLTc0MGNiZGI1YmE1NSIsInV0aSI6Im54U0RpZ3FIa2s2dEFvdVZqZ1J2QUEiLCJ2ZXIiOiIyLjAifQ.hKZSFVdPyu0jGbaSMu8J0Pe8fCRhziNEm2eH3z4ebDoKoKkIxfj71m0MKFsMbA4Vj4uUars-Rb5FGoelM3QPhb2pDiF1_xqU5XJLL-hhN48pqU_hUDRARUepKnzswTnBaX1ltagz3adU3B3LTXdt5TXfLSWBHy0BKTghgaDvGiAeRKEFoQ2uOxvYpit16emc2TZOjxqVhTwfbvxeNq8-xPCuC5XoLK9KSje7pRNsam3mupPZX4_glXBUW5HF_yOeO8lK-jmy2WemydetlezE1MDlD2fGCNMlav_XVOAFpHsZqgwasUEIiFRAqPbynQjqT8KzcDMGrJ_6upw8g2rgcw'
                     },
                     data: payload
                 });
-
-                const message = response.choices[0].messages;
-                console.log("Response message: ", message)
-                return message; // TODO: return history...
-
+                //const message = response.choices[0].messages;
+                console.log("Response message: ", response)
+                return response; // TODO: return history...
             } catch (e) {
                 console.log(e.message);
                 return "An error occured.";
