@@ -8,8 +8,6 @@ const xsenv = require('@sap/xsenv');
 const passport = require('passport');
 const { JWTStrategy } = require('@sap/xssec');
 const variantManager = require('./utils/variantManagement');
-// const authProvider = require('./auth/AuthProvider');
-// const { REDIRECT_URI, POST_LOGOUT_REDIRECT_URI } = require('./utils/authConfig');
 const path = require('path');
 const { getCca } = require('./utils/msalConfig');
 const chatbotArgusConfig =  require('./lib/chatbotArgusConfig.json');
@@ -30,11 +28,6 @@ cds.on('bootstrap', (app) => {
     // app.use(proxy());
     // app.use(passport.initialize());
     // app.use(passport.authenticate('JWT', { session: false }));  
-
-    const authCodeUrlParameters = {
-        scopes: ["user.read"],
-        redirectUri: "https://port4004-workspaces-ws-cnl8f.eu10.applicationstudio.cloud.sap/callback"//chatbotConfig.redirectUrl TODO
-    };
 
     fesr.registerFesrEndpoint(app);
 	app.use(bodyParser.json());
@@ -84,64 +77,61 @@ cds.on('bootstrap', (app) => {
     // });
 
     app.get('/login', (req, res) => {
-        // Use getCca to ensure cca is initialized
-        getCca().then(cca => {
-            // Once cca is available, get the authorization code URL
-            cca.getAuthCodeUrl(authCodeUrlParameters)
-                .then(authCodeUrl => {
-                    console.log("AuthCodeUrl: ", authCodeUrl);
-                    res.redirect(authCodeUrl);
-                })
-                .catch(error => {
-                    console.error("Error generating auth code URL:", error);
-                    res.status(500).send("Error generating auth code URL");
-                });
-        }).catch(error => {
-            console.error("Error initializing CCA:", error);
-            res.status(500).send("Error initializing CCA");
-        });
+        const authCodeUrlParameters = {
+            scopes: ["api://829b8c1c-c15c-43d3-853f-348c7fafa0fb/User.Read"],
+            redirectUri: "https://port4004-workspaces-ws-lqndl.eu10.applicationstudio.cloud.sap/redirect", // TODO: Replace with chatbotConfig.redirectUrl 
+        };
+
+        getCca()
+            .then(cca => {
+                return cca.getAuthCodeUrl(authCodeUrlParameters);
+            })
+            .then(authCodeUrl => {
+                console.log("AuthCodeUrl:", authCodeUrl);
+                res.redirect(authCodeUrl);
+            })
+            .catch(error => {
+                console.error("Error generating auth code URL:", error);
+                res.status(500).send("Error generating auth code URL");
+            });
     });
 
-    // Handle redirect (Azure AD sends the user back here after login)
+    // Redirect Route (Handles Azure AD Login Response)
     app.get('/redirect', async (req, res) => {
         const tokenRequest = {
             code: req.query.code,
-            scopes: ["user.read"],
-            redirectUri: process.env.REDIRECT_URI,
+            scopes: ["api://829b8c1c-c15c-43d3-853f-348c7fafa0fb/User.Read"],
+            redirectUri: "https://port4004-workspaces-ws-lqndl.eu10.applicationstudio.cloud.sap/redirect", // TODO: Replace
         };
 
         try {
+            const cca = await getCca();
             const response = await cca.acquireTokenByCode(tokenRequest);
             const username = response.account.username.split('@')[0].toUpperCase();
             const accessToken = response.accessToken;
 
             console.log("Access token acquired:", accessToken);
-            console.log("Username: ",  username);
+            console.log("Username:", username);
 
-            // res.send("Login successful! Token acquired. Please go back and make your first question to our bot!");
+            azureTokenSessionCache.set(username, accessToken);
+
             res.send(`
                 <html>
                     <body>
                         <h1>Login successful!</h1>
-                        <p>Token acuqired. This window will close automatically. Please go back and make your first question to our bot!</p>
+                        <p>Token acquired. This window will close automatically. Please go back and make your first question to our bot!</p>
                         <script>
-                            // Display message for a short time, then close the tab
                             setTimeout(() => {
                                 window.close();
-                            }, 3000); // Adjust delay (3 seconds) if needed
+                            }, 3000); // Close window after 3 seconds
                         </script>
                     </body>
                 </html>
             `);
-
-            azureTokenSessionCache.set(username, accessToken);
-            
         } catch (error) {
             console.error("Error acquiring token:", error);
             res.status(500).send("Error acquiring token");
         }
     });
-    
-
 })
 module.exports = cds.server
