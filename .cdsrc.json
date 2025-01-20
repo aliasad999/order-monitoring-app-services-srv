@@ -14,7 +14,7 @@
             "kind": "rest",
             "credentials": {
                 "destination": "APIM",
-                "path": "it/omg/omc/auth_ec/v1"
+                "path": "it/omg/omc/auth-ec/v1"
             }
         },
         "authService": {
@@ -124,6 +124,13 @@
                 "path": "/it/bizagiodata/v1"
             }
         },
+        "PersonalizationService": {
+            "kind": "rest",
+            "credentials": {
+                "destination": "APIM",
+                "path": "/it/omg/omc-pers/v1"
+            }
+        },
         "createDelivery":{
             "kind": "odata-v2",
             "csrf": {
@@ -140,6 +147,12 @@
             "kind": "rest",
             "credentials": {
                 "destination": "CHATBOT_TEMP_AAD"
+            }
+        },
+        "ChatbotUiTokenService": {
+            "kind": "rest",
+            "credentials": {
+                "destination": "Chatbot_UI_token"
             }
         },
         "ChatbotService": {

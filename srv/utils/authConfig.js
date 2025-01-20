@@ -1,4 +1,19 @@
 require('dotenv').config({ path: '.env.dev' });
+const { readCredential } =  require('./lib/cred')
+
+let chatbotClientId = readCredential("order-monitoring", "password", "chatbotClientId")
+let chatbotClientSecret = readCredential("order-monitoring", "password", "chatbotClientSecret")
+let chatbotTenantId = readCredential("order-monitoring", "password", "chatbotTenantId")
+
+if(!chatbotClientId){
+    chatbotClientId :  process.env.clientId
+}
+if(!chatbotClientSecret){
+    chatbotClientSecret :  process.env.clientSecret
+}
+if(!chatbotTenantId){
+    chatbotTenantId :  process.env.tenantId
+}
 
 /**
  * Configuration object to be passed to MSAL instance on creation.
@@ -7,9 +22,9 @@ require('dotenv').config({ path: '.env.dev' });
  */
 const msalConfig = {
     auth: {
-        clientId: process.env.CLIENT_ID, // 'Application (client) ID' of app registration in Azure portal - this value is a GUID
-        authority: process.env.CLOUD_INSTANCE + process.env.TENANT_ID, // Full directory URL, in the form of https://login.microsoftonline.com/<tenant>
-        clientSecret: process.env.CLIENT_SECRET // Client secret generated from the app registration in Azure portal
+        clientId: chatbotClientId, // 'Application (client) ID' of app registration in Azure portal - this value is a GUID
+        authority: "https://login.microsoftonline.com/" + chatbotTenantId, // Full directory URL, in the form of https://login.microsoftonline.com/<tenant>
+        clientSecret: chatbotClientSecret // Client secret generated from the app registration in Azure portal
     },
     system: {
         loggerOptions: {

@@ -1,0 +1,11 @@
+{
+    "PROD": {
+        "redirectUrl":"https://port4004-workspaces-ws-lqndl.eu10.applicationstudio.cloud.sap/callback"
+    },
+    "QA": { 
+        "redirectUrl":"https://port4004-workspaces-ws-lqndl.eu10.applicationstudio.cloud.sap/callback"
+    },
+    "DEV": {
+        "redirectUrl":"https://port4004-workspaces-ws-lqndl.eu10.applicationstudio.cloud.sap/callback"
+    }
+}

@@ -36,7 +36,105 @@ const getPODateProps = () => {
     ]
 }
 
+const getMandtFields = () => {
+    return [
+        "SO_MANDT",
+        "DL_MANDT",
+        "TM_MANDT",
+        "BL_MANDT_INV_FIRST",
+        "BL_MANDT_INV_LAST",
+        "SO_FINAL_SO_MANDT",
+        "SO_FIRST_SO_MANDT",
+        "PO_MANDT"
+    ]
+}
+
+const getMandtFieldsNames = (mandtFieldValue) => {
+    switch(mandtFieldValue){
+        case "100":
+            return "Cobalt";
+        case "200":
+            return "Star";
+        case "300":
+            return "AP";
+        default:
+            return "No System defined";
+    }
+}
+
+const _addFilterToQuery = (query, fieldFiltered, filterValue) => {
+    if (query.SELECT.where && query.SELECT.where.length > 0) {
+        // check if NoAuth filter already exists, if so, modify the value instead of adding the filter again
+        let FieldFilteredIndex = query.SELECT.where.findIndex((filterElement) => {
+            if (filterElement.ref && filterElement.ref[0] === fieldFiltered) {
+                return true;
+            }
+            return false;
+        });
+        if (FieldFilteredIndex < 0) {
+            query.SELECT.where.push('and', { ref: [fieldFiltered] }, '=', { val: filterValue });
+        } else {
+            FieldFilteredIndex = FieldFilteredIndex + 2;
+            query.SELECT.where[FieldFilteredIndex].val = filterValue;
+        }
+    } else {
+        query.SELECT.where = [
+            { ref: [fieldFiltered] }, '=', { val: filterValue }
+        ];
+    }
+}
+
+const addOrRemoveNPSFilter = (req, npsTabSelected) => {
+    const NPSMapping = {
+        SO_NPS_10: "10",
+        SO_NPS_20: "20",
+        SO_NPS_30: "30",
+        SO_NPS_40: "40",
+        SO_NPS_50: "50",
+        SO_NPS_60: "60",
+        SO_NPS_70: "70",
+        SO_NPS_80: "80",
+        SO_NPS_90: "90",
+        SO_NPS_95: "95",
+        SO_NPS_99: "99",
+        SO_NPS_00: "00"
+    };
+    let filterValue = NPSMapping[npsTabSelected];
+    if(filterValue){ // other tabs apart from all issues
+        _addFilterToQuery(req, "SO_NPS", filterValue)
+    }else{ // all issues tab
+        _removeFilterFromQuery(req, "SO_NPS")
+    }
+}
+
+const _removeFilterFromQuery = (query, filterToRemove) => {
+    if (query.SELECT.where && query.SELECT.where.length > 0) {
+        // check if  filter already exists, if so, modify the value instead of adding the filter again
+        let FieldFilteredIndex = query.SELECT.where.findIndex((filterElement) => {
+            if (filterElement.ref && filterElement.ref[0] === filterToRemove) {
+                return true;
+            }
+            return false;
+        });
+        if (FieldFilteredIndex >= 0) {
+            // check if previous part is an AND, remove it if so
+            let previousIndex = FieldFilteredIndex - 1;
+            if(query.SELECT.where[previousIndex] === "and"){
+                // remove 4 parts starting from previousIndex
+                query.SELECT.where.splice(previousIndex, 4);
+            }else{
+                // remove 3 parts starting from FieldFilteredIndex
+                query.SELECT.where.splice(FieldFilteredIndex, 4);
+            }
+            
+        }
+    }
+}
+
 module.exports =  {
     getDateProps,
-    getPODateProps
+    getPODateProps,
+    getMandtFields,
+    getMandtFieldsNames,
+    addOrRemoveNPSFilter
 }

@@ -167,7 +167,7 @@ entity ![RESULTS] {
         WADAT_IST                          : String(8);
         DL_WADAT_IST_DATE                  : Date = WADAT_IST;
         NOTE_TEXT                          : String(1000);
-        LANGUAGE                           : String(2);
+        // LANGUAGE                           : String(2);
         TKNUM                              : String(10);
         VSART                              : String(2);
         VSART_BEZEI_LANG                   : String(20);
@@ -211,7 +211,7 @@ entity ![RESULTS] {
         BL_MANDT_INV_FIRST                 : String(3);
         BL_MANDT_INV_LAST                  : String(3);
         ABGRU_BEZEI_LANG                   : String(40);
-        // DCP_ITEM_STATUS                    : String(2);
+        DCP_ITEM_STATUS                    : String(2);
         ERDAT_DEL                          : String(8);
         ERDAT_DEL_DATE                     : Date = ERDAT_DEL;
         LDDAT_DEL                          : String(8);
@@ -329,3 +329,9 @@ entity variants {
             favorite           : Boolean;
             executeOnSelection : Boolean;
 };
+
+entity variantMigration {
+        key userId : String;
+        AMOvariantsMigrated: Boolean;
+        AMOOvariantsMigrated: Boolean;
+}

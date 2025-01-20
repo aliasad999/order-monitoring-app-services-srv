@@ -8,6 +8,7 @@ const log = require("cf-nodejs-logging-support");
 const enableHints = require("./plugins/enable_hints");
 const { startOfToday } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies') 
+const variantManagement = require('./utils/variantManagement');
 const serviceHelper = require('./utils/serviceHelper') 
 
 class srvOpenOrders extends cds.ApplicationService {
@@ -19,15 +20,61 @@ class srvOpenOrders extends cds.ApplicationService {
         this.before('*','*',async(req,next)=>{
             await cds.run(`SET 'APPLICATION' = 'CAPServices'`);
         })
+
+
+        // test HANDLERS
+        this.before("READ", "testEntity", async (req, next) => {
+            cds
+                .connect("db")
+                .then(({ db }) =>
+                    db?.before("READ", (req) => enableHints(req)
+                    )
+                );
+
+            req.query.SELECT.localized = false;
+            req.query.SELECT.distinct = true;
+        });
+
+        this.on("READ", "testEntity", async (req, next) => {
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' ) {
+                return req.reply({ $count: 0 })
+            }
+            await next(req)
+        })
+
+        this.after("READ", "testEntity", async (data, req) => {
+
+        });
+        // END OF test HANDLERS
+
         this.on("getVBAKAuthObjKeys", async req => {
             const { VBAKAuthObjectKeys,EKKOAuthObjectKeys } = await cds.entities ('srvOpenOrders');
             const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
             let updateNeeded = false;
             let lt_result = [];
             let lt_resultEC = [];
-            let userID = req.user.id;
             let err = []
             let globalError= [] ;
+            let userID = req.user.id;
+
+            // VARIANT MIGRATION LOGIC
+            let AMOmigrationDone  = await variantManagement.checkIfMigrationNeeded(req,"ordermonitoring.allorders");
+            let AMOOmigrationDone  = await variantManagement.checkIfMigrationNeeded(req,"ordermonitoring.openorders");
+            if(AMOmigrationDone === "ERROR" || AMOOmigrationDone === "ERROR"){
+                err = 3; // variant migration failed
+                return err;
+            }
+            if(AMOmigrationDone || AMOOmigrationDone){
+                await UPSERT.into `allorders.db.variantMigration`.entries([{
+                    userId : userID,
+                    AMOvariantsMigrated : AMOmigrationDone,
+                    AMOOVariantsMigrated : AMOOmigrationDone
+                }])
+                err = 4; // variant migration successful, refresh needed
+                return err;       
+            }
+            // VARIANT MIGRATION LOGIC END
+            
             let vbakAuths = await SELECT.from(VBAKAuthObjectKeys).where`USERID = ${userID}`.limit(1);
             // Avoid updating authorizations more than once a day
             // Update only if table empty or outdatedf
@@ -38,8 +85,10 @@ class srvOpenOrders extends cds.ApplicationService {
             } else {
                 updateNeeded = true;
             }
+
             if (updateNeeded) {
                 let SQLdate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+                /// COBALT AUTH CALL
                 try {
                     const service = await cds.connect.to('authService');
                     lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
@@ -47,6 +96,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     globalError.push({user: 'noCobaltUser',error: error})
                     err = 1 //Cobalt call failed
                 }
+                /// EC AUTH CALL
                 try {
                     const service = await cds.connect.to('authServiceEC');
                      lt_resultEC = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
@@ -56,44 +106,56 @@ class srvOpenOrders extends cds.ApplicationService {
                 }
                 await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
                 await DELETE.from(EKKOAuthObjectKeys).where({ USERID: userID });
-                lt_resultEC.VBAK = lt_resultEC.VBAK || []
-                lt_resultEC.EKKO = lt_resultEC.EKKO || []
-                let lt_vbak = lt_result.VBAK || []
-                let lt_ekko = lt_result.EKKO || []
-                lt_vbak = [...lt_vbak, ...lt_resultEC.VBAK];
-                lt_ekko = [...lt_ekko, ...lt_resultEC.EKKO];
-                const vbakSet = new Set();
-                const lt_vbakUnique = lt_vbak.filter(obj => {
-                    const key = `${obj.VKORG}-${obj.VTWEG}-${obj.SPART}`; 
-                    if (vbakSet.has(key)) {
-                        return false; 
-                    }
-                    vbakSet.add(key); 
-                        return true; 
-                });
-                if (lt_vbakUnique.length !== 0) {
-                    lt_vbakUnique.forEach((set) => {
-                        set.LAST_UPDATE = SQLdate;
-                        set.USERID = userID;
-                    })
-                    await INSERT.into(VBAKAuthObjectKeys, lt_vbakUnique);
-                }
-                let ekkoSet = new Set();
-                const lt_ekkoUnique = lt_ekko.filter(item => {
-                if (ekkoSet.has(item.EKORG)) {
-                    return false; 
-                }
-                ekkoSet.add(item.EKORG); 
-                return true; 
-                });
-                if (lt_ekkoUnique.length !== 0) {
-                    lt_ekkoUnique.forEach((set) => {
+
+                /// New Authorization scenario
+                if(lt_result.VBAK){
+                    lt_resultEC.VBAK = lt_resultEC.VBAK || []
+                    lt_resultEC.EKKO = lt_resultEC.EKKO || []
+                    let lt_vbak = lt_result.VBAK || []
+                    let lt_ekko = lt_result.EKKO || []
+                    lt_vbak = [...lt_vbak, ...lt_resultEC.VBAK];
+                    lt_ekko = [...lt_ekko, ...lt_resultEC.EKKO];
+                    const vbakSet = new Set();
+                    const lt_vbakUnique = lt_vbak.filter(obj => {
+                        const key = `${obj.VKORG}-${obj.VTWEG}-${obj.SPART}`; 
+                        if (vbakSet.has(key)) {
+                            return false; 
+                        }
+                        vbakSet.add(key); 
+                            return true; 
+                    });
+                    if (lt_vbakUnique.length !== 0) {
+                        lt_vbakUnique.forEach((set) => {
                             set.LAST_UPDATE = SQLdate;
                             set.USERID = userID;
-                })
-                    await INSERT.into(EKKOAuthObjectKeys, lt_ekkoUnique);
-                }
-                // return true;
+                        })
+                        await INSERT.into(VBAKAuthObjectKeys, lt_vbakUnique);
+                    }
+                    let ekkoSet = new Set();
+                    const lt_ekkoUnique = lt_ekko.filter(item => {
+                    if (ekkoSet.has(item.EKORG)) {
+                        return false; 
+                    }
+                    ekkoSet.add(item.EKORG); 
+                    return true; 
+                    });
+                    if (lt_ekkoUnique.length !== 0) {
+                        lt_ekkoUnique.forEach((set) => {
+                                set.LAST_UPDATE = SQLdate;
+                                set.USERID = userID;
+                        })
+                        await INSERT.into(EKKOAuthObjectKeys, lt_ekkoUnique);
+                    }
+                    // return true;
+                }else{ /// OLD Authorization scenario
+                    if (lt_result.length !== 0) {
+                        lt_result.forEach((set) => {
+                            set.LAST_UPDATE = SQLdate;
+                            set.USERID = userID;
+                        })
+                        await INSERT.into(VBAKAuthObjectKeys, lt_result);
+                    }
+                }               
             }
             if (globalError.length === 2)
                 req.error(globalError[0].error)
@@ -234,17 +296,26 @@ class srvOpenOrders extends cds.ApplicationService {
             }
             if (Array.isArray(data)) {
                 var dateProps = serviceHelper.getDateProps();
+                const mandtFields = serviceHelper.getMandtFields();
                 data.forEach((item) => {
                     item.id = uuid.v1()
                     if ('SO_DCP_ITEM_STATUS' in item) {
-                        if ('SO_NETWR' in item) // Net Amount
-                            item.SO_NETWR = formatSpecialCurrencies(item.SO_NETWR, item.SO_WAERK, this._SpecialCurrencies);
-                        if ('SO_KBETR' in item) // Price Per Unit
-                            item.SO_KBETR = formatSpecialCurrencies(item.SO_KBETR, item.SO_WAERK, this._SpecialCurrencies);
                         if (item.SO_DCP_ITEM_STATUS) {
                             item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
                         }
                     }
+                    if ('SO_NETWR' in item) // Net Amount
+                        item.SO_NETWR = formatSpecialCurrencies(item.SO_NETWR, item.SO_WAERK, this._SpecialCurrencies);
+                    if ('SO_KBETR' in item) // Price Per Unit
+                        item.SO_KBETR = formatSpecialCurrencies(item.SO_KBETR, item.SO_WAERK, this._SpecialCurrencies);
+                    // MANDANT TEXTS LOGIC -------------
+                    mandtFields.forEach((mandt) => {
+                        const mandtProp = item[mandt];
+                        if(mandtProp){
+                            let mandtTxtField = mandt + "_TEXT";
+                            item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+                        }
+                    })
                     dateProps.forEach((property) => {
                         const dateString = item[property]
                         if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
@@ -335,6 +406,15 @@ class srvOpenOrders extends cds.ApplicationService {
                         let fields = selectedField && selectedField.split(',');
                         // Workaround for DCP STatus - Need a better fix
                         fields = fields.filter(e => e !== 'SO_DCP_ITEM_STATUS_DESCRIPTION');
+                        fields = fields.filter((fieldName) => {
+                            const mandtFields = serviceHelper.getMandtFields();
+                            const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
+                            if(mandtTextFields.includes(fieldName)){
+                                return false;
+                            }else{
+                                return true;
+                            }
+                        });
                         // remove duplicates based on fields in the valuehelp dialog box
                         lt_result = removeDuplicates(fields, lt_result);
                     } catch (error) {
@@ -425,7 +505,16 @@ class srvOpenOrders extends cds.ApplicationService {
             // since there is a virtual id field, adding a random guid to each record of the result set.
             if (Array.isArray(data)) {
                 data.forEach((item) => {
-                    item.id = uuid.v1()
+                    item.id = uuid.v1();
+                    let mandtFields = serviceHelper.getMandtFields();
+                    // MANDANT TEXTS LOGIC -------------
+                    mandtFields.forEach((mandt) => {
+                        const mandtProp = item[mandt];
+                        if(mandtProp){
+                            let mandtTxtField = mandt + "_TEXT";
+                            item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+                        }
+                    })
                     if ('SO_DCP_ITEM_STATUS' in item) {
                         if (item.SO_DCP_ITEM_STATUS) {
                             item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
