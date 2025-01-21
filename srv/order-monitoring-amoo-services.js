@@ -1,5 +1,4 @@
 const cds = require("@sap/cds");
-const azureTokenSessionCache = require('./utils/azureTokenSessionCache');
 const NodeCache = require('node-cache');
 const sessionCache = new NodeCache();
 const uuid = require('uuid');
@@ -10,7 +9,6 @@ const enableHints = require("./plugins/enable_hints");
 const { startOfToday } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies')
 const serviceHelper = require('./utils/serviceHelper');
-const jwt = require("jsonwebtoken");
 
 class openOrdersSrv extends cds.ApplicationService {
 
@@ -547,12 +545,6 @@ class openOrdersSrv extends cds.ApplicationService {
                 const queryString = sessionCache.get(queryId);
                 const query = JSON.parse(queryString);
                 query.SELECT.from.ref[0] = 'openOrdersSrv.allIssues'
-                
-                // POC Refresh only if needed
-                // let NPSTabSelected = req.headers.tabselected;
-                // serviceHelper.addOrRemoveNPSFilter(query, NPSTabSelected);
-                // POC Refresh only if needed
-
                 // make sure pagination is taken into account
                 // if (query.SELECT.limit.rows.val) query.SELECT.limit.rows.val = req.query.SELECT.limit.rows?.val;
                 //query.SELECT.distinct = true;
@@ -588,16 +580,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         // req.header.select will have the string of visible columns. 
                         //this parameater has been manually set to header on every request
                         const selectedField = req._query && req._query['$select']
-                        let fields = selectedField && selectedField.split(',');
-                        fields = fields.filter((fieldName) => {
-                            const mandtFields = serviceHelper.getMandtFields();
-                            const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
-                            if(mandtTextFields.includes(fieldName)){
-                                return false;
-                            }else{
-                                return true;
-                            }
-                        });
+                        const fields = selectedField && selectedField.split(',');
                         // remove duplicates based on fields in the valuehelp dialog box
                         lt_result = removeDuplicates(fields, lt_result);
                     } catch (error) {
@@ -693,17 +676,8 @@ class openOrdersSrv extends cds.ApplicationService {
                 if ('SO_DCP_ITEM_STATUS' in item) {
                     if (item.SO_DCP_ITEM_STATUS) {
                         item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
-                    }  
-                }
-                let mandtFields = serviceHelper.getMandtFields();
-                // MANDANT TEXTS LOGIC -------------
-                mandtFields.forEach((mandt) => {
-                    const mandtProp = item[mandt];
-                    if(mandtProp){
-                        let mandtTxtField = mandt + "_TEXT";
-                        item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
                     }
-                })
+                }
             })
 
         });
@@ -967,17 +941,8 @@ class openOrdersSrv extends cds.ApplicationService {
                     if ('SO_DCP_ITEM_STATUS' in item) {
                         if (item.SO_DCP_ITEM_STATUS) {
                             item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
-                        }  
-                    } 
-                    let mandtFields = serviceHelper.getMandtFields();
-                    // MANDANT TEXTS LOGIC -------------
-                    mandtFields.forEach((mandt) => {
-                        const mandtProp = item[mandt];
-                        if(mandtProp){
-                            let mandtTxtField = mandt + "_TEXT";
-                            item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
                         }
-                    })
+                    }
                     dateProps.forEach((property) => {
                         const dateString = item[property]
                         if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
@@ -998,9 +963,6 @@ class openOrdersSrv extends cds.ApplicationService {
 
         // ORDER CREATION HANDLERS
         this.before("READ", "orderCreation", async (req, next) => {
-            req.query.SELECT.localized = false;
-            req.query.SELECT.distinct = true;
-
             const dateProps = serviceHelper.getPODateProps()
             for (let i = 0; i < req.query.SELECT.where?.length; i++) {
                 const item = req.query.SELECT.where[i];
@@ -1016,45 +978,16 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.on("READ", "orderCreation", async (req, next) => {
-            // if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' ) {
-            //     return req.reply({ $count: 1 })
-            // }
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
+                return req.reply({ $count: 0 })
+            }
             await next(req)
         })
 
         this.after("READ", "orderCreation", async (data, req) => {
-            let sessionID = req.headers['authorization'] || req.headers['x-username'];
-            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
-                // do nothing
-            } else {
-                // Logic for filling up or not the tab icon
-                let dataFound = false;
-                if(data.length > 0){
-                    dataFound = true;
-                }
-                req.res.setHeader('ordercreationdata', dataFound)
-                // cache the query, so that all filter conditions can be consumed.. when any valuehelp is called.
-                if (req.target.name === 'openOrdersSrv.orderCreation') {
-                    let query = req.query;
-                    query.SELECT.where = req.query.SELECT.where;
-                    const queryString = JSON.stringify(query);
-                    const queryId = `${sessionID}OCQuery`
-                    sessionCache.set(queryId, queryString);
-                }
-            }
             data = Array.isArray(data) ? data : [data]
             var dateProps = serviceHelper.getPODateProps()
             data.forEach((item) => {
-                item.Id = uuid.v1()
-                let mandtFields = serviceHelper.getMandtFields();
-                // MANDANT TEXTS LOGIC -------------
-                mandtFields.forEach((mandt) => {
-                    const mandtProp = item[mandt];
-                    if(mandtProp){
-                        let mandtTxtField = mandt + "_TEXT";
-                        item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
-                    }
-                })
                 dateProps.forEach((property) => {
                     const dateString = item[property]
                     if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
@@ -1069,158 +1002,6 @@ class openOrdersSrv extends cds.ApplicationService {
                 })
             })
         });
-        // END OF ORDER CREATION HANDLERS
-
-        // BEGIN OF ORDER CREATION VALUE HELPS HANDLERS
-        this.before("READ", "OCValueHelps", async (req, next) => {
-            // Nothing yet
-        });
-
-        this.on("READ", "OCValueHelps", async (req, next) => {
-            // get the session id based on auth token
-            let sessionID = req.headers['authorization'] || req.headers['x-username'];
-            const queryId = `${sessionID}OCQuery`
-            const db = cds.transaction(req);
-            let lt_result = []
-            // if session id is there, get the cach-ed query and execute it.
-            if (sessionCache.get(queryId)) {
-                const queryString = sessionCache.get(queryId);
-                const query = JSON.parse(queryString);
-                query.SELECT.from.ref[0] = 'openOrdersSrv.orderCreation'
-                let searchString = req._query.$search && req._query.$search.replace(/"/g, '')
-                let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
-                if (lowerCaseSearchString) {
-                    let where = []
-                    if (req._query['$select'] && req._query['$select'].split(',').length > 1) {
-                        where = cds.parse.expr(`lower(${req._query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req._query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
-                    } else {
-                        where = cds.parse.expr(`lower(${req._query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
-                    }
-                    let requestQuery = query.SELECT.where || [];
-                    where && requestQuery.length != 0 && requestQuery.push('and');
-                    where && requestQuery.push(where);
-                    query.SELECT.where = requestQuery
-                }
-                if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
-                    // ISSUE 343357 
-                    // add skip and top parameters from real query
-                    query.SELECT.limit = req.query.SELECT.limit;
-                    // query.SELECT.distinct = true;
-                    // End of ISSUE 343357
-                    query.SELECT.columns.length = 0;
-                    query.SELECT.columns = req.query.SELECT.columns;
-                    if (query.SELECT.orderBy) query.SELECT.orderBy.length = 0;
-                    query.SELECT.orderBy = req.query.SELECT.orderBy;
-                    try {
-                        lt_result = await db.run(query)
-                        //lt_result = await cds.run(query);
-                        // req.header.select will have the string of visible columns. 
-                        //this parameater has been manually set to header on every request
-                        const selectedField = req._query && req._query['$select']
-                        let fields = selectedField && selectedField.split(',');
-                        fields = fields.filter((fieldName) => {
-                            const mandtFields = serviceHelper.getMandtFields();
-                            const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
-                            if(mandtTextFields.includes(fieldName)){
-                                return false;
-                            }else{
-                                return true;
-                            }
-                        });
-                        // remove duplicates based on fields in the valuehelp dialog box
-                        lt_result = removeDuplicates(fields, lt_result);
-                    } catch (error) {
-                        req.error(status.EXPECTATION_FAILED, getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
-                    }
-                } else {
-                    try {
-                        const fields = req._query["search-focus"].split(',')
-                        let queryCount = 0;
-                        // sometimes there is a cached query but it has no
-                        let lt_count = query.SELECT.where
-                            ? await db.run(SELECT.from('openOrdersSrv_orderCreation').columns(`countdistinct(${fields})`).where(query.SELECT.where))
-                            : await db.run(SELECT.from('openOrdersSrv_orderCreation').columns(`countdistinct(${fields})`));
-
-                        if (lt_count.length > 0) {
-                            queryCount = lt_count[0][Object.keys(lt_count[0])[0]];
-                        }
-                        lt_result.push({ $count: queryCount })
-                    } catch (error) {
-                        req.error(status.EXPECTATION_FAILED, getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
-                    }
-
-                }
-
-            } else {
-                const fields = req._query["search-focus"].split(',')
-                // if there is no session id, execute the query directly
-                let searchString = req._query.$search && req._query.$search.replace(/"/g, '')
-                let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
-                if (lowerCaseSearchString) {
-                    let where = []
-                    if (req._query['$select'] && req._query['$select'].split(',').length > 1) {
-                        where = cds.parse.expr(`lower(${req._query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req._query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
-                    } else {
-                        where = cds.parse.expr(`lower(${req._query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
-                    }
-                    let requestQuery = req.query.SELECT.where || [];
-                    where && requestQuery.length != 0 && requestQuery.push('and');
-                    where && requestQuery.push(where);
-                    req.query.SELECT.where = requestQuery
-                    delete req.query.SELECT.search
-                }
-                if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
-                    req.query.SELECT.distinct = true;
-                    lt_result = await db.run(req.query)
-                    //await cds.run(req.query);
-                } else {
-                    try {
-                        let queryCount = 0;
-                        let lt_count = await db.run(SELECT.from('openOrdersSrv_orderCreation').columns(`countdistinct(${fields})`))
-                        if (lt_count.length > 0) {
-                            queryCount = lt_count[0][Object.keys(lt_count[0])[0]];
-                        }
-                        lt_result.push({ $count: queryCount })
-                    } catch (error) {
-                        req.error(error)
-                    }
-
-                }
-            }
-            if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count' && req.query.SELECT.search) {
-                lt_result = lt_result.filter((item) => {
-                    for (const prop in item) {
-                        if (item[prop] === null) return false;
-                        // convert to lowercase both sides in order to avoid case sensitivity issues when searching
-                        if (item[prop].toLowerCase().includes(req.query.SELECT.search[0].val.toLowerCase())) {
-                            return true;
-                        }
-                    }
-                    return false;
-
-                });
-            }
-            return lt_result;
-            
-        })
-
-        this.after("READ", "OCValueHelps", async (data, req) => {
-            data = Array.isArray(data) ? data : [data]
-            // since there is a virtual id field, adding a random guid to each record of the result set.
-            data.forEach((item) => {
-                item.Id = uuid.v1()
-                let mandtFields = serviceHelper.getMandtFields();
-                // MANDANT TEXTS LOGIC -------------
-                mandtFields.forEach((mandt) => {
-                    const mandtProp = item[mandt];
-                    if(mandtProp){
-                        let mandtTxtField = mandt + "_TEXT";
-                        item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
-                    }
-                })
-            })
-        });
-        // END OF ORDER CREATION VALUE HELPS HANDLERS
 
         this.on("READ", "PredefReasonBuckets", async req => {
             let reasonBuckets = [];
@@ -1518,14 +1299,47 @@ class openOrdersSrv extends cds.ApplicationService {
             return combinedResults;
         })
 
-        this.on("callChatbotService", async (req) => {
-            log.info("calling bot...");
+        this.on("callChatbotHistoryService", async (req)=> {
+            log.info("Calling history");
+            try {
+                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
+                const decodedToken = jwt.decode(tokenForUserInfo);
+                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
+                const azureToken = azureTokenSessionCache.get(username);
 
+                log.info("azureToken: ", azureToken);
+                log.info("Username: ", username);
+
+                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
+            
+                const response = await chatbotTemp.tx(req).send({
+                    method: 'GET',
+                    path: '/history/list',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        authorization: 'Bearer ' + azureToken
+                    },
+                    
+                });
+                console.log(JSON.stringify(response))
+                //const message = response.choices[0].messages;
+                //console.log("Response message: ", message)
+                return JSON.stringify(response); // TODO: return history...
+            } catch (e) {
+                console.log(e.message);
+                return "An error occured.";
+            }
+            
+        })
+        this.on("callChatbotUpdateConversation", async (req) => {
+            console.log("calling UpdateConversation")
             try {
                 const tokenForUserInfo = req.headers.authorization.split(' ')[1];
                 const decodedToken = jwt.decode(tokenForUserInfo);
                 const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
                 const payload = req.data.payload;
+                log.info("Payload received: ", payload);
                 const azureToken = azureTokenSessionCache.get(username);
 
                 log.info("azureToken: ", azureToken);
@@ -1535,7 +1349,73 @@ class openOrdersSrv extends cds.ApplicationService {
 
                 const response = await chatbotTemp.tx(req).send({
                     method: 'POST',
-                    path: '/conversation',
+                    path: '/history/update',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        authorization: 'Bearer ' + azureToken
+                    },
+                    data: payload
+                });
+                const message = response.messages;
+                console.log("Response message: ", response)
+                return JSON.stringify(response); // TODO: return history...
+            } catch (e) {
+                console.log(e.message);
+                return "An error occured.";
+            }
+        })
+        this.on("callChatbotGetConversation", async (req) => {
+            console.log("calling getConversation")
+            try {
+                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
+                const decodedToken = jwt.decode(tokenForUserInfo);
+                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
+                const payload = req.data.payload;
+                log.info("Payload received: ", payload);
+                const azureToken = azureTokenSessionCache.get(username);
+
+                log.info("azureToken: ", azureToken);
+                log.info("Username: ", username);
+
+                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
+
+                const response = await chatbotTemp.tx(req).send({
+                    method: 'POST',
+                    path: '/history/read',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        authorization: 'Bearer ' + azureToken
+                    },
+                    data: payload
+                });
+                const message = response.messages;
+                console.log("Response message: ", message)
+                return JSON.stringify(message); 
+            } catch (e) {
+                console.log(e.message);
+                return "An error occured.";
+            }
+        })
+        this.on("callChatbotService", async (req) => {
+            log.info("calling bot...");
+            try {
+                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
+                const decodedToken = jwt.decode(tokenForUserInfo);
+                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
+                const payload = req.data.payload;
+                log.info("Payload received: ", payload);
+                const azureToken = azureTokenSessionCache.get(username);
+
+                log.info("azureToken: ", azureToken);
+                log.info("Username: ", username);
+
+                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
+
+                const response = await chatbotTemp.tx(req).send({
+                    method: 'POST',
+                    path: '/history/generate',
                     headers: {
                         Accept: 'application/json',
                         'Content-Type': 'application/json',
@@ -1543,11 +1423,9 @@ class openOrdersSrv extends cds.ApplicationService {
                     },
                     data: payload
                 });
-
-                const message = response.choices[0].messages;
-                console.log("Response message: ", message)
-                return message; // TODO: return history...
-
+                //const message = response.choices[0].messages;
+                console.log("Response message: ", response)
+                return response;
             } catch (e) {
                 console.log(e.message);
                 return "An error occured.";
