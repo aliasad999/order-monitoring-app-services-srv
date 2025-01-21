@@ -10,8 +10,8 @@ const { JWTStrategy } = require('@sap/xssec');
 const variantManager = require('./utils/variantManagement');
 const path = require('path');
 const { getCca } = require('./utils/msalConfig');
-const chatbotArgusConfig =  require('./lib/chatbotArgusConfig.json');
-require('hdb/lib/protocol/common/Constants').MAX_PACKET_SIZE = Math.pow(4,15);
+const { readCredential } = require('./lib/cred');
+require('hdb/lib/protocol/common/Constants').MAX_PACKET_SIZE = Math.pow(4, 15);
 const azureTokenSessionCache = require('./utils/azureTokenSessionCache');
 const { log } = require('console');
 
@@ -21,37 +21,34 @@ passport.use(new JWTStrategy(xsuaaCredentials));
 
 module.exports = cds.server;
 
-const cfEnvironment = process.env.CF_ENV; // get environment from User provided variables
-const chatbotConfig = chatbotArgusConfig["cfEnvironment"]; 
-
 cds.on('bootstrap', (app) => {
     // app.use(proxy());
     // app.use(passport.initialize());
     // app.use(passport.authenticate('JWT', { session: false }));  
 
     fesr.registerFesrEndpoint(app);
-	app.use(bodyParser.json());
+    app.use(bodyParser.json());
 
     // CLOUD Variant Management implementation
-	app.get('/actions/getcsrftoken/', (req, res) => {
-		res.type('text/html').status(200).send('');
-	});
+    app.get('/actions/getcsrftoken/', (req, res) => {
+        res.type('text/html').status(200).send('');
+    });
 
-	app.post(['/variants/', '/changes/'], async(req, res) => {
-		await variantManager.upsertVariant(req, res, req.body[0]);
-	});
+    app.post(['/variants/', '/changes/'], async (req, res) => {
+        await variantManager.upsertVariant(req, res, req.body[0]);
+    });
 
-    app.put(['/changes/:fileName' , '/variants/:fileName'], async (req, res) => {
+    app.put(['/changes/:fileName', '/variants/:fileName'], async (req, res) => {
         await variantManager.upsertVariant(req, res, req.body);
     });
 
     app.get('/flex/data/:app?', async (req, res) => {
-        await variantManager.getUserVariants(req,res);
-	});
+        await variantManager.getUserVariants(req, res);
+    });
 
     app.delete('/variants/:fileName', async (req, res) => {
-        await variantManager.deleteVariant(req,res);
-	});
+        await variantManager.deleteVariant(req, res);
+    });
     // END OF CLOUD Variant Management implementation
 
     // app.get('/auth/signin', authProvider.login({
@@ -59,15 +56,15 @@ cds.on('bootstrap', (app) => {
     //     redirectUri: REDIRECT_URI,
     //     successRedirect: '/'
     // }));
-    
+
     // app.get('/auth/acquireToken', authProvider.acquireToken({
     //     scopes: ['User.Read'],
     //     redirectUri: REDIRECT_URI,
     //     successRedirect: '/users/profile'
     // }));
-    
+
     // app.post('/auth/redirect', authProvider.handleRedirect());
-    
+
     // app.get('/signout', authProvider.logout({
     //     postLogoutRedirectUri: POST_LOGOUT_REDIRECT_URI
     // }));
@@ -76,35 +73,39 @@ cds.on('bootstrap', (app) => {
     //     res.sendFile(path.join(__dirname, 'views', 'index.html'));
     // });
 
-    app.get('/login', (req, res) => {
-        const authCodeUrlParameters = {
-            scopes: ["api://829b8c1c-c15c-43d3-853f-348c7fafa0fb/User.Read"],
-            redirectUri: "https://port4004-workspaces-ws-lqndl.eu10.applicationstudio.cloud.sap/redirect", // TODO: Replace with chatbotConfig.redirectUrl 
-        };
+    app.get('/login', async (req, res) => {
+        try {
+            const chatbotRedirectUrl = await readCredential("order-monitoring", "password", "chatbotRedirectUrl");
+            const chatbotScope = await readCredential("order-monitoring", "password", "chatbotScope");
 
-        getCca()
-            .then(cca => {
-                return cca.getAuthCodeUrl(authCodeUrlParameters);
-            })
-            .then(authCodeUrl => {
-                console.log("AuthCodeUrl:", authCodeUrl);
-                res.redirect(authCodeUrl);
-            })
-            .catch(error => {
-                console.error("Error generating auth code URL:", error);
-                res.status(500).send("Error generating auth code URL");
-            });
+            const authCodeUrlParameters = {
+                scopes: [chatbotScope.value],
+                redirectUri: chatbotRedirectUrl.value
+            };
+
+            const cca = await getCca();
+            const authCodeUrl = await cca.getAuthCodeUrl(authCodeUrlParameters);
+
+            console.log("AuthCodeUrl:", authCodeUrl);
+            res.redirect(authCodeUrl);
+        } catch (error) {
+            console.error(error);  // Log the error for debugging
+            res.status(500).send("Error generating auth code URL");
+        }
     });
 
     // Redirect Route (Handles Azure AD Login Response)
     app.get('/redirect', async (req, res) => {
-        const tokenRequest = {
-            code: req.query.code,
-            scopes: ["api://829b8c1c-c15c-43d3-853f-348c7fafa0fb/User.Read"],
-            redirectUri: "https://port4004-workspaces-ws-lqndl.eu10.applicationstudio.cloud.sap/redirect", // TODO: Replace
-        };
-
         try {
+            const chatbotRedirectUrl = await readCredential("order-monitoring", "password", "chatbotRedirectUrl");
+            const chatbotScope = await readCredential("order-monitoring", "password", "chatbotScope");
+
+            const tokenRequest = {
+                code: req.query.code,
+                scopes: [chatbotScope.value],
+                redirectUri: chatbotRedirectUrl.value
+            };
+
             const cca = await getCca();
             const response = await cca.acquireTokenByCode(tokenRequest);
             const username = response.account.username.split('@')[0].toUpperCase();
