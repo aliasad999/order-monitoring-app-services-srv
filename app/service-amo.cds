@@ -589,7 +589,7 @@ annotate service.Results with {
     SO_ABSTA                       @UI                     : {Hidden: true};
     SO_KNUMV                       @UI                     : {Hidden: true};
     DL_HSDAT                       @UI                     : {Hidden: true};
-    DL_VFDAT                       @UI                     : {Hidden: true};
+    // DL_VFDAT                       @UI                     : {Hidden: true};
     // Shipment Details Texts
     TM_VSART_BEZEI                 @UI                     : {Hidden: true};
     TM_TDLNR_NAME1                 @UI                     : {Hidden: true};
