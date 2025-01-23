@@ -9,6 +9,9 @@ const enableHints = require("./plugins/enable_hints");
 const { startOfToday } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies')
 const serviceHelper = require('./utils/serviceHelper');
+const jwt = require('jsonwebtoken');
+const azureTokenSessionCache = require('./utils/azureTokenSessionCache');
+
 
 class openOrdersSrv extends cds.ApplicationService {
 
@@ -1332,6 +1335,7 @@ class openOrdersSrv extends cds.ApplicationService {
             }
             
         })
+        
         this.on("callChatbotUpdateConversation", async (req) => {
             console.log("calling UpdateConversation")
             try {
@@ -1365,6 +1369,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 return "An error occured.";
             }
         })
+
         this.on("callChatbotGetConversation", async (req) => {
             console.log("calling getConversation")
             try {
@@ -1377,7 +1382,6 @@ class openOrdersSrv extends cds.ApplicationService {
 
                 log.info("azureToken: ", azureToken);
                 log.info("Username: ", username);
-
                 const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
 
                 const response = await chatbotTemp.tx(req).send({
@@ -1398,6 +1402,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 return "An error occured.";
             }
         })
+
         this.on("callChatbotService", async (req) => {
             log.info("calling bot...");
             try {
