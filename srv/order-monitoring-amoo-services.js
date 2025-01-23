@@ -1330,7 +1330,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 //console.log("Response message: ", message)
                 return JSON.stringify(response); // TODO: return history...
             } catch (e) {
-                console.log(e.message);
+                console.error(e.message);
                 return "An error occured.";
             }
             
@@ -1365,7 +1365,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 console.log("Response message: ", response)
                 return JSON.stringify(response); // TODO: return history...
             } catch (e) {
-                console.log(e.message);
+                console.error(e.message);
                 return "An error occured.";
             }
         })
@@ -1398,7 +1398,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 console.log("Response message: ", message)
                 return JSON.stringify(message); 
             } catch (e) {
-                console.log(e.message);
+                console.error(e.message);
                 return "An error occured.";
             }
         })
@@ -1432,7 +1432,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 console.log("Response message: ", response)
                 return response;
             } catch (e) {
-                console.log(e.message);
+                console.error(e.message);
                 return "An error occured.";
             }
         })
