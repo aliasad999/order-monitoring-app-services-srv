@@ -152,7 +152,8 @@
         "ChatbotUiTokenService": {
             "kind": "rest",
             "credentials": {
-                "destination": "Chatbot_UI_token"
+                "destination": "APIM",
+                "path": "/it/argus/gen-ai/virtual-assistant/v1"
             }
         },
         "ChatbotService": {
