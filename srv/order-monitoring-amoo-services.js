@@ -1418,6 +1418,8 @@ class openOrdersSrv extends cds.ApplicationService {
 
                 const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
 
+                log.info("Connected: ", chatbotTemp.name);
+
                 const response = await chatbotTemp.tx(req).send({
                     method: 'POST',
                     path: '/history/generate',
@@ -1429,10 +1431,10 @@ class openOrdersSrv extends cds.ApplicationService {
                     data: payload
                 });
                 //const message = response.choices[0].messages;
-                console.log("Response message: ", response)
+                log.info("Response message: ", response)
                 return response;
             } catch (e) {
-                console.error(e.message);
+                log.error("Error occured while calling chatbot API", e.message);
                 return "An error occured.";
             }
         })

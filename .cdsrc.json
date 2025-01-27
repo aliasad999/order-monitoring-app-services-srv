@@ -149,11 +149,10 @@
                 "destination": "CHATBOT_TEMP_AAD"
             }
         },
-        "ChatbotUiTokenService": {
+       "ChatbotUiTokenService": {
             "kind": "rest",
             "credentials": {
-                "destination": "APIM",
-                "path": "/it/argus/gen-ai/virtual-assistant/v1"
+                "destination": "Chatbot_UI_token"
             }
         },
         "ChatbotService": {
@@ -162,6 +161,6 @@
                 "destination": "CHATBOT_TEMP_DEV"
             }
         }
-
+        
     }
 }
