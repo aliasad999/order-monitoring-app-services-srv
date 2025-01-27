@@ -779,6 +779,9 @@ class openOrdersSrv extends cds.ApplicationService {
          * @param {object} req - The request object containing request details
          * */
         this.before("READ", ["allIssues", "allIssuesDetails"], async (req, next) => {
+             // is not empty date field, date value needs to be adjusted
+             req.query.SELECT.where = serviceHelper.replaceDateInArray(req.query.SELECT.where)
+             // is not empty date field, date value needs to be adjusted
             // Check if auth table is filled
             if (req.headers?.export === 'true') await cds.run(`SET 'APPLICATION' = 'CAPServicesExport'`);
             if (req.user.id !== "anonymous") {
