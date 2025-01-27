@@ -1408,15 +1408,18 @@ class openOrdersSrv extends cds.ApplicationService {
             const { salesOrder, salesOrderItem, detailsSalesOrder,
                 DetailsSalesOrderItem, issue, nps, issue_location, material,
                 plant, quantity, uom, dueDate, firstDate } = req.data;
-            try {
-                const AMOOUtilsService = await cds.connect.to('AMOOUtilsService');
-                const query = `/IssueReason(p_mandt='100',p_SalesOrderNumber='${salesOrder}',p_SalesOrderItemNumber='${salesOrderItem}',p_DetailSalesOrderNumber='${detailsSalesOrder}',p_DetailSalesOrderItemNumber='${DetailsSalesOrderItem}',p_IssueId='${issue}',p_NPSId='${nps}',p_issue_location='${issue_location}',p_lang='EN')/Results?sap-client=100`
-                issueReason = await AMOOUtilsService.tx(req).send({
-                    method: "GET",
-                    path: query
-                });
-            } catch (error) {
-                console.error('Error fetching issue reason:', error);
+            // Call CX only for order incomplete and outbound delivery incomplete (for now)
+            if(issue === "01" || issue === "05"){
+                try {
+                    const AMOOUtilsService = await cds.connect.to('AMOOUtilsService');
+                    const query = `/IssueReason(p_mandt='100',p_SalesOrderNumber='${salesOrder}',p_SalesOrderItemNumber='${salesOrderItem}',p_DetailSalesOrderNumber='${detailsSalesOrder}',p_DetailSalesOrderItemNumber='${DetailsSalesOrderItem}',p_IssueId='${issue}',p_NPSId='${nps}',p_issue_location='${issue_location}',p_lang='EN')/Results?sap-client=100`
+                    issueReason = await AMOOUtilsService.tx(req).send({
+                        method: "GET",
+                        path: query
+                    });
+                } catch (error) {
+                    console.error('Error fetching issue reason:', error);
+                }
             }
             if (issue === '06') {
                 const CreditManagerService = await cds.connect.to('CreditManagerService');
