@@ -125,7 +125,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     let lt_vbak = lt_result.VBAK || []
                     let lt_ekko = lt_result.EKKO || []
                     lt_vbak = [...lt_vbak, ...lt_resultEC.VBAK, ...lt_resultAP.VBAK];
-                    lt_ekko = [...lt_ekko, ...lt_resultEC.EKKO, ...lt_resultAP.VBAK];
+                    lt_ekko = [...lt_ekko, ...lt_resultEC.EKKO, ...lt_resultAP.EKKO];
                     const vbakSet = new Set();
                     const lt_vbakUnique = lt_vbak.filter(obj => {
                         const key = `${obj.VKORG}-${obj.VTWEG}-${obj.SPART}`; 
