@@ -1092,6 +1092,10 @@ annotate service.baseEntity with {
     SO_FIRST_SO_MANDT_TEXT          @title: '{i18n>SO_FIRST_SO_MANDT}'           @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
     SO_FINAL_SO_MANDT_TEXT          @title: '{i18n>SO_FINAL_SO_MANDT}'           @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
     PO_MANDT_TEXT                   @title: '{i18n>PO_MANDT}'                    @sap.Label: '{i18n>PO_MANDT}';
+    DL_TRMTYP                       @title: '{i18n>DL_TRMTYP}'                   @sap.Label: '{i18n>DL_TRMTYP}'  @Common.IsDigitSequence: true;
+    DL_TRMTYP_MAKTX                 @title: '{i18n>DL_TRMTYP_MAKTX_LANG}'        @sap.Label: '{i18n>DL_TRMTYP_MAKTX_LANG}';  
+    DL_ZZ0S2ABGH                    @title: '{i18n>DL_ZZ0S2ABGH}'                @sap.Label: '{i18n>DL_ZZ0S2ABGH}';
+    DL_ZZ0S2ZIEH                    @title: '{i18n>DL_ZZ0S2ZIEH}'                @sap.Label: '{i18n>DL_ZZ0S2ZIEH}';
 
 };
 
@@ -1372,6 +1376,14 @@ annotate service.allIssues with {
     PO_MANDT             @title: '{i18n>PO_MANDT}'             @sap.Label: '{i18n>PO_MANDT}';
     @Common.TextFor
     PO_MANDT_TEXT;
+
+    @Common.Text           : DL_TRMTYP_MAKTX
+    @Common.TextArrangement: #TextLast
+    DL_TRMTYP          @title: '{i18n>DL_TRMTYP_MAKTX_LANG}'   @sap.Label: '{i18n>DL_TRMTYP}';
+    @Common.TextFor
+    DL_TRMTYP_MAKTX;
+
+
 }
 
 annotate service.allIssues with {
@@ -1425,6 +1437,7 @@ annotate service.allIssues with {
     DL_HSDAT                       @UI: {Hidden: true};
     DL_VFDAT                       @UI: {Hidden: true};
     // Shipment Details Texts
+    DL_TRMTYP_MAKTX                @UI: {Hidden: true};
     TM_VSART_BEZEI                 @UI: {Hidden: true};
     TM_TDLNR_NAME1                 @UI: {Hidden: true};
     TM_STTRG_DDTEXT                @UI: {Hidden: true};
@@ -4061,4 +4074,66 @@ annotate service.allIssues with {
         ]
     }
 };
+
+annotate service.allIssues with {
+    DL_TRMTYP
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>DL_TRMTYP_MAKTX_LANG}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: DL_TRMTYP,
+                ValueListProperty: 'DL_TRMTYP'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'DL_TRMTYP_MAKTX'
+            }
+
+        ]
+    }
+    @Common.IsDigitSequence: true
+};
+
+annotate service.allIssues with {
+    DL_ZZ0S2ABGH
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>DL_ZZ0S2ABGH}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: DL_ZZ0S2ABGH,
+            ValueListProperty: 'DL_ZZ0S2ABGH'
+        }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    DL_ZZ0S2ZIEH
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>DL_ZZ0S2ZIEH}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: DL_ZZ0S2ZIEH,
+            ValueListProperty: 'DL_ZZ0S2ZIEH'
+        }
+
+        ]
+    }
+};
+
+
 // ------------------------------Value Helps All Issues----------------------------

@@ -274,6 +274,11 @@ entity ![OPENORDERSLIST] {
         PARTNER_9O_HEAD                    : String(12);
         PARTNER_9O_HEAD_NAME               : String(80);
         BSART_BATXT                        : String(20);
+        TRMTYP                             : String(18);
+        TRMTYP_MAKTX_LANG                  : String(40);
+        ZZ0S2ABGH                          : String(10);
+        ZZ0S2ZIEH                          : String(10);
+
 }
 
 entity ContactsOptions {

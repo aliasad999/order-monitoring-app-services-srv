@@ -191,13 +191,4 @@ resources:
     type: org.cloudfoundry.existing-service
     parameters:
       service: autoscaler
-      service-plan: standard    
-  #
-  #   ┌───────────────────────────────────────────┐   #
-  #   │            Credentials Store              │   #
-  #   └───────────────────────────────────────────┘   #
-  #
-  - name: order-monitoring-credentials-store
-    type: org.cloudfoundry.existing-service
-    parameters:
-      service-name: order-monitoring-credentials-store
+      service-plan: standard

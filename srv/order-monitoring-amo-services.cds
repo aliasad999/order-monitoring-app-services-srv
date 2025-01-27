@@ -6,8 +6,6 @@ service srvOpenOrders {
   entity VBAKAuthObjectKeys      as select from db_app.VBAKAUTH;
   entity EKKOAuthObjectKeys      as select from db_app.EKKOAUTH;
   function getVBAKAuthObjKeys() returns Integer;
-  //function callChatbotService(payload: String) returns String;
-
 
   @readonly
   @cds.redirection.target: true
@@ -479,8 +477,13 @@ service srvOpenOrders {
           // PARTNER_9A_HEAD_NAME                        as PO_PARTNER_9A_HEAD_NAME,
           PARTNER_9O_HEAD                             as PO_PARTNER_9O_HEAD,
           // PARTNER_9O_HEAD_NAME                        as PO_PARTNER_9O_HEAD_NAME,
-          BSART_BATXT                                 as PO_BSART_BATXT
+          BSART_BATXT                                 as PO_BSART_BATXT,
           // BSTNK AS SO_BSTNK
+          TRMTYP                                      as DL_TRMTYP,
+          TRMTYP_MAKTX_LANG                           as DL_TRMTYP_MAKTX,
+          ZZ0S2ABGH                                   as DL_ZZ0S2ABGH,
+          ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH
+
     };
 
   entity Results                 as
