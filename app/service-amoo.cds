@@ -1435,7 +1435,7 @@ annotate service.allIssues with {
     // BL_MANDT_INV_FIRST     @UI                     : {Hidden: true};
     // BL_MANDT_INV_LAST      @UI                     : {Hidden: true};
     DL_HSDAT                       @UI: {Hidden: true};
-    DL_VFDAT                       @UI: {Hidden: true};
+    // DL_VFDAT                       @UI: {Hidden: true};
     // Shipment Details Texts
     DL_TRMTYP_MAKTX                @UI: {Hidden: true};
     TM_VSART_BEZEI                 @UI: {Hidden: true};
