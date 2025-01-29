@@ -9,12 +9,12 @@ BEGIN
       DECLARE lt_ignore TABLE (id INTEGER, flag BOOLEAN);  -- Output parameter indicating row existence
       DECLARE lt_ignore_check TABLE (id INTEGER);     
     -- Construct a single SQL statement that checks for all NPS values
-    sql_stmt = 'SELECT so_nps as id, TRUE AS flag FROM "OPENORDERSSRV_ALLISSUES" WHERE ' || :IV_whereClause || ' so_nps IN (10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 99) AND SO_IGNORED = 0 GROUP BY so_nps';
+    sql_stmt = 'SELECT distinct so_nps as id, TRUE AS flag FROM "OPENORDERSSRV_ALLISSUES" WHERE ' || :IV_whereClause || '  SO_IGNORED = 0';
     
     -- Execute the single SQL statement and store the results in the local table variable
     EXECUTE IMMEDIATE  :sql_stmt into lt_nps_tab;
     
-    sql_stmt = 'SELECT so_nps as id, TRUE AS flag FROM "OPENORDERSSRV_ALLISSUES" WHERE ' || :IV_whereClause || ' SO_IGNORED = 1';
+    sql_stmt = 'SELECT ''00'' as id, TRUE AS flag FROM "OPENORDERSSRV_ALLISSUES" WHERE ' || :IV_whereClause || ' SO_IGNORED = 1';
     EXECUTE IMMEDIATE  :sql_stmt into lt_ignore;
      -- Check for the existence of rows in lt_ignore using a LIMIT query
      lt_ignore_check = SELECT id FROM :lt_ignore LIMIT 1;
