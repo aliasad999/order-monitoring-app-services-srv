@@ -198,7 +198,11 @@ annotate service.valueHelps with {
     BL_MANDT_INV_LAST_TEXT          @title: '{i18n>BL_MANDT_INV_LAST}'           @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
     SO_FIRST_SO_MANDT_TEXT          @title: '{i18n>SO_FIRST_SO_MANDT}'           @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
     SO_FINAL_SO_MANDT_TEXT          @title: '{i18n>SO_FINAL_SO_MANDT}'           @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
-    PO_MANDT_TEXT                   @title: '{i18n>PO_MANDT}'                    @sap.Label: '{i18n>PO_MANDT}';
+    PO_MANDT_TEXT                   @title: '{i18n>PO_MANDT}'                    @sap.Label: '{i18n>PO_MANDT}';  
+    DL_TRMTYP                       @title: '{i18n>DL_TRMTYP}'                   @sap.Label: '{i18n>DL_TRMTYP}'  @Common.IsDigitSequence: true;
+    DL_TRMTYP_MAKTX                 @title: '{i18n>DL_TRMTYP_MAKTX_LANG}'        @sap.Label: '{i18n>DL_TRMTYP_MAKTX_LANG}';
+    DL_ZZ0S2ABGH                    @title: '{i18n>DL_ZZ0S2ABGH}'                @sap.Label: '{i18n>DL_ZZ0S2ABGH}';
+    DL_ZZ0S2ZIEH                    @title: '{i18n>DL_ZZ0S2ZIEH}'                @sap.Label: '{i18n>DL_ZZ0S2ZIEH}';
 };
 
 annotate service.Results with {
@@ -525,6 +529,17 @@ annotate service.Results with {
     @Common.TextFor
     PO_MANDT_TEXT;
 
+    @Common.Text           : DL_TRMTYP_MAKTX
+    @Common.TextArrangement: #TextFirst
+    DL_TRMTYP            @title: '{i18n>DL_TRMTYP_MAKTX_LANG}'        @sap.Label: '{i18n>DL_TRMTYP}';
+    @Common.TextFor
+    DL_TRMTYP_MAKTX;
+
+
+
+    DL_ZZ0S2ABGH                @title: '{i18n>DL_ZZ0S2ABGH}'              @sap.Label: '{i18n>DL_ZZ0S2ABGH}'       ;
+    DL_ZZ0S2ZIEH                @title: '{i18n>DL_ZZ0S2ZIEH}'                @sap.Label: '{i18n>DL_ZZ0S2ZIEH}'       ;
+
 
 }
 
@@ -593,6 +608,7 @@ annotate service.Results with {
     TM_TRACKING_ID_COMP            @UI                     : {Hidden: true};
     DL_VGBEL                       @UI                     : {Hidden: true};
     TM_TRACKING_ID_ELEM            @UI                     : {Hidden: true};
+    DL_TRMTYP_MAKTX           @UI                     : {Hidden: true};
     DL_VGPOS                       @UI                     : {Hidden: true};
     DL_POSAR                       @UI                     : {Hidden: true};
     DL_VRKME                       @UI                     : {Hidden: true};
@@ -2957,6 +2973,67 @@ annotate service.Results with {
         ]
     }
 };
+
+annotate service.Results with {
+    DL_TRMTYP
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>DL_TRMTYP_MAKTX_LANG}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: DL_TRMTYP,
+                ValueListProperty: 'DL_TRMTYP'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'DL_TRMTYP_MAKTX'
+            }
+
+        ]
+    }
+    @Common.IsDigitSequence: true
+};
+
+annotate service.Results with {
+    DL_ZZ0S2ABGH
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>DL_ZZ0S2ABGH}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: DL_ZZ0S2ABGH,
+            ValueListProperty: 'DL_ZZ0S2ABGH'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    DL_ZZ0S2ZIEH
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>DL_ZZ0S2ZIEH}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: DL_ZZ0S2ZIEH,
+            ValueListProperty: 'DL_ZZ0S2ZIEH'
+        }
+
+        ]
+    }
+};
+
 
 annotate service.Results with @UI.LineItem: {
     ![@UI.Criticality]: 5,

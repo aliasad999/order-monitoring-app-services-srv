@@ -7,11 +7,10 @@ const textBundle = require('./utils/textBundle')
 const log = require("cf-nodejs-logging-support");
 const enableHints = require("./plugins/enable_hints");
 const { startOfToday } = require('date-fns');
-const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies')
+const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies') 
 const serviceHelper = require('./utils/serviceHelper');
 const jwt = require('jsonwebtoken');
 const azureTokenSessionCache = require('./utils/azureTokenSessionCache');
-
 
 class openOrdersSrv extends cds.ApplicationService {
 
@@ -20,8 +19,8 @@ class openOrdersSrv extends cds.ApplicationService {
         const { allIssues } = cds.entities('openOrdersSrv')
         this._textKeys = []
         this._SpecialCurrencies = []
-        const { currencies } = cds.entities('openOrdersSrv');
-        this._SpecialCurrencies = await SELECT.from(currencies)
+        const {currencies} =  cds.entities('openOrdersSrv');
+        this._SpecialCurrencies  =  await SELECT.from(currencies)
         let data = allIssues.elements
         for (let key in data) {
             if (data[key]["@Common.Text"] && data[key]["@Common.Text"]["="]) {
@@ -42,7 +41,7 @@ class openOrdersSrv extends cds.ApplicationService {
             }
         }
         // only needed to run this when the server is starting
-        this.before('*', '*', async (req, next) => {
+        this.before('*','*',async(req,next)=>{
             await cds.run(`SET 'APPLICATION' = 'CAPServices'`);
         })
         // START OF REMOVE DELIVERY BLOCK //
@@ -471,7 +470,7 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.on("getVBAKAuthObjKeys", async req => {
-            const { VBAKAuthObjectKeys } = await cds.entities('srvOpenOrders');
+            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
             const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
             let updateNeeded = false;
             let lt_result = [];
@@ -491,12 +490,12 @@ class openOrdersSrv extends cds.ApplicationService {
                 try {
                     const service = await cds.connect.to('authService');
                     lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100");
-
+        
                 } catch (error) {
                     req.error(413, 'ERROR_AUTH_CALL')
                 }
                 await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
-
+        
                 if (lt_result.length !== 0) {
                     lt_result.forEach((set) => {
                         set.LAST_UPDATE = SQLdate;
@@ -505,7 +504,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     await INSERT.into(VBAKAuthObjectKeys, lt_result);
                 }
                 return true;
-            }
+            }        
             return false;
 
         });
@@ -676,8 +675,8 @@ class openOrdersSrv extends cds.ApplicationService {
                 item.id = uuid.v1()
                 if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = getBundle(req.user.locale).getText(`nps${item.SO_NPS}`)
                 if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = getBundle(req.user.locale).getText(`OrderIssue${item.SO_ISSUE}`)
-                if ('SO_DCP_ITEM_STATUS' in item) {
-                    if (item.SO_DCP_ITEM_STATUS) {
+                if ('SO_DCP_ITEM_STATUS' in item){
+                    if(item.SO_DCP_ITEM_STATUS){
                         item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
                     }
                 }
@@ -758,6 +757,9 @@ class openOrdersSrv extends cds.ApplicationService {
          * @param {object} req - The request object containing request details
          * */
         this.before("READ", ["allIssues", "allIssuesDetails"], async (req, next) => {
+             // is not empty date field, date value needs to be adjusted
+             req.query.SELECT.where = serviceHelper.replaceDateInArray(req.query.SELECT.where)
+             // is not empty date field, date value needs to be adjusted
             // Check if auth table is filled
             if (req.headers?.export === 'true') await cds.run(`SET 'APPLICATION' = 'CAPServicesExport'`);
             if (req.user.id !== "anonymous") {
@@ -790,7 +792,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 const item = req.query.SELECT.where[i];
                 if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
                     for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
-                        if (typeof (req.query.SELECT.where[j].val) === 'string' && req.query.SELECT.where[j].val.includes('-') && req.query.SELECT.where[j].val !== undefined && req.query.SELECT.where[j].val !== null) {
+                        if ( typeof(req.query.SELECT.where[j].val) === 'string' && req.query.SELECT.where[j].val.includes('-') && req.query.SELECT.where[j].val !== undefined && req.query.SELECT.where[j].val !== null )   {
                             req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
                             break;
                         }
@@ -853,8 +855,8 @@ class openOrdersSrv extends cds.ApplicationService {
             // *-------------------------------------------------------------------*
             // End of Code OTC-24554
 
-            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols) {
-                if (req.target.name === 'openOrdersSrv.allIssues') {
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols ) {
+                if (req.target.name === 'openOrdersSrv.allIssues'){
                     let nps10, nps20, nps30, nps40, nps50, nps60, nps70, nps80, nps90, nps95, nps99, nps00;
                     let tabs = {}
                     try {
@@ -899,7 +901,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         log.error("[order-monitoring-app-services.js] - Count query failed ! " + JSON.stringify(error));
                         req.error(error)
                     }
-                } else {
+                }else {
                     return req.reply({ $count: 0 })
                 }
             }
@@ -941,8 +943,8 @@ class openOrdersSrv extends cds.ApplicationService {
                         item.SO_KBETR = formatSpecialCurrencies(item.SO_KBETR, item.SO_WAERK, this._SpecialCurrencies);
                     if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = getBundle(req.user.locale).getText(`nps${item.SO_NPS}`)
                     if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = getBundle(req.user.locale).getText(`OrderIssue${item.SO_ISSUE}`)
-                    if ('SO_DCP_ITEM_STATUS' in item) {
-                        if (item.SO_DCP_ITEM_STATUS) {
+                    if ('SO_DCP_ITEM_STATUS' in item){
+                        if(item.SO_DCP_ITEM_STATUS){
                             item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
                         }
                     }
@@ -971,7 +973,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 const item = req.query.SELECT.where[i];
                 if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
                     for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
-                        if (typeof (req.query.SELECT.where[j].val) === 'string' && req.query.SELECT.where[j].val.includes('-') && req.query.SELECT.where[j].val !== undefined && req.query.SELECT.where[j].val !== null) {
+                        if ( typeof(req.query.SELECT.where[j].val) === 'string' && req.query.SELECT.where[j].val.includes('-') && req.query.SELECT.where[j].val !== undefined && req.query.SELECT.where[j].val !== null )   {
                             req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
                             break;
                         }
@@ -1465,7 +1467,7 @@ function removeDuplicates(fields, lt_result) {
             //     var allNull = fields.every(field => obj[field] === null);
             //     return !allNull;
             // })
-            .filter(obj => fields.every(field => obj[field] !== null))
+            .filter(obj => fields.every(field => obj[field] !== null)) 
             .map(obj => {
                 const newObj = {};
                 fields.forEach(field => newObj[field] = obj[field]);

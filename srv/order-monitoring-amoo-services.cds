@@ -439,8 +439,13 @@ service openOrdersSrv {
                 // PARTNER_9A_HEAD_NAME                        as PO_PARTNER_9A_HEAD_NAME,
                 PARTNER_9O_HEAD                             as PO_PARTNER_9O_HEAD,
                 // PARTNER_9O_HEAD_NAME                        as PO_PARTNER_9O_HEAD_NAME,
-                BSART_BATXT                                 as PO_BSART_BATXT
+                BSART_BATXT                                 as PO_BSART_BATXT,
                 // BSTNK AS SO_BSTNK
+                TRMTYP                                      as DL_TRMTYP,
+                TRMTYP_MAKTX_LANG                           as DL_TRMTYP_MAKTX,
+                ZZ0S2ABGH                                   as DL_ZZ0S2ABGH,
+                ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH
+
         }
 
     entity baseEntity               as
@@ -489,6 +494,7 @@ service openOrdersSrv {
     function callChatbotHistoryService() returns String;
     function callChatbotGetConversation(payload: String) returns String;
     function callChatbotUpdateConversation(payload: String) returns String;
+
     entity PredefReasonBuckets      as
         select from AMOOUtilsService.PredefinedReasonBuckets {
             key BUCKET      as BucketKey,

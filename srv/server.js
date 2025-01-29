@@ -24,8 +24,7 @@ module.exports = cds.server;
 cds.on('bootstrap', (app) => {
     app.use(proxy());
     app.use(passport.initialize());
-    app.use(passport.authenticate('JWT', { session: false }));
-
+    app.use(passport.authenticate('JWT', { session: false }));  
     fesr.registerFesrEndpoint(app);
     app.use(bodyParser.json());
 

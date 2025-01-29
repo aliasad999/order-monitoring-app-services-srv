@@ -191,7 +191,7 @@ resources:
     type: org.cloudfoundry.existing-service
     parameters:
       service: autoscaler
-      service-plan: standard    
+      service-plan: standard
   #
   #   ┌───────────────────────────────────────────┐   #
   #   │            Credentials Store              │   #
