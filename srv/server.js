@@ -24,7 +24,7 @@ module.exports = cds.server;
 cds.on('bootstrap', (app) => {
     app.use(proxy());
     app.use(passport.initialize());
-    app.use(passport.authenticate('JWT', { session: false }));  
+    app.use(passport.authenticate('JWT', { session: false }));
 
     fesr.registerFesrEndpoint(app);
     app.use(bodyParser.json());
@@ -72,6 +72,26 @@ cds.on('bootstrap', (app) => {
     // app.get('/test_chatbot', function (req, res, next) {
     //     res.sendFile(path.join(__dirname, 'views', 'index.html'));
     // });
+
+    app.get('/login/status', (req, res) => {
+        try {
+            const username = req.query.username; 
+            if (!username) {
+                return res.status(400).json({ error: "Username is required as a query parameter." });
+            }
+
+            const azureToken = azureTokenSessionCache.get(username);
+
+            if (azureToken) {
+                res.status(200).json({ loggedIn: true});
+            } else {
+                res.status(200).json({ loggedIn: false });
+            }
+        } catch (error) {
+            console.error("Error checking login status: ", error);
+            res.status(500).json({ error: "An internal server error occurred." });
+        }
+    });
 
     app.get('/login', async (req, res) => {
         try {
