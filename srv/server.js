@@ -13,6 +13,7 @@ const { getCca } = require('./utils/msalConfig');
 const { readCredential } = require('./lib/cred');
 require('hdb/lib/protocol/common/Constants').MAX_PACKET_SIZE = Math.pow(4, 15);
 const azureTokenSessionCache = require('./utils/azureTokenSessionCache');
+const jwt = require('jsonwebtoken');
 const { log } = require('console');
 
 xsenv.loadEnv();
@@ -24,7 +25,7 @@ module.exports = cds.server;
 cds.on('bootstrap', (app) => {
     app.use(proxy());
     app.use(passport.initialize());
-    app.use(passport.authenticate('JWT', { session: false }));  
+    app.use(passport.authenticate('JWT', { session: false }));
     fesr.registerFesrEndpoint(app);
     app.use(bodyParser.json());
 
@@ -74,15 +75,15 @@ cds.on('bootstrap', (app) => {
 
     app.get('/login/status', (req, res) => {
         try {
-            const username = req.query.username; 
+            const username = req.query.username;
             if (!username) {
                 return res.status(400).json({ error: "Username is required as a query parameter." });
             }
 
             const azureToken = azureTokenSessionCache.get(username);
 
-            if (azureToken) {
-                res.status(200).json({ loggedIn: true});
+            if (azureToken && !hasAccessTokenExpired(azureToken)) {
+                res.status(200).json({ loggedIn: true });
             } else {
                 res.status(200).json({ loggedIn: false });
             }
@@ -92,9 +93,19 @@ cds.on('bootstrap', (app) => {
         }
     });
 
+    function hasAccessTokenExpired(token) {
+        if (!token) return true;
+
+        const decoded = jwt.decode(token);
+        if (!decoded || !decoded.exp) return true; 
+
+        const now = Math.floor(Date.now() / 1000); 
+        return decoded.exp < now; // Return true if expired, false otherwise
+    }
+
     app.get('/login', async (req, res) => {
         try {
-            const chatbotRedirectUrl = await readCredential("order-monitoring", "password", "chatbotRedirectUrl");
+            const chatbotRedirectUrl = {"value": "https://port5000-workspaces-ws-lqndl.eu10.applicationstudio.cloud.sap/redirect"};//await readCredential("order-monitoring", "password", "chatbotRedirectUrl");
             const chatbotScope = await readCredential("order-monitoring", "password", "chatbotScope");
 
             const authCodeUrlParameters = {
@@ -116,7 +127,7 @@ cds.on('bootstrap', (app) => {
     // Redirect Route (Handles Azure AD Login Response)
     app.get('/redirect', async (req, res) => {
         try {
-            const chatbotRedirectUrl = await readCredential("order-monitoring", "password", "chatbotRedirectUrl");
+            const chatbotRedirectUrl = {"value": "https://port5000-workspaces-ws-lqndl.eu10.applicationstudio.cloud.sap/redirect"};//await readCredential("order-monitoring", "password", "chatbotRedirectUrl");
             const chatbotScope = await readCredential("order-monitoring", "password", "chatbotScope");
 
             const tokenRequest = {
