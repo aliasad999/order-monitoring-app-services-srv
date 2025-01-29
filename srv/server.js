@@ -105,7 +105,7 @@ cds.on('bootstrap', (app) => {
 
     app.get('/login', async (req, res) => {
         try {
-            const chatbotRedirectUrl = {"value": "https://port5000-workspaces-ws-lqndl.eu10.applicationstudio.cloud.sap/redirect"};//await readCredential("order-monitoring", "password", "chatbotRedirectUrl");
+            const chatbotRedirectUrl = await readCredential("order-monitoring", "password", "chatbotRedirectUrl");
             const chatbotScope = await readCredential("order-monitoring", "password", "chatbotScope");
 
             const authCodeUrlParameters = {
@@ -127,7 +127,7 @@ cds.on('bootstrap', (app) => {
     // Redirect Route (Handles Azure AD Login Response)
     app.get('/redirect', async (req, res) => {
         try {
-            const chatbotRedirectUrl = {"value": "https://port5000-workspaces-ws-lqndl.eu10.applicationstudio.cloud.sap/redirect"};//await readCredential("order-monitoring", "password", "chatbotRedirectUrl");
+            const chatbotRedirectUrl = await readCredential("order-monitoring", "password", "chatbotRedirectUrl");
             const chatbotScope = await readCredential("order-monitoring", "password", "chatbotScope");
 
             const tokenRequest = {
