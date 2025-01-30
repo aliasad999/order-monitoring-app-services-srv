@@ -983,10 +983,25 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.on("READ", "orderCreation", async (req, next) => {
-            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' ) {
                 return req.reply({ $count: 0 })
+                // try {
+                //     const db = cds.transaction(req);
+                //     const countCols = "PO_MANDT,PO_EBELN,PO_EBELP"
+                //     let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${countCols} from  openOrdersSrv_orderCreation   ) `)
+                //     if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
+                //     const distinctCount = (req.query.SELECT.where) ?
+                //         await db.run(query)
+                //         : await db.run(query);
+                //     return req.reply({ $count: Object.values(distinctCount[0])[0] })
+                // } catch (error) {
+                //     log.error("[order-monitoring-app-services.js] - Count query failed ! " + JSON.stringify(error));
+                //     req.error(error)
+                // }
+            }else{
+                return [];
             }
-            await next(req)
+            // await next(req)
         })
 
         this.after("READ", "orderCreation", async (data, req) => {

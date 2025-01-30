@@ -65,6 +65,14 @@ class srvOpenOrders extends cds.ApplicationService {
                 return err;
             }
             if(AMOmigrationDone || AMOOmigrationDone){
+                // means it was done before and not needed (set to true to avoid issues)
+                if(AMOmigrationDone === undefined){
+                    AMOmigrationDone = true;
+                }
+                // means it was done before and not needed (set to true to avoid issues)
+                if(AMOOmigrationDone === undefined){
+                    AMOOmigrationDone = true;
+                }
                 await UPSERT.into `allorders.db.variantMigration`.entries([{
                     userId : userID,
                     AMOvariantsMigrated : AMOmigrationDone,
