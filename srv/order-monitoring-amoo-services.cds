@@ -494,7 +494,8 @@ service openOrdersSrv {
     function callChatbotHistoryService() returns String;
     function callChatbotGetConversation(payload: String) returns String;
     function callChatbotUpdateConversation(payload: String) returns String;
-
+    function callChatbotFeedback(payload: String) returns String;
+    
     entity PredefReasonBuckets      as
         select from AMOOUtilsService.PredefinedReasonBuckets {
             key BUCKET      as BucketKey,
