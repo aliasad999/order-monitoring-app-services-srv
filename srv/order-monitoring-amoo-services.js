@@ -1288,6 +1288,38 @@ class openOrdersSrv extends cds.ApplicationService {
             }
             return combinedResults;
         })
+        this.on("callChatbotFeedback", async (req) => {
+            console.log("calling MessageLiked")
+            try {
+                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
+                const decodedToken = jwt.decode(tokenForUserInfo);
+                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
+                const payload = req.data.payload;
+                log.info("Payload received: ", payload);
+                const azureToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IllUY2VPNUlKeXlxUjZqekRTNWlBYnBlNDJKdyIsImtpZCI6IllUY2VPNUlKeXlxUjZqekRTNWlBYnBlNDJKdyJ9.eyJhdWQiOiJhcGk6Ly84MjliOGMxYy1jMTVjLTQzZDMtODUzZi0zNDhjN2ZhZmEwZmIiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9lY2FhMzg2Yi1jOGRmLTRjZTAtYWQwMS03NDBjYmRiNWJhNTUvIiwiaWF0IjoxNzM4MjUzMzg0LCJuYmYiOjE3MzgyNTMzODQsImV4cCI6MTczODI1NzczMCwiYWNyIjoiMSIsImFpbyI6IkFWUUFxLzhaQUFBQWlxdnpHT0dodm5vd3pvU3B0bWxHUmp6d0xWRnYwdjlLMXpRN08rd1ZSZmk1RUZ2aFRJeldpNkdZWEYxcTNCcTdPVjdIRU9wbnRacENhTTdON0pnQm14UHpaSlVnVVVtaStqZVVTNTEwRzk4PSIsImFtciI6WyJyc2EiLCJtZmEiXSwiYXBwaWQiOiI4MjliOGMxYy1jMTVjLTQzZDMtODUzZi0zNDhjN2ZhZmEwZmIiLCJhcHBpZGFjciI6IjEiLCJmYW1pbHlfbmFtZSI6IkFndWlycmUiLCJnaXZlbl9uYW1lIjoiSm9yZ2UiLCJpcGFkZHIiOiIxMzcuODMuMjI3LjIwNSIsIm5hbWUiOiJKb3JnZSBBZ3VpcnJlIGRlbCBWYWwiLCJvaWQiOiIyZjMzMGQ5Zi02MjRhLTQ0MzgtOTU2Yi1kZGU0OGY1MTJkMGUiLCJvbnByZW1fc2lkIjoiUy0xLTUtMjEtMjAxMDc0NTYyMS0zMzgxOTYzNjc0LTE1Nzk5NDIxODktMzQxMzYxOCIsInJoIjoiMS5BUXdBYXppcTdOX0k0RXl0QVhRTXZiVzZWUnlNbTRKY3dkTkRoVDgwakgtdm9Qc01BRlFNQUEuIiwic2NwIjoiVXNlci5SZWFkIiwic2lkIjoiOGVlNmUyZGYtMGZiNy00MWI0LTgwMTQtMjQxYTA5ZDE5ZjU0Iiwic3ViIjoidklmNmM3VlkyQmt6alg5VE9qSGp1UHlXLUtzeVdFa1FaeXFmcnluSjgxQSIsInRpZCI6ImVjYWEzODZiLWM4ZGYtNGNlMC1hZDAxLTc0MGNiZGI1YmE1NSIsInVuaXF1ZV9uYW1lIjoiVTEwMTIxMzg0QGJhc2ZhZC5iYXNmLm5ldCIsInVwbiI6IlUxMDEyMTM4NEBiYXNmYWQuYmFzZi5uZXQiLCJ1dGkiOiJoUnpHOWd3dzVreVBBbHlyVm4xZkFBIiwidmVyIjoiMS4wIn0.EZU2W3nmIEsePBh5MrdzArJP3nZXf-8e8x4UBKMsj8PXNtt1ac-8rfRxEUhJ6KjE_PyNNuIAoI5aV4ZbuuCGqATS87LxE0jgD16nsWCr5I3cR0TrJ8jy3NHvgQHo1rfw6lernPxB9fhzVHxD05mWE3uTK72t7DGswxzCrUxOecWbM1dHSJkBBo3BdNTZk6-dkA2POhG4GiyPCRH0sfCYCiv3lsH_y1AyNpwv7k36uPghKL1q4DcZR1t9zs171RyIV-o9nG6C8zKTm4MIRvHFPecRTQ1GjmmYA7OhcmEfJMo6F8NJvjM1el2A6-mEQjHhCjDmQ9LwXxV6CA1m9YUQKw"
+
+                log.info("azureToken: ", azureToken);
+                log.info("Username: ", username);
+ 
+                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
+ 
+                const response = await chatbotTemp.tx(req).send({
+                    method: 'POST',
+                    path: '/feedback',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        authorization: 'Bearer ' + azureToken
+                    },
+                    data: payload
+                });
+ 
+                return JSON.stringify(response);
+            } catch (e) {
+                console.log(e.message);
+                return "An error occured.";
+            }
+        })
 
         this.on("callChatbotHistoryService", async (req)=> {
             log.info("Calling history");
@@ -1295,8 +1327,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 const tokenForUserInfo = req.headers.authorization.split(' ')[1];
                 const decodedToken = jwt.decode(tokenForUserInfo);
                 const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
-                const azureToken = azureTokenSessionCache.get(username);
-
+                const azureToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IllUY2VPNUlKeXlxUjZqekRTNWlBYnBlNDJKdyIsImtpZCI6IllUY2VPNUlKeXlxUjZqekRTNWlBYnBlNDJKdyJ9.eyJhdWQiOiJhcGk6Ly84MjliOGMxYy1jMTVjLTQzZDMtODUzZi0zNDhjN2ZhZmEwZmIiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9lY2FhMzg2Yi1jOGRmLTRjZTAtYWQwMS03NDBjYmRiNWJhNTUvIiwiaWF0IjoxNzM4MjUzMzg0LCJuYmYiOjE3MzgyNTMzODQsImV4cCI6MTczODI1NzczMCwiYWNyIjoiMSIsImFpbyI6IkFWUUFxLzhaQUFBQWlxdnpHT0dodm5vd3pvU3B0bWxHUmp6d0xWRnYwdjlLMXpRN08rd1ZSZmk1RUZ2aFRJeldpNkdZWEYxcTNCcTdPVjdIRU9wbnRacENhTTdON0pnQm14UHpaSlVnVVVtaStqZVVTNTEwRzk4PSIsImFtciI6WyJyc2EiLCJtZmEiXSwiYXBwaWQiOiI4MjliOGMxYy1jMTVjLTQzZDMtODUzZi0zNDhjN2ZhZmEwZmIiLCJhcHBpZGFjciI6IjEiLCJmYW1pbHlfbmFtZSI6IkFndWlycmUiLCJnaXZlbl9uYW1lIjoiSm9yZ2UiLCJpcGFkZHIiOiIxMzcuODMuMjI3LjIwNSIsIm5hbWUiOiJKb3JnZSBBZ3VpcnJlIGRlbCBWYWwiLCJvaWQiOiIyZjMzMGQ5Zi02MjRhLTQ0MzgtOTU2Yi1kZGU0OGY1MTJkMGUiLCJvbnByZW1fc2lkIjoiUy0xLTUtMjEtMjAxMDc0NTYyMS0zMzgxOTYzNjc0LTE1Nzk5NDIxODktMzQxMzYxOCIsInJoIjoiMS5BUXdBYXppcTdOX0k0RXl0QVhRTXZiVzZWUnlNbTRKY3dkTkRoVDgwakgtdm9Qc01BRlFNQUEuIiwic2NwIjoiVXNlci5SZWFkIiwic2lkIjoiOGVlNmUyZGYtMGZiNy00MWI0LTgwMTQtMjQxYTA5ZDE5ZjU0Iiwic3ViIjoidklmNmM3VlkyQmt6alg5VE9qSGp1UHlXLUtzeVdFa1FaeXFmcnluSjgxQSIsInRpZCI6ImVjYWEzODZiLWM4ZGYtNGNlMC1hZDAxLTc0MGNiZGI1YmE1NSIsInVuaXF1ZV9uYW1lIjoiVTEwMTIxMzg0QGJhc2ZhZC5iYXNmLm5ldCIsInVwbiI6IlUxMDEyMTM4NEBiYXNmYWQuYmFzZi5uZXQiLCJ1dGkiOiJoUnpHOWd3dzVreVBBbHlyVm4xZkFBIiwidmVyIjoiMS4wIn0.EZU2W3nmIEsePBh5MrdzArJP3nZXf-8e8x4UBKMsj8PXNtt1ac-8rfRxEUhJ6KjE_PyNNuIAoI5aV4ZbuuCGqATS87LxE0jgD16nsWCr5I3cR0TrJ8jy3NHvgQHo1rfw6lernPxB9fhzVHxD05mWE3uTK72t7DGswxzCrUxOecWbM1dHSJkBBo3BdNTZk6-dkA2POhG4GiyPCRH0sfCYCiv3lsH_y1AyNpwv7k36uPghKL1q4DcZR1t9zs171RyIV-o9nG6C8zKTm4MIRvHFPecRTQ1GjmmYA7OhcmEfJMo6F8NJvjM1el2A6-mEQjHhCjDmQ9LwXxV6CA1m9YUQKw"
                 log.info("azureToken: ", azureToken);
                 log.info("Username: ", username);
 
@@ -1331,7 +1362,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
                 const payload = req.data.payload;
                 log.info("Payload received: ", payload);
-                const azureToken = azureTokenSessionCache.get(username);
+                const azureToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IllUY2VPNUlKeXlxUjZqekRTNWlBYnBlNDJKdyIsImtpZCI6IllUY2VPNUlKeXlxUjZqekRTNWlBYnBlNDJKdyJ9.eyJhdWQiOiJhcGk6Ly84MjliOGMxYy1jMTVjLTQzZDMtODUzZi0zNDhjN2ZhZmEwZmIiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9lY2FhMzg2Yi1jOGRmLTRjZTAtYWQwMS03NDBjYmRiNWJhNTUvIiwiaWF0IjoxNzM4MjUzMzg0LCJuYmYiOjE3MzgyNTMzODQsImV4cCI6MTczODI1NzczMCwiYWNyIjoiMSIsImFpbyI6IkFWUUFxLzhaQUFBQWlxdnpHT0dodm5vd3pvU3B0bWxHUmp6d0xWRnYwdjlLMXpRN08rd1ZSZmk1RUZ2aFRJeldpNkdZWEYxcTNCcTdPVjdIRU9wbnRacENhTTdON0pnQm14UHpaSlVnVVVtaStqZVVTNTEwRzk4PSIsImFtciI6WyJyc2EiLCJtZmEiXSwiYXBwaWQiOiI4MjliOGMxYy1jMTVjLTQzZDMtODUzZi0zNDhjN2ZhZmEwZmIiLCJhcHBpZGFjciI6IjEiLCJmYW1pbHlfbmFtZSI6IkFndWlycmUiLCJnaXZlbl9uYW1lIjoiSm9yZ2UiLCJpcGFkZHIiOiIxMzcuODMuMjI3LjIwNSIsIm5hbWUiOiJKb3JnZSBBZ3VpcnJlIGRlbCBWYWwiLCJvaWQiOiIyZjMzMGQ5Zi02MjRhLTQ0MzgtOTU2Yi1kZGU0OGY1MTJkMGUiLCJvbnByZW1fc2lkIjoiUy0xLTUtMjEtMjAxMDc0NTYyMS0zMzgxOTYzNjc0LTE1Nzk5NDIxODktMzQxMzYxOCIsInJoIjoiMS5BUXdBYXppcTdOX0k0RXl0QVhRTXZiVzZWUnlNbTRKY3dkTkRoVDgwakgtdm9Qc01BRlFNQUEuIiwic2NwIjoiVXNlci5SZWFkIiwic2lkIjoiOGVlNmUyZGYtMGZiNy00MWI0LTgwMTQtMjQxYTA5ZDE5ZjU0Iiwic3ViIjoidklmNmM3VlkyQmt6alg5VE9qSGp1UHlXLUtzeVdFa1FaeXFmcnluSjgxQSIsInRpZCI6ImVjYWEzODZiLWM4ZGYtNGNlMC1hZDAxLTc0MGNiZGI1YmE1NSIsInVuaXF1ZV9uYW1lIjoiVTEwMTIxMzg0QGJhc2ZhZC5iYXNmLm5ldCIsInVwbiI6IlUxMDEyMTM4NEBiYXNmYWQuYmFzZi5uZXQiLCJ1dGkiOiJoUnpHOWd3dzVreVBBbHlyVm4xZkFBIiwidmVyIjoiMS4wIn0.EZU2W3nmIEsePBh5MrdzArJP3nZXf-8e8x4UBKMsj8PXNtt1ac-8rfRxEUhJ6KjE_PyNNuIAoI5aV4ZbuuCGqATS87LxE0jgD16nsWCr5I3cR0TrJ8jy3NHvgQHo1rfw6lernPxB9fhzVHxD05mWE3uTK72t7DGswxzCrUxOecWbM1dHSJkBBo3BdNTZk6-dkA2POhG4GiyPCRH0sfCYCiv3lsH_y1AyNpwv7k36uPghKL1q4DcZR1t9zs171RyIV-o9nG6C8zKTm4MIRvHFPecRTQ1GjmmYA7OhcmEfJMo6F8NJvjM1el2A6-mEQjHhCjDmQ9LwXxV6CA1m9YUQKw";
 
                 log.info("azureToken: ", azureToken);
                 log.info("Username: ", username);
@@ -1365,7 +1396,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
                 const payload = req.data.payload;
                 log.info("Payload received: ", payload);
-                const azureToken = azureTokenSessionCache.get(username);
+                const azureToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IllUY2VPNUlKeXlxUjZqekRTNWlBYnBlNDJKdyIsImtpZCI6IllUY2VPNUlKeXlxUjZqekRTNWlBYnBlNDJKdyJ9.eyJhdWQiOiJhcGk6Ly84MjliOGMxYy1jMTVjLTQzZDMtODUzZi0zNDhjN2ZhZmEwZmIiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9lY2FhMzg2Yi1jOGRmLTRjZTAtYWQwMS03NDBjYmRiNWJhNTUvIiwiaWF0IjoxNzM4MjUzMzg0LCJuYmYiOjE3MzgyNTMzODQsImV4cCI6MTczODI1NzczMCwiYWNyIjoiMSIsImFpbyI6IkFWUUFxLzhaQUFBQWlxdnpHT0dodm5vd3pvU3B0bWxHUmp6d0xWRnYwdjlLMXpRN08rd1ZSZmk1RUZ2aFRJeldpNkdZWEYxcTNCcTdPVjdIRU9wbnRacENhTTdON0pnQm14UHpaSlVnVVVtaStqZVVTNTEwRzk4PSIsImFtciI6WyJyc2EiLCJtZmEiXSwiYXBwaWQiOiI4MjliOGMxYy1jMTVjLTQzZDMtODUzZi0zNDhjN2ZhZmEwZmIiLCJhcHBpZGFjciI6IjEiLCJmYW1pbHlfbmFtZSI6IkFndWlycmUiLCJnaXZlbl9uYW1lIjoiSm9yZ2UiLCJpcGFkZHIiOiIxMzcuODMuMjI3LjIwNSIsIm5hbWUiOiJKb3JnZSBBZ3VpcnJlIGRlbCBWYWwiLCJvaWQiOiIyZjMzMGQ5Zi02MjRhLTQ0MzgtOTU2Yi1kZGU0OGY1MTJkMGUiLCJvbnByZW1fc2lkIjoiUy0xLTUtMjEtMjAxMDc0NTYyMS0zMzgxOTYzNjc0LTE1Nzk5NDIxODktMzQxMzYxOCIsInJoIjoiMS5BUXdBYXppcTdOX0k0RXl0QVhRTXZiVzZWUnlNbTRKY3dkTkRoVDgwakgtdm9Qc01BRlFNQUEuIiwic2NwIjoiVXNlci5SZWFkIiwic2lkIjoiOGVlNmUyZGYtMGZiNy00MWI0LTgwMTQtMjQxYTA5ZDE5ZjU0Iiwic3ViIjoidklmNmM3VlkyQmt6alg5VE9qSGp1UHlXLUtzeVdFa1FaeXFmcnluSjgxQSIsInRpZCI6ImVjYWEzODZiLWM4ZGYtNGNlMC1hZDAxLTc0MGNiZGI1YmE1NSIsInVuaXF1ZV9uYW1lIjoiVTEwMTIxMzg0QGJhc2ZhZC5iYXNmLm5ldCIsInVwbiI6IlUxMDEyMTM4NEBiYXNmYWQuYmFzZi5uZXQiLCJ1dGkiOiJoUnpHOWd3dzVreVBBbHlyVm4xZkFBIiwidmVyIjoiMS4wIn0.EZU2W3nmIEsePBh5MrdzArJP3nZXf-8e8x4UBKMsj8PXNtt1ac-8rfRxEUhJ6KjE_PyNNuIAoI5aV4ZbuuCGqATS87LxE0jgD16nsWCr5I3cR0TrJ8jy3NHvgQHo1rfw6lernPxB9fhzVHxD05mWE3uTK72t7DGswxzCrUxOecWbM1dHSJkBBo3BdNTZk6-dkA2POhG4GiyPCRH0sfCYCiv3lsH_y1AyNpwv7k36uPghKL1q4DcZR1t9zs171RyIV-o9nG6C8zKTm4MIRvHFPecRTQ1GjmmYA7OhcmEfJMo6F8NJvjM1el2A6-mEQjHhCjDmQ9LwXxV6CA1m9YUQKw"
 
                 log.info("azureToken: ", azureToken);
                 log.info("Username: ", username);
@@ -1398,7 +1429,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
                 const payload = req.data.payload;
                 log.info("Payload received: ", payload);
-                const azureToken = azureTokenSessionCache.get(username);
+                const azureToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IllUY2VPNUlKeXlxUjZqekRTNWlBYnBlNDJKdyIsImtpZCI6IllUY2VPNUlKeXlxUjZqekRTNWlBYnBlNDJKdyJ9.eyJhdWQiOiJhcGk6Ly84MjliOGMxYy1jMTVjLTQzZDMtODUzZi0zNDhjN2ZhZmEwZmIiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9lY2FhMzg2Yi1jOGRmLTRjZTAtYWQwMS03NDBjYmRiNWJhNTUvIiwiaWF0IjoxNzM4MjUzMzg0LCJuYmYiOjE3MzgyNTMzODQsImV4cCI6MTczODI1NzczMCwiYWNyIjoiMSIsImFpbyI6IkFWUUFxLzhaQUFBQWlxdnpHT0dodm5vd3pvU3B0bWxHUmp6d0xWRnYwdjlLMXpRN08rd1ZSZmk1RUZ2aFRJeldpNkdZWEYxcTNCcTdPVjdIRU9wbnRacENhTTdON0pnQm14UHpaSlVnVVVtaStqZVVTNTEwRzk4PSIsImFtciI6WyJyc2EiLCJtZmEiXSwiYXBwaWQiOiI4MjliOGMxYy1jMTVjLTQzZDMtODUzZi0zNDhjN2ZhZmEwZmIiLCJhcHBpZGFjciI6IjEiLCJmYW1pbHlfbmFtZSI6IkFndWlycmUiLCJnaXZlbl9uYW1lIjoiSm9yZ2UiLCJpcGFkZHIiOiIxMzcuODMuMjI3LjIwNSIsIm5hbWUiOiJKb3JnZSBBZ3VpcnJlIGRlbCBWYWwiLCJvaWQiOiIyZjMzMGQ5Zi02MjRhLTQ0MzgtOTU2Yi1kZGU0OGY1MTJkMGUiLCJvbnByZW1fc2lkIjoiUy0xLTUtMjEtMjAxMDc0NTYyMS0zMzgxOTYzNjc0LTE1Nzk5NDIxODktMzQxMzYxOCIsInJoIjoiMS5BUXdBYXppcTdOX0k0RXl0QVhRTXZiVzZWUnlNbTRKY3dkTkRoVDgwakgtdm9Qc01BRlFNQUEuIiwic2NwIjoiVXNlci5SZWFkIiwic2lkIjoiOGVlNmUyZGYtMGZiNy00MWI0LTgwMTQtMjQxYTA5ZDE5ZjU0Iiwic3ViIjoidklmNmM3VlkyQmt6alg5VE9qSGp1UHlXLUtzeVdFa1FaeXFmcnluSjgxQSIsInRpZCI6ImVjYWEzODZiLWM4ZGYtNGNlMC1hZDAxLTc0MGNiZGI1YmE1NSIsInVuaXF1ZV9uYW1lIjoiVTEwMTIxMzg0QGJhc2ZhZC5iYXNmLm5ldCIsInVwbiI6IlUxMDEyMTM4NEBiYXNmYWQuYmFzZi5uZXQiLCJ1dGkiOiJoUnpHOWd3dzVreVBBbHlyVm4xZkFBIiwidmVyIjoiMS4wIn0.EZU2W3nmIEsePBh5MrdzArJP3nZXf-8e8x4UBKMsj8PXNtt1ac-8rfRxEUhJ6KjE_PyNNuIAoI5aV4ZbuuCGqATS87LxE0jgD16nsWCr5I3cR0TrJ8jy3NHvgQHo1rfw6lernPxB9fhzVHxD05mWE3uTK72t7DGswxzCrUxOecWbM1dHSJkBBo3BdNTZk6-dkA2POhG4GiyPCRH0sfCYCiv3lsH_y1AyNpwv7k36uPghKL1q4DcZR1t9zs171RyIV-o9nG6C8zKTm4MIRvHFPecRTQ1GjmmYA7OhcmEfJMo6F8NJvjM1el2A6-mEQjHhCjDmQ9LwXxV6CA1m9YUQKw"
 
                 log.info("azureToken: ", azureToken);
                 log.info("Username: ", username);
