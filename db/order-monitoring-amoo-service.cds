@@ -494,6 +494,27 @@ entity ![ORDER_CREATION] {
         NPS_TEXT: String(30);
 }
 
+@cds.persistence.exists
+entity ![ST_FOLLOWUP_NOTES] {
+        MANDT              : String(3);
+        VBELN              : String(10);
+        POSNR              : String(6);
+        PREDEFINED_ID      : String(5);
+        PREDEFINED_CONTENT : String(50);
+        LANGUAGE           : String(1);
+        CREATED_AT         : Timestamp;
+}
+
+@cds.persistence.exists
+entity ![ST_APAC_DELAY_REASON_ENTRY] {
+        MANDT          : String(3);
+        ORDER_NUMBER   : String(10);
+        ITEM_NUMBER    : String(6);
+        BUCKET         : String(2);
+        LANGUAGE       : String(2);
+        REASON_CODE    : String(2);
+}
+
 // entity POIssues {
 //         key Issue : String(2);
 //         IssueText : localized String(60);
