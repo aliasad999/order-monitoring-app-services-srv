@@ -1426,15 +1426,6 @@ class openOrdersSrv extends cds.ApplicationService {
             }
             if (['10', '20', '30', '40'].includes(nps)) {
                 try {
-                    // const CSEUCockpitService = await cds.connect.to('CSEUCockpitService');
-                    // atpPalData = await CSEUCockpitService.run(SELECT.from('ATPPalStatusSet').where({
-                    //     OrderNumber: salesOrder,
-                    //     OrderItem: salesOrderItem,
-                    //     Material: material,
-                    //     Location: plant,
-                    //     Quantity: quantity,
-                    //     UoM: uom
-                    // }))
                     const ATPService = await cds.connect.to('ATPService');
                     let atpSystemCheck = await ATPService.run(SELECT.from('ATPCheckSystemSet').where({
                         Material: material,
