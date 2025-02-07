@@ -1380,7 +1380,7 @@ class openOrdersSrv extends cds.ApplicationService {
             let issueLocation = detailsSalesOrder;
             let issueLocationItem = DetailsSalesOrderItem;
 
-            // Call CX only for order incomplete and outbound delivery incomplete (for now)
+            // Call Cobalt only for order incomplete and outbound delivery incomplete (for now)
             if(issue === "01" || issue === "05"){
                 try {
                     // const AMOOUtilsService = await cds.connect.to('AMOOUtilsService');
