@@ -519,6 +519,16 @@ service openOrdersSrv {
                 REASON_CODE  as ReasonCodeKey
         };
 
+    entity ReasonCommentsCloud      as
+        select from db_app.ST_APAC_DELAY_REASON_ENTRY {
+            key MANDT           as Client,
+            key ORDER_NUMBER    as SalesOrder,
+            key ITEM_NUMBER     as OrderItem,
+            key BUCKET          as BucketKey,
+            key LANGUAGE        as Language,
+            REASON_CODE         as ReasonCodeKey
+        };
+
     entity PredefFollowupNotes      as
         select from AMOOUtilsService.PredefinedFollowupNotes {
             PREDEFINED_ID      as FollowUpNoteId,
@@ -527,11 +537,14 @@ service openOrdersSrv {
         };
 
     entity FollowupNotes            as
-        select from AMOOUtilsService.FollowupNotes {
-            ORDER_NUMBER  as SalesOrder,
-            ORDER_ITEM    as OrderItem,
-            PREDEFINED_ID as FollowupNote,
-            CREATED_AT    as CreatedAt
+        select from db_app.ST_FOLLOWUP_NOTES {
+            key MANDT              as Client,
+            key VBELN              as SalesOrder,
+            key POSNR              as OrderItem,
+            key PREDEFINED_ID      as FollowupNote,
+            key LANGUAGE           as Language,
+                PREDEFINED_CONTENT as Content,
+                CREATED_AT         as CreatedAt
         };
 
     entity dueDateLimit             as projection on db_app.DUE_DATE_LIMIT;

@@ -82,5 +82,17 @@
       "object": "otc.csc.db.app_service.views::CV_ORDER_CREATION_NPS",
       "schema.configure": "otc-csc-hdi/schema"
     }
+  },
+  "OPENORDERS_DB_ST_FOLLOWUP_NOTES": {
+    "target": {
+      "object": "otc.csc.db.base.tables::ST_FOLLOWUP_NOTES",
+      "schema.configure": "otc-csc-hdi/schema"
+    }
+  },
+  "OPENORDERS_DB_ST_APAC_DELAY_REASON_ENTRY": {
+    "target": {
+      "object": "otc.csc.db.base.tables::ST_APAC_DELAY_REASON_ENTRY",
+      "schema.configure": "otc-csc-hdi/schema"
+    }
   }
 }

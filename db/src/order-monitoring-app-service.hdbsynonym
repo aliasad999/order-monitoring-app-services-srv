@@ -1,29 +1,29 @@
 {
   "ALLORDERS_DB_RESULTS": {
-      "target": {
-          "object": "otc.csc.db.base.views::CV_ORDERLIST_FINAL",
-          "schema": "_PLACEHOLDER_"
-        }
+    "target": {
+      "object": "otc.csc.db.base.views::CV_ORDERLIST_FINAL",
+      "schema": "_PLACEHOLDER_"
+    }
   },
   "ALLORDERS_DB_EKKOAUTH": {
-  "target": {
-    "object": "otc.csc.db.base.tables::ST_EKKOAUTH",
-    "schema": "_PLACEHOLDER_"
-  }
-},
-  "ALLORDERS_DB_VBAKAUTH": {
-      "target": {
-          "object": "otc.csc.db.base.tables::ST_VBAKAUTH",
-          "schema": "_PLACEHOLDER_"
-      }
+    "target": {
+      "object": "otc.csc.db.base.tables::ST_EKKOAUTH",
+      "schema": "_PLACEHOLDER_"
+    }
   },
-    "ALLORDERS_DB_ST_NOTES": {
-      "target": {
-        "object": "otc.csc.db.base.tables::ST_NOTES",
-        "schema": "_PLACEHOLDER_"
-      }
-    },
-  
+  "ALLORDERS_DB_VBAKAUTH": {
+    "target": {
+      "object": "otc.csc.db.base.tables::ST_VBAKAUTH",
+      "schema": "_PLACEHOLDER_"
+    }
+  },
+  "ALLORDERS_DB_ST_NOTES": {
+    "target": {
+      "object": "otc.csc.db.base.tables::ST_NOTES",
+      "schema": "_PLACEHOLDER_"
+    }
+  },
+
   "OPENORDERS_DB_OPENORDERSLIST": {
     "target": {
       "object": "otc.csc.db.app_service.views::CV_OPEN_ORDERLIST_FINAL",
@@ -73,15 +73,27 @@
     }
   },
   "ALLORDERS_DB_PARTNER_SETTINGS_DB": {
-      "target": {
-          "object": "otc.csc.db.base.tables::PARTNER_SETTINGS",
-          "schema": "_PLACEHOLDER_"
-      }
+    "target": {
+      "object": "otc.csc.db.base.tables::PARTNER_SETTINGS",
+      "schema": "_PLACEHOLDER_"
+    }
   },
   "OPENORDERS_DB_ORDER_CREATION": {
     "target": {
       "object": "otc.csc.db.app_service.views::CV_ORDER_CREATION_NPS",
       "schema": "_PLACEHOLDER_"
     }
+  },
+  "OPENORDERS_DB_ST_FOLLOWUP_NOTES": {
+    "target": {
+      "object": "otc.csc.db.base.tables::ST_FOLLOWUP_NOTES",
+      "schema": "_PLACEHOLDER_"
+    }
+  },
+  "OPENORDERS_DB_ST_APAC_DELAY_REASON_ENTRY": {
+    "target": {
+      "object": "otc.csc.db.base.tables::ST_APAC_DELAY_REASON_ENTRY",
+      "schema": "_PLACEHOLDER_"
+    }
   }
-}     
+}
