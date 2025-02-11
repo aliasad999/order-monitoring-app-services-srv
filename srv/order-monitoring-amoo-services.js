@@ -1370,7 +1370,8 @@ class openOrdersSrv extends cds.ApplicationService {
         })
 
         this.on("getIssueReason", async (req) => {
-            let incompletionLog = []
+            let issueReason = []
+            // let incompletionLog = []
             let creditData = {}
             let idocData = []
             let atpData = []
@@ -1383,18 +1384,18 @@ class openOrdersSrv extends cds.ApplicationService {
             // Call Cobalt only for order incomplete and outbound delivery incomplete (for now)
             if(issue === "01" || issue === "05"){
                 try {
-                    // const AMOOUtilsService = await cds.connect.to('AMOOUtilsService');
-                    // const query = `/IssueReason(p_mandt='100',p_SalesOrderNumber='${salesOrder}',p_SalesOrderItemNumber='${salesOrderItem}',p_DetailSalesOrderNumber='${detailsSalesOrder}',p_DetailSalesOrderItemNumber='${DetailsSalesOrderItem}',p_IssueId='${issue}',p_NPSId='${nps}',p_issue_location='${issue_location}',p_lang='EN')/Results?sap-client=100`
-                    // issueReason = await AMOOUtilsService.tx(req).send({
-                    //     method: "GET",
-                    //     path: query
-                    // });
-                    const OMServices = await cds.connect.to('DSLServicesService');
-                    incompletionLog = await OMServices.run(SELECT.from('IncompletionLogsSet').where({
-                        DocumentNumber: issueLocation, // order number in case of 01 and delivery number in case of 05
-                        DocumentItem: issueLocationItem, // order item in case of 01 and delivery item in case of 05
-                        Issue: issue
-                    }))
+                    const AMOOUtilsService = await cds.connect.to('AMOOUtilsService');
+                    const query = `/IssueReason(p_mandt='100',p_SalesOrderNumber='${salesOrder}',p_SalesOrderItemNumber='${salesOrderItem}',p_DetailSalesOrderNumber='${detailsSalesOrder}',p_DetailSalesOrderItemNumber='${DetailsSalesOrderItem}',p_IssueId='${issue}',p_NPSId='${nps}',p_issue_location='${issue_location}',p_lang='EN')/Results?sap-client=100`
+                    issueReason = await AMOOUtilsService.tx(req).send({
+                        method: "GET",
+                        path: query
+                    });
+                    // const OMServices = await cds.connect.to('DSLServicesService');
+                    // incompletionLog = await OMServices.run(SELECT.from('IncompletionLogsSet').where({
+                    //     DocumentNumber: issueLocation, // order number in case of 01 and delivery number in case of 05
+                    //     DocumentItem: issueLocationItem, // order item in case of 01 and delivery item in case of 05
+                    //     Issue: issue
+                    // }))
                 } catch (error) {
                     console.error('Error fetching issue reason:', error);
                 }
@@ -1475,9 +1476,12 @@ class openOrdersSrv extends cds.ApplicationService {
                 }
             }
             const combinedResults = [];
-            incompletionLog.forEach((item) => {
-                combinedResults.push({ text: item.IncompletionText })
+            issueReason.forEach((item) => {
+                combinedResults.push({ text: item.IssueReason })
             })
+            // incompletionLog.forEach((item) => {
+            //     combinedResults.push({ text: item.IncompletionText })
+            // 
             for (const prop in creditData) {
                 if (creditData.hasOwnProperty(prop)) {
                     combinedResults.push({ text: creditData[prop] })
