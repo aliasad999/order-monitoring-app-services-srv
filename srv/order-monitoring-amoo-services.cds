@@ -589,9 +589,11 @@ service openOrdersSrv {
         // PARTNER_9O_HEAD_NAME AS PO_PARTNER_9O_HEAD_NAME,
         BSART_BATXT AS PO_BSART_BATXT,
         NPS AS PO_NPS,
-        NPS_TEXT as PO_NPS_TEXT,
+        virtual null as PO_NPS_TEXT : String(60),
+        // NPS_TEXT as PO_NPS_TEXT,
         ISSUE AS PO_ISSUE,
-        ISSUE_TEXT as PO_ISSUE_TEXT,
+        virtual null as PO_ISSUE_TEXT : String(60),
+        // ISSUE_TEXT as PO_ISSUE_TEXT,
         DUE_DATE_FORMATTED AS PO_DUE_DATE,
         ERROR_TEXT AS PO_ERROR_TEXT,
         BIM_ERROR_ID AS PO_BIM_ERROR_ID

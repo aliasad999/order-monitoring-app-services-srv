@@ -1072,6 +1072,8 @@ class openOrdersSrv extends cds.ApplicationService {
                         item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
                     }
                 })
+                if ('PO_NPS' in item) item.PO_NPS_TEXT = getBundle(req.user.locale).getText(`po_nps${item.PO_NPS}`)
+                if ('PO_ISSUE' in item) item.PO_ISSUE_TEXT = getBundle(req.user.locale).getText(`po_issue${item.PO_ISSUE}`)
                 dateProps.forEach((property) => {
                     const dateString = item[property]
                     if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
@@ -1227,6 +1229,8 @@ class openOrdersSrv extends cds.ApplicationService {
             data.forEach((item) => {
                 item.Id = uuid.v1()
                 let mandtFields = serviceHelper.getMandtFields();
+                if ('PO_NPS' in item) item.PO_NPS_TEXT = getBundle(req.user.locale).getText(`po_nps${item.PO_NPS}`)
+                if ('PO_ISSUE' in item) item.PO_ISSUE_TEXT = getBundle(req.user.locale).getText(`po_issue${item.PO_ISSUE}`)
                 // MANDANT TEXTS LOGIC -------------
                 mandtFields.forEach((mandt) => {
                     const mandtProp = item[mandt];
