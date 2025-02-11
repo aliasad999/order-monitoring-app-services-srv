@@ -1478,9 +1478,10 @@ class openOrdersSrv extends cds.ApplicationService {
             const combinedResults = [];
             issueReason.forEach((item) => {
                 combinedResults.push({ text: item.IssueReason })
+            })
             // incompletionLog.forEach((item) => {
             //     combinedResults.push({ text: item.IncompletionText })
-            // })
+            // 
             for (const prop in creditData) {
                 if (creditData.hasOwnProperty(prop)) {
                     combinedResults.push({ text: creditData[prop] })
