@@ -85,6 +85,10 @@ annotate service.baseOrderCreation with {
     PO_EKGRP            @title: '{i18n>PO_EKGRP}'            @sap.Label: '{i18n>PO_EKGRP}';
     PO_EKNAM            @title: '{i18n>PO_EKNAM}'            @sap.Label: '{i18n>PO_EKNAM}';
     PO_EMATN            @title: '{i18n>PO_EMATN}'            @sap.Label: '{i18n>PO_EMATN}';
+    // PO_ISSUE            @title: '{i18n>PO_ISSUE}'            @sap.Label: '{i18n>PO_ISSUE}';
+    // PO_NPS              @title: '{i18n>PO_NPS}'              @sap.Label: '{i18n>PO_NPS}';
+    // PO_ISSUE_TEXT       @title: '{i18n>SO_ISSUE}'            @sap.Label: '{i18n>SO_ISSUE}';
+    // PO_NPS_TEXT         @title: '{i18n>SO_NPS}'              @sap.Label: '{i18n>SO_NPS}';
     PO_WERKS            @title: '{i18n>PO_WERKS_PO}'         @sap.Label: '{i18n>PO_WERKS_PO}';
     PO_MENGE            @title: '{i18n>PO_MENGE}'            @sap.Label: '{i18n>PO_MENGE}'       @Measures.Unit          : PO_MEINS;
     PO_MEINS            @title: '{i18n>PO_MEINS}'            @sap.Label: '{i18n>PO_MEINS}'       @Semantics.unitOfMeasure: 'unit-of-measure';
@@ -96,6 +100,18 @@ annotate service.baseOrderCreation with {
     PO_PARTNER_9O_HEAD  @title: '{i18n>PO_PARTNER_9O_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
     PO_BSART_BATXT      @title: '{i18n>PO_BSART}'            @sap.Label: '{i18n>PO_BSART}';
     PO_MANDT_TEXT       @title: '{i18n>PO_MANDT}'            @sap.Label: '{i18n>PO_MANDT}';
+
+    @Common.Text           : PO_ISSUE_TEXT
+    @Common.TextArrangement: #TextOnly
+    PO_ISSUE            @title: '{i18n>SO_ISSUE}'            @sap.Label: '{i18n>SO_ISSUE}';
+    @Common.TextFor
+    PO_ISSUE_TEXT;
+
+    @Common.Text           : PO_NPS_TEXT
+    @Common.TextArrangement: #TextOnly
+    PO_NPS              @title: '{i18n>SO_NPS}'              @sap.Label: '{i18n>SO_NPS}';
+    @Common.TextFor
+    PO_NPS_TEXT;
 }
 
 annotate service.orderCreation with {
@@ -132,18 +148,6 @@ annotate service.orderCreation with {
     PO_EKGRP            @title: '{i18n>PO_EKGRP}'            @sap.Label: '{i18n>PO_EKGRP}';
     @Common.TextFor
     PO_EKNAM;
-
-    @Common.Text           : PO_ISSUE_TEXT
-    @Common.TextArrangement: #TextFirst
-    PO_ISSUE            @title: '{i18n>SO_ISSUE}'            @sap.Label: '{i18n>SO_ISSUE}';
-    @Common.TextFor
-    PO_ISSUE_TEXT;
-
-    @Common.Text           : PO_NPS_TEXT
-    @Common.TextArrangement: #TextFirst
-    PO_NPS              @title: '{i18n>SO_NPS}'              @sap.Label: '{i18n>SO_NPS}';
-    @Common.TextFor
-    PO_NPS_TEXT;
 
     // HIDDEN FIELDS
     PO_KUNNR_NAME       @UI   : {Hidden: true};
@@ -314,10 +318,6 @@ annotate service.orderCreation with {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: PO_ISSUE,
                 ValueListProperty: 'PO_ISSUE'
-            },
-            {
-                $Type            : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty: 'PO_ISSUE_TEXT'
             }
 
         ]
@@ -335,10 +335,6 @@ annotate service.orderCreation with {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: PO_NPS,
                 ValueListProperty: 'PO_NPS'
-            },
-            {
-                $Type            : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty: 'PO_NPS_TEXT'
             }
 
         ]
