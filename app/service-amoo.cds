@@ -134,13 +134,13 @@ annotate service.orderCreation with {
     PO_EKNAM;
 
     @Common.Text           : PO_ISSUE_TEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     PO_ISSUE            @title: '{i18n>SO_ISSUE}'            @sap.Label: '{i18n>SO_ISSUE}';
     @Common.TextFor
     PO_ISSUE_TEXT;
 
     @Common.Text           : PO_NPS_TEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     PO_NPS              @title: '{i18n>SO_NPS}'              @sap.Label: '{i18n>SO_NPS}';
     @Common.TextFor
     PO_NPS_TEXT;
@@ -302,34 +302,44 @@ annotate service.orderCreation with {
         ]
     };
 
-    PO_ISSUE_TEXT
+    PO_ISSUE
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>PO_ISSUE_TEXT}',
+        Label                  : '{@i18n>SO_ISSUE}',
         CollectionPath         : 'OCValueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: PO_ISSUE_TEXT,
-            ValueListProperty: 'PO_ISSUE_TEXT'
-        }
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_ISSUE,
+                ValueListProperty: 'PO_ISSUE'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_ISSUE_TEXT'
+            }
 
         ]
     };
 
-    PO_NPS_TEXT
+    PO_NPS
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>PO_NPS_TEXT}',
+        Label                  : '{@i18n>SO_NPS}',
         CollectionPath         : 'OCValueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: PO_NPS_TEXT,
-            ValueListProperty: 'PO_NPS_TEXT'
-        }
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_NPS,
+                ValueListProperty: 'PO_NPS'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_NPS_TEXT'
+            }
 
         ]
     };
