@@ -54,8 +54,8 @@ annotate service.orderCreation with @UI.LineItem: {$value: [
     {Value: PO_EBELP},
     {Value: PO_AEDAT_HEAD},
     {Value: PO_AEDAT_ITEM},
-    {Value: PO_ISSUE_TEXT},
-    {Value: PO_NPS_TEXT},
+    {Value: PO_ISSUE},
+    {Value: PO_NPS},
     {Value: PO_ERROR_TEXT},
     {Value: PO_DUE_DATE}
 ]};
@@ -66,8 +66,8 @@ annotate service.orderCreation with @(UI: {SelectionFields: [
     PO_EBELP,
     PO_AEDAT_HEAD,
     PO_AEDAT_ITEM,
-    PO_ISSUE_TEXT,
-    PO_NPS_TEXT,
+    PO_ISSUE,
+    PO_NPS,
     PO_ERROR_TEXT,
     PO_DUE_DATE
 ],
@@ -76,83 +76,86 @@ annotate service.orderCreation with @(UI: {SelectionFields: [
 
 // ------------- ORDER CREATION FIELD ANNOTATIONS -------
 annotate service.baseOrderCreation with {
-    PO_EBELN                @title: '{i18n>PO_EBELN}'                 @sap.Label: '{i18n>PO_EBELN}'       @Common.IsDigitSequence : true;
-    PO_EBELP                @title: '{i18n>PO_EBELP}'                 @sap.Label: '{i18n>PO_EBELP}'       @Common.IsDigitSequence : true;
-    PO_AEDAT_HEAD           @title: '{i18n>PO_AEDAT_HEAD}'            @sap.Label: '{i18n>PO_AEDAT_HEAD}'  @sap.filter.restriction : 'interval';
-    PO_AEDAT_ITEM           @title: '{i18n>PO_AEDAT_ITEM}'            @sap.Label: '{i18n>PO_AEDAT_ITEM}'  @sap.filter.restriction : 'interval';
-    PO_EKORG                @title: '{i18n>PO_EKORG}'                 @sap.Label: '{i18n>PO_EKORG}';
-    PO_EKOTX                @title: '{i18n>PO_EKOTX}'                 @sap.Label: '{i18n>PO_EKOTX}';
-    PO_EKGRP                @title: '{i18n>PO_EKGRP}'                 @sap.Label: '{i18n>PO_EKGRP}';
-    PO_EKNAM                @title: '{i18n>PO_EKNAM}'                 @sap.Label: '{i18n>PO_EKNAM}';
-    PO_EMATN                @title: '{i18n>PO_EMATN}'                 @sap.Label: '{i18n>PO_EMATN}';
-    PO_WERKS                @title: '{i18n>PO_WERKS_PO}'              @sap.Label: '{i18n>PO_WERKS_PO}';
-    PO_MENGE                @title: '{i18n>PO_MENGE}'                 @sap.Label: '{i18n>PO_MENGE}'       @Measures.Unit          : PO_MEINS;
-    PO_MEINS                @title: '{i18n>PO_MEINS}'                 @sap.Label: '{i18n>PO_MEINS}'       @Semantics.unitOfMeasure: 'unit-of-measure';
-    PO_DUE_DATE             @title: '{i18n>so_due_date}'              @sap.Label: '{i18n>so_due_date}';
-    PO_ERROR_TEXT           @title: '{i18n>PO_ERROR_TEXT}'            @sap.Label: '{i18n>PO_ERROR_TEXT}';
-    PO_ISSUE_TEXT           @title: '{i18n>SO_ISSUE}'                 @sap.Label: '{i18n>SO_ISSUE}';
-    PO_NPS_TEXT             @title: '{i18n>SO_NPS}'                   @sap.Label: '{i18n>SO_NPS}';
-    PO_KUNNR                @title: '{i18n>PO_KUNNR}'                 @sap.Label: '{i18n>PO_KUNNR}';
-    PO_KUNNR_NAME           @title: '{i18n>PO_KUNNR_NAME}'            @sap.Label: '{i18n>PO_KUNNR_NAME}';
-    PO_PARTNER_9A_HEAD      @title: '{i18n>PO_PARTNER_9A_HEAD}'       @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
-    PO_PARTNER_9A_HEAD_NAME @title: '{i18n>PO_PARTNER_9A_HEAD_NAME}'  @sap.Label: '{i18n>PO_PARTNER_9A_HEAD_NAME}';
-    PO_PARTNER_9O_HEAD      @title: '{i18n>PO_PARTNER_9O_HEAD}'       @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
-    PO_PARTNER_9O_HEAD_NAME @title: '{i18n>PO_PARTNER_9O_HEAD_NAME}'  @sap.Label: '{i18n>PO_PARTNER_9O_HEAD_NAME}';
-    PO_BSART_BATXT          @title: '{i18n>PO_BSART}'                 @sap.Label: '{i18n>PO_BSART}';
-    PO_MANDT_TEXT           @title: '{i18n>PO_MANDT}'                 @sap.Label: '{i18n>PO_MANDT}';
+    PO_EBELN            @title: '{i18n>PO_EBELN}'            @sap.Label: '{i18n>PO_EBELN}'       @Common.IsDigitSequence : true;
+    PO_EBELP            @title: '{i18n>PO_EBELP}'            @sap.Label: '{i18n>PO_EBELP}'       @Common.IsDigitSequence : true;
+    PO_AEDAT_HEAD       @title: '{i18n>PO_AEDAT_HEAD}'       @sap.Label: '{i18n>PO_AEDAT_HEAD}'  @sap.filter.restriction : 'interval';
+    PO_AEDAT_ITEM       @title: '{i18n>PO_AEDAT_ITEM}'       @sap.Label: '{i18n>PO_AEDAT_ITEM}'  @sap.filter.restriction : 'interval';
+    PO_EKORG            @title: '{i18n>PO_EKORG}'            @sap.Label: '{i18n>PO_EKORG}';
+    PO_EKOTX            @title: '{i18n>PO_EKOTX}'            @sap.Label: '{i18n>PO_EKOTX}';
+    PO_EKGRP            @title: '{i18n>PO_EKGRP}'            @sap.Label: '{i18n>PO_EKGRP}';
+    PO_EKNAM            @title: '{i18n>PO_EKNAM}'            @sap.Label: '{i18n>PO_EKNAM}';
+    PO_EMATN            @title: '{i18n>PO_EMATN}'            @sap.Label: '{i18n>PO_EMATN}';
+    PO_WERKS            @title: '{i18n>PO_WERKS_PO}'         @sap.Label: '{i18n>PO_WERKS_PO}';
+    PO_MENGE            @title: '{i18n>PO_MENGE}'            @sap.Label: '{i18n>PO_MENGE}'       @Measures.Unit          : PO_MEINS;
+    PO_MEINS            @title: '{i18n>PO_MEINS}'            @sap.Label: '{i18n>PO_MEINS}'       @Semantics.unitOfMeasure: 'unit-of-measure';
+    PO_DUE_DATE         @title: '{i18n>so_due_date}'         @sap.Label: '{i18n>so_due_date}';
+    PO_ERROR_TEXT       @title: '{i18n>PO_ERROR_TEXT}'       @sap.Label: '{i18n>PO_ERROR_TEXT}';
+    PO_KUNNR            @title: '{i18n>PO_KUNNR}'            @sap.Label: '{i18n>PO_KUNNR}';
+    PO_KUNNR_NAME       @title: '{i18n>PO_KUNNR_NAME}'       @sap.Label: '{i18n>PO_KUNNR_NAME}';
+    PO_PARTNER_9A_HEAD  @title: '{i18n>PO_PARTNER_9A_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
+    PO_PARTNER_9O_HEAD  @title: '{i18n>PO_PARTNER_9O_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
+    PO_BSART_BATXT      @title: '{i18n>PO_BSART}'            @sap.Label: '{i18n>PO_BSART}';
+    PO_MANDT_TEXT       @title: '{i18n>PO_MANDT}'            @sap.Label: '{i18n>PO_MANDT}';
 }
 
 annotate service.orderCreation with {
     // FIELDS WITH TEXT ARRANGEMENT
     @Common.Text           : PO_KUNNR_NAME
     @Common.TextArrangement: #TextLast
-    PO_KUNNR                @title: '{i18n>PO_KUNNR}'            @sap.Label: '{i18n>PO_KUNNR}';
+    PO_KUNNR            @title: '{i18n>PO_KUNNR}'            @sap.Label: '{i18n>PO_KUNNR}';
     @Common.TextFor
     PO_KUNNR_NAME;
-    // @Common.Text           : PO_PARTNER_9A_HEAD_NAME
-    // @Common.TextArrangement: #TextLast
-    PO_PARTNER_9A_HEAD      @title: '{i18n>PO_PARTNER_9A_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
-    // @Common.TextFor
-    // PO_PARTNER_9A_HEAD_NAME;
-    //@Common.Text           : PO_PARTNER_9O_HEAD_NAME
-    // @Common.TextArrangement: #TextLast
-    PO_PARTNER_9O_HEAD      @title: '{i18n>PO_PARTNER_9O_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
-    // @Common.TextFor
-    // PO_PARTNER_9O_HEAD_NAME;
+
+    PO_PARTNER_9A_HEAD  @title: '{i18n>PO_PARTNER_9A_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
+    PO_PARTNER_9O_HEAD  @title: '{i18n>PO_PARTNER_9O_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
+
     @Common.Text           : PO_BSART_BATXT
     @Common.TextArrangement: #TextLast
-    PO_BSART                @title: '{i18n>PO_BSART}'            @sap.Label: '{i18n>PO_BSART}';
+    PO_BSART            @title: '{i18n>PO_BSART}'            @sap.Label: '{i18n>PO_BSART}';
     @Common.TextFor
     PO_BSART_BATXT;
+
     @Common.Text           : PO_MANDT_TEXT
     @Common.TextArrangement: #TextLast
-    PO_MANDT                @title: '{i18n>PO_MANDT}'            @sap.Label: '{i18n>PO_MANDT}';
+    PO_MANDT            @title: '{i18n>PO_MANDT}'            @sap.Label: '{i18n>PO_MANDT}';
     @Common.TextFor
     PO_MANDT_TEXT;
+
     @Common.Text           : PO_EKOTX
     @Common.TextArrangement: #TextLast
-    PO_EKORG                    @title: '{i18n>PO_EKORG}'                    @sap.Label: '{i18n>PO_EKORG}';
+    PO_EKORG            @title: '{i18n>PO_EKORG}'            @sap.Label: '{i18n>PO_EKORG}';
     @Common.TextFor
     PO_EKOTX;
+
     @Common.Text           : PO_EKNAM
     @Common.TextArrangement: #TextLast
-    PO_EKGRP                    @title: '{i18n>PO_EKGRP}'                    @sap.Label: '{i18n>PO_EKGRP}';
+    PO_EKGRP            @title: '{i18n>PO_EKGRP}'            @sap.Label: '{i18n>PO_EKGRP}';
     @Common.TextFor
     PO_EKNAM;
 
+    @Common.Text           : PO_ISSUE_TEXT
+    @Common.TextArrangement: #TextLast
+    PO_ISSUE            @title: '{i18n>SO_ISSUE}'            @sap.Label: '{i18n>SO_ISSUE}';
+    @Common.TextFor
+    PO_ISSUE_TEXT;
+
+    @Common.Text           : PO_NPS_TEXT
+    @Common.TextArrangement: #TextLast
+    PO_NPS              @title: '{i18n>SO_NPS}'              @sap.Label: '{i18n>SO_NPS}';
+    @Common.TextFor
+    PO_NPS_TEXT;
+
     // HIDDEN FIELDS
-    PO_KUNNR_NAME           @UI   : {Hidden: true};
-    PO_PARTNER_9A_HEAD_NAME @UI   : {Hidden: true};
-    PO_PARTNER_9O_HEAD_NAME @UI   : {Hidden: true};
-    PO_BSART_BATXT          @UI   : {Hidden: true};
-    PO_BIM_ERROR_ID         @UI   : {Hidden: true};
-    PO_MEINS                @UI   : {Hidden: true};
-    PO_ISSUE                @UI   : {Hidden: true};
-    PO_NPS                  @UI   : {Hidden: true};
-    Id                      @UI   : {Hidden: true};
-    PO_MANDT_TEXT           @UI   : {Hidden: true};
-    PO_EKNAM                @UI   : {Hidden: true};
-    PO_EKOTX                @UI   : {Hidden: true};
+    PO_KUNNR_NAME       @UI   : {Hidden: true};
+    PO_BSART_BATXT      @UI   : {Hidden: true};
+    PO_BIM_ERROR_ID     @UI   : {Hidden: true};
+    PO_MEINS            @UI   : {Hidden: true};
+    Id                  @UI   : {Hidden: true};
+    PO_MANDT_TEXT       @UI   : {Hidden: true};
+    PO_EKNAM            @UI   : {Hidden: true};
+    PO_EKOTX            @UI   : {Hidden: true};
+    PO_ISSUE_TEXT       @UI   : {Hidden: true};
+    PO_NPS_TEXT         @UI   : {Hidden: true};
 }
 
 // ------------- ORDER CREATION VALUE HELPS -------
@@ -230,7 +233,7 @@ annotate service.orderCreation with {
     };
 
 
-    PO_EKGRP 
+    PO_EKGRP
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>PO_EKGRP}',
@@ -239,14 +242,14 @@ annotate service.orderCreation with {
         SearchSupported        : true,
         Parameters             : [
             {
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: PO_EKGRP,
-            ValueListProperty: 'PO_EKGRP'
-        },
-        {
-            $Type            : 'Common.ValueListParameterDisplayOnly',
-            ValueListProperty: 'PO_EKNAM'
-        }
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_EKGRP,
+                ValueListProperty: 'PO_EKGRP'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_EKNAM'
+            }
 
         ]
     };
@@ -359,16 +362,15 @@ annotate service.orderCreation with {
         CollectionPath         : 'OCValueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [
-            {
-                $Type            : 'Common.ValueListParameterInOut',
-                LocalDataProperty: PO_PARTNER_9A_HEAD,
-                ValueListProperty: 'PO_PARTNER_9A_HEAD'
-            }
-            // {
-            //     $Type            : 'Common.ValueListParameterDisplayOnly',
-            //     ValueListProperty: 'PO_PARTNER_9A_HEAD_NAME'
-            // }
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_PARTNER_9A_HEAD,
+            ValueListProperty: 'PO_PARTNER_9A_HEAD'
+        }
+        // {
+        //     $Type            : 'Common.ValueListParameterDisplayOnly',
+        //     ValueListProperty: 'PO_PARTNER_9A_HEAD_NAME'
+        // }
 
         ]
     };
@@ -380,16 +382,15 @@ annotate service.orderCreation with {
         CollectionPath         : 'OCValueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [
-            {
-                $Type            : 'Common.ValueListParameterInOut',
-                LocalDataProperty: PO_PARTNER_9O_HEAD,
-                ValueListProperty: 'PO_PARTNER_9O_HEAD'
-            }
-            // {
-            //     $Type            : 'Common.ValueListParameterDisplayOnly',
-            //     ValueListProperty: 'PO_PARTNER_9O_HEAD_NAME'
-            // }
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_PARTNER_9O_HEAD,
+            ValueListProperty: 'PO_PARTNER_9O_HEAD'
+        }
+        // {
+        //     $Type            : 'Common.ValueListParameterDisplayOnly',
+        //     ValueListProperty: 'PO_PARTNER_9O_HEAD_NAME'
+        // }
 
         ]
     };
@@ -1070,9 +1071,9 @@ annotate service.baseEntity with {
     PO_KUNNR                        @title: '{i18n>PO_KUNNR}'                    @sap.Label: '{i18n>PO_KUNNR}';
     PO_KUNNR_NAME                   @title: '{i18n>PO_KUNNR_NAME}'               @sap.Label: '{i18n>PO_KUNNR_NAME}';
     PO_PARTNER_9A_HEAD              @title: '{i18n>PO_PARTNER_9A_HEAD}'          @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
-    PO_PARTNER_9A_HEAD_NAME         @title: '{i18n>PO_PARTNER_9A_HEAD_NAME}'     @sap.Label: '{i18n>PO_PARTNER_9A_HEAD_NAME}';
+    // PO_PARTNER_9A_HEAD_NAME         @title: '{i18n>PO_PARTNER_9A_HEAD_NAME}'     @sap.Label: '{i18n>PO_PARTNER_9A_HEAD_NAME}';
     PO_PARTNER_9O_HEAD              @title: '{i18n>PO_PARTNER_9O_HEAD}'          @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
-    PO_PARTNER_9O_HEAD_NAME         @title: '{i18n>PO_PARTNER_9O_HEAD_NAME}'     @sap.Label: '{i18n>PO_PARTNER_9O_HEAD_NAME}';
+    // PO_PARTNER_9O_HEAD_NAME         @title: '{i18n>PO_PARTNER_9O_HEAD_NAME}'     @sap.Label: '{i18n>PO_PARTNER_9O_HEAD_NAME}';
     // SO_BSTNK         @title: '{i18n>SO_BSTNK}'     @sap.Label: '{i18n>SO_BSTNK}';
 
     ///// Mandants
@@ -1092,8 +1093,8 @@ annotate service.baseEntity with {
     SO_FIRST_SO_MANDT_TEXT          @title: '{i18n>SO_FIRST_SO_MANDT}'           @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
     SO_FINAL_SO_MANDT_TEXT          @title: '{i18n>SO_FINAL_SO_MANDT}'           @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
     PO_MANDT_TEXT                   @title: '{i18n>PO_MANDT}'                    @sap.Label: '{i18n>PO_MANDT}';
-    DL_TRMTYP                       @title: '{i18n>DL_TRMTYP}'                   @sap.Label: '{i18n>DL_TRMTYP}'  @Common.IsDigitSequence: true;
-    DL_TRMTYP_MAKTX                 @title: '{i18n>DL_TRMTYP_MAKTX_LANG}'        @sap.Label: '{i18n>DL_TRMTYP_MAKTX_LANG}';  
+    DL_TRMTYP                       @title: '{i18n>DL_TRMTYP}'                   @sap.Label: '{i18n>DL_TRMTYP}'           @Common.IsDigitSequence: true;
+    DL_TRMTYP_MAKTX                 @title: '{i18n>DL_TRMTYP_MAKTX_LANG}'        @sap.Label: '{i18n>DL_TRMTYP_MAKTX_LANG}';
     DL_ZZ0S2ABGH                    @title: '{i18n>DL_ZZ0S2ABGH}'                @sap.Label: '{i18n>DL_ZZ0S2ABGH}';
     DL_ZZ0S2ZIEH                    @title: '{i18n>DL_ZZ0S2ZIEH}'                @sap.Label: '{i18n>DL_ZZ0S2ZIEH}';
 
@@ -1134,8 +1135,8 @@ annotate service.allIssues with {
     BL_VRKME_FIRST          @Semantics.unitOfMeasure: 'unit-of-measure';
     BL_VRKME_LAST           @Semantics.unitOfMeasure: 'unit-of-measure';
     PO_KUNNR_NAME           @UI                     : {Hidden: true};
-    PO_PARTNER_9A_HEAD_NAME @UI                     : {Hidden: true};
-    PO_PARTNER_9O_HEAD_NAME @UI                     : {Hidden: true};
+    // PO_PARTNER_9A_HEAD_NAME @UI                     : {Hidden: true};
+    // PO_PARTNER_9O_HEAD_NAME @UI                     : {Hidden: true};
     PO_BSART_BATXT          @UI                     : {Hidden: true};
     PO_MENGE                @Measures.Unit          : PO_MEINS;
     PO_MEINS                @Semantics.unitOfMeasure: 'unit-of-measure';
@@ -1156,172 +1157,172 @@ annotate service.allIssues with {
 annotate service.allIssues with {
     @Common.Text           : SO_DCP_ITEM_STATUS_DESCRIPTION
     @Common.TextArrangement: #TextFirst
-    SO_DCP_ITEM_STATUS   @title: '{i18n>SO_DCP_ITEM_STATUS}'   @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
+    SO_DCP_ITEM_STATUS   @title: '{i18n>SO_DCP_ITEM_STATUS}'    @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
     @Common.TextFor
     SO_DCP_ITEM_STATUS_DESCRIPTION;
     @Common.Text           : SO_NPS_DESCRIPTION
     @Common.TextArrangement: #TextFirst
-    SO_NPS               @title: '{i18n>SO_NPS}'               @sap.Label: '{i18n>SO_NPS}';
+    SO_NPS               @title: '{i18n>SO_NPS}'                @sap.Label: '{i18n>SO_NPS}';
     @Common.TextFor
     SO_NPS_DESCRIPTION;
     @Common.Text           : SO_ISSUE_DESCRIPTION
     @Common.TextArrangement: #TextFirst
-    SO_ISSUE             @title: '{i18n>SO_ISSUE}'             @sap.Label: '{i18n>SO_ISSUE}';
+    SO_ISSUE             @title: '{i18n>SO_ISSUE}'              @sap.Label: '{i18n>SO_ISSUE}';
     @Common.TextFor
     SO_ISSUE_DESCRIPTION;
     @Common.Text           : SO_LANDX
     @Common.TextArrangement: #TextFirst
-    SO_LAND1             @title: '{i18n>SO_LAND1}'             @sap.Label: '{i18n>SO_LAND1}';
+    SO_LAND1             @title: '{i18n>SO_LAND1}'              @sap.Label: '{i18n>SO_LAND1}';
     @Common.TextFor
     SO_LANDX;
     @Common.Text           : SO_MAKTX
     @Common.TextArrangement: #TextFirst
-    SO_MATNR             @title: '{i18n>SO_MAKTX}'             @sap.Label: '{i18n>SO_MATNR}';
+    SO_MATNR             @title: '{i18n>SO_MAKTX}'              @sap.Label: '{i18n>SO_MATNR}';
     @Common.TextFor
     SO_MAKTX;
     @Common.Text           : SO_AG_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_AG_PARTNER        @title: '{i18n>SO_AG_PARTNER_NAME}'   @sap.Label: '{i18n>SO_AG_PARTNER}';
+    SO_AG_PARTNER        @title: '{i18n>SO_AG_PARTNER_NAME}'    @sap.Label: '{i18n>SO_AG_PARTNER}';
     @Common.TextFor
     SO_AG_PARTNER_NAME;
     @Common.Text           : SO_WE_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_WE_PARTNER        @title: '{i18n>SO_WE_PARTNER_NAME}'   @sap.Label: '{i18n>SO_WE_PARTNER}';
+    SO_WE_PARTNER        @title: '{i18n>SO_WE_PARTNER_NAME}'    @sap.Label: '{i18n>SO_WE_PARTNER}';
     @Common.TextFor
     SO_WE_PARTNER_NAME;
     @Common.Text           : SO_VKORG_NAME1
     @Common.TextArrangement: #TextFirst
-    SO_VKORG             @title: '{i18n>SO_VKORG_NAME1}'       @sap.Label: '{i18n>SO_VKORG}';
+    SO_VKORG             @title: '{i18n>SO_VKORG_NAME1}'        @sap.Label: '{i18n>SO_VKORG}';
     @Common.TextFor
     SO_VKORG_NAME1;
     @Common.Text           : SO_FAKSP_VTEXT
     @Common.TextArrangement: #TextFirst
-    SO_FAKSP             @title: '{i18n>SO_FAKSP}'             @sap.Label: '{i18n>SO_FAKSP}';
+    SO_FAKSP             @title: '{i18n>SO_FAKSP}'              @sap.Label: '{i18n>SO_FAKSP}';
     @Common.TextFor
     SO_FAKSP_VTEXT;
     @Common.Text           : SO_SUPPLY_SITUATION_DESCR
     @Common.TextArrangement: #TextFirst
-    SO_SUPPLY_SITUATION  @title: '{i18n>SO_SUPPLY_SITUATION}'  @sap.Label: '{i18n>SO_SUPPLY_SITUATION}';
+    SO_SUPPLY_SITUATION  @title: '{i18n>SO_SUPPLY_SITUATION}'   @sap.Label: '{i18n>SO_SUPPLY_SITUATION}';
     @Common.TextFor
     SO_SUPPLY_SITUATION_DESCR;
     @Common.Text           : SO_PSTYV_VTEXT
     @Common.TextArrangement: #TextFirst
-    SO_PSTYV             @title: '{i18n>SO_PSTYV}'             @sap.Label: '{i18n>SO_PSTYV}';
+    SO_PSTYV             @title: '{i18n>SO_PSTYV}'              @sap.Label: '{i18n>SO_PSTYV}';
     @Common.TextFor
     SO_PSTYV_VTEXT;
     @Common.Text           : SO_VKBUR_BEZEI
     @Common.TextArrangement: #TextFirst
-    SO_VKBUR             @title: '{i18n>SO_VKBUR}'             @sap.Label: '{i18n>SO_VKBUR}';
+    SO_VKBUR             @title: '{i18n>SO_VKBUR}'              @sap.Label: '{i18n>SO_VKBUR}';
     @Common.TextFor
     SO_VKBUR_BEZEI;
     @Common.Text           : SO_ABGRU_BEZEI
     @Common.TextArrangement: #TextFirst
-    SO_ABGRU             @title: '{i18n>SO_ABGRU}'             @sap.Label: '{i18n>SO_ABGRU}';
+    SO_ABGRU             @title: '{i18n>SO_ABGRU}'              @sap.Label: '{i18n>SO_ABGRU}';
     @Common.TextFor
     SO_ABGRU_BEZEI;
     @Common.Text           : SO_CO_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_CO_PARTNER        @title: '{i18n>SO_CO_PARTNER}'        @sap.Label: '{i18n>SO_CO_PARTNER}';
+    SO_CO_PARTNER        @title: '{i18n>SO_CO_PARTNER}'         @sap.Label: '{i18n>SO_CO_PARTNER}';
     @Common.TextFor
     SO_CO_PARTNER_NAME;
     @Common.Text           : SO_NY_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_NY_PARTNER        @title: '{i18n>SO_NY_PARTNER}'        @sap.Label: '{i18n>SO_NY_PARTNER}';
+    SO_NY_PARTNER        @title: '{i18n>SO_NY_PARTNER}'         @sap.Label: '{i18n>SO_NY_PARTNER}';
     @Common.TextFor
     SO_NY_PARTNER_NAME;
     @Common.Text           : SO_AS_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_AS_PARTNER        @title: '{i18n>SO_AS_PARTNER}'        @sap.Label: '{i18n>SO_AS_PARTNER}';
+    SO_AS_PARTNER        @title: '{i18n>SO_AS_PARTNER}'         @sap.Label: '{i18n>SO_AS_PARTNER}';
     @Common.TextFor
     SO_AS_PARTNER_NAME;
     @Common.Text           : SO_VE_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_VE_PARTNER        @title: '{i18n>SO_VE_PARTNER}'        @sap.Label: '{i18n>SO_VE_PARTNER}';
+    SO_VE_PARTNER        @title: '{i18n>SO_VE_PARTNER}'         @sap.Label: '{i18n>SO_VE_PARTNER}';
     @Common.TextFor
     SO_VE_PARTNER_NAME;
     @Common.Text           : SO_AM_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_AM_PARTNER        @title: '{i18n>SO_AM_PARTNER}'        @sap.Label: '{i18n>SO_AM_PARTNER}';
+    SO_AM_PARTNER        @title: '{i18n>SO_AM_PARTNER}'         @sap.Label: '{i18n>SO_AM_PARTNER}';
     @Common.TextFor
     SO_AM_PARTNER_NAME;
     @Common.Text           : SO_BSARK_VTEXT
     @Common.TextArrangement: #TextFirst
-    SO_BSARK             @title: '{i18n>SO_BSARK}'             @sap.Label: '{i18n>SO_BSARK}';
+    SO_BSARK             @title: '{i18n>SO_BSARK}'              @sap.Label: '{i18n>SO_BSARK}';
     @Common.TextFor
     SO_BSARK_VTEXT;
     @Common.Text           : SO_TRAGR_VTEXT
     @Common.TextArrangement: #TextFirst
-    SO_TRAGR             @title: '{i18n>SO_TRAGR}'             @sap.Label: '{i18n>SO_TRAGR}';
+    SO_TRAGR             @title: '{i18n>SO_TRAGR}'              @sap.Label: '{i18n>SO_TRAGR}';
     @Common.TextFor
     SO_TRAGR_VTEXT;
     @Common.Text           : SO_VKGRP_BEZEI
     @Common.TextArrangement: #TextFirst
-    SO_VKGRP             @title: '{i18n>SO_VKGRP}'             @sap.Label: '{i18n>SO_VKGRP}';
+    SO_VKGRP             @title: '{i18n>SO_VKGRP}'              @sap.Label: '{i18n>SO_VKGRP}';
     @Common.TextFor
     SO_VKGRP_BEZEI;
     @Common.Text           : SO_F_VSBED_VTEXT
     @Common.TextArrangement: #TextFirst
-    SO_F_VSBED           @title: '{i18n>SO_F_VSBED}'           @sap.Label: '{i18n>SO_TRAGR}';
+    SO_F_VSBED           @title: '{i18n>SO_F_VSBED}'            @sap.Label: '{i18n>SO_TRAGR}';
     @Common.TextFor
     SO_F_VSBED_VTEXT;
     @Common.Text           : SO_F_VKORG_VTEXT
     @Common.TextArrangement: #TextFirst
-    SO_F_VKORG           @title: '{i18n>SO_F_VKORG}'           @sap.Label: '{i18n>SO_F_VKORG}';
+    SO_F_VKORG           @title: '{i18n>SO_F_VKORG}'            @sap.Label: '{i18n>SO_F_VKORG}';
     @Common.TextFor
     SO_F_VKORG_VTEXT;
     @Common.Text           : SO_F_AS_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_F_AS_PARTNER      @title: '{i18n>SO_F_AS_PARTNER}'      @sap.Label: '{i18n>SO_F_AS_PARTNER}';
+    SO_F_AS_PARTNER      @title: '{i18n>SO_F_AS_PARTNER}'       @sap.Label: '{i18n>SO_F_AS_PARTNER}';
     @Common.TextFor
     SO_F_AS_PARTNER_NAME;
     @Common.Text           : DL_LFART_VTEXT
     @Common.TextArrangement: #TextFirst
-    DL_LFART             @title: '{i18n>DL_LFART}'             @sap.Label: '{i18n>DL_LFART}';
+    DL_LFART             @title: '{i18n>DL_LFART}'              @sap.Label: '{i18n>DL_LFART}';
     @Common.TextFor
     DL_LFART_VTEXT;
     @Common.Text           : TM_VSART_BEZEI
     @Common.TextArrangement: #TextFirst
-    TM_VSART             @title: '{i18n>TM_VSART}'             @sap.Label: '{i18n>TM_VSART}';
+    TM_VSART             @title: '{i18n>TM_VSART}'              @sap.Label: '{i18n>TM_VSART}';
     @Common.TextFor
     TM_VSART_BEZEI;
     @Common.Text           : TM_TDLNR_NAME1
     @Common.TextArrangement: #TextFirst
-    TM_TDLNR             @title: '{i18n>TM_TDLNR}'             @sap.Label: '{i18n>TM_TDLNR}';
+    TM_TDLNR             @title: '{i18n>TM_TDLNR}'              @sap.Label: '{i18n>TM_TDLNR}';
     @Common.TextFor
     TM_TDLNR_NAME1;
     @Common.Text           : TM_STTRG_DDTEXT
     @Common.TextArrangement: #TextFirst
-    TM_STTRG             @title: '{i18n>TM_STTRG}'             @sap.Label: '{i18n>TM_STTRG}';
+    TM_STTRG             @title: '{i18n>TM_STTRG}'              @sap.Label: '{i18n>TM_STTRG}';
     @Common.TextFor
     TM_STTRG_DDTEXT;
     @Common.Text           : SO_MDB_TEXT
     @Common.TextArrangement: #TextFirst
-    SO_MDB               @title: '{i18n>SO_MDB}'               @sap.Label: '{i18n>SO_MDB}';
+    SO_MDB               @title: '{i18n>SO_MDB}'                @sap.Label: '{i18n>SO_MDB}';
     @Common.TextFor
     SO_MDB_TEXT;
     @Common.Text           : SO_PERFK_LTEXT_LANG
     @Common.TextArrangement: #TextLast
-    SO_PERFK             @title: '{i18n>SO_PERFK}'             @sap.Label: '{i18n>SO_PERFK}';
+    SO_PERFK             @title: '{i18n>SO_PERFK}'              @sap.Label: '{i18n>SO_PERFK}';
     @Common.TextFor
     SO_PERFK_LTEXT_LANG;
     @Common.Text           : PO_KUNNR_NAME
     @Common.TextArrangement: #TextLast
-    PO_KUNNR             @title: '{i18n>PO_KUNNR}'             @sap.Label: '{i18n>PO_KUNNR}';
+    PO_KUNNR             @title: '{i18n>PO_KUNNR}'              @sap.Label: '{i18n>PO_KUNNR}';
     @Common.TextFor
     PO_KUNNR_NAME;
     // @Common.Text           : PO_PARTNER_9A_HEAD_NAME
     // @Common.TextArrangement: #TextLast
-    PO_PARTNER_9A_HEAD   @title: '{i18n>PO_PARTNER_9A_HEAD}'   @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
+    PO_PARTNER_9A_HEAD   @title: '{i18n>PO_PARTNER_9A_HEAD}'    @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
     // @Common.TextFor
     // PO_PARTNER_9A_HEAD_NAME;
     // @Common.Text           : PO_PARTNER_9O_HEAD_NAME
     // @Common.TextArrangement: #TextLast
-    PO_PARTNER_9O_HEAD   @title: '{i18n>PO_PARTNER_9O_HEAD}'   @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
+    PO_PARTNER_9O_HEAD   @title: '{i18n>PO_PARTNER_9O_HEAD}'    @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
     // @Common.TextFor
     // PO_PARTNER_9O_HEAD_NAME;
     @Common.Text           : PO_BSART_BATXT
     @Common.TextArrangement: #TextLast
-    PO_BSART             @title: '{i18n>PO_BSART}'             @sap.Label: '{i18n>PO_BSART}';
+    PO_BSART             @title: '{i18n>PO_BSART}'              @sap.Label: '{i18n>PO_BSART}';
     @Common.TextFor
     PO_BSART_BATXT;
     // BL_VBELN_INV_FIRST          @title: '{i18n>BL_VBELN_INV_FIRST}'          @sap.Label: '{i18n>BL_VBELN_INV_FIRST}';
@@ -1331,55 +1332,55 @@ annotate service.allIssues with {
     ///// Mandants
     @Common.Text           : SO_MANDT_TEXT
     @Common.TextArrangement: #TextLast
-    SO_MANDT             @title: '{i18n>SO_MANDT}'             @sap.Label: '{i18n>SO_MANDT}';
+    SO_MANDT             @title: '{i18n>SO_MANDT}'              @sap.Label: '{i18n>SO_MANDT}';
     @Common.TextFor
     SO_MANDT_TEXT;
 
     @Common.Text           : DL_MANDT_TEXT
     @Common.TextArrangement: #TextLast
-    DL_MANDT             @title: '{i18n>DL_MANDT}'             @sap.Label: '{i18n>DL_MANDT}';
+    DL_MANDT             @title: '{i18n>DL_MANDT}'              @sap.Label: '{i18n>DL_MANDT}';
     @Common.TextFor
     DL_MANDT_TEXT;
 
     @Common.Text           : TM_MANDT_TEXT
     @Common.TextArrangement: #TextLast
-    TM_MANDT             @title: '{i18n>TM_MANDT}'             @sap.Label: '{i18n>TM_MANDT}';
+    TM_MANDT             @title: '{i18n>TM_MANDT}'              @sap.Label: '{i18n>TM_MANDT}';
     @Common.TextFor
     TM_MANDT_TEXT;
 
     @Common.Text           : BL_MANDT_INV_FIRST_TEXT
     @Common.TextArrangement: #TextLast
-    BL_MANDT_INV_FIRST   @title: '{i18n>BL_MANDT_INV_FIRST}'   @sap.Label: '{i18n>BL_MANDT_INV_FIRST}';
+    BL_MANDT_INV_FIRST   @title: '{i18n>BL_MANDT_INV_FIRST}'    @sap.Label: '{i18n>BL_MANDT_INV_FIRST}';
     @Common.TextFor
     BL_MANDT_INV_FIRST_TEXT;
 
     @Common.Text           : BL_MANDT_INV_LAST_TEXT
     @Common.TextArrangement: #TextLast
-    BL_MANDT_INV_LAST    @title: '{i18n>BL_MANDT_INV_LAST}'    @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
+    BL_MANDT_INV_LAST    @title: '{i18n>BL_MANDT_INV_LAST}'     @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
     @Common.TextFor
     BL_MANDT_INV_LAST_TEXT;
 
     @Common.Text           : SO_FIRST_SO_MANDT_TEXT
     @Common.TextArrangement: #TextLast
-    SO_FIRST_SO_MANDT    @title: '{i18n>SO_FIRST_SO_MANDT}'    @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
+    SO_FIRST_SO_MANDT    @title: '{i18n>SO_FIRST_SO_MANDT}'     @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
     @Common.TextFor
     SO_FIRST_SO_MANDT_TEXT;
 
     @Common.Text           : SO_FINAL_SO_MANDT_TEXT
     @Common.TextArrangement: #TextLast
-    SO_FINAL_SO_MANDT    @title: '{i18n>SO_FINAL_SO_MANDT}'    @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
+    SO_FINAL_SO_MANDT    @title: '{i18n>SO_FINAL_SO_MANDT}'     @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
     @Common.TextFor
     SO_FINAL_SO_MANDT_TEXT;
 
     @Common.Text           : PO_MANDT_TEXT
     @Common.TextArrangement: #TextLast
-    PO_MANDT             @title: '{i18n>PO_MANDT}'             @sap.Label: '{i18n>PO_MANDT}';
+    PO_MANDT             @title: '{i18n>PO_MANDT}'              @sap.Label: '{i18n>PO_MANDT}';
     @Common.TextFor
     PO_MANDT_TEXT;
 
     @Common.Text           : DL_TRMTYP_MAKTX
     @Common.TextArrangement: #TextLast
-    DL_TRMTYP          @title: '{i18n>DL_TRMTYP_MAKTX_LANG}'   @sap.Label: '{i18n>DL_TRMTYP}';
+    DL_TRMTYP            @title: '{i18n>DL_TRMTYP_MAKTX_LANG}'  @sap.Label: '{i18n>DL_TRMTYP}';
     @Common.TextFor
     DL_TRMTYP_MAKTX;
 
@@ -4039,16 +4040,15 @@ annotate service.allIssues with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [
-            {
-                $Type            : 'Common.ValueListParameterInOut',
-                LocalDataProperty: PO_PARTNER_9A_HEAD,
-                ValueListProperty: 'PO_PARTNER_9A_HEAD'
-            }
-            // {
-            //     $Type            : 'Common.ValueListParameterDisplayOnly',
-            //     ValueListProperty: 'PO_PARTNER_9A_HEAD_NAME'
-            // }
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_PARTNER_9A_HEAD,
+            ValueListProperty: 'PO_PARTNER_9A_HEAD'
+        }
+        // {
+        //     $Type            : 'Common.ValueListParameterDisplayOnly',
+        //     ValueListProperty: 'PO_PARTNER_9A_HEAD_NAME'
+        // }
         ]
     }
 };
@@ -4061,16 +4061,15 @@ annotate service.allIssues with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [
-            {
-                $Type            : 'Common.ValueListParameterInOut',
-                LocalDataProperty: PO_PARTNER_9O_HEAD,
-                ValueListProperty: 'PO_PARTNER_9O_HEAD'
-            }
-            // {
-            //     $Type            : 'Common.ValueListParameterDisplayOnly',
-            //     ValueListProperty: 'PO_PARTNER_9O_HEAD_NAME'
-            // }
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_PARTNER_9O_HEAD,
+            ValueListProperty: 'PO_PARTNER_9O_HEAD'
+        }
+        // {
+        //     $Type            : 'Common.ValueListParameterDisplayOnly',
+        //     ValueListProperty: 'PO_PARTNER_9O_HEAD_NAME'
+        // }
         ]
     }
 };
