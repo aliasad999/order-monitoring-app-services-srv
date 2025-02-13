@@ -75,7 +75,7 @@
         "SAPTexts": {
             "kind": "odata-v2",
             "credentials": {
-                "destination": "APIM_DEV",
+                "destination": "APIM",
                 "path": "/sal/otc/longtexts/v1"
             }
         },
