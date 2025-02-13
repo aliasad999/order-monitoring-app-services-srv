@@ -42,6 +42,40 @@ class openOrdersSrv extends cds.ApplicationService {
         this.before('*','*',async(req,next)=>{
             await cds.run(`SET 'APPLICATION' = 'CAPServices'`);
         })
+        // GET SAP TEXTS //
+        this.on("getSAPTexts", async req => {
+            let SAPTextsEntity = [];
+            let SAPTexts = {};
+            let salesOrder = req.data.salesOrder;
+            let salesOrderItem = req.data.salesOrderItem;
+            let textObjectsData = JSON.parse(req.data.textObjects);
+            const SAPTextsService = await cds.connect.to('SAPTexts');
+            for (var i = 0; i < textObjectsData.length; i++) {
+                let textObject = textObjectsData[i];
+                try {
+                    // EXAMPLE
+                    // SAPTexts = await SAPTextsService.get(`/orders/0071396870/items/000020?text_type_id=ZA10&language=EN`);
+                    if(textObject.onItem){
+                        SAPTexts = await SAPTextsService.get(`/orders/${salesOrder}/items/${salesOrderItem}?text_type_id=${textObject.id}&language=${req.locale}`);
+                    }else{
+                        SAPTexts = await SAPTextsService.get(`/orders/${salesOrder}?text_type_id=${textObject.id}&language=${req.locale}`);
+                    }
+                    SAPTextsEntity.push({
+                        TextId: textObject.id,
+                        SAPText: SAPTexts.textLines.join("\r\n"),
+                        KeyText: getBundle(req.locale).getText(`SAPText${textObject.id}`)
+                    })
+                } catch (error) {
+                    if(!error.message.includes("No Data Found")){
+                        req.error(413, error)
+                    }
+                }
+            }
+            
+            return SAPTextsEntity;
+        });
+
+
         // START OF REMOVE DELIVERY BLOCK //
         this.on("RemoveDeliveryBlock", async req => {
             let salesOrder = req.data.SalesOrderID;
@@ -1018,24 +1052,25 @@ class openOrdersSrv extends cds.ApplicationService {
 
         this.on("READ", "orderCreation", async (req, next) => {
             if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' ) {
-                return req.reply({ $count: 0 })
-                // try {
-                //     const db = cds.transaction(req);
-                //     const countCols = "PO_MANDT,PO_EBELN,PO_EBELP"
-                //     let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${countCols} from  openOrdersSrv_orderCreation   ) `)
-                //     if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
-                //     const distinctCount = (req.query.SELECT.where) ?
-                //         await db.run(query)
-                //         : await db.run(query);
-                //     return req.reply({ $count: Object.values(distinctCount[0])[0] })
-                // } catch (error) {
-                //     log.error("[order-monitoring-app-services.js] - Count query failed ! " + JSON.stringify(error));
-                //     req.error(error)
-                // }
-            }else{
-                return [];
+                // return req.reply({ $count: 0 })
+                try {
+                    const db = cds.transaction(req);
+                    const countCols = "PO_MANDT,PO_EBELN,PO_EBELP"
+                    let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${countCols} from  openOrdersSrv_orderCreation   ) `)
+                    if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
+                    const distinctCount = (req.query.SELECT.where) ?
+                        await db.run(query)
+                        : await db.run(query);
+                    return req.reply({ $count: Object.values(distinctCount[0])[0] })
+                } catch (error) {
+                    log.error("[order-monitoring-app-services.js] - Count query failed ! " + JSON.stringify(error));
+                    req.error(error)
+                }
             }
-            // await next(req)
+            // else{
+            //     return [];
+            // }
+            await next(req)
         })
 
         this.after("READ", "orderCreation", async (data, req) => {
@@ -1071,6 +1106,8 @@ class openOrdersSrv extends cds.ApplicationService {
                         item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
                     }
                 })
+                if ('PO_NPS' in item) item.PO_NPS_TEXT = getBundle(req.user.locale).getText(`po_nps${item.PO_NPS}`)
+                if ('PO_ISSUE' in item) item.PO_ISSUE_TEXT = getBundle(req.user.locale).getText(`po_issue${item.PO_ISSUE}`)
                 dateProps.forEach((property) => {
                     const dateString = item[property]
                     if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
@@ -1226,6 +1263,8 @@ class openOrdersSrv extends cds.ApplicationService {
             data.forEach((item) => {
                 item.Id = uuid.v1()
                 let mandtFields = serviceHelper.getMandtFields();
+                if ('PO_NPS' in item) item.PO_NPS_TEXT = getBundle(req.user.locale).getText(`po_nps${item.PO_NPS}`)
+                if ('PO_ISSUE' in item) item.PO_ISSUE_TEXT = getBundle(req.user.locale).getText(`po_issue${item.PO_ISSUE}`)
                 // MANDANT TEXTS LOGIC -------------
                 mandtFields.forEach((mandt) => {
                     const mandtProp = item[mandt];
@@ -1370,8 +1409,8 @@ class openOrdersSrv extends cds.ApplicationService {
         })
 
         this.on("getIssueReason", async (req) => {
-            let issueReason = []
-            // let incompletionLog = []
+            // let issueReason = []
+            let incompletionLog = []
             let creditData = {}
             let idocData = []
             let atpData = []
@@ -1384,18 +1423,18 @@ class openOrdersSrv extends cds.ApplicationService {
             // Call Cobalt only for order incomplete and outbound delivery incomplete (for now)
             if(issue === "01" || issue === "05"){
                 try {
-                    const AMOOUtilsService = await cds.connect.to('AMOOUtilsService');
-                    const query = `/IssueReason(p_mandt='100',p_SalesOrderNumber='${salesOrder}',p_SalesOrderItemNumber='${salesOrderItem}',p_DetailSalesOrderNumber='${detailsSalesOrder}',p_DetailSalesOrderItemNumber='${DetailsSalesOrderItem}',p_IssueId='${issue}',p_NPSId='${nps}',p_issue_location='${issue_location}',p_lang='EN')/Results?sap-client=100`
-                    issueReason = await AMOOUtilsService.tx(req).send({
-                        method: "GET",
-                        path: query
-                    });
-                    // const OMServices = await cds.connect.to('DSLServicesService');
-                    // incompletionLog = await OMServices.run(SELECT.from('IncompletionLogsSet').where({
-                    //     DocumentNumber: issueLocation, // order number in case of 01 and delivery number in case of 05
-                    //     DocumentItem: issueLocationItem, // order item in case of 01 and delivery item in case of 05
-                    //     Issue: issue
-                    // }))
+                    // const AMOOUtilsService = await cds.connect.to('AMOOUtilsService');
+                    // const query = `/IssueReason(p_mandt='100',p_SalesOrderNumber='${salesOrder}',p_SalesOrderItemNumber='${salesOrderItem}',p_DetailSalesOrderNumber='${detailsSalesOrder}',p_DetailSalesOrderItemNumber='${DetailsSalesOrderItem}',p_IssueId='${issue}',p_NPSId='${nps}',p_issue_location='${issue_location}',p_lang='EN')/Results?sap-client=100`
+                    // issueReason = await AMOOUtilsService.tx(req).send({
+                    //     method: "GET",
+                    //     path: query
+                    // });
+                    const OMServices = await cds.connect.to('DSLServicesService');
+                    incompletionLog = await OMServices.run(SELECT.from('IncompletionLogsSet').where({
+                        DocumentNumber: issueLocation, // order number in case of 01 and delivery number in case of 05
+                        DocumentItem: issueLocationItem, // order item in case of 01 and delivery item in case of 05
+                        Issue: issue
+                    }))
                 } catch (error) {
                     console.error('Error fetching issue reason:', error);
                 }
@@ -1427,15 +1466,6 @@ class openOrdersSrv extends cds.ApplicationService {
             }
             if (['10', '20', '30', '40'].includes(nps)) {
                 try {
-                    // const CSEUCockpitService = await cds.connect.to('CSEUCockpitService');
-                    // atpPalData = await CSEUCockpitService.run(SELECT.from('ATPPalStatusSet').where({
-                    //     OrderNumber: salesOrder,
-                    //     OrderItem: salesOrderItem,
-                    //     Material: material,
-                    //     Location: plant,
-                    //     Quantity: quantity,
-                    //     UoM: uom
-                    // }))
                     const ATPService = await cds.connect.to('ATPService');
                     let atpSystemCheck = await ATPService.run(SELECT.from('ATPCheckSystemSet').where({
                         Material: material,
@@ -1476,12 +1506,12 @@ class openOrdersSrv extends cds.ApplicationService {
                 }
             }
             const combinedResults = [];
-            issueReason.forEach((item) => {
-                combinedResults.push({ text: item.IssueReason })
+            // issueReason.forEach((item) => {
+            //     combinedResults.push({ text: item.IssueReason })
+            // })
+            incompletionLog.forEach((item) => {
+                combinedResults.push({ text: item.IncompletionText })
             })
-            // incompletionLog.forEach((item) => {
-            //     combinedResults.push({ text: item.IncompletionText })
-            // 
             for (const prop in creditData) {
                 if (creditData.hasOwnProperty(prop)) {
                     combinedResults.push({ text: creditData[prop] })

@@ -3,54 +3,6 @@
   "definitions": {},
   "extensions": [
     {
-      "annotate": "openOrdersSrv.allIssues",
-      "elements": {
-        "PO_PARTNER_9A_HEAD_NAME": {
-          "@UI.Hidden": true
-        },
-        "PO_PARTNER_9O_HEAD_NAME": {
-          "@UI.Hidden": true
-        }
-      }
-    },
-    {
-      "annotate": "openOrdersSrv.baseEntity",
-      "elements": {
-        "PO_PARTNER_9A_HEAD_NAME": {
-          "@title": "{i18n>PO_PARTNER_9A_HEAD_NAME}",
-          "@sap.Label": "{i18n>PO_PARTNER_9A_HEAD_NAME}"
-        },
-        "PO_PARTNER_9O_HEAD_NAME": {
-          "@title": "{i18n>PO_PARTNER_9O_HEAD_NAME}",
-          "@sap.Label": "{i18n>PO_PARTNER_9O_HEAD_NAME}"
-        }
-      }
-    },
-    {
-      "annotate": "openOrdersSrv.baseOrderCreation",
-      "elements": {
-        "PO_PARTNER_9A_HEAD_NAME": {
-          "@title": "{i18n>PO_PARTNER_9A_HEAD_NAME}",
-          "@sap.Label": "{i18n>PO_PARTNER_9A_HEAD_NAME}"
-        },
-        "PO_PARTNER_9O_HEAD_NAME": {
-          "@title": "{i18n>PO_PARTNER_9O_HEAD_NAME}",
-          "@sap.Label": "{i18n>PO_PARTNER_9O_HEAD_NAME}"
-        }
-      }
-    },
-    {
-      "annotate": "openOrdersSrv.orderCreation",
-      "elements": {
-        "PO_PARTNER_9A_HEAD_NAME": {
-          "@UI.Hidden": true
-        },
-        "PO_PARTNER_9O_HEAD_NAME": {
-          "@UI.Hidden": true
-        }
-      }
-    },
-    {
       "annotate": "srvOpenOrders.Results",
       "elements": {
         "USERNAME": {
