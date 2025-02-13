@@ -515,6 +515,12 @@ entity ![ST_APAC_DELAY_REASON_ENTRY] {
         REASON_CODE    : String(2);
 }
 
+entity SAPTexts {
+    key TextId : String(4);
+    SAPText: String;
+    KeyText: String;
+}
+
 // entity POIssues {
 //         key Issue : String(2);
 //         IssueText : localized String(60);

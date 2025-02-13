@@ -72,6 +72,13 @@
                 "path": "/it/omg/omc/atp/v1"
             }
         },
+        "SAPTexts": {
+            "kind": "odata-v2",
+            "credentials": {
+                "destination": "APIM_DEV",
+                "path": "/sal/otc/longtexts/v1"
+            }
+        },
         "CSEUCockpitService": {
             "kind": "odata-v2",
             "model": "srv/external/CSEUCockpitService",
