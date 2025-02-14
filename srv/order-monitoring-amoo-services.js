@@ -61,15 +61,15 @@ class openOrdersSrv extends cds.ApplicationService {
                     if(textObject.onItem){
                         // SAPTexts = await SAPTextsService.get(`/orders/${salesOrder}/items/${salesOrderItem}?text_type_id=${textObject.id}&language=${textLanguage}`);
                         SAPTexts = await SAPTextsService.run(SELECT.from('SAPTextsSet').where({
-                            TextId: textObject.id, // order number in case of 01 and delivery number in case of 05
-                            TextName: `${salesOrder}${salesOrderItem}`, // order item in case of 01 and delivery item in case of 05
+                            TextId: textObject.id, 
+                            TextName: `${salesOrder}${salesOrderItem}`, 
                             TextObject: "VBBP"
                         }))
                     }else{
                         // SAPTexts = await SAPTextsService.get(`/orders/${salesOrder}?text_type_id=${textObject.id}&language=${textLanguage}`);
                         SAPTexts = await SAPTextsService.run(SELECT.from('SAPTextsSet').where({
-                            TextId: textObject.id, // order number in case of 01 and delivery number in case of 05
-                            TextName: `${salesOrder}`, // order item in case of 01 and delivery item in case of 05
+                            TextId: textObject.id, 
+                            TextName: `${salesOrder}`, 
                             TextObject: "VBBK"
                         }))
                     }
