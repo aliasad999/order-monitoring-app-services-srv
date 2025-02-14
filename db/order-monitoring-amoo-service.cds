@@ -490,8 +490,8 @@ entity ![ORDER_CREATION] {
         DUE_DATE_FORMATTED                 : Date = DUE_DATE;
         ERROR_TEXT : String(250);
         BIM_ERROR_ID : String(36);
-        ISSUE_TEXT: String(60);
-        NPS_TEXT: String(30);
+        // ISSUE_TEXT: String(60);
+        // NPS_TEXT: String(30);
 }
 
 @cds.persistence.exists
@@ -513,6 +513,12 @@ entity ![ST_APAC_DELAY_REASON_ENTRY] {
         BUCKET         : String(2);
         LANGUAGE       : String(2);
         REASON_CODE    : String(2);
+}
+
+entity SAPTexts {
+    key TextId : String(4);
+    SAPText: String;
+    KeyText: String;
 }
 
 // entity POIssues {
