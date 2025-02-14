@@ -45,26 +45,49 @@ class openOrdersSrv extends cds.ApplicationService {
         // GET SAP TEXTS //
         this.on("getSAPTexts", async req => {
             let SAPTextsEntity = [];
-            let SAPTexts = {};
+            let SAPTexts = [];
             let salesOrder = req.data.salesOrder;
             let salesOrderItem = req.data.salesOrderItem;
             let textObjectsData = JSON.parse(req.data.textObjects);
-            const SAPTextsService = await cds.connect.to('SAPTexts');
+            // const SAPTextsService = await cds.connect.to('SAPTexts');
+
+            const SAPTextsService = await cds.connect.to('DSLServicesService');
+
             for (var i = 0; i < textObjectsData.length; i++) {
                 let textObject = textObjectsData[i];
                 try {
                     // EXAMPLE
                     // SAPTexts = await SAPTextsService.get(`/orders/0071396870/items/000020?text_type_id=ZA10&language=EN`);
                     if(textObject.onItem){
-                        SAPTexts = await SAPTextsService.get(`/orders/${salesOrder}/items/${salesOrderItem}?text_type_id=${textObject.id}&language=${req.locale}`);
+                        // SAPTexts = await SAPTextsService.get(`/orders/${salesOrder}/items/${salesOrderItem}?text_type_id=${textObject.id}&language=${textLanguage}`);
+                        SAPTexts = await SAPTextsService.run(SELECT.from('SAPTextsSet').where({
+                            TextId: textObject.id, // order number in case of 01 and delivery number in case of 05
+                            TextName: `${salesOrder}${salesOrderItem}`, // order item in case of 01 and delivery item in case of 05
+                            TextObject: "VBBP"
+                        }))
                     }else{
-                        SAPTexts = await SAPTextsService.get(`/orders/${salesOrder}?text_type_id=${textObject.id}&language=${req.locale}`);
+                        // SAPTexts = await SAPTextsService.get(`/orders/${salesOrder}?text_type_id=${textObject.id}&language=${textLanguage}`);
+                        SAPTexts = await SAPTextsService.run(SELECT.from('SAPTextsSet').where({
+                            TextId: textObject.id, // order number in case of 01 and delivery number in case of 05
+                            TextName: `${salesOrder}`, // order item in case of 01 and delivery item in case of 05
+                            TextObject: "VBBK"
+                        }))
                     }
-                    SAPTextsEntity.push({
-                        TextId: textObject.id,
-                        SAPText: SAPTexts.textLines.join("\r\n"),
-                        KeyText: getBundle(req.locale).getText(`SAPText${textObject.id}`)
-                    })
+                    if(SAPTexts.length > 0){
+                        SAPTexts.forEach((text) => {
+                            SAPTextsEntity.push({
+                                TextId: text.TextId,
+                                SAPText: text.Text.replace("--","\r\n"),
+                                KeyText: getBundle(req.locale).getText(`SAPText${text.TextId}`),
+                                TextLanguage: text.TextLang
+                            })
+                        })
+                    }  
+                    // SAPTextsEntity.push({
+                    //     TextId: textObject.id,
+                    //     SAPText: SAPTexts.textLines.join("\r\n"),
+                    //     KeyText: getBundle(req.locale).getText(`SAPText${textObject.id}`)
+                    // })
                 } catch (error) {
                     if(!error.message.includes("No Data Found")){
                         req.error(413, error)
