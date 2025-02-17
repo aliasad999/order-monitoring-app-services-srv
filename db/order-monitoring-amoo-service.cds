@@ -519,6 +519,7 @@ entity SAPTexts {
     key TextId : String(4);
     SAPText: String;
     KeyText: String;
+    TextLanguage: String(2);
 }
 
 // entity POIssues {
