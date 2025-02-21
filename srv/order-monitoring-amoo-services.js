@@ -1505,6 +1505,46 @@ class openOrdersSrv extends cds.ApplicationService {
             }
             return combinedResults;
         })
+        this.on("CREATE", "ChatbotApi", async (req) => {
+            log.info("Creating")
+            try {
+                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
+                const decodedToken = jwt.decode(tokenForUserInfo);
+                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
+                const {id, path, payload} = req.data;
+                log.info("Path received: ", path);
+                log.info("Payload received: ", payload);
+                const azureToken = azureTokenSessionCache.get(username);
+
+                log.info("azureToken: ", azureToken);
+                log.info("Username: ", username);
+
+                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
+
+                log.info("Connected: ", chatbotTemp.name);
+
+                const responseChatbot = await chatbotTemp.tx(req).send({
+                    method: 'POST',
+                    path: path,
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + azureToken
+                    },
+                    data: JSON.parse(payload)
+                });
+                //const message = response.choices[0].messages;
+                log.info("Response message: ", responseChatbot)
+                const createdEntity = { 
+                    id: id,
+                    response: responseChatbot
+                  };
+                return createdEntity;
+            } catch (e) {
+                log.error("Error occured while calling chatbot API", e.message);
+                return "An error occured.";
+            }
+        })
         this.on("callChatbotFeedback", async (req) => {
             console.log("calling MessageLiked")
             try {
@@ -1571,40 +1611,6 @@ class openOrdersSrv extends cds.ApplicationService {
             }
             
         })
-        
-        this.on("callChatbotUpdateConversation", async (req) => {
-            console.log("calling UpdateConversation")
-            try {
-                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
-                const decodedToken = jwt.decode(tokenForUserInfo);
-                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
-                const payload = req.data.payload;
-                log.info("Payload received: ", payload);
-                const azureToken = azureTokenSessionCache.get(username);
-
-                log.info("azureToken: ", azureToken);
-                log.info("Username: ", username);
-
-                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
-
-                const response = await chatbotTemp.tx(req).send({
-                    method: 'POST',
-                    path: '/history/update',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + azureToken
-                    },
-                    data: payload
-                });
-                const message = response.messages;
-                console.log("Response message: ", response)
-                return JSON.stringify(response); // TODO: return history...
-            } catch (e) {
-                console.error(e.message);
-                return "An error occured.";
-            }
-        })
 
         this.on("callChatbotGetConversation", async (req) => {
             console.log("calling getConversation")
@@ -1635,42 +1641,6 @@ class openOrdersSrv extends cds.ApplicationService {
                 return JSON.stringify(message); 
             } catch (e) {
                 console.error(e.message);
-                return "An error occured.";
-            }
-        })
-
-        this.on("callChatbotService", async (req) => {
-            log.info("calling bot...");
-            try {
-                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
-                const decodedToken = jwt.decode(tokenForUserInfo);
-                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
-                const payload = req.data.payload;
-                log.info("Payload received: ", payload);
-                const azureToken = azureTokenSessionCache.get(username);
-
-                log.info("azureToken: ", azureToken);
-                log.info("Username: ", username);
-
-                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
-
-                log.info("Connected: ", chatbotTemp.name);
-
-                const response = await chatbotTemp.tx(req).send({
-                    method: 'POST',
-                    path: '/history/generate',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + azureToken
-                    },
-                    data: payload
-                });
-                //const message = response.choices[0].messages;
-                log.info("Response message: ", response)
-                return response;
-            } catch (e) {
-                log.error("Error occured while calling chatbot API", e.message);
                 return "An error occured.";
             }
         })
