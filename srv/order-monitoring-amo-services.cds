@@ -52,29 +52,29 @@ service srvOpenOrders {
           MAKTX_LANG                                  as SO_MAKTX,
           KDMAT                                       as SO_KDMAT,
           AG_PARTNER                                  as SO_AG_PARTNER,
-          AG_PARTNER_NAME1 || ' ' || AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME              : String(70),
+          AG_PARTNER_NAME1 || ' ' || AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME              : String(80),
           WE_PARTNER                                  as SO_WE_PARTNER,
-          WE_PARTNER_NAME1 || ' ' || WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME              : String(70),
+          WE_PARTNER_NAME1 || ' ' || WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME              : String(80),
           IFNULL(
             CO_PARTNER_ITM, CO_PARTNER_HEAD
           )                                           as SO_CO_PARTNER                   : String(10),
           IFNULL(
             (
-              CO_PARTNER_NAME1_HEAD || CO_PARTNER_NAME2_HEAD
-            ), (
               CO_PARTNER_NAME1_ITM || CO_PARTNER_NAME2_ITM
+            ), (
+              CO_PARTNER_NAME1_HEAD || CO_PARTNER_NAME2_HEAD
             )
-          )                                           as SO_CO_PARTNER_NAME              : String(70),
+          )                                           as SO_CO_PARTNER_NAME              : String(80),
           IFNULL(
             NY_PARTNER_ITM, NY_PARTNER_HEAD
           )                                           as SO_NY_PARTNER                   : String(10),
           IFNULL(
             (
-              NY_PARTNER_NAME1_HEAD || NY_PARTNER_NAME2_HEAD
-            ), (
               NY_PARTNER_NAME1_ITM || NY_PARTNER_NAME2_ITM
+            ), (
+              NY_PARTNER_NAME1_HEAD || NY_PARTNER_NAME2_HEAD
             )
-          )                                           as SO_NY_PARTNER_NAME              : String(70),
+          )                                           as SO_NY_PARTNER_NAME              : String(80),
           IFNULL(
             AS_PARTNER_ITM, AS_PARTNER_HEAD
           )                                           as SO_AS_PARTNER                   : String(8),
@@ -365,6 +365,7 @@ service srvOpenOrders {
           TM_DPTEN_DATE as TM_DPTEN,
           TM_DATEN_DATE as TM_DATEN,
           TM_AR_DATE_DATE as TM_AR_DATE,
+          TM_DALBG_DATE as TM_DALBG,
           // case
           //   when
           //     TM_DPTBG_DATE = '00000000'

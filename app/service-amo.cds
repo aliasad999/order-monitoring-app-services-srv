@@ -109,6 +109,7 @@ annotate service.valueHelps with {
     TM_DPTBG                        @title: '{i18n>TM_DPTBG}'                    @sap.Label: '{i18n>TM_DPTBG}';
     TM_DATBG                        @title: '{i18n>TM_DATBG}'                    @sap.Label: '{i18n>TM_DATBG}';
     TM_DPTEN                        @title: '{i18n>TM_DPTEN}'                    @sap.Label: '{i18n>TM_DPTEN}';
+    TM_DALBG                        @title: '{i18n>TM_DALBG}'                    @sap.Label: '{i18n>TM_DALBG}';
     TM_DATEN                        @title: '{i18n>TM_DATEN}'                    @sap.Label: '{i18n>TM_DATEN}';
     TM_AR_DATE                      @title: '{i18n>TM_AR_DATE}'                  @sap.Label: '{i18n>TM_AR_DATE}';
     TM_STTRG                        @title: '{i18n>TM_STTRG}'                    @sap.Label: '{i18n>TM_STTRG}';
@@ -360,6 +361,7 @@ annotate service.Results with {
     TM_DPTBG                    @title: '{i18n>TM_DPTBG}'                    @sap.Label: '{i18n>TM_DPTBG}';
     TM_DATBG                    @title: '{i18n>TM_DATBG}'                    @sap.Label: '{i18n>TM_DATBG}';
     TM_DPTEN                    @title: '{i18n>TM_DPTEN}'                    @sap.Label: '{i18n>TM_DPTEN}';
+    TM_DALBG                        @title: '{i18n>TM_DALBG}'                    @sap.Label: '{i18n>TM_DALBG}';
     TM_DATEN                    @title: '{i18n>TM_DATEN}'                    @sap.Label: '{i18n>TM_DATEN}';
     TM_AR_DATE                  @title: '{i18n>TM_AR_DATE}'                  @sap.Label: '{i18n>TM_AR_DATE}';
     @Common.Text           : TM_STTRG_DDTEXT
