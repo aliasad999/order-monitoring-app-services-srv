@@ -19,6 +19,7 @@ const getDateProps = () => {
         "TM_DATBG",
         "TM_DPTEN",
         "TM_DATEN",
+        "TM_DALBG",
         "SO_F_LDDAT",
         "TM_AR_DATE",
         "SO_F_DGLTP",
