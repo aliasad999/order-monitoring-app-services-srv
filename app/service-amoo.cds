@@ -1009,6 +1009,7 @@ annotate service.baseEntity with {
     TM_DPTBG                        @title: '{i18n>TM_DPTBG}'                    @sap.Label: '{i18n>TM_DPTBG}'            @sap.filter.restriction: 'interval';
     TM_DATBG                        @title: '{i18n>TM_DATBG}'                    @sap.Label: '{i18n>TM_DATBG}'            @sap.filter.restriction: 'interval';
     TM_DPTEN                        @title: '{i18n>TM_DPTEN}'                    @sap.Label: '{i18n>TM_DPTEN}'            @sap.filter.restriction: 'interval';
+    TM_DALBG                        @title: '{i18n>TM_DALBG}'                    @sap.Label: '{i18n>TM_DALBG}'            @sap.filter.restriction: 'interval';
     TM_DATEN                        @title: '{i18n>TM_DATEN}'                    @sap.Label: '{i18n>TM_DATEN}'            @sap.filter.restriction: 'interval';
     TM_AR_DATE                      @title: '{i18n>TM_AR_DATE}'                  @sap.Label: '{i18n>TM_AR_DATE}'          @sap.filter.restriction: 'interval';
     TM_TDLNR                        @title: '{i18n>TM_TDLNR}'                    @sap.Label: '{i18n>TM_TDLNR}'            @Common.IsDigitSequence: true;

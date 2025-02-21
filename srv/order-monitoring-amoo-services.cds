@@ -90,9 +90,9 @@ service openOrdersSrv {
                 MAKTX_LANG                                  as SO_MAKTX,
                 KDMAT                                       as SO_KDMAT,
                 AG_PARTNER                                  as SO_AG_PARTNER,
-                AG_PARTNER_NAME1 || ' ' || AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME              : String(70),
+                AG_PARTNER_NAME1 || ' ' || AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME              : String(80),
                 WE_PARTNER                                  as SO_WE_PARTNER,
-                WE_PARTNER_NAME1 || ' ' || WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME              : String(70),
+                WE_PARTNER_NAME1 || ' ' || WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME              : String(80),
                 LAND1                                       as SO_LAND1,
                 LANDX_LANG                                  as SO_LANDX,
                 ORT01                                       as SO_ORT01,
@@ -103,21 +103,21 @@ service openOrdersSrv {
                 )                                           as SO_CO_PARTNER                   : String(10),
                 IFNULL(
                     (
-                        CO_PARTNER_NAME1_HEAD || CO_PARTNER_NAME2_HEAD
-                    ), (
                         CO_PARTNER_NAME1_ITM || CO_PARTNER_NAME2_ITM
+                    ), (
+                        CO_PARTNER_NAME1_HEAD || CO_PARTNER_NAME2_HEAD
                     )
-                )                                           as SO_CO_PARTNER_NAME              : String(70),
+                )                                           as SO_CO_PARTNER_NAME              : String(80),
                 IFNULL(
                     NY_PARTNER_ITM, NY_PARTNER_HEAD
                 )                                           as SO_NY_PARTNER                   : String(10),
                 IFNULL(
                     (
-                        NY_PARTNER_NAME1_HEAD || NY_PARTNER_NAME2_HEAD
-                    ), (
                         NY_PARTNER_NAME1_ITM || NY_PARTNER_NAME2_ITM
+                    ), (
+                        NY_PARTNER_NAME1_HEAD || NY_PARTNER_NAME2_HEAD
                     )
-                )                                           as SO_NY_PARTNER_NAME              : String(70),
+                )                                           as SO_NY_PARTNER_NAME              : String(80),
                 IFNULL(
                     AS_PARTNER_ITM, AS_PARTNER_HEAD
                 )                                           as SO_AS_PARTNER                   : String(8),
@@ -286,6 +286,7 @@ service openOrdersSrv {
                 DPTBG_DATE as TM_DPTBG,
                 DATBG_DATE as TM_DATBG,
                 DPTEN_DATE as TM_DPTEN,
+                DALBG_DATE as TM_DALBG,
                 DATEN_DATE as TM_DATEN,
                 AR_DATE_DATE as TM_AR_DATE,
                 // case
