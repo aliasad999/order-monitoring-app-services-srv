@@ -2,6 +2,7 @@ const tracer = require('@sap/xotel-agent-ext-js/dist/common/tracer');
 const proxy = require("@cap-js-community/odata-v2-adapter");
 const cds = require('@sap/cds')
 const express = require('express')()
+
 var bodyParser = require('body-parser');
 const fesr = require("@sap/fesr-to-otel-js");
 const xsenv = require('@sap/xsenv');
@@ -9,12 +10,15 @@ const passport = require('passport');
 const { JWTStrategy } = require('@sap/xssec');
 const variantManager = require('./utils/variantManagement');
 const path = require('path');
-const { getCca } = require('./utils/msalConfig');
+const { getPca } = require('./auth/msalConfig');
 const { readCredential } = require('./lib/cred');
 require('hdb/lib/protocol/common/Constants').MAX_PACKET_SIZE = Math.pow(4, 15);
-const azureTokenSessionCache = require('./utils/azureTokenSessionCache');
+const azureTokenSessionCache = require('./auth/azureTokenSessionCache');
 const jwt = require('jsonwebtoken');
 const { log } = require('console');
+const msal = require('@azure/msal-node');
+const axios = require('axios');
+const session = require("express-session");
 
 xsenv.loadEnv();
 const xsuaaCredentials = xsenv.serviceCredentials({ tag: 'xsuaa' });
@@ -22,12 +26,18 @@ passport.use(new JWTStrategy(xsuaaCredentials));
 
 module.exports = cds.server;
 
-cds.on('bootstrap', (app) => {
+cds.on('bootstrap', async (app) => {
     app.use(proxy());
     app.use(passport.initialize());
     app.use(passport.authenticate('JWT', { session: false }));
     fesr.registerFesrEndpoint(app);
     app.use(bodyParser.json());
+    app.use(session({
+        secret: "password",
+        resave: false,
+        saveUninitialized: true,
+        cookie: { secure: false }
+    }));
 
     // CLOUD Variant Management implementation
     app.get('/actions/getcsrftoken/', (req, res) => {
@@ -50,28 +60,6 @@ cds.on('bootstrap', (app) => {
         await variantManager.deleteVariant(req, res);
     });
     // END OF CLOUD Variant Management implementation
-
-    // app.get('/auth/signin', authProvider.login({
-    //     scopes: [],
-    //     redirectUri: REDIRECT_URI,
-    //     successRedirect: '/'
-    // }));
-
-    // app.get('/auth/acquireToken', authProvider.acquireToken({
-    //     scopes: ['User.Read'],
-    //     redirectUri: REDIRECT_URI,
-    //     successRedirect: '/users/profile'
-    // }));
-
-    // app.post('/auth/redirect', authProvider.handleRedirect());
-
-    // app.get('/signout', authProvider.logout({
-    //     postLogoutRedirectUri: POST_LOGOUT_REDIRECT_URI
-    // }));
-
-    // app.get('/test_chatbot', function (req, res, next) {
-    //     res.sendFile(path.join(__dirname, 'views', 'index.html'));
-    // });
 
     app.get('/login/status', (req, res) => {
         try {
@@ -97,9 +85,9 @@ cds.on('bootstrap', (app) => {
         if (!token) return true;
 
         const decoded = jwt.decode(token);
-        if (!decoded || !decoded.exp) return true; 
+        if (!decoded || !decoded.exp) return true;
 
-        const now = Math.floor(Date.now() / 1000); 
+        const now = Math.floor(Date.now() / 1000);
         return decoded.exp < now; // Return true if expired, false otherwise
     }
 
@@ -107,19 +95,28 @@ cds.on('bootstrap', (app) => {
         try {
             const chatbotRedirectUrl = await readCredential("order-monitoring", "password", "chatbotRedirectUrl");
             const chatbotScope = await readCredential("order-monitoring", "password", "chatbotScope");
+            const cryptoProvider = new msal.CryptoProvider();
+            const { verifier, challenge } = await cryptoProvider.generatePkceCodes();
 
-            const authCodeUrlParameters = {
-                scopes: [chatbotScope.value],
-                redirectUri: chatbotRedirectUrl.value
+            req.session.pkceCodes = {
+                challengeMethod: 'S256',
+                verifier: verifier,
+                challenge: challenge,
             };
 
-            const cca = await getCca();
-            const authCodeUrl = await cca.getAuthCodeUrl(authCodeUrlParameters);
+            const pca = await getPca();
+            const authCodeUrl = await pca.getAuthCodeUrl({
+                scopes: [chatbotScope.value],
+                redirectUri: chatbotRedirectUrl.value,
+                codeChallenge: challenge,
+                codeChallengeMethod: 'S256'
+            });
 
             console.log("AuthCodeUrl:", authCodeUrl);
+            
             res.redirect(authCodeUrl);
         } catch (error) {
-            console.error(error);  // Log the error for debugging
+            console.error("Error generating auth code URL: ", error);
             res.status(500).send("Error generating auth code URL");
         }
     });
@@ -127,19 +124,32 @@ cds.on('bootstrap', (app) => {
     // Redirect Route (Handles Azure AD Login Response)
     app.get('/redirect', async (req, res) => {
         try {
+            const chatbotTenantId = await readCredential("order-monitoring", "password", "chatbotTenantId");
+            const chatbotClientId = await readCredential("order-monitoring", "password", "chatbotClientId");
             const chatbotRedirectUrl = await readCredential("order-monitoring", "password", "chatbotRedirectUrl");
             const chatbotScope = await readCredential("order-monitoring", "password", "chatbotScope");
 
-            const tokenRequest = {
-                code: req.query.code,
-                scopes: [chatbotScope.value],
-                redirectUri: chatbotRedirectUrl.value
-            };
+            const response = await axios.post(
+                "https://login.microsoftonline.com/" + chatbotTenantId.value + "/oauth2/v2.0/token",
+                new URLSearchParams({
+                    client_id: chatbotClientId.value,
+                    code: req.query.code,
+                    redirect_uri: chatbotRedirectUrl.value,
+                    code_verifier: req.session.pkceCodes.verifier,
+                    scopes: [chatbotScope.value],
+                    grant_type: "authorization_code",
+                }),
+                {
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "Origin": "http://localhost",
+                    },
+                }
+            );
 
-            const cca = await getCca();
-            const response = await cca.acquireTokenByCode(tokenRequest);
-            const username = response.account.username.split('@')[0].toUpperCase();
-            const accessToken = response.accessToken;
+            const accessToken = response.data.access_token;
+            const decodedToken = jwt.decode(accessToken);
+            const username = decodedToken.upn.split('@')[0].toUpperCase();
 
             console.log("Access token acquired:", accessToken);
             console.log("Username:", username);
