@@ -90,10 +90,10 @@ const migrateVariant = async (reqUser, body) => {
         texts: JSON.stringify(body.texts),
         variantName: variantName,
         variantId: body.variantId,
-        projectId: body.projectId,
-        standardVariant: body.standardVariant,
-        favorite: body.favorite,
-        executeOnSelection: body.executeOnSelection
+        projectId: body.projectId //,
+        // standardVariant: body.standardVariant,
+        // favorite: body.favorite,
+        // executeOnSelection: body.executeOnSelection
     }];
     // add variant user settings for user
     let variantUserSettings = [{
@@ -156,17 +156,24 @@ const upsertVariant = async (req, res, body) => {
     // add variant user settings for user
     let variantUserSettings = [{
         fileName: body.fileName,
-        userId: reqUser,
-        favorite: body.standardVariant,
-        standardVariant: body.favorite,
+        userId: userId,
+        favorite: body.favorite,
+        standardVariant: body.standardVariant,
         executeOnSelection: body.executeOnSelection
     }]
     try {
         if (body.fileName.indexOf("_updateVariant") < 0) {
             await UPSERT.into(Variants).entries(variantData);
-            await UPSERT.into(VariantsUserSettings).entries(variantUserSettings);
+            if(body.fileName.indexOf("_defaultVariant") < 0){
+                await UPSERT.into(VariantsUserSettings).entries(variantUserSettings);
+            } 
         } else {
             var updateObject = {};
+            updateObject.fileName = body.selector.variantId;
+            updateObject.userId = userId;
+            updateObject.favorite = false;
+            updateObject.standardVariant = false;
+            updateObject.executeOnSelection = false;
             if (body.content.favorite !== undefined) {
                 updateObject.favorite = body.content.favorite;
             }
@@ -174,7 +181,8 @@ const upsertVariant = async (req, res, body) => {
                 updateObject.executeOnSelection = body.content.executeOnSelection;
             }
             if (!isEmpty(updateObject)) {
-                await UPDATE(VariantsUserSettings, {fileName:body.selector.variantId, userId:reqUser}).with(updateObject)
+                // await UPDATE(VariantsUserSettings, {fileName:body.selector.variantId, userId:userId}).with(updateObject)
+                await UPSERT.into(VariantsUserSettings).entries(updateObject);
             }
         }
         res.type('application/json').status(200).send(body);
@@ -235,20 +243,21 @@ const getUserVariants = async (req, res) => {
         body.support.user = variant.supportUser;
         body.variantId = variant.variantId;
         body.projectId = variant.projectId; //"ordermonitoring.openorders";
-        body.standardVariant = variantSettings.standardVariant ? variantSettings.standardVariant : false //false; 
-        body.favorite = variantSettings.favorite ? variantSettings.favorite : false //true; 
-        body.executeOnSelection = variantSettings.executeOnSelection ? variantSettings.executeOnSelection; //false; 
+        body.standardVariant = variantSettings.standardVariant ? variantSettings.standardVariant : false; //false; 
+        body.favorite = variantSettings.favorite ? variantSettings.favorite : false; //true; 
+        body.executeOnSelection = variantSettings.executeOnSelection ? variantSettings.executeOnSelection: false; //false; 
         outer.changes.push(body);
     })
     res.type('application/json').status(200).send(outer);
 }
 
 const deleteVariant = async (req, res) => {
-    const { Variants } = await cds.entities("srvOpenOrders");
+    const { Variants, VariantsUserSettings } = await cds.entities("srvOpenOrders");
     var body = req.body;
     var fileNameInput = req.params.fileName;
     try {
         await DELETE.from(Variants).where`fileName = ${fileNameInput}`;
+        await DELETE.from(VariantsUserSettings).where`fileName = ${fileNameInput}`;
         res.type('application/json').status(200).send(body);
     } catch (err) {
         res.type('text/plain').status(500).send(`ERROR: ${err.toString()}`);
