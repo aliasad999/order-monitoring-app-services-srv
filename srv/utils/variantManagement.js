@@ -90,10 +90,10 @@ const migrateVariant = async (reqUser, body) => {
         texts: JSON.stringify(body.texts),
         variantName: variantName,
         variantId: body.variantId,
-        projectId: body.projectId //,
-        // standardVariant: body.standardVariant,
-        // favorite: body.favorite,
-        // executeOnSelection: body.executeOnSelection
+        projectId: body.projectId,
+        standardVariant: body.standardVariant,
+        favorite: body.favorite,
+        executeOnSelection: body.executeOnSelection
     }];
     // add variant user settings for user
     let variantUserSettings = [{
@@ -169,20 +169,26 @@ const upsertVariant = async (req, res, body) => {
             } 
         } else {
             var updateObject = {};
-            updateObject.fileName = body.selector.variantId;
-            updateObject.userId = userId;
-            updateObject.favorite = false;
-            updateObject.standardVariant = false;
-            updateObject.executeOnSelection = false;
             if (body.content.favorite !== undefined) {
                 updateObject.favorite = body.content.favorite;
+            }else{
+                updateObject.favorite = false;
             }
             if (body.content.executeOnSelection !== undefined) {
                 updateObject.executeOnSelection = body.content.executeOnSelection;
+            }else{
+                updateObject.executeOnSelection = false;
             }
             if (!isEmpty(updateObject)) {
-                // await UPDATE(VariantsUserSettings, {fileName:body.selector.variantId, userId:userId}).with(updateObject)
-                await UPSERT.into(VariantsUserSettings).entries(updateObject);
+                let variantExists = await SELECT.from(VariantsUserSettings, {fileName:body.selector.variantId, userId:userId});
+                if(variantExists){
+                    await UPDATE(VariantsUserSettings, {fileName:body.selector.variantId, userId:userId}).with(updateObject)
+                }else{
+                    updateObject.fileName = body.selector.variantId;
+                    updateObject.userId = userId;
+                    updateObject.standardVariant = false;
+                    await INSERT.into(VariantsUserSettings).entries(updateObject);
+                }
             }
         }
         res.type('application/json').status(200).send(body);
@@ -215,13 +221,14 @@ const getUserVariants = async (req, res) => {
     };
 
     userVariants.forEach(function (variant) {
-        let variantSettingsFilter = userVariantsSettings.filter(function (settings) {
+        // get user settings for variant if they exist
+        let variantSettingsFiltered = userVariantsSettings.filter(function (settings) {
             if (settings.fileName === variant.fileName ) {
                 return true;
             }
             return false;
         })
-        let variantSettings = variantSettingsFilter[0] ? variantSettingsFilter[0] : {};
+        let variantSettings = variantSettingsFiltered[0] ? variantSettingsFiltered[0] : {};
         var body = {};
         body.fileName = variant.fileName;
         body.fileType = variant.fileType;
@@ -242,10 +249,10 @@ const getUserVariants = async (req, res) => {
         body.support.service = variant.supportService;
         body.support.user = variant.supportUser;
         body.variantId = variant.variantId;
-        body.projectId = variant.projectId; //"ordermonitoring.openorders";
-        body.standardVariant = variantSettings.standardVariant ? variantSettings.standardVariant : false; //false; 
-        body.favorite = variantSettings.favorite ? variantSettings.favorite : false; //true; 
-        body.executeOnSelection = variantSettings.executeOnSelection ? variantSettings.executeOnSelection: false; //false; 
+        body.projectId = variant.projectId;
+        body.standardVariant = variantSettings.standardVariant ? variantSettings.standardVariant : false; // from variants user settings 
+        body.favorite = variantSettings.favorite ? variantSettings.favorite : false; // from variants user settings 
+        body.executeOnSelection = variantSettings.executeOnSelection ? variantSettings.executeOnSelection: false; // from variants user settings
         outer.changes.push(body);
     })
     res.type('application/json').status(200).send(outer);
@@ -256,6 +263,7 @@ const deleteVariant = async (req, res) => {
     var body = req.body;
     var fileNameInput = req.params.fileName;
     try {
+        // Delete variant and user settings
         await DELETE.from(Variants).where`fileName = ${fileNameInput}`;
         await DELETE.from(VariantsUserSettings).where`fileName = ${fileNameInput}`;
         res.type('application/json').status(200).send(body);
