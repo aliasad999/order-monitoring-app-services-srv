@@ -51,7 +51,7 @@ const checkIfMigrationNeeded = async (req, appname) => {
 }
 
 const migrateVariant = async (reqUser, body) => {
-    const { Variants } = await cds.entities("srvOpenOrders");
+    const { Variants, VariantsUserSettings } = await cds.entities("srvOpenOrders");
     var userID = '';
     var generator = '';
     var service = '';
@@ -95,8 +95,17 @@ const migrateVariant = async (reqUser, body) => {
         favorite: body.favorite,
         executeOnSelection: body.executeOnSelection
     }];
+    // add variant user settings for user
+    let variantUserSettings = [{
+        fileName: body.fileName,
+        userId: reqUser,
+        favorite: body.standardVariant,
+        standardVariant: body.favorite,
+        executeOnSelection: body.executeOnSelection
+    }]
     try {
-        await UPSERT.into(Variants).entries(variantData)
+        await UPSERT.into(Variants).entries(variantData);
+        await UPSERT.into(VariantsUserSettings).entries(variantUserSettings);
         return true;
     } catch (err) {
         return false;
@@ -104,7 +113,7 @@ const migrateVariant = async (reqUser, body) => {
 }
 
 const upsertVariant = async (req, res, body) => {
-    const { Variants } = await cds.entities("srvOpenOrders");
+    const { Variants, VariantsUserSettings } = await cds.entities("srvOpenOrders");
     // var body = req.body[0];
     var userId = req.user.id;
     var generator = '';
@@ -144,9 +153,18 @@ const upsertVariant = async (req, res, body) => {
         favorite: body.favorite,
         executeOnSelection: body.executeOnSelection
     }];
+    // add variant user settings for user
+    let variantUserSettings = [{
+        fileName: body.fileName,
+        userId: reqUser,
+        favorite: body.standardVariant,
+        standardVariant: body.favorite,
+        executeOnSelection: body.executeOnSelection
+    }]
     try {
         if (body.fileName.indexOf("_updateVariant") < 0) {
             await UPSERT.into(Variants).entries(variantData);
+            await UPSERT.into(VariantsUserSettings).entries(variantUserSettings);
         } else {
             var updateObject = {};
             if (body.content.favorite !== undefined) {
@@ -156,7 +174,7 @@ const upsertVariant = async (req, res, body) => {
                 updateObject.executeOnSelection = body.content.executeOnSelection;
             }
             if (!isEmpty(updateObject)) {
-                await UPDATE(Variants, body.selector.variantId).with(updateObject)
+                await UPDATE(VariantsUserSettings, {fileName:body.selector.variantId, userId:reqUser}).with(updateObject)
             }
         }
         res.type('application/json').status(200).send(body);
@@ -168,12 +186,13 @@ const upsertVariant = async (req, res, body) => {
 }
 
 const getUserVariants = async (req, res) => {
-    const { Variants } = await cds.entities("srvOpenOrders");
+    const { Variants, VariantsUserSettings } = await cds.entities("srvOpenOrders");
     var appInput = req.params.app;
     var userId = req.user.id;
     var userVariants = await SELECT.from(Variants).where`reference = ${appInput}
             and (( supportUser = ${userId} and layer = 'USER' ) or
                 layer = 'CUSTOMER' )`;
+    var userVariantsSettings = await SELECT.from(VariantsUserSettings).where`userId = ${userId}`;
 
     var outer = {
         'changes': [],
@@ -188,6 +207,13 @@ const getUserVariants = async (req, res) => {
     };
 
     userVariants.forEach(function (variant) {
+        let variantSettingsFilter = userVariantsSettings.filter(function (settings) {
+            if (settings.fileName === variant.fileName ) {
+                return true;
+            }
+            return false;
+        })
+        let variantSettings = variantSettingsFilter[0] ? variantSettingsFilter[0] : {};
         var body = {};
         body.fileName = variant.fileName;
         body.fileType = variant.fileType;
@@ -209,9 +235,9 @@ const getUserVariants = async (req, res) => {
         body.support.user = variant.supportUser;
         body.variantId = variant.variantId;
         body.projectId = variant.projectId; //"ordermonitoring.openorders";
-        body.standardVariant = variant.standardVariant; //false; 
-        body.favorite = variant.favorite; //true; 
-        body.executeOnSelection = variant.executeOnSelection; //false; 
+        body.standardVariant = variantSettings.standardVariant ? variantSettings.standardVariant : false //false; 
+        body.favorite = variantSettings.favorite ? variantSettings.favorite : false //true; 
+        body.executeOnSelection = variantSettings.executeOnSelection ? variantSettings.executeOnSelection; //false; 
         outer.changes.push(body);
     })
     res.type('application/json').status(200).send(outer);

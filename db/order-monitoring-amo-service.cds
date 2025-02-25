@@ -342,3 +342,11 @@ entity variantMigration {
         AMOvariantsMigrated: Boolean;
         AMOOvariantsMigrated: Boolean;
 }
+
+entity variantUserSettings {
+        key fileName : String(255);
+        key userId : String;
+        favorite           : Boolean;
+        standardVariant    : Boolean;
+        executeOnSelection : Boolean;
+}

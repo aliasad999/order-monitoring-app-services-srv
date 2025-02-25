@@ -520,5 +520,5 @@ service srvOpenOrders {
   entity PartnerSettings         as select from db_app.PARTNER_SETTINGS_DB;
   entity ShipmentMarkedDelivered as select from AMOOUtilsService.ShipmentMarkedDelivered;
   entity Variants                as projection on db_app.variants;
-
+  entity VariantsUserSettings                as projection on db_app.variantUserSettings;
 }
