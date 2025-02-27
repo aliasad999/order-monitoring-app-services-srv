@@ -76,7 +76,7 @@ cds.on('bootstrap', async (app) => {
 
             if (accessToken && !hasTokenExpired(accessToken)) {
                 res.status(200).json({ loggedIn: true });
-                
+
             } else if(refreshToken && !hasTokenExpired(refreshToken)){
                 accessToken = refreshAccessToken(refreshToken);
                 azureTokenSessionCache.set(username, accessToken);
