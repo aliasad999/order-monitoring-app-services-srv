@@ -17,8 +17,8 @@ const azureTokenSessionCache = require('./auth/azureTokenSessionCache');
 const jwt = require('jsonwebtoken');
 const { log } = require('console');
 const msal = require('@azure/msal-node');
-const axios = require('axios');
 const session = require("express-session");
+const axios = require('axios');
 
 xsenv.loadEnv();
 const xsuaaCredentials = xsenv.serviceCredentials({ tag: 'xsuaa' });
@@ -32,8 +32,11 @@ cds.on('bootstrap', async (app) => {
     app.use(passport.authenticate('JWT', { session: false }));
     fesr.registerFesrEndpoint(app);
     app.use(bodyParser.json());
+
+    const sessionSecret = await readCredential("order-monitoring", "password", "chatbotSessionSecret");
+
     app.use(session({
-        secret: "password",
+        secret: sessionSecret.value,
         resave: false,
         saveUninitialized: true,
         cookie: { secure: false }
@@ -129,16 +132,19 @@ cds.on('bootstrap', async (app) => {
             const chatbotRedirectUrl = await readCredential("order-monitoring", "password", "chatbotRedirectUrl");
             const chatbotScope = await readCredential("order-monitoring", "password", "chatbotScope");
 
+            const tokenRequestBody = new URLSearchParams({
+                client_id: chatbotClientId.value,
+                code: req.query.code,
+                redirect_uri: chatbotRedirectUrl.value,
+                code_verifier: req.session.pkceCodes.verifier,
+                scopes: chatbotScope.value,
+                grant_type: "authorization_code",
+            });
+    
+            // Request access token from Microsoft OAuth
             const response = await axios.post(
-                "https://login.microsoftonline.com/" + chatbotTenantId.value + "/oauth2/v2.0/token",
-                new URLSearchParams({
-                    client_id: chatbotClientId.value,
-                    code: req.query.code,
-                    redirect_uri: chatbotRedirectUrl.value,
-                    code_verifier: req.session.pkceCodes.verifier,
-                    scopes: [chatbotScope.value],
-                    grant_type: "authorization_code",
-                }),
+                `https://login.microsoftonline.com/${chatbotTenantId.value}/oauth2/v2.0/token`,
+                tokenRequestBody,
                 {
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded",
