@@ -14,11 +14,13 @@ const { getPca } = require('./auth/msalConfig');
 const { readCredential } = require('./lib/cred');
 require('hdb/lib/protocol/common/Constants').MAX_PACKET_SIZE = Math.pow(4, 15);
 const azureTokenSessionCache = require('./auth/azureTokenSessionCache');
+const azureRefreshTokenSessionCache = require('./auth/azureRefreshTokenSessionCache');
 const jwt = require('jsonwebtoken');
 const { log } = require('console');
 const msal = require('@azure/msal-node');
 const axios = require('axios');
 const session = require("express-session");
+const { getPackedSettings } = require('http2');
 
 xsenv.loadEnv();
 const xsuaaCredentials = xsenv.serviceCredentials({ tag: 'xsuaa' });
@@ -68,11 +70,21 @@ cds.on('bootstrap', async (app) => {
                 return res.status(400).json({ error: "Username is required as a query parameter." });
             }
 
-            const azureToken = azureTokenSessionCache.get(username);
+            var accessToken = azureTokenSessionCache.get(username);
+            const refreshToken = azureRefreshTokenSessionCache.get(username);
 
-            if (azureToken && !hasAccessTokenExpired(azureToken)) {
+            if (accessToken && !hasTokenExpired(accessToken)) {
+
+                accessToken = refreshAccessToken(refreshToken); // todo: remove, only for testing
+
                 res.status(200).json({ loggedIn: true });
-            } else {
+
+            } else if(refreshToken && !hasTokenExpired(refreshToken)){
+                accessToken = refreshAccessToken(refreshToken);
+                azureTokenSessionCache.set(username, accessToken);
+                res.status(200).json({ loggedIn: true });
+
+            }else {
                 res.status(200).json({ loggedIn: false });
             }
         } catch (error) {
@@ -81,7 +93,7 @@ cds.on('bootstrap', async (app) => {
         }
     });
 
-    function hasAccessTokenExpired(token) {
+    function hasTokenExpired(token) {
         if (!token) return true;
 
         const decoded = jwt.decode(token);
@@ -89,6 +101,36 @@ cds.on('bootstrap', async (app) => {
 
         const now = Math.floor(Date.now() / 1000);
         return decoded.exp < now; // Return true if expired, false otherwise
+    }
+
+    async function refreshAccessToken(refreshToken) {
+        try{
+            const chatbotTenantId = await readCredential("order-monitoring", "password", "chatbotTenantId");
+            const chatbotClientId = await readCredential("order-monitoring", "password", "chatbotClientId");
+            const chatbotScope = await readCredential("order-monitoring", "password", "chatbotScope");
+
+            const response = await axios.post(
+                "https://login.microsoftonline.com/" + chatbotTenantId.value + "/oauth2/v2.0/token",
+                new URLSearchParams({
+                    client_id: chatbotClientId,
+                    grant_type: "refresh_token",
+                    refresh_token: refreshToken,
+                    scope: chatbotScope,
+                }),
+            );
+
+            const accessToken = response.data.access_token;
+            const decodedToken = jwt.decode(accessToken);
+            const username = decodedToken.upn.split('@')[0].toUpperCase();
+
+            console.log("Access token acquired:", accessToken);
+            console.log("Username:", username);
+
+            azureTokenSessionCache.set(username, accessToken);
+        }catch(error){
+            console.error("Error refreshing access token: ", error);
+            res.status(500).send("Error refreshing access token");
+        }
     }
 
     app.get('/login', async (req, res) => {
@@ -107,7 +149,7 @@ cds.on('bootstrap', async (app) => {
             const pca = await getPca();
             const authCodeUrl = await pca.getAuthCodeUrl({
                 scopes: [chatbotScope.value],
-                redirectUri: chatbotRedirectUrl.value,
+                redirectUri: "https://port5000-workspaces-ws-lqndl.eu10.applicationstudio.cloud.sap/redirect",//chatbotRedirectUrl.value,
                 codeChallenge: challenge,
                 codeChallengeMethod: 'S256'
             });
@@ -116,7 +158,7 @@ cds.on('bootstrap', async (app) => {
             
             res.redirect(authCodeUrl);
         } catch (error) {
-            console.error("Error generating auth code URL: ", error);
+            console.error("Error generating auth code URL: ", error.message);
             res.status(500).send("Error generating auth code URL");
         }
     });
@@ -134,7 +176,7 @@ cds.on('bootstrap', async (app) => {
                 new URLSearchParams({
                     client_id: chatbotClientId.value,
                     code: req.query.code,
-                    redirect_uri: chatbotRedirectUrl.value,
+                    redirect_uri: "https://port5000-workspaces-ws-lqndl.eu10.applicationstudio.cloud.sap/redirect",//chatbotRedirectUrl.value,
                     code_verifier: req.session.pkceCodes.verifier,
                     scopes: [chatbotScope.value],
                     grant_type: "authorization_code",
@@ -148,6 +190,7 @@ cds.on('bootstrap', async (app) => {
             );
 
             const accessToken = response.data.access_token;
+            const refreshToken = response.data.refresh_token;
             const decodedToken = jwt.decode(accessToken);
             const username = decodedToken.upn.split('@')[0].toUpperCase();
 
@@ -155,6 +198,7 @@ cds.on('bootstrap', async (app) => {
             console.log("Username:", username);
 
             azureTokenSessionCache.set(username, accessToken);
+            azureRefreshTokenSessionCache.set(username, refreshToken);
 
             res.send(`
                 <html>
@@ -170,7 +214,7 @@ cds.on('bootstrap', async (app) => {
                 </html>
             `);
         } catch (error) {
-            console.error("Error acquiring token:", error);
+            console.error("Error acquiring token:", error.message);
             res.status(500).send("Error acquiring token");
         }
     });
