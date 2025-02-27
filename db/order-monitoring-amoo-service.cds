@@ -280,6 +280,13 @@ entity ![OPENORDERSLIST] {
         TRMTYP_MAKTX_LANG                  : String(40);
         ZZ0S2ABGH                          : String(10);
         ZZ0S2ZIEH                          : String(10);
+        BL_NETWR_LAST                      : Decimal(15, 2);
+        BL_WAERK_LAST                      : String(5);
+        BL_FKDAT_FIRST                     : String(8);
+        BL_FKDAT_FIRST_DATE                : Date = BL_FKDAT_FIRST;
+        BL_FKDAT_LAST                      : String(8);
+        BL_FKDAT_LAST_DATE                 : Date = BL_FKDAT_LAST;
+
 
 }
 

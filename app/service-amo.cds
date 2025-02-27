@@ -129,6 +129,12 @@ annotate service.valueHelps with {
     BL_VBELN_INV_LAST               @title: '{i18n>BL_VBELN_INV_LAST}'           @sap.Label: '{i18n>BL_VBELN_INV_LAST}'   @Common.IsDigitSequence: true;
     BL_POSNR_INV_LAST               @title: '{i18n>BL_POSNR_INV_LAST}'           @sap.Label: '{i18n>BL_POSNR_INV_LAST}'   @Common.IsDigitSequence: true;
     BL_XBLNR                        @title: '{i18n>BL_XBLNR}'                    @sap.Label: '{i18n>BL_XBLNR}';
+    BL_NETWR_LAST                   @title: '{i18n>BL_NETWR_LAST}'               @sap.Label: '{i18n>BL_NETWR_LAST}';
+    BL_FKIMG_LAST                   @title: '{i18n>BL_FKIMG_LAST}'               @sap.Label: '{i18n>BL_FKIMG_LAST}';
+    BL_FKDAT_FIRST                  @title: '{i18n>BL_FKDAT_FIRST}'              @sap.Label: '{i18n>BL_FKDAT_FIRST}';
+    BL_FKDAT_LAST                   @title: '{i18n>BL_FKDAT_LAST}'               @sap.Label: '{i18n>BL_FKDAT_LAST}';
+    BL_WAERK_LAST                   @title: '{i18n>BL_WAERK_LAST}'              @sap.Label: '{i18n>BL_WAERK_LAST}';
+    BL_VRKME_LAST                   @title: '{i18n>BL_VRKME_LAST}'               @sap.Label: '{i18n>BL_VRKME_LAST}';
     SO_TRAGR                        @title: '{i18n>SO_TRAGR}'                    @sap.Label: '{i18n>SO_TRAGR}'            @Common.IsDigitSequence: true;
     SO_TRAGR_VTEXT                  @title: '{i18n>SO_TRAGR_VTEXT}'              @sap.Label: '{i18n>SO_TRAGR_VTEXT}';
     SO_VKGRP                        @title: '{i18n>SO_VKGRP}'                    @sap.Label: '{i18n>SO_VKGRP}';
@@ -361,7 +367,7 @@ annotate service.Results with {
     TM_DPTBG                    @title: '{i18n>TM_DPTBG}'                    @sap.Label: '{i18n>TM_DPTBG}';
     TM_DATBG                    @title: '{i18n>TM_DATBG}'                    @sap.Label: '{i18n>TM_DATBG}';
     TM_DPTEN                    @title: '{i18n>TM_DPTEN}'                    @sap.Label: '{i18n>TM_DPTEN}';
-    TM_DALBG                        @title: '{i18n>TM_DALBG}'                    @sap.Label: '{i18n>TM_DALBG}';
+    TM_DALBG                    @title: '{i18n>TM_DALBG}'                    @sap.Label: '{i18n>TM_DALBG}';
     TM_DATEN                    @title: '{i18n>TM_DATEN}'                    @sap.Label: '{i18n>TM_DATEN}';
     TM_AR_DATE                  @title: '{i18n>TM_AR_DATE}'                  @sap.Label: '{i18n>TM_AR_DATE}';
     @Common.Text           : TM_STTRG_DDTEXT
@@ -383,6 +389,12 @@ annotate service.Results with {
     BL_POSNR_INV_FIRST          @title: '{i18n>BL_POSNR_INV_FIRST}'          @sap.Label: '{i18n>BL_POSNR_INV_FIRST}';
     BL_VBELN_INV_LAST           @title: '{i18n>BL_VBELN_INV_LAST}'           @sap.Label: '{i18n>BL_VBELN_INV_LAST}';
     BL_POSNR_INV_LAST           @title: '{i18n>BL_POSNR_INV_LAST}'           @sap.Label: '{i18n>BL_POSNR_INV_LAST}';
+    BL_NETWR_LAST               @title: '{i18n>BL_NETWR_LAST}'               @sap.Label: '{i18n>BL_NETWR_LAST}';
+    BL_FKIMG_LAST               @title: '{i18n>BL_FKIMG_LAST}'               @sap.Label: '{i18n>BL_FKIMG_LAST}';
+    BL_FKDAT_FIRST              @title: '{i18n>BL_FKDAT_FIRST}'              @sap.Label: '{i18n>BL_FKDAT_FIRST}';
+    BL_FKDAT_LAST               @title: '{i18n>BL_FKDAT_LAST}'               @sap.Label: '{i18n>BL_FKDAT_LAST}';
+    BL_VRKME_LAST               @title: '{i18n>BL_VRKME_LAST}'               @sap.Label: '{i18n>BL_VRKME_LAST}';
+    BL_WAERK_LAST               @title: '{i18n>BL_WAERK_LAST}'               @sap.Label: '{i18n>BL_WAERK_LAST}';
     BL_XBLNR                    @title: '{i18n>BL_XBLNR}'                    @sap.Label: '{i18n>BL_XBLNR}';
     @Common.Text           : SO_TRAGR_VTEXT
     @Common.TextArrangement: #TextLast
@@ -564,6 +576,10 @@ annotate service.Results with {
     DL_PEND_DEL_QUAN               @Measures.Unit          : DL_VRKME;
     PO_MENGE                       @Measures.Unit          : PO_MEINS;
     PO_MEINS                       @Semantics.unitOfMeasure: 'unit-of-measure';
+    BL_FKIMG_LAST                  @Measures.Unit          : BL_VRKME_LAST;
+    BL_VRKME_LAST                  @Semantics.unitOfMeasure: 'unit-of-measure';  
+    BL_NETWR_LAST                  @Measures.ISOCurrency   : BL_WAERK_LAST;
+    BL_WAERK_LAST                  @Semantics.currencyCode;                   
     SO_CO_PARTNER_NAME             @UI                     : {Hidden: true};
     SO_NY_PARTNER_NAME             @UI                     : {Hidden: true};
     SO_AS_PARTNER_NAME             @UI                     : {Hidden: true};
@@ -603,6 +619,8 @@ annotate service.Results with {
     SO_F_VSBED_VTEXT               @UI                     : {Hidden: true};
     SO_KNREF_ITM                   @UI                     : {Hidden: true};
     SO_VRKME                       @UI                     : {Hidden: true};
+    BL_VRKME_LAST                  @UI                     : {Hidden: true};
+    BL_WAERK_LAST                  @UI                     : {Hidden: true};
     SO_WAERS                       @UI                     : {Hidden: true};
     SO_KPEIN                       @UI                     : {Hidden: true};
     SO_KMEIN                       @UI                     : {Hidden: true};
@@ -655,6 +673,10 @@ annotate service.valueHelps with {
     DL_PEND_DEL_QUAN   @Measures.Unit          : DL_VRKME;
     PO_MENGE           @Measures.Unit          : PO_MEINS;
     PO_MEINS           @Semantics.unitOfMeasure: 'unit-of-measure';
+    BL_FKIMG_LAST      @Measures.Unit          : BL_VRKME_LAST;
+    BL_VRKME_LAST      @Semantics.unitOfMeasure: 'unit-of-measure';
+    BL_NETWR_LAST      @Measures.ISOCurrency   : BL_WAERK_LAST;
+    BL_WAERK_LAST      @Semantics.currencyCode;
     id                 @UI                     : {Hidden: true};
     PO_EBELN           @UI                     : {Hidden: true};
 // SO_MANDT           @UI                     : {Hidden: true};
@@ -3035,6 +3057,83 @@ annotate service.Results with {
         ]
     }
 };
+
+annotate service.Results with {
+    BL_WAERK_LAST
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL__WAERK_LAST}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: BL_WAERK_LAST,
+            ValueListProperty: 'BL_WAERK_LAST'
+        }]
+    }
+}
+annotate service.Results with {
+    BL_NETWR_LAST
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_NETWR_LAST}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: BL_NETWR_LAST,
+                ValueListProperty: 'BL_NETWR_LAST'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'BL_WAERK_LAST'
+            }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    BL_VRKME_LAST
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_VRKME_LAST}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: BL_VRKME_LAST,
+            ValueListProperty: 'BL_VRKME_LAST'
+        }]
+    }
+};
+annotate service.Results with {
+    BL_FKIMG_LAST  
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_FKIMG_LAST  }',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: BL_FKIMG_LAST,
+                ValueListProperty: 'BL_FKIMG_LAST'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'BL_VRKME_LAST'
+            }
+
+        ]
+    }
+};
+
 
 
 annotate service.Results with @UI.LineItem: {
