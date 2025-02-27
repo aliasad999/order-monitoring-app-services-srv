@@ -73,6 +73,7 @@ cds.on('bootstrap', async (app) => {
             var accessToken = azureTokenSessionCache.get(username);
             console.log("accesstOken old: ", accessToken);
             const refreshToken = azureRefreshTokenSessionCache.get(username);
+            console.log("refeshtoken: ", refreshToken);
 
             if (accessToken && !hasTokenExpired(accessToken)) {
                 res.status(200).json({ loggedIn: true });
@@ -153,7 +154,7 @@ cds.on('bootstrap', async (app) => {
             const pca = await getPca();
             const authCodeUrl = await pca.getAuthCodeUrl({
                 scopes: [chatbotScope.value],
-                redirectUri: "https://port5000-workspaces-ws-lqndl.eu10.applicationstudio.cloud.sap/redirect",//chatbotRedirectUrl.value,
+                redirectUri: chatbotRedirectUrl.value,
                 codeChallenge: challenge,
                 codeChallengeMethod: 'S256'
             });
@@ -180,7 +181,7 @@ cds.on('bootstrap', async (app) => {
                 new URLSearchParams({
                     client_id: chatbotClientId.value,
                     code: req.query.code,
-                    redirect_uri: "https://port5000-workspaces-ws-lqndl.eu10.applicationstudio.cloud.sap/redirect",//chatbotRedirectUrl.value,
+                    redirect_uri: chatbotRedirectUrl.value,
                     code_verifier: req.session.pkceCodes.verifier,
                     scopes: [chatbotScope.value],
                     grant_type: "authorization_code",
