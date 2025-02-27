@@ -8,7 +8,6 @@ function loadCredentials() {
     try {
       const chatbotClientId = await readCredential("order-monitoring", "password", "chatbotClientId");
       const chatbotTenantId = await readCredential("order-monitoring", "password", "chatbotTenantId");
-
       const finalChatbotClientId = chatbotClientId || process.env.clientId;
       const finalChatbotTenantId = chatbotTenantId || process.env.tenantId;
 
