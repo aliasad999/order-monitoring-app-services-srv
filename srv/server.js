@@ -71,14 +71,12 @@ cds.on('bootstrap', async (app) => {
             }
 
             var accessToken = azureTokenSessionCache.get(username);
+            console.log("accesstOken old: ", accessToken);
             const refreshToken = azureRefreshTokenSessionCache.get(username);
 
             if (accessToken && !hasTokenExpired(accessToken)) {
-
-                accessToken = refreshAccessToken(refreshToken); // todo: remove, only for testing
-
                 res.status(200).json({ loggedIn: true });
-
+                
             } else if(refreshToken && !hasTokenExpired(refreshToken)){
                 accessToken = refreshAccessToken(refreshToken);
                 azureTokenSessionCache.set(username, accessToken);
@@ -112,14 +110,21 @@ cds.on('bootstrap', async (app) => {
             const response = await axios.post(
                 "https://login.microsoftonline.com/" + chatbotTenantId.value + "/oauth2/v2.0/token",
                 new URLSearchParams({
-                    client_id: chatbotClientId,
+                    client_id: chatbotClientId.value,
                     grant_type: "refresh_token",
                     refresh_token: refreshToken,
-                    scope: chatbotScope,
+                    scope: chatbotScope.value,
                 }),
+                {
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "Origin": "http://localhost",
+                    },
+                }
             );
 
             const accessToken = response.data.access_token;
+            console.log("Access token new:", accessToken);
             const decodedToken = jwt.decode(accessToken);
             const username = decodedToken.upn.split('@')[0].toUpperCase();
 
@@ -129,7 +134,6 @@ cds.on('bootstrap', async (app) => {
             azureTokenSessionCache.set(username, accessToken);
         }catch(error){
             console.error("Error refreshing access token: ", error);
-            res.status(500).send("Error refreshing access token");
         }
     }
 
