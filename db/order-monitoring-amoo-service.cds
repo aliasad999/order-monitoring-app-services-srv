@@ -286,6 +286,7 @@ entity ![OPENORDERSLIST] {
         BL_FKDAT_FIRST_DATE                : Date = BL_FKDAT_FIRST;
         BL_FKDAT_LAST                      : String(8);
         BL_FKDAT_LAST_DATE                 : Date = BL_FKDAT_LAST;
+        VISTA_STATUS                       : String(50);    
 
 
 }

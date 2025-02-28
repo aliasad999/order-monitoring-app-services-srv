@@ -470,6 +470,7 @@ annotate service.allIssues with @UI.LineItem #allIssues: {
         {Value: TM_DATBG},
         {Value: TM_DATEN},
         {Value: TM_SHIPMENT_CURRENT_STATUS},
+        {Value: TM_VISTA_STATUS},
     ]
 };
 
@@ -1108,6 +1109,7 @@ annotate service.baseEntity with {
     DL_TRMTYP_MAKTX                 @title: '{i18n>DL_TRMTYP_MAKTX_LANG}'        @sap.Label: '{i18n>DL_TRMTYP_MAKTX_LANG}';
     DL_ZZ0S2ABGH                    @title: '{i18n>DL_ZZ0S2ABGH}'                @sap.Label: '{i18n>DL_ZZ0S2ABGH}';
     DL_ZZ0S2ZIEH                    @title: '{i18n>DL_ZZ0S2ZIEH}'                @sap.Label: '{i18n>DL_ZZ0S2ZIEH}';
+    TM_VISTA_STATUS                 @title: '{i18n>TM_VISTA_STATUS}'             @sap.Label: '{i18n>TM_VISTA_STATUS}';
 
 };
 
@@ -3760,6 +3762,24 @@ annotate service.allIssues with {
         ]
     }
 }
+annotate service.allIssues with {
+        TM_VISTA_STATUS
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>TM_VISTA_STATUS}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: TM_VISTA_STATUS,
+                ValueListProperty: 'TM_VISTA_STATUS'
+            }
+
+        ]
+    }
+};
 
 annotate service.allIssues with {
     BL_MANDT_INV_FIRST

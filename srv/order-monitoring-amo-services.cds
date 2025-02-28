@@ -489,7 +489,8 @@ service srvOpenOrders {
           TRMTYP                                      as DL_TRMTYP,
           TRMTYP_MAKTX_LANG                           as DL_TRMTYP_MAKTX,
           ZZ0S2ABGH                                   as DL_ZZ0S2ABGH,
-          ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH
+          ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH,
+          VISTA_STATUS                                as TM_VISTA_STATUS
 
     };
 

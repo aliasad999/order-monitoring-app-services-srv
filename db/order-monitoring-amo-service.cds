@@ -261,6 +261,7 @@ entity ![RESULTS] {
         BL_NETWR_LAST                      : Decimal(15, 2);
         BL_WAERK_LAST                      : String(5);
         BL_VRKME_LAST                      : String(3);
+        VISTA_STATUS                       : String(50);    
 }
 
 entity PARTNER_SETTINGS {
