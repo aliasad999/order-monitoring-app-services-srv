@@ -1087,6 +1087,12 @@ annotate service.baseEntity with {
     PO_PARTNER_9O_HEAD              @title: '{i18n>PO_PARTNER_9O_HEAD}'          @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
     // PO_PARTNER_9O_HEAD_NAME         @title: '{i18n>PO_PARTNER_9O_HEAD_NAME}'     @sap.Label: '{i18n>PO_PARTNER_9O_HEAD_NAME}';
     // SO_BSTNK         @title: '{i18n>SO_BSTNK}'     @sap.Label: '{i18n>SO_BSTNK}';
+    SO_Z5_PARTNER                   @title: '{i18n>SO_Z5_PARTNER}'               @sap.Label: '{i18n>SO_Z5_PARTNER}'       @Common.IsDigitSequence: true;
+    SO_Z5_PARTNER_NAME              @title: '{i18n>SO_Z5_PARTNER_NAME}'          @sap.Label: '{i18n>SO_Z5_PARTNER_NAME}';
+    SO_SB_PARTNER                   @title: '{i18n>SO_SB_PARTNER}'               @sap.Label: '{i18n>SO_SB_PARTNER}'       @Common.IsDigitSequence: true;
+    SO_SB_PARTNER_NAME              @title: '{i18n>SO_SB_PARTNER_NAME}'          @sap.Label: '{i18n>SO_SB_PARTNER_NAME}';
+    SO_AD_PARTNER                   @title: '{i18n>SO_AD_PARTNER}'               @sap.Label: '{i18n>SO_AD_PARTNER}'       @Common.IsDigitSequence: true;
+    SO_AD_PARTNER_NAME              @title: '{i18n>SO_AD_PARTNER_NAME}'          @sap.Label: '{i18n>SO_AD_PARTNER_NAME}';
 
     ///// Mandants
     SO_MANDT                        @title: '{i18n>SO_MANDT}'                    @sap.Label: '{i18n>SO_MANDT}';
@@ -1343,6 +1349,23 @@ annotate service.allIssues with {
     // BL_VBELN_INV_FIRST          @title: '{i18n>BL_VBELN_INV_FIRST}'          @sap.Label: '{i18n>BL_VBELN_INV_FIRST}';
     // BL_VBELN_INV_LAST           @title: '{i18n>BL_VBELN_INV_LAST}'           @sap.Label: '{i18n>BL_VBELN_INV_LAST}';
     // BL_XBLNR                    @title: '{i18n>BL_XBLNR}'                    @sap.Label: '{i18n>BL_XBLNR}';
+    @Common.Text           : SO_Z5_PARTNER_NAME
+    @Common.TextArrangement: #TextFirst
+    SO_Z5_PARTNER        @title: '{i18n>SO_Z5_PARTNER}'         @sap.Label: '{i18n>SO_Z5_PARTNER}';
+    @Common.TextFor
+    SO_Z5_PARTNER_NAME;
+
+    @Common.Text           : SO_SB_PARTNER_NAME
+    @Common.TextArrangement: #TextFirst
+    SO_SB_PARTNER        @title: '{i18n>SO_SB_PARTNER}'         @sap.Label: '{i18n>SO_SB_PARTNER}';
+    @Common.TextFor
+    SO_SB_PARTNER_NAME;
+
+    @Common.Text           : SO_AD_PARTNER_NAME
+    @Common.TextArrangement: #TextFirst
+    SO_AD_PARTNER        @title: '{i18n>SO_AD_PARTNER}'         @sap.Label: '{i18n>SO_AD_PARTNER}';
+    @Common.TextFor
+    SO_AD_PARTNER_NAME;
 
     ///// Mandants
     @Common.Text           : SO_MANDT_TEXT
@@ -1465,6 +1488,9 @@ annotate service.allIssues with {
     DL_VRKME                       @UI: {Hidden: true};
     SO_MDB_TEXT                    @UI: {Hidden: true};
     SO_PERFK_LTEXT_LANG            @UI: {Hidden: true};
+    SO_Z5_PARTNER_NAME             @UI: {Hidden: true};
+    SO_SB_PARTNER_NAME             @UI: {Hidden: true};
+    SO_AD_PARTNER_NAME             @UI: {Hidden: true};
 }
 
 // ------------------------------Value Helps All Issues----------------------------
@@ -4218,6 +4244,75 @@ annotate service.allIssues with {
                 $Type            : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty: 'BL_WAERK_LAST'
             }
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_Z5_PARTNER
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_Z5_PARTNER}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_Z5_PARTNER,
+                ValueListProperty: 'SO_Z5_PARTNER'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_Z5_PARTNER_NAME'
+            }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_SB_PARTNER
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_SB_PARTNER}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_SB_PARTNER,
+                ValueListProperty: 'SO_SB_PARTNER'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_SB_PARTNER_NAME'
+            }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_AD_PARTNER
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_AD_PARTNER}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_AD_PARTNER,
+                ValueListProperty: 'SO_AD_PARTNER'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_AD_PARTNER_NAME'
+            }
+
         ]
     }
 };
