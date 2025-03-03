@@ -113,13 +113,6 @@ class srvOpenOrders extends cds.ApplicationService {
                     globalError.push({user: 'noECUser',error: error})
                     err = 2 // EC called failed
                 }
-                try {
-                    const service = await cds.connect.to('authServiceAP');
-                     lt_resultAP = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
-                } catch (error) {
-                    globalError.push({user: 'noAPUser',error: error})
-                    err = 3 // EC called failed
-                }
 
                 await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
                 await DELETE.from(EKKOAuthObjectKeys).where({ USERID: userID });
@@ -128,12 +121,10 @@ class srvOpenOrders extends cds.ApplicationService {
                 if(lt_result.VBAK){
                     lt_resultEC.VBAK = lt_resultEC.VBAK || []
                     lt_resultEC.EKKO = lt_resultEC.EKKO || []
-                    lt_resultAP.VBAK = lt_resultAP.VBAK || []
-                    lt_resultAP.EKKO = lt_resultAP.EKKO || []
                     let lt_vbak = lt_result.VBAK || []
                     let lt_ekko = lt_result.EKKO || []
-                    lt_vbak = [...lt_vbak, ...lt_resultEC.VBAK, ...lt_resultAP.VBAK];
-                    lt_ekko = [...lt_ekko, ...lt_resultEC.EKKO, ...lt_resultAP.EKKO];
+                    lt_vbak = [...lt_vbak, ...lt_resultEC.VBAK];
+                    lt_ekko = [...lt_ekko, ...lt_resultEC.EKKO];
                     const vbakSet = new Set();
                     const lt_vbakUnique = lt_vbak.filter(obj => {
                         const key = `${obj.VKORG}-${obj.VTWEG}-${obj.SPART}`; 
