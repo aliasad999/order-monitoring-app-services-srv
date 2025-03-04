@@ -81,10 +81,9 @@ cds.on('bootstrap', async (app) => {
                 console.log("Access token still valid.");
                 res.status(200).json({ loggedIn: true });
 
-            } else if (refreshToken && !hasTokenExpired(refreshToken)) {
+            } else if (refreshToken) {
                 console.log("Refresh token still valid but not access token.");
-                accessToken = refreshAccessToken(refreshToken);
-                azureTokenSessionCache.set(username, accessToken);
+                refreshAccessToken(refreshToken);
                 res.status(200).json({ loggedIn: true });
 
             } else {
@@ -131,13 +130,8 @@ cds.on('bootstrap', async (app) => {
             );
 
             const accessToken = response.data.access_token;
-            console.log("Access token new:", accessToken);
             const decodedToken = jwt.decode(accessToken);
             const username = decodedToken.upn.split('@')[0].toUpperCase();
-
-            console.log("Access token acquired:", accessToken);
-            console.log("Username:", username);
-
             azureTokenSessionCache.set(username, accessToken);
         } catch (error) {
             console.error("Error refreshing access token: ", error);

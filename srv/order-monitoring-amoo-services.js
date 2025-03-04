@@ -10,7 +10,7 @@ const { startOfToday } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies') 
 const serviceHelper = require('./utils/serviceHelper');
 const jwt = require('jsonwebtoken');
-const azureTokenSessionCache = require('./auth/azureTokenSessionCache');
+const azureTokenSessionCache = require('./auth/azureTokenCache');
 
 class openOrdersSrv extends cds.ApplicationService {
 
