@@ -25,7 +25,9 @@ const getDateProps = () => {
         "SO_F_DGLTP",
         "PO_AEDAT_HEAD",
         "PO_AEDAT_ITEM",
-        "SO_DUE_DATE"
+        "SO_DUE_DATE",
+        "BL_FKDAT_FIRST",
+        "BL_FKDAT_LAST",
     ]
 }
 
