@@ -13,8 +13,7 @@ const path = require('path');
 const { getPca } = require('./auth/msalConfig');
 const { readCredential } = require('./lib/cred');
 require('hdb/lib/protocol/common/Constants').MAX_PACKET_SIZE = Math.pow(4, 15);
-const azureTokenSessionCache = require('./auth/azureTokenSessionCache');
-const azureRefreshTokenSessionCache = require('./auth/azureRefreshTokenSessionCache');
+const { azureTokenSessionCache, azureRefreshTokenSessionCache } = require('./auth/azureTokenCache');
 const jwt = require('jsonwebtoken');
 const { log } = require('console');
 const msal = require('@azure/msal-node');
@@ -74,19 +73,22 @@ cds.on('bootstrap', async (app) => {
             }
 
             var accessToken = azureTokenSessionCache.get(username);
-            console.log("accesstOken old: ", accessToken);
+            console.log("Access token old: ", accessToken);
             const refreshToken = azureRefreshTokenSessionCache.get(username);
-            console.log("refeshtoken: ", refreshToken);
+            console.log("Refresh token: ", refreshToken);
 
             if (accessToken && !hasTokenExpired(accessToken)) {
+                console.log("Access token still valid.");
                 res.status(200).json({ loggedIn: true });
 
-            } else if(refreshToken && !hasTokenExpired(refreshToken)){
+            } else if (refreshToken && !hasTokenExpired(refreshToken)) {
+                console.log("Refresh token still valid but not access token.");
                 accessToken = refreshAccessToken(refreshToken);
                 azureTokenSessionCache.set(username, accessToken);
                 res.status(200).json({ loggedIn: true });
 
-            }else {
+            } else {
+                console.log("Neither access token nor refresh token valid.", accessToken, refreshToken);
                 res.status(200).json({ loggedIn: false });
             }
         } catch (error) {
@@ -106,11 +108,12 @@ cds.on('bootstrap', async (app) => {
     }
 
     async function refreshAccessToken(refreshToken) {
-        try{
+        try {
             const chatbotTenantId = await readCredential("order-monitoring", "password", "chatbotTenantId");
             const chatbotClientId = await readCredential("order-monitoring", "password", "chatbotClientId");
             const chatbotScope = await readCredential("order-monitoring", "password", "chatbotScope");
 
+            console.log("Refresh access token now.");
             const response = await axios.post(
                 "https://login.microsoftonline.com/" + chatbotTenantId.value + "/oauth2/v2.0/token",
                 new URLSearchParams({
@@ -136,7 +139,7 @@ cds.on('bootstrap', async (app) => {
             console.log("Username:", username);
 
             azureTokenSessionCache.set(username, accessToken);
-        }catch(error){
+        } catch (error) {
             console.error("Error refreshing access token: ", error);
         }
     }
@@ -163,7 +166,7 @@ cds.on('bootstrap', async (app) => {
             });
 
             console.log("AuthCodeUrl:", authCodeUrl);
-            
+
             res.redirect(authCodeUrl);
         } catch (error) {
             console.error("Error generating auth code URL: ", error.message);
@@ -187,7 +190,7 @@ cds.on('bootstrap', async (app) => {
                 scopes: chatbotScope.value,
                 grant_type: "authorization_code",
             });
-    
+
             // Request access token from Microsoft OAuth
             const response = await axios.post(
                 `https://login.microsoftonline.com/${chatbotTenantId.value}/oauth2/v2.0/token`,
