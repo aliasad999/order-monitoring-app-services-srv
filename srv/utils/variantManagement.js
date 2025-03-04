@@ -51,7 +51,7 @@ const checkIfMigrationNeeded = async (req, appname) => {
 }
 
 const migrateVariant = async (reqUser, body) => {
-    const { Variants } = await cds.entities("srvOpenOrders");
+    const { Variants, VariantsUserSettings } = await cds.entities("srvOpenOrders");
     var userID = '';
     var generator = '';
     var service = '';
@@ -95,8 +95,17 @@ const migrateVariant = async (reqUser, body) => {
         favorite: body.favorite,
         executeOnSelection: body.executeOnSelection
     }];
+    // add variant user settings for user
+    let variantUserSettings = [{
+        fileName: body.fileName,
+        userId: reqUser,
+        favorite: body.standardVariant,
+        standardVariant: body.favorite,
+        executeOnSelection: body.executeOnSelection
+    }]
     try {
-        await UPSERT.into(Variants).entries(variantData)
+        await UPSERT.into(Variants).entries(variantData);
+        await UPSERT.into(VariantsUserSettings).entries(variantUserSettings);
         return true;
     } catch (err) {
         return false;
@@ -104,7 +113,7 @@ const migrateVariant = async (reqUser, body) => {
 }
 
 const upsertVariant = async (req, res, body) => {
-    const { Variants } = await cds.entities("srvOpenOrders");
+    const { Variants, VariantsUserSettings } = await cds.entities("srvOpenOrders");
     // var body = req.body[0];
     var userId = req.user.id;
     var generator = '';
@@ -144,19 +153,42 @@ const upsertVariant = async (req, res, body) => {
         favorite: body.favorite,
         executeOnSelection: body.executeOnSelection
     }];
+    // add variant user settings for user
+    let variantUserSettings = [{
+        fileName: body.fileName,
+        userId: userId,
+        favorite: body.favorite,
+        standardVariant: body.standardVariant,
+        executeOnSelection: body.executeOnSelection
+    }]
     try {
         if (body.fileName.indexOf("_updateVariant") < 0) {
             await UPSERT.into(Variants).entries(variantData);
+            if(body.fileName.indexOf("_defaultVariant") < 0){
+                await UPSERT.into(VariantsUserSettings).entries(variantUserSettings);
+            } 
         } else {
             var updateObject = {};
             if (body.content.favorite !== undefined) {
                 updateObject.favorite = body.content.favorite;
+            }else{
+                updateObject.favorite = false;
             }
             if (body.content.executeOnSelection !== undefined) {
                 updateObject.executeOnSelection = body.content.executeOnSelection;
+            }else{
+                updateObject.executeOnSelection = false;
             }
             if (!isEmpty(updateObject)) {
-                await UPDATE(Variants, body.selector.variantId).with(updateObject)
+                let variantExists = await SELECT.from(VariantsUserSettings, {fileName:body.selector.variantId, userId:userId});
+                if(variantExists){
+                    await UPDATE(VariantsUserSettings, {fileName:body.selector.variantId, userId:userId}).with(updateObject)
+                }else{
+                    updateObject.fileName = body.selector.variantId;
+                    updateObject.userId = userId;
+                    updateObject.standardVariant = false;
+                    await INSERT.into(VariantsUserSettings).entries(updateObject);
+                }
             }
         }
         res.type('application/json').status(200).send(body);
@@ -168,12 +200,13 @@ const upsertVariant = async (req, res, body) => {
 }
 
 const getUserVariants = async (req, res) => {
-    const { Variants } = await cds.entities("srvOpenOrders");
+    const { Variants, VariantsUserSettings } = await cds.entities("srvOpenOrders");
     var appInput = req.params.app;
     var userId = req.user.id;
     var userVariants = await SELECT.from(Variants).where`reference = ${appInput}
             and (( supportUser = ${userId} and layer = 'USER' ) or
                 layer = 'CUSTOMER' )`;
+    var userVariantsSettings = await SELECT.from(VariantsUserSettings).where`userId = ${userId}`;
 
     var outer = {
         'changes': [],
@@ -188,6 +221,14 @@ const getUserVariants = async (req, res) => {
     };
 
     userVariants.forEach(function (variant) {
+        // get user settings for variant if they exist
+        let variantSettingsFiltered = userVariantsSettings.filter(function (settings) {
+            if (settings.fileName === variant.fileName ) {
+                return true;
+            }
+            return false;
+        })
+        let variantSettings = variantSettingsFiltered[0] ? variantSettingsFiltered[0] : {};
         var body = {};
         body.fileName = variant.fileName;
         body.fileType = variant.fileType;
@@ -208,21 +249,23 @@ const getUserVariants = async (req, res) => {
         body.support.service = variant.supportService;
         body.support.user = variant.supportUser;
         body.variantId = variant.variantId;
-        body.projectId = variant.projectId; //"ordermonitoring.openorders";
-        body.standardVariant = variant.standardVariant; //false; 
-        body.favorite = variant.favorite; //true; 
-        body.executeOnSelection = variant.executeOnSelection; //false; 
+        body.projectId = variant.projectId;
+        body.standardVariant = variantSettings.standardVariant ? variantSettings.standardVariant : false; // from variants user settings 
+        body.favorite = variantSettings.favorite ? variantSettings.favorite : false; // from variants user settings 
+        body.executeOnSelection = variantSettings.executeOnSelection ? variantSettings.executeOnSelection: false; // from variants user settings
         outer.changes.push(body);
     })
     res.type('application/json').status(200).send(outer);
 }
 
 const deleteVariant = async (req, res) => {
-    const { Variants } = await cds.entities("srvOpenOrders");
+    const { Variants, VariantsUserSettings } = await cds.entities("srvOpenOrders");
     var body = req.body;
     var fileNameInput = req.params.fileName;
     try {
+        // Delete variant and user settings
         await DELETE.from(Variants).where`fileName = ${fileNameInput}`;
+        await DELETE.from(VariantsUserSettings).where`fileName = ${fileNameInput}`;
         res.type('application/json').status(200).send(body);
     } catch (err) {
         res.type('text/plain').status(500).send(`ERROR: ${err.toString()}`);
