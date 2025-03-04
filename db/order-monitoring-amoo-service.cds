@@ -280,13 +280,17 @@ entity ![OPENORDERSLIST] {
         TRMTYP_MAKTX_LANG                  : String(40);
         ZZ0S2ABGH                          : String(10);
         ZZ0S2ZIEH                          : String(10);
+       /*---hong liang chnages commented  out to move VISTA_STATUS TO prod
         BL_NETWR_LAST                      : Decimal(15, 2);
         BL_WAERK_LAST                      : String(5);
         BL_FKDAT_FIRST                     : String(8);
         BL_FKDAT_FIRST_DATE                : Date = BL_FKDAT_FIRST;
         BL_FKDAT_LAST                      : String(8);
         BL_FKDAT_LAST_DATE                 : Date = BL_FKDAT_LAST;
+        */
         VISTA_STATUS                       : String(50);
+
+        /*---Euan's changes commented  out to move VISTA_STATUS TO prod
         Z5_PARTNER_ITM                     : String(8);
         Z5_PARTNER_NAME_ITM                : String(40);
         SB_PARTNER_ITM                     : String(8);
@@ -295,6 +299,7 @@ entity ![OPENORDERSLIST] {
         AD_PARTNER_NAME_HEAD               : String(40);
         AD_PARTNER_ITM                     : String(8);
         AD_PARTNER_NAME_ITM                : String(40); 
+        */
 
 
 }
