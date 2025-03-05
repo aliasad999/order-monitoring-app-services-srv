@@ -1155,7 +1155,7 @@ annotate service.allIssues with {
     BL_FKART_FIRST          @UI                     : {Hidden: true};
     BL_FKART_LAST           @UI                     : {Hidden: true};
     BL_FKIMG_FIRST          @UI                     : {Hidden: true};
-    //BL_FKIMG_LAST           @UI                     : {Hidden: true};
+    BL_FKIMG_LAST           @UI                     : {Hidden: true};
     BL_FKIMG_FIRST          @Measures.Unit          : BL_VRKME_FIRST;
     BL_FKIMG_LAST           @Measures.Unit          : BL_VRKME_LAST;
     BL_VRKME_FIRST          @Semantics.unitOfMeasure: 'unit-of-measure';

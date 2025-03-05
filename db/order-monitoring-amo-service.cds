@@ -208,6 +208,7 @@ entity ![RESULTS] {
         BL_VBELN_INV_LAST                  : String(10);
         BL_POSNR_INV_LAST                  : String(6);
         XBLNR                              : String(16);
+        
         MANDT_DEL                          : String(3);
         TM_MANDT                           : String(3);
         BL_MANDT_INV_FIRST                 : String(3);
@@ -259,11 +260,12 @@ entity ![RESULTS] {
         BL_FKDAT_FIRST                     : String(8);
         BL_FKDAT_FIRST_DATE                : Date = BL_FKDAT_FIRST;
         BL_FKDAT_LAST                      : String(8);*
-        BL_FKDAT_LAST_DATE                 : Date = BL_FKDAT_LAST;*/
+        BL_FKDAT_LAST_DATE                 : Date = BL_FKDAT_LAST;
         BL_FKIMG_LAST                      : String(8);
         BL_NETWR_LAST                      : Decimal(15, 2);
         //BL_WAERK_LAST                      : String(5);
         BL_VRKME_LAST                      : String(3);
+        */
 
         VISTA_STATUS                       : String(50); 
         

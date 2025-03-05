@@ -9,35 +9,12 @@
           "@title": "{i18n>USERNAME}",
           "@sap.Label": "{i18n>USERNAME}"
         },
-        "PO_PARTNER_9A_HEAD_NAME": {
-          "@Common.TextFor": true,
-          "@UI.Hidden": true
-        },
-        "PO_PARTNER_9O_HEAD_NAME": {
-          "@Common.TextFor": true,
-          "@UI.Hidden": true
-        },
-        "BL_VRKME_LAST": {
-          "@UI.Hidden": true,
-          "@Common.ValueList.$Type": "Common.ValueListType",
-          "@Common.ValueList.Label": "{@i18n>BL_VRKME_LAST}",
-          "@Common.ValueList.CollectionPath": "valueHelps",
-          "@Common.ValueList.DistinctValuesSupported": true,
-          "@Common.ValueList.SearchSupported": true,
-          "@Common.ValueList.Parameters": [
-            {
-              "$Type": "Common.ValueListParameterInOut",
-              "LocalDataProperty": {
-                "=": "BL_VRKME_LAST"
-              },
-              "ValueListProperty": "BL_VRKME_LAST"
-            }
-          ]
-        },
-        "BL_WAERK_LAST": {
-          "@UI.Hidden": true
-        },
         "BL_FKIMG_LAST": {
+          "@title": "{i18n>BL_FKIMG_LAST}",
+          "@sap.Label": "{i18n>BL_FKIMG_LAST}",
+          "@Measures.Unit": {
+            "=": "BL_VRKME_LAST"
+          },
           "@Common.ValueList.$Type": "Common.ValueListType",
           "@Common.ValueList.Label": "{@i18n>BL_FKIMG_LAST  }",
           "@Common.ValueList.CollectionPath": "valueHelps",
@@ -56,38 +33,46 @@
               "ValueListProperty": "BL_VRKME_LAST"
             }
           ]
+        },
+        "BL_VRKME_LAST": {
+          "@title": "{i18n>BL_VRKME_LAST}",
+          "@sap.Label": "{i18n>BL_VRKME_LAST}",
+          "@Semantics.unitOfMeasure": "unit-of-measure",
+          "@UI.Hidden": true,
+          "@Common.ValueList.$Type": "Common.ValueListType",
+          "@Common.ValueList.Label": "{@i18n>BL_VRKME_LAST}",
+          "@Common.ValueList.CollectionPath": "valueHelps",
+          "@Common.ValueList.DistinctValuesSupported": true,
+          "@Common.ValueList.SearchSupported": true,
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "BL_VRKME_LAST"
+              },
+              "ValueListProperty": "BL_VRKME_LAST"
+            }
+          ]
+        },
+        "PO_PARTNER_9A_HEAD_NAME": {
+          "@Common.TextFor": true,
+          "@UI.Hidden": true
+        },
+        "PO_PARTNER_9O_HEAD_NAME": {
+          "@Common.TextFor": true,
+          "@UI.Hidden": true
         }
       }
     },
     {
       "annotate": "srvOpenOrders.valueHelps",
       "elements": {
-        "BL_NETWR_LAST": {
-          "@title": "{i18n>BL_NETWR_LAST}",
-          "@sap.Label": "{i18n>BL_NETWR_LAST}",
-          "@Measures.ISOCurrency": {
-            "=": "BL_WAERK_LAST"
-          }
-        },
         "BL_FKIMG_LAST": {
           "@title": "{i18n>BL_FKIMG_LAST}",
           "@sap.Label": "{i18n>BL_FKIMG_LAST}",
           "@Measures.Unit": {
             "=": "BL_VRKME_LAST"
           }
-        },
-        "BL_FKDAT_FIRST": {
-          "@title": "{i18n>BL_FKDAT_FIRST}",
-          "@sap.Label": "{i18n>BL_FKDAT_FIRST}"
-        },
-        "BL_FKDAT_LAST": {
-          "@title": "{i18n>BL_FKDAT_LAST}",
-          "@sap.Label": "{i18n>BL_FKDAT_LAST}"
-        },
-        "BL_WAERK_LAST": {
-          "@title": "{i18n>BL_WAERK_LAST}",
-          "@sap.Label": "{i18n>BL_WAERK_LAST}",
-          "@Semantics.currencyCode": true
         },
         "BL_VRKME_LAST": {
           "@title": "{i18n>BL_VRKME_LAST}",
@@ -101,33 +86,6 @@
         "PO_PARTNER_9O_HEAD_NAME": {
           "@title": "{i18n>PO_PARTNER_9O_HEAD_NAME}",
           "@sap.Label": "{i18n>PO_PARTNER_9O_HEAD_NAME}"
-        },
-        "SO_Z5_PARTNER": {
-          "@title": "{i18n>SO_Z5_PARTNER}",
-          "@sap.Label": "{i18n>SO_Z5_PARTNER}"
-        },
-        "SO_Z5_PARTNER_NAME": {
-          "@title": "{i18n>SO_Z5_PARTNER_NAME}",
-          "@sap.Label": "{i18n>SO_Z5_PARTNER_NAME}",
-          "@Common.IsDigitSequence": true
-        },
-        "SO_SB_PARTNER": {
-          "@title": "{i18n>SO_SB_PARTNER}",
-          "@sap.Label": "{i18n>SO_SB_PARTNER}"
-        },
-        "SO_SB_PARTNER_NAME": {
-          "@title": "{i18n>SO_SB_PARTNER_NAME}",
-          "@sap.Label": "{i18n>SO_SB_PARTNER_NAME}",
-          "@Common.IsDigitSequence": true
-        },
-        "SO_AD_PARTNER": {
-          "@title": "{i18n>SO_AD_PARTNER}",
-          "@sap.Label": "{i18n>SO_AD_PARTNER}"
-        },
-        "SO_AD_PARTNER_NAME": {
-          "@title": "{i18n>SO_AD_PARTNER_NAME}",
-          "@sap.Label": "{i18n>SO_AD_PARTNER_NAME}",
-          "@Common.IsDigitSequence": true
         }
       }
     }
