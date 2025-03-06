@@ -9,6 +9,51 @@
           "@title": "{i18n>USERNAME}",
           "@sap.Label": "{i18n>USERNAME}"
         },
+        "BL_FKIMG_LAST": {
+          "@title": "{i18n>BL_FKIMG_LAST}",
+          "@sap.Label": "{i18n>BL_FKIMG_LAST}",
+          "@Measures.Unit": {
+            "=": "BL_VRKME_LAST"
+          },
+          "@Common.ValueList.$Type": "Common.ValueListType",
+          "@Common.ValueList.Label": "{@i18n>BL_FKIMG_LAST  }",
+          "@Common.ValueList.CollectionPath": "valueHelps",
+          "@Common.ValueList.DistinctValuesSupported": true,
+          "@Common.ValueList.SearchSupported": true,
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "BL_FKIMG_LAST"
+              },
+              "ValueListProperty": "BL_FKIMG_LAST"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "BL_VRKME_LAST"
+            }
+          ]
+        },
+        "BL_VRKME_LAST": {
+          "@title": "{i18n>BL_VRKME_LAST}",
+          "@sap.Label": "{i18n>BL_VRKME_LAST}",
+          "@Semantics.unitOfMeasure": "unit-of-measure",
+          "@UI.Hidden": true,
+          "@Common.ValueList.$Type": "Common.ValueListType",
+          "@Common.ValueList.Label": "{@i18n>BL_VRKME_LAST}",
+          "@Common.ValueList.CollectionPath": "valueHelps",
+          "@Common.ValueList.DistinctValuesSupported": true,
+          "@Common.ValueList.SearchSupported": true,
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "BL_VRKME_LAST"
+              },
+              "ValueListProperty": "BL_VRKME_LAST"
+            }
+          ]
+        },
         "PO_PARTNER_9A_HEAD_NAME": {
           "@Common.TextFor": true,
           "@UI.Hidden": true
@@ -22,6 +67,18 @@
     {
       "annotate": "srvOpenOrders.valueHelps",
       "elements": {
+        "BL_FKIMG_LAST": {
+          "@title": "{i18n>BL_FKIMG_LAST}",
+          "@sap.Label": "{i18n>BL_FKIMG_LAST}",
+          "@Measures.Unit": {
+            "=": "BL_VRKME_LAST"
+          }
+        },
+        "BL_VRKME_LAST": {
+          "@title": "{i18n>BL_VRKME_LAST}",
+          "@sap.Label": "{i18n>BL_VRKME_LAST}",
+          "@Semantics.unitOfMeasure": "unit-of-measure"
+        },
         "PO_PARTNER_9A_HEAD_NAME": {
           "@title": "{i18n>PO_PARTNER_9A_HEAD_NAME}",
           "@sap.Label": "{i18n>PO_PARTNER_9A_HEAD_NAME}"

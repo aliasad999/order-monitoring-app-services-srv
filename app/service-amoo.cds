@@ -882,6 +882,8 @@ annotate service.allIssues with @UI.LineItem #nps00: {$value: [
     {Value: TM_DATBG},
     {Value: TM_DATEN},
     {Value: TM_SHIPMENT_CURRENT_STATUS},
+    {Value: TM_VISTA_STATUS},
+
 
 ]};
 
@@ -1043,10 +1045,12 @@ annotate service.baseEntity with {
     BL_FKART_LAST                   @title: '{i18n>BL_FKART_LAST}'               @sap.Label: '{i18n>BL_FKART_LAST}';
     BL_VRKME_LAST                   @title: '{i18n>BL_VRKME_LAST}'               @sap.Label: '{i18n>BL_VRKME_LAST}';
     BL_XBLNR                        @title: '{i18n>BL_XBLNR}'                    @sap.Label: '{i18n>BL_XBLNR}';
+    /* Hong liangs AP columns
     BL_NETWR_LAST                   @title: '{i18n>BL_NETWR_LAST}'               @sap.Label: '{i18n>BL_NETWR_LAST}';
     BL_FKDAT_FIRST                  @title: '{i18n>BL_FKDAT_FIRST}'              @sap.Label: '{i18n>BL_FKDAT_FIRST}';
     BL_FKDAT_LAST                   @title: '{i18n>BL_FKDAT_LAST}'               @sap.Label: '{i18n>BL_FKDAT_LAST}';
     BL_WAERK_LAST                   @title: '{i18n>BL_WAERK_LAST}'               @sap.Label: '{i18n>BL_WAERK_LAST}';
+    */
     SO_FOLLOWUP_NOTES_LANG          @title: '{i18n>SO_FOLLOWUP_NOTES_LANG}'      @sap.Label: '{i18n>SO_FOLLOWUP_NOTES_LANG}';
     SO_REASON_CODE_01_LANG          @title: '{i18n>SO_REASON_CODE_01_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_01_LANG}';
     SO_REASON_CODE_02_LANG          @title: '{i18n>SO_REASON_CODE_02_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_02_LANG}';
@@ -1087,12 +1091,15 @@ annotate service.baseEntity with {
     PO_PARTNER_9O_HEAD              @title: '{i18n>PO_PARTNER_9O_HEAD}'          @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
     // PO_PARTNER_9O_HEAD_NAME         @title: '{i18n>PO_PARTNER_9O_HEAD_NAME}'     @sap.Label: '{i18n>PO_PARTNER_9O_HEAD_NAME}';
     // SO_BSTNK         @title: '{i18n>SO_BSTNK}'     @sap.Label: '{i18n>SO_BSTNK}';
+   
+   /* Euans changes 
     SO_Z5_PARTNER                   @title: '{i18n>SO_Z5_PARTNER}'               @sap.Label: '{i18n>SO_Z5_PARTNER}'       @Common.IsDigitSequence: true;
     SO_Z5_PARTNER_NAME              @title: '{i18n>SO_Z5_PARTNER_NAME}'          @sap.Label: '{i18n>SO_Z5_PARTNER_NAME}';
     SO_SB_PARTNER                   @title: '{i18n>SO_SB_PARTNER}'               @sap.Label: '{i18n>SO_SB_PARTNER}'       @Common.IsDigitSequence: true;
     SO_SB_PARTNER_NAME              @title: '{i18n>SO_SB_PARTNER_NAME}'          @sap.Label: '{i18n>SO_SB_PARTNER_NAME}';
     SO_AD_PARTNER                   @title: '{i18n>SO_AD_PARTNER}'               @sap.Label: '{i18n>SO_AD_PARTNER}'       @Common.IsDigitSequence: true;
     SO_AD_PARTNER_NAME              @title: '{i18n>SO_AD_PARTNER_NAME}'          @sap.Label: '{i18n>SO_AD_PARTNER_NAME}';
+    */
 
     ///// Mandants
     SO_MANDT                        @title: '{i18n>SO_MANDT}'                    @sap.Label: '{i18n>SO_MANDT}';
@@ -1148,13 +1155,15 @@ annotate service.allIssues with {
     BL_FKART_FIRST          @UI                     : {Hidden: true};
     BL_FKART_LAST           @UI                     : {Hidden: true};
     BL_FKIMG_FIRST          @UI                     : {Hidden: true};
-    //BL_FKIMG_LAST           @UI                     : {Hidden: true};
+    BL_FKIMG_LAST           @UI                     : {Hidden: true};
     BL_FKIMG_FIRST          @Measures.Unit          : BL_VRKME_FIRST;
     BL_FKIMG_LAST           @Measures.Unit          : BL_VRKME_LAST;
     BL_VRKME_FIRST          @Semantics.unitOfMeasure: 'unit-of-measure';
     BL_VRKME_LAST           @Semantics.unitOfMeasure: 'unit-of-measure';
+    /* Hong liangs changes
     BL_NETWR_LAST           @Measures.ISOCurrency   : BL_WAERK_LAST;
     BL_WAERK_LAST           @Semantics.currencyCode;
+    */
     PO_KUNNR_NAME           @UI                     : {Hidden: true};
     // PO_PARTNER_9A_HEAD_NAME @UI                     : {Hidden: true};
     // PO_PARTNER_9O_HEAD_NAME @UI                     : {Hidden: true};
@@ -1349,6 +1358,7 @@ annotate service.allIssues with {
     // BL_VBELN_INV_FIRST          @title: '{i18n>BL_VBELN_INV_FIRST}'          @sap.Label: '{i18n>BL_VBELN_INV_FIRST}';
     // BL_VBELN_INV_LAST           @title: '{i18n>BL_VBELN_INV_LAST}'           @sap.Label: '{i18n>BL_VBELN_INV_LAST}';
     // BL_XBLNR                    @title: '{i18n>BL_XBLNR}'                    @sap.Label: '{i18n>BL_XBLNR}';
+    /*
     @Common.Text           : SO_Z5_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
     SO_Z5_PARTNER        @title: '{i18n>SO_Z5_PARTNER}'         @sap.Label: '{i18n>SO_Z5_PARTNER}';
@@ -1366,7 +1376,7 @@ annotate service.allIssues with {
     SO_AD_PARTNER        @title: '{i18n>SO_AD_PARTNER}'         @sap.Label: '{i18n>SO_AD_PARTNER}';
     @Common.TextFor
     SO_AD_PARTNER_NAME;
-
+    */
     ///// Mandants
     @Common.Text           : SO_MANDT_TEXT
     @Common.TextArrangement: #TextLast
@@ -1488,9 +1498,11 @@ annotate service.allIssues with {
     DL_VRKME                       @UI: {Hidden: true};
     SO_MDB_TEXT                    @UI: {Hidden: true};
     SO_PERFK_LTEXT_LANG            @UI: {Hidden: true};
+    /*
     SO_Z5_PARTNER_NAME             @UI: {Hidden: true};
     SO_SB_PARTNER_NAME             @UI: {Hidden: true};
     SO_AD_PARTNER_NAME             @UI: {Hidden: true};
+    */
 }
 
 // ------------------------------Value Helps All Issues----------------------------
@@ -4209,7 +4221,7 @@ annotate service.allIssues with {
     }
 
 };
-
+/* Hong liangs AP columns
 annotate service.allIssues with {
     BL_WAERK_LAST
     @Common.ValueList: {
@@ -4316,6 +4328,8 @@ annotate service.allIssues with {
         ]
     }
 };
+*/
+
 
 
 
