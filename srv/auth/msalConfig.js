@@ -1,13 +1,13 @@
 const msal = require('@azure/msal-node');
-const { readCredential } = require('../lib/cred');
+const credentialHelper = require('basf-cf-credential-store-helper');
 
 let pca = null;
 
 function loadCredentials() {
   return new Promise(async (resolve, reject) => {
     try {
-      const chatbotClientId = await readCredential("order-monitoring", "password", "chatbotClientId");
-      const chatbotTenantId = await readCredential("order-monitoring", "password", "chatbotTenantId");
+      const chatbotClientId = await credentialHelper.getPasswordByName("order-monitoring", "chatbotClientId");
+      const chatbotTenantId = await credentialHelper.getPasswordByName("order-monitoring", "chatbotTenantId");
       const finalChatbotClientId = chatbotClientId || process.env.clientId;
       const finalChatbotTenantId = chatbotTenantId || process.env.tenantId;
 

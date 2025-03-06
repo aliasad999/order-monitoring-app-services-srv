@@ -11,7 +11,6 @@ const { JWTStrategy } = require('@sap/xssec');
 const variantManager = require('./utils/variantManagement');
 const path = require('path');
 const { getPca } = require('./auth/msalConfig');
-const { readCredential } = require('./lib/cred');
 require('hdb/lib/protocol/common/Constants').MAX_PACKET_SIZE = Math.pow(4, 15);
 const azureTokenSessionCache = require('./auth/azureTokenSessionCache');
 const jwt = require('jsonwebtoken');
@@ -19,6 +18,7 @@ const { log } = require('console');
 const msal = require('@azure/msal-node');
 const session = require("express-session");
 const axios = require('axios');
+const credentialHelper = require('basf-cf-credential-store-helper');
 
 xsenv.loadEnv();
 const xsuaaCredentials = xsenv.serviceCredentials({ tag: 'xsuaa' });
@@ -33,7 +33,7 @@ cds.on('bootstrap', async (app) => {
     fesr.registerFesrEndpoint(app);
     app.use(bodyParser.json());
 
-    const sessionSecret = await readCredential("order-monitoring", "password", "chatbotSessionSecret");
+    const sessionSecret = await credentialHelper.getPasswordByName("order-monitoring", "chatbotSessionSecret");
 
     app.use(session({
         secret: sessionSecret.value,
@@ -96,8 +96,8 @@ cds.on('bootstrap', async (app) => {
 
     app.get('/login', async (req, res) => {
         try {
-            const chatbotRedirectUrl = await readCredential("order-monitoring", "password", "chatbotRedirectUrl");
-            const chatbotScope = await readCredential("order-monitoring", "password", "chatbotScope");
+            const chatbotRedirectUrl = await credentialHelper.getPasswordByName("order-monitoring", "chatbotRedirectUrl");
+            const chatbotScope = await credentialHelper.getPasswordByName("order-monitoring", "chatbotScope");
             const cryptoProvider = new msal.CryptoProvider();
             const { verifier, challenge } = await cryptoProvider.generatePkceCodes();
 
@@ -127,10 +127,10 @@ cds.on('bootstrap', async (app) => {
     // Redirect Route (Handles Azure AD Login Response)
     app.get('/redirect', async (req, res) => {
         try {
-            const chatbotTenantId = await readCredential("order-monitoring", "password", "chatbotTenantId");
-            const chatbotClientId = await readCredential("order-monitoring", "password", "chatbotClientId");
-            const chatbotRedirectUrl = await readCredential("order-monitoring", "password", "chatbotRedirectUrl");
-            const chatbotScope = await readCredential("order-monitoring", "password", "chatbotScope");
+            const chatbotTenantId = await credentialHelper.getPasswordByName("order-monitoring", "chatbotTenantId");
+            const chatbotClientId = await credentialHelper.getPasswordByName("order-monitoring", "chatbotClientId");
+            const chatbotRedirectUrl = await credentialHelper.getPasswordByName("order-monitoring", "chatbotRedirectUrl");
+            const chatbotScope = await credentialHelper.getPasswordByName("order-monitoring", "chatbotScope");
 
             const tokenRequestBody = new URLSearchParams({
                 client_id: chatbotClientId.value,

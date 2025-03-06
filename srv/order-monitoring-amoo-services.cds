@@ -501,6 +501,7 @@ service openOrdersSrv {
                                                                                                                                                                                                                                                returns String;
     function callChatbotService(payload: String) returns String;
     function callChatbotHistoryService() returns String;
+    function callChatbotWelcomeMsg() returns String;
     function callChatbotGetConversation(payload: String) returns String;
     function callChatbotUpdateConversation(payload: String) returns String;
     function callChatbotFeedback(payload: String) returns String;
