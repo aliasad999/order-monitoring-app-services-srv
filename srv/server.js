@@ -12,7 +12,7 @@ const variantManager = require('./utils/variantManagement');
 const path = require('path');
 const { getPca } = require('./auth/msalConfig');
 require('hdb/lib/protocol/common/Constants').MAX_PACKET_SIZE = Math.pow(4, 15);
-const azureTokenSessionCache = require('./auth/azureTokenSessionCache');
+const { azureTokenSessionCache, azureRefreshTokenSessionCache } = require('./auth/azureTokenCache');
 const jwt = require('jsonwebtoken');
 const { log } = require('console');
 const msal = require('@azure/msal-node');
@@ -71,11 +71,22 @@ cds.on('bootstrap', async (app) => {
                 return res.status(400).json({ error: "Username is required as a query parameter." });
             }
 
-            const azureToken = azureTokenSessionCache.get(username);
+            var accessToken = azureTokenSessionCache.get(username);
+            console.log("Access token old: ", accessToken);
+            const refreshToken = azureRefreshTokenSessionCache.get(username);
+            console.log("Refresh token: ", refreshToken);
 
-            if (azureToken && !hasAccessTokenExpired(azureToken)) {
+            if (accessToken && !hasTokenExpired(accessToken)) {
+                console.log("Access token still valid.");
                 res.status(200).json({ loggedIn: true });
+
+            } else if (refreshToken) {
+                console.log("Refresh token still valid but not access token.");
+                refreshAccessToken(refreshToken);
+                res.status(200).json({ loggedIn: true });
+
             } else {
+                console.log("Neither access token nor refresh token valid.", accessToken, refreshToken);
                 res.status(200).json({ loggedIn: false });
             }
         } catch (error) {
@@ -84,7 +95,7 @@ cds.on('bootstrap', async (app) => {
         }
     });
 
-    function hasAccessTokenExpired(token) {
+    function hasTokenExpired(token) {
         if (!token) return true;
 
         const decoded = jwt.decode(token);
@@ -92,6 +103,38 @@ cds.on('bootstrap', async (app) => {
 
         const now = Math.floor(Date.now() / 1000);
         return decoded.exp < now; // Return true if expired, false otherwise
+    }
+
+    async function refreshAccessToken(refreshToken) {
+        try {
+            const chatbotTenantId = await readCredential("order-monitoring", "password", "chatbotTenantId");
+            const chatbotClientId = await readCredential("order-monitoring", "password", "chatbotClientId");
+            const chatbotScope = await readCredential("order-monitoring", "password", "chatbotScope");
+
+            console.log("Refresh access token now.");
+            const response = await axios.post(
+                "https://login.microsoftonline.com/" + chatbotTenantId.value + "/oauth2/v2.0/token",
+                new URLSearchParams({
+                    client_id: chatbotClientId.value,
+                    grant_type: "refresh_token",
+                    refresh_token: refreshToken,
+                    scope: chatbotScope.value,
+                }),
+                {
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "Origin": "http://localhost",
+                    },
+                }
+            );
+
+            const accessToken = response.data.access_token;
+            const decodedToken = jwt.decode(accessToken);
+            const username = decodedToken.upn.split('@')[0].toUpperCase();
+            azureTokenSessionCache.set(username, accessToken);
+        } catch (error) {
+            console.error("Error refreshing access token: ", error);
+        }
     }
 
     app.get('/login', async (req, res) => {
@@ -116,10 +159,10 @@ cds.on('bootstrap', async (app) => {
             });
 
             console.log("AuthCodeUrl:", authCodeUrl);
-            
+
             res.redirect(authCodeUrl);
         } catch (error) {
-            console.error("Error generating auth code URL: ", error);
+            console.error("Error generating auth code URL: ", error.message);
             res.status(500).send("Error generating auth code URL");
         }
     });
@@ -140,7 +183,7 @@ cds.on('bootstrap', async (app) => {
                 scopes: chatbotScope.value,
                 grant_type: "authorization_code",
             });
-    
+
             // Request access token from Microsoft OAuth
             const response = await axios.post(
                 `https://login.microsoftonline.com/${chatbotTenantId.value}/oauth2/v2.0/token`,
@@ -154,6 +197,7 @@ cds.on('bootstrap', async (app) => {
             );
 
             const accessToken = response.data.access_token;
+            const refreshToken = response.data.refresh_token;
             const decodedToken = jwt.decode(accessToken);
             const username = decodedToken.upn.split('@')[0].toUpperCase();
 
@@ -161,6 +205,7 @@ cds.on('bootstrap', async (app) => {
             console.log("Username:", username);
 
             azureTokenSessionCache.set(username, accessToken);
+            azureRefreshTokenSessionCache.set(username, refreshToken);
 
             res.send(`
                 <html>
@@ -176,7 +221,7 @@ cds.on('bootstrap', async (app) => {
                 </html>
             `);
         } catch (error) {
-            console.error("Error acquiring token:", error);
+            console.error("Error acquiring token:", error.message);
             res.status(500).send("Error acquiring token");
         }
     });

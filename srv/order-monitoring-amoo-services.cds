@@ -382,6 +382,10 @@ service openOrdersSrv {
                 BL_VRKME_LAST                                            as BL_VRKME_LAST,                     
                 BL_FKART_FIRST                                           as BL_FKART_FIRST,
                 BL_FKART_LAST                                            as BL_FKART_LAST,
+                BL_FKDAT_FIRST_DATE                                      as BL_FKDAT_FIRST,
+                BL_FKDAT_LAST_DATE                                       as BL_FKDAT_LAST,
+                BL_NETWR_LAST                                            as BL_NETWR_LAST,
+                BL_WAERK_LAST                                            as BL_WAERK_LAST,
                 DOCUMENT_TYPE                                            as SO_DOC_TYP,
                 FOLLOWUP_NOTES_LANG                                      as SO_FOLLOWUP_NOTES_LANG,
                 REASON_CODE_01_LANG                                      as SO_REASON_CODE_01_LANG,
@@ -452,7 +456,18 @@ service openOrdersSrv {
                 TRMTYP                                      as DL_TRMTYP,
                 TRMTYP_MAKTX_LANG                           as DL_TRMTYP_MAKTX,
                 ZZ0S2ABGH                                   as DL_ZZ0S2ABGH,
-                ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH
+                ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH,
+                VISTA_STATUS                                as TM_VISTA_STATUS,
+                Z5_PARTNER_ITM                              as SO_Z5_PARTNER,
+                Z5_PARTNER_NAME_ITM                         as SO_Z5_PARTNER_NAME,
+                SB_PARTNER_ITM                              as SO_SB_PARTNER,
+                SB_PARTNER_NAME_ITM                         as SO_SB_PARTNER_NAME,
+                IFNULL(
+                    AD_PARTNER_ITM, AD_PARTNER_HEAD
+                )                                           as SO_AD_PARTNER                   : String(8),
+                IFNULL(
+                    AD_PARTNER_NAME_ITM, AD_PARTNER_NAME_HEAD
+                )                                           as SO_AD_PARTNER_NAME              : String(40),
 
         }
 

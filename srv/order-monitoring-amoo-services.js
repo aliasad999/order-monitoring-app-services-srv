@@ -10,7 +10,7 @@ const { startOfToday } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies')
 const serviceHelper = require('./utils/serviceHelper');
 const jwt = require('jsonwebtoken');
-const azureTokenSessionCache = require('./auth/azureTokenSessionCache');
+const azureTokenSessionCache = require('./auth/azureTokenCache');
 
 class openOrdersSrv extends cds.ApplicationService {
 
@@ -885,6 +885,21 @@ class openOrdersSrv extends cds.ApplicationService {
                             case 'AM':
                                 partnersQuery.push(`SO_AM_PARTNER = '${partnerNumber}'`);
                                 break;
+
+                            // Added with user story 851475
+                            case 'AD':
+                                partnersQuery.push(`SO_AD_PARTNER = '${partnerNumber}'`);
+                                break;
+
+                            case 'Z5':
+                                partnersQuery.push(`SO_Z5_PARTNER = '${partnerNumber}'`);
+                                break;
+
+                            case 'SB':
+                                partnersQuery.push(`SO_SB_PARTNER = '${partnerNumber}'`);
+                                break;
+                            // Added with user story 851475 
+                            
                             default:
                                 break;
                         }
