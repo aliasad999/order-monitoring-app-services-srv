@@ -222,7 +222,7 @@ annotate service.valueHelps with {
     DL_ZZ0S2ABGH                    @title: '{i18n>DL_ZZ0S2ABGH}'                @sap.Label: '{i18n>DL_ZZ0S2ABGH}';
     DL_ZZ0S2ZIEH                    @title: '{i18n>DL_ZZ0S2ZIEH}'                @sap.Label: '{i18n>DL_ZZ0S2ZIEH}';
     TM_VISTA_STATUS                 @title: '{i18n>TM_VISTA_STATUS}'             @sap.Label: '{i18n>TM_VISTA_STATUS}';
-    SO_BANME                        @title: '{i18n>SO_BANME}'                    @sap.Label: '{i18n>SO_BANME}';
+    SO_BNAME                        @title: '{i18n>SO_BNAME}'                    @sap.Label: '{i18n>SO_BNAME}';
     SO_IHREZ                        @title: '{i18n>SO_IHREZ}'                    @sap.Label: '{i18n>SO_IHREZ}';
 };
 
@@ -586,6 +586,8 @@ annotate service.Results with {
     DL_ZZ0S2ABGH                @title: '{i18n>DL_ZZ0S2ABGH}'              @sap.Label: '{i18n>DL_ZZ0S2ABGH}'       ;
     DL_ZZ0S2ZIEH                @title: '{i18n>DL_ZZ0S2ZIEH}'              @sap.Label: '{i18n>DL_ZZ0S2ZIEH}'       ;
     TM_VISTA_STATUS             @title: '{i18n>TM_VISTA_STATUS}'         @sap.Label: '{i18n>TM_VISTA_STATUS}';
+    SO_IHREZ                    @title: '{i18n>SO_IHREZ}'                   @sap.Label: '{i18n>SO_IHREZ}';
+    SO_BNAME                    @title: '{i18n>SO_BNAME}'                   @sap.Label: '{i18n>SO_BNAME}';
 }
 
 annotate service.Results with {
@@ -3265,6 +3267,41 @@ annotate service.Results with {
     }
 }; */
 
+annotate service.Results with {
+    SO_BNAME
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_BNAME}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_BNAME,
+                ValueListProperty: 'SO_BNAME'
+            }
+
+        ]
+    }
+    IHREZ
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>IHREZ}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: IHREZ,
+                ValueListProperty: 'IHREZ'
+            }
+
+        ]
+    }
+};
+
 annotate service.Results with @UI.LineItem: {
     ![@UI.Criticality]: 5,
     $value            : [
@@ -3340,6 +3377,9 @@ annotate service.Results with @UI.LineItem: {
         {Value: SO_AD_PARTNER},
         {Value: SO_AD_PARTNER_NAME}
           */
+        {Value: SO_BNAME},
+        {Value: SO_IHREZ},
+
 
     ]
 };
