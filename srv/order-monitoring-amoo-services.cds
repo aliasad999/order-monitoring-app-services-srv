@@ -465,7 +465,7 @@ service openOrdersSrv {
                 IFNULL(
                     AD_PARTNER_NAME_ITM, AD_PARTNER_NAME_HEAD
                 )                                           as SO_AD_PARTNER_NAME              : String(40), */
-                BANME                                       as SO_BANME,
+                BNAME                                       as SO_BNAME,
                 IHREZ                                       as SO_IHREZ,
 
         }
