@@ -3284,6 +3284,8 @@ annotate service.Results with {
 
         ]
     }
+};
+annotate service.Results with {
     IHREZ
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
