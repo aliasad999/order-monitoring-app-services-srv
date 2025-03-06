@@ -222,6 +222,8 @@ annotate service.valueHelps with {
     DL_ZZ0S2ABGH                    @title: '{i18n>DL_ZZ0S2ABGH}'                @sap.Label: '{i18n>DL_ZZ0S2ABGH}';
     DL_ZZ0S2ZIEH                    @title: '{i18n>DL_ZZ0S2ZIEH}'                @sap.Label: '{i18n>DL_ZZ0S2ZIEH}';
     TM_VISTA_STATUS                 @title: '{i18n>TM_VISTA_STATUS}'             @sap.Label: '{i18n>TM_VISTA_STATUS}';
+    SO_BANME                        @title: '{i18n>SO_BANME}'                    @sap.Label: '{i18n>SO_BANME}';
+    SO_IHREZ                        @title: '{i18n>SO_IHREZ}'                    @sap.Label: '{i18n>SO_IHREZ}';
 };
 
 annotate service.Results with {
