@@ -492,7 +492,8 @@ service srvOpenOrders {
           ZZ0S2ABGH                                   as DL_ZZ0S2ABGH,
           ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH,
           VISTA_STATUS                                as TM_VISTA_STATUS,
-         /* EUANS CHANGES  
+
+         // Euan's changes 
           Z5_PARTNER_ITM                              as SO_Z5_PARTNER,
           Z5_PARTNER_NAME_ITM                         as SO_Z5_PARTNER_NAME,
           SB_PARTNER_ITM                              as SO_SB_PARTNER,
@@ -502,7 +503,8 @@ service srvOpenOrders {
           )                                           as SO_AD_PARTNER                   : String(8),
           IFNULL(
             AD_PARTNER_NAME_ITM, AD_PARTNER_NAME_HEAD
-          )                                           as SO_AD_PARTNER_NAME              : String(40),*/
+          )                                           as SO_AD_PARTNER_NAME              : String(40)
+          // End of Euan's changes
 
     };
 

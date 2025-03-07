@@ -269,7 +269,7 @@ entity ![RESULTS] {
 
         VISTA_STATUS                       : String(50); 
         
-        /* ---Euan's COLUMNS
+        // Euan's changes
         Z5_PARTNER_ITM                     : String(8);
         Z5_PARTNER_NAME_ITM                : String(40);
         SB_PARTNER_ITM                     : String(8);
@@ -278,7 +278,7 @@ entity ![RESULTS] {
         AD_PARTNER_NAME_HEAD               : String(40);
         AD_PARTNER_ITM                     : String(8);
         AD_PARTNER_NAME_ITM                : String(40);
-       */
+       // End of Euan's changes
 }
 
 entity PARTNER_SETTINGS {
