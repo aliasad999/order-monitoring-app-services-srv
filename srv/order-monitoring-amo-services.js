@@ -229,16 +229,33 @@ class srvOpenOrders extends cds.ApplicationService {
                         let partnerNumber = settingsEntry.PARTNER_NUMBER;
                         switch (settingsEntry.PARTNER_ROLE) {
                             case 'VE':
-                                partnersQuery.push(`SO_VE_PARTNER = ${partnerNumber}`);
+                                partnersQuery.push(`SO_VE_PARTNER = '${partnerNumber}'`);
                                 break;
 
                             case 'AS':
-                                partnersQuery.push(`SO_AS_PARTNER = ${partnerNumber}`);
+                                partnersQuery.push(`SO_AS_PARTNER = '${partnerNumber}'`);
                                 break;
 
                             case 'AM':
-                                partnersQuery.push(`SO_AM_PARTNER = ${partnerNumber}`);
+                                partnersQuery.push(`SO_AM_PARTNER = '${partnerNumber}'`);
                                 break;
+
+                            // Added with user story 851475
+                            /*
+                            case 'AD':
+                                partnersQuery.push(`SO_AD_PARTNER = '${partnerNumber}'`);
+                                break;
+
+                            case 'Z5':
+                                partnersQuery.push(`SO_Z5_PARTNER = '${partnerNumber}'`);
+                                break;
+
+                            case 'SB':
+                                partnersQuery.push(`SO_SB_PARTNER = '${partnerNumber}'`);
+                                break;
+                                */
+                            // Added with user story 851475 
+                            
                             default:
                                 break;
                         }

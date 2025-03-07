@@ -413,12 +413,13 @@ service srvOpenOrders {
           BL_VBELN_INV_LAST                           as BL_VBELN_INV_LAST,
           BL_POSNR_INV_LAST                           as BL_POSNR_INV_LAST,
           XBLNR                                       as BL_XBLNR,
+          /*  ---hONG LIANG 
           BL_FKDAT_FIRST_DATE                         as BL_FKDAT_FIRST,
           BL_FKDAT_LAST_DATE                          as BL_FKDAT_LAST,
           BL_FKIMG_LAST                               as BL_FKIMG_LAST,
           BL_NETWR_LAST                               as BL_NETWR_LAST,
           BL_WAERK_LAST                               as BL_WAERK_LAST,
-          BL_VRKME_LAST                               as BL_VRKME_LAST,  
+          BL_VRKME_LAST                               as BL_VRKME_LAST,  */
           
           ERDAT_DEL_DATE as DL_ERDAT,
           LDDAT_DEL_DATE as DL_LDDAT,
@@ -490,7 +491,18 @@ service srvOpenOrders {
           TRMTYP_MAKTX_LANG                           as DL_TRMTYP_MAKTX,
           ZZ0S2ABGH                                   as DL_ZZ0S2ABGH,
           ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH,
-          VISTA_STATUS                                as TM_VISTA_STATUS
+          VISTA_STATUS                                as TM_VISTA_STATUS,
+         /* EUANS CHANGES  
+          Z5_PARTNER_ITM                              as SO_Z5_PARTNER,
+          Z5_PARTNER_NAME_ITM                         as SO_Z5_PARTNER_NAME,
+          SB_PARTNER_ITM                              as SO_SB_PARTNER,
+          SB_PARTNER_NAME_ITM                         as SO_SB_PARTNER_NAME,
+          IFNULL(
+            AD_PARTNER_ITM, AD_PARTNER_HEAD
+          )                                           as SO_AD_PARTNER                   : String(8),
+          IFNULL(
+            AD_PARTNER_NAME_ITM, AD_PARTNER_NAME_HEAD
+          )                                           as SO_AD_PARTNER_NAME              : String(40),*/
 
     };
 
