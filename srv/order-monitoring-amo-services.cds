@@ -30,17 +30,17 @@ service srvOpenOrders {
           TM_MANDT,
           BL_MANDT_INV_FIRST,
           BL_MANDT_INV_LAST,
-          FINAL_SO_MANDT as SO_FINAL_SO_MANDT,
-          FIRST_SO_MANDT as SO_FIRST_SO_MANDT,
+          FINAL_SO_MANDT                              as SO_FINAL_SO_MANDT,
+          FIRST_SO_MANDT                              as SO_FIRST_SO_MANDT,
           PO_MANDT,
-          virtual null                                as SO_MANDT_TEXT  : String(20),
-          virtual null                                as DL_MANDT_TEXT  : String(20),
-          virtual null                                as TM_MANDT_TEXT  : String(20),
-          virtual null                                as BL_MANDT_INV_FIRST_TEXT  : String(20),
-          virtual null                                as BL_MANDT_INV_LAST_TEXT  : String(20),
-          virtual null                                as SO_FINAL_SO_MANDT_TEXT  : String(20),
-          virtual null                                as SO_FIRST_SO_MANDT_TEXT  : String(20),
-          virtual null                                as PO_MANDT_TEXT  : String(20),
+          virtual null                                as SO_MANDT_TEXT                   : String(20),
+          virtual null                                as DL_MANDT_TEXT                   : String(20),
+          virtual null                                as TM_MANDT_TEXT                   : String(20),
+          virtual null                                as BL_MANDT_INV_FIRST_TEXT         : String(20),
+          virtual null                                as BL_MANDT_INV_LAST_TEXT          : String(20),
+          virtual null                                as SO_FINAL_SO_MANDT_TEXT          : String(20),
+          virtual null                                as SO_FIRST_SO_MANDT_TEXT          : String(20),
+          virtual null                                as PO_MANDT_TEXT                   : String(20),
           VBELN                                       as SO_VBELN,
           POSNR                                       as SO_POSNR,
           SO_ERDAT_ORDER_DATE                         as SO_ERDAT_ORDER,
@@ -55,6 +55,10 @@ service srvOpenOrders {
           AG_PARTNER_NAME1 || ' ' || AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME              : String(80),
           WE_PARTNER                                  as SO_WE_PARTNER,
           WE_PARTNER_NAME1 || ' ' || WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME              : String(80),
+          AG_PARTNER_NAME1                            as SO_AG_PARTNER_NAME1, // to enable default search, parts of calculated fields are required to be added too to service
+          AG_PARTNER_NAME2                            as SO_AG_PARTNER_NAME2,
+          WE_PARTNER_NAME1                            as SO_WE_PARTNER_NAME1,
+          WE_PARTNER_NAME2                            as SO_WE_PARTNER_NAME2,
           IFNULL(
             CO_PARTNER_ITM, CO_PARTNER_HEAD
           )                                           as SO_CO_PARTNER                   : String(10),
@@ -112,7 +116,7 @@ service srvOpenOrders {
           SO_EDATU_REQUESTED_DATE                     as SO_EDATU_REQUESTED,
           KWMENG                                      as SO_KWMENG,
           VRKME                                       as SO_VRKME,
-          SO_EDATU_CONFIRMED_DATE as SO_EDATU_CONFIRMED,
+          SO_EDATU_CONFIRMED_DATE                     as SO_EDATU_CONFIRMED,
           // case
           //   when
           //     SO_EDATU_CONFIRMED_DATE = '00000000'
@@ -180,7 +184,7 @@ service srvOpenOrders {
           IFNULL(
             ZTERM_ITEM, ZTERM_HEAD
           )                                           as SO_ZTERM                        : String(4),
-          SO_PRSDT_DATE as SO_PRSDT,
+          SO_PRSDT_DATE                               as SO_PRSDT,
           // case
           //   when
           //     SO_PRSDT_DATE = '00000000'
@@ -211,7 +215,7 @@ service srvOpenOrders {
           F_WERKS                                     as SO_F_WERKS,
           F_VKORG                                     as SO_F_VKORG,
           F_VKORG_NAME1                               as SO_F_VKORG_VTEXT,
-          SO_F_TDDAT_DATE as SO_F_TDDAT,
+          SO_F_TDDAT_DATE                             as SO_F_TDDAT,
           // case
           //   when
           //     SO_F_TDDAT_DATE = '00000000'
@@ -224,7 +228,7 @@ service srvOpenOrders {
           F_VSBED                                     as SO_F_VSBED,
           F_VSBED_VTEXT_LANG                          as SO_F_VSBED_VTEXT,
           F_AUFNR                                     as SO_F_AUFNR,
-          SO_F_DGLTP_DATE as SO_F_DGLTP,
+          SO_F_DGLTP_DATE                             as SO_F_DGLTP,
           // case
           //   when
           //     SO_F_DGLTP_DATE = '00000000'
@@ -235,7 +239,7 @@ service srvOpenOrders {
           // end                                         as SO_F_DGLTP                      : Date,
           F_PSMNG                                     as SO_F_PSMNG,
           F_AMEIN                                     as SO_F_AMEIN,
-          SO_F_LDDAT_DATE as SO_F_LDDAT,
+          SO_F_LDDAT_DATE                             as SO_F_LDDAT,
           // case
           //   when
           //     SO_F_LDDAT_DATE = '00000000'
@@ -251,7 +255,7 @@ service srvOpenOrders {
           IFNULL(
             F_AS_PARTNER_NAME_ITM, F_AS_PARTNER_NAME_HEAD
           )                                           as SO_F_AS_PARTNER_NAME            : String(40),
-          DCP_ITEM_STATUS                    as SO_DCP_ITEM_STATUS,
+          DCP_ITEM_STATUS                             as SO_DCP_ITEM_STATUS,
           virtual null                                as SO_DCP_ITEM_STATUS_DESCRIPTION  : String(50),
           VBELN_DEL                                   as DL_VBELN,
           POSNR_DEL                                   as DL_POSNR_BATCH,
@@ -265,9 +269,9 @@ service srvOpenOrders {
           VGPOS                                       as DL_VGPOS,
           LFART                                       as DL_LFART,
           LFART_VTEXT_LANG                            as DL_LFART_VTEXT,
-          DL_LFDAT_DATE as DL_LFDAT,
-          DL_HSDAT_DATE as DL_HSDAT,
-          DL_VFDAT_DATE as DL_VFDAT,
+          DL_LFDAT_DATE                               as DL_LFDAT,
+          DL_HSDAT_DATE                               as DL_HSDAT,
+          DL_VFDAT_DATE                               as DL_VFDAT,
           // case
           //   when
           //     DL_LFDAT_DATE = '00000000'
@@ -297,8 +301,8 @@ service srvOpenOrders {
           TRAID                                       as DL_TRAID,
           ZZ0S2BLNR                                   as DL_ZZ0S2BLNR,
           PEND_DEL_QUAN                               as DL_PEND_DEL_QUAN,
-          DL_WADAT_DATE as DL_WADAT,
-          DL_WADAT_IST_DATE as DL_WADAT_IST,
+          DL_WADAT_DATE                               as DL_WADAT,
+          DL_WADAT_IST_DATE                           as DL_WADAT_IST,
           // case
           //   when
           //     DL_WADAT_DATE = '00000000'
@@ -360,12 +364,12 @@ service srvOpenOrders {
           end                                         as TM_SHIPMENT_ALERT               : String(250),
           TRACKING_ID_ELEM                            as TM_TRACKING_ID_ELEM,
           TRACKING_ID_COMP                            as TM_TRACKING_ID_COMP,
-          TM_DPTBG_DATE as TM_DPTBG,
-          TM_DATBG_DATE as TM_DATBG,
-          TM_DPTEN_DATE as TM_DPTEN,
-          TM_DATEN_DATE as TM_DATEN,
-          TM_AR_DATE_DATE as TM_AR_DATE,
-          TM_DALBG_DATE as TM_DALBG,
+          TM_DPTBG_DATE                               as TM_DPTBG,
+          TM_DATBG_DATE                               as TM_DATBG,
+          TM_DPTEN_DATE                               as TM_DPTEN,
+          TM_DATEN_DATE                               as TM_DATEN,
+          TM_AR_DATE_DATE                             as TM_AR_DATE,
+          TM_DALBG_DATE                               as TM_DALBG,
           // case
           //   when
           //     TM_DPTBG_DATE = '00000000'
@@ -413,17 +417,17 @@ service srvOpenOrders {
           BL_VBELN_INV_LAST                           as BL_VBELN_INV_LAST,
           BL_POSNR_INV_LAST                           as BL_POSNR_INV_LAST,
           XBLNR                                       as BL_XBLNR,
-          /*  ---hONG LIANG 
+          /*  ---hONG LIANG
           BL_FKDAT_FIRST_DATE                         as BL_FKDAT_FIRST,
           BL_FKDAT_LAST_DATE                          as BL_FKDAT_LAST,
           BL_FKIMG_LAST                               as BL_FKIMG_LAST,
           BL_NETWR_LAST                               as BL_NETWR_LAST,
           BL_WAERK_LAST                               as BL_WAERK_LAST,
           BL_VRKME_LAST                               as BL_VRKME_LAST,  */
-          
-          ERDAT_DEL_DATE as DL_ERDAT,
-          LDDAT_DEL_DATE as DL_LDDAT,
-          F_MBDAT_DATE as SO_F_MBDAT,
+
+          ERDAT_DEL_DATE                              as DL_ERDAT,
+          LDDAT_DEL_DATE                              as DL_LDDAT,
+          F_MBDAT_DATE                                as SO_F_MBDAT,
           // case
           //   when
           //     ERDAT_DEL_DATE = '00000000'
@@ -450,8 +454,8 @@ service srvOpenOrders {
           //   else
           //     F_MBDAT_DATE
           // end                                         as SO_F_MBDAT                      : Date,
-          
-          
+
+
           EBELN                                       as PO_EBELN,
           EBELP                                       as PO_EBELP,
           case
@@ -492,17 +496,17 @@ service srvOpenOrders {
           ZZ0S2ABGH                                   as DL_ZZ0S2ABGH,
           ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH,
           VISTA_STATUS                                as TM_VISTA_STATUS,
-         /* EUANS CHANGES  
-          Z5_PARTNER_ITM                              as SO_Z5_PARTNER,
-          Z5_PARTNER_NAME_ITM                         as SO_Z5_PARTNER_NAME,
-          SB_PARTNER_ITM                              as SO_SB_PARTNER,
-          SB_PARTNER_NAME_ITM                         as SO_SB_PARTNER_NAME,
-          IFNULL(
-            AD_PARTNER_ITM, AD_PARTNER_HEAD
-          )                                           as SO_AD_PARTNER                   : String(8),
-          IFNULL(
-            AD_PARTNER_NAME_ITM, AD_PARTNER_NAME_HEAD
-          )                                           as SO_AD_PARTNER_NAME              : String(40),*/
+    /* EUANS CHANGES
+     Z5_PARTNER_ITM                              as SO_Z5_PARTNER,
+     Z5_PARTNER_NAME_ITM                         as SO_Z5_PARTNER_NAME,
+     SB_PARTNER_ITM                              as SO_SB_PARTNER,
+     SB_PARTNER_NAME_ITM                         as SO_SB_PARTNER_NAME,
+     IFNULL(
+       AD_PARTNER_ITM, AD_PARTNER_HEAD
+     )                                           as SO_AD_PARTNER                   : String(8),
+     IFNULL(
+       AD_PARTNER_NAME_ITM, AD_PARTNER_NAME_HEAD
+     )                                           as SO_AD_PARTNER_NAME              : String(40),*/
 
     };
 
@@ -539,5 +543,5 @@ service srvOpenOrders {
   entity PartnerSettings         as select from db_app.PARTNER_SETTINGS_DB;
   entity ShipmentMarkedDelivered as select from AMOOUtilsService.ShipmentMarkedDelivered;
   entity Variants                as projection on db_app.variants;
-  entity VariantsUserSettings                as projection on db_app.variantUserSettings;
+  entity VariantsUserSettings    as projection on db_app.variantUserSettings;
 }
