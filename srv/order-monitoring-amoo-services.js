@@ -604,6 +604,12 @@ class openOrdersSrv extends cds.ApplicationService {
                 const queryString = sessionCache.get(queryId);
                 const query = JSON.parse(queryString);
                 query.SELECT.from.ref[0] = 'openOrdersSrv.allIssues'
+                
+                // POC Refresh only if needed
+                // let NPSTabSelected = req.headers.tabselected;
+                // serviceHelper.addOrRemoveNPSFilter(query, NPSTabSelected);
+                // POC Refresh only if needed
+            
                 // make sure pagination is taken into account
                 // if (query.SELECT.limit.rows.val) query.SELECT.limit.rows.val = req.query.SELECT.limit.rows?.val;
                 //query.SELECT.distinct = true;
@@ -639,7 +645,16 @@ class openOrdersSrv extends cds.ApplicationService {
                         // req.header.select will have the string of visible columns. 
                         //this parameater has been manually set to header on every request
                         const selectedField = req._query && req._query['$select']
-                        const fields = selectedField && selectedField.split(',');
+                        let fields = selectedField && selectedField.split(',');
+                        fields = fields.filter((fieldName) => {
+                            const mandtFields = serviceHelper.getMandtFields();
+                            const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
+                            if(mandtTextFields.includes(fieldName)){
+                                return false;
+                            }else{
+                                return true;
+                            }
+                        });
                         // remove duplicates based on fields in the valuehelp dialog box
                         lt_result = removeDuplicates(fields, lt_result);
                     } catch (error) {
@@ -737,6 +752,15 @@ class openOrdersSrv extends cds.ApplicationService {
                         item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
                     }
                 }
+                let mandtFields = serviceHelper.getMandtFields();
+                // MANDANT TEXTS LOGIC -------------
+                mandtFields.forEach((mandt) => {
+                    const mandtProp = item[mandt];
+                    if(mandtProp){
+                        let mandtTxtField = mandt + "_TEXT";
+                        item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+                    }
+                })
             })
 
         });
@@ -1022,6 +1046,15 @@ class openOrdersSrv extends cds.ApplicationService {
                             item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
                         }
                     }
+                    let mandtFields = serviceHelper.getMandtFields();
+                    // MANDANT TEXTS LOGIC -------------
+                    mandtFields.forEach((mandt) => {
+                        const mandtProp = item[mandt];
+                        if(mandtProp){
+                            let mandtTxtField = mandt + "_TEXT";
+                            item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+                        }
+                    })
                     dateProps.forEach((property) => {
                         const dateString = item[property]
                         if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
