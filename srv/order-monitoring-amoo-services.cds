@@ -410,13 +410,10 @@ service openOrdersSrv {
                 BL_VRKME_LAST                               as BL_VRKME_LAST,
                 BL_FKART_FIRST                              as BL_FKART_FIRST,
                 BL_FKART_LAST                               as BL_FKART_LAST,
-                /*
-                ---Hong liang AP Billing fields
-                BL_FKDAT_FIRST_DATE                                      as BL_FKDAT_FIRST,
-                BL_FKDAT_LAST_DATE                                       as BL_FKDAT_LAST,
-                BL_NETWR_LAST                                            as BL_NETWR_LAST,
-                BL_WAERK_LAST                                            as BL_WAERK_LAST,
-                 */
+                BL_ERDAT_FIRST_DATE                         as BL_ERDAT_FIRST,
+                BL_ERDAT_LAST_DATE                          as BL_ERDAT_LAST,
+                BL_NETWR_LAST                               as BL_NETWR_LAST,
+                BL_WAERK_LAST                               as BL_WAERK_LAST,
                 DOCUMENT_TYPE                               as SO_DOC_TYP,
                 FOLLOWUP_NOTES_LANG                         as SO_FOLLOWUP_NOTES_LANG,
                 REASON_CODE_01_LANG                         as SO_REASON_CODE_01_LANG,
