@@ -1472,8 +1472,7 @@ annotate service.allIssues with {
     SO_F_VSBED_VTEXT               @UI: {Hidden: true};
     SO_KNREF_ITM                   @UI: {Hidden: true};
     SO_VRKME                       @UI: {Hidden: true};
-    SO_WAERS                       @UI: {Hidden: true};
-    SO_KPEIN                       @UI: {Hidden: true};
+    SO_WAERS                       @UI: {Hidden: true};    
     SO_KMEIN                       @UI: {Hidden: true};
     SO_WAERK                       @UI: {Hidden: true};
     SO_F_VKORG_VTEXT               @UI: {Hidden: true};
