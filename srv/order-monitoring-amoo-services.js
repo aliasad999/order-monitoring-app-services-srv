@@ -354,6 +354,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         finalOrderLine.BizagiCaseID = bizagiStatus.CASE_ID;
                         finalOrderLine.BizagiCase = bizagiStatus.BIZAGI_CASE;
                     }
+                    if (bizagiStatus.STATUS === 'Rejected') finalOrderLine.Editable = true;
                 }
 
 
