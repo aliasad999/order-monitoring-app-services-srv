@@ -253,6 +253,7 @@ entity ![RESULTS] {
         TRMTYP_MAKTX_LANG                  : String(40);
         ZZ0S2ABGH                          : String(10);
         ZZ0S2ZIEH                          : String(10);
+        LPRIO                              : String(2);
 
 }
 

@@ -204,6 +204,7 @@ annotate service.valueHelps with {
     DL_TRMTYP_MAKTX                 @title: '{i18n>DL_TRMTYP_MAKTX_LANG}'        @sap.Label: '{i18n>DL_TRMTYP_MAKTX_LANG}';
     DL_ZZ0S2ABGH                    @title: '{i18n>DL_ZZ0S2ABGH}'                @sap.Label: '{i18n>DL_ZZ0S2ABGH}';
     DL_ZZ0S2ZIEH                    @title: '{i18n>DL_ZZ0S2ZIEH}'                @sap.Label: '{i18n>DL_ZZ0S2ZIEH}';
+    DL_LPRIO                        @title: '{i18n>DL_LPRIO}'                    @sap.Label: '{i18n>DL_LPRIO}';
 };
 
 annotate service.Results with {
@@ -541,6 +542,7 @@ annotate service.Results with {
 
     DL_ZZ0S2ABGH                @title: '{i18n>DL_ZZ0S2ABGH}'              @sap.Label: '{i18n>DL_ZZ0S2ABGH}'       ;
     DL_ZZ0S2ZIEH                @title: '{i18n>DL_ZZ0S2ZIEH}'                @sap.Label: '{i18n>DL_ZZ0S2ZIEH}'       ;
+
 
 
 }
@@ -3030,6 +3032,24 @@ annotate service.Results with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: DL_ZZ0S2ZIEH,
             ValueListProperty: 'DL_ZZ0S2ZIEH'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    DL_LPRIO
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>DL_LPRIO}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: DL_LPRIO,
+            ValueListProperty: 'DL_LPRIO'
         }
 
         ]
