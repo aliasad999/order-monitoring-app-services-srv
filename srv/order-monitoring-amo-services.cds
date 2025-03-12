@@ -417,14 +417,12 @@ service srvOpenOrders {
           BL_VBELN_INV_LAST                           as BL_VBELN_INV_LAST,
           BL_POSNR_INV_LAST                           as BL_POSNR_INV_LAST,
           XBLNR                                       as BL_XBLNR,
-          /*  ---hONG LIANG
-          BL_FKDAT_FIRST_DATE                         as BL_FKDAT_FIRST,
-          BL_FKDAT_LAST_DATE                          as BL_FKDAT_LAST,
+          BL_ERDAT_FIRST_DATE                         as BL_ERDAT_FIRST,
+          BL_ERDAT_LAST_DATE                          as BL_ERDAT_LAST,
           BL_FKIMG_LAST                               as BL_FKIMG_LAST,
           BL_NETWR_LAST                               as BL_NETWR_LAST,
           BL_WAERK_LAST                               as BL_WAERK_LAST,
-          BL_VRKME_LAST                               as BL_VRKME_LAST,  */
-
+          BL_VRKME_LAST                               as BL_VRKME_LAST, 
           ERDAT_DEL_DATE                              as DL_ERDAT,
           LDDAT_DEL_DATE                              as DL_LDDAT,
           F_MBDAT_DATE                                as SO_F_MBDAT,
