@@ -313,12 +313,11 @@ annotate service.orderCreation with {
         CollectionPath         : 'OCValueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [
-            {
-                $Type            : 'Common.ValueListParameterInOut',
-                LocalDataProperty: PO_ISSUE,
-                ValueListProperty: 'PO_ISSUE'
-            }
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_ISSUE,
+            ValueListProperty: 'PO_ISSUE'
+        }
 
         ]
     };
@@ -330,12 +329,11 @@ annotate service.orderCreation with {
         CollectionPath         : 'OCValueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [
-            {
-                $Type            : 'Common.ValueListParameterInOut',
-                LocalDataProperty: PO_NPS,
-                ValueListProperty: 'PO_NPS'
-            }
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_NPS,
+            ValueListProperty: 'PO_NPS'
+        }
 
         ]
     };
@@ -1045,12 +1043,10 @@ annotate service.baseEntity with {
     BL_FKART_LAST                   @title: '{i18n>BL_FKART_LAST}'               @sap.Label: '{i18n>BL_FKART_LAST}';
     BL_VRKME_LAST                   @title: '{i18n>BL_VRKME_LAST}'               @sap.Label: '{i18n>BL_VRKME_LAST}';
     BL_XBLNR                        @title: '{i18n>BL_XBLNR}'                    @sap.Label: '{i18n>BL_XBLNR}';
-    /* Hong liangs AP columns
     BL_NETWR_LAST                   @title: '{i18n>BL_NETWR_LAST}'               @sap.Label: '{i18n>BL_NETWR_LAST}';
-    BL_FKDAT_FIRST                  @title: '{i18n>BL_FKDAT_FIRST}'              @sap.Label: '{i18n>BL_FKDAT_FIRST}';
-    BL_FKDAT_LAST                   @title: '{i18n>BL_FKDAT_LAST}'               @sap.Label: '{i18n>BL_FKDAT_LAST}';
+    BL_ERDAT_FIRST                  @title: '{i18n>BL_ERDAT_FIRST}'              @sap.Label: '{i18n>BL_ERDAT_FIRST}';
+    BL_ERDAT_LAST                   @title: '{i18n>BL_ERDAT_LAST}'               @sap.Label: '{i18n>BL_ERDAT_LAST}';
     BL_WAERK_LAST                   @title: '{i18n>BL_WAERK_LAST}'               @sap.Label: '{i18n>BL_WAERK_LAST}';
-    */
     SO_FOLLOWUP_NOTES_LANG          @title: '{i18n>SO_FOLLOWUP_NOTES_LANG}'      @sap.Label: '{i18n>SO_FOLLOWUP_NOTES_LANG}';
     SO_REASON_CODE_01_LANG          @title: '{i18n>SO_REASON_CODE_01_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_01_LANG}';
     SO_REASON_CODE_02_LANG          @title: '{i18n>SO_REASON_CODE_02_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_02_LANG}';
@@ -1155,15 +1151,13 @@ annotate service.allIssues with {
     BL_FKART_FIRST          @UI                     : {Hidden: true};
     BL_FKART_LAST           @UI                     : {Hidden: true};
     BL_FKIMG_FIRST          @UI                     : {Hidden: true};
-    BL_FKIMG_LAST           @UI                     : {Hidden: true};
+    //BL_FKIMG_LAST           @UI                     : {Hidden: true};
     BL_FKIMG_FIRST          @Measures.Unit          : BL_VRKME_FIRST;
     BL_FKIMG_LAST           @Measures.Unit          : BL_VRKME_LAST;
     BL_VRKME_FIRST          @Semantics.unitOfMeasure: 'unit-of-measure';
     BL_VRKME_LAST           @Semantics.unitOfMeasure: 'unit-of-measure';
-    /* Hong liangs changes
     BL_NETWR_LAST           @Measures.ISOCurrency   : BL_WAERK_LAST;
     BL_WAERK_LAST           @Semantics.currencyCode;
-    */
     PO_KUNNR_NAME           @UI                     : {Hidden: true};
     // PO_PARTNER_9A_HEAD_NAME @UI                     : {Hidden: true};
     // PO_PARTNER_9O_HEAD_NAME @UI                     : {Hidden: true};
@@ -1447,6 +1441,10 @@ annotate service.allIssues with {
     SO_AM_PARTNER_NAME             @UI: {Hidden: true};
     SO_AG_PARTNER_NAME             @UI: {Hidden: true};
     SO_WE_PARTNER_NAME             @UI: {Hidden: true};
+    // SO_AG_PARTNER_NAME1            @UI: {Hidden: true};
+    // SO_AG_PARTNER_NAME2            @UI: {Hidden: true};
+    // SO_WE_PARTNER_NAME1            @UI: {Hidden: true};
+    // SO_WE_PARTNER_NAME2            @UI: {Hidden: true};
     SO_MAKTX                       @UI: {Hidden: true};
     SO_LANDX                       @UI: {Hidden: true};
     SO_NPS_DESCRIPTION             @UI: {Hidden: true};
@@ -1470,7 +1468,7 @@ annotate service.allIssues with {
     SO_F_VSBED_VTEXT               @UI: {Hidden: true};
     SO_KNREF_ITM                   @UI: {Hidden: true};
     SO_VRKME                       @UI: {Hidden: true};
-    SO_WAERS                       @UI: {Hidden: true};    
+    SO_WAERS                       @UI: {Hidden: true};
     SO_KMEIN                       @UI: {Hidden: true};
     SO_WAERK                       @UI: {Hidden: true};
     SO_F_VKORG_VTEXT               @UI: {Hidden: true};
@@ -3802,20 +3800,20 @@ annotate service.allIssues with {
         ]
     }
 }
+
 annotate service.allIssues with {
-        TM_VISTA_STATUS
+    TM_VISTA_STATUS
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>TM_VISTA_STATUS}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [
-            {
-                $Type            : 'Common.ValueListParameterInOut',
-                LocalDataProperty: TM_VISTA_STATUS,
-                ValueListProperty: 'TM_VISTA_STATUS'
-            }
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: TM_VISTA_STATUS,
+            ValueListProperty: 'TM_VISTA_STATUS'
+        }
 
         ]
     }
@@ -4333,8 +4331,6 @@ annotate service.allIssues with {
     }
 };
 // End of Euan's changes
-
-
 
 
 // ------------------------------Value Helps All Issues----------------------------

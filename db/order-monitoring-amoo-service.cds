@@ -280,14 +280,14 @@ entity ![OPENORDERSLIST] {
         TRMTYP_MAKTX_LANG                  : String(40);
         ZZ0S2ABGH                          : String(10);
         ZZ0S2ZIEH                          : String(10);
-       /*---hong liang chnages commented  out to move VISTA_STATUS TO prod
+
         BL_NETWR_LAST                      : Decimal(15, 2);
         BL_WAERK_LAST                      : String(5);
-        BL_FKDAT_FIRST                     : String(8);
-        BL_FKDAT_FIRST_DATE                : Date = BL_FKDAT_FIRST;
-        BL_FKDAT_LAST                      : String(8);
-        BL_FKDAT_LAST_DATE                 : Date = BL_FKDAT_LAST;
-        */
+        BL_ERDAT_FIRST                     : String(8);
+        BL_ERDAT_FIRST_DATE                : Date = BL_ERDAT_FIRST;
+        BL_ERDAT_LAST                      : String(8);
+        BL_ERDAT_LAST_DATE                 : Date = BL_ERDAT_LAST;
+
         VISTA_STATUS                       : String(50);
 
         // Euan's changes

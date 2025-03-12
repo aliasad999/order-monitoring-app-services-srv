@@ -94,10 +94,10 @@ service openOrdersSrv {
                 AG_PARTNER_NAME1 || ' ' || AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME              : String(80),
                 WE_PARTNER                                  as SO_WE_PARTNER,
                 WE_PARTNER_NAME1 || ' ' || WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME              : String(80),
-                AG_PARTNER_NAME1                            as SO_AG_PARTNER_NAME1, // to enable default search, parts of calculated fields are required to be added too to service
-                AG_PARTNER_NAME2                            as SO_AG_PARTNER_NAME2,
-                WE_PARTNER_NAME1                            as SO_WE_PARTNER_NAME1,
-                WE_PARTNER_NAME2                            as SO_WE_PARTNER_NAME2,
+                // AG_PARTNER_NAME1                            as SO_AG_PARTNER_NAME1, // to enable default search, parts of calculated fields are required to be added too to service
+                // AG_PARTNER_NAME2                            as SO_AG_PARTNER_NAME2,
+                // WE_PARTNER_NAME1                            as SO_WE_PARTNER_NAME1,
+                // WE_PARTNER_NAME2                            as SO_WE_PARTNER_NAME2,
                 LAND1                                       as SO_LAND1,
                 LANDX_LANG                                  as SO_LANDX,
                 ORT01                                       as SO_ORT01,
@@ -410,13 +410,10 @@ service openOrdersSrv {
                 BL_VRKME_LAST                               as BL_VRKME_LAST,
                 BL_FKART_FIRST                              as BL_FKART_FIRST,
                 BL_FKART_LAST                               as BL_FKART_LAST,
-                /*
-                ---Hong liang AP Billing fields
-                BL_FKDAT_FIRST_DATE                                      as BL_FKDAT_FIRST,
-                BL_FKDAT_LAST_DATE                                       as BL_FKDAT_LAST,
-                BL_NETWR_LAST                                            as BL_NETWR_LAST,
-                BL_WAERK_LAST                                            as BL_WAERK_LAST,
-                 */
+                BL_ERDAT_FIRST_DATE                         as BL_ERDAT_FIRST,
+                BL_ERDAT_LAST_DATE                          as BL_ERDAT_LAST,
+                BL_NETWR_LAST                               as BL_NETWR_LAST,
+                BL_WAERK_LAST                               as BL_WAERK_LAST,
                 DOCUMENT_TYPE                               as SO_DOC_TYP,
                 FOLLOWUP_NOTES_LANG                         as SO_FOLLOWUP_NOTES_LANG,
                 REASON_CODE_01_LANG                         as SO_REASON_CODE_01_LANG,

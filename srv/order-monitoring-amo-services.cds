@@ -55,10 +55,10 @@ service srvOpenOrders {
           AG_PARTNER_NAME1 || ' ' || AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME              : String(80),
           WE_PARTNER                                  as SO_WE_PARTNER,
           WE_PARTNER_NAME1 || ' ' || WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME              : String(80),
-          AG_PARTNER_NAME1                            as SO_AG_PARTNER_NAME1, // to enable default search, parts of calculated fields are required to be added too to service
-          AG_PARTNER_NAME2                            as SO_AG_PARTNER_NAME2,
-          WE_PARTNER_NAME1                            as SO_WE_PARTNER_NAME1,
-          WE_PARTNER_NAME2                            as SO_WE_PARTNER_NAME2,
+          // AG_PARTNER_NAME1                            as SO_AG_PARTNER_NAME1, // to enable default search, parts of calculated fields are required to be added too to service
+          // AG_PARTNER_NAME2                            as SO_AG_PARTNER_NAME2,
+          // WE_PARTNER_NAME1                            as SO_WE_PARTNER_NAME1,
+          // WE_PARTNER_NAME2                            as SO_WE_PARTNER_NAME2,
           IFNULL(
             CO_PARTNER_ITM, CO_PARTNER_HEAD
           )                                           as SO_CO_PARTNER                   : String(10),
@@ -417,14 +417,12 @@ service srvOpenOrders {
           BL_VBELN_INV_LAST                           as BL_VBELN_INV_LAST,
           BL_POSNR_INV_LAST                           as BL_POSNR_INV_LAST,
           XBLNR                                       as BL_XBLNR,
-          /*  ---hONG LIANG
-          BL_FKDAT_FIRST_DATE                         as BL_FKDAT_FIRST,
-          BL_FKDAT_LAST_DATE                          as BL_FKDAT_LAST,
+          BL_ERDAT_FIRST_DATE                         as BL_ERDAT_FIRST,
+          BL_ERDAT_LAST_DATE                          as BL_ERDAT_LAST,
           BL_FKIMG_LAST                               as BL_FKIMG_LAST,
           BL_NETWR_LAST                               as BL_NETWR_LAST,
           BL_WAERK_LAST                               as BL_WAERK_LAST,
-          BL_VRKME_LAST                               as BL_VRKME_LAST,  */
-
+          BL_VRKME_LAST                               as BL_VRKME_LAST, 
           ERDAT_DEL_DATE                              as DL_ERDAT,
           LDDAT_DEL_DATE                              as DL_LDDAT,
           F_MBDAT_DATE                                as SO_F_MBDAT,
