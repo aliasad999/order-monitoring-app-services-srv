@@ -10,7 +10,7 @@ const { startOfToday } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies')
 const serviceHelper = require('./utils/serviceHelper');
 const jwt = require('jsonwebtoken');
-const { azureTokenSessionCache, azureRefreshTokenSessionCache } = require('./auth/azureTokenCache');
+const azureTokenManager = require('./utils/azureTokenManagement');
 
 class openOrdersSrv extends cds.ApplicationService {
 
@@ -912,7 +912,6 @@ class openOrdersSrv extends cds.ApplicationService {
                                 break;
 
                             // Added with user story 851475
-                            /*
                             case 'AD':
                                 partnersQuery.push(`SO_AD_PARTNER = '${partnerNumber}'`);
                                 break;
@@ -924,7 +923,6 @@ class openOrdersSrv extends cds.ApplicationService {
                             case 'SB':
                                 partnersQuery.push(`SO_SB_PARTNER = '${partnerNumber}'`);
                                 break;
-                                */
                             // Added with user story 851475 
                             
                             default:
@@ -1594,7 +1592,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 const { id, path, payload } = req.data;
                 log.info("Path received: ", path);
                 log.info("Payload received: ", payload);
-                const azureToken = azureTokenSessionCache.get(username);
+                const azureToken = await azureTokenManager.getAccessToken(username);
 
                 log.info("azureToken: ", azureToken);
                 log.info("Username: ", username);
@@ -1633,7 +1631,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
                 const payload = req.data.payload;
                 log.info("Payload received: ", payload);
-                const azureToken = azureTokenSessionCache.get(username);
+                const azureToken = await azureTokenManager.getAccessToken(username);
 
                 log.info("azureToken: ", azureToken);
                 log.info("Username: ", username);
@@ -1664,7 +1662,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 const tokenForUserInfo = req.headers.authorization.split(' ')[1];
                 const decodedToken = jwt.decode(tokenForUserInfo);
                 const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
-                const azureToken = azureTokenSessionCache.get(username);
+                const azureToken = await azureTokenManager.getAccessToken(username);
 
                 log.info("azureToken: ", azureToken);
                 log.info("Username: ", username);
@@ -1698,18 +1696,18 @@ class openOrdersSrv extends cds.ApplicationService {
                 const tokenForUserInfo = req.headers.authorization.split(' ')[1];
                 const decodedToken = jwt.decode(tokenForUserInfo);
                 const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
-                var azureToken = azureTokenSessionCache.get(username);
+                var azureToken = await azureTokenManager.getAccessToken(username);
 
                 log.info("azureToken: ", azureToken);
                 log.info("Username: ", username);
 
                 // Retry fetching the token if it's missing
                 let retryCount = 0;
-                const maxRetries = 5;
+                const maxRetries = 10;
                 while (!azureToken && retryCount < maxRetries) {
                     log.warn("Azure token not found for ${username}, retrying... (${retryCount + 1}/${maxRetries})");
-                    await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1s before retrying
-                    azureToken = azureTokenSessionCache.get(username);
+                    await new Promise(resolve => setTimeout(resolve, 1500)); // Wait before retrying
+                    azureToken = await azureTokenManager.getAccessToken(username);
                     retryCount++;
                 }
 
@@ -1744,7 +1742,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
                 const payload = req.data.payload;
                 log.info("Payload received: ", payload);
-                const azureToken = azureTokenSessionCache.get(username);
+                const azureToken = await azureTokenManager.getAccessToken(username);
 
                 log.info("azureToken: ", azureToken);
                 log.info("Username: ", username);

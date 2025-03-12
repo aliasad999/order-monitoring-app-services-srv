@@ -55,10 +55,10 @@ service srvOpenOrders {
           AG_PARTNER_NAME1 || ' ' || AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME              : String(80),
           WE_PARTNER                                  as SO_WE_PARTNER,
           WE_PARTNER_NAME1 || ' ' || WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME              : String(80),
-          AG_PARTNER_NAME1                            as SO_AG_PARTNER_NAME1, // to enable default search, parts of calculated fields are required to be added too to service
-          AG_PARTNER_NAME2                            as SO_AG_PARTNER_NAME2,
-          WE_PARTNER_NAME1                            as SO_WE_PARTNER_NAME1,
-          WE_PARTNER_NAME2                            as SO_WE_PARTNER_NAME2,
+          // AG_PARTNER_NAME1                            as SO_AG_PARTNER_NAME1, // to enable default search, parts of calculated fields are required to be added too to service
+          // AG_PARTNER_NAME2                            as SO_AG_PARTNER_NAME2,
+          // WE_PARTNER_NAME1                            as SO_WE_PARTNER_NAME1,
+          // WE_PARTNER_NAME2                            as SO_WE_PARTNER_NAME2,
           IFNULL(
             CO_PARTNER_ITM, CO_PARTNER_HEAD
           )                                           as SO_CO_PARTNER                   : String(10),
@@ -494,17 +494,19 @@ service srvOpenOrders {
           ZZ0S2ABGH                                   as DL_ZZ0S2ABGH,
           ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH,
           VISTA_STATUS                                as TM_VISTA_STATUS,
-    /* EUANS CHANGES
-     Z5_PARTNER_ITM                              as SO_Z5_PARTNER,
-     Z5_PARTNER_NAME_ITM                         as SO_Z5_PARTNER_NAME,
-     SB_PARTNER_ITM                              as SO_SB_PARTNER,
-     SB_PARTNER_NAME_ITM                         as SO_SB_PARTNER_NAME,
-     IFNULL(
-       AD_PARTNER_ITM, AD_PARTNER_HEAD
-     )                                           as SO_AD_PARTNER                   : String(8),
-     IFNULL(
-       AD_PARTNER_NAME_ITM, AD_PARTNER_NAME_HEAD
-     )                                           as SO_AD_PARTNER_NAME              : String(40),*/
+
+         // Euan's changes 
+          Z5_PARTNER_ITM                              as SO_Z5_PARTNER,
+          Z5_PARTNER_NAME_ITM                         as SO_Z5_PARTNER_NAME,
+          SB_PARTNER_ITM                              as SO_SB_PARTNER,
+          SB_PARTNER_NAME_ITM                         as SO_SB_PARTNER_NAME,
+          IFNULL(
+            AD_PARTNER_ITM, AD_PARTNER_HEAD
+          )                                           as SO_AD_PARTNER                   : String(8),
+          IFNULL(
+            AD_PARTNER_NAME_ITM, AD_PARTNER_NAME_HEAD
+          )                                           as SO_AD_PARTNER_NAME              : String(40)
+          // End of Euan's changes
 
     };
 

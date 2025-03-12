@@ -313,12 +313,11 @@ annotate service.orderCreation with {
         CollectionPath         : 'OCValueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [
-            {
-                $Type            : 'Common.ValueListParameterInOut',
-                LocalDataProperty: PO_ISSUE,
-                ValueListProperty: 'PO_ISSUE'
-            }
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_ISSUE,
+            ValueListProperty: 'PO_ISSUE'
+        }
 
         ]
     };
@@ -330,12 +329,11 @@ annotate service.orderCreation with {
         CollectionPath         : 'OCValueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [
-            {
-                $Type            : 'Common.ValueListParameterInOut',
-                LocalDataProperty: PO_NPS,
-                ValueListProperty: 'PO_NPS'
-            }
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_NPS,
+            ValueListProperty: 'PO_NPS'
+        }
 
         ]
     };
@@ -1090,14 +1088,14 @@ annotate service.baseEntity with {
     // PO_PARTNER_9O_HEAD_NAME         @title: '{i18n>PO_PARTNER_9O_HEAD_NAME}'     @sap.Label: '{i18n>PO_PARTNER_9O_HEAD_NAME}';
     // SO_BSTNK         @title: '{i18n>SO_BSTNK}'     @sap.Label: '{i18n>SO_BSTNK}';
    
-   /* Euans changes 
+    // Euan's changes
     SO_Z5_PARTNER                   @title: '{i18n>SO_Z5_PARTNER}'               @sap.Label: '{i18n>SO_Z5_PARTNER}'       @Common.IsDigitSequence: true;
     SO_Z5_PARTNER_NAME              @title: '{i18n>SO_Z5_PARTNER_NAME}'          @sap.Label: '{i18n>SO_Z5_PARTNER_NAME}';
     SO_SB_PARTNER                   @title: '{i18n>SO_SB_PARTNER}'               @sap.Label: '{i18n>SO_SB_PARTNER}'       @Common.IsDigitSequence: true;
     SO_SB_PARTNER_NAME              @title: '{i18n>SO_SB_PARTNER_NAME}'          @sap.Label: '{i18n>SO_SB_PARTNER_NAME}';
     SO_AD_PARTNER                   @title: '{i18n>SO_AD_PARTNER}'               @sap.Label: '{i18n>SO_AD_PARTNER}'       @Common.IsDigitSequence: true;
     SO_AD_PARTNER_NAME              @title: '{i18n>SO_AD_PARTNER_NAME}'          @sap.Label: '{i18n>SO_AD_PARTNER_NAME}';
-    */
+    // End of Euan's changes
 
     ///// Mandants
     SO_MANDT                        @title: '{i18n>SO_MANDT}'                    @sap.Label: '{i18n>SO_MANDT}';
@@ -1354,7 +1352,8 @@ annotate service.allIssues with {
     // BL_VBELN_INV_FIRST          @title: '{i18n>BL_VBELN_INV_FIRST}'          @sap.Label: '{i18n>BL_VBELN_INV_FIRST}';
     // BL_VBELN_INV_LAST           @title: '{i18n>BL_VBELN_INV_LAST}'           @sap.Label: '{i18n>BL_VBELN_INV_LAST}';
     // BL_XBLNR                    @title: '{i18n>BL_XBLNR}'                    @sap.Label: '{i18n>BL_XBLNR}';
-    /*
+    
+    // Euan's changes
     @Common.Text           : SO_Z5_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
     SO_Z5_PARTNER        @title: '{i18n>SO_Z5_PARTNER}'         @sap.Label: '{i18n>SO_Z5_PARTNER}';
@@ -1372,7 +1371,8 @@ annotate service.allIssues with {
     SO_AD_PARTNER        @title: '{i18n>SO_AD_PARTNER}'         @sap.Label: '{i18n>SO_AD_PARTNER}';
     @Common.TextFor
     SO_AD_PARTNER_NAME;
-    */
+    // End of Euan's changes
+
     ///// Mandants
     @Common.Text           : SO_MANDT_TEXT
     @Common.TextArrangement: #TextLast
@@ -1441,6 +1441,10 @@ annotate service.allIssues with {
     SO_AM_PARTNER_NAME             @UI: {Hidden: true};
     SO_AG_PARTNER_NAME             @UI: {Hidden: true};
     SO_WE_PARTNER_NAME             @UI: {Hidden: true};
+    // SO_AG_PARTNER_NAME1            @UI: {Hidden: true};
+    // SO_AG_PARTNER_NAME2            @UI: {Hidden: true};
+    // SO_WE_PARTNER_NAME1            @UI: {Hidden: true};
+    // SO_WE_PARTNER_NAME2            @UI: {Hidden: true};
     SO_MAKTX                       @UI: {Hidden: true};
     SO_LANDX                       @UI: {Hidden: true};
     SO_NPS_DESCRIPTION             @UI: {Hidden: true};
@@ -1464,7 +1468,7 @@ annotate service.allIssues with {
     SO_F_VSBED_VTEXT               @UI: {Hidden: true};
     SO_KNREF_ITM                   @UI: {Hidden: true};
     SO_VRKME                       @UI: {Hidden: true};
-    SO_WAERS                       @UI: {Hidden: true};    
+    SO_WAERS                       @UI: {Hidden: true};
     SO_KMEIN                       @UI: {Hidden: true};
     SO_WAERK                       @UI: {Hidden: true};
     SO_F_VKORG_VTEXT               @UI: {Hidden: true};
@@ -1493,11 +1497,12 @@ annotate service.allIssues with {
     DL_VRKME                       @UI: {Hidden: true};
     SO_MDB_TEXT                    @UI: {Hidden: true};
     SO_PERFK_LTEXT_LANG            @UI: {Hidden: true};
-    /*
+    
+    // Euan's changes
     SO_Z5_PARTNER_NAME             @UI: {Hidden: true};
     SO_SB_PARTNER_NAME             @UI: {Hidden: true};
     SO_AD_PARTNER_NAME             @UI: {Hidden: true};
-    */
+    // End of Euan's changes
 }
 
 // ------------------------------Value Helps All Issues----------------------------
@@ -3795,20 +3800,20 @@ annotate service.allIssues with {
         ]
     }
 }
+
 annotate service.allIssues with {
-        TM_VISTA_STATUS
+    TM_VISTA_STATUS
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>TM_VISTA_STATUS}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [
-            {
-                $Type            : 'Common.ValueListParameterInOut',
-                LocalDataProperty: TM_VISTA_STATUS,
-                ValueListProperty: 'TM_VISTA_STATUS'
-            }
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: TM_VISTA_STATUS,
+            ValueListProperty: 'TM_VISTA_STATUS'
+        }
 
         ]
     }
@@ -4254,7 +4259,9 @@ annotate service.allIssues with {
         ]
     }
 };
+*/
 
+// Euan's changes
 annotate service.allIssues with {
     SO_Z5_PARTNER
     @Common.ValueList: {
@@ -4323,9 +4330,7 @@ annotate service.allIssues with {
         ]
     }
 };
-*/
-
-
+// End of Euan's changes
 
 
 // ------------------------------Value Helps All Issues----------------------------
