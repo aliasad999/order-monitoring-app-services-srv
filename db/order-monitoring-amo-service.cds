@@ -254,18 +254,15 @@ entity ![RESULTS] {
         TRMTYP_MAKTX_LANG                  : String(40);
         ZZ0S2ABGH                          : String(10);
         ZZ0S2ZIEH                          : String(10);
-
-        /*  ---AP COLUMNS hongliang
-
-        BL_FKDAT_FIRST                     : String(8);
-        BL_FKDAT_FIRST_DATE                : Date = BL_FKDAT_FIRST;
-        BL_FKDAT_LAST                      : String(8);*
-        BL_FKDAT_LAST_DATE                 : Date = BL_FKDAT_LAST;
+        BL_ERDAT_FIRST                     : String(8);
+        BL_ERDAT_FIRST_DATE                : Date = BL_ERDAT_FIRST;
+        BL_ERDAT_LAST                      : String(8);
+        BL_ERDAT_LAST_DATE                 : Date = BL_ERDAT_LAST;
         BL_FKIMG_LAST                      : String(8);
         BL_NETWR_LAST                      : Decimal(15, 2);
-        //BL_WAERK_LAST                      : String(5);
+        BL_WAERK_LAST                      : String(5);
         BL_VRKME_LAST                      : String(3);
-        */
+        
 
         VISTA_STATUS                       : String(50); 
         
