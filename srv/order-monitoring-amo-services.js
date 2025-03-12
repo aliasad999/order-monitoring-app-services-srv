@@ -53,6 +53,7 @@ class srvOpenOrders extends cds.ApplicationService {
             let updateNeeded = false;
             let lt_result = [];
             let lt_resultEC = [];
+            let lt_resultAP = [];
             let err = []
             let globalError= [] ;
             let userID = req.user.id;
@@ -112,6 +113,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     globalError.push({user: 'noECUser',error: error})
                     err = 2 // EC called failed
                 }
+
                 await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
                 await DELETE.from(EKKOAuthObjectKeys).where({ USERID: userID });
 

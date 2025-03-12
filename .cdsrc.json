@@ -149,6 +149,12 @@
                 "destination": "APIM",
                 "path": "/it/omg/omc/sofm-delivery/v1"
             }
+        },
+       "ChatbotUiTokenService": {
+            "kind": "rest",
+            "credentials": {
+                "destination": "Chatbot_UI_token"
+            }
         }
     }
 }
