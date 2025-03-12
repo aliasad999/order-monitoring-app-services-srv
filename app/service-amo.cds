@@ -612,6 +612,10 @@ annotate service.Results with {
     SO_AM_PARTNER_NAME             @UI                     : {Hidden: true};
     SO_AG_PARTNER_NAME             @UI                     : {Hidden: true};
     SO_WE_PARTNER_NAME             @UI                     : {Hidden: true};
+    // SO_AG_PARTNER_NAME1             @UI                     : {Hidden: true};
+    // SO_AG_PARTNER_NAME2             @UI                     : {Hidden: true};
+    // SO_WE_PARTNER_NAME1             @UI                     : {Hidden: true};
+    // SO_WE_PARTNER_NAME2             @UI                     : {Hidden: true};    
     SO_MAKTX                       @UI                     : {Hidden: true};
     SO_LANDX                       @UI                     : {Hidden: true};
     SO_VKORG_NAME1                 @UI                     : {Hidden: true};
