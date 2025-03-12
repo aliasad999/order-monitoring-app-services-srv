@@ -129,16 +129,12 @@ annotate service.valueHelps with {
     BL_VBELN_INV_LAST               @title: '{i18n>BL_VBELN_INV_LAST}'           @sap.Label: '{i18n>BL_VBELN_INV_LAST}'   @Common.IsDigitSequence: true;
     BL_POSNR_INV_LAST               @title: '{i18n>BL_POSNR_INV_LAST}'           @sap.Label: '{i18n>BL_POSNR_INV_LAST}'   @Common.IsDigitSequence: true;
     BL_XBLNR                        @title: '{i18n>BL_XBLNR}'                    @sap.Label: '{i18n>BL_XBLNR}';
-    /* HONGLIANGS COLUMNS AP
     BL_NETWR_LAST                   @title: '{i18n>BL_NETWR_LAST}'               @sap.Label: '{i18n>BL_NETWR_LAST}';
     BL_FKIMG_LAST                   @title: '{i18n>BL_FKIMG_LAST}'               @sap.Label: '{i18n>BL_FKIMG_LAST}';
-  
-    BL_FKDAT_FIRST                  @title: '{i18n>BL_FKDAT_FIRST}'              @sap.Label: '{i18n>BL_FKDAT_FIRST}';
-    BL_FKDAT_LAST                   @title: '{i18n>BL_FKDAT_LAST}'               @sap.Label: '{i18n>BL_FKDAT_LAST}';
-    BL_WAERK_LAST                   @title: '{i18n>BL_WAERK_LAST}'              @sap.Label: '{i18n>BL_WAERK_LAST}';
-  
+    BL_ERDAT_FIRST                  @title: '{i18n>BL_ERDAT_FIRST}'              @sap.Label: '{i18n>BL_ERDAT_FIRST}';
+    BL_ERDAT_LAST                   @title: '{i18n>BL_ERDAT_LAST}'               @sap.Label: '{i18n>BL_ERDAT_LAST}';
+    BL_WAERK_LAST                   @title: '{i18n>BL_WAERK_LAST}'               @sap.Label: '{i18n>BL_WAERK_LAST}';
     BL_VRKME_LAST                   @title: '{i18n>BL_VRKME_LAST}'               @sap.Label: '{i18n>BL_VRKME_LAST}';
-      */
     SO_TRAGR                        @title: '{i18n>SO_TRAGR}'                    @sap.Label: '{i18n>SO_TRAGR}'            @Common.IsDigitSequence: true;
     SO_TRAGR_VTEXT                  @title: '{i18n>SO_TRAGR_VTEXT}'              @sap.Label: '{i18n>SO_TRAGR_VTEXT}';
     SO_VKGRP                        @title: '{i18n>SO_VKGRP}'                    @sap.Label: '{i18n>SO_VKGRP}';
@@ -192,14 +188,16 @@ annotate service.valueHelps with {
     PO_PARTNER_9O_HEAD              @title: '{i18n>PO_PARTNER_9O_HEAD}'          @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
     PO_PARTNER_9O_HEAD_NAME         @title: '{i18n>PO_PARTNER_9O_HEAD_NAME}'     @sap.Label: '{i18n>PO_PARTNER_9O_HEAD_NAME}';
     // SO_BSTNK         @title: '{i18n>SO_BSTNK}'     @sap.Label: '{i18n>SO_BSTNK}';
-    /* EUAN CHANGES
+
+    // Euan's changes
     SO_Z5_PARTNER                   @title: '{i18n>SO_Z5_PARTNER}'               @sap.Label: '{i18n>SO_Z5_PARTNER}';
     SO_Z5_PARTNER_NAME              @title: '{i18n>SO_Z5_PARTNER_NAME}'          @sap.Label: '{i18n>SO_Z5_PARTNER_NAME}'  @Common.IsDigitSequence: true;
     SO_SB_PARTNER                   @title: '{i18n>SO_SB_PARTNER}'               @sap.Label: '{i18n>SO_SB_PARTNER}';
     SO_SB_PARTNER_NAME              @title: '{i18n>SO_SB_PARTNER_NAME}'          @sap.Label: '{i18n>SO_SB_PARTNER_NAME}'  @Common.IsDigitSequence: true;
     SO_AD_PARTNER                   @title: '{i18n>SO_AD_PARTNER}'               @sap.Label: '{i18n>SO_AD_PARTNER}';
     SO_AD_PARTNER_NAME              @title: '{i18n>SO_AD_PARTNER_NAME}'          @sap.Label: '{i18n>SO_AD_PARTNER_NAME}'  @Common.IsDigitSequence: true;
-    */
+    // End of Euan's changes
+
     ///// Mandants
     SO_MANDT                        @title: '{i18n>SO_MANDT}'                    @sap.Label: '{i18n>SO_MANDT}';
     DL_MANDT                        @title: '{i18n>DL_MANDT}'                    @sap.Label: '{i18n>DL_MANDT}';
@@ -403,12 +401,12 @@ annotate service.Results with {
     BL_POSNR_INV_FIRST          @title: '{i18n>BL_POSNR_INV_FIRST}'          @sap.Label: '{i18n>BL_POSNR_INV_FIRST}';
     BL_VBELN_INV_LAST           @title: '{i18n>BL_VBELN_INV_LAST}'           @sap.Label: '{i18n>BL_VBELN_INV_LAST}';
     BL_POSNR_INV_LAST           @title: '{i18n>BL_POSNR_INV_LAST}'           @sap.Label: '{i18n>BL_POSNR_INV_LAST}';
-    //BL_NETWR_LAST               @title: '{i18n>BL_NETWR_LAST}'               @sap.Label: '{i18n>BL_NETWR_LAST}';
-    //BL_FKIMG_LAST               @title: '{i18n>BL_FKIMG_LAST}'               @sap.Label: '{i18n>BL_FKIMG_LAST}';
-    //BL_FKDAT_FIRST              @title: '{i18n>BL_FKDAT_FIRST}'              @sap.Label: '{i18n>BL_FKDAT_FIRST}';
-   // BL_FKDAT_LAST               @title: '{i18n>BL_FKDAT_LAST}'               @sap.Label: '{i18n>BL_FKDAT_LAST}';
-    //BL_VRKME_LAST               @title: '{i18n>BL_VRKME_LAST}'               @sap.Label: '{i18n>BL_VRKME_LAST}';
-    //BL_WAERK_LAST               @title: '{i18n>BL_WAERK_LAST}'               @sap.Label: '{i18n>BL_WAERK_LAST}';
+    BL_NETWR_LAST               @title: '{i18n>BL_NETWR_LAST}'               @sap.Label: '{i18n>BL_NETWR_LAST}';
+    BL_FKIMG_LAST               @title: '{i18n>BL_FKIMG_LAST}'               @sap.Label: '{i18n>BL_FKIMG_LAST}';
+    BL_ERDAT_FIRST              @title: '{i18n>BL_ERDAT_FIRST}'              @sap.Label: '{i18n>BL_ERDAT_FIRST}';
+    BL_ERDAT_LAST               @title: '{i18n>BL_ERDAT_LAST}'               @sap.Label: '{i18n>BL_ERDAT_LAST}';
+    BL_VRKME_LAST               @title: '{i18n>BL_VRKME_LAST}'               @sap.Label: '{i18n>BL_VRKME_LAST}';
+    BL_WAERK_LAST               @title: '{i18n>BL_WAERK_LAST}'               @sap.Label: '{i18n>BL_WAERK_LAST}';
 
     BL_XBLNR                    @title: '{i18n>BL_XBLNR}'                    @sap.Label: '{i18n>BL_XBLNR}';
     @Common.Text           : SO_TRAGR_VTEXT
@@ -508,7 +506,8 @@ annotate service.Results with {
     @Common.TextFor
     PO_BSART_BATXT;
     // SO_BSTNK         @title: '{i18n>SO_BSTNK}'     @sap.Label: '{i18n>SO_BSTNK}';
-    /* Euans changes
+
+    // Euans changes
     @Common.Text           : SO_Z5_PARTNER_NAME
     @Common.TextArrangement: #TextLast
     SO_Z5_PARTNER               @title: '{i18n>SO_Z5_PARTNER}'               @sap.Label: '{i18n>SO_Z5_PARTNER}';
@@ -526,8 +525,7 @@ annotate service.Results with {
     SO_AD_PARTNER               @title: '{i18n>SO_AD_PARTNER}'               @sap.Label: '{i18n>SO_AD_PARTNER}';
     @Common.TextFor
     SO_AD_PARTNER_NAME          @title: '{i18n>SO_AD_PARTNER_NAME}'          @sap.Label: '{i18n>SO_AD_PARTNER_NAME}';
-
-    */
+    // End of Euan's changes
 
     ///// Mandants
     @Common.Text           : SO_MANDT_TEXT
@@ -609,11 +607,10 @@ annotate service.Results with {
     DL_PEND_DEL_QUAN               @Measures.Unit          : DL_VRKME;
     PO_MENGE                       @Measures.Unit          : PO_MEINS;
     PO_MEINS                       @Semantics.unitOfMeasure: 'unit-of-measure';
-    //BL_FKIMG_LAST                  @Measures.Unit          : BL_VRKME_LAST;
-    //BL_VRKME_LAST                  @Semantics.unitOfMeasure: 'unit-of-measure';  
-    //BL_NETWR_LAST                  @Measures.ISOCurrency   : BL_WAERK_LAST;
-    //BL_WAERK_LAST                  @Semantics.currencyCode;       
-               
+    BL_FKIMG_LAST                  @Measures.Unit          : BL_VRKME_LAST;
+    BL_VRKME_LAST                  @Semantics.unitOfMeasure: 'unit-of-measure';  
+    BL_NETWR_LAST                  @Measures.ISOCurrency   : BL_WAERK_LAST;
+    BL_WAERK_LAST                  @Semantics.currencyCode;       
     SO_CO_PARTNER_NAME             @UI                     : {Hidden: true};
     SO_NY_PARTNER_NAME             @UI                     : {Hidden: true};
     SO_AS_PARTNER_NAME             @UI                     : {Hidden: true};
@@ -621,6 +618,10 @@ annotate service.Results with {
     SO_AM_PARTNER_NAME             @UI                     : {Hidden: true};
     SO_AG_PARTNER_NAME             @UI                     : {Hidden: true};
     SO_WE_PARTNER_NAME             @UI                     : {Hidden: true};
+    // SO_AG_PARTNER_NAME1             @UI                     : {Hidden: true};
+    // SO_AG_PARTNER_NAME2             @UI                     : {Hidden: true};
+    // SO_WE_PARTNER_NAME1             @UI                     : {Hidden: true};
+    // SO_WE_PARTNER_NAME2             @UI                     : {Hidden: true};    
     SO_MAKTX                       @UI                     : {Hidden: true};
     SO_LANDX                       @UI                     : {Hidden: true};
     SO_VKORG_NAME1                 @UI                     : {Hidden: true};
@@ -653,8 +654,8 @@ annotate service.Results with {
     SO_F_VSBED_VTEXT               @UI                     : {Hidden: true};
     SO_KNREF_ITM                   @UI                     : {Hidden: true};
     SO_VRKME                       @UI                     : {Hidden: true};
-    //BL_VRKME_LAST                  @UI                     : {Hidden: true};
-   //BL_WAERK_LAST                  @UI                     : {Hidden: true};
+    BL_VRKME_LAST                  @UI                     : {Hidden: true};
+    BL_WAERK_LAST                  @UI                     : {Hidden: true};
     SO_WAERS                       @UI                     : {Hidden: true};    
     SO_KMEIN                       @UI                     : {Hidden: true};
     SO_WAERK                       @UI                     : {Hidden: true};
@@ -685,11 +686,12 @@ annotate service.Results with {
     PO_EKNAM                       @UI                     : {Hidden: true};
     PO_EKOTX                       @UI                     : {Hidden: true};
     PO_EBELN                       @UI                     : {Hidden: true};
-    /* EUANS CHANGES
+
+    // Euan's changes
     SO_Z5_PARTNER_NAME             @UI                     : {Hidden: true};
     SO_SB_PARTNER_NAME             @UI                     : {Hidden: true};
     SO_AD_PARTNER_NAME             @UI                     : {Hidden: true};
-    */
+    // End of Euan's changes
 }
 
 annotate service.valueHelps with {
@@ -711,10 +713,10 @@ annotate service.valueHelps with {
     DL_PEND_DEL_QUAN   @Measures.Unit          : DL_VRKME;
     PO_MENGE           @Measures.Unit          : PO_MEINS;
     PO_MEINS           @Semantics.unitOfMeasure: 'unit-of-measure';
-    //BL_FKIMG_LAST      @Measures.Unit          : BL_VRKME_LAST;
-    //BL_VRKME_LAST      @Semantics.unitOfMeasure: 'unit-of-measure';
-    //BL_NETWR_LAST      @Measures.ISOCurrency   : BL_WAERK_LAST;
-    //BL_WAERK_LAST      @Semantics.currencyCode;
+    BL_FKIMG_LAST      @Measures.Unit          : BL_VRKME_LAST;
+    BL_VRKME_LAST      @Semantics.unitOfMeasure: 'unit-of-measure';
+    BL_NETWR_LAST      @Measures.ISOCurrency   : BL_WAERK_LAST;
+    BL_WAERK_LAST      @Semantics.currencyCode;
     id                 @UI                     : {Hidden: true};
     PO_EBELN           @UI                     : {Hidden: true};
 // SO_MANDT           @UI                     : {Hidden: true};
@@ -3095,7 +3097,6 @@ annotate service.Results with {
         ]
     }
 };
-/*  Hong liang Ap
 
 annotate service.Results with {
     BL_WAERK_LAST
@@ -3135,8 +3136,8 @@ annotate service.Results with {
         ]
     }
 };
-*/
-/*
+
+
 annotate service.Results with {
     BL_VRKME_LAST
     @Common.ValueList: {
@@ -3174,8 +3175,6 @@ annotate service.Results with {
         ]
     }
 };
-*/
-
 
 annotate service.Results with {
     TM_VISTA_STATUS
@@ -3196,7 +3195,7 @@ annotate service.Results with {
     }
 };
 
-/*   euan's changes
+// Euan's changes
 annotate service.Results with {
     SO_Z5_PARTNER
     @Common.ValueList: {
@@ -3264,7 +3263,8 @@ annotate service.Results with {
 
         ]
     }
-}; */
+};
+// End of Euan's changes
 
 annotate service.Results with {
     SO_BNAME
@@ -3369,7 +3369,7 @@ annotate service.Results with @UI.LineItem: {
         {Value: SO_AM_PARTNER_NAME},
         {Value: SO_AG_PARTNER_NAME},
         {Value: SO_WE_PARTNER_NAME},
-        /* Euans chnages
+        // Euan's changes
         {Value: SO_Z5_PARTNER},
         {Value: SO_Z5_PARTNER_NAME},
         {Value: SO_SB_PARTNER},
@@ -3377,7 +3377,7 @@ annotate service.Results with @UI.LineItem: {
       
         {Value: SO_AD_PARTNER},
         {Value: SO_AD_PARTNER_NAME}
-          */
+        // End of Euan's changes
         {Value: SO_BNAME},
         {Value: SO_IHREZ},
 
