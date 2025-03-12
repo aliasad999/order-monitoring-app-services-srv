@@ -152,7 +152,7 @@ async function refreshAccessToken(refreshToken) {
 
         console.log("Refresh access token now.");
         const response = await axios.post(
-            "https://login.microsoftonline.com/" + chatbotTenantId + "/oauth2/v2.0/token",
+            "https://login.microsoftonline.com/" + chatbotTenantId.value + "/oauth2/v2.0/token",
             new URLSearchParams({
                 client_id: chatbotClientId.value,
                 grant_type: "refresh_token",
