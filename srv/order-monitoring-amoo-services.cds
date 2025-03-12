@@ -496,7 +496,7 @@ service openOrdersSrv {
                 )                                           as SO_AD_PARTNER                   : String(8),
                 IFNULL(
                     AD_PARTNER_NAME_ITM, AD_PARTNER_NAME_HEAD
-                )                                           as SO_AD_PARTNER_NAME              : String(40)
+                )                                           as SO_AD_PARTNER_NAME              : String(40),
                 // End of Euan's changes
                 BNAME                                       as SO_BNAME,
                 IHREZ                                       as SO_IHREZ,

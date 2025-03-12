@@ -4334,7 +4334,7 @@ annotate service.allIssues with {
         ]
     }
 };
-*/
+// End of Euan's changes
 annotate service.allIssues with {
     SO_IHREZ
     @Common.ValueList: {
