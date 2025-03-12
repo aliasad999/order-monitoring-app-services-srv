@@ -94,10 +94,10 @@ service openOrdersSrv {
                 AG_PARTNER_NAME1 || ' ' || AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME              : String(80),
                 WE_PARTNER                                  as SO_WE_PARTNER,
                 WE_PARTNER_NAME1 || ' ' || WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME              : String(80),
-                AG_PARTNER_NAME1                            as SO_AG_PARTNER_NAME1, // to enable default search, parts of calculated fields are required to be added too to service
-                AG_PARTNER_NAME2                            as SO_AG_PARTNER_NAME2,
-                WE_PARTNER_NAME1                            as SO_WE_PARTNER_NAME1,
-                WE_PARTNER_NAME2                            as SO_WE_PARTNER_NAME2,
+                // AG_PARTNER_NAME1                            as SO_AG_PARTNER_NAME1, // to enable default search, parts of calculated fields are required to be added too to service
+                // AG_PARTNER_NAME2                            as SO_AG_PARTNER_NAME2,
+                // WE_PARTNER_NAME1                            as SO_WE_PARTNER_NAME1,
+                // WE_PARTNER_NAME2                            as SO_WE_PARTNER_NAME2,
                 LAND1                                       as SO_LAND1,
                 LANDX_LANG                                  as SO_LANDX,
                 ORT01                                       as SO_ORT01,
