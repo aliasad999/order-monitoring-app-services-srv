@@ -59,7 +59,7 @@ const getMandtFieldsNames = (mandtFieldValue) => {
         case "200":
             return "Star";
         case "300":
-            return "AP";
+            return "Spark";
         default:
             return "No System defined";
     }
