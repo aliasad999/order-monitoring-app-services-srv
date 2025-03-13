@@ -276,6 +276,8 @@ entity ![RESULTS] {
         AD_PARTNER_ITM                     : String(8);
         AD_PARTNER_NAME_ITM                : String(40);
        // End of Euan's changes
+        BNAME                              : String(35);
+        IHREZ                              : String(35);
 }
 
 entity PARTNER_SETTINGS {

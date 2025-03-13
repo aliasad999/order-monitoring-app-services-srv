@@ -163,14 +163,14 @@ class srvOpenOrders extends cds.ApplicationService {
                         lt_vbak = [
                             ...lt_vbak,
                             ...(lt_resultEC?.VBAK ?? []),
-                            ...(lt_resultAP?.d?.results?.map(({ vkorg, vtweg, spart }) => ({
+                            ...(lt_resultAP.d?.results ?? []).map(({  vkorg, vtweg, spart }) => ({
                                 VKORG: vkorg,
                                 VTWEG: vtweg,
                                 SPART: spart
-                            })) ?? [])];
-                        lt_ekko = [...lt_ekko, ...lt_resultEC?.EKKO ?? [], ...lt_resultAPEKKO?.d?.results?.map(({PurchasingOrganization})=> ({
+                            }))];
+                        lt_ekko = [...lt_ekko, ...lt_resultEC?.EKKO ?? [],  ...(lt_resultAPEKKO?.d?.results ?? []).map(({ PurchasingOrganization }) => ({
                             EKORG: PurchasingOrganization
-                        }) ?? [])]
+                        }))];
                     }
                     const vbakSet = new Set();
                     const lt_vbakUnique = lt_vbak.filter(obj => {
