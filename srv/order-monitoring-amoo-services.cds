@@ -496,8 +496,15 @@ service openOrdersSrv {
                 )                                           as SO_AD_PARTNER                   : String(8),
                 IFNULL(
                     AD_PARTNER_NAME_ITM, AD_PARTNER_NAME_HEAD
-                )                                           as SO_AD_PARTNER_NAME              : String(40)
+                )                                           as SO_AD_PARTNER_NAME              : String(40),
                 // End of Euan's changes
+
+                AUGRU                                       as SO_AUGRU,
+                AUGRU_BEZEI_LANG                            as SO_AUGRU_BEZEI_LANG,
+                KDGRP                                       as SO_KDGRP,
+                KDGRP_KTEXT_LANG                            as SO_KDGRP_KTEXT_LANG,
+                WE_PARTNER_REGION                           as SO_WE_PARTNER_REGION,
+                WE_PARTNER_REGION_BEZEI_LANG                as SO_WE_PARTNER_REGION_BEZEI_LANG
 
         }
 

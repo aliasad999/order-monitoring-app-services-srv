@@ -208,7 +208,6 @@ entity ![RESULTS] {
         BL_VBELN_INV_LAST                  : String(10);
         BL_POSNR_INV_LAST                  : String(6);
         XBLNR                              : String(16);
-        
         MANDT_DEL                          : String(3);
         TM_MANDT                           : String(3);
         BL_MANDT_INV_FIRST                 : String(3);
@@ -225,7 +224,7 @@ entity ![RESULTS] {
         F_MBDAT_DATE                       : Date = F_MBDAT;
         FINAL_SO_MANDT                     : String(3);
         FIRST_SO_MANDT                     : String(3);
-        PO_MANDT                       : String(3);
+        PO_MANDT                           : String(3);
         EBELN                              : String(10);
         EBELP                              : String(5);
         AEDAT_HEAD                         : String(8);
@@ -262,10 +261,7 @@ entity ![RESULTS] {
         BL_NETWR_LAST                      : Decimal(15, 2);
         BL_WAERK_LAST                      : String(5);
         BL_VRKME_LAST                      : String(3);
-        
-
-        VISTA_STATUS                       : String(50); 
-        
+        VISTA_STATUS                       : String(50);
         // Euan's changes
         Z5_PARTNER_ITM                     : String(8);
         Z5_PARTNER_NAME_ITM                : String(40);
@@ -275,7 +271,14 @@ entity ![RESULTS] {
         AD_PARTNER_NAME_HEAD               : String(40);
         AD_PARTNER_ITM                     : String(8);
         AD_PARTNER_NAME_ITM                : String(40);
-       // End of Euan's changes
+        // End of Euan's changes
+
+        AUGRU                              : String(3);
+        AUGRU_BEZEI_LANG                   : String(40);
+        KDGRP                              : String(2);
+        KDGRP_KTEXT_LANG                   : String(20);
+        WE_PARTNER_REGION                  : String(3);
+        WE_PARTNER_REGION_BEZEI_LANG       : String(20);
 }
 
 entity PARTNER_SETTINGS {
@@ -360,15 +363,15 @@ entity variants {
 };
 
 entity variantMigration {
-        key userId : String;
-        AMOvariantsMigrated: Boolean;
-        AMOOvariantsMigrated: Boolean;
+        key userId               : String;
+            AMOvariantsMigrated  : Boolean;
+            AMOOvariantsMigrated : Boolean;
 }
 
 entity variantUserSettings {
-        key fileName : String(255);
-        key userId : String;
-        favorite           : Boolean;
-        standardVariant    : Boolean;
-        executeOnSelection : Boolean;
+        key fileName           : String(255);
+        key userId             : String;
+            favorite           : Boolean;
+            standardVariant    : Boolean;
+            executeOnSelection : Boolean;
 }
