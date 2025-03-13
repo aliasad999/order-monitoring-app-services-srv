@@ -197,7 +197,8 @@ annotate service.valueHelps with {
     SO_AD_PARTNER                   @title: '{i18n>SO_AD_PARTNER}'               @sap.Label: '{i18n>SO_AD_PARTNER}';
     SO_AD_PARTNER_NAME              @title: '{i18n>SO_AD_PARTNER_NAME}'          @sap.Label: '{i18n>SO_AD_PARTNER_NAME}'  @Common.IsDigitSequence: true;
     // End of Euan's changes
-
+    SO_BNAME                        @title: '{i18n>SO_BNAME}'                    @sap.Label: '{i18n>SO_BNAME}';
+    SO_IHREZ                        @title: '{i18n>SO_IHREZ}'                    @sap.Label: '{i18n>SO_IHREZ}';
     ///// Mandants
     SO_MANDT                        @title: '{i18n>SO_MANDT}'                    @sap.Label: '{i18n>SO_MANDT}';
     DL_MANDT                        @title: '{i18n>DL_MANDT}'                    @sap.Label: '{i18n>DL_MANDT}';
@@ -219,7 +220,8 @@ annotate service.valueHelps with {
     DL_TRMTYP_MAKTX                 @title: '{i18n>DL_TRMTYP_MAKTX_LANG}'        @sap.Label: '{i18n>DL_TRMTYP_MAKTX_LANG}';
     DL_ZZ0S2ABGH                    @title: '{i18n>DL_ZZ0S2ABGH}'                @sap.Label: '{i18n>DL_ZZ0S2ABGH}';
     DL_ZZ0S2ZIEH                    @title: '{i18n>DL_ZZ0S2ZIEH}'                @sap.Label: '{i18n>DL_ZZ0S2ZIEH}';
-    TM_VISTA_STATUS                 @title: '{i18n>TM_VISTA_STATUS}'             @sap.Label: '{i18n>TM_VISTA_STATUS}';
+    TM_VISTA_STATUS                 @title: '{i18n>TM_VISTA_STATUS}'             @sap.Label: '{i18n>TM_VISTA_STATUS}';   
+    DL_LPRIO                        @title: '{i18n>DL_LPRIO}'                    @sap.Label: '{i18n>DL_LPRIO}';
 };
 
 annotate service.Results with {
@@ -581,6 +583,10 @@ annotate service.Results with {
     DL_ZZ0S2ABGH                @title: '{i18n>DL_ZZ0S2ABGH}'                     @sap.Label: '{i18n>DL_ZZ0S2ABGH}';
     DL_ZZ0S2ZIEH                @title: '{i18n>DL_ZZ0S2ZIEH}'                     @sap.Label: '{i18n>DL_ZZ0S2ZIEH}';
     TM_VISTA_STATUS             @title: '{i18n>TM_VISTA_STATUS}'                  @sap.Label: '{i18n>TM_VISTA_STATUS}';
+    SO_IHREZ                    @title: '{i18n>SO_IHREZ}'                   @sap.Label: '{i18n>SO_IHREZ}';
+    SO_BNAME                    @title: '{i18n>SO_BNAME}'                   @sap.Label: '{i18n>SO_BNAME}';
+    DL_LPRIO                    @title: '{i18n>DL_LPRIO}'                   @sap.Label: '{i18n>DL_LPRIO}';
+
 
 
     @Common.Text           : SO_AUGRU_BEZEI_LANG
@@ -3283,6 +3289,61 @@ annotate service.Results with {
 };
 // End of Euan's changes
 
+annotate service.Results with {
+    SO_BNAME
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_BNAME}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_BNAME,
+                ValueListProperty: 'SO_BNAME'
+            }
+
+        ]
+    }
+};
+annotate service.Results with {
+    IHREZ
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>IHREZ}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: IHREZ,
+                ValueListProperty: 'IHREZ'
+            }
+
+        ]
+    }
+};
+annotate service.Results with {
+    DL_LPRIO
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>DL_LPRIO}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: DL_LPRIO,
+            ValueListProperty: 'DL_LPRIO'
+        }
+
+        ]
+    }
+};
+
+
 
 annotate service.Results with {
     SO_AUGRU
@@ -3412,6 +3473,9 @@ annotate service.Results with @UI.LineItem: {
         {Value: SO_AD_PARTNER},
         {Value: SO_AD_PARTNER_NAME},
         // End of Euan's changes
+        {Value: SO_BNAME},
+        {Value: SO_IHREZ},
+
 
         {Value: SO_AUGRU},
         {Value: SO_AUGRU_BEZEI_LANG},

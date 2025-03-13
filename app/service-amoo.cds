@@ -474,7 +474,9 @@ annotate service.allIssues with @UI.LineItem #allIssues: {
         {Value: SO_KDGRP},
         {Value: SO_KDGRP_KTEXT_LANG},
         {Value: SO_WE_PARTNER_REGION},
-        {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+        {Value: SO_WE_PARTNER_REGION_BEZEI_LANG},
+        {Value: SO_BNAME},
+        {Value :SO_IHREZ},
     ]
 };
 
@@ -1196,6 +1198,9 @@ annotate service.baseEntity with {
     DL_ZZ0S2ABGH                    @title: '{i18n>DL_ZZ0S2ABGH}'                @sap.Label: '{i18n>DL_ZZ0S2ABGH}';
     DL_ZZ0S2ZIEH                    @title: '{i18n>DL_ZZ0S2ZIEH}'                @sap.Label: '{i18n>DL_ZZ0S2ZIEH}';
     TM_VISTA_STATUS                 @title: '{i18n>TM_VISTA_STATUS}'             @sap.Label: '{i18n>TM_VISTA_STATUS}';
+    SO_BNAME                        @title: '{i18n>SO_BNAME}'                    @sap.Label: '{i18n>SO_BNAME}';
+    SO_IHREZ                        @title: '{i18n>SO_IHREZ}'                    @sap.Label: '{i18n>SO_IHREZ}';
+    DL_LPRIO                        @title: '{i18n>DL_LPRIO}'                    @sap.Label: '{i18n>DL_LPRIO}';
 
 };
 
@@ -4427,8 +4432,57 @@ annotate service.allIssues with {
     }
 };
 // End of Euan's changes
+annotate service.allIssues with {
+    SO_IHREZ
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_IHREZ}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_IHREZ,
+            ValueListProperty: 'SO_IHREZ'
+        }]
+    }
+};
+annotate service.allIssues with {
+    SO_BNAME
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_BNAME}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_BNAME,
+            ValueListProperty: 'SO_BNAME'
+        }]
+    }
+};
 
-annotate service.Results with {
+
+annotate service.allIssues with {
+    DL_LPRIO
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>DL_LPRIO}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: DL_LPRIO,
+            ValueListProperty: 'DL_LPRIO'
+        }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
     SO_AUGRU
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -4446,7 +4500,7 @@ annotate service.Results with {
     }
 };
 
-annotate service.Results with {
+annotate service.allIssues with {
     SO_KDGRP
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -4464,7 +4518,7 @@ annotate service.Results with {
     }
 };
 
-annotate service.Results with {
+annotate service.allIssues with {
     SO_WE_PARTNER_REGION
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',

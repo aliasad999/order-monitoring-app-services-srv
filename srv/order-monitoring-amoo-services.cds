@@ -11,8 +11,14 @@ using {CSEUCockpitService as CSEUCockpitService} from './external/CSEUCockpitSer
 
 
 service openOrdersSrv {
-    entity currencies               as projection on db_app.currency;
-
+    @cds.persistence.skip
+    entity ChatbotApi{
+        key id: String;
+        path:   String;
+        payload:    String;
+        response:   String;
+    }
+    entity currencies as projection on db_app.currency;
     entity rootEntity               as
         select from db_app.OPENORDERSLIST {
             key null                                        as id                              : UUID,
@@ -485,6 +491,7 @@ service openOrdersSrv {
                 TRMTYP_MAKTX_LANG                           as DL_TRMTYP_MAKTX,
                 ZZ0S2ABGH                                   as DL_ZZ0S2ABGH,
                 ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH,
+                LPRIO                                       as DL_LPRIO,
                 VISTA_STATUS                                as TM_VISTA_STATUS,
                 // Euan's changes
                 Z5_PARTNER_ITM                              as SO_Z5_PARTNER,
@@ -498,6 +505,8 @@ service openOrdersSrv {
                     AD_PARTNER_NAME_ITM, AD_PARTNER_NAME_HEAD
                 )                                           as SO_AD_PARTNER_NAME              : String(40),
                 // End of Euan's changes
+                BNAME                                       as SO_BNAME,
+                IHREZ                                       as SO_IHREZ,
 
                 AUGRU                                       as SO_AUGRU,
                 AUGRU_BEZEI_LANG                            as SO_AUGRU_BEZEI_LANG,
@@ -549,8 +558,15 @@ service openOrdersSrv {
     action   submitOrderChange(payload : String)                                                                                                                                                                                                                                                                                             returns String;
     action   submitOrderChangeWF(payload : String)                                                                                                                                                                                                                                                                                           returns String;
     action   cancelOrder(payload : String)                                                                                                                                                                                                                                                                                                   returns String;
-    action   RemoveDeliveryBlock(SalesOrderID : String(10), ItemID : String(6))                                                                                                                                                                                                                                                              returns String;
-
+    action   RemoveDeliveryBlock(SalesOrderID : String(10), ItemID : String(6))   
+                                                                                                                                                                                                                                               returns String;
+    function callChatbotService(payload: String) returns String;
+    function callChatbotHistoryService() returns String;
+    function callChatbotWelcomeMsg() returns String;
+    function callChatbotGetConversation(payload: String) returns String;
+    function callChatbotUpdateConversation(payload: String) returns String;
+    function callChatbotFeedback(payload: String) returns String;
+    
     entity PredefReasonBuckets      as
         select from AMOOUtilsService.PredefinedReasonBuckets {
             key BUCKET      as BucketKey,

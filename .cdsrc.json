@@ -10,6 +10,13 @@
                 "fifo": true
             }
         },
+        "authServiceAP": {
+            "kind": "rest",
+            "credentials": {
+                "destination": "APIM",
+                "path": "it/omg/omc/auth-ap/v1"
+            }
+        },
         "authServiceEC": {
             "kind": "rest",
             "credentials": {
@@ -148,6 +155,12 @@
             "credentials": {
                 "destination": "APIM",
                 "path": "/it/omg/omc/sofm-delivery/v1"
+            }
+        },
+       "ChatbotUiTokenService": {
+            "kind": "rest",
+            "credentials": {
+                "destination": "Chatbot_UI_token"
             }
         }
     }

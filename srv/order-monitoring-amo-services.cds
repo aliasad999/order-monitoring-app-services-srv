@@ -493,6 +493,7 @@ service srvOpenOrders {
           TRMTYP_MAKTX_LANG                           as DL_TRMTYP_MAKTX,
           ZZ0S2ABGH                                   as DL_ZZ0S2ABGH,
           ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH,
+          LPRIO                                       as DL_LPRIO,
           VISTA_STATUS                                as TM_VISTA_STATUS,
           // Euan's changes
           Z5_PARTNER_ITM                              as SO_Z5_PARTNER,
@@ -506,6 +507,8 @@ service srvOpenOrders {
             AD_PARTNER_NAME_ITM, AD_PARTNER_NAME_HEAD
           )                                           as SO_AD_PARTNER_NAME              : String(40),
           // End of Euan's changes
+          BNAME                                       as SO_BNAME,
+          IHREZ                                       as SO_IHREZ,
 
           AUGRU                                       as SO_AUGRU,
           AUGRU_BEZEI_LANG                            as SO_AUGRU_BEZEI_LANG,

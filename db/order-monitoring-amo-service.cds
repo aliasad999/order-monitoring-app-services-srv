@@ -261,7 +261,10 @@ entity ![RESULTS] {
         BL_NETWR_LAST                      : Decimal(15, 2);
         BL_WAERK_LAST                      : String(5);
         BL_VRKME_LAST                      : String(3);
-        VISTA_STATUS                       : String(50);
+        LPRIO                              : String(2);
+
+        VISTA_STATUS                       : String(50); 
+        
         // Euan's changes
         Z5_PARTNER_ITM                     : String(8);
         Z5_PARTNER_NAME_ITM                : String(40);
@@ -272,6 +275,8 @@ entity ![RESULTS] {
         AD_PARTNER_ITM                     : String(8);
         AD_PARTNER_NAME_ITM                : String(40);
         // End of Euan's changes
+        BNAME                              : String(35);
+        IHREZ                              : String(35);
 
         AUGRU                              : String(3);
         AUGRU_BEZEI_LANG                   : String(40);
