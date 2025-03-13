@@ -53,6 +53,8 @@ class srvOpenOrders extends cds.ApplicationService {
             let updateNeeded = false;
             let lt_result = [];
             let lt_resultEC = [];
+            let lt_resultAP = [];
+            let lt_resultAPEKKO = [];
             let err = []
             let globalError= [] ;
             let userID = req.user.id;
@@ -112,6 +114,37 @@ class srvOpenOrders extends cds.ApplicationService {
                     globalError.push({user: 'noECUser',error: error})
                     err = 2 // EC called failed
                 }
+                if (process.env.subaccount !== 'PROD'){
+                try {
+                    const service = await cds.connect.to('authServiceAP');
+                     lt_resultAP = await service.send({
+                        method: "GET",
+                        path: "/xBASFxVBAKAUTH?$format=json",
+                        headers: {
+                            "Accept-Encoding": "" 
+                        }
+                    });
+                    
+                } catch (error) {
+                    globalError.push({user: 'noAPUser',error: error})
+                    err = 3 // AP called failed
+                }
+                try {
+                    const service = await cds.connect.to('authServiceAP');
+                    lt_resultAPEKKO = await service.send({
+                        method: "GET",
+                        path: "/xBASFxEKKOAUTH?$format=json",
+                        headers: {
+                            "Accept-Encoding": "" 
+                        }
+                    });
+                    
+                } catch (error) {
+                    globalError.push({user: 'noAPUser',error: error})
+                    err = 3 // AP called failed
+                }
+            }
+
                 await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
                 await DELETE.from(EKKOAuthObjectKeys).where({ USERID: userID });
 
@@ -119,10 +152,26 @@ class srvOpenOrders extends cds.ApplicationService {
                 if(lt_result.VBAK){
                     lt_resultEC.VBAK = lt_resultEC.VBAK || []
                     lt_resultEC.EKKO = lt_resultEC.EKKO || []
+                    lt_resultAP = lt_resultAP || []
+                    lt_resultAPEKKO = lt_resultAPEKKO || []
                     let lt_vbak = lt_result.VBAK || []
                     let lt_ekko = lt_result.EKKO || []
-                    lt_vbak = [...lt_vbak, ...lt_resultEC.VBAK];
-                    lt_ekko = [...lt_ekko, ...lt_resultEC.EKKO];
+                    if (process.env.subaccount === 'PROD'){
+                        lt_vbak = [...lt_vbak, ...lt_resultEC.VBAK];
+                        lt_ekko = [...lt_ekko, ...lt_resultEC.EKKO];
+                    } else{
+                        lt_vbak = [
+                            ...lt_vbak,
+                            ...(lt_resultEC?.VBAK ?? []),
+                            ...(lt_resultAP?.d?.results?.map(({ vkorg, vtweg, spart }) => ({
+                                VKORG: vkorg,
+                                VTWEG: vtweg,
+                                SPART: spart
+                            })) ?? [])];
+                        lt_ekko = [...lt_ekko, ...lt_resultEC?.EKKO ?? [], ...lt_resultAPEKKO?.d?.results?.map(({PurchasingOrganization})=> ({
+                            EKORG: PurchasingOrganization
+                        }) ?? [])]
+                    }
                     const vbakSet = new Set();
                     const lt_vbakUnique = lt_vbak.filter(obj => {
                         const key = `${obj.VKORG}-${obj.VTWEG}-${obj.SPART}`; 

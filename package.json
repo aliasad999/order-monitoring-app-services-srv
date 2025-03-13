@@ -9,6 +9,7 @@
     "node": "20.x"
   },
   "dependencies": {
+    "@azure/msal-node": "^2.16.2",
     "@cap-js-community/odata-v2-adapter": "^1.13.8",
     "@sap-cloud-sdk/http-client": "^3.24.0",
     "@sap/cds": "7.6.1",
@@ -19,23 +20,25 @@
     "@sap/xotel-agent-ext-js": "1.5.21",
     "@sap/xsenv": "^5.4.0",
     "@sap/xssec": "3.6.1",
+    "basf-cf-credential-store-helper": "^2.1.1",
     "body-parser": "^1.20.3",
     "cf-nodejs-logging-support": "^7.4.0",
+    "date-fns": "^4.1.0",
     "express": "^4.21.2",
+    "express-session": "^1.18.1",
     "http-status": "^2.0.0",
+    "jsonwebtoken": "^9.0.2",
     "mocha": "^11.0.1",
     "node-cache": "^5.1.2",
     "passport": "^0.7.0",
-    "uuid": "^11.0.3",
-    "date-fns": "^4.1.0",
-    "basf-cf-credential-store-helper": "^2.1.1"
+    "uuid": "^11.0.3"
   },
   "devDependencies": {
     "@sap/hdi-deploy": "^5.3.2",
     "axios": "^1.7.9"
   },
   "scripts": {
-    "bind": "cds bind -2  order-monitoring-xsuaa:order-monitoring-xsuaa-key && cds bind -2  order-monitoring-destination:order-monitoring-destination-content-order-monitoring-destination-credentials &&  cds bind -2  order-monitoring-app-services-hdi:SharedDevKey &&    cds bind -2  order-monitoring-connectivity:con-key",
+    "bind": "cds bind -2  order-monitoring-xsuaa:order-monitoring-xsuaa-key && cds bind -2  order-monitoring-destination:order-monitoring-destination-content-order-monitoring-destination-credentials &&  cds bind -2  order-monitoring-app-services-hdi:SharedDevKey &&    cds bind -2  order-monitoring-connectivity:con-key && cds bind -2 order-monitoring-credentials-store:credentials-store-key",
     "start": "node ${NODE_ARGS} ./node_modules/@sap/cds/bin/cds-serve",
     "test": "mocha srv/tests/test.js --timeout 150000 --exit",
     "test-amoo": "mocha srv/tests/test-amoo.js --timeout 150000 --exit",
