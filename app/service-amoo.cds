@@ -1123,6 +1123,7 @@ annotate service.baseEntity with {
     TM_VISTA_STATUS                 @title: '{i18n>TM_VISTA_STATUS}'             @sap.Label: '{i18n>TM_VISTA_STATUS}';
     SO_BNAME                        @title: '{i18n>SO_BNAME}'                    @sap.Label: '{i18n>SO_BNAME}';
     SO_IHREZ                        @title: '{i18n>SO_IHREZ}'                    @sap.Label: '{i18n>SO_IHREZ}';
+    DL_LPRIO                        @title: '{i18n>DL_LPRIO}'                    @sap.Label: '{i18n>DL_LPRIO}';
 
 };
 
@@ -4366,6 +4367,24 @@ annotate service.allIssues with {
     }
 };
 
+
+annotate service.allIssues with {
+    DL_LPRIO
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>DL_LPRIO}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: DL_LPRIO,
+            ValueListProperty: 'DL_LPRIO'
+        }
+
+        ]
+    }
+};
 
 
 // ------------------------------Value Helps All Issues----------------------------

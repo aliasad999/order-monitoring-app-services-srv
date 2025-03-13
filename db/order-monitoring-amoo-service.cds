@@ -303,6 +303,7 @@ entity ![OPENORDERSLIST] {
         BNAME                              : String(35);
         IHREZ                              : String(35);
 
+        LPRIO                              : String(2);
 
 }
 
