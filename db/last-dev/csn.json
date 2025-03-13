@@ -16,6 +16,22 @@
         "PO_PARTNER_9O_HEAD_NAME": {
           "@Common.TextFor": true,
           "@UI.Hidden": true
+        },
+        "IHREZ": {
+          "@Common.ValueList.$Type": "Common.ValueListType",
+          "@Common.ValueList.Label": "{@i18n>IHREZ}",
+          "@Common.ValueList.CollectionPath": "valueHelps",
+          "@Common.ValueList.DistinctValuesSupported": true,
+          "@Common.ValueList.SearchSupported": true,
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "IHREZ"
+              },
+              "ValueListProperty": "IHREZ"
+            }
+          ]
         }
       }
     },
