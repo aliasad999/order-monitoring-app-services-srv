@@ -1557,10 +1557,15 @@ class openOrdersSrv extends cds.ApplicationService {
                         try {
                             const OMServicesAP = await cds.connect.to('OMServicesAP');
                             let whereClause = `DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`;
-                            if(issue === "05"){
-                                whereClause = `DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000'`;
+                            if(issue === "01"){
+                                incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`);
+                                
+                            }else{
+                                incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`);
                             }
-                            incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `${whereClause}` );
+                            incompletionLog.forEach((log) => {
+                                log.IncompletionText = log.IncompletionText + " " + getBundle(req.user.locale).getText("isMissing");
+                            }) 
                         } catch (error) {
                             console.error('Error fetching issue reason:', error);
                         }

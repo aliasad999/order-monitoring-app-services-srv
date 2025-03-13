@@ -166,7 +166,7 @@
         "OMServicesAP":{
             "kind": "odata-v2",
             "credentials": {
-                "destination": "APIM",
+                "destination": "APIM_DEV",
                 "path": "/it/omg/omc/ap-om-services/v1"
             }
         }
