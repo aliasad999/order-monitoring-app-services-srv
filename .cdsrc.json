@@ -39,6 +39,14 @@
                 "path": "/it/omg/omc/so-fulfillment/v1"
             }
         },
+        "SalesOrderAP": {
+            "kind": "odata-v2",
+            "model": "srv/external/SalesOrderS4",
+            "credentials": {
+                "destination": "APIM_DEV",
+                "path": "/sal/sapapis/erpap/op_api_sales_order_srv_0001/v1"
+            }
+        },
         "DSLServicesService": {
             "kind": "odata-v2",
             "model": "srv/external/DSLServicesService",

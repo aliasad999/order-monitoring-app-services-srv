@@ -447,6 +447,37 @@ class openOrdersSrv extends cds.ApplicationService {
                 // if (req.query.SELECT.orderBy) {
                 //     contactsQuery.orderBy(req.query.SELECT.orderBy);
                 // }
+
+                // Check if Client is provided, if it is then check which system it targets to
+                // NULL or 100: Cobalt, 200: EC, 300: AP
+                /*
+                    1. Get Sales Order
+                    2. Get Contacts for Sales Order (For Header as well as Item)
+                    3. Collate the list
+                    4. Get Full Name from Customer or Business Partner
+                    5. Get Email Address and Phone Number from Business Partner
+                    below are the list of APIs on S/4 Side 
+                    /sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder('9100527553')/to_Partner?$select=SalesOrder,PartnerFunction,Customer
+                    /sap/opu/odata/sap/API_BUSINESS_PARTNER/A_Customer('0005478002')
+                    /sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner('5478002')
+                    /sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner('5478002')/to_BusinessPartnerAddress
+                    /sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartnerAddress(BusinessPartner='5478002',AddressID='1557177')/to_EmailAddress
+                    /sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartnerAddress(BusinessPartner='5478002',AddressID='1557177')/to_PhoneNumber
+
+                    The APIs are configured at APIM with the below names 
+                    BASF_MD_SAPAPIs_ERPAP_OP_API_BUSINESS_PARTNER_SRV_V1
+                    BASF_SAL_SAPAPIs_ERPAP_OP_API_SALES_ORDER_SRV_0001_V1 
+                */
+
+                if (req.headers.so_mandt && req.headers.so_mandt == '300') {
+                    const apimSalesOrderAP = await cds.connect.to('SalesOrderAP');
+
+                    const { A_SalesOrder } = apimSalesOrderAP.entities;
+                    const lt_orders = await apimSalesOrderAP.run(SELECT(A_SalesOrder).byKey({SalesOrder: '7000000003'}));
+                    console.log(lt_orders);
+                    return;
+                }
+
                 const apiManagementService = await cds.connect.to('ContactsService');
                 const creditManagerService = await cds.connect.to('CreditManagerService');
                 // GET Sales Order NUmber and Order Item from WHERE Clause
