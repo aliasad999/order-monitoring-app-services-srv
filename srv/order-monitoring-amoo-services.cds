@@ -491,6 +491,7 @@ service openOrdersSrv {
                 TRMTYP_MAKTX_LANG                           as DL_TRMTYP_MAKTX,
                 ZZ0S2ABGH                                   as DL_ZZ0S2ABGH,
                 ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH,
+                LPRIO                                       as DL_LPRIO,
                 VISTA_STATUS                                as TM_VISTA_STATUS,
                 // Euan's changes
                 Z5_PARTNER_ITM                              as SO_Z5_PARTNER,
