@@ -586,6 +586,7 @@ annotate service.Results with {
     TM_VISTA_STATUS             @title: '{i18n>TM_VISTA_STATUS}'         @sap.Label: '{i18n>TM_VISTA_STATUS}';
     SO_IHREZ                    @title: '{i18n>SO_IHREZ}'                   @sap.Label: '{i18n>SO_IHREZ}';
     SO_BNAME                    @title: '{i18n>SO_BNAME}'                   @sap.Label: '{i18n>SO_BNAME}';
+    DL_LPRIO                    @title: '{i18n>DL_LPRIO}'                   @sap.Label: '{i18n>DL_LPRIO}';
 
 }
 
