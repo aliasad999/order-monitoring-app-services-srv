@@ -7,8 +7,10 @@ const textBundle = require('./utils/textBundle')
 const log = require("cf-nodejs-logging-support");
 const enableHints = require("./plugins/enable_hints");
 const { startOfToday } = require('date-fns');
-const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies') 
+const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies')
 const serviceHelper = require('./utils/serviceHelper');
+const jwt = require('jsonwebtoken');
+const azureTokenManager = require('./utils/azureTokenManagement');
 
 class openOrdersSrv extends cds.ApplicationService {
 
@@ -17,8 +19,8 @@ class openOrdersSrv extends cds.ApplicationService {
         const { allIssues } = cds.entities('openOrdersSrv')
         this._textKeys = []
         this._SpecialCurrencies = []
-        const {currencies} =  cds.entities('openOrdersSrv');
-        this._SpecialCurrencies  =  await SELECT.from(currencies)
+        const { currencies } = cds.entities('openOrdersSrv');
+        this._SpecialCurrencies = await SELECT.from(currencies)
         let data = allIssues.elements
         for (let key in data) {
             if (data[key]["@Common.Text"] && data[key]["@Common.Text"]["="]) {
@@ -39,7 +41,7 @@ class openOrdersSrv extends cds.ApplicationService {
             }
         }
         // only needed to run this when the server is starting
-        this.before('*','*',async(req,next)=>{
+        this.before('*', '*', async (req, next) => {
             await cds.run(`SET 'APPLICATION' = 'CAPServices'`);
         })
         // GET SAP TEXTS //
@@ -58,43 +60,43 @@ class openOrdersSrv extends cds.ApplicationService {
                 try {
                     // EXAMPLE
                     // SAPTexts = await SAPTextsService.get(`/orders/0071396870/items/000020?text_type_id=ZA10&language=EN`);
-                    if(textObject.onItem){
+                    if (textObject.onItem) {
                         // SAPTexts = await SAPTextsService.get(`/orders/${salesOrder}/items/${salesOrderItem}?text_type_id=${textObject.id}&language=${textLanguage}`);
                         SAPTexts = await SAPTextsService.run(SELECT.from('SAPTextsSet').where({
-                            TextId: textObject.id, 
-                            TextName: `${salesOrder}${salesOrderItem}`, 
+                            TextId: textObject.id,
+                            TextName: `${salesOrder}${salesOrderItem}`,
                             TextObject: "VBBP"
                         }))
-                    }else{
+                    } else {
                         // SAPTexts = await SAPTextsService.get(`/orders/${salesOrder}?text_type_id=${textObject.id}&language=${textLanguage}`);
                         SAPTexts = await SAPTextsService.run(SELECT.from('SAPTextsSet').where({
-                            TextId: textObject.id, 
-                            TextName: `${salesOrder}`, 
+                            TextId: textObject.id,
+                            TextName: `${salesOrder}`,
                             TextObject: "VBBK"
                         }))
                     }
-                    if(SAPTexts.length > 0){
+                    if (SAPTexts.length > 0) {
                         SAPTexts.forEach((text) => {
                             SAPTextsEntity.push({
                                 TextId: text.TextId,
-                                SAPText: text.Text.replaceAll("--","\r\n"),
+                                SAPText: text.Text.replaceAll("--", "\r\n"),
                                 KeyText: getBundle(req.locale).getText(`SAPText${text.TextId}`),
                                 TextLanguage: text.TextLang
                             })
                         })
-                    }  
+                    }
                     // SAPTextsEntity.push({
                     //     TextId: textObject.id,
                     //     SAPText: SAPTexts.textLines.join("\r\n"),
                     //     KeyText: getBundle(req.locale).getText(`SAPText${textObject.id}`)
                     // })
                 } catch (error) {
-                    if(!error.message.includes("No Data Found")){
+                    if (!error.message.includes("No Data Found")) {
                         req.error(413, error)
                     }
                 }
             }
-            
+
             return SAPTextsEntity;
         });
 
@@ -526,7 +528,7 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.on("getVBAKAuthObjKeys", async req => {
-            const { VBAKAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+            const { VBAKAuthObjectKeys } = await cds.entities('srvOpenOrders');
             const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
             let updateNeeded = false;
             let lt_result = [];
@@ -546,12 +548,12 @@ class openOrdersSrv extends cds.ApplicationService {
                 try {
                     const service = await cds.connect.to('authService');
                     lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100");
-        
+
                 } catch (error) {
                     req.error(413, 'ERROR_AUTH_CALL')
                 }
                 await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
-        
+
                 if (lt_result.length !== 0) {
                     lt_result.forEach((set) => {
                         set.LAST_UPDATE = SQLdate;
@@ -560,7 +562,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     await INSERT.into(VBAKAuthObjectKeys, lt_result);
                 }
                 return true;
-            }        
+            }
             return false;
 
         });
@@ -608,7 +610,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 // let NPSTabSelected = req.headers.tabselected;
                 // serviceHelper.addOrRemoveNPSFilter(query, NPSTabSelected);
                 // POC Refresh only if needed
-
+            
                 // make sure pagination is taken into account
                 // if (query.SELECT.limit.rows.val) query.SELECT.limit.rows.val = req.query.SELECT.limit.rows?.val;
                 //query.SELECT.distinct = true;
@@ -746,10 +748,10 @@ class openOrdersSrv extends cds.ApplicationService {
                 item.id = uuid.v1()
                 if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = getBundle(req.user.locale).getText(`nps${item.SO_NPS}`)
                 if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = getBundle(req.user.locale).getText(`OrderIssue${item.SO_ISSUE}`)
-                if ('SO_DCP_ITEM_STATUS' in item){
-                    if(item.SO_DCP_ITEM_STATUS){
+                if ('SO_DCP_ITEM_STATUS' in item) {
+                    if (item.SO_DCP_ITEM_STATUS) {
                         item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
-                    }  
+                    }
                 }
                 let mandtFields = serviceHelper.getMandtFields();
                 // MANDANT TEXTS LOGIC -------------
@@ -837,9 +839,9 @@ class openOrdersSrv extends cds.ApplicationService {
          * @param {object} req - The request object containing request details
          * */
         this.before("READ", ["allIssues", "allIssuesDetails"], async (req, next) => {
-             // is not empty date field, date value needs to be adjusted
-             req.query.SELECT.where = serviceHelper.replaceDateInArray(req.query.SELECT.where)
-             // is not empty date field, date value needs to be adjusted
+            // is not empty date field, date value needs to be adjusted
+            req.query.SELECT.where = serviceHelper.replaceDateInArray(req.query.SELECT.where)
+            // is not empty date field, date value needs to be adjusted
             // Check if auth table is filled
             if (req.headers?.export === 'true') await cds.run(`SET 'APPLICATION' = 'CAPServicesExport'`);
             if (req.user.id !== "anonymous") {
@@ -872,7 +874,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 const item = req.query.SELECT.where[i];
                 if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
                     for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
-                        if ( typeof(req.query.SELECT.where[j].val) === 'string' && req.query.SELECT.where[j].val.includes('-') && req.query.SELECT.where[j].val !== undefined && req.query.SELECT.where[j].val !== null )   {
+                        if (typeof (req.query.SELECT.where[j].val) === 'string' && req.query.SELECT.where[j].val.includes('-') && req.query.SELECT.where[j].val !== undefined && req.query.SELECT.where[j].val !== null) {
                             req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
                             break;
                         }
@@ -950,8 +952,8 @@ class openOrdersSrv extends cds.ApplicationService {
             // *-------------------------------------------------------------------*
             // End of Code OTC-24554
 
-            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols ) {
-                if (req.target.name === 'openOrdersSrv.allIssues'){
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols) {
+                if (req.target.name === 'openOrdersSrv.allIssues') {
                     let nps10, nps20, nps30, nps40, nps50, nps60, nps70, nps80, nps90, nps95, nps99, nps00;
                     let tabs = {}
                     try {
@@ -996,7 +998,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         log.error("[order-monitoring-app-services.js] - Count query failed ! " + JSON.stringify(error));
                         req.error(error)
                     }
-                }else {
+                } else {
                     return req.reply({ $count: 0 })
                 }
             }
@@ -1038,11 +1040,11 @@ class openOrdersSrv extends cds.ApplicationService {
                         item.SO_KBETR = formatSpecialCurrencies(item.SO_KBETR, item.SO_WAERK, this._SpecialCurrencies);
                     if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = getBundle(req.user.locale).getText(`nps${item.SO_NPS}`)
                     if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = getBundle(req.user.locale).getText(`OrderIssue${item.SO_ISSUE}`)
-                    if ('SO_DCP_ITEM_STATUS' in item){
-                        if(item.SO_DCP_ITEM_STATUS){
+                    if ('SO_DCP_ITEM_STATUS' in item) {
+                        if (item.SO_DCP_ITEM_STATUS) {
                             item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
-                        }  
-                    } 
+                        }
+                    }
                     let mandtFields = serviceHelper.getMandtFields();
                     // MANDANT TEXTS LOGIC -------------
                     mandtFields.forEach((mandt) => {
@@ -1161,6 +1163,7 @@ class openOrdersSrv extends cds.ApplicationService {
             //     })
             // })
         });
+
         // END OF ORDER CREATION HANDLERS
 
         // BEGIN OF ORDER CREATION VALUE HELPS HANDLERS
@@ -1301,7 +1304,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 lt_result.push({ $count: 0 });
             }
             return lt_result;
-            
+
         })
 
         this.after("READ", "OCValueHelps", async (data, req) => {
@@ -1468,7 +1471,7 @@ class openOrdersSrv extends cds.ApplicationService {
             let issueLocationItem = DetailsSalesOrderItem;
 
             // Call Cobalt only for order incomplete and outbound delivery incomplete (for now)
-            if(issue === "01" || issue === "05"){
+            if (issue === "01" || issue === "05") {
                 try {
                     // const AMOOUtilsService = await cds.connect.to('AMOOUtilsService');
                     // const query = `/IssueReason(p_mandt='100',p_SalesOrderNumber='${salesOrder}',p_SalesOrderItemNumber='${salesOrderItem}',p_DetailSalesOrderNumber='${detailsSalesOrder}',p_DetailSalesOrderItemNumber='${DetailsSalesOrderItem}',p_IssueId='${issue}',p_NPSId='${nps}',p_issue_location='${issue_location}',p_lang='EN')/Results?sap-client=100`
@@ -1580,6 +1583,189 @@ class openOrdersSrv extends cds.ApplicationService {
             }
             return combinedResults;
         })
+        this.on("CREATE", "ChatbotApi", async (req) => {
+            log.info("Creating")
+            try {
+                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
+                const decodedToken = jwt.decode(tokenForUserInfo);
+                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
+                const { id, path, payload } = req.data;
+                log.info("Path received: ", path);
+                log.info("Payload received: ", payload);
+                const azureToken = await azureTokenManager.getAccessToken(username);
+
+                log.info("azureToken: ", azureToken);
+                log.info("Username: ", username);
+
+                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
+
+                log.info("Connected: ", chatbotTemp.name);
+
+                const responseChatbot = await chatbotTemp.tx(req).send({
+                    method: 'POST',
+                    path: path,
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + azureToken
+                    },
+                    data: JSON.parse(payload)
+                });
+                //const message = response.choices[0].messages;
+                log.info("Response message: ", responseChatbot)
+                const createdEntity = {
+                    id: id,
+                    response: responseChatbot
+                };
+                return createdEntity;
+            } catch (e) {
+                log.error("Error occured while calling chatbot API", e.message);
+                return "An error occured.";
+            }
+        })
+        this.on("callChatbotFeedback", async (req) => {
+            console.log("calling MessageLiked")
+            try {
+                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
+                const decodedToken = jwt.decode(tokenForUserInfo);
+                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
+                const payload = req.data.payload;
+                log.info("Payload received: ", payload);
+                const azureToken = await azureTokenManager.getAccessToken(username);
+
+                log.info("azureToken: ", azureToken);
+                log.info("Username: ", username);
+
+                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
+
+                const response = await chatbotTemp.tx(req).send({
+                    method: 'POST',
+                    path: '/feedback',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        authorization: 'Bearer ' + azureToken
+                    },
+                    data: payload
+                });
+
+                return JSON.stringify(response);
+            } catch (e) {
+                console.log(e.message);
+                return "An error occured.";
+            }
+        })
+
+        this.on("callChatbotHistoryService", async (req) => {
+            log.info("Calling history");
+            try {
+                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
+                const decodedToken = jwt.decode(tokenForUserInfo);
+                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
+                const azureToken = await azureTokenManager.getAccessToken(username);
+
+                log.info("azureToken: ", azureToken);
+                log.info("Username: ", username);
+
+                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
+
+                const response = await chatbotTemp.tx(req).send({
+                    method: 'GET',
+                    path: '/history/list',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        authorization: 'Bearer ' + azureToken
+                    },
+
+                });
+                console.log(JSON.stringify(response))
+                //const message = response.choices[0].messages;
+                //console.log("Response message: ", message)
+                return JSON.stringify(response); // TODO: return history...
+            } catch (e) {
+                console.error(e.message);
+                return "An error occured.";
+            }
+
+        })
+
+        this.on("callChatbotWelcomeMsg", async (req) => {
+            log.info("Getting welcome msg");
+            try {
+                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
+                const decodedToken = jwt.decode(tokenForUserInfo);
+                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
+                var azureToken = await azureTokenManager.getAccessToken(username);
+
+                log.info("azureToken: ", azureToken);
+                log.info("Username: ", username);
+
+                // Retry fetching the token if it's missing
+                let retryCount = 0;
+                const maxRetries = 10;
+                while (!azureToken && retryCount < maxRetries) {
+                    log.warn("Azure token not found for ${username}, retrying... (${retryCount + 1}/${maxRetries})");
+                    await new Promise(resolve => setTimeout(resolve, 1500)); // Wait before retrying
+                    azureToken = await azureTokenManager.getAccessToken(username);
+                    retryCount++;
+                }
+
+                if (!azureToken) {
+                    throw new Error("Failed to retrieve Azure token after multiple attempts");
+                }
+
+                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
+
+                const response = await chatbotTemp.tx(req).send({
+                    method: 'GET',
+                    path: '/welcome',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        authorization: 'Bearer ' + azureToken
+                    },
+
+                });
+                return JSON.stringify(response);
+            } catch (e) {
+                console.error("Error while calling /welcome: ", e);
+                return JSON.stringify({ message: "Welcome to the Chatbot! (Default message due to error)" });
+            }
+        })
+
+        this.on("callChatbotGetConversation", async (req) => {
+            console.log("calling getConversation")
+            try {
+                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
+                const decodedToken = jwt.decode(tokenForUserInfo);
+                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
+                const payload = req.data.payload;
+                log.info("Payload received: ", payload);
+                const azureToken = await azureTokenManager.getAccessToken(username);
+
+                log.info("azureToken: ", azureToken);
+                log.info("Username: ", username);
+                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
+
+                const response = await chatbotTemp.tx(req).send({
+                    method: 'POST',
+                    path: '/history/read',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        authorization: 'Bearer ' + azureToken
+                    },
+                    data: payload
+                });
+                const message = response.messages;
+                console.log("Response message: ", message)
+                return JSON.stringify(message);
+            } catch (e) {
+                console.error(e.message);
+                return "An error occured.";
+            }
+        })
 
         return super.init();
     }
@@ -1607,7 +1793,7 @@ function removeDuplicates(fields, lt_result) {
             //     var allNull = fields.every(field => obj[field] === null);
             //     return !allNull;
             // })
-            .filter(obj => fields.every(field => obj[field] !== null)) 
+            .filter(obj => fields.every(field => obj[field] !== null))
             .map(obj => {
                 const newObj = {};
                 fields.forEach(field => newObj[field] = obj[field]);
