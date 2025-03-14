@@ -1460,6 +1460,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
         this.on("getIssueReason", async (req) => {
             // let issueReason = []
+            let textBundle = getBundle(req.locale);
             let incompletionLog = []
             let creditData = {}
             let idocData = []
@@ -1482,18 +1483,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         } catch (error) {
                             console.error('Error fetching issue reason:', error);
                         }
-                    }
-                    if (issue === '06') {
-                        const CreditManagerService = await cds.connect.to('CreditManagerService');
-                        try {
-                            creditData = await CreditManagerService.run(SELECT.from('OrderBlockSet').byKey({
-                                OrderNumber: issueLocation,
-                                Language: req.user.locale.toUpperCase()
-                            }).columns("Text1", "Text2", "Text3", "Text4"))
-                        } catch (error) {
-                            console.error('Error fetching credit status:', error);
-                        }
-                    }
+                    }        
                     if (issue === '08' || issue === '11') {
                         const messageType = issue === '08' ? 'ZDESADV' : 'ZORDERS';
                         try {
@@ -1556,15 +1546,22 @@ class openOrdersSrv extends cds.ApplicationService {
                     if (issue === "01" || issue === "05") {
                         try {
                             const OMServicesAP = await cds.connect.to('OMServicesAP');
-                            let whereClause = `DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`;
-                            if(issue === "01"){
+                            if(issue === "01"){ // order incompletion
                                 incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`);
-                                
-                            }else{
+                            }else{ // issue 05 // delivery incompletion
                                 incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`);
                             }
+                            // Fill the text
                             incompletionLog.forEach((log) => {
-                                log.IncompletionText = log.IncompletionText + " " + getBundle(req.user.locale).getText("isMissing");
+                                if(issue === '01'){
+                                    log.IncompletionText = `${log.IncompletionText} ${textBundle.getText("isMissing")}`;
+                                }else{
+                                    if(log.DocumentItem === '000000'){
+                                        log.IncompletionText = `${textBundle.getText("onHeader")}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
+                                    }else{
+                                        log.IncompletionText = `${log.DocumentItem}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
+                                    }
+                                }                             
                             }) 
                         } catch (error) {
                             console.error('Error fetching issue reason:', error);
@@ -1573,6 +1570,19 @@ class openOrdersSrv extends cds.ApplicationService {
                     break;
                 default:
                     break;
+            }
+
+            // Cobalt redirects to FSCM system
+            if (issue === '06') {
+                const CreditManagerService = await cds.connect.to('CreditManagerService');
+                try {
+                    creditData = await CreditManagerService.run(SELECT.from('OrderBlockSet').byKey({
+                        OrderNumber: issueLocation,
+                        Language: req.locale.toUpperCase()
+                    }).columns("Text1", "Text2", "Text3", "Text4"))
+                } catch (error) {
+                    console.error('Error fetching credit status:', error);
+                }
             }
 
             const combinedResults = [];
