@@ -39,14 +39,6 @@
                 "path": "/it/omg/omc/so-fulfillment/v1"
             }
         },
-        "SalesOrderAP": {
-            "kind": "odata-v2",
-            "model": "srv/external/SalesOrderS4",
-            "credentials": {
-                "destination": "APIM_DEV",
-                "path": "/sal/sapapis/erpap/op_api_sales_order_srv_0001/v1"
-            }
-        },
         "DSLServicesService": {
             "kind": "odata-v2",
             "model": "srv/external/DSLServicesService",
@@ -169,6 +161,13 @@
             "kind": "rest",
             "credentials": {
                 "destination": "Chatbot_UI_token"
+            }
+        },
+        "OMServicesAP":{
+            "kind": "odata-v2",
+            "credentials": {
+                "destination": "APIM_DEV",
+                "path": "/it/omg/omc/ap-om-services/v1"
             }
         }
     }

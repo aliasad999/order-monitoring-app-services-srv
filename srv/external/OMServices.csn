@@ -1,0 +1,104 @@
+{
+ "meta": {
+  "creator": "cds-dk 8.2.2"
+ },
+ "$version": "2.0",
+ "definitions": {
+  "OMServices": {
+   "kind": "service",
+   "@cds.external": true,
+   "@m.IsDefaultEntityContainer": "true",
+   "@sap.message.scope.supported": "true",
+   "@sap.supported.formats": "atom json xlsx"
+  },
+  "OMServices.IncompletionLogsSet": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.updatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "SO and DL incompletion logs",
+   "elements": {
+    "DocumentNumber": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "SD Document",
+     "@sap.quickinfo": "Sales and Distribution Document Number",
+     "notNull": true
+    },
+    "DocumentItem": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item (SD)",
+     "@sap.quickinfo": "Item number of the SD document",
+     "notNull": true
+    },
+    "LogId": {
+     "key": true,
+     "type": "cds.String",
+     "length": 61,
+     "notNull": true
+    },
+    "IncompletionText": {
+     "type": "cds.String",
+     "length": 60,
+     "@sap.label": "Short Description",
+     "@sap.quickinfo": "Short Description of Repository Objects"
+    }
+   }
+  },
+  "OMServices.SalesOrderPartner": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.updatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "1",
+   "@sap.label": "Sales Order Partner Details",
+   "elements": {
+    "SalesOrder": {
+     "key": true,
+     "type": "cds.String",
+     "length": 10,
+     "@sap.display.format": "UpperCase",
+     "@sap.label": "Sales Order",
+     "notNull": true
+    },
+    "SalesOrderItem": {
+     "key": true,
+     "type": "cds.String",
+     "length": 6,
+     "@sap.display.format": "NonNegative",
+     "@sap.label": "Item",
+     "@sap.quickinfo": "Sales Order Item",
+     "notNull": true
+    },
+    "PartnerFunction": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true
+    },
+    "FullName": {
+     "type": "cds.String",
+     "length": 80
+    },
+    "PhoneNumber": {
+     "type": "cds.String",
+     "length": 30
+    },
+    "EmailAddress": {
+     "type": "cds.String",
+     "length": 241
+    }
+   }
+  }
+ }
+}
