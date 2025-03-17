@@ -508,6 +508,13 @@ service openOrdersSrv {
                 BNAME                                       as SO_BNAME,
                 IHREZ                                       as SO_IHREZ,
 
+                AUGRU                                       as SO_AUGRU,
+                AUGRU_BEZEI_LANG                            as SO_AUGRU_BEZEI_LANG,
+                KDGRP                                       as SO_KDGRP,
+                KDGRP_KTEXT_LANG                            as SO_KDGRP_KTEXT_LANG,
+                WE_PARTNER_REGION                           as SO_WE_PARTNER_REGION,
+                WE_PARTNER_REGION_BEZEI_LANG                as SO_WE_PARTNER_REGION_BEZEI_LANG
+
         }
 
     entity baseEntity               as
