@@ -477,8 +477,17 @@ class openOrdersSrv extends cds.ApplicationService {
                 if (req.headers.so_mandt && req.headers.so_mandt == '300') {
                     const OmServicesAp = await cds.connect.to('OMServicesAP');
                     const { APContacts } =  cds.entities('openOrdersSrv');
-                    const ltPartners = await  OmServicesAp.run(SELECT.from(APContacts).where({SalesOrder: saleOrder, SalesOrderItem: orderItem }));
-                    let CMEntry = {}
+                    const LPadOrderItem = orderItem.replace(/^0+/, "") || "0";
+                    const ltPartners = await OmServicesAp.send({
+                        method: 'GET',  
+                        query: SELECT.from(APContacts).where({ SalesOrder: saleOrder, SalesOrderItem: LPadOrderItem }),
+                        headers: {
+                            'X-Basf-Sap-Client': process.env.ClientAp
+                        }
+                    });
+                    // const { APContacts } =  cds.entities('openOrdersSrv');
+                    // const ltPartners = await  OmServicesAp.run(SELECT.from(APContacts).where({SalesOrder: saleOrder, SalesOrderItem: orderItem }));
+                     let CMEntry = {}
                     ltPartners.forEach((item)=>{
                          CMEntry = {
                             "SapClient": req.headers.so_mandt,
