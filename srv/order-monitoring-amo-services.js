@@ -121,7 +121,8 @@ class srvOpenOrders extends cds.ApplicationService {
                         method: "GET",
                         path: "/xBASFxVBAKAUTH?$format=json",
                         headers: {
-                            "Accept-Encoding": "" 
+                            "Accept-Encoding": "" ,
+                            'X-Basf-Sap-Client': process.env.ClientAp
                         }
                     });
                     
@@ -135,7 +136,8 @@ class srvOpenOrders extends cds.ApplicationService {
                         method: "GET",
                         path: "/xBASFxEKKOAUTH?$format=json",
                         headers: {
-                            "Accept-Encoding": "" 
+                            "Accept-Encoding": "" ,
+                            'X-Basf-Sap-Client': process.env.ClientAp
                         }
                     });
                     
