@@ -474,7 +474,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     }
                 }
                 let language = req.locale.toUpperCase();
-                if (req.headers.so_mandt && req.headers.so_mandt == '300') {
+                if (req.headers.so_mandt && req.headers.so_mandt == '300' && process.env.subaccount !== 'PROD') {
                     const OmServicesAp = await cds.connect.to('OMServicesAP');
                     const { APContacts } =  cds.entities('openOrdersSrv');
                     const LPadOrderItem = orderItem.replace(/^0+/, "") || "0";
