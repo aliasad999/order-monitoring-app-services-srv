@@ -447,8 +447,6 @@ class openOrdersSrv extends cds.ApplicationService {
                 // if (req.query.SELECT.orderBy) {
                 //     contactsQuery.orderBy(req.query.SELECT.orderBy);
                 // }
-                const apiManagementService = await cds.connect.to('ContactsService');
-                const creditManagerService = await cds.connect.to('CreditManagerService');
                 // GET Sales Order NUmber and Order Item from WHERE Clause
                 var saleOrder = "";
                 var orderItem = "";
@@ -476,17 +474,50 @@ class openOrdersSrv extends cds.ApplicationService {
                     }
                 }
                 let language = req.locale.toUpperCase();
-                let creditMngrQuery = SELECT.from('CreditManagerSet').byKey({ OrderNumber: saleOrder, Language: language });
+                if (req.headers.so_mandt && req.headers.so_mandt == '300' && process.env.subaccount !== 'PROD') {
+                    const OmServicesAp = await cds.connect.to('OMServicesAP');
+                    const { APContacts } =  cds.entities('openOrdersSrv');
+                    const LPadOrderItem = orderItem.replace(/^0+/, "") || "0";
+                    const ltPartners = await OmServicesAp.send({
+                        method: 'GET',  
+                        query: SELECT.from(APContacts).where({ SalesOrder: saleOrder, SalesOrderItem: LPadOrderItem }),
+                        headers: {
+                            'X-Basf-Sap-Client': process.env.ClientAp
+                        }
+                    });
+                    // const { APContacts } =  cds.entities('openOrdersSrv');
+                    // const ltPartners = await  OmServicesAp.run(SELECT.from(APContacts).where({SalesOrder: saleOrder, SalesOrderItem: orderItem }));
+                     let CMEntry = {}
+                    ltPartners.forEach((item)=>{
+                         CMEntry = {
+                            "SapClient": req.headers.so_mandt,
+                            "PersonalName": item.FullName,
+                            "EmailAddress": item.EmailAddress,
+                            "PhoneNumber": item.PhoneNumber,
+                            "PersonalNumber": null,
+                            "SalesDocument": item.SalesOrder,
+                            "OrderItem": item.SalesOrderItem,
+                            "PartnerFunction": item.PartnerFunction
+                        }
+                        lt_contacts.push(CMEntry);
+                    })
+                    return lt_contacts;
+                    
+                } else {
                 // Run queries
+                const apiManagementService = await cds.connect.to('ContactsService');
                 lt_contacts = await apiManagementService.tx(req).send({
                     query: req.query
                 });
+                }
+                const creditManagerService = await cds.connect.to('CreditManagerService');
+                let creditMngrQuery = SELECT.from('CreditManagerSet').byKey({ OrderNumber: saleOrder, Language: language });
                 let creditManager = await creditManagerService.tx(req).send({
                     query: creditMngrQuery
                 });
                 if (creditManager && creditManager.NameCreditManager) {
                     let CMEntry = {
-                        "SapClient": "100",
+                        "SapClient": req.headers.so_mandt ?? "100" ,
                         "PersonalName": creditManager.NameCreditManager,
                         "EmailAddress": creditManager.SmtpAddress,
                         "PhoneNumber": creditManager.TelnrCall,
@@ -497,6 +528,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     }
                     lt_contacts.push(CMEntry);
                 }
+            
             } catch (error) {
                 // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
                 req.error(413, error)

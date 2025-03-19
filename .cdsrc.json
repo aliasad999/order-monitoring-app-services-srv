@@ -162,6 +162,13 @@
             "credentials": {
                 "destination": "Chatbot_UI_token"
             }
+        },
+        "OMServicesAP":{
+            "kind": "odata-v2",
+            "credentials": {
+                "destination": "APIM",
+                "path": "/it/omg/omc/ap-om-services/v1"
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ using {LORDOdataOrderService as LORDOdataOrderService} from './external/LORDOdat
 // using { YRDSDV1Foe1Service as YRDSDV1Foe1Service } from './external/YRDSDV1Foe1Service';
 // using { ATPService as ATPService } from './external/ATPService';
 using {CSEUCockpitService as CSEUCockpitService} from './external/CSEUCockpitService';
-
+using {OMServicesAP as OMServicesAP} from './external/OMServicesAP';
 
 service openOrdersSrv {
     @cds.persistence.skip
@@ -683,5 +683,7 @@ service openOrdersSrv {
 
     @readonly
     entity OCValueHelps             as projection on baseOrderCreation;
+
+    entity APContacts as projection on OMServicesAP.SalesOrderPartner;
 
 };
