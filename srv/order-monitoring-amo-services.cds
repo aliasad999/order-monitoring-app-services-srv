@@ -422,7 +422,7 @@ service srvOpenOrders {
           BL_FKIMG_LAST                               as BL_FKIMG_LAST,
           BL_NETWR_LAST                               as BL_NETWR_LAST,
           BL_WAERK_LAST                               as BL_WAERK_LAST,
-          BL_VRKME_LAST                               as BL_VRKME_LAST, 
+          BL_VRKME_LAST                               as BL_VRKME_LAST,
           ERDAT_DEL_DATE                              as DL_ERDAT,
           LDDAT_DEL_DATE                              as DL_LDDAT,
           F_MBDAT_DATE                                as SO_F_MBDAT,
@@ -495,8 +495,7 @@ service srvOpenOrders {
           ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH,
           LPRIO                                       as DL_LPRIO,
           VISTA_STATUS                                as TM_VISTA_STATUS,
-
-         // Euan's changes 
+          // Euan's changes
           Z5_PARTNER_ITM                              as SO_Z5_PARTNER,
           Z5_PARTNER_NAME_ITM                         as SO_Z5_PARTNER_NAME,
           SB_PARTNER_ITM                              as SO_SB_PARTNER,
@@ -510,6 +509,13 @@ service srvOpenOrders {
           // End of Euan's changes
           BNAME                                       as SO_BNAME,
           IHREZ                                       as SO_IHREZ,
+
+          AUGRU                                       as SO_AUGRU,
+          AUGRU_BEZEI_LANG                            as SO_AUGRU_BEZEI_LANG,
+          KDGRP                                       as SO_KDGRP,
+          KDGRP_KTEXT_LANG                            as SO_KDGRP_KTEXT_LANG,
+          WE_PARTNER_REGION                           as SO_WE_PARTNER_REGION,
+          WE_PARTNER_REGION_BEZEI_LANG                as SO_WE_PARTNER_REGION_BEZEI_LANG
 
     };
 
