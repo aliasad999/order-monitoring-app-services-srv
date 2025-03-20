@@ -1571,6 +1571,18 @@ class openOrdersSrv extends cds.ApplicationService {
                             console.error('Error fetching ATP Pal status:', error);
                         }
                     }
+                    // Cobalt redirects to FSCM system
+                    if (issue === '06') {
+                        const CreditManagerService = await cds.connect.to('CreditManagerService');
+                        try {
+                            creditData = await CreditManagerService.run(SELECT.from('OrderBlockSet').byKey({
+                                OrderNumber: issueLocation,
+                                Language: req.locale.toUpperCase()
+                            }).columns("Text1", "Text2", "Text3", "Text4"))
+                        } catch (error) {
+                            console.error('Error fetching credit status:', error);
+                        }
+                    }
                     break;
                 case "EC":
                     break;
@@ -1604,18 +1616,6 @@ class openOrdersSrv extends cds.ApplicationService {
                     break;
             }
 
-            // Cobalt redirects to FSCM system
-            if (issue === '06') {
-                const CreditManagerService = await cds.connect.to('CreditManagerService');
-                try {
-                    creditData = await CreditManagerService.run(SELECT.from('OrderBlockSet').byKey({
-                        OrderNumber: issueLocation,
-                        Language: req.locale.toUpperCase()
-                    }).columns("Text1", "Text2", "Text3", "Text4"))
-                } catch (error) {
-                    console.error('Error fetching credit status:', error);
-                }
-            }
 
             const combinedResults = [];
             // issueReason.forEach((item) => {
