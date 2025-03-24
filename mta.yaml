@@ -29,7 +29,6 @@ modules:
       SAP_CALM_METRICS_ENABLED: true      
       SAP_CALM_DCI_LOG_LEVEL: info
       SAP_CALM_FESR_LOG_LEVEL: info
-      subaccount: DEV
       ClientAp: 100
       NODE_ARGS: -r @sap/xotel-agent-ext-js/dist/common/tracer    
     parameters:

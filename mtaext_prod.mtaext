@@ -5,7 +5,6 @@ extends: order-monitoring-app-services
 modules:
   - name: order-monitoring-app-services-srv
     properties:
-      subaccount: PROD
       OTEL_RESOURCE_ATTRIBUTES: sap.tenancy.tenant_id=43b092c5-2fed-4194-aca6-1019abe786a8
     parameters:
       memory: 8GB
