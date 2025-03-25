@@ -482,7 +482,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         method: 'GET',  
                         query: SELECT.from(APContacts).where({ SalesOrder: saleOrder, SalesOrderItem: LPadOrderItem }),
                         headers: {
-                            'X-Basf-Sap-Client': process.env.ClientAp
+                            'X-Basf-Sap-Client': process.env.AP_CLIENT
                         }
                     });
                     // const { APContacts } =  cds.entities('openOrdersSrv');
@@ -1593,9 +1593,23 @@ class openOrdersSrv extends cds.ApplicationService {
                         try {
                             const OMServicesAP = await cds.connect.to('OMServicesAP');
                             if(issue === "01"){ // order incompletion
-                                incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`);
+                                incompletionLog = await OMServicesAP.send({
+                                    method: 'GET',  
+                                    query: SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`,
+                                    headers: {
+                                        'X-Basf-Sap-Client': process.env.AP_CLIENT
+                                    }
+                                });
+                                // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`);
                             }else{ // issue 05 // delivery incompletion
-                                incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`);
+                                // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`);
+                                incompletionLog = await OMServicesAP.send({
+                                    method: 'GET',  
+                                    query: SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`,
+                                    headers: {
+                                        'X-Basf-Sap-Client': process.env.AP_CLIENT
+                                    }
+                                });
                             }
                             // Fill the text
                             incompletionLog.forEach((log) => {
