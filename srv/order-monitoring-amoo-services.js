@@ -1627,6 +1627,13 @@ class openOrdersSrv extends cds.ApplicationService {
                             console.error('Error fetching issue reason:', error);
                         }
                     }
+                    /// AP PLACEHOLDER UNTIL THOSE REASONS FOR ISSUE ARE DONE (APIs MISSING)
+                    if (issue === "06" || issue === "05" || issue === '08' || issue === '11' || ['10', '20', '30', '40'].includes(nps)) {
+                        idocData.push({
+                            text: textBundle.getText("APTBD")
+                        })
+                    }
+                    ////////
                     break;
                 default:
                     break;
