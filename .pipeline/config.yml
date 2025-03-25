@@ -16,18 +16,18 @@ stages:
 
      ## tmsUpload
      # Import to DEV node in CTMS
-     #nodeName: 'ORDER_MANAGEMENT_DEV_space_OM_'
-     nodeName: 'ORDER_MANAGEMENT_DEV_OM_BG'
+     nodeName: 'ORDER_MANAGEMENT_DEV_space_OM_'
+    #  nodeName: 'ORDER_MANAGEMENT_DEV_OM_BG'
      # Import to QA node in CTMS
-     nodeNameQA: 'ORDER_MANAGEMENT_QA_OM_BG'
-     #nodeNameQA: 'ORDER_MANAGEMENT_QA_space_OM_C'
+    #  nodeNameQA: 'ORDER_MANAGEMENT_QA_OM_BG'
+     nodeNameQA: 'ORDER_MANAGEMENT_QA_space_OM_C'
      # Import to PROD node in CTMS
-     nodeNamePRD: 'ORDER_MANAGEMENT_PROD_OM_BG'
-     #nodeNamePRD: 'ORDER_MANAGEMENT_PROD_space_OM'
+    #  nodeNamePRD: 'ORDER_MANAGEMENT_PROD_OM_BG'
+     nodeNamePRD: 'ORDER_MANAGEMENT_PROD_space_OM'
 
      #nodeName: 'ORDER_DEV_OM_Cockpit_CHARM'
      nodeExtDescriptorMapping:      
       # ORDER_QA_OM_Cockpit_CHARM: 'mtaext_qa.mtaext'
       # ORDER_PROD_OM_Cockpit_CHARM: 'mtaext_prod.mtaext'
-      ORDER_MANAGEMENT_QA_OM_BG: 'mtaext_qa.mtaext'
-      ORDER_MANAGEMENT_PROD_OM_BG: 'mtaext_prod.mtaext'
+      ORDER_MANAGEMENT_QA_space_OM_C: 'mtaext_qa.mtaext'
+      ORDER_MANAGEMENT_PROD_space_OM: 'mtaext_prod.mtaext'
