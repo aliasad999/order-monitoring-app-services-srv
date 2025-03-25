@@ -1690,6 +1690,36 @@ class openOrdersSrv extends cds.ApplicationService {
             }
         })
 
+        this.on("callChatbotSuggestion", async (req) => {
+            console.log("calling Suggestions")
+            try {
+                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
+                const decodedToken = jwt.decode(tokenForUserInfo);
+                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
+                const payload = req.data.payload;
+                log.info("Payload received: ", payload);
+                const azureToken = await azureTokenManager.getAccessToken(username);
+                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
+
+                const response = await chatbotTemp.tx(req).send({
+                    method: 'POST',
+                    path: '/suggestion',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        authorization: 'Bearer ' + azureToken
+                    },
+                    data: payload
+                });
+
+                log.info("suggestion response: ", response);
+                return JSON.stringify(response);
+            } catch (e) {
+                log.error("Error in suggestion request", e);
+                return "An error occured.";
+            }
+        })
+
         this.on("callChatbotHistoryService", async (req) => {
             log.info("Calling history");
             try {
