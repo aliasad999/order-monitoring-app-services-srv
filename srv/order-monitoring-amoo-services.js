@@ -482,7 +482,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         method: 'GET',  
                         query: SELECT.from(APContacts).where({ SalesOrder: saleOrder, SalesOrderItem: LPadOrderItem }),
                         headers: {
-                            'X-Basf-Sap-Client': process.env.ClientAp
+                            'X-Basf-Sap-Client': process.env.AP_CLIENT
                         }
                     });
                     // const { APContacts } =  cds.entities('openOrdersSrv');
@@ -637,12 +637,12 @@ class openOrdersSrv extends cds.ApplicationService {
                 const queryString = sessionCache.get(queryId);
                 const query = JSON.parse(queryString);
                 query.SELECT.from.ref[0] = 'openOrdersSrv.allIssues'
-                
+
                 // POC Refresh only if needed
                 // let NPSTabSelected = req.headers.tabselected;
                 // serviceHelper.addOrRemoveNPSFilter(query, NPSTabSelected);
                 // POC Refresh only if needed
-            
+
                 // make sure pagination is taken into account
                 // if (query.SELECT.limit.rows.val) query.SELECT.limit.rows.val = req.query.SELECT.limit.rows?.val;
                 //query.SELECT.distinct = true;
@@ -682,9 +682,9 @@ class openOrdersSrv extends cds.ApplicationService {
                         fields = fields.filter((fieldName) => {
                             const mandtFields = serviceHelper.getMandtFields();
                             const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
-                            if(mandtTextFields.includes(fieldName)){
+                            if (mandtTextFields.includes(fieldName)) {
                                 return false;
-                            }else{
+                            } else {
                                 return true;
                             }
                         });
@@ -789,7 +789,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 // MANDANT TEXTS LOGIC -------------
                 mandtFields.forEach((mandt) => {
                     const mandtProp = item[mandt];
-                    if(mandtProp){
+                    if (mandtProp) {
                         let mandtTxtField = mandt + "_TEXT";
                         item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
                     }
@@ -956,7 +956,7 @@ class openOrdersSrv extends cds.ApplicationService {
                                 partnersQuery.push(`SO_SB_PARTNER = '${partnerNumber}'`);
                                 break;
                             // Added with user story 851475 
-                            
+
                             default:
                                 break;
                         }
@@ -1081,7 +1081,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     // MANDANT TEXTS LOGIC -------------
                     mandtFields.forEach((mandt) => {
                         const mandtProp = item[mandt];
-                        if(mandtProp){
+                        if (mandtProp) {
                             let mandtTxtField = mandt + "_TEXT";
                             item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
                         }
@@ -1494,101 +1494,152 @@ class openOrdersSrv extends cds.ApplicationService {
 
         this.on("getIssueReason", async (req) => {
             // let issueReason = []
+            let textBundle = getBundle(req.locale);
             let incompletionLog = []
             let creditData = {}
             let idocData = []
             let atpData = []
-            const { salesOrder, salesOrderItem, detailsSalesOrder,
-                DetailsSalesOrderItem, issue, nps, issue_location, material,
-                plant, quantity, uom, dueDate, firstDate } = req.data;
-            let issueLocation = detailsSalesOrder;
-            let issueLocationItem = DetailsSalesOrderItem;
+            const { salesOrder, salesOrderItem, issueLocation,
+                issueLocationItem, issue, nps, material,
+                plant, uom, dueDate, firstDate, system } = JSON.parse(req.data.issuePayload);
 
-            // Call Cobalt only for order incomplete and outbound delivery incomplete (for now)
-            if (issue === "01" || issue === "05") {
-                try {
-                    // const AMOOUtilsService = await cds.connect.to('AMOOUtilsService');
-                    // const query = `/IssueReason(p_mandt='100',p_SalesOrderNumber='${salesOrder}',p_SalesOrderItemNumber='${salesOrderItem}',p_DetailSalesOrderNumber='${detailsSalesOrder}',p_DetailSalesOrderItemNumber='${DetailsSalesOrderItem}',p_IssueId='${issue}',p_NPSId='${nps}',p_issue_location='${issue_location}',p_lang='EN')/Results?sap-client=100`
-                    // issueReason = await AMOOUtilsService.tx(req).send({
-                    //     method: "GET",
-                    //     path: query
-                    // });
-                    const OMServices = await cds.connect.to('DSLServicesService');
-                    incompletionLog = await OMServices.run(SELECT.from('IncompletionLogsSet').where({
-                        DocumentNumber: issueLocation, // order number in case of 01 and delivery number in case of 05
-                        DocumentItem: issueLocationItem, // order item in case of 01 and delivery item in case of 05
-                        Issue: issue
-                    }))
-                } catch (error) {
-                    console.error('Error fetching issue reason:', error);
-                }
-            }
-            if (issue === '06') {
-                const CreditManagerService = await cds.connect.to('CreditManagerService');
-                try {
-                    creditData = await CreditManagerService.run(SELECT.from('OrderBlockSet').byKey({
-                        OrderNumber: detailsSalesOrder,
-                        Language: req.user.locale.toUpperCase()
-                    }).columns("Text1", "Text2", "Text3", "Text4"))
-                } catch (error) {
-                    console.error('Error fetching credit status:', error);
-                }
-            }
-            if (issue === '08' || issue === '11') {
-                const messageType = issue === '08' ? 'ZDESADV' : 'ZORDERS';
-                try {
-                    const CSEUCockpitService = await cds.connect.to('CSEUCockpitService');
-                    idocData = await CSEUCockpitService.run(SELECT.from('FailedIDocSet').where({
-                        MessageType: messageType,
-                        PONumber: issue_location,
-                        Direction: '2'
-                    }))
-
-                } catch (error) {
-                    console.error('Error fetching failed iDocs:', error);
-                }
-            }
-            if (['10', '20', '30', '40'].includes(nps)) {
-                try {
-                    const ATPService = await cds.connect.to('ATPService');
-                    let atpSystemCheck = await ATPService.run(SELECT.from('ATPCheckSystemSet').where({
-                        Material: material,
-                        Plant: plant
-                    }))
-                    if (atpSystemCheck[0].System != ' ') {
-                        let dateToday = new Date();
-                        let sCheckingRule = " ";
-                        dateToday = dateToday.setUTCHours(0, 0, 0, 0);
-                        let requestedDate = new Date(firstDate)
-                        requestedDate = requestedDate.setUTCHours(0, 0, 0, 0);
-                        let sDate = new Date(requestedDate > dateToday ? requestedDate : dateToday).toLocaleDateString("en-GB").split("/").reverse().join("");
-                        switch (nps) {
-                            case "30":
-                                sCheckingRule = "A";
-                                break;
-                            case "40":
-                                let dueDateMs = new Date(dueDate).setUTCHours(0, 0, 0, 0);
-                                let dateMs = Math.abs(dueDateMs - dateToday);
-                                let days = 1000 * 3600 * 24;
-                                let dateDifference = dateMs / days;
-                                const db = cds.transaction(req);
-                                let timeFrame = await db.run(SELECT.from('openOrdersSrv.dueDateLimit').where({ userId: req.user.id }))
-                                sCheckingRule = dueDateMs > dateToday && dateDifference >= timeFrame[0].dayLimit ? "A" : "B";
+            switch (system) {
+                case "COBALT":
+                    // Call Cobalt only for order incomplete and outbound delivery incomplete (for now)
+                    if (issue === "01" || issue === "05") {
+                        try {
+                            const OMServices = await cds.connect.to('DSLServicesService');
+                            incompletionLog = await OMServices.run(SELECT.from('IncompletionLogsSet').where({
+                                DocumentNumber: issueLocation, // order number in case of 01 and delivery number in case of 05
+                                DocumentItem: issueLocationItem, // order item in case of 01 and delivery item in case of 05
+                                Issue: issue
+                            }))
+                        } catch (error) {
+                            console.error('Error fetching issue reason:', error);
                         }
-                        atpData = await ATPService.run(SELECT.from('ATPCheckR3Set').where({
-                            Material: material,
-                            Plant: plant,
-                            RequestedQuantityUnit: uom,
-                            CheckingRule: sCheckingRule,
-                            Date: sDate,
-                            SalesOrderDocument: salesOrder,
-                            SalesOrderItem: salesOrderItem
-                        }))
+                    }        
+                    if (issue === '08' || issue === '11') {
+                        const messageType = issue === '08' ? 'ZDESADV' : 'ZORDERS';
+                        try {
+                            const CSEUCockpitService = await cds.connect.to('CSEUCockpitService');
+                            idocData = await CSEUCockpitService.run(SELECT.from('FailedIDocSet').where({
+                                MessageType: messageType,
+                                PONumber: issueLocation,
+                                Direction: '2'
+                            }))
+
+                        } catch (error) {
+                            console.error('Error fetching failed iDocs:', error);
+                        }
                     }
-                } catch (error) {
-                    console.error('Error fetching ATP Pal status:', error);
-                }
+                    if (['10', '20', '30', '40'].includes(nps)) {
+                        try {
+                            const ATPService = await cds.connect.to('ATPService');
+                            let atpSystemCheck = await ATPService.run(SELECT.from('ATPCheckSystemSet').where({
+                                Material: material,
+                                Plant: plant
+                            }))
+                            if (atpSystemCheck[0].System != ' ') {
+                                let dateToday = new Date();
+                                let sCheckingRule = " ";
+                                dateToday = dateToday.setUTCHours(0, 0, 0, 0);
+                                let requestedDate = new Date(firstDate)
+                                requestedDate = requestedDate.setUTCHours(0, 0, 0, 0);
+                                let sDate = new Date(requestedDate > dateToday ? requestedDate : dateToday).toLocaleDateString("en-GB").split("/").reverse().join("");
+                                switch (nps) {
+                                    case "30":
+                                        sCheckingRule = "A";
+                                        break;
+                                    case "40":
+                                        let dueDateMs = new Date(dueDate).setUTCHours(0, 0, 0, 0);
+                                        let dateMs = Math.abs(dueDateMs - dateToday);
+                                        let days = 1000 * 3600 * 24;
+                                        let dateDifference = dateMs / days;
+                                        const db = cds.transaction(req);
+                                        let timeFrame = await db.run(SELECT.from('openOrdersSrv.dueDateLimit').where({ userId: req.user.id }))
+                                        sCheckingRule = dueDateMs > dateToday && dateDifference >= timeFrame[0].dayLimit ? "A" : "B";
+                                }
+                                atpData = await ATPService.run(SELECT.from('ATPCheckR3Set').where({
+                                    Material: material,
+                                    Plant: plant,
+                                    RequestedQuantityUnit: uom,
+                                    CheckingRule: sCheckingRule,
+                                    Date: sDate,
+                                    SalesOrderDocument: salesOrder,
+                                    SalesOrderItem: salesOrderItem
+                                }))
+                            }
+                        } catch (error) {
+                            console.error('Error fetching ATP Pal status:', error);
+                        }
+                    }
+                    // Cobalt redirects to FSCM system
+                    if (issue === '06') {
+                        const CreditManagerService = await cds.connect.to('CreditManagerService');
+                        try {
+                            creditData = await CreditManagerService.run(SELECT.from('OrderBlockSet').byKey({
+                                OrderNumber: issueLocation,
+                                Language: req.locale.toUpperCase()
+                            }).columns("Text1", "Text2", "Text3", "Text4"))
+                        } catch (error) {
+                            console.error('Error fetching credit status:', error);
+                        }
+                    }
+                    break;
+                case "EC":
+                    break;
+                case "AP":
+                    if (issue === "01" || issue === "05") {
+                        try {
+                            const OMServicesAP = await cds.connect.to('OMServicesAP');
+                            if(issue === "01"){ // order incompletion
+                                incompletionLog = await OMServicesAP.send({
+                                    method: 'GET',  
+                                    query: SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`,
+                                    headers: {
+                                        'X-Basf-Sap-Client': process.env.AP_CLIENT
+                                    }
+                                });
+                                // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`);
+                            }else{ // issue 05 // delivery incompletion
+                                // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`);
+                                incompletionLog = await OMServicesAP.send({
+                                    method: 'GET',  
+                                    query: SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`,
+                                    headers: {
+                                        'X-Basf-Sap-Client': process.env.AP_CLIENT
+                                    }
+                                });
+                            }
+                            // Fill the text
+                            incompletionLog.forEach((log) => {
+                                if(issue === '01'){
+                                    log.IncompletionText = `${log.IncompletionText} ${textBundle.getText("isMissing")}`;
+                                }else{
+                                    if(log.DocumentItem === '000000'){
+                                        log.IncompletionText = `${textBundle.getText("onHeader")}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
+                                    }else{
+                                        log.IncompletionText = `${log.DocumentItem}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
+                                    }
+                                }                             
+                            }) 
+                        } catch (error) {
+                            console.error('Error fetching issue reason:', error);
+                        }
+                    }
+                    /// AP PLACEHOLDER UNTIL THOSE REASONS FOR ISSUE ARE DONE (APIs MISSING)
+                    if (issue === "06" || issue === '08' || issue === '11') {
+                        idocData.push({
+                            text: textBundle.getText("APTBD")
+                        })
+                    }
+                    ////////
+                    break;
+                default:
+                    break;
             }
+
+
             const combinedResults = [];
             // issueReason.forEach((item) => {
             //     combinedResults.push({ text: item.IssueReason })
