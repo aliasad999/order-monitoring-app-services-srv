@@ -114,7 +114,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     globalError.push({ user: 'noECUser', error: error })
                     err = 2 // EC called failed
                 }
-
+                if (process.env.SUBACCOUNT !== 'PROD'){
                 try {
                     const service = await cds.connect.to('authServiceAP');
                     lt_resultAP = await service.send({
@@ -145,7 +145,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     globalError.push({ user: 'noAPUser', error: error })
                     err = 3 // AP called failed
                 }
-
+            }
 
                 await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
                 await DELETE.from(EKKOAuthObjectKeys).where({ USERID: userID });
@@ -158,6 +158,10 @@ class srvOpenOrders extends cds.ApplicationService {
                     lt_resultAPEKKO = lt_resultAPEKKO || []
                     let lt_vbak = lt_result.VBAK || []
                     let lt_ekko = lt_result.EKKO || []
+                    if (process.env.SUBACCOUNT === 'PROD'){
+                        lt_vbak = [...lt_vbak, ...lt_resultEC.VBAK];
+                        lt_ekko = [...lt_ekko, ...lt_resultEC.EKKO];
+                    } else{
                     lt_vbak = [
                         ...lt_vbak,
                         ...(lt_resultEC?.VBAK ?? []),
@@ -169,6 +173,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     lt_ekko = [...lt_ekko, ...lt_resultEC?.EKKO ?? [], ...(lt_resultAPEKKO?.d?.results ?? []).map(({ PurchasingOrganization }) => ({
                         EKORG: PurchasingOrganization
                     }))];
+                }
                     const vbakSet = new Set();
                     const lt_vbakUnique = lt_vbak.filter(obj => {
                         const key = `${obj.VKORG}-${obj.VTWEG}-${obj.SPART}`;
