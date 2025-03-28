@@ -7,17 +7,17 @@ const textBundle = require('./utils/textBundle')
 const log = require("cf-nodejs-logging-support");
 const enableHints = require("./plugins/enable_hints");
 const { startOfToday } = require('date-fns');
-const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies') 
+const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies')
 const variantManagement = require('./utils/variantManagement');
-const serviceHelper = require('./utils/serviceHelper') 
+const serviceHelper = require('./utils/serviceHelper')
 
 class srvOpenOrders extends cds.ApplicationService {
 
     async init() {
         this._SpecialCurrencies = []
-        const {currencies} =  cds.entities('openOrdersSrv');
-        this._SpecialCurrencies  =  await SELECT.from(currencies)
-        this.before('*','*',async(req,next)=>{
+        const { currencies } = cds.entities('openOrdersSrv');
+        this._SpecialCurrencies = await SELECT.from(currencies)
+        this.before('*', '*', async (req, next) => {
             await cds.run(`SET 'APPLICATION' = 'CAPServices'`);
         })
 
@@ -36,7 +36,7 @@ class srvOpenOrders extends cds.ApplicationService {
         });
 
         this.on("READ", "testEntity", async (req, next) => {
-            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' ) {
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                 return req.reply({ $count: 0 })
             }
             await next(req)
@@ -48,7 +48,7 @@ class srvOpenOrders extends cds.ApplicationService {
         // END OF test HANDLERS
 
         this.on("getVBAKAuthObjKeys", async req => {
-            const { VBAKAuthObjectKeys,EKKOAuthObjectKeys } = await cds.entities ('srvOpenOrders');
+            const { VBAKAuthObjectKeys, EKKOAuthObjectKeys } = await cds.entities('srvOpenOrders');
             const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
             let updateNeeded = false;
             let lt_result = [];
@@ -56,35 +56,35 @@ class srvOpenOrders extends cds.ApplicationService {
             let lt_resultAP = [];
             let lt_resultAPEKKO = [];
             let err = []
-            let globalError= [] ;
+            let globalError = [];
             let userID = req.user.id;
 
             // VARIANT MIGRATION LOGIC
-            let AMOmigrationDone  = await variantManagement.checkIfMigrationNeeded(req,"ordermonitoring.allorders");
-            let AMOOmigrationDone  = await variantManagement.checkIfMigrationNeeded(req,"ordermonitoring.openorders");
-            if(AMOmigrationDone === "ERROR" || AMOOmigrationDone === "ERROR"){
+            let AMOmigrationDone = await variantManagement.checkIfMigrationNeeded(req, "ordermonitoring.allorders");
+            let AMOOmigrationDone = await variantManagement.checkIfMigrationNeeded(req, "ordermonitoring.openorders");
+            if (AMOmigrationDone === "ERROR" || AMOOmigrationDone === "ERROR") {
                 err = 3; // variant migration failed
                 return err;
             }
-            if(AMOmigrationDone || AMOOmigrationDone){
+            if (AMOmigrationDone || AMOOmigrationDone) {
                 // means it was done before and not needed (set to true to avoid issues)
-                if(AMOmigrationDone === undefined){
+                if (AMOmigrationDone === undefined) {
                     AMOmigrationDone = true;
                 }
                 // means it was done before and not needed (set to true to avoid issues)
-                if(AMOOmigrationDone === undefined){
+                if (AMOOmigrationDone === undefined) {
                     AMOOmigrationDone = true;
                 }
-                await UPSERT.into `allorders.db.variantMigration`.entries([{
-                    userId : userID,
-                    AMOvariantsMigrated : AMOmigrationDone,
-                    AMOOVariantsMigrated : AMOOmigrationDone
+                await UPSERT.into`allorders.db.variantMigration`.entries([{
+                    userId: userID,
+                    AMOvariantsMigrated: AMOmigrationDone,
+                    AMOOVariantsMigrated: AMOOmigrationDone
                 }])
                 err = 4; // variant migration successful, refresh needed
-                return err;       
+                return err;
             }
             // VARIANT MIGRATION LOGIC END
-            
+
             let vbakAuths = await SELECT.from(VBAKAuthObjectKeys).where`USERID = ${userID}`.limit(1);
             // Avoid updating authorizations more than once a day
             // Update only if table empty or outdatedf
@@ -103,31 +103,31 @@ class srvOpenOrders extends cds.ApplicationService {
                     const service = await cds.connect.to('authService');
                     lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
                 } catch (error) {
-                    globalError.push({user: 'noCobaltUser',error: error})
+                    globalError.push({ user: 'noCobaltUser', error: error })
                     err = 1 //Cobalt call failed
                 }
                 /// EC AUTH CALL
                 try {
                     const service = await cds.connect.to('authServiceEC');
-                     lt_resultEC = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
+                    lt_resultEC = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
                 } catch (error) {
-                    globalError.push({user: 'noECUser',error: error})
+                    globalError.push({ user: 'noECUser', error: error })
                     err = 2 // EC called failed
                 }
-                if (process.env.SUBACCOUNT !== 'PROD'){
+
                 try {
                     const service = await cds.connect.to('authServiceAP');
-                     lt_resultAP = await service.send({
+                    lt_resultAP = await service.send({
                         method: "GET",
                         path: "/xBASFxVBAKAUTH?$format=json",
                         headers: {
-                            "Accept-Encoding": "" ,
+                            "Accept-Encoding": "",
                             'X-Basf-Sap-Client': process.env.AP_CLIENT
                         }
                     });
-                    
+
                 } catch (error) {
-                    globalError.push({user: 'noAPUser',error: error})
+                    globalError.push({ user: 'noAPUser', error: error })
                     err = 3 // AP called failed
                 }
                 try {
@@ -136,52 +136,47 @@ class srvOpenOrders extends cds.ApplicationService {
                         method: "GET",
                         path: "/xBASFxEKKOAUTH?$format=json",
                         headers: {
-                            "Accept-Encoding": "" ,
+                            "Accept-Encoding": "",
                             'X-Basf-Sap-Client': process.env.AP_CLIENT
                         }
                     });
-                    
+
                 } catch (error) {
-                    globalError.push({user: 'noAPUser',error: error})
+                    globalError.push({ user: 'noAPUser', error: error })
                     err = 3 // AP called failed
                 }
-            }
-            
+
+
                 await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
                 await DELETE.from(EKKOAuthObjectKeys).where({ USERID: userID });
 
                 /// New Authorization scenario
-                if(lt_result.VBAK){
+                if (lt_result.VBAK) {
                     lt_resultEC.VBAK = lt_resultEC.VBAK || []
                     lt_resultEC.EKKO = lt_resultEC.EKKO || []
                     lt_resultAP = lt_resultAP || []
                     lt_resultAPEKKO = lt_resultAPEKKO || []
                     let lt_vbak = lt_result.VBAK || []
                     let lt_ekko = lt_result.EKKO || []
-                    if (process.env.SUBACCOUNT === 'PROD'){
-                        lt_vbak = [...lt_vbak, ...lt_resultEC.VBAK];
-                        lt_ekko = [...lt_ekko, ...lt_resultEC.EKKO];
-                    } else{
-                        lt_vbak = [
-                            ...lt_vbak,
-                            ...(lt_resultEC?.VBAK ?? []),
-                            ...(lt_resultAP.d?.results ?? []).map(({  vkorg, vtweg, spart }) => ({
-                                VKORG: vkorg,
-                                VTWEG: vtweg,
-                                SPART: spart
-                            }))];
-                        lt_ekko = [...lt_ekko, ...lt_resultEC?.EKKO ?? [],  ...(lt_resultAPEKKO?.d?.results ?? []).map(({ PurchasingOrganization }) => ({
-                            EKORG: PurchasingOrganization
+                    lt_vbak = [
+                        ...lt_vbak,
+                        ...(lt_resultEC?.VBAK ?? []),
+                        ...(lt_resultAP.d?.results ?? []).map(({ vkorg, vtweg, spart }) => ({
+                            VKORG: vkorg,
+                            VTWEG: vtweg,
+                            SPART: spart
                         }))];
-                    }
+                    lt_ekko = [...lt_ekko, ...lt_resultEC?.EKKO ?? [], ...(lt_resultAPEKKO?.d?.results ?? []).map(({ PurchasingOrganization }) => ({
+                        EKORG: PurchasingOrganization
+                    }))];
                     const vbakSet = new Set();
                     const lt_vbakUnique = lt_vbak.filter(obj => {
-                        const key = `${obj.VKORG}-${obj.VTWEG}-${obj.SPART}`; 
+                        const key = `${obj.VKORG}-${obj.VTWEG}-${obj.SPART}`;
                         if (vbakSet.has(key)) {
-                            return false; 
+                            return false;
                         }
-                        vbakSet.add(key); 
-                            return true; 
+                        vbakSet.add(key);
+                        return true;
                     });
                     if (lt_vbakUnique.length !== 0) {
                         lt_vbakUnique.forEach((set) => {
@@ -192,21 +187,21 @@ class srvOpenOrders extends cds.ApplicationService {
                     }
                     let ekkoSet = new Set();
                     const lt_ekkoUnique = lt_ekko.filter(item => {
-                    if (ekkoSet.has(item.EKORG)) {
-                        return false; 
-                    }
-                    ekkoSet.add(item.EKORG); 
-                    return true; 
+                        if (ekkoSet.has(item.EKORG)) {
+                            return false;
+                        }
+                        ekkoSet.add(item.EKORG);
+                        return true;
                     });
                     if (lt_ekkoUnique.length !== 0) {
                         lt_ekkoUnique.forEach((set) => {
-                                set.LAST_UPDATE = SQLdate;
-                                set.USERID = userID;
+                            set.LAST_UPDATE = SQLdate;
+                            set.USERID = userID;
                         })
                         await INSERT.into(EKKOAuthObjectKeys, lt_ekkoUnique);
                     }
                     // return true;
-                }else{ /// OLD Authorization scenario
+                } else { /// OLD Authorization scenario
                     if (lt_result.length !== 0) {
                         lt_result.forEach((set) => {
                             set.LAST_UPDATE = SQLdate;
@@ -214,7 +209,7 @@ class srvOpenOrders extends cds.ApplicationService {
                         })
                         await INSERT.into(VBAKAuthObjectKeys, lt_result);
                     }
-                }               
+                }
             }
             if (globalError.length === 2)
                 req.error(globalError[0].error)
@@ -304,7 +299,7 @@ class srvOpenOrders extends cds.ApplicationService {
                                 partnersQuery.push(`SO_SB_PARTNER = '${partnerNumber}'`);
                                 break;
                             // Added with user story 851475 
-                            
+
                             default:
                                 break;
                         }
@@ -388,7 +383,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     // MANDANT TEXTS LOGIC -------------
                     mandtFields.forEach((mandt) => {
                         const mandtProp = item[mandt];
-                        if(mandtProp){
+                        if (mandtProp) {
                             let mandtTxtField = mandt + "_TEXT";
                             item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
                         }
@@ -486,9 +481,9 @@ class srvOpenOrders extends cds.ApplicationService {
                         fields = fields.filter((fieldName) => {
                             const mandtFields = serviceHelper.getMandtFields();
                             const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
-                            if(mandtTextFields.includes(fieldName)){
+                            if (mandtTextFields.includes(fieldName)) {
                                 return false;
-                            }else{
+                            } else {
                                 return true;
                             }
                         });
@@ -587,7 +582,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     // MANDANT TEXTS LOGIC -------------
                     mandtFields.forEach((mandt) => {
                         const mandtProp = item[mandt];
-                        if(mandtProp){
+                        if (mandtProp) {
                             let mandtTxtField = mandt + "_TEXT";
                             item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
                         }

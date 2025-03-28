@@ -474,12 +474,12 @@ class openOrdersSrv extends cds.ApplicationService {
                     }
                 }
                 let language = req.locale.toUpperCase();
-                if (req.headers.so_mandt && req.headers.so_mandt == '300'  && process.env.SUBACCOUNT !== 'PROD') {
+                if (req.headers.so_mandt && req.headers.so_mandt == '300') {
                     const OmServicesAp = await cds.connect.to('OMServicesAP');
-                    const { APContacts } =  cds.entities('openOrdersSrv');
+                    const { APContacts } = cds.entities('openOrdersSrv');
                     const LPadOrderItem = orderItem.replace(/^0+/, "") || "0";
                     const ltPartners = await OmServicesAp.send({
-                        method: 'GET',  
+                        method: 'GET',
                         query: SELECT.from(APContacts).where({ SalesOrder: saleOrder, SalesOrderItem: LPadOrderItem }),
                         headers: {
                             'X-Basf-Sap-Client': process.env.AP_CLIENT
@@ -487,9 +487,9 @@ class openOrdersSrv extends cds.ApplicationService {
                     });
                     // const { APContacts } =  cds.entities('openOrdersSrv');
                     // const ltPartners = await  OmServicesAp.run(SELECT.from(APContacts).where({SalesOrder: saleOrder, SalesOrderItem: orderItem }));
-                     let CMEntry = {}
-                    ltPartners.forEach((item)=>{
-                         CMEntry = {
+                    let CMEntry = {}
+                    ltPartners.forEach((item) => {
+                        CMEntry = {
                             "SapClient": req.headers.so_mandt,
                             "PersonalName": item.FullName,
                             "EmailAddress": item.EmailAddress,
@@ -502,13 +502,13 @@ class openOrdersSrv extends cds.ApplicationService {
                         lt_contacts.push(CMEntry);
                     })
                     return lt_contacts;
-                    
+
                 } else {
-                // Run queries
-                const apiManagementService = await cds.connect.to('ContactsService');
-                lt_contacts = await apiManagementService.tx(req).send({
-                    query: req.query
-                });
+                    // Run queries
+                    const apiManagementService = await cds.connect.to('ContactsService');
+                    lt_contacts = await apiManagementService.tx(req).send({
+                        query: req.query
+                    });
                 }
                 const creditManagerService = await cds.connect.to('CreditManagerService');
                 let creditMngrQuery = SELECT.from('CreditManagerSet').byKey({ OrderNumber: saleOrder, Language: language });
@@ -517,7 +517,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 });
                 if (creditManager && creditManager.NameCreditManager) {
                     let CMEntry = {
-                        "SapClient": req.headers.so_mandt ?? "100" ,
+                        "SapClient": req.headers.so_mandt ?? "100",
                         "PersonalName": creditManager.NameCreditManager,
                         "EmailAddress": creditManager.SmtpAddress,
                         "PhoneNumber": creditManager.TelnrCall,
@@ -528,7 +528,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     }
                     lt_contacts.push(CMEntry);
                 }
-            
+
             } catch (error) {
                 // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
                 req.error(413, error)
@@ -1106,17 +1106,20 @@ class openOrdersSrv extends cds.ApplicationService {
 
         // ORDER CREATION HANDLERS
         this.before("READ", "orderCreation", async (req, next) => {
-            req.query.SELECT.localized = false;
-            req.query.SELECT.distinct = true;
+            // Deactivated in PROD
+            if (process.env.SUBACCOUNT !== 'PROD') {
+                req.query.SELECT.localized = false;
+                req.query.SELECT.distinct = true;
 
-            const dateProps = serviceHelper.getPODateProps()
-            for (let i = 0; i < req.query.SELECT.where?.length; i++) {
-                const item = req.query.SELECT.where[i];
-                if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
-                    for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
-                        if ( typeof(req.query.SELECT.where[j].val) === 'string' && req.query.SELECT.where[j].val.includes('-') && req.query.SELECT.where[j].val !== undefined && req.query.SELECT.where[j].val !== null )   {
-                            req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
-                            break;
+                const dateProps = serviceHelper.getPODateProps()
+                for (let i = 0; i < req.query.SELECT.where?.length; i++) {
+                    const item = req.query.SELECT.where[i];
+                    if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
+                        for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
+                            if (typeof (req.query.SELECT.where[j].val) === 'string' && req.query.SELECT.where[j].val.includes('-') && req.query.SELECT.where[j].val !== undefined && req.query.SELECT.where[j].val !== null) {
+                                req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
+                                break;
+                            }
                         }
                     }
                 }
@@ -1124,76 +1127,83 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.on("READ", "orderCreation", async (req, next) => {
-            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' ) {
-                // return req.reply({ $count: 0 })
-                try {
-                    const db = cds.transaction(req);
-                    const countCols = "PO_MANDT,PO_EBELN,PO_EBELP"
-                    let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${countCols} from  openOrdersSrv_orderCreation   ) `)
-                    if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
-                    const distinctCount = (req.query.SELECT.where) ?
-                        await db.run(query)
-                        : await db.run(query);
-                    return req.reply({ $count: Object.values(distinctCount[0])[0] })
-                } catch (error) {
-                    log.error("[order-monitoring-app-services.js] - Count query failed ! " + JSON.stringify(error));
-                    req.error(error)
+            if (process.env.SUBACCOUNT !== 'PROD') {
+                if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
+                    try {
+                        const db = cds.transaction(req);
+                        const countCols = "PO_MANDT,PO_EBELN,PO_EBELP"
+                        let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${countCols} from  openOrdersSrv_orderCreation   ) `)
+                        if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
+                        const distinctCount = (req.query.SELECT.where) ?
+                            await db.run(query)
+                            : await db.run(query);
+                        return req.reply({ $count: Object.values(distinctCount[0])[0] })
+                    } catch (error) {
+                        log.error("[order-monitoring-app-services.js] - Count query failed ! " + JSON.stringify(error));
+                        req.error(error)
+                    }
+                }
+            } else { // Deactivated in PROD
+                if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
+                    return req.reply({ $count: 0 })
+                } else {
+                    return [];
                 }
             }
-            // else{
-            //     return [];
-            // }
             await next(req)
         })
 
         this.after("READ", "orderCreation", async (data, req) => {
-            let sessionID = req.headers['authorization'] || req.headers['x-username'];
-            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
-                // do nothing
-            } else {
-                // Logic for filling up or not the tab icon
-                let dataFound = false;
-                if(data.length > 0){
-                    dataFound = true;
-                }
-                req.res.setHeader('ordercreationdata', dataFound)
-                // cache the query, so that all filter conditions can be consumed.. when any valuehelp is called.
-                if (req.target.name === 'openOrdersSrv.orderCreation') {
-                    let query = req.query;
-                    query.SELECT.where = req.query.SELECT.where;
-                    const queryString = JSON.stringify(query);
-                    const queryId = `${sessionID}OCQuery`
-                    sessionCache.set(queryId, queryString);
-                }
-            }
-            data = Array.isArray(data) ? data : [data]
-            var dateProps = serviceHelper.getPODateProps()
-            data.forEach((item) => {
-                item.Id = uuid.v1()
-                let mandtFields = serviceHelper.getMandtFields();
-                // MANDANT TEXTS LOGIC -------------
-                mandtFields.forEach((mandt) => {
-                    const mandtProp = item[mandt];
-                    if(mandtProp){
-                        let mandtTxtField = mandt + "_TEXT";
-                        item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+            // Deactivated in PROD
+            if (process.env.SUBACCOUNT !== 'PROD') {
+                let sessionID = req.headers['authorization'] || req.headers['x-username'];
+                if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
+                    // do nothing
+                } else {
+                    // Logic for filling up or not the tab icon
+                    let dataFound = false;
+                    if (data.length > 0) {
+                        dataFound = true;
                     }
-                })
-                if ('PO_NPS' in item) item.PO_NPS_TEXT = getBundle(req.user.locale).getText(`po_nps${item.PO_NPS}`)
-                if ('PO_ISSUE' in item) item.PO_ISSUE_TEXT = getBundle(req.user.locale).getText(`po_issue${item.PO_ISSUE}`)
-                dateProps.forEach((property) => {
-                    const dateString = item[property]
-                    if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
-                        const year = parseInt(dateString.substring(0, 4), 10);
-                        const month = parseInt(dateString.substring(4, 6), 10) - 1;
-                        const day = parseInt(dateString.substring(6, 8), 10);
-                        item[property] = new Date(year, month, day);
-                    } else {
-                        item[property] = null
+                    req.res.setHeader('ordercreationdata', dataFound)
+                    // cache the query, so that all filter conditions can be consumed.. when any valuehelp is called.
+                    if (req.target.name === 'openOrdersSrv.orderCreation') {
+                        let query = req.query;
+                        query.SELECT.where = req.query.SELECT.where;
+                        const queryString = JSON.stringify(query);
+                        const queryId = `${sessionID}OCQuery`
+                        sessionCache.set(queryId, queryString);
                     }
+                }
+                data = Array.isArray(data) ? data : [data]
+                var dateProps = serviceHelper.getPODateProps()
+                data.forEach((item) => {
+                    item.Id = uuid.v1()
+                    let mandtFields = serviceHelper.getMandtFields();
+                    // MANDANT TEXTS LOGIC -------------
+                    mandtFields.forEach((mandt) => {
+                        const mandtProp = item[mandt];
+                        if (mandtProp) {
+                            let mandtTxtField = mandt + "_TEXT";
+                            item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+                        }
+                    })
+                    if ('PO_NPS' in item) item.PO_NPS_TEXT = getBundle(req.user.locale).getText(`po_nps${item.PO_NPS}`)
+                    if ('PO_ISSUE' in item) item.PO_ISSUE_TEXT = getBundle(req.user.locale).getText(`po_issue${item.PO_ISSUE}`)
+                    dateProps.forEach((property) => {
+                        const dateString = item[property]
+                        if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
+                            const year = parseInt(dateString.substring(0, 4), 10);
+                            const month = parseInt(dateString.substring(4, 6), 10) - 1;
+                            const day = parseInt(dateString.substring(6, 8), 10);
+                            item[property] = new Date(year, month, day);
+                        } else {
+                            item[property] = null
+                        }
 
+                    })
                 })
-            })
+            }
         });
 
         // END OF ORDER CREATION HANDLERS
@@ -1204,160 +1214,162 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.on("READ", "OCValueHelps", async (req, next) => {
-            // get the session id based on auth token
-            let sessionID = req.headers['authorization'] || req.headers['x-username'];
-            const queryId = `${sessionID}OCQuery`
-            const db = cds.transaction(req);
-            let lt_result = []
-            // if session id is there, get the cach-ed query and execute it.
-            if (sessionCache.get(queryId)) {
-                const queryString = sessionCache.get(queryId);
-                const query = JSON.parse(queryString);
-                query.SELECT.from.ref[0] = 'openOrdersSrv.orderCreation'
-                let searchString = req._query.$search && req._query.$search.replace(/"/g, '')
-                let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
-                if (lowerCaseSearchString) {
-                    let where = []
-                    if (req._query['$select'] && req._query['$select'].split(',').length > 1) {
-                        where = cds.parse.expr(`lower(${req._query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req._query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
-                    } else {
-                        where = cds.parse.expr(`lower(${req._query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+            if (process.env.SUBACCOUNT !== 'PROD') {
+                // get the session id based on auth token
+                let sessionID = req.headers['authorization'] || req.headers['x-username'];
+                const queryId = `${sessionID}OCQuery`
+                const db = cds.transaction(req);
+                let lt_result = []
+                // if session id is there, get the cach-ed query and execute it.
+                if (sessionCache.get(queryId)) {
+                    const queryString = sessionCache.get(queryId);
+                    const query = JSON.parse(queryString);
+                    query.SELECT.from.ref[0] = 'openOrdersSrv.orderCreation'
+                    let searchString = req._query.$search && req._query.$search.replace(/"/g, '')
+                    let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
+                    if (lowerCaseSearchString) {
+                        let where = []
+                        if (req._query['$select'] && req._query['$select'].split(',').length > 1) {
+                            where = cds.parse.expr(`lower(${req._query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req._query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                        } else {
+                            where = cds.parse.expr(`lower(${req._query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                        }
+                        let requestQuery = query.SELECT.where || [];
+                        where && requestQuery.length != 0 && requestQuery.push('and');
+                        where && requestQuery.push(where);
+                        query.SELECT.where = requestQuery
                     }
-                    let requestQuery = query.SELECT.where || [];
-                    where && requestQuery.length != 0 && requestQuery.push('and');
-                    where && requestQuery.push(where);
-                    query.SELECT.where = requestQuery
+                    if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
+                        // ISSUE 343357 
+                        // add skip and top parameters from real query
+                        query.SELECT.limit = req.query.SELECT.limit;
+                        // query.SELECT.distinct = true;
+                        // End of ISSUE 343357
+                        query.SELECT.columns.length = 0;
+                        query.SELECT.columns = req.query.SELECT.columns;
+                        if (query.SELECT.orderBy) query.SELECT.orderBy.length = 0;
+                        query.SELECT.orderBy = req.query.SELECT.orderBy;
+                        try {
+                            lt_result = await db.run(query)
+                            //lt_result = await cds.run(query);
+                            // req.header.select will have the string of visible columns. 
+                            //this parameater has been manually set to header on every request
+                            const selectedField = req._query && req._query['$select']
+                            let fields = selectedField && selectedField.split(',');
+                            fields = fields.filter((fieldName) => {
+                                const mandtFields = serviceHelper.getMandtFields();
+                                const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
+                                if (mandtTextFields.includes(fieldName)) {
+                                    return false;
+                                } else {
+                                    return true;
+                                }
+                            });
+                            // remove duplicates based on fields in the valuehelp dialog box
+                            lt_result = removeDuplicates(fields, lt_result);
+                        } catch (error) {
+                            req.error(status.EXPECTATION_FAILED, getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
+                        }
+                    } else {
+                        try {
+                            const fields = req._query["search-focus"].split(',')
+                            let queryCount = 0;
+                            // sometimes there is a cached query but it has no
+                            let lt_count = query.SELECT.where
+                                ? await db.run(SELECT.from('openOrdersSrv_orderCreation').columns(`countdistinct(${fields})`).where(query.SELECT.where))
+                                : await db.run(SELECT.from('openOrdersSrv_orderCreation').columns(`countdistinct(${fields})`));
+
+                            if (lt_count.length > 0) {
+                                queryCount = lt_count[0][Object.keys(lt_count[0])[0]];
+                            }
+                            lt_result.push({ $count: queryCount })
+                        } catch (error) {
+                            req.error(status.EXPECTATION_FAILED, getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
+                        }
+
+                    }
+
+                } else {
+                    const fields = req._query["search-focus"].split(',')
+                    // if there is no session id, execute the query directly
+                    let searchString = req._query.$search && req._query.$search.replace(/"/g, '')
+                    let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
+                    if (lowerCaseSearchString) {
+                        let where = []
+                        if (req._query['$select'] && req._query['$select'].split(',').length > 1) {
+                            where = cds.parse.expr(`lower(${req._query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req._query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                        } else {
+                            where = cds.parse.expr(`lower(${req._query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                        }
+                        let requestQuery = req.query.SELECT.where || [];
+                        where && requestQuery.length != 0 && requestQuery.push('and');
+                        where && requestQuery.push(where);
+                        req.query.SELECT.where = requestQuery
+                        delete req.query.SELECT.search
+                    }
+                    if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
+                        req.query.SELECT.distinct = true;
+                        lt_result = await db.run(req.query)
+                        //await cds.run(req.query);
+                    } else {
+                        try {
+                            let queryCount = 0;
+                            let lt_count = await db.run(SELECT.from('openOrdersSrv_orderCreation').columns(`countdistinct(${fields})`))
+                            if (lt_count.length > 0) {
+                                queryCount = lt_count[0][Object.keys(lt_count[0])[0]];
+                            }
+                            lt_result.push({ $count: queryCount })
+                        } catch (error) {
+                            req.error(error)
+                        }
+
+                    }
                 }
-                if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
-                    // ISSUE 343357 
-                    // add skip and top parameters from real query
-                    query.SELECT.limit = req.query.SELECT.limit;
-                    // query.SELECT.distinct = true;
-                    // End of ISSUE 343357
-                    query.SELECT.columns.length = 0;
-                    query.SELECT.columns = req.query.SELECT.columns;
-                    if (query.SELECT.orderBy) query.SELECT.orderBy.length = 0;
-                    query.SELECT.orderBy = req.query.SELECT.orderBy;
-                    try {
-                        lt_result = await db.run(query)
-                        //lt_result = await cds.run(query);
-                        // req.header.select will have the string of visible columns. 
-                        //this parameater has been manually set to header on every request
-                        const selectedField = req._query && req._query['$select']
-                        let fields = selectedField && selectedField.split(',');
-                        fields = fields.filter((fieldName) => {
-                            const mandtFields = serviceHelper.getMandtFields();
-                            const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
-                            if(mandtTextFields.includes(fieldName)){
-                                return false;
-                            }else{
+                if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count' && req.query.SELECT.search) {
+                    lt_result = lt_result.filter((item) => {
+                        for (const prop in item) {
+                            if (item[prop] === null) return false;
+                            // convert to lowercase both sides in order to avoid case sensitivity issues when searching
+                            if (item[prop].toLowerCase().includes(req.query.SELECT.search[0].val.toLowerCase())) {
                                 return true;
                             }
-                        });
-                        // remove duplicates based on fields in the valuehelp dialog box
-                        lt_result = removeDuplicates(fields, lt_result);
-                    } catch (error) {
-                        req.error(status.EXPECTATION_FAILED, getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
-                    }
-                } else {
-                    try {
-                        const fields = req._query["search-focus"].split(',')
-                        let queryCount = 0;
-                        // sometimes there is a cached query but it has no
-                        let lt_count = query.SELECT.where
-                            ? await db.run(SELECT.from('openOrdersSrv_orderCreation').columns(`countdistinct(${fields})`).where(query.SELECT.where))
-                            : await db.run(SELECT.from('openOrdersSrv_orderCreation').columns(`countdistinct(${fields})`));
-
-                        if (lt_count.length > 0) {
-                            queryCount = lt_count[0][Object.keys(lt_count[0])[0]];
                         }
-                        lt_result.push({ $count: queryCount })
-                    } catch (error) {
-                        req.error(status.EXPECTATION_FAILED, getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
-                    }
+                        return false;
 
+                    });
                 }
-
             } else {
-                const fields = req._query["search-focus"].split(',')
-                // if there is no session id, execute the query directly
-                let searchString = req._query.$search && req._query.$search.replace(/"/g, '')
-                let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
-                if (lowerCaseSearchString) {
-                    let where = []
-                    if (req._query['$select'] && req._query['$select'].split(',').length > 1) {
-                        where = cds.parse.expr(`lower(${req._query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req._query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
-                    } else {
-                        where = cds.parse.expr(`lower(${req._query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
-                    }
-                    let requestQuery = req.query.SELECT.where || [];
-                    where && requestQuery.length != 0 && requestQuery.push('and');
-                    where && requestQuery.push(where);
-                    req.query.SELECT.where = requestQuery
-                    delete req.query.SELECT.search
-                }
+                // Deactivation in PROD
+                let lt_result = []
                 if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
-                    req.query.SELECT.distinct = true;
-                    lt_result = await db.run(req.query)
-                    //await cds.run(req.query);
+                    lt_result = [];
                 } else {
-                    try {
-                        let queryCount = 0;
-                        let lt_count = await db.run(SELECT.from('openOrdersSrv_orderCreation').columns(`countdistinct(${fields})`))
-                        if (lt_count.length > 0) {
-                            queryCount = lt_count[0][Object.keys(lt_count[0])[0]];
-                        }
-                        lt_result.push({ $count: queryCount })
-                    } catch (error) {
-                        req.error(error)
-                    }
-
+                    lt_result.push({ $count: 0 });
                 }
             }
-            if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count' && req.query.SELECT.search) {
-                lt_result = lt_result.filter((item) => {
-                    for (const prop in item) {
-                        if (item[prop] === null) return false;
-                        // convert to lowercase both sides in order to avoid case sensitivity issues when searching
-                        if (item[prop].toLowerCase().includes(req.query.SELECT.search[0].val.toLowerCase())) {
-                            return true;
-                        }
-                    }
-                    return false;
-
-                });
-            }
-
-            // TEMPORARY DEACTIVATION
-            // let lt_result = []
-            // if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
-            //     lt_result = [];
-            // }else{
-            //     lt_result.push({ $count: 0 });
-            // }
-            // END OF TEMPORARY DEACTIVATION
-
             return lt_result;
 
         })
 
         this.after("READ", "OCValueHelps", async (data, req) => {
-            data = Array.isArray(data) ? data : [data]
-            // since there is a virtual id field, adding a random guid to each record of the result set.
-            data.forEach((item) => {
-                item.Id = uuid.v1()
-                let mandtFields = serviceHelper.getMandtFields();
-                if ('PO_NPS' in item) item.PO_NPS_TEXT = getBundle(req.user.locale).getText(`po_nps${item.PO_NPS}`)
-                if ('PO_ISSUE' in item) item.PO_ISSUE_TEXT = getBundle(req.user.locale).getText(`po_issue${item.PO_ISSUE}`)
-                // MANDANT TEXTS LOGIC -------------
-                mandtFields.forEach((mandt) => {
-                    const mandtProp = item[mandt];
-                    if(mandtProp){
-                        let mandtTxtField = mandt + "_TEXT";
-                        item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
-                    }
+            if (process.env.SUBACCOUNT !== 'PROD') {
+                data = Array.isArray(data) ? data : [data]
+                // since there is a virtual id field, adding a random guid to each record of the result set.
+                data.forEach((item) => {
+                    item.Id = uuid.v1()
+                    let mandtFields = serviceHelper.getMandtFields();
+                    if ('PO_NPS' in item) item.PO_NPS_TEXT = getBundle(req.user.locale).getText(`po_nps${item.PO_NPS}`)
+                    if ('PO_ISSUE' in item) item.PO_ISSUE_TEXT = getBundle(req.user.locale).getText(`po_issue${item.PO_ISSUE}`)
+                    // MANDANT TEXTS LOGIC -------------
+                    mandtFields.forEach((mandt) => {
+                        const mandtProp = item[mandt];
+                        if (mandtProp) {
+                            let mandtTxtField = mandt + "_TEXT";
+                            item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+                        }
+                    })
                 })
-            })
+            }
         });
         // END OF ORDER CREATION VALUE HELPS HANDLERS
 
@@ -1517,7 +1529,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         } catch (error) {
                             console.error('Error fetching issue reason:', error);
                         }
-                    }        
+                    }
                     if (issue === '08' || issue === '11') {
                         const messageType = issue === '08' ? 'ZDESADV' : 'ZORDERS';
                         try {
@@ -1592,20 +1604,20 @@ class openOrdersSrv extends cds.ApplicationService {
                     if (issue === "01" || issue === "05") {
                         try {
                             const OMServicesAP = await cds.connect.to('OMServicesAP');
-                            if(issue === "01"){ // order incompletion
+                            if (issue === "01") { // order incompletion
                                 incompletionLog = await OMServicesAP.send({
-                                    method: 'GET',  
-                                    query: SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`,
+                                    method: 'GET',
+                                    query: SELECT.from('IncompletionLogsSet').where`DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`,
                                     headers: {
                                         'X-Basf-Sap-Client': process.env.AP_CLIENT
                                     }
                                 });
                                 // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`);
-                            }else{ // issue 05 // delivery incompletion
+                            } else { // issue 05 // delivery incompletion
                                 // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`);
                                 incompletionLog = await OMServicesAP.send({
-                                    method: 'GET',  
-                                    query: SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`,
+                                    method: 'GET',
+                                    query: SELECT.from('IncompletionLogsSet').where`DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`,
                                     headers: {
                                         'X-Basf-Sap-Client': process.env.AP_CLIENT
                                     }
@@ -1613,16 +1625,16 @@ class openOrdersSrv extends cds.ApplicationService {
                             }
                             // Fill the text
                             incompletionLog.forEach((log) => {
-                                if(issue === '01'){
+                                if (issue === '01') {
                                     log.IncompletionText = `${log.IncompletionText} ${textBundle.getText("isMissing")}`;
-                                }else{
-                                    if(log.DocumentItem === '000000'){
+                                } else {
+                                    if (log.DocumentItem === '000000') {
                                         log.IncompletionText = `${textBundle.getText("onHeader")}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
-                                    }else{
+                                    } else {
                                         log.IncompletionText = `${log.DocumentItem}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
                                     }
-                                }                             
-                            }) 
+                                }
+                            })
                         } catch (error) {
                             console.error('Error fetching issue reason:', error);
                         }
