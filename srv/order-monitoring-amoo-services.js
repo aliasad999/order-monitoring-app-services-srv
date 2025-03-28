@@ -1601,51 +1601,57 @@ class openOrdersSrv extends cds.ApplicationService {
                 case "EC":
                     break;
                 case "AP":
-                    if (issue === "01" || issue === "05") {
-                        try {
-                            const OMServicesAP = await cds.connect.to('OMServicesAP');
-                            if (issue === "01") { // order incompletion
-                                incompletionLog = await OMServicesAP.send({
-                                    method: 'GET',
-                                    query: SELECT.from('IncompletionLogsSet').where`DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`,
-                                    headers: {
-                                        'X-Basf-Sap-Client': process.env.AP_CLIENT
-                                    }
-                                });
-                                // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`);
-                            } else { // issue 05 // delivery incompletion
-                                // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`);
-                                incompletionLog = await OMServicesAP.send({
-                                    method: 'GET',
-                                    query: SELECT.from('IncompletionLogsSet').where`DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`,
-                                    headers: {
-                                        'X-Basf-Sap-Client': process.env.AP_CLIENT
-                                    }
-                                });
-                            }
-                            // Fill the text
-                            incompletionLog.forEach((log) => {
-                                if (issue === '01') {
-                                    log.IncompletionText = `${log.IncompletionText} ${textBundle.getText("isMissing")}`;
-                                } else {
-                                    if (log.DocumentItem === '000000') {
-                                        log.IncompletionText = `${textBundle.getText("onHeader")}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
-                                    } else {
-                                        log.IncompletionText = `${log.DocumentItem}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
-                                    }
+                    if (process.env.SUBACCOUNT !== 'PROD') {
+                        if (issue === "01" || issue === "05") {
+                            try {
+                                const OMServicesAP = await cds.connect.to('OMServicesAP');
+                                if (issue === "01") { // order incompletion
+                                    incompletionLog = await OMServicesAP.send({
+                                        method: 'GET',
+                                        query: SELECT.from('IncompletionLogsSet').where`DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`,
+                                        headers: {
+                                            'X-Basf-Sap-Client': process.env.AP_CLIENT
+                                        }
+                                    });
+                                    // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`);
+                                } else { // issue 05 // delivery incompletion
+                                    // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`);
+                                    incompletionLog = await OMServicesAP.send({
+                                        method: 'GET',
+                                        query: SELECT.from('IncompletionLogsSet').where`DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`,
+                                        headers: {
+                                            'X-Basf-Sap-Client': process.env.AP_CLIENT
+                                        }
+                                    });
                                 }
-                            })
-                        } catch (error) {
-                            console.error('Error fetching issue reason:', error);
+                                // Fill the text
+                                incompletionLog.forEach((log) => {
+                                    if (issue === '01') {
+                                        log.IncompletionText = `${log.IncompletionText} ${textBundle.getText("isMissing")}`;
+                                    } else {
+                                        if (log.DocumentItem === '000000') {
+                                            log.IncompletionText = `${textBundle.getText("onHeader")}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
+                                        } else {
+                                            log.IncompletionText = `${log.DocumentItem}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
+                                        }
+                                    }
+                                })
+                            } catch (error) {
+                                console.error('Error fetching issue reason:', error);
+                            }
                         }
-                    }
-                    /// AP PLACEHOLDER UNTIL THOSE REASONS FOR ISSUE ARE DONE (APIs MISSING)
-                    if (issue === "06" || issue === '08' || issue === '11') {
+                        /// AP PLACEHOLDER UNTIL THOSE REASONS FOR ISSUE ARE DONE (APIs MISSING)
+                        if (issue === "06" || issue === '08' || issue === '11') {
+                            idocData.push({
+                                text: textBundle.getText("APTBD")
+                            })
+                        }
+                        ////////
+                    } else {
                         idocData.push({
                             text: textBundle.getText("APTBD")
                         })
                     }
-                    ////////
                     break;
                 default:
                     break;
