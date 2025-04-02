@@ -115,38 +115,38 @@ class srvOpenOrders extends cds.ApplicationService {
                     err = 2 // EC called failed
                 }
                 if (process.env.SUBACCOUNT !== 'PROD'){
-                try {
-                    const service = await cds.connect.to('authServiceAP');
-                    lt_resultAP = await service.send({
-                        method: "GET",
-                        path: "/xBASFxVBAKAUTH?$format=json",
-                        headers: {
-                            "Accept-Encoding": "",
-                            'X-Basf-Sap-Client': process.env.AP_CLIENT
+                    try {
+                        const service = await cds.connect.to('authServiceAP');
+                        lt_resultAP = await service.send({
+                            method: "GET",
+                            path: "/xBASFxVBAKAUTH?$format=json",
+                            headers: {
+                                "Accept-Encoding": "",
+                                'X-Basf-Sap-Client': process.env.AP_CLIENT
+                            }
+                        });
+                    
+                        // Only execute the second call if the first one succeeds
+                        try {
+                            lt_resultAPEKKO = await service.send({
+                                method: "GET",
+                                path: "/xBASFxEKKOAUTH?$format=json",
+                                headers: {
+                                    "Accept-Encoding": "",
+                                    'X-Basf-Sap-Client': process.env.AP_CLIENT
+                                }
+                            });
+                        } catch (error) {
+                            globalError.push({ user: 'noAPUser', error: error });
+                            // Handle the error if needed
                         }
-                    });
-
-                } catch (error) {
-                    globalError.push({ user: 'noAPUser', error: error })
-                    // err = 3 // AP called failed
+                    
+                    } catch (error) {
+                        globalError.push({ user: 'noAPUser', error: error });
+                        // Do not proceed to the second call
+                    }
                 }
-                try {
-                    const service = await cds.connect.to('authServiceAP');
-                    lt_resultAPEKKO = await service.send({
-                        method: "GET",
-                        path: "/xBASFxEKKOAUTH?$format=json",
-                        headers: {
-                            "Accept-Encoding": "",
-                            'X-Basf-Sap-Client': process.env.AP_CLIENT
-                        }
-                    });
-
-                } catch (error) {
-                    globalError.push({ user: 'noAPUser', error: error })
-                    // err = 3 // AP called failed
-                }
-            }
-
+               
                 await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
                 await DELETE.from(EKKOAuthObjectKeys).where({ USERID: userID });
 
