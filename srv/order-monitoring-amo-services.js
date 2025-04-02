@@ -128,7 +128,7 @@ class srvOpenOrders extends cds.ApplicationService {
 
                 } catch (error) {
                     globalError.push({ user: 'noAPUser', error: error })
-                    err = 3 // AP called failed
+                    // err = 3 // AP called failed
                 }
                 try {
                     const service = await cds.connect.to('authServiceAP');
@@ -143,7 +143,7 @@ class srvOpenOrders extends cds.ApplicationService {
 
                 } catch (error) {
                     globalError.push({ user: 'noAPUser', error: error })
-                    err = 3 // AP called failed
+                    // err = 3 // AP called failed
                 }
             }
 
