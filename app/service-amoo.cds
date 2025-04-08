@@ -477,7 +477,6 @@ annotate service.allIssues with @UI.LineItem #allIssues: {
         {Value: SO_WE_PARTNER_REGION_BEZEI_LANG},
         {Value: SO_BNAME},
         {Value :SO_IHREZ},
-        {Value: SO_PRCTR},
     ]
 };
 
