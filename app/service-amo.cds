@@ -232,7 +232,7 @@ annotate service.valueHelps with {
 
 annotate service.Results with {
     @Common.Text           : SO_LANDX
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_LAND1;
     @Common.TextFor
     SO_LANDX;
@@ -244,18 +244,18 @@ annotate service.Results with {
     SO_WERKS                    @title: '{i18n>SO_WERKS}'                         @sap.Label: '{i18n>SO_WERKS}';
     SO_VTWEG                    @title: '{i18n>SO_VTWEG}'                         @sap.Label: '{i18n>SO_VTWEG}';
     @Common.Text           : SO_MAKTX
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_MATNR                    @title: '{i18n>SO_MAKTX}'                         @sap.Label: '{i18n>SO_MATNR}';
     @Common.TextFor
     SO_MAKTX;
     SO_KDMAT                    @title: '{i18n>SO_KDMAT}'                         @sap.Label: '{i18n>SO_KDMAT}';
     @Common.Text           : SO_AG_PARTNER_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_AG_PARTNER               @title: '{i18n>SO_AG_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AG_PARTNER}';
     @Common.TextFor
     SO_AG_PARTNER_NAME;
     @Common.Text           : SO_WE_PARTNER_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_WE_PARTNER               @title: '{i18n>SO_WE_PARTNER_NAME}'               @sap.Label: '{i18n>SO_WE_PARTNER}';
     @Common.TextFor
     SO_WE_PARTNER_NAME;
@@ -263,7 +263,7 @@ annotate service.Results with {
     SO_LANDX                    @title: '{i18n>SO_LANDX}'                         @sap.Label: '{i18n>SO_LANDX}';
     SO_ORT01                    @title: '{i18n>SO_ORT01}'                         @sap.Label: '{i18n>SO_ORT01}';
     @Common.Text           : SO_VKORG_NAME1
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_VKORG                    @title: '{i18n>SO_VKORG_NAME1}'                   @sap.Label: '{i18n>SO_VKORG}';
     @Common.TextFor
     SO_VKORG_NAME1;
@@ -278,13 +278,13 @@ annotate service.Results with {
     SO_UNCONFIRMED_QTY          @title: '{i18n>SO_UNCONFIRMED_QTY}'               @sap.Label: '{i18n>SO_UNCONFIRMED_QTY}';
     SO_REQ_TEXT                 @title: '{i18n>SO_REQ_TEXT}'                      @sap.Label: '{i18n>SO_REQ_TEXT}';
     @Common.Text           : SO_FAKSP_VTEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_FAKSP                    @title: '{i18n>SO_FAKSP}'                         @sap.Label: '{i18n>SO_FAKSP}';
     @Common.TextFor
     SO_FAKSP_VTEXT              @title: '{i18n>SO_FAKSP_VTEXT}'                   @sap.Label: '{i18n>SO_FAKSP_VTEXT}';
     SO_F_LGORT                  @title: '{i18n>SO_LGORT}'                         @sap.Label: '{i18n>SO_LGORT}';
     @Common.Text           : SO_SUPPLY_SITUATION_DESCR
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_SUPPLY_SITUATION         @title: '{i18n>SO_SUPPLY_SITUATION}'              @sap.Label: '{i18n>SO_SUPPLY_SITUATION}';
     @Common.TextFor
     SO_SUPPLY_SITUATION_DESCR   @title: '{i18n>SO_SUPPLY_SITUATION_DESCR}'        @sap.Label: '{i18n>SO_SUPPLY_SITUATION_DESCR}';
@@ -296,14 +296,14 @@ annotate service.Results with {
     SO_WAERK                    @title: '{i18n>SO_WAERK}'                         @sap.Label: '{i18n>SO_WAERK}';
     SO_HTEXT                    @title: '{i18n>SO_HTEXT}'                         @sap.Label: '{i18n>SO_HTEXT}';
     @Common.Text           : SO_PSTYV_VTEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_PSTYV                    @title: '{i18n>SO_PSTYV}'                         @sap.Label: '{i18n>SO_PSTYV}';
     @Common.TextFor
     SO_PSTYV_VTEXT              @title: '{i18n>SO_PSTYV_VTEXT}'                   @sap.Label: '{i18n>SO_PSTYV_VTEXT}';
     SO_DISPO                    @title: '{i18n>SO_DISPO}'                         @sap.Label: '{i18n>SO_DISPO}';
     SO_KOSCH                    @title: '{i18n>SO_KOSCH}'                         @sap.Label: '{i18n>SO_KOSCH}';
     @Common.Text           : SO_VKBUR_BEZEI
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_VKBUR                    @title: '{i18n>SO_VKBUR}'                         @sap.Label: '{i18n>SO_VKBUR}';
     @Common.TextFor
     SO_VKBUR_BEZEI              @title: '{i18n>SO_VKBUR_BEZEI}'                   @sap.Label: '{i18n>SO_VKBUR_BEZEI}';
@@ -312,27 +312,27 @@ annotate service.Results with {
     SO_KNUMV                    @title: '{i18n>SO_KNUMV}'                         @sap.Label: '{i18n>SO_KNUMV}';
     SO_SPART                    @title: '{i18n>SO_SPART}'                         @sap.Label: '{i18n>SO_SPART}';
     @Common.Text           : SO_CO_PARTNER_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_CO_PARTNER               @title: '{i18n>SO_CO_PARTNER}'                    @sap.Label: '{i18n>SO_CO_PARTNER}';
     @Common.TextFor
     SO_CO_PARTNER_NAME          @title: '{i18n>SO_CO_PARTNER_NAME}'               @sap.Label: '{i18n>SO_CO_PARTNER_NAME}';
     @Common.Text           : SO_NY_PARTNER_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_NY_PARTNER               @title: '{i18n>SO_NY_PARTNER}'                    @sap.Label: '{i18n>SO_NY_PARTNER}';
     @Common.TextFor
     SO_NY_PARTNER_NAME          @title: '{i18n>SO_NY_PARTNER_NAME}'               @sap.Label: '{i18n>SO_NY_PARTNER_NAME}';
     @Common.Text           : SO_AS_PARTNER_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_AS_PARTNER               @title: '{i18n>SO_AS_PARTNER}'                    @sap.Label: '{i18n>SO_AS_PARTNER}';
     @Common.TextFor
     SO_AS_PARTNER_NAME          @title: '{i18n>SO_AS_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AS_PARTNER_NAME}';
     @Common.Text           : SO_VE_PARTNER_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_VE_PARTNER               @title: '{i18n>SO_VE_PARTNER}'                    @sap.Label: '{i18n>SO_VE_PARTNER}';
     @Common.TextFor
     SO_VE_PARTNER_NAME          @title: '{i18n>SO_VE_PARTNER_NAME}'               @sap.Label: '{i18n>SO_VE_PARTNER_NAME}';
     @Common.Text           : SO_AM_PARTNER_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_AM_PARTNER               @title: '{i18n>SO_AM_PARTNER}'                    @sap.Label: '{i18n>SO_AM_PARTNER}';
     @Common.TextFor
     SO_AM_PARTNER_NAME          @title: '{i18n>SO_AM_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AM_PARTNER_NAME}';
@@ -345,7 +345,7 @@ annotate service.Results with {
     @Common.TextFor
     SO_BSARK_VTEXT;
     @Common.Text           : SO_BSARK_VTEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_BSARK                    @title: '{i18n>SO_BSARK}'                         @sap.Label: '{i18n>SO_BSARK}';
     DL_VBELN                    @title: '{i18n>DL_VBELN}'                         @sap.Label: '{i18n>DL_VBELN}';
     DL_POSNR                    @title: '{i18n>DL_POSNR}'                         @sap.Label: '{i18n>DL_POSNR}';
@@ -356,7 +356,7 @@ annotate service.Results with {
     DL_VGBEL                    @title: '{i18n>DL_VGBEL}'                         @sap.Label: '{i18n>DL_VGBEL}';
     DL_VGPOS                    @title: '{i18n>DL_VGPOS}'                         @sap.Label: '{i18n>DL_VGPOS}';
     @Common.Text           : DL_LFART_VTEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     DL_LFART                    @title: '{i18n>DL_LFART}'                         @sap.Label: '{i18n>DL_LFART}';
     @Common.TextFor
     DL_LFART_VTEXT              @title: '{i18n>DL_LFART_VTEXT}'                   @sap.Label: '{i18n>DL_LFART_VTEXT}';
@@ -372,11 +372,11 @@ annotate service.Results with {
     @Common.TextFor
     TM_VSART_BEZEI;
     @Common.Text           : TM_VSART_BEZEI
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     TM_VSART                    @title: '{i18n>TM_VSART}'                         @sap.Label: '{i18n>TM_VSART}';
     TM_EXTI1                    @title: '{i18n>TM_EXTI1}'                         @sap.Label: '{i18n>TM_EXTI1}';
     @Common.Text           : TM_TDLNR_NAME1
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     TM_TDLNR                    @title: '{i18n>TM_TDLNR}'                         @sap.Label: '{i18n>TM_TDLNR}';
     @Common.TextFor
     TM_TDLNR_NAME1;
@@ -389,7 +389,7 @@ annotate service.Results with {
     TM_DATEN                    @title: '{i18n>TM_DATEN}'                         @sap.Label: '{i18n>TM_DATEN}';
     TM_AR_DATE                  @title: '{i18n>TM_AR_DATE}'                       @sap.Label: '{i18n>TM_AR_DATE}';
     @Common.Text           : TM_STTRG_DDTEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     TM_STTRG                    @title: '{i18n>TM_STTRG}'                         @sap.Label: '{i18n>TM_STTRG}';
     @Common.TextFor
     TM_STTRG_DDTEXT;
@@ -415,12 +415,12 @@ annotate service.Results with {
     BL_WAERK_LAST               @title: '{i18n>BL_WAERK_LAST}'                    @sap.Label: '{i18n>BL_WAERK_LAST}';
     BL_XBLNR                    @title: '{i18n>BL_XBLNR}'                         @sap.Label: '{i18n>BL_XBLNR}';
     @Common.Text           : SO_TRAGR_VTEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_TRAGR                    @title: '{i18n>SO_TRAGR}'                         @sap.Label: '{i18n>SO_TRAGR}';
     @Common.TextFor
     SO_TRAGR_VTEXT;
     @Common.Text           : SO_VKGRP_BEZEI
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_VKGRP                    @title: '{i18n>SO_VKGRP}'                         @sap.Label: '{i18n>SO_VKGRP}';
     @Common.TextFor
     SO_VKGRP_BEZEI;
@@ -428,7 +428,7 @@ annotate service.Results with {
     SO_F_TDDAT                  @title: '{i18n>SO_F_TDDAT}'                       @sap.Label: '{i18n>SO_F_TDDAT}';
     SO_F_ZZ0S2MATUG             @title: '{i18n>SO_F_ZZ0S2MATUG}'                  @sap.Label: '{i18n>SO_F_ZZ0S2MATUG}';
     @Common.Text           : SO_F_VSBED_VTEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_F_VSBED                  @title: '{i18n>SO_F_VSBED}'                       @sap.Label: '{i18n>SO_TRAGR}';
     @Common.TextFor
     SO_F_VSBED_VTEXT;
@@ -438,7 +438,7 @@ annotate service.Results with {
     TM_SHIPMENT_CURRENT_STATUS  @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'       @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
     SO_F_WERKS                  @title: '{i18n>SO_F_WERKS}'                       @sap.Label: '{i18n>SO_F_WERKS}';
     @Common.Text           : SO_F_VKORG_VTEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_F_VKORG                  @title: '{i18n>SO_F_VKORG}'                       @sap.Label: '{i18n>SO_F_VKORG}';
     @Common.TextFor
     SO_F_VKORG_VTEXT;
@@ -447,17 +447,17 @@ annotate service.Results with {
     SO_F_PSMNG                  @title: '{i18n>SO_F_PSMNG}'                       @sap.Label: '{i18n>SO_F_PSMNG}';
     SO_F_AMEIN                  @title: '{i18n>SO_F_AMEIN}'                       @sap.Label: '{i18n>SO_F_AMEIN}';
     @Common.Text           : SO_F_AS_PARTNER_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_F_AS_PARTNER             @title: '{i18n>SO_F_AS_PARTNER}'                  @sap.Label: '{i18n>SO_F_AS_PARTNER}';
     @Common.TextFor
     SO_F_AS_PARTNER_NAME        @title: '{i18n>SO_F_AS_PARTNER_NAME}'             @sap.Label: '{i18n>SO_F_AS_PARTNER_NAME}';
     @Common.Text           : SO_ABGRU_BEZEI
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_ABGRU;
     @Common.TextFor
     SO_ABGRU_BEZEI;
     @Common.Text           : SO_DCP_ITEM_STATUS_DESCRIPTION
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_DCP_ITEM_STATUS          @title: '{i18n>SO_DCP_ITEM_STATUS}'               @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
     @Common.TextFor
     SO_DCP_ITEM_STATUS_DESCRIPTION;
@@ -466,7 +466,7 @@ annotate service.Results with {
     SO_F_MBDAT                  @title: '{i18n>SO_F_MBDAT}'                       @sap.Label: '{i18n>SO_F_MBDAT}';
 
     @Common.Text           : SO_PERFK_LTEXT_LANG
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_PERFK                    @title: '{i18n>SO_PERFK}'                         @sap.Label: '{i18n>SO_PERFK}';
     @Common.TextFor
     SO_PERFK_LTEXT_LANG;
@@ -477,12 +477,12 @@ annotate service.Results with {
     PO_AEDAT_HEAD               @title: '{i18n>PO_AEDAT_HEAD}'                    @sap.Label: '{i18n>PO_AEDAT_HEAD}';
     PO_AEDAT_ITEM               @title: '{i18n>PO_AEDAT_ITEM}'                    @sap.Label: '{i18n>PO_AEDAT_ITEM}';
     @Common.Text           : PO_EKOTX
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     PO_EKORG                    @title: '{i18n>PO_EKORG}'                         @sap.Label: '{i18n>PO_EKORG}';
     @Common.TextFor
     PO_EKOTX;
     @Common.Text           : PO_EKNAM
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     PO_EKGRP                    @title: '{i18n>PO_EKGRP}'                         @sap.Label: '{i18n>PO_EKGRP}';
     @Common.TextFor
     PO_EKNAM;
@@ -491,22 +491,22 @@ annotate service.Results with {
     PO_MENGE                    @title: '{i18n>PO_MENGE}'                         @sap.Label: '{i18n>PO_MENGE}';
     PO_MEINS                    @title: '{i18n>PO_MEINS}'                         @sap.Label: '{i18n>PO_MEINS}';
     @Common.Text           : PO_KUNNR_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     PO_KUNNR                    @title: '{i18n>PO_KUNNR}'                         @sap.Label: '{i18n>PO_KUNNR}';
     @Common.TextFor
     PO_KUNNR_NAME;
     @Common.Text           : PO_PARTNER_9A_HEAD_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     PO_PARTNER_9A_HEAD          @title: '{i18n>PO_PARTNER_9A_HEAD}'               @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
     @Common.TextFor
     PO_PARTNER_9A_HEAD_NAME;
     @Common.Text           : PO_PARTNER_9O_HEAD_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     PO_PARTNER_9O_HEAD          @title: '{i18n>PO_PARTNER_9O_HEAD}'               @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
     @Common.TextFor
     PO_PARTNER_9O_HEAD_NAME;
     @Common.Text           : PO_BSART_BATXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     PO_BSART                    @title: '{i18n>PO_BSART}'                         @sap.Label: '{i18n>PO_BSART}';
     @Common.TextFor
     PO_BSART_BATXT;
@@ -514,19 +514,19 @@ annotate service.Results with {
 
     // Euans changes
     @Common.Text           : SO_Z5_PARTNER_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_Z5_PARTNER               @title: '{i18n>SO_Z5_PARTNER}'                    @sap.Label: '{i18n>SO_Z5_PARTNER}';
     @Common.TextFor
     SO_Z5_PARTNER_NAME          @title: '{i18n>SO_Z5_PARTNER_NAME}'               @sap.Label: '{i18n>SO_Z5_PARTNER_NAME}';
 
     @Common.Text           : SO_SB_PARTNER_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_SB_PARTNER               @title: '{i18n>SO_SB_PARTNER}'                    @sap.Label: '{i18n>SO_SB_PARTNER}';
     @Common.TextFor
     SO_SB_PARTNER_NAME          @title: '{i18n>SO_SB_PARTNER_NAME}'               @sap.Label: '{i18n>SO_SB_PARTNER_NAME}';
 
     @Common.Text           : SO_AD_PARTNER_NAME
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_AD_PARTNER               @title: '{i18n>SO_AD_PARTNER}'                    @sap.Label: '{i18n>SO_AD_PARTNER}';
     @Common.TextFor
     SO_AD_PARTNER_NAME          @title: '{i18n>SO_AD_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AD_PARTNER_NAME}';
@@ -534,49 +534,49 @@ annotate service.Results with {
 
     ///// Mandants
     @Common.Text           : SO_MANDT_TEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_MANDT                    @title: '{i18n>SO_MANDT}'                         @sap.Label: '{i18n>SO_MANDT}';
     @Common.TextFor
     SO_MANDT_TEXT;
 
     @Common.Text           : DL_MANDT_TEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     DL_MANDT                    @title: '{i18n>DL_MANDT}'                         @sap.Label: '{i18n>DL_MANDT}';
     @Common.TextFor
     DL_MANDT_TEXT;
 
     @Common.Text           : TM_MANDT_TEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     TM_MANDT                    @title: '{i18n>TM_MANDT}'                         @sap.Label: '{i18n>TM_MANDT}';
     @Common.TextFor
     TM_MANDT_TEXT;
 
     @Common.Text           : BL_MANDT_INV_FIRST_TEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     BL_MANDT_INV_FIRST          @title: '{i18n>BL_MANDT_INV_FIRST}'               @sap.Label: '{i18n>BL_MANDT_INV_FIRST}';
     @Common.TextFor
     BL_MANDT_INV_FIRST_TEXT;
 
     @Common.Text           : BL_MANDT_INV_LAST_TEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     BL_MANDT_INV_LAST           @title: '{i18n>BL_MANDT_INV_LAST}'                @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
     @Common.TextFor
     BL_MANDT_INV_LAST_TEXT;
 
     @Common.Text           : SO_FIRST_SO_MANDT_TEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_FIRST_SO_MANDT           @title: '{i18n>SO_FIRST_SO_MANDT}'                @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
     @Common.TextFor
     SO_FIRST_SO_MANDT_TEXT;
 
     @Common.Text           : SO_FINAL_SO_MANDT_TEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_FINAL_SO_MANDT           @title: '{i18n>SO_FINAL_SO_MANDT}'                @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
     @Common.TextFor
     SO_FINAL_SO_MANDT_TEXT;
 
     @Common.Text           : PO_MANDT_TEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     PO_MANDT                    @title: '{i18n>PO_MANDT}'                         @sap.Label: '{i18n>PO_MANDT}';
     @Common.TextFor
     PO_MANDT_TEXT;
@@ -596,19 +596,19 @@ annotate service.Results with {
 
 
     @Common.Text           : SO_AUGRU_BEZEI_LANG
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_AUGRU                    @title: '{i18n>SO_AUGRU_BEZEI_LANG}'              @sap.Label: '{i18n>SO_AUGRU}';
     @Common.TextFor
     SO_AUGRU_BEZEI_LANG;
 
     @Common.Text           : SO_KDGRP_KTEXT_LANG
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_KDGRP                    @title: '{i18n>SO_KDGRP_KTEXT_LANG}'              @sap.Label: '{i18n>SO_KDGRP}';
     @Common.TextFor
     SO_KDGRP_KTEXT_LANG;
 
     @Common.Text           : SO_WE_PARTNER_REGION_BEZEI_LANG
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextFirst
     SO_WE_PARTNER_REGION        @title: '{i18n>SO_WE_PARTNER_REGION_BEZEI_LANG}'  @sap.Label: '{i18n>SO_WE_PARTNER_REGION}';
     @Common.TextFor
     SO_WE_PARTNER_REGION_BEZEI_LANG;
