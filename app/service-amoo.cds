@@ -469,14 +469,14 @@ annotate service.allIssues with @UI.LineItem #allIssues: {
         {Value: TM_DATEN},
         {Value: TM_SHIPMENT_CURRENT_STATUS},
         {Value: TM_VISTA_STATUS},
-        {Value: SO_AUGRU},
-        {Value: SO_AUGRU_BEZEI_LANG},
-        {Value: SO_KDGRP},
-        {Value: SO_KDGRP_KTEXT_LANG},
-        {Value: SO_WE_PARTNER_REGION},
-        {Value: SO_WE_PARTNER_REGION_BEZEI_LANG},
-        {Value: SO_BNAME},
-        {Value :SO_IHREZ},
+        // {Value: SO_AUGRU},
+        // {Value: SO_AUGRU_BEZEI_LANG},
+        // {Value: SO_KDGRP},
+        // {Value: SO_KDGRP_KTEXT_LANG},
+        // {Value: SO_WE_PARTNER_REGION},
+        // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG},
+        // {Value: SO_BNAME},
+        // {Value :SO_IHREZ},
     ]
 };
 
@@ -511,12 +511,12 @@ annotate service.allIssues with @UI.LineItem #nps10: {$value: [
     {Value: SO_BSTKD},
     {Value: SO_EDATU_REQUESTED},
     {Value: SO_KWMENG},
-    {Value: SO_AUGRU},
-    {Value: SO_AUGRU_BEZEI_LANG},
-    {Value: SO_KDGRP},
-    {Value: SO_KDGRP_KTEXT_LANG},
-    {Value: SO_WE_PARTNER_REGION},
-    {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+    // {Value: SO_AUGRU},
+    // {Value: SO_AUGRU_BEZEI_LANG},
+    // {Value: SO_KDGRP},
+    // {Value: SO_KDGRP_KTEXT_LANG},
+    // {Value: SO_WE_PARTNER_REGION},
+    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 ]};
 
 annotate service.allIssues with @UI.LineItem #nps20: {$value: [
@@ -560,12 +560,12 @@ annotate service.allIssues with @UI.LineItem #nps20: {$value: [
     {Value: SO_LEVEL_TYPE},
     {Value: SO_N_VBELN},
     {Value: SO_F_VBELN},
-    {Value: SO_AUGRU},
-    {Value: SO_AUGRU_BEZEI_LANG},
-    {Value: SO_KDGRP},
-    {Value: SO_KDGRP_KTEXT_LANG},
-    {Value: SO_WE_PARTNER_REGION},
-    {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+    // {Value: SO_AUGRU},
+    // {Value: SO_AUGRU_BEZEI_LANG},
+    // {Value: SO_KDGRP},
+    // {Value: SO_KDGRP_KTEXT_LANG},
+    // {Value: SO_WE_PARTNER_REGION},
+    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 
 ]};
 
@@ -611,12 +611,12 @@ annotate service.allIssues with @UI.LineItem #nps30: {$value: [
     {Value: SO_LEVEL_TYPE},
     {Value: SO_N_VBELN},
     {Value: SO_F_VBELN},
-    {Value: SO_AUGRU},
-    {Value: SO_AUGRU_BEZEI_LANG},
-    {Value: SO_KDGRP},
-    {Value: SO_KDGRP_KTEXT_LANG},
-    {Value: SO_WE_PARTNER_REGION},
-    {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+    // {Value: SO_AUGRU},
+    // {Value: SO_AUGRU_BEZEI_LANG},
+    // {Value: SO_KDGRP},
+    // {Value: SO_KDGRP_KTEXT_LANG},
+    // {Value: SO_WE_PARTNER_REGION},
+    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 ]};
 
 annotate service.allIssues with @UI.LineItem #nps40: {$value: [
@@ -661,12 +661,12 @@ annotate service.allIssues with @UI.LineItem #nps40: {$value: [
     {Value: SO_F_VBELN},
     {Value: SO_ZTERM},
     {Value: SO_PRSDT},
-    {Value: SO_AUGRU},
-    {Value: SO_AUGRU_BEZEI_LANG},
-    {Value: SO_KDGRP},
-    {Value: SO_KDGRP_KTEXT_LANG},
-    {Value: SO_WE_PARTNER_REGION},
-    {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+    // {Value: SO_AUGRU},
+    // {Value: SO_AUGRU_BEZEI_LANG},
+    // {Value: SO_KDGRP},
+    // {Value: SO_KDGRP_KTEXT_LANG},
+    // {Value: SO_WE_PARTNER_REGION},
+    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 ]};
 
 annotate service.allIssues with @UI.LineItem #nps50: {$value: [
@@ -697,12 +697,12 @@ annotate service.allIssues with @UI.LineItem #nps50: {$value: [
     {Value: SO_KBETR},
     {Value: SO_NETWR},
     {Value: SO_ZZDKPPRODB},
-    {Value: SO_AUGRU},
-    {Value: SO_AUGRU_BEZEI_LANG},
-    {Value: SO_KDGRP},
-    {Value: SO_KDGRP_KTEXT_LANG},
-    {Value: SO_WE_PARTNER_REGION},
-    {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+    // {Value: SO_AUGRU},
+    // {Value: SO_AUGRU_BEZEI_LANG},
+    // {Value: SO_KDGRP},
+    // {Value: SO_KDGRP_KTEXT_LANG},
+    // {Value: SO_WE_PARTNER_REGION},
+    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 
 ]};
 
@@ -732,12 +732,12 @@ annotate service.allIssues with @UI.LineItem #nps60: {$value: [
     {Value: SO_FAKSP},
     {Value: DL_ZZ0S2BLNR},
     {Value: TM_AR_DATE},
-    {Value: SO_AUGRU},
-    {Value: SO_AUGRU_BEZEI_LANG},
-    {Value: SO_KDGRP},
-    {Value: SO_KDGRP_KTEXT_LANG},
-    {Value: SO_WE_PARTNER_REGION},
-    {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+    // {Value: SO_AUGRU},
+    // {Value: SO_AUGRU_BEZEI_LANG},
+    // {Value: SO_KDGRP},
+    // {Value: SO_KDGRP_KTEXT_LANG},
+    // {Value: SO_WE_PARTNER_REGION},
+    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 
 ]};
 
@@ -772,11 +772,11 @@ annotate service.allIssues with @UI.LineItem #nps70: {$value: [
     {Value: SO_INCO1},
     {Value: SO_ROUTE},
     {Value: SO_AUGRU},
-    {Value: SO_AUGRU_BEZEI_LANG},
-    {Value: SO_KDGRP},
-    {Value: SO_KDGRP_KTEXT_LANG},
-    {Value: SO_WE_PARTNER_REGION},
-    {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+    // {Value: SO_AUGRU_BEZEI_LANG},
+    // {Value: SO_KDGRP},
+    // {Value: SO_KDGRP_KTEXT_LANG},
+    // {Value: SO_WE_PARTNER_REGION},
+    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 
 ]};
 
@@ -812,12 +812,12 @@ annotate service.allIssues with @UI.LineItem #nps80: {$value: [
     {Value: SO_NETWR},
     {Value: SO_ZZDKPPRODB},
     {Value: SO_INCO1},
-    {Value: SO_AUGRU},
-    {Value: SO_AUGRU_BEZEI_LANG},
-    {Value: SO_KDGRP},
-    {Value: SO_KDGRP_KTEXT_LANG},
-    {Value: SO_WE_PARTNER_REGION},
-    {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+    // {Value: SO_AUGRU},
+    // {Value: SO_AUGRU_BEZEI_LANG},
+    // {Value: SO_KDGRP},
+    // {Value: SO_KDGRP_KTEXT_LANG},
+    // {Value: SO_WE_PARTNER_REGION},
+    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 
 ]};
 
@@ -848,12 +848,12 @@ annotate service.allIssues with @UI.LineItem #nps90: {$value: [
     {Value: DL_WADAT_IST},
     {Value: SO_DUE_DATE},
     {Value: SO_NPS},
-    {Value: SO_AUGRU},
-    {Value: SO_AUGRU_BEZEI_LANG},
-    {Value: SO_KDGRP},
-    {Value: SO_KDGRP_KTEXT_LANG},
-    {Value: SO_WE_PARTNER_REGION},
-    {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+    // {Value: SO_AUGRU},
+    // {Value: SO_AUGRU_BEZEI_LANG},
+    // {Value: SO_KDGRP},
+    // {Value: SO_KDGRP_KTEXT_LANG},
+    // {Value: SO_WE_PARTNER_REGION},
+    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 
 ]};
 
@@ -876,12 +876,12 @@ annotate service.allIssues with @UI.LineItem #nps95: {$value: [
     {Value: TM_TKNUM},
     {Value: TM_TDLNR_NAME1},
     {Value: SO_ROUTE},
-    {Value: SO_AUGRU},
-    {Value: SO_AUGRU_BEZEI_LANG},
-    {Value: SO_KDGRP},
-    {Value: SO_KDGRP_KTEXT_LANG},
-    {Value: SO_WE_PARTNER_REGION},
-    {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+    // {Value: SO_AUGRU},
+    // {Value: SO_AUGRU_BEZEI_LANG},
+    // {Value: SO_KDGRP},
+    // {Value: SO_KDGRP_KTEXT_LANG},
+    // {Value: SO_WE_PARTNER_REGION},
+    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 
 ]};
 
@@ -907,12 +907,12 @@ annotate service.allIssues with @UI.LineItem #nps99: {$value: [
     {Value: SO_ZZDKPPRODB},
     {Value: SO_MAKTX},
     {Value: SO_ERDAT_ITEM},
-    {Value: SO_AUGRU},
-    {Value: SO_AUGRU_BEZEI_LANG},
-    {Value: SO_KDGRP},
-    {Value: SO_KDGRP_KTEXT_LANG},
-    {Value: SO_WE_PARTNER_REGION},
-    {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+    // {Value: SO_AUGRU},
+    // {Value: SO_AUGRU_BEZEI_LANG},
+    // {Value: SO_KDGRP},
+    // {Value: SO_KDGRP_KTEXT_LANG},
+    // {Value: SO_WE_PARTNER_REGION},
+    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 
 ]};
 
@@ -955,12 +955,12 @@ annotate service.allIssues with @UI.LineItem #nps00: {$value: [
     {Value: TM_DATEN},
     {Value: TM_SHIPMENT_CURRENT_STATUS},
     {Value: TM_VISTA_STATUS},
-    {Value: SO_AUGRU},
-    {Value: SO_AUGRU_BEZEI_LANG},
-    {Value: SO_KDGRP},
-    {Value: SO_KDGRP_KTEXT_LANG},
-    {Value: SO_WE_PARTNER_REGION},
-    {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+    // {Value: SO_AUGRU},
+    // {Value: SO_AUGRU_BEZEI_LANG},
+    // {Value: SO_KDGRP},
+    // {Value: SO_KDGRP_KTEXT_LANG},
+    // {Value: SO_WE_PARTNER_REGION},
+    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 
 ]};
 
@@ -4498,11 +4498,14 @@ annotate service.allIssues with {
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_AUGRU,
-            ValueListProperty: 'SO_AUGRU_BEZEI_LANG'
-        }
-
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_AUGRU,
+                ValueListProperty: 'SO_AUGRU'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_AUGRU_BEZEI_LANG'
+            }        
         ]
        
     }
@@ -4517,11 +4520,14 @@ annotate service.allIssues with {
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_KDGRP,
-            ValueListProperty: 'SO_KDGRP_KTEXT_LANG'
-        }
-
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_KDGRP,
+                ValueListProperty: 'SO_KDGRP'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_KDGRP_KTEXT_LANG'
+            }   
         ]
     }
 };
@@ -4535,11 +4541,14 @@ annotate service.allIssues with {
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_WE_PARTNER_REGION,
-            ValueListProperty: 'SO_WE_PARTNER_REGION_BEZEI_LANG'
-        }
-
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_WE_PARTNER_REGION,
+                ValueListProperty: 'SO_WE_PARTNER_REGION'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_WE_PARTNER_REGION_BEZEI_LANG'
+            }  
         ]
     }
 };
