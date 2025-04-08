@@ -667,7 +667,7 @@ annotate service.Results with {
     SO_ABGRU_BEZEI                  @UI                     : {Hidden: true};
     SO_ABSTA                        @UI                     : {Hidden: true};
     SO_KNUMV                        @UI                     : {Hidden: true};
-    DL_HSDAT                        @UI                     : {Hidden: true};
+    // DL_HSDAT                        @UI                     : {Hidden: true};
     // DL_VFDAT                       @UI                     : {Hidden: true};
     // Shipment Details Texts
     TM_VSART_BEZEI                  @UI                     : {Hidden: true};
