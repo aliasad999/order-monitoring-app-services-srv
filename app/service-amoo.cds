@@ -4498,11 +4498,14 @@ annotate service.allIssues with {
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_AUGRU,
-            ValueListProperty: 'SO_AUGRU_BEZEI_LANG'
-        }
-
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_AUGRU,
+                ValueListProperty: 'SO_AUGRU'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_AUGRU_BEZEI_LANG'
+            }        
         ]
        
     }
@@ -4517,11 +4520,14 @@ annotate service.allIssues with {
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_KDGRP,
-            ValueListProperty: 'SO_KDGRP_KTEXT_LANG'
-        }
-
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_KDGRP,
+                ValueListProperty: 'SO_KDGRP'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_KDGRP_KTEXT_LANG'
+            }   
         ]
     }
 };
@@ -4535,11 +4541,14 @@ annotate service.allIssues with {
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_WE_PARTNER_REGION,
-            ValueListProperty: 'SO_WE_PARTNER_REGION_BEZEI_LANG'
-        }
-
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_WE_PARTNER_REGION,
+                ValueListProperty: 'SO_WE_PARTNER_REGION'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_WE_PARTNER_REGION_BEZEI_LANG'
+            }  
         ]
     }
 };
