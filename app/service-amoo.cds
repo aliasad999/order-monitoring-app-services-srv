@@ -477,6 +477,7 @@ annotate service.allIssues with @UI.LineItem #allIssues: {
         {Value: SO_WE_PARTNER_REGION_BEZEI_LANG},
         {Value: SO_BNAME},
         {Value :SO_IHREZ},
+        {Value: SO_PRCTR},
     ]
 };
 
@@ -1207,6 +1208,7 @@ annotate service.baseEntity with {
     SO_KDGRP_KTEXT_LANG             @title: '{i18n>SO_KDGRP_KTEXT_LANG}'         @sap.Label: '{i18n>SO_KDGRP_KTEXT_LANG}';
     SO_WE_PARTNER_REGION            @title: '{i18n>SO_WE_PARTNER_REGION}'        @sap.Label: '{i18n>SO_WE_PARTNER_REGION}';
     SO_WE_PARTNER_REGION_BEZEI_LANG @title: '{i18n>SO_WE_PARTNER_REGION_BEZEI_LANG}'  @sap.Label: '{i18n>SO_WE_PARTNER_REGION_BEZEI_LANG}';
+    SO_PRCTR                        @title: '{i18n>SO_PRCTR}'                    @sap.Label: '{i18n>SO_PRCTR}';
 
 
 };
@@ -4538,6 +4540,24 @@ annotate service.allIssues with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_WE_PARTNER_REGION,
             ValueListProperty: 'SO_WE_PARTNER_REGION_BEZEI_LANG'
+        }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_PRCTR
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_PRCTR}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_PRCTR,
+            ValueListProperty: 'SO_PRCTR'
         }
 
         ]
