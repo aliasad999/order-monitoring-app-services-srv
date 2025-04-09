@@ -3229,23 +3229,6 @@ annotate service.Results with {
     }
 };
 
-annotate service.Results with {
-    TM_CURRENT_ETA_VISTA
-    @Common.ValueList: {
-        $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>TM_CURRENT_ETA_VISTA}',
-        CollectionPath         : 'valueHelps',
-        DistinctValuesSupported: true,
-        SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: TM_CURRENT_ETA_VISTA,
-            ValueListProperty: 'TM_CURRENT_ETA_VISTA'
-        }
-
-        ]
-    }
-};
 
 // Euan's changes
 annotate service.Results with {

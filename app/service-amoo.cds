@@ -3928,23 +3928,7 @@ annotate service.allIssues with {
         ]
     }
 }
-annotate service.allIssues with {
-    TM_CURRENT_ETA_VISTA
-    @Common.ValueList: {
-        $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>TM_CURRENT_ETA_VISTA}',
-        CollectionPath         : 'valueHelps',
-        DistinctValuesSupported: true,
-        SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: TM_CURRENT_ETA_VISTA,
-            ValueListProperty: 'TM_CURRENT_ETA_VISTA'
-        }
 
-        ]
-    }
-}
 annotate service.allIssues with {
     BL_MANDT_INV_FIRST
     @Common.ValueList: {
