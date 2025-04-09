@@ -251,13 +251,13 @@ class srvOpenOrders extends cds.ApplicationService {
             req.query.SELECT.localized = false;
             req.query.SELECT.distinct = true;
             // where clause is initially converted from cqn to cql
-                        let whereClause = serviceHelper.convertCQNtoCQL(req.query.SELECT.where)
-                        // where clause is initially converted from cqn to cql
-                        // where clause is then transformed from cql for date formatting and removing additional inverted commas
-                        whereClause = serviceHelper.transformWhereClause(whereClause)
-                        // where clause is then transformed from cql for date formatting and removing additional inverted commas
-                        // where clause is then inserted back to the query
-                        req.query.SELECT.where = cds.parse.xpr(whereClause)
+            let whereClause = serviceHelper.convertCQNtoCQL(req.query.SELECT.where)
+            // where clause is initially converted from cqn to cql
+            // where clause is then transformed from cql for date formatting and removing additional inverted commas
+            whereClause = serviceHelper.transformWhereClause(whereClause)
+            // where clause is then transformed from cql for date formatting and removing additional inverted commas
+            // where clause is then inserted back to the query
+            req.query.SELECT.where = cds.parse.xpr(whereClause)
         });
 
         this.on("READ", "Results", async (req, next) => {
@@ -374,7 +374,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     item.id = uuid.v1()
                     if ('SO_DCP_ITEM_STATUS' in item) {
                         if (item.SO_DCP_ITEM_STATUS) {
-                            item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
+                            item.SO_DCP_ITEM_STATUS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
                         }
                     }
                     if ('SO_NETWR' in item) // Net Amount
@@ -489,9 +489,9 @@ class srvOpenOrders extends cds.ApplicationService {
                             }
                         });
                         // remove duplicates based on fields in the valuehelp dialog box
-                        lt_result = removeDuplicates(fields, lt_result);
+                        lt_result = serviceHelper.removeDuplicates(fields, lt_result);
                     } catch (error) {
-                        req.error(status.EXPECTATION_FAILED, getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
+                        req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                     }
                 } else {
                     try {
@@ -507,7 +507,7 @@ class srvOpenOrders extends cds.ApplicationService {
                         }
                         lt_result.push({ $count: queryCount })
                     } catch (error) {
-                        req.error(status.EXPECTATION_FAILED, getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
+                        req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                     }
 
                 }
@@ -590,7 +590,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     })
                     if ('SO_DCP_ITEM_STATUS' in item) {
                         if (item.SO_DCP_ITEM_STATUS) {
-                            item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
+                            item.SO_DCP_ITEM_STATUS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
                         }
                     }
                 })
@@ -662,31 +662,6 @@ module.exports = {
  * @param {array} lt_result - the original array with duplicates
  * @return {array} lt_result_final - the resulting array with duplicates removed
  */
-function removeDuplicates(fields, lt_result) {
-    if (fields) {
-        lt_result = lt_result
-            // .filter(obj => {
-            //     // if all values are null, then allNull will be true
-            //     // if not, allNull will be false
-            //     // return value is the opposite of that to do the right filtering
-            //     var allNull = fields.every(field => obj[field] === null);
-            //     return !allNull;
-            // })
-            .filter(obj => fields.every(field => obj[field] !== null)) // Remove null values
-            .map(obj => {
-                const newObj = {};
-                fields.forEach(field => newObj[field] = obj[field]);
-                return newObj;
-            });
-    } else {
-        // lt_result = lt_result.map((obj) => (obj));
-    }
-    let lt_result_final = [...new Set(lt_result.map(JSON.stringify))].map(JSON.parse);
-    return lt_result_final;
-}
-function getBundle(locale) {
-    return textBundle.getTextBundle(locale)
-}
 function checkScope(req, next, scope) {
     return req.user.is(scope) ? true : false;
 

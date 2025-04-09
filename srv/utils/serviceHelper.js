@@ -1,3 +1,4 @@
+const textBundle = require('./utils/textBundle')
 const getDateProps = () => {
     return [
         "SO_ERDAT_ORDER",
@@ -100,6 +101,34 @@ const replaceDateInArray = (array ) =>{
     });
     return array;
 }
+
+const removeDuplicates = (fields, lt_result) => {
+    if (fields) {
+        lt_result = lt_result
+            // .filter(obj => { // Remove entries with all null values
+            //     // if all values are null, then allNull will be true
+            //     // if not, allNull will be false
+            //     // return value is the opposite of that to do the right filtering
+            //     // true -- added to set / false -- not added to set
+            //     var allNull = fields.every(field => obj[field] === null);
+            //     return !allNull;
+            // })
+            .filter(obj => fields.every(field => obj[field] !== null))
+            .map(obj => {
+                const newObj = {};
+                fields.forEach(field => newObj[field] = obj[field]);
+                return newObj;
+            });
+    } else {
+        // lt_result = lt_result.map((obj) => (obj));
+    }
+    let lt_result_final = [...new Set(lt_result.map(JSON.stringify))].map(JSON.parse);
+    return lt_result_final;
+}
+const getBundle = (locale) => {
+    return textBundle.getTextBundle(locale)
+}
+
 
 const addOrRemoveNPSFilter = (req, npsTabSelected) => {
     const NPSMapping = {
@@ -249,5 +278,7 @@ module.exports =  {
     addOrRemoveNPSFilter,
     replaceDateInArray,
     transformWhereClause,
-    convertCQNtoCQL
+    convertCQNtoCQL,
+    removeDuplicates,
+    getBundle
 }

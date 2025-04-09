@@ -3,7 +3,7 @@ const NodeCache = require('node-cache');
 const sessionCache = new NodeCache();
 const uuid = require('uuid');
 const status = require('http-status');
-const textBundle = require('./utils/textBundle')
+
 const log = require("cf-nodejs-logging-support");
 const enableHints = require("./plugins/enable_hints");
 const { startOfToday } = require('date-fns');
@@ -80,7 +80,7 @@ class openOrdersSrv extends cds.ApplicationService {
                             SAPTextsEntity.push({
                                 TextId: text.TextId,
                                 SAPText: text.Text.replaceAll("--", "\r\n"),
-                                KeyText: getBundle(req.locale).getText(`SAPText${text.TextId}`),
+                                KeyText: serviceHelper.getBundle(req.locale).getText(`SAPText${text.TextId}`),
                                 TextLanguage: text.TextLang
                             })
                         })
@@ -88,7 +88,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     // SAPTextsEntity.push({
                     //     TextId: textObject.id,
                     //     SAPText: SAPTexts.textLines.join("\r\n"),
-                    //     KeyText: getBundle(req.locale).getText(`SAPText${textObject.id}`)
+                    //     KeyText: serviceHelper.getBundle(req.locale).getText(`SAPText${textObject.id}`)
                     // })
                 } catch (error) {
                     if (!error.message.includes("No Data Found")) {
@@ -674,9 +674,9 @@ class openOrdersSrv extends cds.ApplicationService {
                         const selectedField = req._queryOptions && req._queryOptions['$select']
                         const fields = selectedField && selectedField.split(',');
                         // remove duplicates based on fields in the valuehelp dialog box
-                        lt_result = removeDuplicates(fields, lt_result);
+                        lt_result = serviceHelper.removeDuplicates(fields, lt_result);
                     } catch (error) {
-                        req.error(status.EXPECTATION_FAILED, getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
+                        req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                     }
                 } else {
                     try {
@@ -692,7 +692,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         }
                         lt_result.push({ $count: queryCount })
                     } catch (error) {
-                        req.error(status.EXPECTATION_FAILED, getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
+                        req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                     }
 
                 }
@@ -764,11 +764,11 @@ class openOrdersSrv extends cds.ApplicationService {
             // since there is a virtual id field, adding a random guid to each record of the result set.
             data.forEach((item) => {
                 item.id = uuid.v1()
-                if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = getBundle(req.locale).getText(`nps${item.SO_NPS}`)
-                if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = getBundle(req.locale).getText(`OrderIssue${item.SO_ISSUE}`)
+                if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`nps${item.SO_NPS}`)
+                if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`OrderIssue${item.SO_ISSUE}`)
                 if ('SO_DCP_ITEM_STATUS' in item) {
                     if (item.SO_DCP_ITEM_STATUS) {
-                        item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
+                        item.SO_DCP_ITEM_STATUS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
                     }
                 }
                 let mandtFields = serviceHelper.getMandtFields();
@@ -1052,11 +1052,11 @@ class openOrdersSrv extends cds.ApplicationService {
                         item.SO_NETWR = formatSpecialCurrencies(item.SO_NETWR, item.SO_WAERK, this._SpecialCurrencies);
                     if ('SO_KBETR' in item) // Price Per Unit
                         item.SO_KBETR = formatSpecialCurrencies(item.SO_KBETR, item.SO_WAERK, this._SpecialCurrencies);
-                    if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = getBundle(req.locale).getText(`nps${item.SO_NPS}`)
-                    if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = getBundle(req.locale).getText(`OrderIssue${item.SO_ISSUE}`)
+                    if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`nps${item.SO_NPS}`)
+                    if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`OrderIssue${item.SO_ISSUE}`)
                     if ('SO_DCP_ITEM_STATUS' in item) {
                         if (item.SO_DCP_ITEM_STATUS) {
-                            item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
+                            item.SO_DCP_ITEM_STATUS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
                         }
                     }
                     let mandtFields = serviceHelper.getMandtFields();
@@ -1170,8 +1170,8 @@ class openOrdersSrv extends cds.ApplicationService {
                             item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
                         }
                     })
-                    if ('PO_NPS' in item) item.PO_NPS_TEXT = getBundle(req.locale).getText(`po_nps${item.PO_NPS}`)
-                    if ('PO_ISSUE' in item) item.PO_ISSUE_TEXT = getBundle(req.locale).getText(`po_issue${item.PO_ISSUE}`)
+                    if ('PO_NPS' in item) item.PO_NPS_TEXT = serviceHelper.getBundle(req.locale).getText(`po_nps${item.PO_NPS}`)
+                    if ('PO_ISSUE' in item) item.PO_ISSUE_TEXT = serviceHelper.getBundle(req.locale).getText(`po_issue${item.PO_ISSUE}`)
                     dateProps.forEach((property) => {
                         const dateString = item[property]
                         if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
@@ -1248,9 +1248,9 @@ class openOrdersSrv extends cds.ApplicationService {
                                 }
                             });
                             // remove duplicates based on fields in the valuehelp dialog box
-                            lt_result = removeDuplicates(fields, lt_result);
+                            lt_result = serviceHelper.removeDuplicates(fields, lt_result);
                         } catch (error) {
-                            req.error(status.EXPECTATION_FAILED, getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
+                            req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                         }
                     } else {
                         try {
@@ -1266,7 +1266,7 @@ class openOrdersSrv extends cds.ApplicationService {
                             }
                             lt_result.push({ $count: queryCount })
                         } catch (error) {
-                            req.error(status.EXPECTATION_FAILED, getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
+                            req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                         }
 
                     }
@@ -1340,8 +1340,8 @@ class openOrdersSrv extends cds.ApplicationService {
                 data.forEach((item) => {
                     item.Id = uuid.v1()
                     let mandtFields = serviceHelper.getMandtFields();
-                    if ('PO_NPS' in item) item.PO_NPS_TEXT = getBundle(req.locale).getText(`po_nps${item.PO_NPS}`)
-                    if ('PO_ISSUE' in item) item.PO_ISSUE_TEXT = getBundle(req.locale).getText(`po_issue${item.PO_ISSUE}`)
+                    if ('PO_NPS' in item) item.PO_NPS_TEXT = serviceHelper.getBundle(req.locale).getText(`po_nps${item.PO_NPS}`)
+                    if ('PO_ISSUE' in item) item.PO_ISSUE_TEXT = serviceHelper.getBundle(req.locale).getText(`po_issue${item.PO_ISSUE}`)
                     // MANDANT TEXTS LOGIC -------------
                     mandtFields.forEach((mandt) => {
                         const mandtProp = item[mandt];
@@ -1488,7 +1488,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
         this.on("getIssueReason", async (req) => {
             // let issueReason = []
-            let textBundle = getBundle(req.locale);
+            let textBundle = serviceHelper.getBundle(req.locale);
             let incompletionLog = []
             let creditData = {}
             let idocData = []
@@ -1894,32 +1894,6 @@ module.exports = {
  * @param {array} lt_result - the original array with duplicates
  * @return {array} lt_result_final - the resulting array with duplicates removed
  */
-function removeDuplicates(fields, lt_result) {
-    if (fields) {
-        lt_result = lt_result
-            // .filter(obj => { // Remove entries with all null values
-            //     // if all values are null, then allNull will be true
-            //     // if not, allNull will be false
-            //     // return value is the opposite of that to do the right filtering
-            //     // true -- added to set / false -- not added to set
-            //     var allNull = fields.every(field => obj[field] === null);
-            //     return !allNull;
-            // })
-            .filter(obj => fields.every(field => obj[field] !== null))
-            .map(obj => {
-                const newObj = {};
-                fields.forEach(field => newObj[field] = obj[field]);
-                return newObj;
-            });
-    } else {
-        // lt_result = lt_result.map((obj) => (obj));
-    }
-    let lt_result_final = [...new Set(lt_result.map(JSON.stringify))].map(JSON.parse);
-    return lt_result_final;
-}
-function getBundle(locale) {
-    return textBundle.getTextBundle(locale)
-}
 function checkScope(req, next, scope) {
     return req.user.is(scope) ? true : false;
 
