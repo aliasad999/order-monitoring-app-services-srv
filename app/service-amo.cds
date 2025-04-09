@@ -3337,18 +3337,18 @@ annotate service.Results with {
     }
 };
 annotate service.Results with {
-    IHREZ
+    SO_IHREZ
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>IHREZ}',
+        Label                  : '{@i18n>SO_IHREZ}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [
             {
                 $Type            : 'Common.ValueListParameterInOut',
-                LocalDataProperty: IHREZ,
-                ValueListProperty: 'IHREZ'
+                LocalDataProperty: SO_IHREZ,
+                ValueListProperty: 'SO_IHREZ'
             }
 
         ]
