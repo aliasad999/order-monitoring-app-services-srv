@@ -1214,12 +1214,12 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.on("READ", "OCValueHelps", async (req, next) => {
+            let lt_result = []
             if (process.env.SUBACCOUNT !== 'PROD') {
                 // get the session id based on auth token
                 let sessionID = req.headers['authorization'] || req.headers['x-username'];
                 const queryId = `${sessionID}OCQuery`
                 const db = cds.transaction(req);
-                let lt_result = []
                 // if session id is there, get the cach-ed query and execute it.
                 if (sessionCache.get(queryId)) {
                     const queryString = sessionCache.get(queryId);
@@ -1340,7 +1340,6 @@ class openOrdersSrv extends cds.ApplicationService {
                 }
             } else {
                 // Deactivation in PROD
-                let lt_result = []
                 if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
                     lt_result = [];
                 } else {

@@ -519,7 +519,8 @@ service srvOpenOrders {
           KDGRP                                       as SO_KDGRP,
           KDGRP_KTEXT_LANG                            as SO_KDGRP_KTEXT_LANG,
           WE_PARTNER_REGION                           as SO_WE_PARTNER_REGION,
-          WE_PARTNER_REGION_BEZEI_LANG                as SO_WE_PARTNER_REGION_BEZEI_LANG
+          WE_PARTNER_REGION_BEZEI_LANG                as SO_WE_PARTNER_REGION_BEZEI_LANG,
+          PRCTR                                       as SO_PRCTR
 
     };
 
