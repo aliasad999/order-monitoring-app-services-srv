@@ -11,13 +11,6 @@ using {CSEUCockpitService as CSEUCockpitService} from './external/CSEUCockpitSer
 using {OMServicesAP as OMServicesAP} from './external/OMServicesAP';
 
 service openOrdersSrv {
-    @cds.persistence.skip
-    entity ChatbotApi{
-        key id: String;
-        path:   String;
-        payload:    String;
-        response:   String;
-    }
     entity currencies as projection on db_app.currency;
     entity rootEntity               as
         select from db_app.OPENORDERSLIST {
@@ -560,14 +553,6 @@ service openOrdersSrv {
     action   cancelOrder(payload : String)                                                                                                                                                                                                                                                                                                   returns String;
     action   RemoveDeliveryBlock(SalesOrderID : String(10), ItemID : String(6))   
                                                                                                                                                                                                                                                returns String;
-    function callChatbotService(payload: String) returns String;
-    function callChatbotHistoryService() returns String;
-    function callChatbotWelcomeMsg() returns String;
-    function callChatbotGetConversation(payload: String) returns String;
-    function callChatbotUpdateConversation(payload: String) returns String;
-    function callChatbotFeedback(payload: String) returns String;
-    function callChatbotSuggestion(payload: String) returns String;
-    
     entity PredefReasonBuckets      as
         select from AMOOUtilsService.PredefinedReasonBuckets {
             key BUCKET      as BucketKey,

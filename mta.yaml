@@ -54,7 +54,6 @@ modules:
       - name: order-monitoring-destination
       - name: order-monitoring-connectivity
       - name: order-monitoring-logs
-      - name: order-monitoring-credentials-store
       - name: order-monitoring-autoscaler
         parameters:
           path: ./autoscaler.json
@@ -193,12 +192,3 @@ resources:
     parameters:
       service: autoscaler
       service-plan: standard
-  #
-  #   ┌───────────────────────────────────────────┐   #
-  #   │            Credentials Store              │   #
-  #   └───────────────────────────────────────────┘   #
-  #
-  - name: order-monitoring-credentials-store
-    type: org.cloudfoundry.existing-service
-    parameters:
-      service-name: order-monitoring-credentials-store
