@@ -499,6 +499,7 @@ service openOrdersSrv {
                 ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH,
                 LPRIO                                       as DL_LPRIO,
                 VISTA_STATUS                                as TM_VISTA_STATUS,
+                CURRENT_ETA_VISTA                           as TM_CURRENT_ETA_VISTA,
                 // Euan's changes
                 Z5_PARTNER_ITM                              as SO_Z5_PARTNER,
                 Z5_PARTNER_NAME_ITM                         as SO_Z5_PARTNER_NAME,

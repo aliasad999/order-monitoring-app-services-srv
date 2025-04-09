@@ -262,7 +262,6 @@ entity ![RESULTS] {
         BL_WAERK_LAST                      : String(5);
         BL_VRKME_LAST                      : String(3);
         LPRIO                              : String(2);
-
         VISTA_STATUS                       : String(50);
         CURRENT_ETA_VISTA                  : String(8);
         
