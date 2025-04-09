@@ -145,9 +145,9 @@ entity ![OPENORDERSLIST] {
         F_VBELN                            : String(10);
         F_POSNR                            : String(6);
         MANDT_DEL                          : String(3);
-        VBELN_DEL                          : String(10);        
+        VBELN_DEL                          : String(10);
         POSNR_DEL_HEAD                     : String(6);
-        LFIMG_HEAD                         : Decimal(15,3);
+        LFIMG_HEAD                         : Decimal(15, 3);
         POSNR_DEL                          : String(6);
         CHARG                              : String(10);
         HSDAT                              : String(8);
@@ -242,17 +242,17 @@ entity ![OPENORDERSLIST] {
         MDB                                : String(3);
         MDB_TEXT                           : String(60);
         DCP_ITEM_STATUS                    : String(2);
-        ERDAT_DEL                          : String(8);	
-        ERDAT_DEL_DATE                     : Date = ERDAT_DEL;	
-        LDDAT_DEL                          : String(8);	
-        LDDAT_DEL_DATE                     : Date = LDDAT_DEL;	
+        ERDAT_DEL                          : String(8);
+        ERDAT_DEL_DATE                     : Date = ERDAT_DEL;
+        LDDAT_DEL                          : String(8);
+        LDDAT_DEL_DATE                     : Date = LDDAT_DEL;
         PERFK                              : String(2);
         PERFK_LTEXT_LANG                   : String(50);
         F_MBDAT                            : String(8);
         F_MBDAT_DATE                       : Date = F_MBDAT;
         FINAL_SO_MANDT                     : String(3);
         FIRST_SO_MANDT                     : String(3);
-        PO_MANDT                       : String(3);
+        PO_MANDT                           : String(3);
         EBELN                              : String(10);
         EBELP                              : String(5);
         AEDAT_HEAD                         : String(8);
@@ -280,17 +280,14 @@ entity ![OPENORDERSLIST] {
         TRMTYP_MAKTX_LANG                  : String(40);
         ZZ0S2ABGH                          : String(10);
         ZZ0S2ZIEH                          : String(10);
-       /*---hong liang chnages commented  out to move VISTA_STATUS TO prod
         BL_NETWR_LAST                      : Decimal(15, 2);
         BL_WAERK_LAST                      : String(5);
-        BL_FKDAT_FIRST                     : String(8);
-        BL_FKDAT_FIRST_DATE                : Date = BL_FKDAT_FIRST;
-        BL_FKDAT_LAST                      : String(8);
-        BL_FKDAT_LAST_DATE                 : Date = BL_FKDAT_LAST;
-        */
+        BL_ERDAT_FIRST                     : String(8);
+        BL_ERDAT_FIRST_DATE                : Date = BL_ERDAT_FIRST;
+        BL_ERDAT_LAST                      : String(8);
+        BL_ERDAT_LAST_DATE                 : Date = BL_ERDAT_LAST;
         VISTA_STATUS                       : String(50);
-
-        /*---Euan's changes commented  out to move VISTA_STATUS TO prod
+        // Euan's changes
         Z5_PARTNER_ITM                     : String(8);
         Z5_PARTNER_NAME_ITM                : String(40);
         SB_PARTNER_ITM                     : String(8);
@@ -298,10 +295,20 @@ entity ![OPENORDERSLIST] {
         AD_PARTNER_HEAD                    : String(8);
         AD_PARTNER_NAME_HEAD               : String(40);
         AD_PARTNER_ITM                     : String(8);
-        AD_PARTNER_NAME_ITM                : String(40); 
-        */
+        AD_PARTNER_NAME_ITM                : String(40);
+        // End of Euan's changes
+        BNAME                              : String(35);
+        IHREZ                              : String(35);
 
+        LPRIO                              : String(2);
+        AUGRU                              : String(3);
+        AUGRU_BEZEI_LANG                   : String(40);
+        KDGRP                              : String(2);
+        KDGRP_KTEXT_LANG                   : String(20);
+        WE_PARTNER_REGION                  : String(3);
+        WE_PARTNER_REGION_BEZEI_LANG       : String(20);
 
+        PRCTR                              : String(10);
 }
 
 entity ContactsOptions {
@@ -475,46 +482,45 @@ type issue_reason {
 };
 
 
-
-entity ![currency]{
-        key currencyCode: String(3);
-        decimalPlaces: Integer;
+entity ![currency] {
+        key currencyCode  : String(3);
+            decimalPlaces : Integer;
 };
 
 @cds.persistence.exists
 entity ![ORDER_CREATION] {
-        MANDT  : String(3);
-        EBELN : String(10);
-        EBELP : String(5);
-        AEDAT_HEAD : String(8);
-        AEDAT_HEAD_DATE : Date = AEDAT_HEAD;
-        AEDAT_ITEM : String(8);
-        AEDAT_ITEM_DATE : Date = AEDAT_ITEM;
-        BSART : String(4);
-        EKORG : String(4);
-        EKOTX : String(20);
-        EKGRP : String(3);
-        EKNAM : String(18);
-        EMATN : String(18);
-        WERKS : String(4);
-        MENGE : Decimal(13,3);
-        MEINS : String(3);
-        KUNNR : String(10);
-        KUNNR_NAME1 : String(35);
-        KUNNR_NAME2 : String(35);
-        PARTNER_9A_HEAD : String(12);
+        MANDT                : String(3);
+        EBELN                : String(10);
+        EBELP                : String(5);
+        AEDAT_HEAD           : String(8);
+        AEDAT_HEAD_DATE      : Date = AEDAT_HEAD;
+        AEDAT_ITEM           : String(8);
+        AEDAT_ITEM_DATE      : Date = AEDAT_ITEM;
+        BSART                : String(4);
+        EKORG                : String(4);
+        EKOTX                : String(20);
+        EKGRP                : String(3);
+        EKNAM                : String(18);
+        EMATN                : String(18);
+        WERKS                : String(4);
+        MENGE                : Decimal(13, 3);
+        MEINS                : String(3);
+        KUNNR                : String(10);
+        KUNNR_NAME1          : String(35);
+        KUNNR_NAME2          : String(35);
+        PARTNER_9A_HEAD      : String(12);
         PARTNER_9A_HEAD_NAME : String(80);
-        PARTNER_9O_HEAD : String(12);
+        PARTNER_9O_HEAD      : String(12);
         PARTNER_9O_HEAD_NAME : String(80);
-        BSART_BATXT : String(20);
-        NPS : String(3);
-        ISSUE : String(2);
-        DUE_DATE                           : String(8);
-        DUE_DATE_FORMATTED                 : Date = DUE_DATE;
-        ERROR_TEXT : String(250);
-        BIM_ERROR_ID : String(36);
-        // ISSUE_TEXT: String(60);
-        // NPS_TEXT: String(30);
+        BSART_BATXT          : String(20);
+        NPS                  : String(3);
+        ISSUE                : String(2);
+        DUE_DATE             : String(8);
+        DUE_DATE_FORMATTED   : Date = DUE_DATE;
+        ERROR_TEXT           : String(250);
+        BIM_ERROR_ID         : String(36);
+// ISSUE_TEXT: String(60);
+// NPS_TEXT: String(30);
 }
 
 @cds.persistence.exists
@@ -530,19 +536,19 @@ entity ![ST_FOLLOWUP_NOTES] {
 
 @cds.persistence.exists
 entity ![ST_APAC_DELAY_REASON_ENTRY] {
-        MANDT          : String(3);
-        ORDER_NUMBER   : String(10);
-        ITEM_NUMBER    : String(6);
-        BUCKET         : String(2);
-        LANGUAGE       : String(2);
-        REASON_CODE    : String(2);
+        MANDT        : String(3);
+        ORDER_NUMBER : String(10);
+        ITEM_NUMBER  : String(6);
+        BUCKET       : String(2);
+        LANGUAGE     : String(2);
+        REASON_CODE  : String(2);
 }
 
 entity SAPTexts {
-    key TextId : String(4);
-    SAPText: String;
-    KeyText: String;
-    TextLanguage: String(2);
+        key TextId       : String(4);
+            SAPText      : String;
+            KeyText      : String;
+            TextLanguage : String(2);
 }
 
 // entity POIssues {

@@ -9,7 +9,7 @@ build-parameters:
     - builder: custom
       commands:
         - npm ci --production
-        - npx -p @sap/cds-dk cds build --production
+        - npx -p @sap/cds-dk@8.8.2 cds build --production
         - npm ci --prefix ./gen/srv
 modules:
   #
@@ -29,6 +29,8 @@ modules:
       SAP_CALM_METRICS_ENABLED: true      
       SAP_CALM_DCI_LOG_LEVEL: info
       SAP_CALM_FESR_LOG_LEVEL: info
+      AP_CLIENT: 100
+      SUBACCOUNT: DEV
       NODE_ARGS: -r @sap/xotel-agent-ext-js/dist/common/tracer    
     parameters:
       buildpack: nodejs_buildpack
@@ -53,6 +55,7 @@ modules:
       - name: order-monitoring-destination
       - name: order-monitoring-connectivity
       - name: order-monitoring-logs
+      - name: order-monitoring-credentials-store
       - name: order-monitoring-autoscaler
         parameters:
           path: ./autoscaler.json
@@ -191,3 +194,12 @@ resources:
     parameters:
       service: autoscaler
       service-plan: standard
+  #
+  #   ┌───────────────────────────────────────────┐   #
+  #   │            Credentials Store              │   #
+  #   └───────────────────────────────────────────┘   #
+  #
+  - name: order-monitoring-credentials-store
+    type: org.cloudfoundry.existing-service
+    parameters:
+      service-name: order-monitoring-credentials-store

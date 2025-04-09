@@ -26,8 +26,8 @@ const getDateProps = () => {
         "PO_AEDAT_HEAD",
         "PO_AEDAT_ITEM",
         "SO_DUE_DATE",
-        "BL_FKDAT_FIRST",
-        "BL_FKDAT_LAST",
+        "BL_ERDAT_FIRST",
+        "BL_ERDAT_LAST",
     ]
 }
 
@@ -59,7 +59,7 @@ const getMandtFieldsNames = (mandtFieldValue) => {
         case "200":
             return "Star";
         case "300":
-            return "AP";
+            return "Spark";
         default:
             return "No System defined";
     }
