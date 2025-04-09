@@ -55,10 +55,14 @@ service srvOpenOrders {
           AG_PARTNER_NAME1 || ' ' || AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME              : String(80),
           WE_PARTNER                                  as SO_WE_PARTNER,
           WE_PARTNER_NAME1 || ' ' || WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME              : String(80),
-          // AG_PARTNER_NAME1                            as SO_AG_PARTNER_NAME1, // to enable default search, parts of calculated fields are required to be added too to service
-          // AG_PARTNER_NAME2                            as SO_AG_PARTNER_NAME2,
-          // WE_PARTNER_NAME1                            as SO_WE_PARTNER_NAME1,
-          // WE_PARTNER_NAME2                            as SO_WE_PARTNER_NAME2,
+          @UI.Hidden: true
+          AG_PARTNER_NAME1                            as SO_AG_PARTNER_NAME1, // to enable default search, parts of calculated fields are required to be added too to service
+          @UI.Hidden: true
+          AG_PARTNER_NAME2                            as SO_AG_PARTNER_NAME2,
+          @UI.Hidden: true
+          WE_PARTNER_NAME1                            as SO_WE_PARTNER_NAME1,
+          @UI.Hidden: true
+          WE_PARTNER_NAME2                            as SO_WE_PARTNER_NAME2,
           IFNULL(
             CO_PARTNER_ITM, CO_PARTNER_HEAD
           )                                           as SO_CO_PARTNER                   : String(10),
@@ -515,7 +519,8 @@ service srvOpenOrders {
           KDGRP                                       as SO_KDGRP,
           KDGRP_KTEXT_LANG                            as SO_KDGRP_KTEXT_LANG,
           WE_PARTNER_REGION                           as SO_WE_PARTNER_REGION,
-          WE_PARTNER_REGION_BEZEI_LANG                as SO_WE_PARTNER_REGION_BEZEI_LANG
+          WE_PARTNER_REGION_BEZEI_LANG                as SO_WE_PARTNER_REGION_BEZEI_LANG,
+          PRCTR                                       as SO_PRCTR
 
     };
 

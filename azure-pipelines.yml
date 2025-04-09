@@ -29,3 +29,5 @@ extends:
     TRANSPORT_ID: ${{ parameters.TransportID }}
     ENV: ${{ parameters.Environnement }}
     CHANGE: ${{ parameters.SNChange }}
+
+appendCommitMessageToRunName: false

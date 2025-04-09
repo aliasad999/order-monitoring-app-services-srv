@@ -12,6 +12,7 @@ using {OMServicesAP as OMServicesAP} from './external/OMServicesAP';
 
 service openOrdersSrv {
     entity currencies as projection on db_app.currency;
+
     entity rootEntity               as
         select from db_app.OPENORDERSLIST {
             key null                                        as id                              : UUID,
@@ -93,10 +94,15 @@ service openOrdersSrv {
                 AG_PARTNER_NAME1 || ' ' || AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME              : String(80),
                 WE_PARTNER                                  as SO_WE_PARTNER,
                 WE_PARTNER_NAME1 || ' ' || WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME              : String(80),
-                // AG_PARTNER_NAME1                            as SO_AG_PARTNER_NAME1, // to enable default search, parts of calculated fields are required to be added too to service
-                // AG_PARTNER_NAME2                            as SO_AG_PARTNER_NAME2,
-                // WE_PARTNER_NAME1                            as SO_WE_PARTNER_NAME1,
-                // WE_PARTNER_NAME2                            as SO_WE_PARTNER_NAME2,
+                
+                @UI.Hidden: true
+                AG_PARTNER_NAME1                            as SO_AG_PARTNER_NAME1, // to enable default search, parts of calculated fields are required to be added too to service
+                @UI.Hidden: true
+                AG_PARTNER_NAME2                            as SO_AG_PARTNER_NAME2,
+                @UI.Hidden: true
+                WE_PARTNER_NAME1                            as SO_WE_PARTNER_NAME1,
+                @UI.Hidden: true
+                WE_PARTNER_NAME2                            as SO_WE_PARTNER_NAME2,
                 LAND1                                       as SO_LAND1,
                 LANDX_LANG                                  as SO_LANDX,
                 ORT01                                       as SO_ORT01,
@@ -506,7 +512,9 @@ service openOrdersSrv {
                 KDGRP                                       as SO_KDGRP,
                 KDGRP_KTEXT_LANG                            as SO_KDGRP_KTEXT_LANG,
                 WE_PARTNER_REGION                           as SO_WE_PARTNER_REGION,
-                WE_PARTNER_REGION_BEZEI_LANG                as SO_WE_PARTNER_REGION_BEZEI_LANG
+                WE_PARTNER_REGION_BEZEI_LANG                as SO_WE_PARTNER_REGION_BEZEI_LANG,
+
+                PRCTR                                       as SO_PRCTR
 
         }
 
@@ -620,7 +628,7 @@ service openOrdersSrv {
         );
 
     entity ignoreSalesOrder         as projection on db_app.IGNORED_SO;
-    function getIssueReason(salesOrder : String(10), salesOrderItem : String(6), detailsSalesOrder : String(10), DetailsSalesOrderItem : String(6), issue : String(2), nps : String(3), issue_location : String(12), material : String(18), plant : String(4), quantity : Decimal(13, 3), uom : String(3), dueDate : Date, firstDate : Date) returns array of db_app.issue_reason;
+    function getIssueReason(issuePayload : String) returns array of db_app.issue_reason;
     action   createDeliveryforAllItem(salesOrder : String(10))                                                                                                                                                                                                                                                                               returns Boolean;
     action   createDeliveryforItem(salesOrder : String(10), salesOrderItem : String(6))                                                                                                                                                                                                                                                      returns Boolean;
     entity SAPTexts                 as projection on db_app.SAPTexts;

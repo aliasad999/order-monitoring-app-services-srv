@@ -284,6 +284,8 @@ entity ![RESULTS] {
         KDGRP_KTEXT_LANG                   : String(20);
         WE_PARTNER_REGION                  : String(3);
         WE_PARTNER_REGION_BEZEI_LANG       : String(20);
+
+        PRCTR                              : String(10);
 }
 
 entity PARTNER_SETTINGS {
