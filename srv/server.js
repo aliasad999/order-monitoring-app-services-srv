@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 const fesr = require("@sap/fesr-to-otel-js");
 const xsenv = require('@sap/xsenv');
 const passport = require('passport');
-const { JWTStrategy } = require('@sap/xssec');
+const { JWTStrategy } = require("@sap/xssec").v3;
 const variantManager = require('./utils/variantManagement');
 const azureTokenManager = require('./utils/azureTokenManagement');
 const path = require('path');
@@ -16,9 +16,10 @@ const session = require("express-session");
 const credentialHelper = require('basf-cf-credential-store-helper');
 
 xsenv.loadEnv();
+//todo
 const xsuaaCredentials = xsenv.serviceCredentials({ tag: 'xsuaa' });
 passport.use(new JWTStrategy(xsuaaCredentials));
-
+//todo
 module.exports = cds.server;
 
 cds.on('bootstrap', async (app) => {
