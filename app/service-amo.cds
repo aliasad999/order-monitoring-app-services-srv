@@ -3363,11 +3363,14 @@ annotate service.Results with {
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_AUGRU,
-            ValueListProperty: 'SO_AUGRU_BEZEI_LANG'
-        }
-
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_AUGRU,
+                ValueListProperty: 'SO_AUGRU'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_AUGRU_BEZEI_LANG'
+            }        
         ]
     }
 };
@@ -3381,11 +3384,14 @@ annotate service.Results with {
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_KDGRP,
-            ValueListProperty: 'SO_KDGRP_KTEXT_LANG'
-        }
-
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_KDGRP,
+                ValueListProperty: 'SO_KDGRP'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_KDGRP_KTEXT_LANG'
+            }   
         ]
     }
 };
@@ -3399,11 +3405,14 @@ annotate service.Results with {
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_WE_PARTNER_REGION,
-            ValueListProperty: 'SO_WE_PARTNER_REGION_BEZEI_LANG'
-        }
-
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_WE_PARTNER_REGION,
+                ValueListProperty: 'SO_WE_PARTNER_REGION'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_WE_PARTNER_REGION_BEZEI_LANG'
+            }  
         ]
     }
 };
@@ -3465,7 +3474,7 @@ annotate service.Results with @UI.LineItem: {
         {Value: SO_SUPPLY_SITUATION_DESCR},
         {Value: SO_KBETR},
         {Value: SO_WAERS},
-        {Value: SO_KPEIN},
+        // {Value: SO_KPEIN},
         {Value: SO_KMEIN},
         {Value: SO_NETWR},
         {Value: SO_WAERK},
@@ -3500,16 +3509,16 @@ annotate service.Results with @UI.LineItem: {
         {Value: SO_AD_PARTNER},
         {Value: SO_AD_PARTNER_NAME},
         // End of Euan's changes
-        {Value: SO_BNAME},
-        {Value: SO_IHREZ},
+        // {Value: SO_BNAME},
+        // {Value: SO_IHREZ},
 
 
-        {Value: SO_AUGRU},
-        {Value: SO_AUGRU_BEZEI_LANG},
-        {Value: SO_KDGRP},
-        {Value: SO_KDGRP_KTEXT_LANG},
-        {Value: SO_WE_PARTNER_REGION},
-        {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+        // {Value: SO_AUGRU},
+        // {Value: SO_AUGRU_BEZEI_LANG},
+        // {Value: SO_KDGRP},
+        // {Value: SO_KDGRP_KTEXT_LANG},
+        // {Value: SO_WE_PARTNER_REGION},
+        // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 
 
     ]
