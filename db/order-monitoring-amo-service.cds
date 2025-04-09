@@ -263,7 +263,8 @@ entity ![RESULTS] {
         BL_VRKME_LAST                      : String(3);
         LPRIO                              : String(2);
 
-        VISTA_STATUS                       : String(50); 
+        VISTA_STATUS                       : String(50);
+        CURRENT_ETA_VISTA                  : String(8);
         
         // Euan's changes
         Z5_PARTNER_ITM                     : String(8);
