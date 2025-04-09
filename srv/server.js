@@ -26,7 +26,7 @@ cds.on('bootstrap', async (app) => {
     app.use(passport.initialize());
     app.use(passport.authenticate('JWT', { session: false }));
     fesr.registerFesrEndpoint(app);
-    app.use(bodyParser.json());
+    app.use(bodyParser.json({ limit: '1mb' }));
 
     const sessionSecret = await credentialHelper.getPasswordByName("order-monitoring", "chatbotSessionSecret");
 
