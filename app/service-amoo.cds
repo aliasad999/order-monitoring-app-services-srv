@@ -1209,6 +1209,12 @@ annotate service.baseEntity with {
     SO_WE_PARTNER_REGION_BEZEI_LANG @title: '{i18n>SO_WE_PARTNER_REGION_BEZEI_LANG}'  @sap.Label: '{i18n>SO_WE_PARTNER_REGION_BEZEI_LANG}';
     SO_PRCTR                        @title: '{i18n>SO_PRCTR}'                    @sap.Label: '{i18n>SO_PRCTR}';
 
+    @Common.Text           : SO_TO_PARTNER_NAME
+    @Common.TextArrangement: #TextFirst
+    SO_TO_PARTNER               @title: '{i18n>SO_TO_PARTNER}'                    @sap.Label: '{i18n>SO_TO_PARTNER}'  @Common.IsDigitSequence: true;
+    @Common.TextFor
+    SO_TO_PARTNER_NAME          @title: '{i18n>SO_TO_PARTNER_NAME}'               @sap.Label: '{i18n>SO_TO_PARTNER_NAME}';
+
 
 };
 
@@ -1535,6 +1541,12 @@ annotate service.allIssues with {
     SO_WE_PARTNER_REGION  @title: '{i18n>SO_WE_PARTNER_REGION_BEZEI_LANG}'  @sap.Label: '{i18n>SO_WE_PARTNER_REGION}';
     @Common.TextFor
     SO_WE_PARTNER_REGION_BEZEI_LANG;
+
+    @Common.Text           : SO_TO_PARTNER_NAME
+    @Common.TextArrangement: #TextFirst
+    SO_TO_PARTNER               @title: '{i18n>SO_TO_PARTNER}'                    @sap.Label: '{i18n>SO_TO_PARTNER}';
+    @Common.TextFor
+    SO_TO_PARTNER_NAME          @title: '{i18n>SO_TO_PARTNER_NAME}'               @sap.Label: '{i18n>SO_TO_PARTNER_NAME}';
 }
 
 annotate service.allIssues with {
@@ -1612,6 +1624,8 @@ annotate service.allIssues with {
     SO_AUGRU_BEZEI_LANG             @UI: {Hidden: true};
     SO_KDGRP_KTEXT_LANG             @UI: {Hidden: true};
     SO_WE_PARTNER_REGION_BEZEI_LANG @UI: {Hidden: true};
+
+    SO_TO_PARTNER_NAME              @UI: {Hidden: true};
 }
 
 // ------------------------------Value Helps All Issues----------------------------
@@ -4571,4 +4585,29 @@ annotate service.allIssues with {
         ]
     }
 };
+
+annotate service.allIssues with {
+    SO_TO_PARTNER
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_TO_PARTNER_NAME}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_TO_PARTNER,
+                ValueListProperty: 'SO_TO_PARTNER'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_TO_PARTNER_NAME'
+            }
+
+        ]
+    }
+    @Common.IsDigitSequence: true
+};
+
 // ------------------------------Value Helps All Issues----------------------------

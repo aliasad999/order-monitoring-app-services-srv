@@ -286,6 +286,14 @@ entity ![RESULTS] {
         WE_PARTNER_REGION_BEZEI_LANG       : String(20);
 
         PRCTR                              : String(10);
+
+        TO_PARTNER_HEAD                    : String(10);
+        TO_PARTNER_ITM                     : String(10);
+        TO_PARTNER_NAME1_HEAD              : String(40);
+        TO_PARTNER_NAME2_HEAD              : String(40);
+        TO_PARTNER_NAME1_ITM               : String(40);
+        TO_PARTNER_NAME2_ITM               : String(40);
+
 }
 
 entity PARTNER_SETTINGS {
