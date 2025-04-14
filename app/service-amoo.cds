@@ -1209,12 +1209,8 @@ annotate service.baseEntity with {
     SO_WE_PARTNER_REGION_BEZEI_LANG @title: '{i18n>SO_WE_PARTNER_REGION_BEZEI_LANG}'  @sap.Label: '{i18n>SO_WE_PARTNER_REGION_BEZEI_LANG}';
     SO_PRCTR                        @title: '{i18n>SO_PRCTR}'                    @sap.Label: '{i18n>SO_PRCTR}';
 
-    @Common.Text           : SO_TO_PARTNER_NAME
-    @Common.TextArrangement: #TextFirst
     SO_TO_PARTNER               @title: '{i18n>SO_TO_PARTNER}'                    @sap.Label: '{i18n>SO_TO_PARTNER}'  @Common.IsDigitSequence: true;
-    @Common.TextFor
     SO_TO_PARTNER_NAME          @title: '{i18n>SO_TO_PARTNER_NAME}'               @sap.Label: '{i18n>SO_TO_PARTNER_NAME}';
-
 
 };
 
@@ -1546,7 +1542,7 @@ annotate service.allIssues with {
     @Common.TextArrangement: #TextFirst
     SO_TO_PARTNER               @title: '{i18n>SO_TO_PARTNER}'                    @sap.Label: '{i18n>SO_TO_PARTNER}';
     @Common.TextFor
-    SO_TO_PARTNER_NAME          @title: '{i18n>SO_TO_PARTNER_NAME}'               @sap.Label: '{i18n>SO_TO_PARTNER_NAME}';
+    SO_TO_PARTNER_NAME;
 }
 
 annotate service.allIssues with {
@@ -4590,7 +4586,7 @@ annotate service.allIssues with {
     SO_TO_PARTNER
     @Common.ValueList      : {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>SO_TO_PARTNER_NAME}',
+        Label                  : '{@i18n>SO_TO_PARTNER}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
@@ -4607,7 +4603,6 @@ annotate service.allIssues with {
 
         ]
     }
-    @Common.IsDigitSequence: true
 };
 
 // ------------------------------Value Helps All Issues----------------------------

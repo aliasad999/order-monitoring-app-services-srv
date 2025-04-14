@@ -229,6 +229,8 @@ annotate service.valueHelps with {
     SO_WE_PARTNER_REGION            @title: '{i18n>SO_WE_PARTNER_REGION}'        @sap.Label: '{i18n>SO_WE_PARTNER_REGION}';
     SO_WE_PARTNER_REGION_BEZEI_LANG @title: '{i18n>SO_WE_PARTNER_REGION_BEZEI_LANG}'  @sap.Label: '{i18n>SO_WE_PARTNER_REGION_BEZEI_LANG}';
     SO_PRCTR                        @title: '{i18n>SO_PRCTR}'                    @sap.Label: '{i18n>SO_PRCTR}';  
+    SO_TO_PARTNER                   @title: '{i18n>SO_TO_PARTNER}'               @sap.Label: '{i18n>SO_TO_PARTNER}'       @Common.IsDigitSequence: true;
+    SO_TO_PARTNER_NAME              @title: '{i18n>SO_TO_PARTNER_NAME}'          @sap.Label: '{i18n>SO_TO_PARTNER_NAME}';
 };
 
 annotate service.Results with {
@@ -621,7 +623,7 @@ annotate service.Results with {
     @Common.TextArrangement: #TextFirst
     SO_TO_PARTNER               @title: '{i18n>SO_TO_PARTNER}'                    @sap.Label: '{i18n>SO_TO_PARTNER}';
     @Common.TextFor
-    SO_TO_PARTNER_NAME          @title: '{i18n>SO_TO_PARTNER_NAME}'               @sap.Label: '{i18n>SO_TO_PARTNER_NAME}';
+    SO_TO_PARTNER_NAME;
 }
 
 annotate service.Results with {
