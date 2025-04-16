@@ -693,7 +693,7 @@ annotate service.Results with {
     SO_KNREF_ITM                    @UI                     : {Hidden: true};
     SO_VRKME                        @UI                     : {Hidden: true};
     BL_VRKME_LAST                   @UI                     : {Hidden: true};
-    BL_WAERK_LAST                   @UI                     : {Hidden: true};
+    // BL_WAERK_LAST                   @UI                     : {Hidden: true};
     SO_WAERS                        @UI                     : {Hidden: true};
     SO_KMEIN                        @UI                     : {Hidden: true};
     SO_WAERK                        @UI                     : {Hidden: true};
