@@ -520,7 +520,31 @@ service srvOpenOrders {
           KDGRP_KTEXT_LANG                            as SO_KDGRP_KTEXT_LANG,
           WE_PARTNER_REGION                           as SO_WE_PARTNER_REGION,
           WE_PARTNER_REGION_BEZEI_LANG                as SO_WE_PARTNER_REGION_BEZEI_LANG,
-          PRCTR                                       as SO_PRCTR
+          PRCTR                                       as SO_PRCTR,
+
+          IFNULL(
+            TO_PARTNER_ITM, TO_PARTNER_HEAD
+          )                                           as SO_TO_PARTNER                   : String(10),
+
+          IFNULL(
+            (
+              TO_PARTNER_NAME1_ITM || TO_PARTNER_NAME2_ITM
+            ), (
+              TO_PARTNER_NAME1_HEAD || TO_PARTNER_NAME2_HEAD
+            )
+          )                                           as SO_TO_PARTNER_NAME              : String(80),                                   
+          
+          @UI.Hidden: true
+          TO_PARTNER_NAME1_HEAD as SO_TO_PARTNER_NAME1_HEAD,
+          
+          @UI.Hidden: true
+          TO_PARTNER_NAME2_HEAD as SO_TO_PARTNER_NAME2_HEAD,
+
+          @UI.Hidden: true
+          TO_PARTNER_NAME1_ITM as SO_TO_PARTNER_NAME1_ITM,
+
+          @UI.Hidden: true
+          TO_PARTNER_NAME2_ITM  as SO_TO_PARTNER_NAME2_ITM
 
     };
 
