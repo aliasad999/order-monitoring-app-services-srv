@@ -544,7 +544,20 @@ service srvOpenOrders {
           TO_PARTNER_NAME1_ITM as SO_TO_PARTNER_NAME1_ITM,
 
           @UI.Hidden: true
-          TO_PARTNER_NAME2_ITM  as SO_TO_PARTNER_NAME2_ITM
+          TO_PARTNER_NAME2_ITM  as SO_TO_PARTNER_NAME2_ITM,
+
+
+          ETA_UPDATED                                 as TM_SHIPMENT_ETA_UPDATED,
+          FOLLOWUP_NOTES_LANG                         as SO_FOLLOWUP_NOTES_LANG,
+          REASON_CODE_01_LANG                         as SO_REASON_CODE_01_LANG,
+          REASON_CODE_02_LANG                         as SO_REASON_CODE_02_LANG,
+          REASON_CODE_03_LANG                         as SO_REASON_CODE_03_LANG,
+          REASON_CODE_04_LANG                         as SO_REASON_CODE_04_LANG,
+          REASON_CODE_05_LANG                         as SO_REASON_CODE_05_LANG,
+          DEV_CONF_DATE                               as SO_DEV_CONF_DATE,
+          EMAIL                                       as SO_EMAIL,
+          EMAIL_SEND_DATE_F                           as SO_EMAIL_SEND_DATE_F,
+          EMAIL_SENT_ON                               as SO_EMAIL_SENT_ON,
 
     };
 
