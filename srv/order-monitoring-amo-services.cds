@@ -1,5 +1,6 @@
 using allorders.db as db_app from '../db/order-monitoring-amo-service';
 using {AMOOUtilsService as AMOOUtilsService} from './external/AMOOUtilsService';
+using {CSEUCockpitService as CSEUCockpitService} from './external/CSEUCockpitService';
 
 service srvOpenOrders {
 
@@ -595,4 +596,5 @@ service srvOpenOrders {
   entity ShipmentMarkedDelivered as select from AMOOUtilsService.ShipmentMarkedDelivered;
   entity Variants                as projection on db_app.variants;
   entity VariantsUserSettings    as projection on db_app.variantUserSettings;
+  entity ChangeDocSet            as projection on CSEUCockpitService.ChangeDocSet;
 }

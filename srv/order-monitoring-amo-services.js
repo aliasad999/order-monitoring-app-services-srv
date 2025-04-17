@@ -673,6 +673,22 @@ class srvOpenOrders extends cds.ApplicationService {
             }
         });
 
+
+        this.on("READ", "ChangeDocSet", async req => {
+            let lt_changeDocs = [];
+            try {
+                const apiManagementService = await cds.connect.to('CSEUCockpitService');
+                
+                lt_changeDocs = await apiManagementService.tx(req).send({
+                    query: req.query
+                });
+            } catch (error) {
+                req.error(413, error)
+            }
+
+            return lt_changeDocs;
+        });
+
         return super.init();
     }
 }
