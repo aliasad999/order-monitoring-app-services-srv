@@ -231,6 +231,18 @@ annotate service.valueHelps with {
     SO_PRCTR                        @title: '{i18n>SO_PRCTR}'                    @sap.Label: '{i18n>SO_PRCTR}';  
     SO_TO_PARTNER                   @title: '{i18n>SO_TO_PARTNER}'               @sap.Label: '{i18n>SO_TO_PARTNER}'       @Common.IsDigitSequence: true;
     SO_TO_PARTNER_NAME              @title: '{i18n>SO_TO_PARTNER_NAME}'          @sap.Label: '{i18n>SO_TO_PARTNER_NAME}';    
+
+    TM_SHIPMENT_ETA_UPDATED         @title: '{i18n>TM_SHIPMENT_ETA_UPDATED}'     @sap.Label: '{i18n>TM_SHIPMENT_ETA_UPDATED}';
+    SO_FOLLOWUP_NOTES_LANG          @title: '{i18n>SO_FOLLOWUP_NOTES_LANG}'      @sap.Label: '{i18n>SO_FOLLOWUP_NOTES_LANG}';
+    SO_REASON_CODE_01_LANG          @title: '{i18n>SO_REASON_CODE_01_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_01_LANG}';
+    SO_REASON_CODE_02_LANG          @title: '{i18n>SO_REASON_CODE_02_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_02_LANG}';
+    SO_REASON_CODE_03_LANG          @title: '{i18n>SO_REASON_CODE_03_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_03_LANG}';
+    SO_REASON_CODE_04_LANG          @title: '{i18n>SO_REASON_CODE_04_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_04_LANG}';
+    SO_REASON_CODE_05_LANG          @title: '{i18n>SO_REASON_CODE_05_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_05_LANG}';
+    SO_DEV_CONF_DATE                @title: '{i18n>SO_DEV_CONF_DATE}'            @sap.Label: '{i18n>SO_DEV_CONF_DATE}';
+    SO_EMAIL                        @title: '{i18n>SO_EMAIL}'                    @sap.Label: '{i18n>SO_EMAIL}';
+    SO_EMAIL_SEND_DATE_F            @title: '{i18n>SO_EMAIL_SEND_DATE_F}'        @sap.Label: '{i18n>SO_EMAIL_SEND_DATE_F}';
+    SO_EMAIL_SENT_ON                @title: '{i18n>SO_EMAIL_SENT_ON}'            @sap.Label: '{i18n>SO_EMAIL_SENT_ON}';   
 };
 
 annotate service.Results with {
