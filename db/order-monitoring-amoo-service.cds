@@ -173,7 +173,7 @@ entity ![OPENORDERSLIST] {
         MANDT_TM                           : String(3);
         TKNUM                              : String(10);
         VSART                              : String(2);
-        EXTI1                              : String(20);
+        EXTI1                              : String(35);
         DPTBG                              : String(8);
         DPTBG_DATE                         : Date = DPTBG;
         DATBG                              : String(8);
@@ -187,7 +187,7 @@ entity ![OPENORDERSLIST] {
         AR_DATE                            : String(8);
         AR_DATE_DATE                       : Date = AR_DATE;
         TDLNR                              : String(10);
-        TDLNR_NAME1                        : String(35);
+        TDLNR_NAME1                        : String(81);
         STATUS_CODE_ELEM                   : String(3);
         STATUS_REASON_CODE_ELEM            : String(3);
         STATUS_CODE_TEXT_ELEM              : String(255);
@@ -203,7 +203,7 @@ entity ![OPENORDERSLIST] {
         REASON_CODE_TEXT_COMP              : String(100);
         TRACKING_ID_COMP                   : String(50);
         STATUS_CODE_MANUEL                 : String(3);
-        STTRG                              : String(1);
+        STTRG                              : String(2);
         VSART_BEZEI_LANG                   : String(20);
         STTRG_DDTEXT_LANG                  : String(60);
         NPS                                : String(2);
@@ -307,6 +307,14 @@ entity ![OPENORDERSLIST] {
         KDGRP_KTEXT_LANG                   : String(20);
         WE_PARTNER_REGION                  : String(3);
         WE_PARTNER_REGION_BEZEI_LANG       : String(20);
+
+        PRCTR                              : String(10);
+        TO_PARTNER_HEAD                    : String(10);
+        TO_PARTNER_ITM                     : String(10);
+        TO_PARTNER_NAME1_HEAD              : String(40);
+        TO_PARTNER_NAME2_HEAD              : String(40);
+        TO_PARTNER_NAME1_ITM               : String(40);
+        TO_PARTNER_NAME2_ITM               : String(40);
 }
 
 entity ContactsOptions {
@@ -461,6 +469,12 @@ entity ![SALESORDER_DETAILS](IP_LANG : String(2)) {
             MBDAT                  : String(8);
             MBDAT_DATE             : Date = MBDAT;
 
+            TO_PARTNER_HEAD        : String(10);
+            TO_PARTNER_ITM         : String(10);
+            TO_PARTNER_NAME1_HEAD  : String(40);
+            TO_PARTNER_NAME2_HEAD  : String(40);
+            TO_PARTNER_NAME1_ITM   : String(40);
+            TO_PARTNER_NAME2_ITM   : String(40);
 }
 
 @cds.persistence.exists

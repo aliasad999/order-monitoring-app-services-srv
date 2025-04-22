@@ -171,9 +171,9 @@ entity ![RESULTS] {
         TKNUM                              : String(10);
         VSART                              : String(2);
         VSART_BEZEI_LANG                   : String(20);
-        EXTI1                              : String(20);
+        EXTI1                              : String(35);
         TDLNR                              : String(10);
-        TDLNR_NAME1                        : String(35);
+        TDLNR_NAME1                        : String(81);
         STATUS_CODE_ELEM                   : String(3);
         STATUS_REASON_CODE_ELEM            : String(3);
         STATUS_CODE_TEXT_ELEM              : String(255);
@@ -201,7 +201,7 @@ entity ![RESULTS] {
         TM_DATEN_DATE                      : Date = DATEN;
         AR_DATE                            : String(8);
         TM_AR_DATE_DATE                    : Date = AR_DATE;
-        STTRG                              : String(1);
+        STTRG                              : String(2);
         STTRG_DDTEXT_LANG                  : String(60);
         BL_VBELN_INV_FIRST                 : String(10);
         BL_POSNR_INV_FIRST                 : String(6);
@@ -284,6 +284,16 @@ entity ![RESULTS] {
         KDGRP_KTEXT_LANG                   : String(20);
         WE_PARTNER_REGION                  : String(3);
         WE_PARTNER_REGION_BEZEI_LANG       : String(20);
+
+        PRCTR                              : String(10);
+
+        TO_PARTNER_HEAD                    : String(10);
+        TO_PARTNER_ITM                     : String(10);
+        TO_PARTNER_NAME1_HEAD              : String(40);
+        TO_PARTNER_NAME2_HEAD              : String(40);
+        TO_PARTNER_NAME1_ITM               : String(40);
+        TO_PARTNER_NAME2_ITM               : String(40);
+
 }
 
 entity PARTNER_SETTINGS {

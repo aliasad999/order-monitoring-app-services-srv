@@ -27,7 +27,6 @@ cds.on('bootstrap', async (app) => {
     app.use(passport.initialize());
     app.use(passport.authenticate('JWT', { session: false }));
     fesr.registerFesrEndpoint(app);
-    app.use(bodyParser.json());
 
     const sessionSecret = await credentialHelper.getPasswordByName("order-monitoring", "chatbotSessionSecret");
 
@@ -39,17 +38,19 @@ cds.on('bootstrap', async (app) => {
     }));
 
     // CLOUD Variant Management implementation
-    app.get('/actions/getcsrftoken/', (req, res) => {
-        res.type('text/html').status(200).send('');
-    });
-
-    app.post(['/variants/', '/changes/'], async (req, res) => {
+    // Custom body parser to allow bigger payloads (only for these specific endpoints POST/PUT)
+    const customBodyParser = bodyParser.json({ limit: '1mb' });
+    app.post(['/variants/', '/changes/'], customBodyParser, async (req, res) => {
         await variantManager.upsertVariant(req, res, req.body[0]);
     });
 
-    app.put(['/changes/:fileName', '/variants/:fileName'], async (req, res) => {
+    app.put(['/changes/:fileName', '/variants/:fileName'], customBodyParser, async (req, res) => {
         await variantManager.upsertVariant(req, res, req.body);
     });
+
+    // Set default body parser (100kb)
+    app.use(bodyParser.json());
+    // Do not delete this even if cloud variants are removed
 
     app.get('/flex/data/:app?', async (req, res) => {
         await variantManager.getUserVariants(req, res);
@@ -57,6 +58,10 @@ cds.on('bootstrap', async (app) => {
 
     app.delete('/variants/:fileName', async (req, res) => {
         await variantManager.deleteVariant(req, res);
+    });
+
+    app.get('/actions/getcsrftoken/', (req, res) => {
+        res.type('text/html').status(200).send('');
     });
     // END OF CLOUD Variant Management implementation
 

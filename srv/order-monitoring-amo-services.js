@@ -16,7 +16,22 @@ class srvOpenOrders extends cds.ApplicationService {
     async init() {
         this._SpecialCurrencies = []
         const { currencies } = cds.entities('openOrdersSrv');
-        this._SpecialCurrencies = await SELECT.from(currencies)
+        const { Results } = cds.entities('srvOpenOrders')
+        this._SpecialCurrencies = await SELECT.from(currencies);
+        this._textKeys = []
+        let data = Results.elements
+        for (let key in data) {
+            if (data[key]["@Common.Text"] && data[key]["@Common.Text"]["="]) {
+                switch (key) {
+                    case 'SO_DCP_ITEM_STATUS':
+                        this._textKeys.push({ key: key, value: 'SO_DCP_ITEM_STATUS' });
+                        break;
+                    default:
+                        this._textKeys.push({ key: key, value: data[key]["@Common.Text"]["="] });
+                        break;
+                }
+            }
+        }
         this.before('*', '*', async (req, next) => {
             await cds.run(`SET 'APPLICATION' = 'CAPServices'`);
         })
@@ -241,6 +256,13 @@ class srvOpenOrders extends cds.ApplicationService {
             if (authSet.length === 0) {
                 req.error(413, 'NO_AUTH_LIST')
             }
+            req.query.SELECT.orderBy && req.query.SELECT.orderBy.forEach(order => {
+                this._textKeys.forEach(item => {
+                    if (order.ref.includes(item.key)) {
+                        order.ref = [item.value];
+                    }
+                });
+            });
             cds
                 .connect("db")
                 .then(({ db }) =>
