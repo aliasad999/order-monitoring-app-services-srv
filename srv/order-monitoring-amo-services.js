@@ -276,7 +276,7 @@ class srvOpenOrders extends cds.ApplicationService {
             let whereClause = serviceHelper.convertCQNtoCQL(req.query.SELECT.where)
             // where clause is initially converted from cqn to cql
             // where clause is then transformed from cql for date formatting and removing additional inverted commas
-            whereClause = serviceHelper.transformWhereClause(whereClause)
+            whereClause = serviceHelper.transformWhereClause(whereClause,false)
             // where clause is then transformed from cql for date formatting and removing additional inverted commas
             // where clause is then inserted back to the query
             req.query.SELECT.where = cds.parse.xpr(whereClause)

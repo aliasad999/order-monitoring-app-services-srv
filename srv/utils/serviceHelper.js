@@ -153,14 +153,16 @@ const addOrRemoveNPSFilter = (req, npsTabSelected) => {
     }
 }
 
-convertCQNtoCQL = (where) => {
+convertCQNtoCQL = (where, callFunction) => {
     const requestQuery = [...where];
+    if (callFunction){
     // Helper function to process nested expressions
     for (let i = requestQuery.length - 1; i >= 0; i--) {
         if (requestQuery[i].ref && requestQuery[i].ref[0] === 'SO_NPS' || requestQuery[i].ref && requestQuery[i].ref[0] === 'SO_IGNORED') {
             requestQuery.splice(i, 4);
         }
     }
+}
     // Start processing from the top-level requestQuery array
     let cql = processExpression(requestQuery);
 

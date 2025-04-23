@@ -888,7 +888,7 @@ class openOrdersSrv extends cds.ApplicationService {
             req.query.SELECT.localized = false;
             req.query.SELECT.distinct = true;
             // where clause is initially converted from cqn to cql
-            let whereClause = serviceHelper.convertCQNtoCQL(req.query.SELECT.where)
+            let whereClause = serviceHelper.convertCQNtoCQL(req.query.SELECT.where, false)
             // where clause is initially converted from cqn to cql
             // where clause is then transformed from cql for date formatting and removing additional inverted commas
             whereClause = serviceHelper.transformWhereClause(whereClause)
@@ -972,7 +972,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     let tabs = {}
                     try {
                         const db = cds.transaction(req);
-                        const where = serviceHelper.convertCQNtoCQL(req.query.SELECT.where)
+                        const where = serviceHelper.convertCQNtoCQL(req.query.SELECT.where, true)
                         const sQuery = `CALL"npsValueExist"(IV_WHERECLAUSE => '${where}',LT_NPS_TAB => ?)`;
                         const npstabs = await db.run(sQuery)
                         tabs = npstabs.reduce((acc, item) => {
