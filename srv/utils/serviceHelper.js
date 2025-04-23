@@ -94,8 +94,8 @@ const replaceDateInArray = (array ) =>{
         }
 
         // Check nested arrays (e.g., for complex filter structures)
-        if (item.ref && Array.isArray(item.ref)) {
-            replaceDateInArray(item.ref);
+        if (item.ref && Array.isArray(item.ref) || item.xpr && Array.isArray(item.xpr)) {
+            replaceDateInArray(item.ref ?? item.xpr);
         }
     });
     return array;
