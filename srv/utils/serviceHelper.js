@@ -1,4 +1,4 @@
-const textBundle = require('./utils/textBundle')
+const textBundle = require('./textBundle')
 const getDateProps = () => {
     return [
         "SO_ERDAT_ORDER",
