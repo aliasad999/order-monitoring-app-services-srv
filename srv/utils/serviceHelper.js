@@ -90,12 +90,12 @@ const _addFilterToQuery = (query, fieldFiltered, filterValue) => {
 const replaceDateInArray = (array ) =>{
     array.forEach(item => {
         if (item && item.val === '1999-12-31') {
-            item.val = '0000-00-00';
+            item.val = '00000000'; // date in DB is stored without "-"
         }
 
         // Check nested arrays (e.g., for complex filter structures)
-        if (item.ref && Array.isArray(item.ref)) {
-            replaceDateInArray(item.ref);
+        if (item.ref && Array.isArray(item.ref) || item.xpr && Array.isArray(item.xpr)) {
+            replaceDateInArray(item.ref ?? item.xpr);
         }
     });
     return array;
