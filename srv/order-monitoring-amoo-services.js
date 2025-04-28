@@ -9,8 +9,6 @@ const enableHints = require("./plugins/enable_hints");
 const { startOfToday } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies')
 const serviceHelper = require('./utils/serviceHelper');
-const jwt = require('jsonwebtoken');
-const azureTokenManager = require('./utils/azureTokenManagement');
 
 class openOrdersSrv extends cds.ApplicationService {
 
@@ -1088,20 +1086,24 @@ class openOrdersSrv extends cds.ApplicationService {
 
         // ORDER CREATION HANDLERS
         this.before("READ", "orderCreation", async (req, next) => {
-            // Deactivated in PROD
-            if (process.env.SUBACCOUNT !== 'PROD') {
-                req.query.SELECT.localized = false;
-                req.query.SELECT.distinct = true;
+            cds
+                .connect("db")
+                .then(({ db }) =>
+                    db?.before("READ", (req) => enableHints(req)
+                    )
+                );
 
-                const dateProps = serviceHelper.getPODateProps()
-                for (let i = 0; i < req.query.SELECT.where?.length; i++) {
-                    const item = req.query.SELECT.where[i];
-                    if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
-                        for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
-                            if (typeof (req.query.SELECT.where[j].val) === 'string' && req.query.SELECT.where[j].val.includes('-') && req.query.SELECT.where[j].val !== undefined && req.query.SELECT.where[j].val !== null) {
-                                req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
-                                break;
-                            }
+            req.query.SELECT.localized = false;
+            req.query.SELECT.distinct = true;
+
+            const dateProps = serviceHelper.getPODateProps()
+            for (let i = 0; i < req.query.SELECT.where?.length; i++) {
+                const item = req.query.SELECT.where[i];
+                if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
+                    for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
+                        if (typeof (req.query.SELECT.where[j].val) === 'string' && req.query.SELECT.where[j].val.includes('-') && req.query.SELECT.where[j].val !== undefined && req.query.SELECT.where[j].val !== null) {
+                            req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
+                            break;
                         }
                     }
                 }
@@ -1109,27 +1111,19 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.on("READ", "orderCreation", async (req, next) => {
-            if (process.env.SUBACCOUNT !== 'PROD') {
-                if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
-                    try {
-                        const db = cds.transaction(req);
-                        const countCols = "PO_MANDT,PO_EBELN,PO_EBELP"
-                        let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${countCols} from  openOrdersSrv_orderCreation   ) `)
-                        if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
-                        const distinctCount = (req.query.SELECT.where) ?
-                            await db.run(query)
-                            : await db.run(query);
-                        return req.reply({ $count: Object.values(distinctCount[0])[0] })
-                    } catch (error) {
-                        log.error("[order-monitoring-app-services.js] - Count query failed ! " + JSON.stringify(error));
-                        req.error(error)
-                    }
-                }
-            } else { // Deactivated in PROD
-                if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
-                    return req.reply({ $count: 0 })
-                } else {
-                    return [];
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
+                try {
+                    const db = cds.transaction(req);
+                    const countCols = "PO_MANDT,PO_EBELN,PO_EBELP"
+                    let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${countCols} from  openOrdersSrv_orderCreation   ) `)
+                    if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
+                    const distinctCount = (req.query.SELECT.where) ?
+                        await db.run(query)
+                        : await db.run(query);
+                    return req.reply({ $count: Object.values(distinctCount[0])[0] })
+                } catch (error) {
+                    log.error("[order-monitoring-app-services.js] - Count query failed ! " + JSON.stringify(error));
+                    req.error(error)
                 }
             }
             await next(req)
@@ -1183,9 +1177,8 @@ class openOrdersSrv extends cds.ApplicationService {
                             item[property] = null
                         }
 
-                    })
                 })
-            }
+            })
         });
 
         // END OF ORDER CREATION HANDLERS
@@ -1269,7 +1262,7 @@ class openOrdersSrv extends cds.ApplicationService {
                             req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                         }
 
-                    }
+                }
 
                 } else {
                     const fields = req._queryOptions["search-focus"].split(',')
@@ -1305,28 +1298,20 @@ class openOrdersSrv extends cds.ApplicationService {
                             req.error(error)
                         }
 
-                    }
                 }
-                if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count' && req.query.SELECT.search) {
-                    lt_result = lt_result.filter((item) => {
-                        for (const prop in item) {
-                            if (item[prop] === null) return false;
-                            // convert to lowercase both sides in order to avoid case sensitivity issues when searching
-                            if (item[prop].toLowerCase().includes(req.query.SELECT.search[0].val.toLowerCase())) {
-                                return true;
-                            }
+            }
+            if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count' && req.query.SELECT.search) {
+                lt_result = lt_result.filter((item) => {
+                    for (const prop in item) {
+                        if (item[prop] === null) return false;
+                        // convert to lowercase both sides in order to avoid case sensitivity issues when searching
+                        if (item[prop].toLowerCase().includes(req.query.SELECT.search[0].val.toLowerCase())) {
+                            return true;
                         }
-                        return false;
+                    }
+                    return false;
 
-                    });
-                }
-            } else {
-                // Deactivation in PROD
-                if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
-                    lt_result = [];
-                } else {
-                    lt_result.push({ $count: 0 });
-                }
+                });
             }
             return lt_result;
 
@@ -1582,57 +1567,51 @@ class openOrdersSrv extends cds.ApplicationService {
                 case "EC":
                     break;
                 case "AP":
-                    if (process.env.SUBACCOUNT !== 'PROD') {
-                        if (issue === "01" || issue === "05") {
-                            try {
-                                const OMServicesAP = await cds.connect.to('OMServicesAP');
-                                if (issue === "01") { // order incompletion
-                                    incompletionLog = await OMServicesAP.send({
-                                        method: 'GET',
-                                        query: SELECT.from('IncompletionLogsSet').where`DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`,
-                                        headers: {
-                                            'X-Basf-Sap-Client': process.env.AP_CLIENT
-                                        }
-                                    });
-                                    // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`);
-                                } else { // issue 05 // delivery incompletion
-                                    // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`);
-                                    incompletionLog = await OMServicesAP.send({
-                                        method: 'GET',
-                                        query: SELECT.from('IncompletionLogsSet').where`DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`,
-                                        headers: {
-                                            'X-Basf-Sap-Client': process.env.AP_CLIENT
-                                        }
-                                    });
-                                }
-                                // Fill the text
-                                incompletionLog.forEach((log) => {
-                                    if (issue === '01') {
-                                        log.IncompletionText = `${log.IncompletionText} ${textBundle.getText("isMissing")}`;
-                                    } else {
-                                        if (log.DocumentItem === '000000') {
-                                            log.IncompletionText = `${textBundle.getText("onHeader")}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
-                                        } else {
-                                            log.IncompletionText = `${log.DocumentItem}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
-                                        }
+                    if (issue === "01" || issue === "05") {
+                        try {
+                            const OMServicesAP = await cds.connect.to('OMServicesAP');
+                            if (issue === "01") { // order incompletion
+                                incompletionLog = await OMServicesAP.send({
+                                    method: 'GET',
+                                    query: SELECT.from('IncompletionLogsSet').where`DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`,
+                                    headers: {
+                                        'X-Basf-Sap-Client': process.env.AP_CLIENT
                                     }
-                                })
-                            } catch (error) {
-                                console.error('Error fetching issue reason:', error);
+                                });
+                                // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`);
+                            } else { // issue 05 // delivery incompletion
+                                // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`);
+                                incompletionLog = await OMServicesAP.send({
+                                    method: 'GET',
+                                    query: SELECT.from('IncompletionLogsSet').where`DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`,
+                                    headers: {
+                                        'X-Basf-Sap-Client': process.env.AP_CLIENT
+                                    }
+                                });
                             }
-                        }
-                        /// AP PLACEHOLDER UNTIL THOSE REASONS FOR ISSUE ARE DONE (APIs MISSING)
-                        if (issue === "06" || issue === '08' || issue === '11') {
-                            idocData.push({
-                                text: textBundle.getText("APTBD")
+                            // Fill the text
+                            incompletionLog.forEach((log) => {
+                                if (issue === '01') {
+                                    log.IncompletionText = `${log.IncompletionText} ${textBundle.getText("isMissing")}`;
+                                } else {
+                                    if (log.DocumentItem === '000000') {
+                                        log.IncompletionText = `${textBundle.getText("onHeader")}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
+                                    } else {
+                                        log.IncompletionText = `${log.DocumentItem}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
+                                    }
+                                }
                             })
+                        } catch (error) {
+                            console.error('Error fetching issue reason:', error);
                         }
-                        ////////
-                    } else {
+                    }
+                    /// AP PLACEHOLDER UNTIL THOSE REASONS FOR ISSUE ARE DONE (APIs MISSING)
+                    if (issue === "06" || issue === '08' || issue === '11') {
                         idocData.push({
                             text: textBundle.getText("APTBD")
                         })
                     }
+                    ////////
                     break;
                 default:
                     break;
@@ -1666,216 +1645,6 @@ class openOrdersSrv extends cds.ApplicationService {
                 }
             }
             return combinedResults;
-        })
-        this.on("CREATE", "ChatbotApi", async (req) => {
-            log.info("Creating")
-            try {
-                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
-                const decodedToken = jwt.decode(tokenForUserInfo);
-                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
-                const { id, path, payload } = req.data;
-                log.info("Path received: ", path);
-                log.info("Payload received: ", payload);
-                const azureToken = await azureTokenManager.getAccessToken(username);
-
-                log.info("azureToken: ", azureToken);
-                log.info("Username: ", username);
-
-                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
-
-                log.info("Connected: ", chatbotTemp.name);
-
-                const responseChatbot = await chatbotTemp.tx(req).send({
-                    method: 'POST',
-                    path: path,
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + azureToken
-                    },
-                    data: JSON.parse(payload)
-                });
-                //const message = response.choices[0].messages;
-                log.info("Response message: ", responseChatbot)
-                const createdEntity = {
-                    id: id,
-                    response: responseChatbot
-                };
-                return createdEntity;
-            } catch (e) {
-                log.error("Error occured while calling chatbot API", e.message);
-                return "An error occured.";
-            }
-        })
-        this.on("callChatbotFeedback", async (req) => {
-            console.log("calling MessageLiked")
-            try {
-                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
-                const decodedToken = jwt.decode(tokenForUserInfo);
-                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
-                const payload = req.data.payload;
-                log.info("Payload received: ", payload);
-                const azureToken = await azureTokenManager.getAccessToken(username);
-
-                log.info("azureToken: ", azureToken);
-                log.info("Username: ", username);
-
-                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
-
-                const response = await chatbotTemp.tx(req).send({
-                    method: 'POST',
-                    path: '/feedback',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + azureToken
-                    },
-                    data: payload
-                });
-
-                return JSON.stringify(response);
-            } catch (e) {
-                console.log(e.message);
-                return "An error occured.";
-            }
-        })
-
-        this.on("callChatbotSuggestion", async (req) => {
-            try {
-                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
-                const decodedToken = jwt.decode(tokenForUserInfo);
-                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
-                const payload = req.data.payload;
-                const azureToken = await azureTokenManager.getAccessToken(username);
-                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
-
-                const response = await chatbotTemp.tx(req).send({
-                    method: 'POST',
-                    path: '/suggestion',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + azureToken
-                    },
-                    data: payload
-                });
-
-                return JSON.stringify(response);
-            } catch (e) {
-                log.error("Error in suggestion request", e);
-                return "An error occured.";
-            }
-        })
-
-        this.on("callChatbotHistoryService", async (req) => {
-            log.info("Calling history");
-            try {
-                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
-                const decodedToken = jwt.decode(tokenForUserInfo);
-                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
-                const azureToken = await azureTokenManager.getAccessToken(username);
-
-                log.info("azureToken: ", azureToken);
-                log.info("Username: ", username);
-
-                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
-
-                const response = await chatbotTemp.tx(req).send({
-                    method: 'GET',
-                    path: '/history/list',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + azureToken
-                    },
-
-                });
-                console.log(JSON.stringify(response))
-                //const message = response.choices[0].messages;
-                //console.log("Response message: ", message)
-                return JSON.stringify(response); // TODO: return history...
-            } catch (e) {
-                console.error(e.message);
-                return "An error occured.";
-            }
-
-        })
-
-        this.on("callChatbotWelcomeMsg", async (req) => {
-            log.info("Getting welcome msg");
-            try {
-                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
-                const decodedToken = jwt.decode(tokenForUserInfo);
-                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
-                var azureToken = await azureTokenManager.getAccessToken(username);
-
-                log.info("azureToken: ", azureToken);
-                log.info("Username: ", username);
-
-                // Retry fetching the token if it's missing
-                let retryCount = 0;
-                const maxRetries = 10;
-                while (!azureToken && retryCount < maxRetries) {
-                    log.warn("Azure token not found for ${username}, retrying... (${retryCount + 1}/${maxRetries})");
-                    await new Promise(resolve => setTimeout(resolve, 1500)); // Wait before retrying
-                    azureToken = await azureTokenManager.getAccessToken(username);
-                    retryCount++;
-                }
-
-                if (!azureToken) {
-                    throw new Error("Failed to retrieve Azure token after multiple attempts");
-                }
-
-                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
-
-                const response = await chatbotTemp.tx(req).send({
-                    method: 'GET',
-                    path: '/welcome',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + azureToken
-                    },
-
-                });
-                return JSON.stringify(response);
-            } catch (e) {
-                console.error("Error while calling /welcome: ", e);
-                return JSON.stringify({ message: "Welcome to the Chatbot! (Default message due to error)" });
-            }
-        })
-
-        this.on("callChatbotGetConversation", async (req) => {
-            console.log("calling getConversation")
-            try {
-                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
-                const decodedToken = jwt.decode(tokenForUserInfo);
-                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
-                const payload = req.data.payload;
-                log.info("Payload received: ", payload);
-                const azureToken = await azureTokenManager.getAccessToken(username);
-
-                log.info("azureToken: ", azureToken);
-                log.info("Username: ", username);
-                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
-
-                const response = await chatbotTemp.tx(req).send({
-                    method: 'POST',
-                    path: '/history/read',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + azureToken
-                    },
-                    data: payload
-                });
-                const message = response.messages;
-                console.log("Response message: ", message)
-                return JSON.stringify(message);
-            } catch (e) {
-                console.error(e.message);
-                return "An error occured.";
-            }
         })
 
         return super.init();

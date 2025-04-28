@@ -157,12 +157,6 @@
                 "path": "/it/omg/omc/sofm-delivery/v1"
             }
         },
-       "ChatbotUiTokenService": {
-            "kind": "rest",
-            "credentials": {
-                "destination": "Chatbot_UI_token"
-            }
-        },
         "OMServicesAP":{
             "kind": "odata-v2",
             "credentials": {
