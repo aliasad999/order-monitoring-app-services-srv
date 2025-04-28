@@ -1139,8 +1139,6 @@ class openOrdersSrv extends cds.ApplicationService {
         })
 
         this.after("READ", "orderCreation", async (data, req) => {
-            // Deactivated in PROD
-
             let sessionID = req.headers['authorization'] || req.headers['x-username'];
             if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                 // do nothing
