@@ -670,7 +670,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         // req.header.select will have the string of visible columns. 
                         //this parameater has been manually set to header on every request
                         const selectedField = req._queryOptions && req._queryOptions['$select']
-                        const fields = selectedField && selectedField.split(',');
+                        let fields = selectedField && selectedField.split(',');
                         fields = fields.filter((fieldName) => {
                             const mandtFields = serviceHelper.getMandtFields();
                             const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
