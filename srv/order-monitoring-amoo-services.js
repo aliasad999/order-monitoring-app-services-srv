@@ -1104,6 +1104,13 @@ class openOrdersSrv extends cds.ApplicationService {
 
         // ORDER CREATION HANDLERS
         this.before("READ", "orderCreation", async (req, next) => {
+            cds
+                .connect("db")
+                .then(({ db }) =>
+                    db?.before("READ", (req) => enableHints(req)
+                    )
+                );
+
             req.query.SELECT.localized = false;
             req.query.SELECT.distinct = true;
 
