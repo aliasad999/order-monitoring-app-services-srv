@@ -16,18 +16,18 @@ describe('Start Server and check various ODATA  calls', function () {
   const currentDate = new Date();
   const monthLastDay = lastDayOfMonth(currentDate);
   const monthFirstDay = startOfMonth(currentDate)
-  const lastDay = format(monthLastDay, 'yyyy-MM-dd');
-  const firstDay = format(monthFirstDay, 'yyyy-MM-dd');
+  const lastDay = format(monthLastDay, "yyyy-MM-dd'T'00:00:00'Z'");
+  const firstDay = format(monthFirstDay, "yyyy-MM-dd'T'00:00:00'Z'");
   const currentQuarterFirstDay = startOfQuarter(currentDate);
   const currentQuarterLastDay = endOfQuarter(currentDate);
   const currentMonthName = currentDate.toLocaleString('default', { month: 'long' });
   const currentYearFirstDay = startOfYear(currentDate);
   const currentYearLastDay = endOfYear(currentDate);
-  const firstDayQuarter = format(currentQuarterFirstDay, 'yyyy-MM-dd');
-  const lastDayQuarter = format(currentQuarterLastDay, 'yyyy-MM-dd');
+  const firstDayQuarter = format(currentQuarterFirstDay, "yyyy-MM-dd'T'00:00:00'Z'");
+  const lastDayQuarter = format(currentQuarterLastDay, "yyyy-MM-dd'T'00:00:00'Z'");
   const currentQuarter = getQuarter(currentDate);
-  const YearFirstDay = format(currentYearFirstDay, 'yyyy-MM-dd');
-  const YearLastDay = format(currentYearLastDay, 'yyyy-MM-dd');
+  const YearFirstDay = format(currentYearFirstDay, "yyyy-MM-dd'T'00:00:00'Z'");
+  const YearLastDay = format(currentYearLastDay, "yyyy-MM-dd'T'00:00:00'Z'");
   const currentYear = currentDate.getFullYear();
 
 
@@ -275,7 +275,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '10'&$select=${constants.standardVariantsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '10'&$select=${constants.standardVariantsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -287,7 +287,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await axios.get(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '10'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
+          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '10'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -298,7 +298,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await axios.get(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '10'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
+          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '10'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -309,7 +309,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await axios.get(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '10'&$select=${constants.deliveryShipmentsalesorder_nps}`)
+          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '10'&$select=${constants.deliveryShipmentsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -320,7 +320,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await axios.get(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '10'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
+          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '10'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -331,7 +331,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await axios.get(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '10'&$select=${constants.orderFinalOrdersalesorder_nps}`)
+          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '10'&$select=${constants.orderFinalOrdersalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -346,7 +346,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '10'&$select=${constants.standardVariantsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '10'&$select=${constants.standardVariantsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -358,7 +358,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '10'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '10'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -370,7 +370,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '10'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '10'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -381,7 +381,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '10'&$select=${constants.deliveryShipmentsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '10'&$select=${constants.deliveryShipmentsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -393,7 +393,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '10'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '10'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -405,7 +405,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '10'&$select=${constants.orderFinalOrdersalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '10'&$select=${constants.orderFinalOrdersalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -419,7 +419,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '10'&$select=${constants.standardVariantsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '10'&$select=${constants.standardVariantsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -431,7 +431,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '10'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '10'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -443,7 +443,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '10'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '10'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -454,7 +454,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '10'&$select=${constants.deliveryShipmentsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '10'&$select=${constants.deliveryShipmentsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -466,7 +466,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '10'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '10'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -478,7 +478,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '10'&$select=${constants.orderFinalOrdersalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '10'&$select=${constants.orderFinalOrdersalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -495,7 +495,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '20'&$select=${constants.standardVariantsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '20'&$select=${constants.standardVariantsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -507,7 +507,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await axios.get(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '20'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
+          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '20'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -518,7 +518,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await axios.get(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '20'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
+          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '20'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -529,7 +529,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await axios.get(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '20'&$select=${constants.deliveryShipmentsalesorder_nps}`)
+          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '20'&$select=${constants.deliveryShipmentsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -540,7 +540,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await axios.get(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '20'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
+          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '20'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -551,7 +551,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await axios.get(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '20'&$select=${constants.orderFinalOrdersalesorder_nps}`)
+          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '20'&$select=${constants.orderFinalOrdersalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -566,7 +566,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '20'&$select=${constants.standardVariantsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '20'&$select=${constants.standardVariantsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -578,7 +578,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '20'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '20'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -590,7 +590,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '20'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '20'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -601,7 +601,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '20'&$select=${constants.deliveryShipmentsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '20'&$select=${constants.deliveryShipmentsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -613,7 +613,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '20'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '20'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -625,7 +625,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '20'&$select=${constants.orderFinalOrdersalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '20'&$select=${constants.orderFinalOrdersalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -639,7 +639,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '20'&$select=${constants.standardVariantsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '20'&$select=${constants.standardVariantsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -651,7 +651,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '20'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '20'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -663,7 +663,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '20'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '20'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -674,7 +674,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '20'&$select=${constants.deliveryShipmentsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '20'&$select=${constants.deliveryShipmentsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -686,7 +686,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '20'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '20'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -698,7 +698,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '20'&$select=${constants.orderFinalOrdersalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '20'&$select=${constants.orderFinalOrdersalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -714,7 +714,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '30'&$select=${constants.standardVariantsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '30'&$select=${constants.standardVariantsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -726,7 +726,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await axios.get(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '30'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
+          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '30'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -737,7 +737,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await axios.get(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '30'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
+          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '30'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -748,7 +748,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await axios.get(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '30'&$select=${constants.deliveryShipmentsalesorder_nps}`)
+          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '30'&$select=${constants.deliveryShipmentsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -759,7 +759,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await axios.get(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '30'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
+          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '30'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -770,7 +770,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await axios.get(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '30'&$select=${constants.orderFinalOrdersalesorder_nps}`)
+          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '30'&$select=${constants.orderFinalOrdersalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -785,7 +785,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '30'&$select=${constants.standardVariantsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '30'&$select=${constants.standardVariantsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -797,7 +797,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '30'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '30'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -809,7 +809,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '30'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '30'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -820,7 +820,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '30'&$select=${constants.deliveryShipmentsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '30'&$select=${constants.deliveryShipmentsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -832,7 +832,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '30'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '30'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -844,7 +844,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '30'&$select=${constants.orderFinalOrdersalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '30'&$select=${constants.orderFinalOrdersalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -858,7 +858,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '30'&$select=${constants.standardVariantsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '30'&$select=${constants.standardVariantsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -870,7 +870,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '30'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '30'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -882,7 +882,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '30'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '30'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -893,7 +893,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '30'&$select=${constants.deliveryShipmentsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '30'&$select=${constants.deliveryShipmentsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -905,7 +905,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '30'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '30'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
@@ -917,7 +917,7 @@ describe('Start Server and check various ODATA  calls', function () {
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/salesorder_nps?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '30'&$select=${constants.orderFinalOrdersalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '30'&$select=${constants.orderFinalOrdersalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
