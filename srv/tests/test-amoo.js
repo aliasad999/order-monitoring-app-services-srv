@@ -268,667 +268,228 @@ describe('Start Server and check various ODATA  calls', function () {
       // -------------------------ALL ISSUES  Current Year  Variant-------------------------------
 // ----------------------------ALL ISSUES -----------------------------------------------------
 
-// ----------------------------SALES ORDER NPS 10 -----------------------------------------------------
+      const npsValues = Array.from({ length: 9 }, (_, i) => (i + 1) * 10);
+      npsValues.forEach((nps)=>{
       // -------------------------Current Months Variant-------------------------------
-      it(` Standard Variant -- SALES ORDER NPS 10 for ==> ${currentMonthName} `, async function () {
+
+        it(` Standard Variant -- All Issues NPS ${nps} for ==> ${currentMonthName} `, async function () {
 
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '10'&$select=${constants.standardVariantsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '${nps}'&$select=${constants.standardVariantsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
           assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
         }
       });
+      it(` All Fields from the app --All Issues NPS ${nps} ==> for the month of ${currentMonthName}`, async function () {
+        const timeout = 5000
+        this.timeout(timeout);
+        try {
+          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '${nps}'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
+          assert.equal(200, response.status)
+        } catch (error) {
+          assert.strictEqual(error.code, 'ECONNABORTED');
+          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
+        }
+      });
+      it(` sales order + delivery -- All Issues NPS ${nps} ==> ${currentMonthName}  `, async function () {
+        const timeout = 5000
+        this.timeout(timeout);
+        try {
+          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '${nps}'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
+          assert.equal(200, response.status)
+        } catch (error) {
+          assert.strictEqual(error.code, 'ECONNABORTED');
+          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
+        }
+      });
+      it(` Delivery + shipment fields  -- All Issues NPS ${nps}  ==> ${currentMonthName}`, async function () {
+        const timeout = 5000
+        this.timeout(timeout);
+        try {
+          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '${nps}'&$select=${constants.deliveryShipmentsalesorder_nps}`)
+          assert.equal(200, response.status)
+        } catch (error) {
+          assert.strictEqual(error.code, 'ECONNABORTED');
+          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
+        }
+      });
+      it(` delivery + shipment + billing first and final  -- All Issues ${nps}  ==> ${currentMonthName}`, async function () {
+        const timeout = 5000
+        this.timeout(timeout);
+        try {
+          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '${nps}'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
+          assert.equal(200, response.status)
+        } catch (error) {
+          assert.strictEqual(error.code, 'ECONNABORTED');
+          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
+        }
+      });
+      it(` order + finalorder  --All Issues NPS ${nps} ==> ${currentMonthName}`, async function () {
+        const timeout = 5000
+        this.timeout(timeout);
+        try {
+          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '${nps}'&$select=${constants.orderFinalOrdersalesorder_nps}`)
+          assert.equal(200, response.status)
+        } catch (error) {
+          assert.strictEqual(error.code, 'ECONNABORTED');
+          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
+        }
+      });
+          // ------------------------- Current Months Variant-------------------------------
+          // ------------------------- Current Quarter Variant-------------------------------
     
-      it(` All Fields from the app --SALES ORDER NPS 10 ==> for the month of ${currentMonthName}`, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '10'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` sales order + delivery -- SALES ORDER NPS 10  ==> ${currentMonthName}  `, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '10'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` Delivery + shipment fields  -- SALES ORDER NPS 10  ==> ${currentMonthName}`, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '10'&$select=${constants.deliveryShipmentsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` delivery + shipment + billing first and final  -- SALES ORDER NPS 10 ==> ${currentMonthName}`, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '10'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` order + finalorder  -- SALES ORDER NPS 10 ==> ${currentMonthName}`, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '10'&$select=${constants.orderFinalOrdersalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-          // -------------------------SALES ORDER NPS 10  Current Months Variant-------------------------------
-          // -------------------------SALES ORDER NPS 10  Current Quarter Variant-------------------------------
-    
-      it(` Standard Variant -- SALES ORDER NPS 10 for ==> ${currentQuarter} Quarter `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '10'&$select=${constants.standardVariantsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` All Fields from the app -- SALES ORDER NPS 10 for ==> ${currentQuarter} Quarter `, async function () {
+      it(` Standard Variant -- All Issues NPS ${nps} for ==> ${currentQuarter} Quarter `, async function () {
     
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '10'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '${nps}'&$select=${constants.standardVariantsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
           assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
         }
       });
-      it(` sales order + delivery -- SALES ORDER NPS 10 for ==> ${currentQuarter} Quarter `, async function () {
+      it(` All Fields from the app --All Issues NPS ${nps} for ==> ${currentQuarter} Quarter `, async function () {
     
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '10'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '${nps}'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
           assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
         }
       });
-      it(` Delivery + shipment fields for -- SALES ORDER NPS 10 for ==> ${currentQuarter} Quarter `, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '10'&$select=${constants.deliveryShipmentsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` delivery + shipment + billing first and final -- SALES ORDER NPS 10 for ==> ${currentQuarter} Quarter `, async function () {
+      it(` sales order + delivery -- All Issues NPS ${nps} for ==> ${currentQuarter} Quarter `, async function () {
     
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '10'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '${nps}'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
           assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
         }
       });
-      it(` order + finalorder  -- SALES ORDER NPS 10 for ==> ${currentQuarter} Quarter `, async function () {
+      it(` Delivery + shipment fields for -- All Issues NPS ${nps} ==> ${currentQuarter} Quarter `, async function () {
+        const timeout = 5000
+        this.timeout(timeout);
+        try {
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '${nps}'&$select=${constants.deliveryShipmentsalesorder_nps}`)
+          assert.equal(200, response.status)
+        } catch (error) {
+          assert.strictEqual(error.code, 'ECONNABORTED');
+          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
+        }
+      });
+      it(` delivery + shipment + billing first and final -- All Issues NPS ${nps} for ==> ${currentQuarter} Quarter `, async function () {
     
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '10'&$select=${constants.orderFinalOrdersalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '${nps}'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
           assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
         }
       });
-          // -------------------------SALES ORDER NPS 10  Current Quarter Variant-------------------------------
-          // -------------------------SALES ORDER NPS 10  Current Year  Variant-------------------------------
-      it(` Standard Variant -- SALES ORDER NPS 10 for ==> ${currentYear} Year `, async function () {
+      it(` order + finalorder  -- All Issues ${nps} for ==> ${currentQuarter} Quarter `, async function () {
     
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '10'&$select=${constants.standardVariantsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '${nps}'&$select=${constants.orderFinalOrdersalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
           assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
         }
       });
-      it(` All Fields from the app -- SALES ORDER NPS 10 for ==> ${currentYear} Year `, async function () {
+          // ------------------------- Current Quarter Variant-------------------------------
+          // ------------------------- Current Year  Variant-------------------------------
+      it(` Standard Variant -- All Issues ${nps} for ==> ${currentYear} Year `, async function () {
     
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '10'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '${nps}'&$select=${constants.standardVariantsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
           assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
         }
       });
-      it(` sales order + delivery -- SALES ORDER NPS 10 for ==> ${currentYear} Year `, async function () {
+      it(` All Fields from the app -- All Issues NPS ${nps} ==> ${currentYear} Year `, async function () {
     
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '10'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '${nps}'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
           assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
         }
       });
-      it(` Delivery + shipment fields for -- SALES ORDER NPS 10 for ==> ${currentYear} Year `, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '10'&$select=${constants.deliveryShipmentsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` delivery + shipment + billing first and final -- SALES ORDER NPS 10 for ==> ${currentYear} year `, async function () {
+      it(` sales order + delivery --All Issues NPS ${nps}==> ${currentYear} Year `, async function () {
     
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '10'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '${nps}'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
           assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
         }
       });
-      it(` order + finalorder  -- SALES ORDER NPS 10 for ==> ${currentYear} year `, async function () {
+      it(` Delivery + shipment fields for -- All Issues NPS ${nps} for ==> ${currentYear} Year `, async function () {
+        const timeout = 5000
+        this.timeout(timeout);
+        try {
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '${nps}'&$select=${constants.deliveryShipmentsalesorder_nps}`)
+          assert.equal(200, response.status)
+        } catch (error) {
+          assert.strictEqual(error.code, 'ECONNABORTED');
+          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
+        }
+      });
+      it(` delivery + shipment + billing first and final -- All Issues NPS ${nps} for ==> ${currentYear} year `, async function () {
     
         const timeout = 5000
         this.timeout(timeout);
         try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '10'&$select=${constants.orderFinalOrdersalesorder_nps}`)
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '${nps}'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
           assert.equal(200, response.status)
         } catch (error) {
           assert.strictEqual(error.code, 'ECONNABORTED');
           assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
         }
       });
-          // -------------------------SALES ORDER NPS 10  Current Year  Variant-------------------------------
-    // ----------------------------SALES ORDER NPS 10 -----------------------------------------------------
-      
-// ----------------------------SALES ORDER NPS 20 -----------------------------------------------------
-      // -------------------------Current Months Variant-------------------------------
-      it(` Standard Variant -- SALES ORDER NPS 20 for ==> ${currentMonthName} `, async function () {
+      it(` order + finalorder  --All Issues NPS ${nps}==> ${currentYear} year `, async function () {
+    
+        const timeout = 5000
+        this.timeout(timeout);
+        try {
+          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '${nps}'&$select=${constants.orderFinalOrdersalesorder_nps}`)
+          assert.equal(200, response.status)
+        } catch (error) {
+          assert.strictEqual(error.code, 'ECONNABORTED');
+          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
+        }
+      });
 
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '20'&$select=${constants.standardVariantsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-    
-      it(` All Fields from the app --SALES ORDER NPS 20 ==> for the month of ${currentMonthName}`, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '20'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` sales order + delivery -- SALES ORDER NPS 20 ==> ${currentMonthName}  `, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '20'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` Delivery + shipment fields -- SALES ORDER NPS 20 ==> ${currentMonthName}`, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '20'&$select=${constants.deliveryShipmentsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` delivery + shipment + billing first and final -- SALES ORDER NPS 20 ==> ${currentMonthName}`, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '20'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` order + finalorder -- SALES ORDER NPS 20 ==> ${currentMonthName}`, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '20'&$select=${constants.orderFinalOrdersalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-          // -------------------------SALES ORDER NPS 20  Current Months Variant-------------------------------
-          // -------------------------SALES ORDER NPS 20  Current Quarter Variant-------------------------------
-    
-      it(` Standard Variant -- SALES ORDER NPS 20 for ==> ${currentQuarter} Quarter `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '20'&$select=${constants.standardVariantsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` All Fields from the app -- SALES ORDER NPS 20 for ==> ${currentQuarter} Quarter `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '20'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` sales order + delivery  -- SALES ORDER NPS 20 for ==> ${currentQuarter} Quarter `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '20'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` Delivery + shipment fields for -- SALES ORDER NPS 20 for ==> ${currentQuarter} Quarter `, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '20'&$select=${constants.deliveryShipmentsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` delivery + shipment + billing first and final -- SALES ORDER NPS 20 for ==> ${currentQuarter} Quarter `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '20'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` order + finalorder  -- SALES ORDER NPS 20 for ==> ${currentQuarter} Quarter `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '20'&$select=${constants.orderFinalOrdersalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-          // -------------------------SALES ORDER NPS 20  Current Quarter Variant-------------------------------
-          // -------------------------SALES ORDER NPS 20  Current Year  Variant-------------------------------
-      it(` Standard Variant -- SALES ORDER NPS 20 for ==> ${currentYear} Year `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '20'&$select=${constants.standardVariantsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` All Fields from the app -- SALES ORDER NPS 20 for ==> ${currentYear} Year `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '20'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` sales order + delivery  -- SALES ORDER NPS 20 for ==> ${currentYear} Year `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '20'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` Delivery + shipment fields for -- SALES ORDER NPS 20 for ==> ${currentYear} Year `, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '20'&$select=${constants.deliveryShipmentsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` delivery + shipment + billing first and final -- SALES ORDER NPS 20 for ==> ${currentYear} year `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '20'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` order + finalorder  -- SALES ORDER NPS 20 for ==> ${currentYear} year `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '20'&$select=${constants.orderFinalOrdersalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-          // -------------------------SALES ORDER NPS 20  Current Year  Variant-------------------------------
-    // ----------------------------SALES ORDER NPS 20 -----------------------------------------------------
-  // ----------------------------SALES ORDER NPS 30 -----------------------------------------------------
-      // -------------------------Current Months Variant-------------------------------
-      it(` Standard Variant -- SALES ORDER NPS 30  ==> ${currentMonthName} `, async function () {
-
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '30'&$select=${constants.standardVariantsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-    
-      it(` All Fields from the app --SALES ORDER NPS 30 ==> for the month of ${currentMonthName}`, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '30'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` sales order + delivery -- SALES ORDER NPS 30  ==> ${currentMonthName}  `, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '30'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` Delivery + shipment fields -- SALES ORDER NPS 30  ==> ${currentMonthName}`, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '30'&$select=${constants.deliveryShipmentsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` delivery + shipment + billing first and final -- SALES ORDER NPS 30  ==> ${currentMonthName}`, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '30'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` order + finalorder  ==> ${currentMonthName}`, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await axios.get(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=(SO_EDATU_REQUESTED ge ${firstDay} and SO_EDATU_REQUESTED le ${lastDay}) and SO_NPS eq '30'&$select=${constants.orderFinalOrdersalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-          // -------------------------SALES ORDER NPS 30  Current Months Variant-------------------------------
-          // -------------------------SALES ORDER NPS 30  Current Quarter Variant-------------------------------
-    
-      it(` Standard Variant -- SALES ORDER NPS 30 for ==> ${currentQuarter} Quarter `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '30'&$select=${constants.standardVariantsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` All Fields from the app -- SALES ORDER NPS 30 for ==> ${currentQuarter} Quarter `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '30'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` sales order + delivery -- SALES ORDER NPS 30 for ==> ${currentQuarter} Quarter `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '30'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` Delivery + shipment fields for -- SALES ORDER NPS 30 for ==> ${currentQuarter} Quarter `, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '30'&$select=${constants.deliveryShipmentsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` delivery + shipment + billing first and final -- SALES ORDER NPS 30  ==> ${currentQuarter} Quarter `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '30'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` order + finalorder  -- SALES ORDER NPS 30  ==> ${currentQuarter} Quarter `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${firstDayQuarter} and SO_EDATU_REQUESTED le ${lastDayQuarter}) and SO_NPS eq '30'&$select=${constants.orderFinalOrdersalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-          // -------------------------SALES ORDER NPS 30  Current Quarter Variant-------------------------------
-          // -------------------------SALES ORDER NPS 30  Current Year  Variant-------------------------------
-      it(` Standard Variant -- SALES ORDER NPS 30  ==> ${currentYear} Year `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '30'&$select=${constants.standardVariantsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` All Fields from the app -- SALES ORDER NPS 30  ==> ${currentYear} Year `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '30'&$select=${constants.allFieldsViaAppsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` sales order + delivery -- SALES ORDER NPS 30  ==> ${currentYear} Year `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '30'&$select=${constants.salesOrderDeliverysalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` Delivery + shipment fields for -- SALES ORDER NPS 30  ==> ${currentYear} Year `, async function () {
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '30'&$select=${constants.deliveryShipmentsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` delivery + shipment + billing first and final -- SALES ORDER NPS 30 for ==> ${currentYear} year `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '30'&$select=${constants.deliveryShipmentBillingsalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-      it(` order + finalorder  -- SALES ORDER NPS 30 for ==> ${currentYear} year `, async function () {
-    
-        const timeout = 5000
-        this.timeout(timeout);
-        try {
-          const response = await GET(`${baseUrl}/allIssues?$skip=0&$top=981&$filter=( SO_EDATU_REQUESTED ge ${YearFirstDay} and SO_EDATU_REQUESTED le ${YearLastDay}) and SO_NPS eq '30'&$select=${constants.orderFinalOrdersalesorder_nps}`)
-          assert.equal(200, response.status)
-        } catch (error) {
-          assert.strictEqual(error.code, 'ECONNABORTED');
-          assert.strictEqual(error.message, `timeout of ${timeout}ms exceeded`);
-        }
-      });
-          // -------------------------SALES ORDER NPS 30  Current Year  Variant-------------------------------
-    // ----------------------------SALES ORDER NPS 30 -----------------------------------------------------
-          
+    });
 after(function () {
     cds.disconnect();
     server.close()
-  });
+  })
 });
