@@ -31,6 +31,7 @@ modules:
       SAP_CALM_FESR_LOG_LEVEL: info
       AP_CLIENT: 100
       SUBACCOUNT: DEV
+      OC_TAB_STATUS: ON
       NODE_ARGS: -r @sap/xotel-agent-ext-js/dist/common/tracer    
     parameters:
       buildpack: nodejs_buildpack
