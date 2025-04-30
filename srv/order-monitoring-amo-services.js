@@ -273,10 +273,10 @@ class srvOpenOrders extends cds.ApplicationService {
             req.query.SELECT.localized = false;
             req.query.SELECT.distinct = true;
             // where clause is initially converted from cqn to cql
-            let whereClause = serviceHelper.convertCQNtoCQL(req.query.SELECT.where)
+            let whereClause = serviceHelper.convertCQNtoCQL(req.query.SELECT.where,false)
             // where clause is initially converted from cqn to cql
             // where clause is then transformed from cql for date formatting and removing additional inverted commas
-            whereClause = serviceHelper.transformWhereClause(whereClause,false)
+            whereClause = serviceHelper.transformWhereClause(whereClause)
             // where clause is then transformed from cql for date formatting and removing additional inverted commas
             // where clause is then inserted back to the query
             req.query.SELECT.where = cds.parse.xpr(whereClause)

@@ -105,14 +105,6 @@ const replaceDateInArray = (array ) =>{
 const removeDuplicates = (fields, lt_result) => {
     if (fields) {
         lt_result = lt_result
-            // .filter(obj => { // Remove entries with all null values
-            //     // if all values are null, then allNull will be true
-            //     // if not, allNull will be false
-            //     // return value is the opposite of that to do the right filtering
-            //     // true -- added to set / false -- not added to set
-            //     var allNull = fields.every(field => obj[field] === null);
-            //     return !allNull;
-            // })
             .filter(obj => fields.every(field => obj[field] !== null))
             .map(obj => {
                 const newObj = {};
@@ -153,9 +145,9 @@ const addOrRemoveNPSFilter = (req, npsTabSelected) => {
     }
 }
 
-convertCQNtoCQL = (where, callFunction) => {
+convertCQNtoCQL = (where, ignoreNPS) => {
     const requestQuery = [...where];
-    if (callFunction){
+    if (ignoreNPS){
     // Helper function to process nested expressions
     for (let i = requestQuery.length - 1; i >= 0; i--) {
         if (requestQuery[i].ref && requestQuery[i].ref[0] === 'SO_NPS' || requestQuery[i].ref && requestQuery[i].ref[0] === 'SO_IGNORED') {
