@@ -472,7 +472,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     }
                 }
                 let language = req.locale.toUpperCase();
-                if (req.headers.so_mandt && req.headers.so_mandt == '300' && process.env.SUBACCOUNT !== 'PROD') {
+                if (req.headers.so_mandt && req.headers.so_mandt == '300' ) {
                     const OmServicesAp = await cds.connect.to('OMServicesAP');
                     const { APContacts } = cds.entities('openOrdersSrv');
                     const LPadOrderItem = orderItem.replace(/^0+/, "") || "0";
@@ -1107,18 +1107,14 @@ class openOrdersSrv extends cds.ApplicationService {
                 req.query.SELECT.localized = false;
                 req.query.SELECT.distinct = true;
 
-                const dateProps = serviceHelper.getPODateProps()
-                for (let i = 0; i < req.query.SELECT.where?.length; i++) {
-                    const item = req.query.SELECT.where[i];
-                    if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
-                        for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
-                            if (typeof (req.query.SELECT.where[j].val) === 'string' && req.query.SELECT.where[j].val.includes('-') && req.query.SELECT.where[j].val !== undefined && req.query.SELECT.where[j].val !== null) {
-                                req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
-                                break;
-                            }
-                        }
-                    }
-                }
+            // where clause is initially converted from cqn to cql
+                let whereClause = serviceHelper.convertCQNtoCQL(req.query.SELECT.where, false)
+            // where clause is initially converted from cqn to cql
+            // where clause is then transformed from cql for date formatting and removing additional inverted commas
+            whereClause = serviceHelper.transformWhereClause(whereClause)
+            // where clause is then transformed from cql for date formatting and removing additional inverted commas
+            // where clause is then inserted back to the query
+            req.query.SELECT.where = cds.parse.xpr(whereClause)
             }
         });
 
