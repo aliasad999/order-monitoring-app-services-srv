@@ -14,7 +14,7 @@
             "kind": "rest",
             "credentials": {
                 "destination": "APIM",
-                "path": "it/omg/omc/auth-ap/v1"
+                "path": "/it/omg/omc/auth-ap/v1"
             }
         },
         "authServiceEC": {
