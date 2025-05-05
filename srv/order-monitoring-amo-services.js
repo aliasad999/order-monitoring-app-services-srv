@@ -224,9 +224,9 @@ class srvOpenOrders extends cds.ApplicationService {
                     }
                 }
             }
-            if (globalError.length === 2)
-                req.error(globalError[0].error)
-            return err;
+            // if (globalError.length === 2)
+            //     req.error(globalError[0].error)
+            // return err;
         });
 
         /**
