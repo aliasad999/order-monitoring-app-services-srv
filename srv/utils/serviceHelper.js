@@ -88,9 +88,14 @@ const _addFilterToQuery = (query, fieldFiltered, filterValue) => {
 }
 
 const replaceDateInArray = (array ) =>{
+    console.log(array);
     array.forEach(item => {
         if (item && item.val === '1999-12-31') {
             item.val = '00000000'; // date in DB is stored without "-"
+        }
+
+        if (item && item.val === '1899-12-31') {
+            item.val = ''; // alternatively, empty date values are stored as an empty string
         }
 
         // Check nested arrays (e.g., for complex filter structures)
