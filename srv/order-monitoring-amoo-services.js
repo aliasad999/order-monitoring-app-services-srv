@@ -472,7 +472,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     }
                 }
                 let language = req.locale.toUpperCase();
-                if (req.headers.so_mandt && req.headers.so_mandt == '300' && process.env.SUBACCOUNT !== 'PROD') {
+                if (req.headers.so_mandt && req.headers.so_mandt == '300') {
                     const OmServicesAp = await cds.connect.to('OMServicesAP');
                     const { APContacts } = cds.entities('openOrdersSrv');
                     const LPadOrderItem = orderItem.replace(/^0+/, "") || "0";
@@ -1105,7 +1105,14 @@ class openOrdersSrv extends cds.ApplicationService {
         // ORDER CREATION HANDLERS
         this.before("READ", "orderCreation", async (req, next) => {
             // Deactivated in PROD
-            if (process.env.SUBACCOUNT !== 'PROD') {
+            if (process.env.OC_TAB_STATUS === 'ON') {
+                cds
+                .connect("db")
+                .then(({ db }) =>
+                    db?.before("READ", (req) => enableHints(req)
+                    )
+                );
+
                 req.query.SELECT.localized = false;
                 req.query.SELECT.distinct = true;
 
@@ -1125,7 +1132,7 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.on("READ", "orderCreation", async (req, next) => {
-            if (process.env.SUBACCOUNT !== 'PROD') {
+            if (process.env.OC_TAB_STATUS === 'ON') {
                 if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                     try {
                         const db = cds.transaction(req);
@@ -1153,7 +1160,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
         this.after("READ", "orderCreation", async (data, req) => {
             // Deactivated in PROD
-            if (process.env.SUBACCOUNT !== 'PROD') {
+            if (process.env.OC_TAB_STATUS === 'ON') {
                 let sessionID = req.headers['authorization'] || req.headers['x-username'];
                 if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                     // do nothing
@@ -1213,7 +1220,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
         this.on("READ", "OCValueHelps", async (req, next) => {
             let lt_result = []
-            if (process.env.SUBACCOUNT !== 'PROD') {
+            if (process.env.OC_TAB_STATUS === 'ON') {
                 // get the session id based on auth token
                 let sessionID = req.headers['authorization'] || req.headers['x-username'];
                 const queryId = `${sessionID}OCQuery`
@@ -1349,7 +1356,7 @@ class openOrdersSrv extends cds.ApplicationService {
         })
 
         this.after("READ", "OCValueHelps", async (data, req) => {
-            if (process.env.SUBACCOUNT !== 'PROD') {
+            if (process.env.OC_TAB_STATUS === 'ON') {
                 data = Array.isArray(data) ? data : [data]
                 // since there is a virtual id field, adding a random guid to each record of the result set.
                 data.forEach((item) => {
@@ -1598,57 +1605,51 @@ class openOrdersSrv extends cds.ApplicationService {
                 case "EC":
                     break;
                 case "AP":
-                    if (process.env.SUBACCOUNT !== 'PROD') {
-                        if (issue === "01" || issue === "05") {
-                            try {
-                                const OMServicesAP = await cds.connect.to('OMServicesAP');
-                                if (issue === "01") { // order incompletion
-                                    incompletionLog = await OMServicesAP.send({
-                                        method: 'GET',
-                                        query: SELECT.from('IncompletionLogsSet').where`DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`,
-                                        headers: {
-                                            'X-Basf-Sap-Client': process.env.AP_CLIENT
-                                        }
-                                    });
-                                    // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`);
-                                } else { // issue 05 // delivery incompletion
-                                    // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`);
-                                    incompletionLog = await OMServicesAP.send({
-                                        method: 'GET',
-                                        query: SELECT.from('IncompletionLogsSet').where`DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`,
-                                        headers: {
-                                            'X-Basf-Sap-Client': process.env.AP_CLIENT
-                                        }
-                                    });
-                                }
-                                // Fill the text
-                                incompletionLog.forEach((log) => {
-                                    if (issue === '01') {
-                                        log.IncompletionText = `${log.IncompletionText} ${textBundle.getText("isMissing")}`;
-                                    } else {
-                                        if (log.DocumentItem === '000000') {
-                                            log.IncompletionText = `${textBundle.getText("onHeader")}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
-                                        } else {
-                                            log.IncompletionText = `${log.DocumentItem}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
-                                        }
+                    if (issue === "01" || issue === "05") {
+                        try {
+                            const OMServicesAP = await cds.connect.to('OMServicesAP');
+                            if (issue === "01") { // order incompletion
+                                incompletionLog = await OMServicesAP.send({
+                                    method: 'GET',
+                                    query: SELECT.from('IncompletionLogsSet').where`DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`,
+                                    headers: {
+                                        'X-Basf-Sap-Client': process.env.AP_CLIENT
                                     }
-                                })
-                            } catch (error) {
-                                console.error('Error fetching issue reason:', error);
+                                });
+                                // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`);
+                            } else { // issue 05 // delivery incompletion
+                                // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`);
+                                incompletionLog = await OMServicesAP.send({
+                                    method: 'GET',
+                                    query: SELECT.from('IncompletionLogsSet').where`DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`,
+                                    headers: {
+                                        'X-Basf-Sap-Client': process.env.AP_CLIENT
+                                    }
+                                });
                             }
-                        }
-                        /// AP PLACEHOLDER UNTIL THOSE REASONS FOR ISSUE ARE DONE (APIs MISSING)
-                        if (issue === "06" || issue === '08' || issue === '11') {
-                            idocData.push({
-                                text: textBundle.getText("APTBD")
+                            // Fill the text
+                            incompletionLog.forEach((log) => {
+                                if (issue === '01') {
+                                    log.IncompletionText = `${log.IncompletionText} ${textBundle.getText("isMissing")}`;
+                                } else {
+                                    if (log.DocumentItem === '000000') {
+                                        log.IncompletionText = `${textBundle.getText("onHeader")}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
+                                    } else {
+                                        log.IncompletionText = `${log.DocumentItem}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
+                                    }
+                                }
                             })
+                        } catch (error) {
+                            console.error('Error fetching issue reason:', error);
                         }
-                        ////////
-                    } else {
+                    }
+                    /// AP PLACEHOLDER UNTIL THOSE REASONS FOR ISSUE ARE DONE (APIs MISSING)
+                    if (issue === "06" || issue === '08' || issue === '11') {
                         idocData.push({
                             text: textBundle.getText("APTBD")
                         })
                     }
+                    ////////
                     break;
                 default:
                     break;
