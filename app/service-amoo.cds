@@ -1564,7 +1564,7 @@ annotate service.allIssues with {
     SO_NPS_DESCRIPTION              @UI: {Hidden: true};
     SO_ISSUE_DESCRIPTION            @UI: {Hidden: true};
     SO_DCP_ITEM_STATUS_DESCRIPTION  @UI: {Hidden: true};
-    SO_SPART                        @UI: {Hidden: true};
+    // SO_SPART                        @UI: {Hidden: true};
     SO_ABGRU_BEZEI                  @UI: {Hidden: true};
     SO_ABSTA                        @UI: {Hidden: true};
     SO_KNUMV                        @UI: {Hidden: true};
@@ -4602,6 +4602,21 @@ annotate service.allIssues with {
             }
 
         ]
+    }
+};
+annotate service.allIssues with {
+    SO_SPART
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_SPART}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_SPART,
+            ValueListProperty: 'SO_SPART'
+        }]
     }
 };
 
