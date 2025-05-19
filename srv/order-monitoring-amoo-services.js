@@ -1520,7 +1520,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 plant, uom, dueDate, firstDate, system } = JSON.parse(req.data.issuePayload);
 
             switch (system) {
-                case "COBALT":
+                case "100": // Cobalt
                     // Call Cobalt only for order incomplete and outbound delivery incomplete (for now)
                     if (issue === "01" || issue === "05") {
                         try {
@@ -1602,9 +1602,9 @@ class openOrdersSrv extends cds.ApplicationService {
                         }
                     }
                     break;
-                case "EC":
+                case "200": // EC
                     break;
-                case "AP":
+                case "300": // AP
                     if (issue === "01" || issue === "05") {
                         try {
                             const OMServicesAP = await cds.connect.to('OMServicesAP');

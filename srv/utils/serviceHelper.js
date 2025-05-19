@@ -48,7 +48,8 @@ const getMandtFields = () => {
         "BL_MANDT_INV_LAST",
         "SO_FINAL_SO_MANDT",
         "SO_FIRST_SO_MANDT",
-        "PO_MANDT"
+        "PO_MANDT",
+        "SO_ISSUE_LOCATION_MANDT_TEXT"
     ]
 }
 
