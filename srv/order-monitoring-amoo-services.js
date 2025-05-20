@@ -9,8 +9,6 @@ const enableHints = require("./plugins/enable_hints");
 const { startOfToday } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies')
 const serviceHelper = require('./utils/serviceHelper');
-const jwt = require('jsonwebtoken');
-const azureTokenManager = require('./utils/azureTokenManagement');
 
 class openOrdersSrv extends cds.ApplicationService {
 
@@ -474,7 +472,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     }
                 }
                 let language = req.locale.toUpperCase();
-                if (req.headers.so_mandt && req.headers.so_mandt == '300' && process.env.SUBACCOUNT !== 'PROD') {
+                if (req.headers.so_mandt && req.headers.so_mandt == '300') {
                     const OmServicesAp = await cds.connect.to('OMServicesAP');
                     const { APContacts } = cds.entities('openOrdersSrv');
                     const LPadOrderItem = orderItem.replace(/^0+/, "") || "0";
@@ -1107,7 +1105,14 @@ class openOrdersSrv extends cds.ApplicationService {
         // ORDER CREATION HANDLERS
         this.before("READ", "orderCreation", async (req, next) => {
             // Deactivated in PROD
-            if (process.env.SUBACCOUNT !== 'PROD') {
+            if (process.env.OC_TAB_STATUS === 'ON') {
+                cds
+                .connect("db")
+                .then(({ db }) =>
+                    db?.before("READ", (req) => enableHints(req)
+                    )
+                );
+
                 req.query.SELECT.localized = false;
                 req.query.SELECT.distinct = true;
 
@@ -1127,7 +1132,7 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.on("READ", "orderCreation", async (req, next) => {
-            if (process.env.SUBACCOUNT !== 'PROD') {
+            if (process.env.OC_TAB_STATUS === 'ON') {
                 if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                     try {
                         const db = cds.transaction(req);
@@ -1155,7 +1160,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
         this.after("READ", "orderCreation", async (data, req) => {
             // Deactivated in PROD
-            if (process.env.SUBACCOUNT !== 'PROD') {
+            if (process.env.OC_TAB_STATUS === 'ON') {
                 let sessionID = req.headers['authorization'] || req.headers['x-username'];
                 if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                     // do nothing
@@ -1215,7 +1220,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
         this.on("READ", "OCValueHelps", async (req, next) => {
             let lt_result = []
-            if (process.env.SUBACCOUNT !== 'PROD') {
+            if (process.env.OC_TAB_STATUS === 'ON') {
                 // get the session id based on auth token
                 let sessionID = req.headers['authorization'] || req.headers['x-username'];
                 const queryId = `${sessionID}OCQuery`
@@ -1351,7 +1356,7 @@ class openOrdersSrv extends cds.ApplicationService {
         })
 
         this.after("READ", "OCValueHelps", async (data, req) => {
-            if (process.env.SUBACCOUNT !== 'PROD') {
+            if (process.env.OC_TAB_STATUS === 'ON') {
                 data = Array.isArray(data) ? data : [data]
                 // since there is a virtual id field, adding a random guid to each record of the result set.
                 data.forEach((item) => {
@@ -1600,57 +1605,51 @@ class openOrdersSrv extends cds.ApplicationService {
                 case "EC":
                     break;
                 case "AP":
-                    if (process.env.SUBACCOUNT !== 'PROD') {
-                        if (issue === "01" || issue === "05") {
-                            try {
-                                const OMServicesAP = await cds.connect.to('OMServicesAP');
-                                if (issue === "01") { // order incompletion
-                                    incompletionLog = await OMServicesAP.send({
-                                        method: 'GET',
-                                        query: SELECT.from('IncompletionLogsSet').where`DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`,
-                                        headers: {
-                                            'X-Basf-Sap-Client': process.env.AP_CLIENT
-                                        }
-                                    });
-                                    // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`);
-                                } else { // issue 05 // delivery incompletion
-                                    // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`);
-                                    incompletionLog = await OMServicesAP.send({
-                                        method: 'GET',
-                                        query: SELECT.from('IncompletionLogsSet').where`DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`,
-                                        headers: {
-                                            'X-Basf-Sap-Client': process.env.AP_CLIENT
-                                        }
-                                    });
-                                }
-                                // Fill the text
-                                incompletionLog.forEach((log) => {
-                                    if (issue === '01') {
-                                        log.IncompletionText = `${log.IncompletionText} ${textBundle.getText("isMissing")}`;
-                                    } else {
-                                        if (log.DocumentItem === '000000') {
-                                            log.IncompletionText = `${textBundle.getText("onHeader")}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
-                                        } else {
-                                            log.IncompletionText = `${log.DocumentItem}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
-                                        }
+                    if (issue === "01" || issue === "05") {
+                        try {
+                            const OMServicesAP = await cds.connect.to('OMServicesAP');
+                            if (issue === "01") { // order incompletion
+                                incompletionLog = await OMServicesAP.send({
+                                    method: 'GET',
+                                    query: SELECT.from('IncompletionLogsSet').where`DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`,
+                                    headers: {
+                                        'X-Basf-Sap-Client': process.env.AP_CLIENT
                                     }
-                                })
-                            } catch (error) {
-                                console.error('Error fetching issue reason:', error);
+                                });
+                                // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and DocumentItem = ${issueLocationItem}`);
+                            } else { // issue 05 // delivery incompletion
+                                // incompletionLog = await OMServicesAP.run(SELECT.from('IncompletionLogsSet').where `DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`);
+                                incompletionLog = await OMServicesAP.send({
+                                    method: 'GET',
+                                    query: SELECT.from('IncompletionLogsSet').where`DocumentNumber = ${issueLocation} and ( DocumentItem = ${issueLocationItem} or DocumentItem = '000000' )`,
+                                    headers: {
+                                        'X-Basf-Sap-Client': process.env.AP_CLIENT
+                                    }
+                                });
                             }
-                        }
-                        /// AP PLACEHOLDER UNTIL THOSE REASONS FOR ISSUE ARE DONE (APIs MISSING)
-                        if (issue === "06" || issue === '08' || issue === '11') {
-                            idocData.push({
-                                text: textBundle.getText("APTBD")
+                            // Fill the text
+                            incompletionLog.forEach((log) => {
+                                if (issue === '01') {
+                                    log.IncompletionText = `${log.IncompletionText} ${textBundle.getText("isMissing")}`;
+                                } else {
+                                    if (log.DocumentItem === '000000') {
+                                        log.IncompletionText = `${textBundle.getText("onHeader")}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
+                                    } else {
+                                        log.IncompletionText = `${log.DocumentItem}: ${log.IncompletionText} ${textBundle.getText("isMissing")}`;
+                                    }
+                                }
                             })
+                        } catch (error) {
+                            console.error('Error fetching issue reason:', error);
                         }
-                        ////////
-                    } else {
+                    }
+                    /// AP PLACEHOLDER UNTIL THOSE REASONS FOR ISSUE ARE DONE (APIs MISSING)
+                    if (issue === "06" || issue === '08' || issue === '11') {
                         idocData.push({
                             text: textBundle.getText("APTBD")
                         })
                     }
+                    ////////
                     break;
                 default:
                     break;
@@ -1684,216 +1683,6 @@ class openOrdersSrv extends cds.ApplicationService {
                 }
             }
             return combinedResults;
-        })
-        this.on("CREATE", "ChatbotApi", async (req) => {
-            log.info("Creating")
-            try {
-                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
-                const decodedToken = jwt.decode(tokenForUserInfo);
-                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
-                const { id, path, payload } = req.data;
-                log.info("Path received: ", path);
-                log.info("Payload received: ", payload);
-                const azureToken = await azureTokenManager.getAccessToken(username);
-
-                log.info("azureToken: ", azureToken);
-                log.info("Username: ", username);
-
-                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
-
-                log.info("Connected: ", chatbotTemp.name);
-
-                const responseChatbot = await chatbotTemp.tx(req).send({
-                    method: 'POST',
-                    path: path,
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + azureToken
-                    },
-                    data: JSON.parse(payload)
-                });
-                //const message = response.choices[0].messages;
-                log.info("Response message: ", responseChatbot)
-                const createdEntity = {
-                    id: id,
-                    response: responseChatbot
-                };
-                return createdEntity;
-            } catch (e) {
-                log.error("Error occured while calling chatbot API", e.message);
-                return "An error occured.";
-            }
-        })
-        this.on("callChatbotFeedback", async (req) => {
-            console.log("calling MessageLiked")
-            try {
-                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
-                const decodedToken = jwt.decode(tokenForUserInfo);
-                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
-                const payload = req.data.payload;
-                log.info("Payload received: ", payload);
-                const azureToken = await azureTokenManager.getAccessToken(username);
-
-                log.info("azureToken: ", azureToken);
-                log.info("Username: ", username);
-
-                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
-
-                const response = await chatbotTemp.tx(req).send({
-                    method: 'POST',
-                    path: '/feedback',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + azureToken
-                    },
-                    data: payload
-                });
-
-                return JSON.stringify(response);
-            } catch (e) {
-                console.log(e.message);
-                return "An error occured.";
-            }
-        })
-
-        this.on("callChatbotSuggestion", async (req) => {
-            try {
-                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
-                const decodedToken = jwt.decode(tokenForUserInfo);
-                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
-                const payload = req.data.payload;
-                const azureToken = await azureTokenManager.getAccessToken(username);
-                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
-
-                const response = await chatbotTemp.tx(req).send({
-                    method: 'POST',
-                    path: '/suggestion',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + azureToken
-                    },
-                    data: payload
-                });
-
-                return JSON.stringify(response);
-            } catch (e) {
-                log.error("Error in suggestion request", e);
-                return "An error occured.";
-            }
-        })
-
-        this.on("callChatbotHistoryService", async (req) => {
-            log.info("Calling history");
-            try {
-                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
-                const decodedToken = jwt.decode(tokenForUserInfo);
-                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
-                const azureToken = await azureTokenManager.getAccessToken(username);
-
-                log.info("azureToken: ", azureToken);
-                log.info("Username: ", username);
-
-                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
-
-                const response = await chatbotTemp.tx(req).send({
-                    method: 'GET',
-                    path: '/history/list',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + azureToken
-                    },
-
-                });
-                console.log(JSON.stringify(response))
-                //const message = response.choices[0].messages;
-                //console.log("Response message: ", message)
-                return JSON.stringify(response); // TODO: return history...
-            } catch (e) {
-                console.error(e.message);
-                return "An error occured.";
-            }
-
-        })
-
-        this.on("callChatbotWelcomeMsg", async (req) => {
-            log.info("Getting welcome msg");
-            try {
-                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
-                const decodedToken = jwt.decode(tokenForUserInfo);
-                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
-                var azureToken = await azureTokenManager.getAccessToken(username);
-
-                log.info("azureToken: ", azureToken);
-                log.info("Username: ", username);
-
-                // Retry fetching the token if it's missing
-                let retryCount = 0;
-                const maxRetries = 10;
-                while (!azureToken && retryCount < maxRetries) {
-                    log.warn("Azure token not found for ${username}, retrying... (${retryCount + 1}/${maxRetries})");
-                    await new Promise(resolve => setTimeout(resolve, 1500)); // Wait before retrying
-                    azureToken = await azureTokenManager.getAccessToken(username);
-                    retryCount++;
-                }
-
-                if (!azureToken) {
-                    throw new Error("Failed to retrieve Azure token after multiple attempts");
-                }
-
-                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
-
-                const response = await chatbotTemp.tx(req).send({
-                    method: 'GET',
-                    path: '/welcome',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + azureToken
-                    },
-
-                });
-                return JSON.stringify(response);
-            } catch (e) {
-                console.error("Error while calling /welcome: ", e);
-                return JSON.stringify({ message: "Welcome to the Chatbot! (Default message due to error)" });
-            }
-        })
-
-        this.on("callChatbotGetConversation", async (req) => {
-            console.log("calling getConversation")
-            try {
-                const tokenForUserInfo = req.headers.authorization.split(' ')[1];
-                const decodedToken = jwt.decode(tokenForUserInfo);
-                const username = decodedToken.user_name.toUpperCase(); // TODO: try to get user like req.user.id
-                const payload = req.data.payload;
-                log.info("Payload received: ", payload);
-                const azureToken = await azureTokenManager.getAccessToken(username);
-
-                log.info("azureToken: ", azureToken);
-                log.info("Username: ", username);
-                const chatbotTemp = await cds.connect.to('ChatbotUiTokenService');
-
-                const response = await chatbotTemp.tx(req).send({
-                    method: 'POST',
-                    path: '/history/read',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        authorization: 'Bearer ' + azureToken
-                    },
-                    data: payload
-                });
-                const message = response.messages;
-                console.log("Response message: ", message)
-                return JSON.stringify(message);
-            } catch (e) {
-                console.error(e.message);
-                return "An error occured.";
-            }
         })
 
         return super.init();

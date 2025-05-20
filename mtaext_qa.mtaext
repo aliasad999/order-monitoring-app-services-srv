@@ -8,6 +8,7 @@ modules:
       OTEL_RESOURCE_ATTRIBUTES: sap.tenancy.tenant_id=b50b49ce-49e2-4161-a6f4-77006eb7303d
       AP_CLIENT: 100
       SUBACCOUNT: QA
+      OC_TAB_STATUS: ON
     parameters:
       memory: 5GB
       disk-quota: 5GB

@@ -311,6 +311,12 @@ entity ![OPENORDERSLIST] {
         WE_PARTNER_REGION_BEZEI_LANG       : String(20);
 
         PRCTR                              : String(10);
+        TO_PARTNER_HEAD                    : String(10);
+        TO_PARTNER_ITM                     : String(10);
+        TO_PARTNER_NAME1_HEAD              : String(40);
+        TO_PARTNER_NAME2_HEAD              : String(40);
+        TO_PARTNER_NAME1_ITM               : String(40);
+        TO_PARTNER_NAME2_ITM               : String(40);
 }
 
 entity ContactsOptions {
@@ -465,6 +471,12 @@ entity ![SALESORDER_DETAILS](IP_LANG : String(2)) {
             MBDAT                  : String(8);
             MBDAT_DATE             : Date = MBDAT;
 
+            TO_PARTNER_HEAD        : String(10);
+            TO_PARTNER_ITM         : String(10);
+            TO_PARTNER_NAME1_HEAD  : String(40);
+            TO_PARTNER_NAME2_HEAD  : String(40);
+            TO_PARTNER_NAME1_ITM   : String(40);
+            TO_PARTNER_NAME2_ITM   : String(40);
 }
 
 @cds.persistence.exists

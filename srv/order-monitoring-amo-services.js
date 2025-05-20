@@ -129,39 +129,37 @@ class srvOpenOrders extends cds.ApplicationService {
                     globalError.push({ user: 'noECUser', error: error })
                     err = 2 // EC called failed
                 }
-                if (process.env.SUBACCOUNT !== 'PROD'){
+                try {
+                    const service = await cds.connect.to('authServiceAP');
+                    lt_resultAP = await service.send({
+                        method: "GET",
+                        path: "/xBASFxVBAKAUTH?$format=json",
+                        headers: {
+                            "Accept-Encoding": "",
+                            'X-Basf-Sap-Client': process.env.AP_CLIENT
+                        }
+                    });
+
+                    // Only execute the second call if the first one succeeds
                     try {
-                        const service = await cds.connect.to('authServiceAP');
-                        lt_resultAP = await service.send({
+                        lt_resultAPEKKO = await service.send({
                             method: "GET",
-                            path: "/xBASFxVBAKAUTH?$format=json",
+                            path: "/xBASFxEKKOAUTH?$format=json",
                             headers: {
                                 "Accept-Encoding": "",
                                 'X-Basf-Sap-Client': process.env.AP_CLIENT
                             }
                         });
-                    
-                        // Only execute the second call if the first one succeeds
-                        try {
-                            lt_resultAPEKKO = await service.send({
-                                method: "GET",
-                                path: "/xBASFxEKKOAUTH?$format=json",
-                                headers: {
-                                    "Accept-Encoding": "",
-                                    'X-Basf-Sap-Client': process.env.AP_CLIENT
-                                }
-                            });
-                        } catch (error) {
-                            globalError.push({ user: 'noAPUser', error: error });
-                            // Handle the error if needed
-                        }
-                    
                     } catch (error) {
                         globalError.push({ user: 'noAPUser', error: error });
-                        // Do not proceed to the second call
+                        // Handle the error if needed
                     }
+
+                } catch (error) {
+                    globalError.push({ user: 'noAPUser', error: error });
+                    // Do not proceed to the second call
                 }
-               
+
                 await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
                 await DELETE.from(EKKOAuthObjectKeys).where({ USERID: userID });
 
@@ -173,10 +171,6 @@ class srvOpenOrders extends cds.ApplicationService {
                     lt_resultAPEKKO = lt_resultAPEKKO || []
                     let lt_vbak = lt_result.VBAK || []
                     let lt_ekko = lt_result.EKKO || []
-                    if (process.env.SUBACCOUNT === 'PROD'){
-                        lt_vbak = [...lt_vbak, ...lt_resultEC.VBAK];
-                        lt_ekko = [...lt_ekko, ...lt_resultEC.EKKO];
-                    } else{
                     lt_vbak = [
                         ...lt_vbak,
                         ...(lt_resultEC?.VBAK ?? []),
@@ -188,7 +182,6 @@ class srvOpenOrders extends cds.ApplicationService {
                     lt_ekko = [...lt_ekko, ...lt_resultEC?.EKKO ?? [], ...(lt_resultAPEKKO?.d?.results ?? []).map(({ PurchasingOrganization }) => ({
                         EKORG: PurchasingOrganization
                     }))];
-                }
                     const vbakSet = new Set();
                     const lt_vbakUnique = lt_vbak.filter(obj => {
                         const key = `${obj.VKORG}-${obj.VTWEG}-${obj.SPART}`;
@@ -231,9 +224,9 @@ class srvOpenOrders extends cds.ApplicationService {
                     }
                 }
             }
-            if (globalError.length === 2)
-                req.error(globalError[0].error)
-            return err;
+            // if (globalError.length === 2)
+            //     req.error(globalError[0].error)
+            // return err;
         });
 
         /**
@@ -671,6 +664,22 @@ class srvOpenOrders extends cds.ApplicationService {
                 }
                 req.error(413, error.message || 'An error occurred while deleting the shipment');
             }
+        });
+
+
+        this.on("READ", "ChangeDocSet", async req => {
+            let lt_changeDocs = [];
+            try {
+                const apiManagementService = await cds.connect.to('CSEUCockpitService');
+
+                lt_changeDocs = await apiManagementService.tx(req).send({
+                    query: req.query
+                });
+            } catch (error) {
+                req.error(413, error)
+            }
+
+            return lt_changeDocs;
         });
 
         return super.init();

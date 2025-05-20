@@ -1,5 +1,6 @@
 using allorders.db as db_app from '../db/order-monitoring-amo-service';
 using {AMOOUtilsService as AMOOUtilsService} from './external/AMOOUtilsService';
+using {CSEUCockpitService as CSEUCockpitService} from './external/CSEUCockpitService';
 
 service srvOpenOrders {
 
@@ -521,7 +522,45 @@ service srvOpenOrders {
           KDGRP_KTEXT_LANG                            as SO_KDGRP_KTEXT_LANG,
           WE_PARTNER_REGION                           as SO_WE_PARTNER_REGION,
           WE_PARTNER_REGION_BEZEI_LANG                as SO_WE_PARTNER_REGION_BEZEI_LANG,
-          PRCTR                                       as SO_PRCTR
+          PRCTR                                       as SO_PRCTR,
+
+          IFNULL(
+            TO_PARTNER_ITM, TO_PARTNER_HEAD
+          )                                           as SO_TO_PARTNER                   : String(10),
+
+          IFNULL(
+            (
+              TO_PARTNER_NAME1_ITM || TO_PARTNER_NAME2_ITM
+            ), (
+              TO_PARTNER_NAME1_HEAD || TO_PARTNER_NAME2_HEAD
+            )
+          )                                           as SO_TO_PARTNER_NAME              : String(80),                                   
+          
+          @UI.Hidden: true
+          TO_PARTNER_NAME1_HEAD as SO_TO_PARTNER_NAME1_HEAD,
+          
+          @UI.Hidden: true
+          TO_PARTNER_NAME2_HEAD as SO_TO_PARTNER_NAME2_HEAD,
+
+          @UI.Hidden: true
+          TO_PARTNER_NAME1_ITM as SO_TO_PARTNER_NAME1_ITM,
+
+          @UI.Hidden: true
+          TO_PARTNER_NAME2_ITM  as SO_TO_PARTNER_NAME2_ITM,
+
+
+          @UI.HiddenFilter
+          ETA_UPDATED                                 as TM_SHIPMENT_ETA_UPDATED,
+          FOLLOWUP_NOTES_LANG                         as SO_FOLLOWUP_NOTES_LANG,
+          REASON_CODE_01_LANG                         as SO_REASON_CODE_01_LANG,
+          REASON_CODE_02_LANG                         as SO_REASON_CODE_02_LANG,
+          REASON_CODE_03_LANG                         as SO_REASON_CODE_03_LANG,
+          REASON_CODE_04_LANG                         as SO_REASON_CODE_04_LANG,
+          REASON_CODE_05_LANG                         as SO_REASON_CODE_05_LANG,
+          DEV_CONF_DATE                               as SO_DEV_CONF_DATE,
+          EMAIL                                       as SO_EMAIL,
+          EMAIL_SEND_DATE_F                           as SO_EMAIL_SEND_DATE_F,
+          EMAIL_SENT_ON                               as SO_EMAIL_SENT_ON,
 
     };
 
@@ -559,4 +598,5 @@ service srvOpenOrders {
   entity ShipmentMarkedDelivered as select from AMOOUtilsService.ShipmentMarkedDelivered;
   entity Variants                as projection on db_app.variants;
   entity VariantsUserSettings    as projection on db_app.variantUserSettings;
+  entity ChangeDocSet            as projection on CSEUCockpitService.ChangeDocSet;
 }

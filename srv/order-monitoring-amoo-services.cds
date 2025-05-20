@@ -11,13 +11,6 @@ using {CSEUCockpitService as CSEUCockpitService} from './external/CSEUCockpitSer
 using {OMServicesAP as OMServicesAP} from './external/OMServicesAP';
 
 service openOrdersSrv {
-    @cds.persistence.skip
-    entity ChatbotApi{
-        key id: String;
-        path:   String;
-        payload:    String;
-        response:   String;
-    }
     entity currencies as projection on db_app.currency;
 
     entity rootEntity               as
@@ -402,6 +395,8 @@ service openOrdersSrv {
                 virtual null                                as SO_DCP_ITEM_STATUS_DESCRIPTION  : String(50),
                 virtual 0                                   as criticalityDueDate              : Integer,
                 IGNORED                                     as SO_IGNORED,
+
+                @UI.HiddenFilter
                 ETA_UPDATED                                 as TM_SHIPMENT_ETA_UPDATED,
                 BL_VBELN_INV_FIRST                          as BL_VBELN_INV_FIRST,
                 BL_VBELN_INV_LAST                           as BL_VBELN_INV_LAST,
@@ -522,7 +517,31 @@ service openOrdersSrv {
                 WE_PARTNER_REGION                           as SO_WE_PARTNER_REGION,
                 WE_PARTNER_REGION_BEZEI_LANG                as SO_WE_PARTNER_REGION_BEZEI_LANG,
 
-                PRCTR                                       as SO_PRCTR
+                PRCTR                                       as SO_PRCTR,
+
+                IFNULL(
+                    TO_PARTNER_ITM, TO_PARTNER_HEAD
+                )                                           as SO_TO_PARTNER                   : String(10),
+
+                IFNULL(
+                    (
+                    TO_PARTNER_NAME1_ITM || TO_PARTNER_NAME2_ITM
+                    ), (
+                    TO_PARTNER_NAME1_HEAD || TO_PARTNER_NAME2_HEAD
+                    )
+                )                                           as SO_TO_PARTNER_NAME              : String(80),                                   
+                
+                @UI.Hidden: true
+                TO_PARTNER_NAME1_HEAD as SO_TO_PARTNER_NAME1_HEAD,
+                
+                @UI.Hidden: true
+                TO_PARTNER_NAME2_HEAD as SO_TO_PARTNER_NAME2_HEAD,
+
+                @UI.Hidden: true
+                TO_PARTNER_NAME1_ITM as SO_TO_PARTNER_NAME1_ITM,
+
+                @UI.Hidden: true
+                TO_PARTNER_NAME2_ITM  as SO_TO_PARTNER_NAME2_ITM                
 
         }
 
@@ -569,14 +588,6 @@ service openOrdersSrv {
     action   cancelOrder(payload : String)                                                                                                                                                                                                                                                                                                   returns String;
     action   RemoveDeliveryBlock(SalesOrderID : String(10), ItemID : String(6))   
                                                                                                                                                                                                                                                returns String;
-    function callChatbotService(payload: String) returns String;
-    function callChatbotHistoryService() returns String;
-    function callChatbotWelcomeMsg() returns String;
-    function callChatbotGetConversation(payload: String) returns String;
-    function callChatbotUpdateConversation(payload: String) returns String;
-    function callChatbotFeedback(payload: String) returns String;
-    function callChatbotSuggestion(payload: String) returns String;
-    
     entity PredefReasonBuckets      as
         select from AMOOUtilsService.PredefinedReasonBuckets {
             key BUCKET      as BucketKey,
