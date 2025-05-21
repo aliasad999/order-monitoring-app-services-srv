@@ -658,7 +658,7 @@ service openOrdersSrv {
     action   createDeliveryforAllItem(salesOrder : String(10))                                                                                                                                                                                                                                                                               returns Boolean;
     action   createDeliveryforItem(salesOrder : String(10), salesOrderItem : String(6))                                                                                                                                                                                                                                                      returns Boolean;
     entity SAPTexts                 as projection on db_app.SAPTexts;
-    function getSAPTexts(salesOrder : String(10), salesOrderItem : String(6), textObjects : String)                                                                                                                                                                                                                                          returns array of SAPTexts;
+    function getSAPTexts(salesOrder : String(10), salesOrderItem : String(6), orderSystem : String(3))                                                                                                                                                                                                                                          returns array of SAPTexts;
 
     /// ORDER CREATION ENTITIES
     @readonly
