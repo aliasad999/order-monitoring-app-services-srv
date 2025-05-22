@@ -104,11 +104,9 @@ class openOrdersSrv extends cds.ApplicationService {
                 case "200": // EC
                     break;
                 case "300": // AP
-                    let itemTextIds = ["ZI10"];
                     let headerTextIds = ["ZH09", "ZH10"]
-                    const APSAPTextsService = await cds.connect.to('DSLServicesService');
-                    let headerIdsFilter = "";
-                    let itemIdsFilter = "";
+                    let itemTextIds = ["ZI10"];
+                    const APSAPTextsService = await cds.connect.to('APSalesOrderA2X');
 
                     const addTexts = (arrayOfTexts) => {
                         if (arrayOfTexts.length > 0) {
@@ -123,30 +121,19 @@ class openOrdersSrv extends cds.ApplicationService {
                         }
                     }
 
-                    headerTextIds.forEach((id)=>{
-                        if(headerIdsFilter){
-                            headerIdsFilter = `LongTextID = '${id}'`
-                        }else{
-                            headerIdsFilter += ` or LongTextID = '${id}'`
-                        }
-                    })
-                    itemTextIds.forEach((id)=>{
-                        if(itemIdsFilter){
-                            itemIdsFilter = `LongTextID = '${id}'`
-                        }else{
-                            itemIdsFilter += ` or LongTextID = '${id}'`
-                        }
-                    })
-
-                    let headerWhereClause = `SalesOrder = '${salesOrder}' and (${headerIdsFilter})`;
-                    let itemWhereClause =  `SalesOrder = '${salesOrder}' and SalesOrderItem = '${salesOrderItem}' and (${itemIdsFilter})`; 
-
                     // Header
-                    SAPTexts = await APSAPTextsService.run(SELECT.from('A_SalesOrderText').where(headerWhereClause))
+                    SAPTexts = await APSAPTextsService.run(SELECT.from('A_SalesOrderText').where({ 
+                        SalesOrder: salesOrder,
+                        LongTextID: { in: headerTextIds}
+                    }))
                     addTexts(SAPTexts);
 
                     // Item
-                    SAPTexts = await APSAPTextsService.run(SELECT.from('A_SalesOrderItemText').where(itemWhereClause))
+                    SAPTexts = await APSAPTextsService.run(SELECT.from('A_SalesOrderItemText').where({ 
+                        SalesOrder: salesOrder,
+                        SalesOrderItem: salesOrderItem,
+                        LongTextID: { in: itemTextIds}
+                    }))
                     addTexts(SAPTexts);
 
                     break;
