@@ -699,7 +699,7 @@ annotate service.Results with {
     // TM_MANDT                       @UI                     : {Hidden: true};
     // BL_MANDT_INV_FIRST             @UI                     : {Hidden: true};
     // BL_MANDT_INV_LAST              @UI                     : {Hidden: true};
-    SO_SPART                        @UI                     : {Hidden: true};
+    // SO_SPART                        @UI                     : {Hidden: true};
     SO_ABGRU_BEZEI                  @UI                     : {Hidden: true};
     SO_ABSTA                        @UI                     : {Hidden: true};
     SO_KNUMV                        @UI                     : {Hidden: true};
@@ -3671,6 +3671,23 @@ annotate service.Results with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_EMAIL_SENT_ON,
             ValueListProperty: 'SO_EMAIL_SENT_ON'
+        }
+
+        ]
+    }
+};
+annotate service.Results with {
+    SO_SPART
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_SPART}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_SPART,
+            ValueListProperty: 'SO_SPART'
         }
 
         ]

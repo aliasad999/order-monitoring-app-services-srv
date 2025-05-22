@@ -548,6 +548,7 @@ service srvOpenOrders {
           TO_PARTNER_NAME2_ITM  as SO_TO_PARTNER_NAME2_ITM,
 
 
+          @UI.HiddenFilter
           ETA_UPDATED                                 as TM_SHIPMENT_ETA_UPDATED,
           FOLLOWUP_NOTES_LANG                         as SO_FOLLOWUP_NOTES_LANG,
           REASON_CODE_01_LANG                         as SO_REASON_CODE_01_LANG,
