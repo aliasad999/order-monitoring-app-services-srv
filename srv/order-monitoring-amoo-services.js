@@ -640,14 +640,14 @@ class openOrdersSrv extends cds.ApplicationService {
                 //query.SELECT.distinct = true;
                 // if any lowerCaseSearchString is added in search field, that should be taken into account as well
                 //query.SELECT.search = req.query.SELECT.search;
-                let searchString = req._queryOptions.$search && req._queryOptions.$search.replace(/"/g, '')
+                let searchString = req.http.req.query.search && req.http.req.query.search.replace(/"/g, '')
                 let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
                 if (lowerCaseSearchString) {
                     let where = []
-                    if (req._queryOptions['$select'] && req._queryOptions['$select'].split(',').length > 1) {
-                        where = cds.parse.expr(`lower(${req._queryOptions['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req._queryOptions['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                    if (req.http.req.query['$select'] && req.http.req.query['$select'].split(',').length > 1) {
+                        where = cds.parse.expr(`lower(${req.http.req.query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req.http.req.query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
                     } else {
-                        where = cds.parse.expr(`lower(${req._queryOptions['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                        where = cds.parse.expr(`lower(${req.http.req.query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
                     }
                     let requestQuery = query.SELECT.where || [];
                     where && requestQuery.length != 0 && requestQuery.push('and');
@@ -669,7 +669,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         //lt_result = await cds.run(query);
                         // req.header.select will have the string of visible columns. 
                         //this parameater has been manually set to header on every request
-                        const selectedField = req._queryOptions && req._queryOptions['$select']
+                        const selectedField = req.http.req.query && req.http.req.query['$select']
                         let fields = selectedField && selectedField.split(',');
                         fields = fields.filter((fieldName) => {
                             const mandtFields = serviceHelper.getMandtFields();
@@ -687,7 +687,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     }
                 } else {
                     try {
-                        const fields = req._queryOptions["search-focus"].split(',')
+                        const fields = req.http.req.query["search-focus"].split(',')
                         let queryCount = 0;
                         // sometimes there is a cached query but it has no
                         let lt_count = query.SELECT.where
@@ -705,16 +705,16 @@ class openOrdersSrv extends cds.ApplicationService {
                 }
 
             } else {
-                const fields = req._queryOptions["search-focus"].split(',')
+                const fields = req.http.req.query["search-focus"].split(',')
                 // if there is no session id, execute the query directly
-                let searchString = req._queryOptions.$search && req._queryOptions.$search.replace(/"/g, '')
+                let searchString = req.http.req.query.search && req.http.req.query.search.replace(/"/g, '')
                 let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
                 if (lowerCaseSearchString) {
                     let where = []
-                    if (req._queryOptions['$select'] && req._queryOptions['$select'].split(',').length > 1) {
-                        where = cds.parse.expr(`lower(${req._queryOptions['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req._queryOptions['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                    if (req.http.req.query['$select'] && req.http.req.query['$select'].split(',').length > 1) {
+                        where = cds.parse.expr(`lower(${req.http.req.query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req.http.req.query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
                     } else {
-                        where = cds.parse.expr(`lower(${req._queryOptions['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                        where = cds.parse.expr(`lower(${req.http.req.query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
                     }
                     let requestQuery = req.query.SELECT.where || [];
                     where && requestQuery.length != 0 && requestQuery.push('and');
@@ -1216,14 +1216,14 @@ class openOrdersSrv extends cds.ApplicationService {
                     const queryString = sessionCache.get(queryId);
                     const query = JSON.parse(queryString);
                     query.SELECT.from.ref[0] = 'openOrdersSrv.orderCreation'
-                    let searchString = req._queryOptions.$search && req._queryOptions.$search.replace(/"/g, '')
+                    let searchString = req.http.req.query.search && req.http.req.query.search.replace(/"/g, '')
                     let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
                     if (lowerCaseSearchString) {
                         let where = []
-                        if (req._queryOptions['$select'] && req._queryOptions['$select'].split(',').length > 1) {
-                            where = cds.parse.expr(`lower(${req._queryOptions['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req._queryOptions['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                        if (req.http.req.query['$select'] && req.http.req.query['$select'].split(',').length > 1) {
+                            where = cds.parse.expr(`lower(${req.http.req.query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req.http.req.query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
                         } else {
-                            where = cds.parse.expr(`lower(${req._queryOptions['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                            where = cds.parse.expr(`lower(${req.http.req.query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
                         }
                         let requestQuery = query.SELECT.where || [];
                         where && requestQuery.length != 0 && requestQuery.push('and');
@@ -1245,7 +1245,7 @@ class openOrdersSrv extends cds.ApplicationService {
                             //lt_result = await cds.run(query);
                             // req.header.select will have the string of visible columns. 
                             //this parameater has been manually set to header on every request
-                            const selectedField = req._queryOptions && req._queryOptions['$select']
+                            const selectedField = req.http.req.query && req.http.req.query['$select']
                             let fields = selectedField && selectedField.split(',');
                             fields = fields.filter((fieldName) => {
                                 const mandtFields = serviceHelper.getMandtFields();
@@ -1263,7 +1263,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         }
                     } else {
                         try {
-                            const fields = req._queryOptions["search-focus"].split(',')
+                            const fields = req.http.req.query["search-focus"].split(',')
                             let queryCount = 0;
                             // sometimes there is a cached query but it has no
                             let lt_count = query.SELECT.where
@@ -1281,16 +1281,16 @@ class openOrdersSrv extends cds.ApplicationService {
                     }
 
                 } else {
-                    const fields = req._queryOptions["search-focus"].split(',')
+                    const fields = req.http.req.query["search-focus"].split(',')
                     // if there is no session id, execute the query directly
-                    let searchString = req._queryOptions.$search && req._queryOptions.$search.replace(/"/g, '')
+                    let searchString = req.http.req.query.search && req.http.req.query.search.replace(/"/g, '')
                     let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
                     if (lowerCaseSearchString) {
                         let where = []
-                        if (req._queryOptions['$select'] && req._queryOptions['$select'].split(',').length > 1) {
-                            where = cds.parse.expr(`lower(${req._queryOptions['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req._queryOptions['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                        if (req.http.req.query['$select'] && req.http.req.query['$select'].split(',').length > 1) {
+                            where = cds.parse.expr(`lower(${req.http.req.query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req.http.req.query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
                         } else {
-                            where = cds.parse.expr(`lower(${req._queryOptions['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                            where = cds.parse.expr(`lower(${req.http.req.query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
                         }
                         let requestQuery = req.query.SELECT.where || [];
                         where && requestQuery.length != 0 && requestQuery.push('and');
