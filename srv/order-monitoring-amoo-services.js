@@ -1588,19 +1588,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         } catch (error) {
                             console.error('Error fetching ATP Pal status:', error);
                         }
-                    }
-                    // Cobalt redirects to FSCM system
-                    if (issue === '06') {
-                        const CreditManagerService = await cds.connect.to('CreditManagerService');
-                        try {
-                            creditData = await CreditManagerService.run(SELECT.from('OrderBlockSet').byKey({
-                                OrderNumber: issueLocation,
-                                Language: req.locale.toUpperCase()
-                            }).columns("Text1", "Text2", "Text3", "Text4"))
-                        } catch (error) {
-                            console.error('Error fetching credit status:', error);
-                        }
-                    }
+                    } 
                     break;
                 case "200": // EC
                     break;
@@ -1644,7 +1632,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         }
                     }
                     /// AP PLACEHOLDER UNTIL THOSE REASONS FOR ISSUE ARE DONE (APIs MISSING)
-                    if (issue === "06" || issue === '08' || issue === '11') {
+                    if (issue === '08' || issue === '11') {
                         idocData.push({
                             text: textBundle.getText("APTBD")
                         })
@@ -1653,6 +1641,19 @@ class openOrdersSrv extends cds.ApplicationService {
                     break;
                 default:
                     break;
+            }
+
+            // Call to FSCM system (Cobalt and AP orders)
+            if (issue === '06' && system !== '200') {
+                const CreditManagerService = await cds.connect.to('CreditManagerService');
+                try {
+                    creditData = await CreditManagerService.run(SELECT.from('OrderBlockSet').byKey({
+                        OrderNumber: issueLocation,
+                        Language: req.locale.toUpperCase()
+                    }).columns("Text1", "Text2", "Text3", "Text4"))
+                } catch (error) {
+                    console.error('Error fetching credit status:', error);
+                }
             }
 
 
