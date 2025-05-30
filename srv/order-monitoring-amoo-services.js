@@ -640,7 +640,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 //query.SELECT.distinct = true;
                 // if any lowerCaseSearchString is added in search field, that should be taken into account as well
                 //query.SELECT.search = req.query.SELECT.search;
-                let searchString = req.http.req.query.search && req.http.req.query.search.replace(/"/g, '')
+                let searchString = req.http.req.query["$search"] && req.http.req.query["$search"].replace(/"/g, '')
                 let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
                 if (lowerCaseSearchString) {
                     let where = []
@@ -707,7 +707,7 @@ class openOrdersSrv extends cds.ApplicationService {
             } else {
                 const fields = req.http.req.query["search-focus"].split(',')
                 // if there is no session id, execute the query directly
-                let searchString = req.http.req.query.search && req.http.req.query.search.replace(/"/g, '')
+                let searchString = req.http.req.query["$search"] && req.http.req.query["$search"].replace(/"/g, '')
                 let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
                 if (lowerCaseSearchString) {
                     let where = []
@@ -1216,7 +1216,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     const queryString = sessionCache.get(queryId);
                     const query = JSON.parse(queryString);
                     query.SELECT.from.ref[0] = 'openOrdersSrv.orderCreation'
-                    let searchString = req.http.req.query.search && req.http.req.query.search.replace(/"/g, '')
+                    let searchString = req.http.req.query["$search"] && req.http.req.query["$search"].replace(/"/g, '')
                     let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
                     if (lowerCaseSearchString) {
                         let where = []
@@ -1283,7 +1283,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 } else {
                     const fields = req.http.req.query["search-focus"].split(',')
                     // if there is no session id, execute the query directly
-                    let searchString = req.http.req.query.search && req.http.req.query.search.replace(/"/g, '')
+                    let searchString = req.http.req.query["$search"] && req.http.req.query["$search"].replace(/"/g, '')
                     let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
                     if (lowerCaseSearchString) {
                         let where = []
