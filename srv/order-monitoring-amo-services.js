@@ -568,7 +568,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     for (const prop in item) {
                         if (item[prop] === null) return false;
                         // convert to lowercase both sides in order to avoid case sensitivity issues when searching
-                        if (item[prop].toLowerCase().includes(req.query.SELECT.search[0].val.toLowerCase())) {
+                        if (item[prop].toLowerCase().includes(req.query.SELECT.search[0].val.toLowerCase().replace(/^["']|["']$/g, ''))) {
                             return true;
                         }
                     }
