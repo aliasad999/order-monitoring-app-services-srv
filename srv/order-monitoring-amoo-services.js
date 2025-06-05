@@ -1520,7 +1520,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 plant, uom, dueDate, firstDate, system } = JSON.parse(req.data.issuePayload);
 
             switch (system) {
-                case "COBALT":
+                case "100": // Cobalt
                     // Call Cobalt only for order incomplete and outbound delivery incomplete (for now)
                     if (issue === "01" || issue === "05") {
                         try {
@@ -1588,23 +1588,11 @@ class openOrdersSrv extends cds.ApplicationService {
                         } catch (error) {
                             console.error('Error fetching ATP Pal status:', error);
                         }
-                    }
-                    // Cobalt redirects to FSCM system
-                    if (issue === '06') {
-                        const CreditManagerService = await cds.connect.to('CreditManagerService');
-                        try {
-                            creditData = await CreditManagerService.run(SELECT.from('OrderBlockSet').byKey({
-                                OrderNumber: issueLocation,
-                                Language: req.locale.toUpperCase()
-                            }).columns("Text1", "Text2", "Text3", "Text4"))
-                        } catch (error) {
-                            console.error('Error fetching credit status:', error);
-                        }
-                    }
+                    } 
                     break;
-                case "EC":
+                case "200": // EC
                     break;
-                case "AP":
+                case "300": // AP
                     if (issue === "01" || issue === "05") {
                         try {
                             const OMServicesAP = await cds.connect.to('OMServicesAP');
@@ -1644,7 +1632,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         }
                     }
                     /// AP PLACEHOLDER UNTIL THOSE REASONS FOR ISSUE ARE DONE (APIs MISSING)
-                    if (issue === "06" || issue === '08' || issue === '11') {
+                    if (issue === '08' || issue === '11') {
                         idocData.push({
                             text: textBundle.getText("APTBD")
                         })
@@ -1653,6 +1641,19 @@ class openOrdersSrv extends cds.ApplicationService {
                     break;
                 default:
                     break;
+            }
+
+            // Call to FSCM system (Cobalt and AP orders)
+            if (issue === '06' && system !== '200') {
+                const CreditManagerService = await cds.connect.to('CreditManagerService');
+                try {
+                    creditData = await CreditManagerService.run(SELECT.from('OrderBlockSet').byKey({
+                        OrderNumber: issueLocation,
+                        Language: req.locale.toUpperCase()
+                    }).columns("Text1", "Text2", "Text3", "Text4"))
+                } catch (error) {
+                    console.error('Error fetching credit status:', error);
+                }
             }
 
 
