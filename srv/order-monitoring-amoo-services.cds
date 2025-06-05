@@ -11,7 +11,7 @@ using {CSEUCockpitService as CSEUCockpitService} from './external/CSEUCockpitSer
 using {OMServicesAP as OMServicesAP} from './external/OMServicesAP';
 
 service openOrdersSrv {
-    entity currencies as projection on db_app.currency;
+    entity currencies               as projection on db_app.currency;
 
     entity rootEntity               as
         select from db_app.OPENORDERSLIST {
@@ -24,6 +24,7 @@ service openOrdersSrv {
                 MANDT_TM                                    as TM_MANDT,
                 BL_MANDT_INV_FIRST,
                 BL_MANDT_INV_LAST,
+                ISSUE_LOCATION_MANDT                        as SO_ISSUE_LOCATION_MANDT,
                 virtual null                                as SO_MANDT_TEXT                   : String(20),
                 virtual null                                as DL_MANDT_TEXT                   : String(20),
                 virtual null                                as TM_MANDT_TEXT                   : String(20),
@@ -32,6 +33,7 @@ service openOrdersSrv {
                 virtual null                                as SO_FINAL_SO_MANDT_TEXT          : String(20),
                 virtual null                                as SO_FIRST_SO_MANDT_TEXT          : String(20),
                 virtual null                                as PO_MANDT_TEXT                   : String(20),
+                virtual null                                as SO_ISSUE_LOCATION_MANDT_TEXT    : String(20),
                 // case BL_MANDT_INV_FIRST
                 //     when '100' then 'Cobalt'
                 //     when '200' then 'Star'
@@ -94,7 +96,7 @@ service openOrdersSrv {
                 AG_PARTNER_NAME1 || ' ' || AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME              : String(80),
                 WE_PARTNER                                  as SO_WE_PARTNER,
                 WE_PARTNER_NAME1 || ' ' || WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME              : String(80),
-                
+
                 @UI.Hidden: true
                 AG_PARTNER_NAME1                            as SO_AG_PARTNER_NAME1, // to enable default search, parts of calculated fields are required to be added too to service
                 @UI.Hidden: true
@@ -150,8 +152,8 @@ service openOrdersSrv {
                 KNREF_ITM                                   as SO_KNREF_ITM,
                 case
                     when
-                        VBUND     is not null
-                        and VBUND <>     ''
+                        VBUND is not null
+                        and VBUND <> ''
                     then
                         'X'
                     else
@@ -170,7 +172,7 @@ service openOrdersSrv {
                 REQ_TEXT                                    as SO_REQ_TEXT,
                 case
                     when
-                        FAKSP    =  ''
+                        FAKSP = ''
                         or FAKSP is null
                     then
                         FAKSK
@@ -179,7 +181,7 @@ service openOrdersSrv {
                 end                                         as SO_FAKSP                        : String(2),
                 case
                     when
-                        FAKSP_VTEXT_LANG    =  ''
+                        FAKSP_VTEXT_LANG = ''
                         or FAKSP_VTEXT_LANG is null
                     then
                         FAKSK_VTEXT_LANG
@@ -350,7 +352,7 @@ service openOrdersSrv {
                 @UI.Hidden: true
                 case
                     when
-                        STATUS_REASON_CODE_TEXT_ELEM    =  ''
+                        STATUS_REASON_CODE_TEXT_ELEM = ''
                         or STATUS_REASON_CODE_TEXT_ELEM is null
                     then
                         STATUS_CODE_TEXT_ELEM
@@ -360,7 +362,7 @@ service openOrdersSrv {
                 @UI.Hidden: true
                 case
                     when
-                        REASON_CODE_TEXT_COMP    =  ''
+                        REASON_CODE_TEXT_COMP = ''
                         or REASON_CODE_TEXT_COMP is null
                     then
                         STATUS_CODE_TEXT_COMP
@@ -369,7 +371,7 @@ service openOrdersSrv {
                 end                                         as TM_SHIPMENT_CURRENT_STATUS_COMP : String(250),
                 case
                     when
-                        ALERT_STATUS_REASON_CODE_TEXT_ELEM    =  ''
+                        ALERT_STATUS_REASON_CODE_TEXT_ELEM = ''
                         or ALERT_STATUS_REASON_CODE_TEXT_ELEM is null
                     then
                         ALERT_STATUS_CODE_TEXT_ELEM
@@ -508,14 +510,12 @@ service openOrdersSrv {
                 // End of Euan's changes
                 BNAME                                       as SO_BNAME,
                 IHREZ                                       as SO_IHREZ,
-
                 AUGRU                                       as SO_AUGRU,
                 AUGRU_BEZEI_LANG                            as SO_AUGRU_BEZEI_LANG,
                 KDGRP                                       as SO_KDGRP,
                 KDGRP_KTEXT_LANG                            as SO_KDGRP_KTEXT_LANG,
                 WE_PARTNER_REGION                           as SO_WE_PARTNER_REGION,
                 WE_PARTNER_REGION_BEZEI_LANG                as SO_WE_PARTNER_REGION_BEZEI_LANG,
-
                 PRCTR                                       as SO_PRCTR,
 
                 IFNULL(
@@ -524,23 +524,23 @@ service openOrdersSrv {
 
                 IFNULL(
                     (
-                    TO_PARTNER_NAME1_ITM || TO_PARTNER_NAME2_ITM
+                        TO_PARTNER_NAME1_ITM || TO_PARTNER_NAME2_ITM
                     ), (
-                    TO_PARTNER_NAME1_HEAD || TO_PARTNER_NAME2_HEAD
+                        TO_PARTNER_NAME1_HEAD || TO_PARTNER_NAME2_HEAD
                     )
-                )                                           as SO_TO_PARTNER_NAME              : String(80),                                   
-                
-                @UI.Hidden: true
-                TO_PARTNER_NAME1_HEAD as SO_TO_PARTNER_NAME1_HEAD,
-                
-                @UI.Hidden: true
-                TO_PARTNER_NAME2_HEAD as SO_TO_PARTNER_NAME2_HEAD,
+                )                                           as SO_TO_PARTNER_NAME              : String(80),
 
                 @UI.Hidden: true
-                TO_PARTNER_NAME1_ITM as SO_TO_PARTNER_NAME1_ITM,
+                TO_PARTNER_NAME1_HEAD                       as SO_TO_PARTNER_NAME1_HEAD,
 
                 @UI.Hidden: true
-                TO_PARTNER_NAME2_ITM  as SO_TO_PARTNER_NAME2_ITM                
+                TO_PARTNER_NAME2_HEAD                       as SO_TO_PARTNER_NAME2_HEAD,
+
+                @UI.Hidden: true
+                TO_PARTNER_NAME1_ITM                        as SO_TO_PARTNER_NAME1_ITM,
+
+                @UI.Hidden: true
+                TO_PARTNER_NAME2_ITM                        as SO_TO_PARTNER_NAME2_ITM
 
         }
 
@@ -582,11 +582,11 @@ service openOrdersSrv {
     entity RejCodesSet              as projection on CSEUCockpitService.RejCodesSet;
     entity LORDHeaderSet            as projection on LORDOdataOrderService.HeaderSet;
     entity LORDItemSet              as projection on LORDOdataOrderService.ItemSet;
-    action   submitOrderChange(payload : String)                                                                                                                                                                                                                                                                                             returns String;
-    action   submitOrderChangeWF(payload : String)                                                                                                                                                                                                                                                                                           returns String;
-    action   cancelOrder(payload : String)                                                                                                                                                                                                                                                                                                   returns String;
-    action   RemoveDeliveryBlock(SalesOrderID : String(10), ItemID : String(6))   
-                                                                                                                                                                                                                                               returns String;
+    action   submitOrderChange(payload : String)                                                       returns String;
+    action   submitOrderChangeWF(payload : String)                                                     returns String;
+    action   cancelOrder(payload : String)                                                             returns String;
+    action   RemoveDeliveryBlock(SalesOrderID : String(10), ItemID : String(6))                        returns String;
+
     entity PredefReasonBuckets      as
         select from AMOOUtilsService.PredefinedReasonBuckets {
             key BUCKET      as BucketKey,
@@ -646,19 +646,15 @@ service openOrdersSrv {
     // Sales order details from generic service
     entity salesOrderDetails        as
         select * from db_app.SALESORDER_DETAILS (
-            IP_LANG:LEFT(
-                UPPER(
-                    $user.locale
-                ),
-            )
+            IP_LANG:LEFT(UPPER($user.locale), )
         );
 
     entity ignoreSalesOrder         as projection on db_app.IGNORED_SO;
-    function getIssueReason(issuePayload : String) returns array of db_app.issue_reason;
-    action   createDeliveryforAllItem(salesOrder : String(10))                                                                                                                                                                                                                                                                               returns Boolean;
-    action   createDeliveryforItem(salesOrder : String(10), salesOrderItem : String(6))                                                                                                                                                                                                                                                      returns Boolean;
+    function getIssueReason(issuePayload : String)                                                     returns array of db_app.issue_reason;
+    action   createDeliveryforAllItem(salesOrder : String(10))                                         returns Boolean;
+    action   createDeliveryforItem(salesOrder : String(10), salesOrderItem : String(6))                returns Boolean;
     entity SAPTexts                 as projection on db_app.SAPTexts;
-    function getSAPTexts(salesOrder : String(10), salesOrderItem : String(6), orderSystem : String(3))                                                                                                                                                                                                                                          returns array of SAPTexts;
+    function getSAPTexts(salesOrder : String(10), salesOrderItem : String(6), orderSystem : String(3)) returns array of SAPTexts;
 
     /// ORDER CREATION ENTITIES
     @readonly
@@ -704,6 +700,6 @@ service openOrdersSrv {
     @readonly
     entity OCValueHelps             as projection on baseOrderCreation;
 
-    entity APContacts as projection on OMServicesAP.SalesOrderPartner;
+    entity APContacts               as projection on OMServicesAP.SalesOrderPartner;
 
 };
