@@ -582,10 +582,10 @@ service openOrdersSrv {
     entity RejCodesSet              as projection on CSEUCockpitService.RejCodesSet;
     entity LORDHeaderSet            as projection on LORDOdataOrderService.HeaderSet;
     entity LORDItemSet              as projection on LORDOdataOrderService.ItemSet;
-    action   submitOrderChange(payload : String)                                                    returns String;
-    action   submitOrderChangeWF(payload : String)                                                  returns String;
-    action   cancelOrder(payload : String)                                                          returns String;
-    action   RemoveDeliveryBlock(SalesOrderID : String(10), ItemID : String(6))                     returns String;
+    action   submitOrderChange(payload : String)                                                       returns String;
+    action   submitOrderChangeWF(payload : String)                                                     returns String;
+    action   cancelOrder(payload : String)                                                             returns String;
+    action   RemoveDeliveryBlock(SalesOrderID : String(10), ItemID : String(6))                        returns String;
 
     entity PredefReasonBuckets      as
         select from AMOOUtilsService.PredefinedReasonBuckets {
@@ -650,11 +650,11 @@ service openOrdersSrv {
         );
 
     entity ignoreSalesOrder         as projection on db_app.IGNORED_SO;
-    function getIssueReason(issuePayload : String)                                                  returns array of db_app.issue_reason;
-    action   createDeliveryforAllItem(salesOrder : String(10))                                      returns Boolean;
-    action   createDeliveryforItem(salesOrder : String(10), salesOrderItem : String(6))             returns Boolean;
+    function getIssueReason(issuePayload : String)                                                     returns array of db_app.issue_reason;
+    action   createDeliveryforAllItem(salesOrder : String(10))                                         returns Boolean;
+    action   createDeliveryforItem(salesOrder : String(10), salesOrderItem : String(6))                returns Boolean;
     entity SAPTexts                 as projection on db_app.SAPTexts;
-    function getSAPTexts(salesOrder : String(10), salesOrderItem : String(6), textObjects : String) returns array of SAPTexts;
+    function getSAPTexts(salesOrder : String(10), salesOrderItem : String(6), orderSystem : String(3)) returns array of SAPTexts;
 
     /// ORDER CREATION ENTITIES
     @readonly
