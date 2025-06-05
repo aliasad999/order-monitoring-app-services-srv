@@ -287,6 +287,8 @@ entity ![OPENORDERSLIST] {
         BL_ERDAT_LAST                      : String(8);
         BL_ERDAT_LAST_DATE                 : Date = BL_ERDAT_LAST;
         VISTA_STATUS                       : String(50);
+        CURRENT_ETA_VISTA                  : String(8);
+        CURRENT_ETA_VISTA_DATE             : Date = CURRENT_ETA_VISTA ;
         // Euan's changes
         Z5_PARTNER_ITM                     : String(8);
         Z5_PARTNER_NAME_ITM                : String(40);

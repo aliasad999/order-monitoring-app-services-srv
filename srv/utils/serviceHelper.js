@@ -28,6 +28,7 @@ const getDateProps = () => {
         "SO_DUE_DATE",
         "BL_ERDAT_FIRST",
         "BL_ERDAT_LAST",
+        "TM_CURRENT_ETA_VISTA",
     ]
 }
 
