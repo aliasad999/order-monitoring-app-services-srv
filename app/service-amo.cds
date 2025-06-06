@@ -243,7 +243,10 @@ annotate service.valueHelps with {
     SO_DEV_CONF_DATE                @title: '{i18n>SO_DEV_CONF_DATE}'            @sap.Label: '{i18n>SO_DEV_CONF_DATE}';
     SO_EMAIL                        @title: '{i18n>SO_EMAIL}'                    @sap.Label: '{i18n>SO_EMAIL}';
     SO_EMAIL_SEND_DATE_F            @title: '{i18n>SO_EMAIL_SEND_DATE_F}'        @sap.Label: '{i18n>SO_EMAIL_SEND_DATE_F}';
-    SO_EMAIL_SENT_ON                @title: '{i18n>SO_EMAIL_SENT_ON}'            @sap.Label: '{i18n>SO_EMAIL_SENT_ON}';   
+    SO_EMAIL_SENT_ON                @title: '{i18n>SO_EMAIL_SENT_ON}'            @sap.Label: '{i18n>SO_EMAIL_SENT_ON}';
+    TM_DPLBG_DATE                   @title: '{i18n>TM_DPLBG}'                    @sap.label: '{i18n>TM_DPLBG}';
+    TM_ERDAT_DATE                   @title: '{i18n>TM_ERDAT}'                    @sap.label: '{i18n>TM_ERDAT}'; 
+    TM_DPREG_DATE                   @title: '{i18n>TM_DPREG}'                    @sap.label: '{i18n>TM_DPREG}';   
 };
 
 annotate service.Results with {
@@ -649,7 +652,10 @@ annotate service.Results with {
     SO_DEV_CONF_DATE                @title: '{i18n>SO_DEV_CONF_DATE}'            @sap.Label: '{i18n>SO_DEV_CONF_DATE}';
     SO_EMAIL                        @title: '{i18n>SO_EMAIL}'                    @sap.Label: '{i18n>SO_EMAIL}';
     SO_EMAIL_SEND_DATE_F            @title: '{i18n>SO_EMAIL_SEND_DATE_F}'        @sap.Label: '{i18n>SO_EMAIL_SEND_DATE_F}';
-    SO_EMAIL_SENT_ON                @title: '{i18n>SO_EMAIL_SENT_ON}'            @sap.Label: '{i18n>SO_EMAIL_SENT_ON}';    
+    SO_EMAIL_SENT_ON                @title: '{i18n>SO_EMAIL_SENT_ON}'            @sap.Label: '{i18n>SO_EMAIL_SENT_ON}';
+    TM_DPLBG_DATE                   @title: '{i18n>TM_DPLBG}'                    @sap.label: '{i18n>TM_DPLBG}';
+    TM_ERDAT_DATE                   @title: '{i18n>TM_ERDAT}'                    @sap.label: '{i18n>TM_ERDAT}'; 
+    TM_DPREG_DATE                   @title: '{i18n>TM_DPREG}'                    @sap.label: '{i18n>TM_DPREG}';     
 }
 
 annotate service.Results with {

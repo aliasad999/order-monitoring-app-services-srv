@@ -306,6 +306,12 @@ entity ![RESULTS] {
         EMAIL                              : String(241);
         EMAIL_SEND_DATE_F                  : String(8);
         EMAIL_SENT_ON                      : String(8);
+        DPLBG_TM                           : String(8);
+        DPLBG_TM_DATE                      : Date = DPLBG_TM;
+        ERDAT_TM                           : String(8);
+        ERDAT_TM_DATE                      : Date = ERDAT_TM;
+        DPREG_TM                           : String(8);
+        DPREG_TM_DATE                      : Date = DPREG_TM;
 
 }
 

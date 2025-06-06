@@ -541,7 +541,11 @@ service openOrdersSrv {
                 TO_PARTNER_NAME1_ITM                        as SO_TO_PARTNER_NAME1_ITM,
 
                 @UI.Hidden: true
-                TO_PARTNER_NAME2_ITM                        as SO_TO_PARTNER_NAME2_ITM
+                TO_PARTNER_NAME2_ITM                        as SO_TO_PARTNER_NAME2_ITM,
+
+                DPLBG_TM_DATE                               as TM_DPLBG_DATE,
+                ERDAT_TM_DATE                               as TM_ERDAT_DATE,
+                DPREG_TM_DATE                               as TM_DPREG_DATE  
 
         }
 

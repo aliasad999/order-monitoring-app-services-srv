@@ -561,6 +561,9 @@ service srvOpenOrders {
           EMAIL                                       as SO_EMAIL,
           EMAIL_SEND_DATE_F                           as SO_EMAIL_SEND_DATE_F,
           EMAIL_SENT_ON                               as SO_EMAIL_SENT_ON,
+          DPLBG_TM_DATE                               as TM_DPLBG_DATE,
+          ERDAT_TM_DATE                               as TM_ERDAT_DATE,
+          DPREG_TM_DATE                               as TM_DPREG_DATE
 
     };
 
