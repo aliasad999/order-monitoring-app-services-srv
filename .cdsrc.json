@@ -145,7 +145,7 @@
                 "path": "/it/omg/omc-pers/v1"
             }
         },
-        "createDelivery":{
+        "createDelivery": {
             "kind": "odata-v2",
             "csrf": {
                 "method": "get",
@@ -157,11 +157,19 @@
                 "path": "/it/omg/omc/sofm-delivery/v1"
             }
         },
-        "OMServicesAP":{
+        "OMServicesAP": {
             "kind": "odata-v2",
             "credentials": {
                 "destination": "APIM",
                 "path": "/it/omg/omc/ap-om-services/v1"
+            }
+        },
+        "APSalesOrderA2X": {
+            "kind": "odata-v2",
+            "model": "srv/external/APSalesOrderA2X",
+            "credentials": {
+                "destination": "APIM",
+                "path": "/sal/sapapis/erpap/op_api_sales_order_srv_0001/v1"
             }
         }
     }

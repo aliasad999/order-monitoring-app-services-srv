@@ -287,6 +287,8 @@ entity ![OPENORDERSLIST] {
         BL_ERDAT_LAST                      : String(8);
         BL_ERDAT_LAST_DATE                 : Date = BL_ERDAT_LAST;
         VISTA_STATUS                       : String(50);
+        CURRENT_ETA_VISTA                  : String(8);
+        CURRENT_ETA_VISTA_DATE             : Date = CURRENT_ETA_VISTA ;
         // Euan's changes
         Z5_PARTNER_ITM                     : String(8);
         Z5_PARTNER_NAME_ITM                : String(40);
@@ -299,7 +301,6 @@ entity ![OPENORDERSLIST] {
         // End of Euan's changes
         BNAME                              : String(35);
         IHREZ                              : String(35);
-
         LPRIO                              : String(2);
         AUGRU                              : String(3);
         AUGRU_BEZEI_LANG                   : String(40);
@@ -307,7 +308,6 @@ entity ![OPENORDERSLIST] {
         KDGRP_KTEXT_LANG                   : String(20);
         WE_PARTNER_REGION                  : String(3);
         WE_PARTNER_REGION_BEZEI_LANG       : String(20);
-
         PRCTR                              : String(10);
         TO_PARTNER_HEAD                    : String(10);
         TO_PARTNER_ITM                     : String(10);
@@ -315,6 +315,7 @@ entity ![OPENORDERSLIST] {
         TO_PARTNER_NAME2_HEAD              : String(40);
         TO_PARTNER_NAME1_ITM               : String(40);
         TO_PARTNER_NAME2_ITM               : String(40);
+        ISSUE_LOCATION_MANDT               : String(3);
 }
 
 entity ContactsOptions {
@@ -468,7 +469,6 @@ entity ![SALESORDER_DETAILS](IP_LANG : String(2)) {
             SO_LAST_UPDATE         : Timestamp;
             MBDAT                  : String(8);
             MBDAT_DATE             : Date = MBDAT;
-
             TO_PARTNER_HEAD        : String(10);
             TO_PARTNER_ITM         : String(10);
             TO_PARTNER_NAME1_HEAD  : String(40);

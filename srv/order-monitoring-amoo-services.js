@@ -48,51 +48,95 @@ class openOrdersSrv extends cds.ApplicationService {
             let SAPTexts = [];
             let salesOrder = req.data.salesOrder;
             let salesOrderItem = req.data.salesOrderItem;
-            let textObjectsData = JSON.parse(req.data.textObjects);
-            // const SAPTextsService = await cds.connect.to('SAPTexts');
+            let orderSystem = req.data.orderSystem;
 
-            const SAPTextsService = await cds.connect.to('DSLServicesService');
+            switch (orderSystem) {
+                case "100": // Cobalt                   
+                    let textObjectsData = [
+                        {
+                            id: "ZAI1",
+                            onItem: false
+                        },
+                        {
+                            id: "ZAV1",
+                            onItem: false
+                        },
+                        {
+                            id: "ZA16",
+                            onItem: true
+                        },
+                        {
+                            id: "ZA10",
+                            onItem: true
+                        },
+                        {
+                            id: "NFL",
+                            onItem: true
+                        }
+                    ]
 
-            for (var i = 0; i < textObjectsData.length; i++) {
-                let textObject = textObjectsData[i];
-                try {
-                    // EXAMPLE
-                    // SAPTexts = await SAPTextsService.get(`/orders/0071396870/items/000020?text_type_id=ZA10&language=EN`);
-                    if (textObject.onItem) {
-                        // SAPTexts = await SAPTextsService.get(`/orders/${salesOrder}/items/${salesOrderItem}?text_type_id=${textObject.id}&language=${textLanguage}`);
-                        SAPTexts = await SAPTextsService.run(SELECT.from('SAPTextsSet').where({
-                            TextId: textObject.id,
-                            TextName: `${salesOrder}${salesOrderItem}`,
-                            TextObject: "VBBP"
-                        }))
-                    } else {
-                        // SAPTexts = await SAPTextsService.get(`/orders/${salesOrder}?text_type_id=${textObject.id}&language=${textLanguage}`);
-                        SAPTexts = await SAPTextsService.run(SELECT.from('SAPTextsSet').where({
-                            TextId: textObject.id,
-                            TextName: `${salesOrder}`,
-                            TextObject: "VBBK"
-                        }))
+                    const SAPTextsService = await cds.connect.to('DSLServicesService');
+
+                    for (var i = 0; i < textObjectsData.length; i++) {
+                        let textObject = textObjectsData[i];
+                        try {
+                            let whereClause = `TextId = '${textObject.id}' and TextName = '${salesOrder}' and TextObject = 'VBBK'`;
+                            if (textObject.onItem) {
+                                whereClause = `TextId = '${textObject.id}' and TextName = '${salesOrder}${salesOrderItem}' and TextObject = 'VBBP'`;
+                            }
+                            SAPTexts = await SAPTextsService.run(SELECT.from('SAPTextsSet').where(whereClause))
+                            if (SAPTexts.length > 0) {
+                                SAPTexts.forEach((text) => {
+                                    SAPTextsEntity.push({
+                                        TextId: text.TextId,
+                                        SAPText: text.Text.replaceAll("--", "\r\n"),
+                                        KeyText: getBundle(req.locale).getText(`SAPText${text.TextId}`),
+                                        TextLanguage: text.TextLang
+                                    })
+                                })
+                            }
+                        } catch (error) {
+                            if (!error.message.includes("No Data Found")) {
+                                req.error(413, error)
+                            }
+                        }
                     }
-                    if (SAPTexts.length > 0) {
-                        SAPTexts.forEach((text) => {
-                            SAPTextsEntity.push({
-                                TextId: text.TextId,
-                                SAPText: text.Text.replaceAll("--", "\r\n"),
-                                KeyText: getBundle(req.locale).getText(`SAPText${text.TextId}`),
-                                TextLanguage: text.TextLang
+                case "200": // EC
+                    break;
+                case "300": // AP
+                    let headerTextIds = ["ZH09", "ZH10"]
+                    let itemTextIds = ["ZI10"];
+                    const APSAPTextsService = await cds.connect.to('APSalesOrderA2X');
+
+                    const addTexts = (arrayOfTexts) => {
+                        if (arrayOfTexts.length > 0) {
+                            arrayOfTexts.forEach((text) => {
+                                SAPTextsEntity.push({
+                                    TextId: text.LongTextID,
+                                    SAPText: text.LongText,
+                                    KeyText: getBundle(req.locale).getText(`SAPText${text.LongTextID}`),
+                                    TextLanguage: text.Language
+                                })
                             })
-                        })
+                        }
                     }
-                    // SAPTextsEntity.push({
-                    //     TextId: textObject.id,
-                    //     SAPText: SAPTexts.textLines.join("\r\n"),
-                    //     KeyText: getBundle(req.locale).getText(`SAPText${textObject.id}`)
-                    // })
-                } catch (error) {
-                    if (!error.message.includes("No Data Found")) {
-                        req.error(413, error)
-                    }
-                }
+
+                    // Header
+                    SAPTexts = await APSAPTextsService.run(SELECT.from('A_SalesOrderText').where({ 
+                        SalesOrder: salesOrder,
+                        LongTextID: { in: headerTextIds}
+                    }))
+                    addTexts(SAPTexts);
+
+                    // Item
+                    SAPTexts = await APSAPTextsService.run(SELECT.from('A_SalesOrderItemText').where({ 
+                        SalesOrder: salesOrder,
+                        SalesOrderItem: salesOrderItem,
+                        LongTextID: { in: itemTextIds}
+                    }))
+                    addTexts(SAPTexts);
+
+                    break;
             }
 
             return SAPTextsEntity;
@@ -1107,11 +1151,11 @@ class openOrdersSrv extends cds.ApplicationService {
             // Deactivated in PROD
             if (process.env.OC_TAB_STATUS === 'ON') {
                 cds
-                .connect("db")
-                .then(({ db }) =>
-                    db?.before("READ", (req) => enableHints(req)
-                    )
-                );
+                    .connect("db")
+                    .then(({ db }) =>
+                        db?.before("READ", (req) => enableHints(req)
+                        )
+                    );
 
                 req.query.SELECT.localized = false;
                 req.query.SELECT.distinct = true;
@@ -1520,7 +1564,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 plant, uom, dueDate, firstDate, system } = JSON.parse(req.data.issuePayload);
 
             switch (system) {
-                case "COBALT":
+                case "100": // Cobalt
                     // Call Cobalt only for order incomplete and outbound delivery incomplete (for now)
                     if (issue === "01" || issue === "05") {
                         try {
@@ -1588,23 +1632,11 @@ class openOrdersSrv extends cds.ApplicationService {
                         } catch (error) {
                             console.error('Error fetching ATP Pal status:', error);
                         }
-                    }
-                    // Cobalt redirects to FSCM system
-                    if (issue === '06') {
-                        const CreditManagerService = await cds.connect.to('CreditManagerService');
-                        try {
-                            creditData = await CreditManagerService.run(SELECT.from('OrderBlockSet').byKey({
-                                OrderNumber: issueLocation,
-                                Language: req.locale.toUpperCase()
-                            }).columns("Text1", "Text2", "Text3", "Text4"))
-                        } catch (error) {
-                            console.error('Error fetching credit status:', error);
-                        }
-                    }
+                    } 
                     break;
-                case "EC":
+                case "200": // EC
                     break;
-                case "AP":
+                case "300": // AP
                     if (issue === "01" || issue === "05") {
                         try {
                             const OMServicesAP = await cds.connect.to('OMServicesAP');
@@ -1644,7 +1676,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         }
                     }
                     /// AP PLACEHOLDER UNTIL THOSE REASONS FOR ISSUE ARE DONE (APIs MISSING)
-                    if (issue === "06" || issue === '08' || issue === '11') {
+                    if (issue === '08' || issue === '11') {
                         idocData.push({
                             text: textBundle.getText("APTBD")
                         })
@@ -1653,6 +1685,19 @@ class openOrdersSrv extends cds.ApplicationService {
                     break;
                 default:
                     break;
+            }
+
+            // Call to FSCM system (Cobalt and AP orders)
+            if (issue === '06' && system !== '200') {
+                const CreditManagerService = await cds.connect.to('CreditManagerService');
+                try {
+                    creditData = await CreditManagerService.run(SELECT.from('OrderBlockSet').byKey({
+                        OrderNumber: issueLocation,
+                        Language: req.locale.toUpperCase()
+                    }).columns("Text1", "Text2", "Text3", "Text4"))
+                } catch (error) {
+                    console.error('Error fetching credit status:', error);
+                }
             }
 
 

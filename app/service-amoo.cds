@@ -24,15 +24,15 @@ annotate service.valueHelps with {
     @Common.Text           : SO_NPS_DESCRIPTION
     @Common.TextArrangement: #TextOnly
     SO_NPS                         @title: '{i18n>SO_NPS}'              @sap.Label: '{i18n>SO_NPS}';
-    SO_NPS_DESCRIPTION             @UI   : {Hidden: true};
+    SO_NPS_DESCRIPTION             @UI: {Hidden: true};
     @Common.Text           : SO_ISSUE_DESCRIPTION
     @Common.TextArrangement: #TextOnly
     SO_ISSUE                       @title: '{i18n>SO_ISSUE}'            @sap.Label: '{i18n>SO_ISSUE}';
-    SO_ISSUE_DESCRIPTION           @UI   : {Hidden: true};
+    SO_ISSUE_DESCRIPTION           @UI: {Hidden: true};
     @Common.Text           : SO_DCP_ITEM_STATUS_DESCRIPTION
     @Common.TextArrangement: #TextOnly
     SO_DCP_ITEM_STATUS             @title: '{i18n>SO_DCP_ITEM_STATUS}'  @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
-    SO_DCP_ITEM_STATUS_DESCRIPTION @UI   : {Hidden: true};
+    SO_DCP_ITEM_STATUS_DESCRIPTION @UI: {Hidden: true};
 }
 
 annotate service.allIssues with @(UI: {SelectionFields: [
@@ -150,16 +150,16 @@ annotate service.orderCreation with {
     PO_EKNAM;
 
     // HIDDEN FIELDS
-    PO_KUNNR_NAME       @UI   : {Hidden: true};
-    PO_BSART_BATXT      @UI   : {Hidden: true};
-    PO_BIM_ERROR_ID     @UI   : {Hidden: true};
-    PO_MEINS            @UI   : {Hidden: true};
-    Id                  @UI   : {Hidden: true};
-    PO_MANDT_TEXT       @UI   : {Hidden: true};
-    PO_EKNAM            @UI   : {Hidden: true};
-    PO_EKOTX            @UI   : {Hidden: true};
-    PO_ISSUE_TEXT       @UI   : {Hidden: true};
-    PO_NPS_TEXT         @UI   : {Hidden: true};
+    PO_KUNNR_NAME       @UI: {Hidden: true};
+    PO_BSART_BATXT      @UI: {Hidden: true};
+    PO_BIM_ERROR_ID     @UI: {Hidden: true};
+    PO_MEINS            @UI: {Hidden: true};
+    Id                  @UI: {Hidden: true};
+    PO_MANDT_TEXT       @UI: {Hidden: true};
+    PO_EKNAM            @UI: {Hidden: true};
+    PO_EKOTX            @UI: {Hidden: true};
+    PO_ISSUE_TEXT       @UI: {Hidden: true};
+    PO_NPS_TEXT         @UI: {Hidden: true};
 }
 
 // ------------- ORDER CREATION VALUE HELPS -------
@@ -469,14 +469,14 @@ annotate service.allIssues with @UI.LineItem #allIssues: {
         {Value: TM_DATEN},
         {Value: TM_SHIPMENT_CURRENT_STATUS},
         {Value: TM_VISTA_STATUS},
-        // {Value: SO_AUGRU},
-        // {Value: SO_AUGRU_BEZEI_LANG},
-        // {Value: SO_KDGRP},
-        // {Value: SO_KDGRP_KTEXT_LANG},
-        // {Value: SO_WE_PARTNER_REGION},
-        // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG},
-        // {Value: SO_BNAME},
-        // {Value :SO_IHREZ},
+    // {Value: SO_AUGRU},
+    // {Value: SO_AUGRU_BEZEI_LANG},
+    // {Value: SO_KDGRP},
+    // {Value: SO_KDGRP_KTEXT_LANG},
+    // {Value: SO_WE_PARTNER_REGION},
+    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG},
+    // {Value: SO_BNAME},
+    // {Value :SO_IHREZ},
     ]
 };
 
@@ -511,12 +511,12 @@ annotate service.allIssues with @UI.LineItem #nps10: {$value: [
     {Value: SO_BSTKD},
     {Value: SO_EDATU_REQUESTED},
     {Value: SO_KWMENG},
-    // {Value: SO_AUGRU},
-    // {Value: SO_AUGRU_BEZEI_LANG},
-    // {Value: SO_KDGRP},
-    // {Value: SO_KDGRP_KTEXT_LANG},
-    // {Value: SO_WE_PARTNER_REGION},
-    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+// {Value: SO_AUGRU},
+// {Value: SO_AUGRU_BEZEI_LANG},
+// {Value: SO_KDGRP},
+// {Value: SO_KDGRP_KTEXT_LANG},
+// {Value: SO_WE_PARTNER_REGION},
+// {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 ]};
 
 annotate service.allIssues with @UI.LineItem #nps20: {$value: [
@@ -560,12 +560,12 @@ annotate service.allIssues with @UI.LineItem #nps20: {$value: [
     {Value: SO_LEVEL_TYPE},
     {Value: SO_N_VBELN},
     {Value: SO_F_VBELN},
-    // {Value: SO_AUGRU},
-    // {Value: SO_AUGRU_BEZEI_LANG},
-    // {Value: SO_KDGRP},
-    // {Value: SO_KDGRP_KTEXT_LANG},
-    // {Value: SO_WE_PARTNER_REGION},
-    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+// {Value: SO_AUGRU},
+// {Value: SO_AUGRU_BEZEI_LANG},
+// {Value: SO_KDGRP},
+// {Value: SO_KDGRP_KTEXT_LANG},
+// {Value: SO_WE_PARTNER_REGION},
+// {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 
 ]};
 
@@ -611,12 +611,12 @@ annotate service.allIssues with @UI.LineItem #nps30: {$value: [
     {Value: SO_LEVEL_TYPE},
     {Value: SO_N_VBELN},
     {Value: SO_F_VBELN},
-    // {Value: SO_AUGRU},
-    // {Value: SO_AUGRU_BEZEI_LANG},
-    // {Value: SO_KDGRP},
-    // {Value: SO_KDGRP_KTEXT_LANG},
-    // {Value: SO_WE_PARTNER_REGION},
-    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+// {Value: SO_AUGRU},
+// {Value: SO_AUGRU_BEZEI_LANG},
+// {Value: SO_KDGRP},
+// {Value: SO_KDGRP_KTEXT_LANG},
+// {Value: SO_WE_PARTNER_REGION},
+// {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 ]};
 
 annotate service.allIssues with @UI.LineItem #nps40: {$value: [
@@ -661,12 +661,12 @@ annotate service.allIssues with @UI.LineItem #nps40: {$value: [
     {Value: SO_F_VBELN},
     {Value: SO_ZTERM},
     {Value: SO_PRSDT},
-    // {Value: SO_AUGRU},
-    // {Value: SO_AUGRU_BEZEI_LANG},
-    // {Value: SO_KDGRP},
-    // {Value: SO_KDGRP_KTEXT_LANG},
-    // {Value: SO_WE_PARTNER_REGION},
-    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+// {Value: SO_AUGRU},
+// {Value: SO_AUGRU_BEZEI_LANG},
+// {Value: SO_KDGRP},
+// {Value: SO_KDGRP_KTEXT_LANG},
+// {Value: SO_WE_PARTNER_REGION},
+// {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 ]};
 
 annotate service.allIssues with @UI.LineItem #nps50: {$value: [
@@ -697,12 +697,12 @@ annotate service.allIssues with @UI.LineItem #nps50: {$value: [
     {Value: SO_KBETR},
     {Value: SO_NETWR},
     {Value: SO_ZZDKPPRODB},
-    // {Value: SO_AUGRU},
-    // {Value: SO_AUGRU_BEZEI_LANG},
-    // {Value: SO_KDGRP},
-    // {Value: SO_KDGRP_KTEXT_LANG},
-    // {Value: SO_WE_PARTNER_REGION},
-    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+// {Value: SO_AUGRU},
+// {Value: SO_AUGRU_BEZEI_LANG},
+// {Value: SO_KDGRP},
+// {Value: SO_KDGRP_KTEXT_LANG},
+// {Value: SO_WE_PARTNER_REGION},
+// {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 
 ]};
 
@@ -732,12 +732,12 @@ annotate service.allIssues with @UI.LineItem #nps60: {$value: [
     {Value: SO_FAKSP},
     {Value: DL_ZZ0S2BLNR},
     {Value: TM_AR_DATE},
-    // {Value: SO_AUGRU},
-    // {Value: SO_AUGRU_BEZEI_LANG},
-    // {Value: SO_KDGRP},
-    // {Value: SO_KDGRP_KTEXT_LANG},
-    // {Value: SO_WE_PARTNER_REGION},
-    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+// {Value: SO_AUGRU},
+// {Value: SO_AUGRU_BEZEI_LANG},
+// {Value: SO_KDGRP},
+// {Value: SO_KDGRP_KTEXT_LANG},
+// {Value: SO_WE_PARTNER_REGION},
+// {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 
 ]};
 
@@ -772,11 +772,11 @@ annotate service.allIssues with @UI.LineItem #nps70: {$value: [
     {Value: SO_INCO1},
     {Value: SO_ROUTE},
     {Value: SO_AUGRU},
-    // {Value: SO_AUGRU_BEZEI_LANG},
-    // {Value: SO_KDGRP},
-    // {Value: SO_KDGRP_KTEXT_LANG},
-    // {Value: SO_WE_PARTNER_REGION},
-    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+// {Value: SO_AUGRU_BEZEI_LANG},
+// {Value: SO_KDGRP},
+// {Value: SO_KDGRP_KTEXT_LANG},
+// {Value: SO_WE_PARTNER_REGION},
+// {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 
 ]};
 
@@ -812,12 +812,12 @@ annotate service.allIssues with @UI.LineItem #nps80: {$value: [
     {Value: SO_NETWR},
     {Value: SO_ZZDKPPRODB},
     {Value: SO_INCO1},
-    // {Value: SO_AUGRU},
-    // {Value: SO_AUGRU_BEZEI_LANG},
-    // {Value: SO_KDGRP},
-    // {Value: SO_KDGRP_KTEXT_LANG},
-    // {Value: SO_WE_PARTNER_REGION},
-    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+// {Value: SO_AUGRU},
+// {Value: SO_AUGRU_BEZEI_LANG},
+// {Value: SO_KDGRP},
+// {Value: SO_KDGRP_KTEXT_LANG},
+// {Value: SO_WE_PARTNER_REGION},
+// {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 
 ]};
 
@@ -848,12 +848,12 @@ annotate service.allIssues with @UI.LineItem #nps90: {$value: [
     {Value: DL_WADAT_IST},
     {Value: SO_DUE_DATE},
     {Value: SO_NPS},
-    // {Value: SO_AUGRU},
-    // {Value: SO_AUGRU_BEZEI_LANG},
-    // {Value: SO_KDGRP},
-    // {Value: SO_KDGRP_KTEXT_LANG},
-    // {Value: SO_WE_PARTNER_REGION},
-    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+// {Value: SO_AUGRU},
+// {Value: SO_AUGRU_BEZEI_LANG},
+// {Value: SO_KDGRP},
+// {Value: SO_KDGRP_KTEXT_LANG},
+// {Value: SO_WE_PARTNER_REGION},
+// {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 
 ]};
 
@@ -876,12 +876,12 @@ annotate service.allIssues with @UI.LineItem #nps95: {$value: [
     {Value: TM_TKNUM},
     {Value: TM_TDLNR_NAME1},
     {Value: SO_ROUTE},
-    // {Value: SO_AUGRU},
-    // {Value: SO_AUGRU_BEZEI_LANG},
-    // {Value: SO_KDGRP},
-    // {Value: SO_KDGRP_KTEXT_LANG},
-    // {Value: SO_WE_PARTNER_REGION},
-    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+// {Value: SO_AUGRU},
+// {Value: SO_AUGRU_BEZEI_LANG},
+// {Value: SO_KDGRP},
+// {Value: SO_KDGRP_KTEXT_LANG},
+// {Value: SO_WE_PARTNER_REGION},
+// {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 
 ]};
 
@@ -907,12 +907,12 @@ annotate service.allIssues with @UI.LineItem #nps99: {$value: [
     {Value: SO_ZZDKPPRODB},
     {Value: SO_MAKTX},
     {Value: SO_ERDAT_ITEM},
-    // {Value: SO_AUGRU},
-    // {Value: SO_AUGRU_BEZEI_LANG},
-    // {Value: SO_KDGRP},
-    // {Value: SO_KDGRP_KTEXT_LANG},
-    // {Value: SO_WE_PARTNER_REGION},
-    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+// {Value: SO_AUGRU},
+// {Value: SO_AUGRU_BEZEI_LANG},
+// {Value: SO_KDGRP},
+// {Value: SO_KDGRP_KTEXT_LANG},
+// {Value: SO_WE_PARTNER_REGION},
+// {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 
 ]};
 
@@ -955,490 +955,493 @@ annotate service.allIssues with @UI.LineItem #nps00: {$value: [
     {Value: TM_DATEN},
     {Value: TM_SHIPMENT_CURRENT_STATUS},
     {Value: TM_VISTA_STATUS},
-    // {Value: SO_AUGRU},
-    // {Value: SO_AUGRU_BEZEI_LANG},
-    // {Value: SO_KDGRP},
-    // {Value: SO_KDGRP_KTEXT_LANG},
-    // {Value: SO_WE_PARTNER_REGION},
-    // {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
+// {Value: SO_AUGRU},
+// {Value: SO_AUGRU_BEZEI_LANG},
+// {Value: SO_KDGRP},
+// {Value: SO_KDGRP_KTEXT_LANG},
+// {Value: SO_WE_PARTNER_REGION},
+// {Value: SO_WE_PARTNER_REGION_BEZEI_LANG}
 
 ]};
 
 // ------------- different tabs qualifier for lineitems-------
 annotate service.baseEntity with {
-    SO_VBELN                        @title: '{i18n>SO_VBELN}'                    @sap.Label: '{i18n>SO_VBELN}';
-    SO_POSNR                        @title: '{i18n>SO_POSNR}'                    @sap.Label: '{i18n>SO_POSNR}'            @Common.IsDigitSequence: true;
-    SO_ERDAT_ORDER                  @title: '{i18n>SO_ERDAT_ORDER}'              @sap.Label: '{i18n>SO_ERDAT_ORDER}'      @sap.filter.restriction: 'interval';
-    SO_ERDAT_ITEM                   @title: '{i18n>SO_ERDAT_ITEM}'               @sap.Label: '{i18n>SO_ERDAT_ITEM}'       @sap.filter.restriction: 'interval';
-    SO_AUART                        @title: '{i18n>SO_AUART}'                    @sap.Label: '{i18n>SO_AUART}';
-    SO_WERKS                        @title: '{i18n>SO_WERKS}'                    @sap.Label: '{i18n>SO_WERKS}';
-    SO_VTWEG                        @title: '{i18n>SO_VTWEG}'                    @sap.Label: '{i18n>SO_VTWEG}';
-    SO_MATNR                        @title: '{i18n>SO_MATNR}'                    @sap.Label: '{i18n>SO_MATNR}'            @Common.IsDigitSequence: true;
-    SO_MAKTX                        @title: '{i18n>SO_MAKTX}'                    @sap.Label: '{i18n>SO_MAKTX}';
-    SO_KDMAT                        @title: '{i18n>SO_KDMAT}'                    @sap.Label: '{i18n>SO_KDMAT}';
-    SO_AG_PARTNER                   @title: '{i18n>SO_AG_PARTNER}'               @sap.Label: '{i18n>SO_AG_PARTNER}'       @Common.IsDigitSequence: true;
-    SO_AG_PARTNER_NAME              @title: '{i18n>SO_AG_PARTNER_NAME}'          @sap.Label: '{i18n>SO_AG_PARTNER_NAME}';
-    SO_WE_PARTNER                   @title: '{i18n>SO_WE_PARTNER}'               @sap.Label: '{i18n>SO_WE_PARTNER}'       @Common.IsDigitSequence: true;
-    SO_WE_PARTNER_NAME              @title: '{i18n>SO_WE_PARTNER_NAME}'          @sap.Label: '{i18n>SO_WE_PARTNER_NAME}';
-    SO_LAND1                        @title: '{i18n>SO_LAND1}'                    @sap.Label: '{i18n>SO_LAND1}';
-    SO_LANDX                        @title: '{i18n>SO_LANDX}'                    @sap.Label: '{i18n>SO_LANDX}';
-    SO_ORT01                        @title: '{i18n>SO_ORT01}'                    @sap.Label: '{i18n>SO_ORT01}';
-    SO_VKORG                        @title: '{i18n>SO_VKORG}'                    @sap.Label: '{i18n>SO_VKORG}';
-    SO_VKORG_NAME1                  @title: '{i18n>SO_VKORG_NAME1}'              @sap.Label: '{i18n>SO_VKORG_NAME1}';
-    SO_CO_PARTNER                   @title: '{i18n>SO_CO_PARTNER}'               @sap.Label: '{i18n>SO_CO_PARTNER}'       @Common.IsDigitSequence: true;
-    SO_CO_PARTNER_NAME              @title: '{i18n>SO_CO_PARTNER_NAME}'          @sap.Label: '{i18n>SO_CO_PARTNER_NAME}';
-    SO_NY_PARTNER                   @title: '{i18n>SO_NY_PARTNER}'               @sap.Label: '{i18n>SO_NY_PARTNER}'       @Common.IsDigitSequence: true;
-    SO_NY_PARTNER_NAME              @title: '{i18n>SO_NY_PARTNER_NAME}'          @sap.Label: '{i18n>SO_NY_PARTNER_NAME}';
-    SO_AS_PARTNER                   @title: '{i18n>SO_AS_PARTNER}'               @sap.Label: '{i18n>SO_AS_PARTNER}'       @Common.IsDigitSequence: true;
-    SO_AS_PARTNER_NAME              @title: '{i18n>SO_AS_PARTNER_NAME}'          @sap.Label: '{i18n>SO_AS_PARTNER_NAME}';
-    SO_VE_PARTNER                   @title: '{i18n>SO_VE_PARTNER}'               @sap.Label: '{i18n>SO_VE_PARTNER}'       @Common.IsDigitSequence: true;
-    SO_VE_PARTNER_NAME              @title: '{i18n>SO_VE_PARTNER_NAME}'          @sap.Label: '{i18n>SO_VE_PARTNER_NAME}';
-    SO_AM_PARTNER                   @title: '{i18n>SO_AM_PARTNER}'               @sap.Label: '{i18n>SO_AM_PARTNER}'       @Common.IsDigitSequence: true;
-    SO_AM_PARTNER_NAME              @title: '{i18n>SO_AM_PARTNER_NAME}'          @sap.Label: '{i18n>SO_AM_PARTNER_NAME}';
-    SO_KNREF_HEAD                   @title: '{i18n>SO_KNREF_HEAD}'               @sap.Label: '{i18n>SO_KNREF_HEAD}';
-    SO_VBUND                        @title: '{i18n>SO_VBUND}'                    @sap.Label: '{i18n>SO_VBUND}';
-    SO_EDATU_REQUESTED              @title: '{i18n>SO_EDATU_REQUESTED}'          @sap.Label: '{i18n>SO_EDATU_REQUESTED}'  @sap.filter.restriction: 'interval';
-    SO_KWMENG                       @title: '{i18n>SO_KWMENG}'                   @sap.Label: '{i18n>SO_KWMENG}';
-    SO_VRKME                        @title: '{i18n>SO_VRKME}'                    @sap.Label: '{i18n>SO_VRKME}';
-    SO_EDATU_CONFIRMED              @title: '{i18n>SO_EDATU_CONFIRMED}'          @sap.Label: '{i18n>SO_EDATU_CONFIRMED}'  @sap.filter.restriction: 'interval';
-    SO_KBMENG                       @title: '{i18n>SO_KBMENG}'                   @sap.Label: '{i18n>SO_KBMENG}';
-    SO_UNCONFIRMED_QTY              @title: '{i18n>SO_UNCONFIRMED_QTY}'          @sap.Label: '{i18n>SO_UNCONFIRMED_QTY}';
-    SO_REQ_TEXT                     @title: '{i18n>SO_REQ_TEXT}'                 @sap.Label: '{i18n>SO_REQ_TEXT}';
-    SO_FAKSP                        @title: '{i18n>SO_FAKSP}'                    @sap.Label: '{i18n>SO_FAKSP}';
-    SO_FAKSP_VTEXT                  @title: '{i18n>SO_FAKSP_VTEXT}'              @sap.Label: '{i18n>SO_FAKSP_VTEXT}';
-    SO_SUPPLY_SITUATION             @title: '{i18n>SO_SUPPLY_SITUATION}'         @sap.Label: '{i18n>SO_SUPPLY_SITUATION}';
-    SO_SUPPLY_SITUATION_DESCR       @title: '{i18n>SO_SUPPLY_SITUATION_DESCR}'   @sap.Label: '{i18n>SO_SUPPLY_SITUATION_DESCR}';
-    SO_KBETR                        @title: '{i18n>SO_KBETR}'                    @sap.Label: '{i18n>SO_KBETR}';
-    SO_WAERS                        @title: '{i18n>SO_WAERS}'                    @sap.Label: '{i18n>SO_WAERS}';
-    SO_KPEIN                        @title: '{i18n>SO_KPEIN}'                    @sap.Label: '{i18n>SO_KPEIN}';
-    SO_KMEIN                        @title: '{i18n>SO_KMEIN}'                    @sap.Label: '{i18n>SO_KMEIN}';
-    SO_NETWR                        @title: '{i18n>SO_NETWR}'                    @sap.Label: '{i18n>SO_NETWR}';
-    SO_WAERK                        @title: '{i18n>SO_WAERK}'                    @sap.Label: '{i18n>SO_WAERK}';
-    SO_HTEXT                        @title: '{i18n>SO_HTEXT}'                    @sap.Label: '{i18n>SO_HTEXT}';
-    SO_PSTYV                        @title: '{i18n>SO_PSTYV}'                    @sap.Label: '{i18n>SO_PSTYV}';
-    SO_PSTYV_VTEXT                  @title: '{i18n>SO_PSTYV_VTEXT}'              @sap.Label: '{i18n>SO_PSTYV_VTEXT}';
-    SO_DISPO                        @title: '{i18n>SO_DISPO}'                    @sap.Label: '{i18n>SO_DISPO}';
-    SO_KOSCH                        @title: '{i18n>SO_KOSCH}'                    @sap.Label: '{i18n>SO_KOSCH}';
-    SO_VKBUR                        @title: '{i18n>SO_VKBUR}'                    @sap.Label: '{i18n>SO_VKBUR}';
-    SO_VKBUR_BEZEI                  @title: '{i18n>SO_VKBUR_BEZEI}'              @sap.Label: '{i18n>SO_VKBUR_BEZEI}';
-    SO_ABGRU                        @title: '{i18n>SO_ABGRU}'                    @sap.Label: '{i18n>SO_ABGRU}';
-    SO_ABGRU_BEZEI                  @title: '{i18n>SO_ABGRU_BEZEI}'              @sap.Label: '{i18n>SO_ABGRU_BEZEI}';
-    SO_ABSTA                        @title: '{i18n>SO_ABSTA}'                    @sap.Label: '{i18n>SO_ABSTA}';
-    SO_KNUMV                        @title: '{i18n>SO_KNUMV}'                    @sap.Label: '{i18n>SO_KNUMV}';
-    SO_SPART                        @title: '{i18n>SO_SPART}'                    @sap.Label: '{i18n>SO_SPART}';
-    SO_INCO1                        @title: '{i18n>SO_INCO1}'                    @sap.Label: '{i18n>SO_INCO1}';
-    SO_INCO2                        @title: '{i18n>SO_INCO2}'                    @sap.Label: '{i18n>SO_INCO2}';
-    SO_ZTERM                        @title: '{i18n>SO_ZTERM}'                    @sap.Label: '{i18n>SO_ZTERM}';
-    SO_PRSDT                        @title: '{i18n>SO_PRSDT}'                    @sap.Label: '{i18n>SO_PRSDT}';
-    SO_ZZ0S2REVG2                   @title: '{i18n>SO_ZZ0S2REVG2}'               @sap.Label: '{i18n>SO_ZZ0S2REVG2}';
-    SO_ZZDKPPRODB                   @title: '{i18n>SO_ZZDKPPRODB}'               @sap.Label: '{i18n>SO_ZZDKPPRODB}';
-    SO_BSARK                        @title: '{i18n>SO_BSARK}'                    @sap.Label: '{i18n>SO_BSARK}';
-    SO_BSARK_VTEXT                  @title: '{i18n>SO_BSARK_VTEXT}'              @sap.Label: '{i18n>SO_BSARK_VTEXT}';
-    SO_BASF_LOFCR                   @title: '{i18n>SO_BASF_LOFCR}'               @sap.Label: '{i18n>SO_BASF_LOFCR}';
-    SO_GUSCON_LEVEL                 @title: '{i18n>SO_GUSCON_LEVEL}'             @sap.Label: '{i18n>SO_GUSCON_LEVEL}';
-    SO_I_VBELN                      @title: '{i18n>SO_I_VBELN}'                  @sap.Label: '{i18n>SO_I_VBELN}';
-    SO_LEVEL_TYPE                   @title: '{i18n>SO_LEVEL_TYPE}'               @sap.Label: '{i18n>SO_LEVEL_TYPE}';
-    SO_N_VBELN                      @title: '{i18n>SO_N_VBELN}'                  @sap.Label: '{i18n>SO_N_VBELN}';
-    SO_F_VBELN                      @title: '{i18n>SO_F_VBELN}'                  @sap.Label: '{i18n>SO_F_VBELN}';
-    SO_F_POSNR                      @title: '{i18n>SO_F_POSNR}'                  @sap.Label: '{i18n>SO_F_POSNR}';
-    SO_VBTYP                        @title: '{i18n>SO_VBTYP}'                    @sap.Label: '{i18n>SO_VBTYP}';
-    SO_BSTKD                        @title: '{i18n>SO_BSTKD}'                    @sap.Label: '{i18n>SO_BSTKD}';
-    SO_TRAGR                        @title: '{i18n>SO_TRAGR}'                    @sap.Label: '{i18n>SO_TRAGR}'            @Common.IsDigitSequence: true;
-    SO_TRAGR_VTEXT                  @title: '{i18n>SO_TRAGR_VTEXT}'              @sap.Label: '{i18n>SO_TRAGR_VTEXT}';
-    SO_VKGRP                        @title: '{i18n>SO_VKGRP}'                    @sap.Label: '{i18n>SO_VKGRP}';
-    SO_VKGRP_BEZEI                  @title: '{i18n>SO_VKGRP_BEZEI}'              @sap.Label: '{i18n>SO_VKGRP_BEZEI}';
-    SO_ROUTE                        @title: '{i18n>SO_ROUTE}'                    @sap.Label: '{i18n>SO_ROUTE}';
-    SO_F_WERKS                      @title: '{i18n>SO_F_WERKS}'                  @sap.Label: '{i18n>SO_F_WERKS}';
-    SO_F_VKORG                      @title: '{i18n>SO_F_VKORG}'                  @sap.Label: '{i18n>SO_F_VKORG}';
-    SO_F_VKORG_VTEXT                @title: '{i18n>SO_F_VKORG_VTEXT}'            @sap.Label: '{i18n>SO_F_VKORG_VTEXT}';
-    SO_F_AS_PARTNER                 @title: '{i18n>SO_F_AS_PARTNER}'             @sap.Label: '{i18n>SO_F_AS_PARTNER}'     @Common.IsDigitSequence: true;
-    SO_F_AS_PARTNER_NAME            @title: '{i18n>SO_F_AS_PARTNER_NAME}'        @sap.Label: '{i18n>SO_F_AS_PARTNER_NAME}';
-    SO_F_LDDAT                      @title: '{i18n>SO_F_LDDAT}'                  @sap.Label: '{i18n>SO_F_LDDAT}'          @sap.filter.restriction: 'interval';
-    SO_F_LGORT                      @title: '{i18n>SO_LGORT}'                    @sap.Label: '{i18n>SO_LGORT}';
-    SO_F_TDDAT                      @title: '{i18n>SO_F_TDDAT}'                  @sap.Label: '{i18n>SO_F_TDDAT}'          @sap.filter.restriction: 'interval';
-    SO_F_ZZ0S2MATUG                 @title: '{i18n>SO_F_ZZ0S2MATUG}'             @sap.Label: '{i18n>SO_F_ZZ0S2MATUG}';
-    SO_F_AUFNR                      @title: '{i18n>SO_F_AUFNR}'                  @sap.Label: '{i18n>SO_F_AUFNR}';
-    SO_F_DGLTP                      @title: '{i18n>SO_F_DGLTP}'                  @sap.Label: '{i18n>SO_F_DGLTP}'          @sap.filter.restriction: 'interval';
-    SO_F_AMEIN                      @title: '{i18n>SO_F_AMEIN}'                  @sap.Label: '{i18n>SO_F_AMEIN}';
-    SO_F_PSMNG                      @title: '{i18n>SO_F_PSMNG}'                  @sap.Label: '{i18n>SO_F_PSMNG}';
-    SO_F_VSBED                      @title: '{i18n>SO_F_VSBED}'                  @sap.Label: '{i18n>SO_F_VSBED}';
-    SO_F_VSBED_VTEXT                @title: '{i18n>SO_F_VSBED_VTEXT}'            @sap.Label: '{i18n>SO_F_VSBED_VTEXT}';
-    LAST_NOTE                       @title: '{i18n>LAST_NOTE}'                   @sap.Label: '{i18n>LAST_NOTE}';
-    DL_VBELN                        @title: '{i18n>DL_VBELN}'                    @sap.Label: '{i18n>DL_VBELN}';
-    DL_POSNR                        @title: '{i18n>DL_POSNR}'                    @sap.Label: '{i18n>DL_POSNR}'            @Common.IsDigitSequence: true;
-    DL_CHARG                        @title: '{i18n>DL_CHARG}'                    @sap.Label: '{i18n>DL_CHARG}';
-    DL_LFDAT                        @title: '{i18n>DL_LFDAT}'                    @sap.Label: '{i18n>DL_LFDAT}'            @sap.filter.restriction: 'interval';
-    DL_HSDAT                        @title: '{i18n>DL_HSDAT}'                    @sap.Label: '{i18n>DL_HSDAT}'            @sap.filter.restriction: 'interval';
-    DL_VFDAT                        @title: '{i18n>DL_VFDAT}'                    @sap.Label: '{i18n>DL_VFDAT}'            @sap.filter.restriction: 'interval';
-    DL_LFIMG                        @title: '{i18n>DL_LFIMG}'                    @sap.Label: '{i18n>DL_LFIMG}';
-    DL_VRKME                        @title: '{i18n>DL_VRKME}'                    @sap.Label: '{i18n>DL_VRKME}';
-    DL_POSAR                        @title: '{i18n>DL_POSAR}'                    @sap.Label: '{i18n>DL_POSAR}';
-    DL_VGBEL                        @title: '{i18n>DL_VGBEL}'                    @sap.Label: '{i18n>DL_VGBEL}';
-    DL_VGPOS                        @title: '{i18n>DL_VGPOS}'                    @sap.Label: '{i18n>DL_VGPOS}'            @Common.IsDigitSequence: true;
-    DL_LFART                        @title: '{i18n>DL_LFART}'                    @sap.Label: '{i18n>DL_LFART}';
-    DL_LFART_VTEXT                  @title: '{i18n>DL_LFART_VTEXT}'              @sap.Label: '{i18n>DL_LFART_VTEXT}';
-    DL_TRAID                        @title: '{i18n>DL_TRAID}'                    @sap.Label: '{i18n>DL_TRAID}';
-    DL_ZZ0S2BLNR                    @title: '{i18n>DL_ZZ0S2BLNR}'                @sap.Label: '{i18n>DL_ZZ0S2BLNR}';
-    DL_PEND_DEL_QUAN                @title: '{i18n>DL_PEND_DEL_QUAN}'            @sap.Label: '{i18n>DL_PEND_DEL_QUAN}';
-    DL_WADAT                        @title: '{i18n>DL_WADAT}'                    @sap.Label: '{i18n>DL_WADAT}'            @sap.filter.restriction: 'interval';
-    DL_WADAT_IST                    @title: '{i18n>DL_WADAT_IST}'                @sap.Label: '{i18n>DL_WADAT_IST}'        @sap.filter.restriction: 'interval';
-    TM_TKNUM                        @title: '{i18n>TM_TKNUM}'                    @sap.Label: '{i18n>TM_TKNUM}';
-    TM_VSART                        @title: '{i18n>TM_VSART}'                    @sap.Label: '{i18n>TM_VSART}';
-    TM_VSART_BEZEI                  @title: '{i18n>TM_VSART_BEZEI}'              @sap.Label: '{i18n>TM_VSART_BEZEI}';
-    TM_EXTI1                        @title: '{i18n>TM_EXTI1}'                    @sap.Label: '{i18n>TM_EXTI1}';
-    TM_DPTBG                        @title: '{i18n>TM_DPTBG}'                    @sap.Label: '{i18n>TM_DPTBG}'            @sap.filter.restriction: 'interval';
-    TM_DATBG                        @title: '{i18n>TM_DATBG}'                    @sap.Label: '{i18n>TM_DATBG}'            @sap.filter.restriction: 'interval';
-    TM_DPTEN                        @title: '{i18n>TM_DPTEN}'                    @sap.Label: '{i18n>TM_DPTEN}'            @sap.filter.restriction: 'interval';
-    TM_DALBG                        @title: '{i18n>TM_DALBG}'                    @sap.Label: '{i18n>TM_DALBG}'            @sap.filter.restriction: 'interval';
-    TM_DATEN                        @title: '{i18n>TM_DATEN}'                    @sap.Label: '{i18n>TM_DATEN}'            @sap.filter.restriction: 'interval';
-    TM_AR_DATE                      @title: '{i18n>TM_AR_DATE}'                  @sap.Label: '{i18n>TM_AR_DATE}'          @sap.filter.restriction: 'interval';
-    TM_TDLNR                        @title: '{i18n>TM_TDLNR}'                    @sap.Label: '{i18n>TM_TDLNR}'            @Common.IsDigitSequence: true;
-    TM_TDLNR_NAME1                  @title: '{i18n>TM_TDLNR_NAME1}'              @sap.Label: '{i18n>TM_TDLNR_NAME1}';
-    TM_TRACKING_ID_COMP             @title: '{i18n>TM_TRACKING_ID_COMP}'         @sap.Label: '{i18n>TM_TRACKING_ID_COMP}';
-    TM_TRACKING_ID_ELEM             @title: '{i18n>TM_TRACKING_ID_ELEM}'         @sap.Label: '{i18n>TM_TRACKING_ID_ELEM}';
-    TM_STTRG                        @title: '{i18n>TM_STTRG}'                    @sap.Label: '{i18n>TM_STTRG}';
-    TM_STTRG_DDTEXT                 @title: '{i18n>TM_STTRG_DDTEXT}'             @sap.Label: '{i18n>TM_STTRG_DDTEXT}';
-    TM_SHIPMENT_ALERT               @title: '{i18n>TM_SHIPMENT_ALERT}'           @sap.Label: '{i18n>TM_SHIPMENT_ALERT}';
-    TM_SHIPMENT_CURRENT_STATUS      @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'  @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
-    SO_NPS                          @title: '{i18n>SO_NPS}'                      @sap.Label: '{i18n>SO_NPS}';
-    SO_NPS_DESCRIPTION              @title: '{i18n>SO_NPS}'                      @sap.Label: '{i18n>SO_NPS}';
-    SO_ISSUE                        @title: '{i18n>SO_ISSUE}'                    @sap.Label: '{i18n>SO_ISSUE}';
-    SO_ISSUE_DESCRIPTION            @title: '{i18n>SO_ISSUE}'                    @sap.Label: '{i18n>SO_ISSUE}';
-    SO_DCP_ITEM_STATUS              @title: '{i18n>SO_DCP_ITEM_STATUS}'          @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
-    SO_DCP_ITEM_STATUS_DESCRIPTION  @title: '{i18n>SO_DCP_ITEM_STATUS}'          @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
-    SO_DUE_DATE                     @title: '{i18n>SO_DUE_DATE}'                 @sap.Label: '{i18n>SO_DUE_DATE}'         @sap.filter.restriction: 'interval';
-    SO_ISSUE_LOCATION               @title: '{i18n>SO_ISSUE_LOCATION}'           @sap.Label: '{i18n>SO_ISSUE_LOCATION}';
-    SO_ISSUE_LOCATION_ITEM          @title: '{i18n>SO_ISSUE_LOCATION_ITEM}'      @sap.Label: '{i18n>SO_ISSUE_LOCATION_ITEM}';
-    criticalityDueDate              @title: '{i18n>dueDateCriticality}'          @sap.Label: '{i18n>dueDateCriticality}';
-    TM_SHIPMENT_ETA_UPDATED         @title: '{i18n>TM_SHIPMENT_ETA_UPDATED}'     @sap.Label: '{i18n>TM_SHIPMENT_ETA_UPDATED}';
-    BL_VBELN_INV_FIRST              @title: '{i18n>BL_VBELN_INV_FIRST}'          @sap.Label: '{i18n>BL_VBELN_INV_FIRST}'  @Common.IsDigitSequence: true;
-    BL_POSNR_INV_FIRST              @title: '{i18n>BL_POSNR_INV_FIRST}'          @sap.Label: '{i18n>BL_POSNR_INV_FIRST}'  @Common.IsDigitSequence: true;
-    BL_FKIMG_FIRST                  @title: '{i18n>BL_FKIMG_FIRST}'              @sap.Label: '{i18n>BL_FKIMG_FIRST}';
-    BL_VRKME_FIRST                  @title: '{i18n>BL_VRKME_FIRST}'              @sap.Label: '{i18n>BL_VRKME_FIRST}';
-    BL_FKART_FIRST                  @title: '{i18n>BL_FKART_FIRST}'              @sap.Label: '{i18n>BL_FKART_FIRST}';
-    BL_VBELN_INV_LAST               @title: '{i18n>BL_VBELN_INV_LAST}'           @sap.Label: '{i18n>BL_VBELN_INV_LAST}'   @Common.IsDigitSequence: true;
-    BL_POSNR_INV_LAST               @title: '{i18n>BL_POSNR_INV_LAST}'           @sap.Label: '{i18n>BL_POSNR_INV_LAST}'   @Common.IsDigitSequence: true;
-    BL_FKIMG_LAST                   @title: '{i18n>BL_FKIMG_LAST}'               @sap.Label: '{i18n>BL_FKIMG_LAST}';
-    BL_FKART_LAST                   @title: '{i18n>BL_FKART_LAST}'               @sap.Label: '{i18n>BL_FKART_LAST}';
-    BL_VRKME_LAST                   @title: '{i18n>BL_VRKME_LAST}'               @sap.Label: '{i18n>BL_VRKME_LAST}';
-    BL_XBLNR                        @title: '{i18n>BL_XBLNR}'                    @sap.Label: '{i18n>BL_XBLNR}';
-    BL_NETWR_LAST                   @title: '{i18n>BL_NETWR_LAST}'               @sap.Label: '{i18n>BL_NETWR_LAST}';
-    BL_ERDAT_FIRST                  @title: '{i18n>BL_ERDAT_FIRST}'              @sap.Label: '{i18n>BL_ERDAT_FIRST}';
-    BL_ERDAT_LAST                   @title: '{i18n>BL_ERDAT_LAST}'               @sap.Label: '{i18n>BL_ERDAT_LAST}';
-    BL_WAERK_LAST                   @title: '{i18n>BL_WAERK_LAST}'               @sap.Label: '{i18n>BL_WAERK_LAST}';
-    SO_FOLLOWUP_NOTES_LANG          @title: '{i18n>SO_FOLLOWUP_NOTES_LANG}'      @sap.Label: '{i18n>SO_FOLLOWUP_NOTES_LANG}';
-    SO_REASON_CODE_01_LANG          @title: '{i18n>SO_REASON_CODE_01_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_01_LANG}';
-    SO_REASON_CODE_02_LANG          @title: '{i18n>SO_REASON_CODE_02_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_02_LANG}';
-    SO_REASON_CODE_03_LANG          @title: '{i18n>SO_REASON_CODE_03_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_03_LANG}';
-    SO_REASON_CODE_04_LANG          @title: '{i18n>SO_REASON_CODE_04_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_04_LANG}';
-    SO_REASON_CODE_05_LANG          @title: '{i18n>SO_REASON_CODE_05_LANG}'      @sap.Label: '{i18n>SO_REASON_CODE_05_LANG}';
-    SO_DEV_CONF_DATE                @title: '{i18n>SO_DEV_CONF_DATE}'            @sap.Label: '{i18n>SO_DEV_CONF_DATE}';
-    SO_EMAIL                        @title: '{i18n>SO_EMAIL}'                    @sap.Label: '{i18n>SO_EMAIL}';
-    SO_EMAIL_SEND_DATE_F            @title: '{i18n>SO_EMAIL_SEND_DATE_F}'        @sap.Label: '{i18n>SO_EMAIL_SEND_DATE_F}';
-    SO_EMAIL_SENT_ON                @title: '{i18n>SO_EMAIL_SENT_ON}'            @sap.Label: '{i18n>SO_EMAIL_SENT_ON}';
-    SO_MDB                          @title: '{i18n>SO_MDB}'                      @sap.Label: '{i18n>SO_MDB}';
-    SO_MDB_TEXT                     @title: '{i18n>SO_MDB_TEXT}'                 @sap.Label: '{i18n>SO_MDB_TEXT}';
-    DL_ERDAT                        @title: '{i18n>DL_ERDAT}'                    @sap.Label: '{i18n>DL_ERDAT}'            @sap.filter.restriction: 'interval';
-    DL_LDDAT                        @title: '{i18n>DL_LDDAT}'                    @sap.Label: '{i18n>DL_LDDAT}'            @sap.filter.restriction: 'interval';
-    SO_PERFK                        @title: '{i18n>SO_PERFK}'                    @sap.Label: '{i18n>SO_PERFK}';
-    SO_PERFK_LTEXT_LANG             @title: '{i18n>SO_PERFK}'                    @sap.Label: '{i18n>SO_PERFK}';
-    SO_F_MBDAT                      @title: '{i18n>SO_F_MBDAT}'                  @sap.Label: '{i18n>SO_F_MBDAT}'          @sap.filter.restriction: 'interval';
-    DL_POSNR_BATCH                  @title: '{i18n>DL_POSNR_BATCH}'              @sap.Label: '{i18n>DL_POSNR_BATCH}';
-    DL_LFIMG_BATCH                  @title: '{i18n>DL_LFIMG_BATCH}'              @sap.Label: '{i18n>DL_LFIMG_BATCH}';
-    PO_EBELN                        @title: '{i18n>PO_EBELN}'                    @sap.Label: '{i18n>PO_EBELN}'            @Common.IsDigitSequence: true;
-    PO_EBELP                        @title: '{i18n>PO_EBELP}'                    @sap.Label: '{i18n>PO_EBELP}'            @Common.IsDigitSequence: true;
-    PO_AEDAT_HEAD                   @title: '{i18n>PO_AEDAT_HEAD}'               @sap.Label: '{i18n>PO_AEDAT_HEAD}';
-    PO_AEDAT_ITEM                   @title: '{i18n>PO_AEDAT_ITEM}'               @sap.Label: '{i18n>PO_AEDAT_ITEM}';
-    PO_BSART                        @title: '{i18n>PO_BSART}'                    @sap.Label: '{i18n>PO_BSART}';
-    PO_BSART_BATXT                  @title: '{i18n>PO_BSART_BATXT}'              @sap.Label: '{i18n>PO_BSART_BATXT}';
-    PO_EKORG                        @title: '{i18n>PO_EKORG}'                    @sap.Label: '{i18n>PO_EKORG}';
-    PO_EKOTX                        @title: '{i18n>PO_EKOTX}'                    @sap.Label: '{i18n>PO_EKOTX}';
-    PO_EKGRP                        @title: '{i18n>PO_EKGRP}'                    @sap.Label: '{i18n>PO_EKGRP}';
-    PO_EKNAM                        @title: '{i18n>PO_EKNAM}'                    @sap.Label: '{i18n>PO_EKNAM}';
-    PO_EMATN                        @title: '{i18n>PO_EMATN}'                    @sap.Label: '{i18n>PO_EMATN}';
-    PO_WERKS_PO                     @title: '{i18n>PO_WERKS_PO}'                 @sap.Label: '{i18n>PO_WERKS_PO}';
-    PO_MENGE                        @title: '{i18n>PO_MENGE}'                    @sap.Label: '{i18n>PO_MENGE}';
-    PO_MEINS                        @title: '{i18n>PO_MEINS}'                    @sap.Label: '{i18n>PO_MEINS}';
-    PO_KUNNR                        @title: '{i18n>PO_KUNNR}'                    @sap.Label: '{i18n>PO_KUNNR}';
-    PO_KUNNR_NAME                   @title: '{i18n>PO_KUNNR_NAME}'               @sap.Label: '{i18n>PO_KUNNR_NAME}';
-    PO_PARTNER_9A_HEAD              @title: '{i18n>PO_PARTNER_9A_HEAD}'          @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
+    SO_VBELN                         @title: '{i18n>SO_VBELN}'                         @sap.Label: '{i18n>SO_VBELN}';
+    SO_POSNR                         @title: '{i18n>SO_POSNR}'                         @sap.Label: '{i18n>SO_POSNR}'            @Common.IsDigitSequence: true;
+    SO_ERDAT_ORDER                   @title: '{i18n>SO_ERDAT_ORDER}'                   @sap.Label: '{i18n>SO_ERDAT_ORDER}'      @sap.filter.restriction: 'interval';
+    SO_ERDAT_ITEM                    @title: '{i18n>SO_ERDAT_ITEM}'                    @sap.Label: '{i18n>SO_ERDAT_ITEM}'       @sap.filter.restriction: 'interval';
+    SO_AUART                         @title: '{i18n>SO_AUART}'                         @sap.Label: '{i18n>SO_AUART}';
+    SO_WERKS                         @title: '{i18n>SO_WERKS}'                         @sap.Label: '{i18n>SO_WERKS}';
+    SO_VTWEG                         @title: '{i18n>SO_VTWEG}'                         @sap.Label: '{i18n>SO_VTWEG}';
+    SO_MATNR                         @title: '{i18n>SO_MATNR}'                         @sap.Label: '{i18n>SO_MATNR}'            @Common.IsDigitSequence: true;
+    SO_MAKTX                         @title: '{i18n>SO_MAKTX}'                         @sap.Label: '{i18n>SO_MAKTX}';
+    SO_KDMAT                         @title: '{i18n>SO_KDMAT}'                         @sap.Label: '{i18n>SO_KDMAT}';
+    SO_AG_PARTNER                    @title: '{i18n>SO_AG_PARTNER}'                    @sap.Label: '{i18n>SO_AG_PARTNER}'       @Common.IsDigitSequence: true;
+    SO_AG_PARTNER_NAME               @title: '{i18n>SO_AG_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AG_PARTNER_NAME}';
+    SO_WE_PARTNER                    @title: '{i18n>SO_WE_PARTNER}'                    @sap.Label: '{i18n>SO_WE_PARTNER}'       @Common.IsDigitSequence: true;
+    SO_WE_PARTNER_NAME               @title: '{i18n>SO_WE_PARTNER_NAME}'               @sap.Label: '{i18n>SO_WE_PARTNER_NAME}';
+    SO_LAND1                         @title: '{i18n>SO_LAND1}'                         @sap.Label: '{i18n>SO_LAND1}';
+    SO_LANDX                         @title: '{i18n>SO_LANDX}'                         @sap.Label: '{i18n>SO_LANDX}';
+    SO_ORT01                         @title: '{i18n>SO_ORT01}'                         @sap.Label: '{i18n>SO_ORT01}';
+    SO_VKORG                         @title: '{i18n>SO_VKORG}'                         @sap.Label: '{i18n>SO_VKORG}';
+    SO_VKORG_NAME1                   @title: '{i18n>SO_VKORG_NAME1}'                   @sap.Label: '{i18n>SO_VKORG_NAME1}';
+    SO_CO_PARTNER                    @title: '{i18n>SO_CO_PARTNER}'                    @sap.Label: '{i18n>SO_CO_PARTNER}'       @Common.IsDigitSequence: true;
+    SO_CO_PARTNER_NAME               @title: '{i18n>SO_CO_PARTNER_NAME}'               @sap.Label: '{i18n>SO_CO_PARTNER_NAME}';
+    SO_NY_PARTNER                    @title: '{i18n>SO_NY_PARTNER}'                    @sap.Label: '{i18n>SO_NY_PARTNER}'       @Common.IsDigitSequence: true;
+    SO_NY_PARTNER_NAME               @title: '{i18n>SO_NY_PARTNER_NAME}'               @sap.Label: '{i18n>SO_NY_PARTNER_NAME}';
+    SO_AS_PARTNER                    @title: '{i18n>SO_AS_PARTNER}'                    @sap.Label: '{i18n>SO_AS_PARTNER}'       @Common.IsDigitSequence: true;
+    SO_AS_PARTNER_NAME               @title: '{i18n>SO_AS_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AS_PARTNER_NAME}';
+    SO_VE_PARTNER                    @title: '{i18n>SO_VE_PARTNER}'                    @sap.Label: '{i18n>SO_VE_PARTNER}'       @Common.IsDigitSequence: true;
+    SO_VE_PARTNER_NAME               @title: '{i18n>SO_VE_PARTNER_NAME}'               @sap.Label: '{i18n>SO_VE_PARTNER_NAME}';
+    SO_AM_PARTNER                    @title: '{i18n>SO_AM_PARTNER}'                    @sap.Label: '{i18n>SO_AM_PARTNER}'       @Common.IsDigitSequence: true;
+    SO_AM_PARTNER_NAME               @title: '{i18n>SO_AM_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AM_PARTNER_NAME}';
+    SO_KNREF_HEAD                    @title: '{i18n>SO_KNREF_HEAD}'                    @sap.Label: '{i18n>SO_KNREF_HEAD}';
+    SO_VBUND                         @title: '{i18n>SO_VBUND}'                         @sap.Label: '{i18n>SO_VBUND}';
+    SO_EDATU_REQUESTED               @title: '{i18n>SO_EDATU_REQUESTED}'               @sap.Label: '{i18n>SO_EDATU_REQUESTED}'  @sap.filter.restriction: 'interval';
+    SO_KWMENG                        @title: '{i18n>SO_KWMENG}'                        @sap.Label: '{i18n>SO_KWMENG}';
+    SO_VRKME                         @title: '{i18n>SO_VRKME}'                         @sap.Label: '{i18n>SO_VRKME}';
+    SO_EDATU_CONFIRMED               @title: '{i18n>SO_EDATU_CONFIRMED}'               @sap.Label: '{i18n>SO_EDATU_CONFIRMED}'  @sap.filter.restriction: 'interval';
+    SO_KBMENG                        @title: '{i18n>SO_KBMENG}'                        @sap.Label: '{i18n>SO_KBMENG}';
+    SO_UNCONFIRMED_QTY               @title: '{i18n>SO_UNCONFIRMED_QTY}'               @sap.Label: '{i18n>SO_UNCONFIRMED_QTY}';
+    SO_REQ_TEXT                      @title: '{i18n>SO_REQ_TEXT}'                      @sap.Label: '{i18n>SO_REQ_TEXT}';
+    SO_FAKSP                         @title: '{i18n>SO_FAKSP}'                         @sap.Label: '{i18n>SO_FAKSP}';
+    SO_FAKSP_VTEXT                   @title: '{i18n>SO_FAKSP_VTEXT}'                   @sap.Label: '{i18n>SO_FAKSP_VTEXT}';
+    SO_SUPPLY_SITUATION              @title: '{i18n>SO_SUPPLY_SITUATION}'              @sap.Label: '{i18n>SO_SUPPLY_SITUATION}';
+    SO_SUPPLY_SITUATION_DESCR        @title: '{i18n>SO_SUPPLY_SITUATION_DESCR}'        @sap.Label: '{i18n>SO_SUPPLY_SITUATION_DESCR}';
+    SO_KBETR                         @title: '{i18n>SO_KBETR}'                         @sap.Label: '{i18n>SO_KBETR}';
+    SO_WAERS                         @title: '{i18n>SO_WAERS}'                         @sap.Label: '{i18n>SO_WAERS}';
+    SO_KPEIN                         @title: '{i18n>SO_KPEIN}'                         @sap.Label: '{i18n>SO_KPEIN}';
+    SO_KMEIN                         @title: '{i18n>SO_KMEIN}'                         @sap.Label: '{i18n>SO_KMEIN}';
+    SO_NETWR                         @title: '{i18n>SO_NETWR}'                         @sap.Label: '{i18n>SO_NETWR}';
+    SO_WAERK                         @title: '{i18n>SO_WAERK}'                         @sap.Label: '{i18n>SO_WAERK}';
+    SO_HTEXT                         @title: '{i18n>SO_HTEXT}'                         @sap.Label: '{i18n>SO_HTEXT}';
+    SO_PSTYV                         @title: '{i18n>SO_PSTYV}'                         @sap.Label: '{i18n>SO_PSTYV}';
+    SO_PSTYV_VTEXT                   @title: '{i18n>SO_PSTYV_VTEXT}'                   @sap.Label: '{i18n>SO_PSTYV_VTEXT}';
+    SO_DISPO                         @title: '{i18n>SO_DISPO}'                         @sap.Label: '{i18n>SO_DISPO}';
+    SO_KOSCH                         @title: '{i18n>SO_KOSCH}'                         @sap.Label: '{i18n>SO_KOSCH}';
+    SO_VKBUR                         @title: '{i18n>SO_VKBUR}'                         @sap.Label: '{i18n>SO_VKBUR}';
+    SO_VKBUR_BEZEI                   @title: '{i18n>SO_VKBUR_BEZEI}'                   @sap.Label: '{i18n>SO_VKBUR_BEZEI}';
+    SO_ABGRU                         @title: '{i18n>SO_ABGRU}'                         @sap.Label: '{i18n>SO_ABGRU}';
+    SO_ABGRU_BEZEI                   @title: '{i18n>SO_ABGRU_BEZEI}'                   @sap.Label: '{i18n>SO_ABGRU_BEZEI}';
+    SO_ABSTA                         @title: '{i18n>SO_ABSTA}'                         @sap.Label: '{i18n>SO_ABSTA}';
+    SO_KNUMV                         @title: '{i18n>SO_KNUMV}'                         @sap.Label: '{i18n>SO_KNUMV}';
+    SO_SPART                         @title: '{i18n>SO_SPART}'                         @sap.Label: '{i18n>SO_SPART}';
+    SO_INCO1                         @title: '{i18n>SO_INCO1}'                         @sap.Label: '{i18n>SO_INCO1}';
+    SO_INCO2                         @title: '{i18n>SO_INCO2}'                         @sap.Label: '{i18n>SO_INCO2}';
+    SO_ZTERM                         @title: '{i18n>SO_ZTERM}'                         @sap.Label: '{i18n>SO_ZTERM}';
+    SO_PRSDT                         @title: '{i18n>SO_PRSDT}'                         @sap.Label: '{i18n>SO_PRSDT}';
+    SO_ZZ0S2REVG2                    @title: '{i18n>SO_ZZ0S2REVG2}'                    @sap.Label: '{i18n>SO_ZZ0S2REVG2}';
+    SO_ZZDKPPRODB                    @title: '{i18n>SO_ZZDKPPRODB}'                    @sap.Label: '{i18n>SO_ZZDKPPRODB}';
+    SO_BSARK                         @title: '{i18n>SO_BSARK}'                         @sap.Label: '{i18n>SO_BSARK}';
+    SO_BSARK_VTEXT                   @title: '{i18n>SO_BSARK_VTEXT}'                   @sap.Label: '{i18n>SO_BSARK_VTEXT}';
+    SO_BASF_LOFCR                    @title: '{i18n>SO_BASF_LOFCR}'                    @sap.Label: '{i18n>SO_BASF_LOFCR}';
+    SO_GUSCON_LEVEL                  @title: '{i18n>SO_GUSCON_LEVEL}'                  @sap.Label: '{i18n>SO_GUSCON_LEVEL}';
+    SO_I_VBELN                       @title: '{i18n>SO_I_VBELN}'                       @sap.Label: '{i18n>SO_I_VBELN}';
+    SO_LEVEL_TYPE                    @title: '{i18n>SO_LEVEL_TYPE}'                    @sap.Label: '{i18n>SO_LEVEL_TYPE}';
+    SO_N_VBELN                       @title: '{i18n>SO_N_VBELN}'                       @sap.Label: '{i18n>SO_N_VBELN}';
+    SO_F_VBELN                       @title: '{i18n>SO_F_VBELN}'                       @sap.Label: '{i18n>SO_F_VBELN}';
+    SO_F_POSNR                       @title: '{i18n>SO_F_POSNR}'                       @sap.Label: '{i18n>SO_F_POSNR}';
+    SO_VBTYP                         @title: '{i18n>SO_VBTYP}'                         @sap.Label: '{i18n>SO_VBTYP}';
+    SO_BSTKD                         @title: '{i18n>SO_BSTKD}'                         @sap.Label: '{i18n>SO_BSTKD}';
+    SO_TRAGR                         @title: '{i18n>SO_TRAGR}'                         @sap.Label: '{i18n>SO_TRAGR}'            @Common.IsDigitSequence: true;
+    SO_TRAGR_VTEXT                   @title: '{i18n>SO_TRAGR_VTEXT}'                   @sap.Label: '{i18n>SO_TRAGR_VTEXT}';
+    SO_VKGRP                         @title: '{i18n>SO_VKGRP}'                         @sap.Label: '{i18n>SO_VKGRP}';
+    SO_VKGRP_BEZEI                   @title: '{i18n>SO_VKGRP_BEZEI}'                   @sap.Label: '{i18n>SO_VKGRP_BEZEI}';
+    SO_ROUTE                         @title: '{i18n>SO_ROUTE}'                         @sap.Label: '{i18n>SO_ROUTE}';
+    SO_F_WERKS                       @title: '{i18n>SO_F_WERKS}'                       @sap.Label: '{i18n>SO_F_WERKS}';
+    SO_F_VKORG                       @title: '{i18n>SO_F_VKORG}'                       @sap.Label: '{i18n>SO_F_VKORG}';
+    SO_F_VKORG_VTEXT                 @title: '{i18n>SO_F_VKORG_VTEXT}'                 @sap.Label: '{i18n>SO_F_VKORG_VTEXT}';
+    SO_F_AS_PARTNER                  @title: '{i18n>SO_F_AS_PARTNER}'                  @sap.Label: '{i18n>SO_F_AS_PARTNER}'     @Common.IsDigitSequence: true;
+    SO_F_AS_PARTNER_NAME             @title: '{i18n>SO_F_AS_PARTNER_NAME}'             @sap.Label: '{i18n>SO_F_AS_PARTNER_NAME}';
+    SO_F_LDDAT                       @title: '{i18n>SO_F_LDDAT}'                       @sap.Label: '{i18n>SO_F_LDDAT}'          @sap.filter.restriction: 'interval';
+    SO_F_LGORT                       @title: '{i18n>SO_LGORT}'                         @sap.Label: '{i18n>SO_LGORT}';
+    SO_F_TDDAT                       @title: '{i18n>SO_F_TDDAT}'                       @sap.Label: '{i18n>SO_F_TDDAT}'          @sap.filter.restriction: 'interval';
+    SO_F_ZZ0S2MATUG                  @title: '{i18n>SO_F_ZZ0S2MATUG}'                  @sap.Label: '{i18n>SO_F_ZZ0S2MATUG}';
+    SO_F_AUFNR                       @title: '{i18n>SO_F_AUFNR}'                       @sap.Label: '{i18n>SO_F_AUFNR}';
+    SO_F_DGLTP                       @title: '{i18n>SO_F_DGLTP}'                       @sap.Label: '{i18n>SO_F_DGLTP}'          @sap.filter.restriction: 'interval';
+    SO_F_AMEIN                       @title: '{i18n>SO_F_AMEIN}'                       @sap.Label: '{i18n>SO_F_AMEIN}';
+    SO_F_PSMNG                       @title: '{i18n>SO_F_PSMNG}'                       @sap.Label: '{i18n>SO_F_PSMNG}';
+    SO_F_VSBED                       @title: '{i18n>SO_F_VSBED}'                       @sap.Label: '{i18n>SO_F_VSBED}';
+    SO_F_VSBED_VTEXT                 @title: '{i18n>SO_F_VSBED_VTEXT}'                 @sap.Label: '{i18n>SO_F_VSBED_VTEXT}';
+    LAST_NOTE                        @title: '{i18n>LAST_NOTE}'                        @sap.Label: '{i18n>LAST_NOTE}';
+    DL_VBELN                         @title: '{i18n>DL_VBELN}'                         @sap.Label: '{i18n>DL_VBELN}';
+    DL_POSNR                         @title: '{i18n>DL_POSNR}'                         @sap.Label: '{i18n>DL_POSNR}'            @Common.IsDigitSequence: true;
+    DL_CHARG                         @title: '{i18n>DL_CHARG}'                         @sap.Label: '{i18n>DL_CHARG}';
+    DL_LFDAT                         @title: '{i18n>DL_LFDAT}'                         @sap.Label: '{i18n>DL_LFDAT}'            @sap.filter.restriction: 'interval';
+    DL_HSDAT                         @title: '{i18n>DL_HSDAT}'                         @sap.Label: '{i18n>DL_HSDAT}'            @sap.filter.restriction: 'interval';
+    DL_VFDAT                         @title: '{i18n>DL_VFDAT}'                         @sap.Label: '{i18n>DL_VFDAT}'            @sap.filter.restriction: 'interval';
+    DL_LFIMG                         @title: '{i18n>DL_LFIMG}'                         @sap.Label: '{i18n>DL_LFIMG}';
+    DL_VRKME                         @title: '{i18n>DL_VRKME}'                         @sap.Label: '{i18n>DL_VRKME}';
+    DL_POSAR                         @title: '{i18n>DL_POSAR}'                         @sap.Label: '{i18n>DL_POSAR}';
+    DL_VGBEL                         @title: '{i18n>DL_VGBEL}'                         @sap.Label: '{i18n>DL_VGBEL}';
+    DL_VGPOS                         @title: '{i18n>DL_VGPOS}'                         @sap.Label: '{i18n>DL_VGPOS}'            @Common.IsDigitSequence: true;
+    DL_LFART                         @title: '{i18n>DL_LFART}'                         @sap.Label: '{i18n>DL_LFART}';
+    DL_LFART_VTEXT                   @title: '{i18n>DL_LFART_VTEXT}'                   @sap.Label: '{i18n>DL_LFART_VTEXT}';
+    DL_TRAID                         @title: '{i18n>DL_TRAID}'                         @sap.Label: '{i18n>DL_TRAID}';
+    DL_ZZ0S2BLNR                     @title: '{i18n>DL_ZZ0S2BLNR}'                     @sap.Label: '{i18n>DL_ZZ0S2BLNR}';
+    DL_PEND_DEL_QUAN                 @title: '{i18n>DL_PEND_DEL_QUAN}'                 @sap.Label: '{i18n>DL_PEND_DEL_QUAN}';
+    DL_WADAT                         @title: '{i18n>DL_WADAT}'                         @sap.Label: '{i18n>DL_WADAT}'            @sap.filter.restriction: 'interval';
+    DL_WADAT_IST                     @title: '{i18n>DL_WADAT_IST}'                     @sap.Label: '{i18n>DL_WADAT_IST}'        @sap.filter.restriction: 'interval';
+    TM_TKNUM                         @title: '{i18n>TM_TKNUM}'                         @sap.Label: '{i18n>TM_TKNUM}';
+    TM_VSART                         @title: '{i18n>TM_VSART}'                         @sap.Label: '{i18n>TM_VSART}';
+    TM_VSART_BEZEI                   @title: '{i18n>TM_VSART_BEZEI}'                   @sap.Label: '{i18n>TM_VSART_BEZEI}';
+    TM_EXTI1                         @title: '{i18n>TM_EXTI1}'                         @sap.Label: '{i18n>TM_EXTI1}';
+    TM_DPTBG                         @title: '{i18n>TM_DPTBG}'                         @sap.Label: '{i18n>TM_DPTBG}'            @sap.filter.restriction: 'interval';
+    TM_DATBG                         @title: '{i18n>TM_DATBG}'                         @sap.Label: '{i18n>TM_DATBG}'            @sap.filter.restriction: 'interval';
+    TM_DPTEN                         @title: '{i18n>TM_DPTEN}'                         @sap.Label: '{i18n>TM_DPTEN}'            @sap.filter.restriction: 'interval';
+    TM_DALBG                         @title: '{i18n>TM_DALBG}'                         @sap.Label: '{i18n>TM_DALBG}'            @sap.filter.restriction: 'interval';
+    TM_DATEN                         @title: '{i18n>TM_DATEN}'                         @sap.Label: '{i18n>TM_DATEN}'            @sap.filter.restriction: 'interval';
+    TM_AR_DATE                       @title: '{i18n>TM_AR_DATE}'                       @sap.Label: '{i18n>TM_AR_DATE}'          @sap.filter.restriction: 'interval';
+    TM_TDLNR                         @title: '{i18n>TM_TDLNR}'                         @sap.Label: '{i18n>TM_TDLNR}'            @Common.IsDigitSequence: true;
+    TM_TDLNR_NAME1                   @title: '{i18n>TM_TDLNR_NAME1}'                   @sap.Label: '{i18n>TM_TDLNR_NAME1}';
+    TM_TRACKING_ID_COMP              @title: '{i18n>TM_TRACKING_ID_COMP}'              @sap.Label: '{i18n>TM_TRACKING_ID_COMP}';
+    TM_TRACKING_ID_ELEM              @title: '{i18n>TM_TRACKING_ID_ELEM}'              @sap.Label: '{i18n>TM_TRACKING_ID_ELEM}';
+    TM_STTRG                         @title: '{i18n>TM_STTRG}'                         @sap.Label: '{i18n>TM_STTRG}';
+    TM_STTRG_DDTEXT                  @title: '{i18n>TM_STTRG_DDTEXT}'                  @sap.Label: '{i18n>TM_STTRG_DDTEXT}';
+    TM_SHIPMENT_ALERT                @title: '{i18n>TM_SHIPMENT_ALERT}'                @sap.Label: '{i18n>TM_SHIPMENT_ALERT}';
+    TM_SHIPMENT_CURRENT_STATUS       @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'       @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
+    SO_NPS                           @title: '{i18n>SO_NPS}'                           @sap.Label: '{i18n>SO_NPS}';
+    SO_NPS_DESCRIPTION               @title: '{i18n>SO_NPS}'                           @sap.Label: '{i18n>SO_NPS}';
+    SO_ISSUE                         @title: '{i18n>SO_ISSUE}'                         @sap.Label: '{i18n>SO_ISSUE}';
+    SO_ISSUE_DESCRIPTION             @title: '{i18n>SO_ISSUE}'                         @sap.Label: '{i18n>SO_ISSUE}';
+    SO_DCP_ITEM_STATUS               @title: '{i18n>SO_DCP_ITEM_STATUS}'               @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
+    SO_DCP_ITEM_STATUS_DESCRIPTION   @title: '{i18n>SO_DCP_ITEM_STATUS}'               @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
+    SO_DUE_DATE                      @title: '{i18n>SO_DUE_DATE}'                      @sap.Label: '{i18n>SO_DUE_DATE}'         @sap.filter.restriction: 'interval';
+    SO_ISSUE_LOCATION                @title: '{i18n>SO_ISSUE_LOCATION}'                @sap.Label: '{i18n>SO_ISSUE_LOCATION}';
+    SO_ISSUE_LOCATION_ITEM           @title: '{i18n>SO_ISSUE_LOCATION_ITEM}'           @sap.Label: '{i18n>SO_ISSUE_LOCATION_ITEM}';
+    criticalityDueDate               @title: '{i18n>dueDateCriticality}'               @sap.Label: '{i18n>dueDateCriticality}';
+    TM_SHIPMENT_ETA_UPDATED          @title: '{i18n>TM_SHIPMENT_ETA_UPDATED}'          @sap.Label: '{i18n>TM_SHIPMENT_ETA_UPDATED}';
+    BL_VBELN_INV_FIRST               @title: '{i18n>BL_VBELN_INV_FIRST}'               @sap.Label: '{i18n>BL_VBELN_INV_FIRST}'  @Common.IsDigitSequence: true;
+    BL_POSNR_INV_FIRST               @title: '{i18n>BL_POSNR_INV_FIRST}'               @sap.Label: '{i18n>BL_POSNR_INV_FIRST}'  @Common.IsDigitSequence: true;
+    BL_FKIMG_FIRST                   @title: '{i18n>BL_FKIMG_FIRST}'                   @sap.Label: '{i18n>BL_FKIMG_FIRST}';
+    BL_VRKME_FIRST                   @title: '{i18n>BL_VRKME_FIRST}'                   @sap.Label: '{i18n>BL_VRKME_FIRST}';
+    BL_FKART_FIRST                   @title: '{i18n>BL_FKART_FIRST}'                   @sap.Label: '{i18n>BL_FKART_FIRST}';
+    BL_VBELN_INV_LAST                @title: '{i18n>BL_VBELN_INV_LAST}'                @sap.Label: '{i18n>BL_VBELN_INV_LAST}'   @Common.IsDigitSequence: true;
+    BL_POSNR_INV_LAST                @title: '{i18n>BL_POSNR_INV_LAST}'                @sap.Label: '{i18n>BL_POSNR_INV_LAST}'   @Common.IsDigitSequence: true;
+    BL_FKIMG_LAST                    @title: '{i18n>BL_FKIMG_LAST}'                    @sap.Label: '{i18n>BL_FKIMG_LAST}';
+    BL_FKART_LAST                    @title: '{i18n>BL_FKART_LAST}'                    @sap.Label: '{i18n>BL_FKART_LAST}';
+    BL_VRKME_LAST                    @title: '{i18n>BL_VRKME_LAST}'                    @sap.Label: '{i18n>BL_VRKME_LAST}';
+    BL_XBLNR                         @title: '{i18n>BL_XBLNR}'                         @sap.Label: '{i18n>BL_XBLNR}';
+    BL_NETWR_LAST                    @title: '{i18n>BL_NETWR_LAST}'                    @sap.Label: '{i18n>BL_NETWR_LAST}';
+    BL_ERDAT_FIRST                   @title: '{i18n>BL_ERDAT_FIRST}'                   @sap.Label: '{i18n>BL_ERDAT_FIRST}';
+    BL_ERDAT_LAST                    @title: '{i18n>BL_ERDAT_LAST}'                    @sap.Label: '{i18n>BL_ERDAT_LAST}';
+    BL_WAERK_LAST                    @title: '{i18n>BL_WAERK_LAST}'                    @sap.Label: '{i18n>BL_WAERK_LAST}';
+    SO_FOLLOWUP_NOTES_LANG           @title: '{i18n>SO_FOLLOWUP_NOTES_LANG}'           @sap.Label: '{i18n>SO_FOLLOWUP_NOTES_LANG}';
+    SO_REASON_CODE_01_LANG           @title: '{i18n>SO_REASON_CODE_01_LANG}'           @sap.Label: '{i18n>SO_REASON_CODE_01_LANG}';
+    SO_REASON_CODE_02_LANG           @title: '{i18n>SO_REASON_CODE_02_LANG}'           @sap.Label: '{i18n>SO_REASON_CODE_02_LANG}';
+    SO_REASON_CODE_03_LANG           @title: '{i18n>SO_REASON_CODE_03_LANG}'           @sap.Label: '{i18n>SO_REASON_CODE_03_LANG}';
+    SO_REASON_CODE_04_LANG           @title: '{i18n>SO_REASON_CODE_04_LANG}'           @sap.Label: '{i18n>SO_REASON_CODE_04_LANG}';
+    SO_REASON_CODE_05_LANG           @title: '{i18n>SO_REASON_CODE_05_LANG}'           @sap.Label: '{i18n>SO_REASON_CODE_05_LANG}';
+    SO_DEV_CONF_DATE                 @title: '{i18n>SO_DEV_CONF_DATE}'                 @sap.Label: '{i18n>SO_DEV_CONF_DATE}';
+    SO_EMAIL                         @title: '{i18n>SO_EMAIL}'                         @sap.Label: '{i18n>SO_EMAIL}';
+    SO_EMAIL_SEND_DATE_F             @title: '{i18n>SO_EMAIL_SEND_DATE_F}'             @sap.Label: '{i18n>SO_EMAIL_SEND_DATE_F}';
+    SO_EMAIL_SENT_ON                 @title: '{i18n>SO_EMAIL_SENT_ON}'                 @sap.Label: '{i18n>SO_EMAIL_SENT_ON}';
+    SO_MDB                           @title: '{i18n>SO_MDB}'                           @sap.Label: '{i18n>SO_MDB}';
+    SO_MDB_TEXT                      @title: '{i18n>SO_MDB_TEXT}'                      @sap.Label: '{i18n>SO_MDB_TEXT}';
+    DL_ERDAT                         @title: '{i18n>DL_ERDAT}'                         @sap.Label: '{i18n>DL_ERDAT}'            @sap.filter.restriction: 'interval';
+    DL_LDDAT                         @title: '{i18n>DL_LDDAT}'                         @sap.Label: '{i18n>DL_LDDAT}'            @sap.filter.restriction: 'interval';
+    SO_PERFK                         @title: '{i18n>SO_PERFK}'                         @sap.Label: '{i18n>SO_PERFK}';
+    SO_PERFK_LTEXT_LANG              @title: '{i18n>SO_PERFK}'                         @sap.Label: '{i18n>SO_PERFK}';
+    SO_F_MBDAT                       @title: '{i18n>SO_F_MBDAT}'                       @sap.Label: '{i18n>SO_F_MBDAT}'          @sap.filter.restriction: 'interval';
+    DL_POSNR_BATCH                   @title: '{i18n>DL_POSNR_BATCH}'                   @sap.Label: '{i18n>DL_POSNR_BATCH}';
+    DL_LFIMG_BATCH                   @title: '{i18n>DL_LFIMG_BATCH}'                   @sap.Label: '{i18n>DL_LFIMG_BATCH}';
+    PO_EBELN                         @title: '{i18n>PO_EBELN}'                         @sap.Label: '{i18n>PO_EBELN}'            @Common.IsDigitSequence: true;
+    PO_EBELP                         @title: '{i18n>PO_EBELP}'                         @sap.Label: '{i18n>PO_EBELP}'            @Common.IsDigitSequence: true;
+    PO_AEDAT_HEAD                    @title: '{i18n>PO_AEDAT_HEAD}'                    @sap.Label: '{i18n>PO_AEDAT_HEAD}';
+    PO_AEDAT_ITEM                    @title: '{i18n>PO_AEDAT_ITEM}'                    @sap.Label: '{i18n>PO_AEDAT_ITEM}';
+    PO_BSART                         @title: '{i18n>PO_BSART}'                         @sap.Label: '{i18n>PO_BSART}';
+    PO_BSART_BATXT                   @title: '{i18n>PO_BSART_BATXT}'                   @sap.Label: '{i18n>PO_BSART_BATXT}';
+    PO_EKORG                         @title: '{i18n>PO_EKORG}'                         @sap.Label: '{i18n>PO_EKORG}';
+    PO_EKOTX                         @title: '{i18n>PO_EKOTX}'                         @sap.Label: '{i18n>PO_EKOTX}';
+    PO_EKGRP                         @title: '{i18n>PO_EKGRP}'                         @sap.Label: '{i18n>PO_EKGRP}';
+    PO_EKNAM                         @title: '{i18n>PO_EKNAM}'                         @sap.Label: '{i18n>PO_EKNAM}';
+    PO_EMATN                         @title: '{i18n>PO_EMATN}'                         @sap.Label: '{i18n>PO_EMATN}';
+    PO_WERKS_PO                      @title: '{i18n>PO_WERKS_PO}'                      @sap.Label: '{i18n>PO_WERKS_PO}';
+    PO_MENGE                         @title: '{i18n>PO_MENGE}'                         @sap.Label: '{i18n>PO_MENGE}';
+    PO_MEINS                         @title: '{i18n>PO_MEINS}'                         @sap.Label: '{i18n>PO_MEINS}';
+    PO_KUNNR                         @title: '{i18n>PO_KUNNR}'                         @sap.Label: '{i18n>PO_KUNNR}';
+    PO_KUNNR_NAME                    @title: '{i18n>PO_KUNNR_NAME}'                    @sap.Label: '{i18n>PO_KUNNR_NAME}';
+    PO_PARTNER_9A_HEAD               @title: '{i18n>PO_PARTNER_9A_HEAD}'               @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
     // PO_PARTNER_9A_HEAD_NAME         @title: '{i18n>PO_PARTNER_9A_HEAD_NAME}'     @sap.Label: '{i18n>PO_PARTNER_9A_HEAD_NAME}';
-    PO_PARTNER_9O_HEAD              @title: '{i18n>PO_PARTNER_9O_HEAD}'          @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
+    PO_PARTNER_9O_HEAD               @title: '{i18n>PO_PARTNER_9O_HEAD}'               @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
     // PO_PARTNER_9O_HEAD_NAME         @title: '{i18n>PO_PARTNER_9O_HEAD_NAME}'     @sap.Label: '{i18n>PO_PARTNER_9O_HEAD_NAME}';
     // SO_BSTNK         @title: '{i18n>SO_BSTNK}'     @sap.Label: '{i18n>SO_BSTNK}';
 
     // Euan's changes
-    SO_Z5_PARTNER                   @title: '{i18n>SO_Z5_PARTNER}'               @sap.Label: '{i18n>SO_Z5_PARTNER}'       @Common.IsDigitSequence: true;
-    SO_Z5_PARTNER_NAME              @title: '{i18n>SO_Z5_PARTNER_NAME}'          @sap.Label: '{i18n>SO_Z5_PARTNER_NAME}';
-    SO_SB_PARTNER                   @title: '{i18n>SO_SB_PARTNER}'               @sap.Label: '{i18n>SO_SB_PARTNER}'       @Common.IsDigitSequence: true;
-    SO_SB_PARTNER_NAME              @title: '{i18n>SO_SB_PARTNER_NAME}'          @sap.Label: '{i18n>SO_SB_PARTNER_NAME}';
-    SO_AD_PARTNER                   @title: '{i18n>SO_AD_PARTNER}'               @sap.Label: '{i18n>SO_AD_PARTNER}'       @Common.IsDigitSequence: true;
-    SO_AD_PARTNER_NAME              @title: '{i18n>SO_AD_PARTNER_NAME}'          @sap.Label: '{i18n>SO_AD_PARTNER_NAME}';
+    SO_Z5_PARTNER                    @title: '{i18n>SO_Z5_PARTNER}'                    @sap.Label: '{i18n>SO_Z5_PARTNER}'       @Common.IsDigitSequence: true;
+    SO_Z5_PARTNER_NAME               @title: '{i18n>SO_Z5_PARTNER_NAME}'               @sap.Label: '{i18n>SO_Z5_PARTNER_NAME}';
+    SO_SB_PARTNER                    @title: '{i18n>SO_SB_PARTNER}'                    @sap.Label: '{i18n>SO_SB_PARTNER}'       @Common.IsDigitSequence: true;
+    SO_SB_PARTNER_NAME               @title: '{i18n>SO_SB_PARTNER_NAME}'               @sap.Label: '{i18n>SO_SB_PARTNER_NAME}';
+    SO_AD_PARTNER                    @title: '{i18n>SO_AD_PARTNER}'                    @sap.Label: '{i18n>SO_AD_PARTNER}'       @Common.IsDigitSequence: true;
+    SO_AD_PARTNER_NAME               @title: '{i18n>SO_AD_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AD_PARTNER_NAME}';
     // End of Euan's changes
 
     ///// Mandants
-    SO_MANDT                        @title: '{i18n>SO_MANDT}'                    @sap.Label: '{i18n>SO_MANDT}';
-    DL_MANDT                        @title: '{i18n>DL_MANDT}'                    @sap.Label: '{i18n>DL_MANDT}';
-    TM_MANDT                        @title: '{i18n>TM_MANDT}'                    @sap.Label: '{i18n>TM_MANDT}';
-    BL_MANDT_INV_FIRST              @title: '{i18n>BL_MANDT_INV_FIRST}'          @sap.Label: '{i18n>BL_MANDT_INV_FIRST}';
-    BL_MANDT_INV_LAST               @title: '{i18n>BL_MANDT_INV_LAST}'           @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
-    SO_FIRST_SO_MANDT               @title: '{i18n>SO_FIRST_SO_MANDT}'           @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
-    SO_FINAL_SO_MANDT               @title: '{i18n>SO_FINAL_SO_MANDT}'           @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
-    PO_MANDT                        @title: '{i18n>PO_MANDT}'                    @sap.Label: '{i18n>PO_MANDT}';
-    SO_MANDT_TEXT                   @title: '{i18n>SO_MANDT}'                    @sap.Label: '{i18n>SO_MANDT}';
-    DL_MANDT_TEXT                   @title: '{i18n>DL_MANDT}'                    @sap.Label: '{i18n>DL_MANDT}';
-    TM_MANDT_TEXT                   @title: '{i18n>TM_MANDT}'                    @sap.Label: '{i18n>TM_MANDT}';
-    BL_MANDT_INV_FIRST_TEXT         @title: '{i18n>BL_MANDT_INV_FIRST}'          @sap.Label: '{i18n>BL_MANDT_INV_FIRST}';
-    BL_MANDT_INV_LAST_TEXT          @title: '{i18n>BL_MANDT_INV_LAST}'           @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
-    SO_FIRST_SO_MANDT_TEXT          @title: '{i18n>SO_FIRST_SO_MANDT}'           @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
-    SO_FINAL_SO_MANDT_TEXT          @title: '{i18n>SO_FINAL_SO_MANDT}'           @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
-    PO_MANDT_TEXT                   @title: '{i18n>PO_MANDT}'                    @sap.Label: '{i18n>PO_MANDT}';
-    DL_TRMTYP                       @title: '{i18n>DL_TRMTYP}'                   @sap.Label: '{i18n>DL_TRMTYP}'           @Common.IsDigitSequence: true;
-    DL_TRMTYP_MAKTX                 @title: '{i18n>DL_TRMTYP_MAKTX_LANG}'        @sap.Label: '{i18n>DL_TRMTYP_MAKTX_LANG}';
-    DL_ZZ0S2ABGH                    @title: '{i18n>DL_ZZ0S2ABGH}'                @sap.Label: '{i18n>DL_ZZ0S2ABGH}';
-    DL_ZZ0S2ZIEH                    @title: '{i18n>DL_ZZ0S2ZIEH}'                @sap.Label: '{i18n>DL_ZZ0S2ZIEH}';
-    TM_VISTA_STATUS                 @title: '{i18n>TM_VISTA_STATUS}'             @sap.Label: '{i18n>TM_VISTA_STATUS}';
-    SO_BNAME                        @title: '{i18n>SO_BNAME}'                    @sap.Label: '{i18n>SO_BNAME}';
-    SO_IHREZ                        @title: '{i18n>SO_IHREZ}'                    @sap.Label: '{i18n>SO_IHREZ}';
-    SO_LPRIO                        @title: '{i18n>SO_LPRIO}'                    @sap.Label: '{i18n>SO_LPRIO}';
-    SO_AUGRU                        @title: '{i18n>SO_AUGRU}'                    @sap.Label: '{i18n>SO_AUGRU}';
-    SO_AUGRU_BEZEI_LANG             @title: '{i18n>SO_AUGRU_BEZEI_LANG}'         @sap.Label: '{i18n>SO_AUGRU_BEZEI_LANG}';
-    SO_KDGRP                        @title: '{i18n>SO_KDGRP}'                    @sap.Label: '{i18n>SO_KDGRP}';
-    SO_KDGRP_KTEXT_LANG             @title: '{i18n>SO_KDGRP_KTEXT_LANG}'         @sap.Label: '{i18n>SO_KDGRP_KTEXT_LANG}';
-    SO_WE_PARTNER_REGION            @title: '{i18n>SO_WE_PARTNER_REGION}'        @sap.Label: '{i18n>SO_WE_PARTNER_REGION}';
-    SO_WE_PARTNER_REGION_BEZEI_LANG @title: '{i18n>SO_WE_PARTNER_REGION_BEZEI_LANG}'  @sap.Label: '{i18n>SO_WE_PARTNER_REGION_BEZEI_LANG}';
-    SO_PRCTR                        @title: '{i18n>SO_PRCTR}'                    @sap.Label: '{i18n>SO_PRCTR}';
-
-    SO_TO_PARTNER               @title: '{i18n>SO_TO_PARTNER}'                    @sap.Label: '{i18n>SO_TO_PARTNER}'  @Common.IsDigitSequence: true;
-    SO_TO_PARTNER_NAME          @title: '{i18n>SO_TO_PARTNER_NAME}'               @sap.Label: '{i18n>SO_TO_PARTNER_NAME}';
+    SO_MANDT                         @title: '{i18n>SO_MANDT}'                         @sap.Label: '{i18n>SO_MANDT}';
+    DL_MANDT                         @title: '{i18n>DL_MANDT}'                         @sap.Label: '{i18n>DL_MANDT}';
+    TM_MANDT                         @title: '{i18n>TM_MANDT}'                         @sap.Label: '{i18n>TM_MANDT}';
+    BL_MANDT_INV_FIRST               @title: '{i18n>BL_MANDT_INV_FIRST}'               @sap.Label: '{i18n>BL_MANDT_INV_FIRST}';
+    BL_MANDT_INV_LAST                @title: '{i18n>BL_MANDT_INV_LAST}'                @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
+    SO_FIRST_SO_MANDT                @title: '{i18n>SO_FIRST_SO_MANDT}'                @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
+    SO_FINAL_SO_MANDT                @title: '{i18n>SO_FINAL_SO_MANDT}'                @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
+    PO_MANDT                         @title: '{i18n>PO_MANDT}'                         @sap.Label: '{i18n>PO_MANDT}';
+    SO_ISSUE_LOCATION_MANDT          @title: '{i18n>SO_ISSUE_LOCATION_MANDT}'          @sap.Label: '{i18n>SO_ISSUE_LOCATION_MANDT}';
+    SO_MANDT_TEXT                    @title: '{i18n>SO_MANDT}'                         @sap.Label: '{i18n>SO_MANDT}';
+    DL_MANDT_TEXT                    @title: '{i18n>DL_MANDT}'                         @sap.Label: '{i18n>DL_MANDT}';
+    TM_MANDT_TEXT                    @title: '{i18n>TM_MANDT}'                         @sap.Label: '{i18n>TM_MANDT}';
+    BL_MANDT_INV_FIRST_TEXT          @title: '{i18n>BL_MANDT_INV_FIRST}'               @sap.Label: '{i18n>BL_MANDT_INV_FIRST}';
+    BL_MANDT_INV_LAST_TEXT           @title: '{i18n>BL_MANDT_INV_LAST}'                @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
+    SO_FIRST_SO_MANDT_TEXT           @title: '{i18n>SO_FIRST_SO_MANDT}'                @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
+    SO_FINAL_SO_MANDT_TEXT           @title: '{i18n>SO_FINAL_SO_MANDT}'                @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
+    PO_MANDT_TEXT                    @title: '{i18n>PO_MANDT}'                         @sap.Label: '{i18n>PO_MANDT}';
+    SO_ISSUE_LOCATION_MANDT_TEXT     @title: '{i18n>SO_ISSUE_LOCATION_MANDT}'          @sap.Label: '{i18n>SO_ISSUE_LOCATION_MANDT}';
+    DL_TRMTYP                        @title: '{i18n>DL_TRMTYP}'                        @sap.Label: '{i18n>DL_TRMTYP}'           @Common.IsDigitSequence: true;
+    DL_TRMTYP_MAKTX                  @title: '{i18n>DL_TRMTYP_MAKTX_LANG}'             @sap.Label: '{i18n>DL_TRMTYP_MAKTX_LANG}';
+    DL_ZZ0S2ABGH                     @title: '{i18n>DL_ZZ0S2ABGH}'                     @sap.Label: '{i18n>DL_ZZ0S2ABGH}';
+    DL_ZZ0S2ZIEH                     @title: '{i18n>DL_ZZ0S2ZIEH}'                     @sap.Label: '{i18n>DL_ZZ0S2ZIEH}';
+    TM_VISTA_STATUS                  @title: '{i18n>TM_VISTA_STATUS}'                  @sap.Label: '{i18n>TM_VISTA_STATUS}';
+    TM_CURRENT_ETA_VISTA            @title: '{i18n>TM_CURRENT_ETA_VISTA}'        @sap.Label: '{i18n>TM_CURRENT_ETA_VISTA}' @sap.filter.restriction: 'interval';
+    SO_BNAME                         @title: '{i18n>SO_BNAME}'                         @sap.Label: '{i18n>SO_BNAME}';
+    SO_IHREZ                         @title: '{i18n>SO_IHREZ}'                         @sap.Label: '{i18n>SO_IHREZ}';
+    SO_LPRIO                         @title: '{i18n>SO_LPRIO}'                         @sap.Label: '{i18n>SO_LPRIO}';
+    SO_AUGRU                         @title: '{i18n>SO_AUGRU}'                         @sap.Label: '{i18n>SO_AUGRU}';
+    SO_AUGRU_BEZEI_LANG              @title: '{i18n>SO_AUGRU_BEZEI_LANG}'              @sap.Label: '{i18n>SO_AUGRU_BEZEI_LANG}';
+    SO_KDGRP                         @title: '{i18n>SO_KDGRP}'                         @sap.Label: '{i18n>SO_KDGRP}';
+    SO_KDGRP_KTEXT_LANG              @title: '{i18n>SO_KDGRP_KTEXT_LANG}'              @sap.Label: '{i18n>SO_KDGRP_KTEXT_LANG}';
+    SO_WE_PARTNER_REGION             @title: '{i18n>SO_WE_PARTNER_REGION}'             @sap.Label: '{i18n>SO_WE_PARTNER_REGION}';
+    SO_WE_PARTNER_REGION_BEZEI_LANG  @title: '{i18n>SO_WE_PARTNER_REGION_BEZEI_LANG}'  @sap.Label: '{i18n>SO_WE_PARTNER_REGION_BEZEI_LANG}';
+    SO_PRCTR                         @title: '{i18n>SO_PRCTR}'                         @sap.Label: '{i18n>SO_PRCTR}';
+    SO_TO_PARTNER                    @title: '{i18n>SO_TO_PARTNER}'                    @sap.Label: '{i18n>SO_TO_PARTNER}'       @Common.IsDigitSequence: true;
+    SO_TO_PARTNER_NAME               @title: '{i18n>SO_TO_PARTNER_NAME}'               @sap.Label: '{i18n>SO_TO_PARTNER_NAME}';
 
 };
 
 annotate service.allIssues with {
-    SO_KWMENG               @Measures.Unit          : SO_VRKME;
-    SO_VRKME                @Semantics.unitOfMeasure: 'unit-of-measure';
-    SO_KBMENG               @Measures.Unit          : SO_VRKME;
-    SO_UNCONFIRMED_QTY      @Measures.Unit          : SO_VRKME;
-    SO_KBETR                @Measures.ISOCurrency   : SO_WAERS;
-    SO_WAERS                @Semantics.currencyCode;
-    SO_KPEIN                @Measures.Unit          : SO_KMEIN;
-    SO_KMEIN                @Semantics.unitOfMeasure: 'unit-of-measure';
-    SO_NETWR                @Measures.ISOCurrency   : SO_WAERK;
-    SO_WAERK                @Semantics.currencyCode;
-    SO_F_PSMNG              @Measures.Unit          : SO_F_AMEIN;
-    SO_F_AMEIN              @Semantics.unitOfMeasure: 'unit-of-measure';
-    DL_LFIMG                @Measures.Unit          : DL_VRKME;
-    DL_LFIMG_BATCH          @Measures.Unit          : DL_VRKME;
-    DL_VRKME                @Semantics.unitOfMeasure: 'unit-of-measure';
-    DL_PEND_DEL_QUAN        @Measures.Unit          : DL_VRKME;
-    id                      @UI                     : {Hidden: true};
-    SO_DOC_TYP              @UI                     : {Hidden: true};
-    SO_IGNORED              @UI                     : {Hidden: true};
+    SO_KWMENG                    @Measures.Unit          : SO_VRKME;
+    SO_VRKME                     @Semantics.unitOfMeasure: 'unit-of-measure';
+    SO_KBMENG                    @Measures.Unit          : SO_VRKME;
+    SO_UNCONFIRMED_QTY           @Measures.Unit          : SO_VRKME;
+    SO_KBETR                     @Measures.ISOCurrency   : SO_WAERS;
+    SO_WAERS                     @Semantics.currencyCode;
+    SO_KPEIN                     @Measures.Unit          : SO_KMEIN;
+    SO_KMEIN                     @Semantics.unitOfMeasure: 'unit-of-measure';
+    SO_NETWR                     @Measures.ISOCurrency   : SO_WAERK;
+    SO_WAERK                     @Semantics.currencyCode;
+    SO_F_PSMNG                   @Measures.Unit          : SO_F_AMEIN;
+    SO_F_AMEIN                   @Semantics.unitOfMeasure: 'unit-of-measure';
+    DL_LFIMG                     @Measures.Unit          : DL_VRKME;
+    DL_LFIMG_BATCH               @Measures.Unit          : DL_VRKME;
+    DL_VRKME                     @Semantics.unitOfMeasure: 'unit-of-measure';
+    DL_PEND_DEL_QUAN             @Measures.Unit          : DL_VRKME;
+    id                           @UI                     : {Hidden: true};
+    SO_DOC_TYP                   @UI                     : {Hidden: true};
+    SO_IGNORED                   @UI                     : {Hidden: true};
     // SO_MANDT           @UI                     : {Hidden: true};
     // DL_MANDT           @UI                     : {Hidden: true};
     // TM_MANDT            @UI                     : {Hidden: true};
 
     // BL_MANDT_INV_FIRST  @UI                     : {Hidden: true};
     // BL_MANDT_INV_LAST   @UI                     : {Hidden: true};
-    BL_FKART_FIRST          @UI                     : {Hidden: true};
-    BL_FKART_LAST           @UI                     : {Hidden: true};
-    BL_FKIMG_FIRST          @UI                     : {Hidden: true};
+    BL_FKART_FIRST               @UI                     : {Hidden: true};
+    BL_FKART_LAST                @UI                     : {Hidden: true};
+    BL_FKIMG_FIRST               @UI                     : {Hidden: true};
     //BL_FKIMG_LAST           @UI                     : {Hidden: true};
-    BL_FKIMG_FIRST          @Measures.Unit          : BL_VRKME_FIRST;
-    BL_FKIMG_LAST           @Measures.Unit          : BL_VRKME_LAST;
-    BL_VRKME_FIRST          @Semantics.unitOfMeasure: 'unit-of-measure';
-    BL_VRKME_LAST           @Semantics.unitOfMeasure: 'unit-of-measure';
-    BL_NETWR_LAST           @Measures.ISOCurrency   : BL_WAERK_LAST;
-    BL_WAERK_LAST           @Semantics.currencyCode;
-    PO_KUNNR_NAME           @UI                     : {Hidden: true};
+    BL_FKIMG_FIRST               @Measures.Unit          : BL_VRKME_FIRST;
+    BL_FKIMG_LAST                @Measures.Unit          : BL_VRKME_LAST;
+    BL_VRKME_FIRST               @Semantics.unitOfMeasure: 'unit-of-measure';
+    BL_VRKME_LAST                @Semantics.unitOfMeasure: 'unit-of-measure';
+    BL_NETWR_LAST                @Measures.ISOCurrency   : BL_WAERK_LAST;
+    BL_WAERK_LAST                @Semantics.currencyCode;
+    PO_KUNNR_NAME                @UI                     : {Hidden: true};
     // PO_PARTNER_9A_HEAD_NAME @UI                     : {Hidden: true};
     // PO_PARTNER_9O_HEAD_NAME @UI                     : {Hidden: true};
-    PO_BSART_BATXT          @UI                     : {Hidden: true};
-    PO_MENGE                @Measures.Unit          : PO_MEINS;
-    PO_MEINS                @Semantics.unitOfMeasure: 'unit-of-measure';
-    SO_MANDT_TEXT           @UI                     : {Hidden: true};
-    DL_MANDT_TEXT           @UI                     : {Hidden: true};
-    TM_MANDT_TEXT           @UI                     : {Hidden: true};
-    BL_MANDT_INV_FIRST_TEXT @UI                     : {Hidden: true};
-    BL_MANDT_INV_LAST_TEXT  @UI                     : {Hidden: true};
-    SO_FINAL_SO_MANDT_TEXT  @UI                     : {Hidden: true};
-    SO_FIRST_SO_MANDT_TEXT  @UI                     : {Hidden: true};
-    PO_MANDT_TEXT           @UI                     : {Hidden: true};
-    PO_EKNAM                @UI                     : {Hidden: true};
-    PO_EKOTX                @UI                     : {Hidden: true};
-    PO_EBELN                @UI                     : {Hidden: true};
+    PO_BSART_BATXT               @UI                     : {Hidden: true};
+    PO_MENGE                     @Measures.Unit          : PO_MEINS;
+    PO_MEINS                     @Semantics.unitOfMeasure: 'unit-of-measure';
+    SO_MANDT_TEXT                @UI                     : {Hidden: true};
+    DL_MANDT_TEXT                @UI                     : {Hidden: true};
+    TM_MANDT_TEXT                @UI                     : {Hidden: true};
+    BL_MANDT_INV_FIRST_TEXT      @UI                     : {Hidden: true};
+    BL_MANDT_INV_LAST_TEXT       @UI                     : {Hidden: true};
+    SO_FINAL_SO_MANDT_TEXT       @UI                     : {Hidden: true};
+    SO_FIRST_SO_MANDT_TEXT       @UI                     : {Hidden: true};
+    PO_MANDT_TEXT                @UI                     : {Hidden: true};
+    SO_ISSUE_LOCATION_MANDT_TEXT @UI                     : {Hidden: true};
+    PO_EKNAM                     @UI                     : {Hidden: true};
+    PO_EKOTX                     @UI                     : {Hidden: true};
+    PO_EBELN                     @UI                     : {Hidden: true};
 
 };
 
 annotate service.allIssues with {
     @Common.Text           : SO_DCP_ITEM_STATUS_DESCRIPTION
     @Common.TextArrangement: #TextFirst
-    SO_DCP_ITEM_STATUS    @title: '{i18n>SO_DCP_ITEM_STATUS}'               @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
+    SO_DCP_ITEM_STATUS       @title: '{i18n>SO_DCP_ITEM_STATUS}'               @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
     @Common.TextFor
     SO_DCP_ITEM_STATUS_DESCRIPTION;
     @Common.Text           : SO_NPS_DESCRIPTION
     @Common.TextArrangement: #TextFirst
-    SO_NPS                @title: '{i18n>SO_NPS}'                           @sap.Label: '{i18n>SO_NPS}';
+    SO_NPS                   @title: '{i18n>SO_NPS}'                           @sap.Label: '{i18n>SO_NPS}';
     @Common.TextFor
     SO_NPS_DESCRIPTION;
     @Common.Text           : SO_ISSUE_DESCRIPTION
     @Common.TextArrangement: #TextFirst
-    SO_ISSUE              @title: '{i18n>SO_ISSUE}'                         @sap.Label: '{i18n>SO_ISSUE}';
+    SO_ISSUE                 @title: '{i18n>SO_ISSUE}'                         @sap.Label: '{i18n>SO_ISSUE}';
     @Common.TextFor
     SO_ISSUE_DESCRIPTION;
     @Common.Text           : SO_LANDX
     @Common.TextArrangement: #TextFirst
-    SO_LAND1              @title: '{i18n>SO_LAND1}'                         @sap.Label: '{i18n>SO_LAND1}';
+    SO_LAND1                 @title: '{i18n>SO_LAND1}'                         @sap.Label: '{i18n>SO_LAND1}';
     @Common.TextFor
     SO_LANDX;
     @Common.Text           : SO_MAKTX
     @Common.TextArrangement: #TextFirst
-    SO_MATNR              @title: '{i18n>SO_MAKTX}'                         @sap.Label: '{i18n>SO_MATNR}';
+    SO_MATNR                 @title: '{i18n>SO_MAKTX}'                         @sap.Label: '{i18n>SO_MATNR}';
     @Common.TextFor
     SO_MAKTX;
     @Common.Text           : SO_AG_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_AG_PARTNER         @title: '{i18n>SO_AG_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AG_PARTNER}';
+    SO_AG_PARTNER            @title: '{i18n>SO_AG_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AG_PARTNER}';
     @Common.TextFor
     SO_AG_PARTNER_NAME;
     @Common.Text           : SO_WE_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_WE_PARTNER         @title: '{i18n>SO_WE_PARTNER_NAME}'               @sap.Label: '{i18n>SO_WE_PARTNER}';
+    SO_WE_PARTNER            @title: '{i18n>SO_WE_PARTNER_NAME}'               @sap.Label: '{i18n>SO_WE_PARTNER}';
     @Common.TextFor
     SO_WE_PARTNER_NAME;
     @Common.Text           : SO_VKORG_NAME1
     @Common.TextArrangement: #TextFirst
-    SO_VKORG              @title: '{i18n>SO_VKORG_NAME1}'                   @sap.Label: '{i18n>SO_VKORG}';
+    SO_VKORG                 @title: '{i18n>SO_VKORG_NAME1}'                   @sap.Label: '{i18n>SO_VKORG}';
     @Common.TextFor
     SO_VKORG_NAME1;
     @Common.Text           : SO_FAKSP_VTEXT
     @Common.TextArrangement: #TextFirst
-    SO_FAKSP              @title: '{i18n>SO_FAKSP}'                         @sap.Label: '{i18n>SO_FAKSP}';
+    SO_FAKSP                 @title: '{i18n>SO_FAKSP}'                         @sap.Label: '{i18n>SO_FAKSP}';
     @Common.TextFor
     SO_FAKSP_VTEXT;
     @Common.Text           : SO_SUPPLY_SITUATION_DESCR
     @Common.TextArrangement: #TextFirst
-    SO_SUPPLY_SITUATION   @title: '{i18n>SO_SUPPLY_SITUATION}'              @sap.Label: '{i18n>SO_SUPPLY_SITUATION}';
+    SO_SUPPLY_SITUATION      @title: '{i18n>SO_SUPPLY_SITUATION}'              @sap.Label: '{i18n>SO_SUPPLY_SITUATION}';
     @Common.TextFor
     SO_SUPPLY_SITUATION_DESCR;
     @Common.Text           : SO_PSTYV_VTEXT
     @Common.TextArrangement: #TextFirst
-    SO_PSTYV              @title: '{i18n>SO_PSTYV}'                         @sap.Label: '{i18n>SO_PSTYV}';
+    SO_PSTYV                 @title: '{i18n>SO_PSTYV}'                         @sap.Label: '{i18n>SO_PSTYV}';
     @Common.TextFor
     SO_PSTYV_VTEXT;
     @Common.Text           : SO_VKBUR_BEZEI
     @Common.TextArrangement: #TextFirst
-    SO_VKBUR              @title: '{i18n>SO_VKBUR}'                         @sap.Label: '{i18n>SO_VKBUR}';
+    SO_VKBUR                 @title: '{i18n>SO_VKBUR}'                         @sap.Label: '{i18n>SO_VKBUR}';
     @Common.TextFor
     SO_VKBUR_BEZEI;
     @Common.Text           : SO_ABGRU_BEZEI
     @Common.TextArrangement: #TextFirst
-    SO_ABGRU              @title: '{i18n>SO_ABGRU}'                         @sap.Label: '{i18n>SO_ABGRU}';
+    SO_ABGRU                 @title: '{i18n>SO_ABGRU}'                         @sap.Label: '{i18n>SO_ABGRU}';
     @Common.TextFor
     SO_ABGRU_BEZEI;
     @Common.Text           : SO_CO_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_CO_PARTNER         @title: '{i18n>SO_CO_PARTNER}'                    @sap.Label: '{i18n>SO_CO_PARTNER}';
+    SO_CO_PARTNER            @title: '{i18n>SO_CO_PARTNER}'                    @sap.Label: '{i18n>SO_CO_PARTNER}';
     @Common.TextFor
     SO_CO_PARTNER_NAME;
     @Common.Text           : SO_NY_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_NY_PARTNER         @title: '{i18n>SO_NY_PARTNER}'                    @sap.Label: '{i18n>SO_NY_PARTNER}';
+    SO_NY_PARTNER            @title: '{i18n>SO_NY_PARTNER}'                    @sap.Label: '{i18n>SO_NY_PARTNER}';
     @Common.TextFor
     SO_NY_PARTNER_NAME;
     @Common.Text           : SO_AS_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_AS_PARTNER         @title: '{i18n>SO_AS_PARTNER}'                    @sap.Label: '{i18n>SO_AS_PARTNER}';
+    SO_AS_PARTNER            @title: '{i18n>SO_AS_PARTNER}'                    @sap.Label: '{i18n>SO_AS_PARTNER}';
     @Common.TextFor
     SO_AS_PARTNER_NAME;
     @Common.Text           : SO_VE_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_VE_PARTNER         @title: '{i18n>SO_VE_PARTNER}'                    @sap.Label: '{i18n>SO_VE_PARTNER}';
+    SO_VE_PARTNER            @title: '{i18n>SO_VE_PARTNER}'                    @sap.Label: '{i18n>SO_VE_PARTNER}';
     @Common.TextFor
     SO_VE_PARTNER_NAME;
     @Common.Text           : SO_AM_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_AM_PARTNER         @title: '{i18n>SO_AM_PARTNER}'                    @sap.Label: '{i18n>SO_AM_PARTNER}';
+    SO_AM_PARTNER            @title: '{i18n>SO_AM_PARTNER}'                    @sap.Label: '{i18n>SO_AM_PARTNER}';
     @Common.TextFor
     SO_AM_PARTNER_NAME;
     @Common.Text           : SO_BSARK_VTEXT
     @Common.TextArrangement: #TextFirst
-    SO_BSARK              @title: '{i18n>SO_BSARK}'                         @sap.Label: '{i18n>SO_BSARK}';
+    SO_BSARK                 @title: '{i18n>SO_BSARK}'                         @sap.Label: '{i18n>SO_BSARK}';
     @Common.TextFor
     SO_BSARK_VTEXT;
     @Common.Text           : SO_TRAGR_VTEXT
     @Common.TextArrangement: #TextFirst
-    SO_TRAGR              @title: '{i18n>SO_TRAGR}'                         @sap.Label: '{i18n>SO_TRAGR}';
+    SO_TRAGR                 @title: '{i18n>SO_TRAGR}'                         @sap.Label: '{i18n>SO_TRAGR}';
     @Common.TextFor
     SO_TRAGR_VTEXT;
     @Common.Text           : SO_VKGRP_BEZEI
     @Common.TextArrangement: #TextFirst
-    SO_VKGRP              @title: '{i18n>SO_VKGRP}'                         @sap.Label: '{i18n>SO_VKGRP}';
+    SO_VKGRP                 @title: '{i18n>SO_VKGRP}'                         @sap.Label: '{i18n>SO_VKGRP}';
     @Common.TextFor
     SO_VKGRP_BEZEI;
     @Common.Text           : SO_F_VSBED_VTEXT
     @Common.TextArrangement: #TextFirst
-    SO_F_VSBED            @title: '{i18n>SO_F_VSBED}'                       @sap.Label: '{i18n>SO_TRAGR}';
+    SO_F_VSBED               @title: '{i18n>SO_F_VSBED}'                       @sap.Label: '{i18n>SO_TRAGR}';
     @Common.TextFor
     SO_F_VSBED_VTEXT;
     @Common.Text           : SO_F_VKORG_VTEXT
     @Common.TextArrangement: #TextFirst
-    SO_F_VKORG            @title: '{i18n>SO_F_VKORG}'                       @sap.Label: '{i18n>SO_F_VKORG}';
+    SO_F_VKORG               @title: '{i18n>SO_F_VKORG}'                       @sap.Label: '{i18n>SO_F_VKORG}';
     @Common.TextFor
     SO_F_VKORG_VTEXT;
     @Common.Text           : SO_F_AS_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_F_AS_PARTNER       @title: '{i18n>SO_F_AS_PARTNER}'                  @sap.Label: '{i18n>SO_F_AS_PARTNER}';
+    SO_F_AS_PARTNER          @title: '{i18n>SO_F_AS_PARTNER}'                  @sap.Label: '{i18n>SO_F_AS_PARTNER}';
     @Common.TextFor
     SO_F_AS_PARTNER_NAME;
     @Common.Text           : DL_LFART_VTEXT
     @Common.TextArrangement: #TextFirst
-    DL_LFART              @title: '{i18n>DL_LFART}'                         @sap.Label: '{i18n>DL_LFART}';
+    DL_LFART                 @title: '{i18n>DL_LFART}'                         @sap.Label: '{i18n>DL_LFART}';
     @Common.TextFor
     DL_LFART_VTEXT;
     @Common.Text           : TM_VSART_BEZEI
     @Common.TextArrangement: #TextFirst
-    TM_VSART              @title: '{i18n>TM_VSART}'                         @sap.Label: '{i18n>TM_VSART}';
+    TM_VSART                 @title: '{i18n>TM_VSART}'                         @sap.Label: '{i18n>TM_VSART}';
     @Common.TextFor
     TM_VSART_BEZEI;
     @Common.Text           : TM_TDLNR_NAME1
     @Common.TextArrangement: #TextFirst
-    TM_TDLNR              @title: '{i18n>TM_TDLNR}'                         @sap.Label: '{i18n>TM_TDLNR}';
+    TM_TDLNR                 @title: '{i18n>TM_TDLNR}'                         @sap.Label: '{i18n>TM_TDLNR}';
     @Common.TextFor
     TM_TDLNR_NAME1;
     @Common.Text           : TM_STTRG_DDTEXT
     @Common.TextArrangement: #TextFirst
-    TM_STTRG              @title: '{i18n>TM_STTRG}'                         @sap.Label: '{i18n>TM_STTRG}';
+    TM_STTRG                 @title: '{i18n>TM_STTRG}'                         @sap.Label: '{i18n>TM_STTRG}';
     @Common.TextFor
     TM_STTRG_DDTEXT;
     @Common.Text           : SO_MDB_TEXT
     @Common.TextArrangement: #TextFirst
-    SO_MDB                @title: '{i18n>SO_MDB}'                           @sap.Label: '{i18n>SO_MDB}';
+    SO_MDB                   @title: '{i18n>SO_MDB}'                           @sap.Label: '{i18n>SO_MDB}';
     @Common.TextFor
     SO_MDB_TEXT;
     @Common.Text           : SO_PERFK_LTEXT_LANG
     @Common.TextArrangement: #TextLast
-    SO_PERFK              @title: '{i18n>SO_PERFK}'                         @sap.Label: '{i18n>SO_PERFK}';
+    SO_PERFK                 @title: '{i18n>SO_PERFK}'                         @sap.Label: '{i18n>SO_PERFK}';
     @Common.TextFor
     SO_PERFK_LTEXT_LANG;
     @Common.Text           : PO_KUNNR_NAME
     @Common.TextArrangement: #TextLast
-    PO_KUNNR              @title: '{i18n>PO_KUNNR}'                         @sap.Label: '{i18n>PO_KUNNR}';
+    PO_KUNNR                 @title: '{i18n>PO_KUNNR}'                         @sap.Label: '{i18n>PO_KUNNR}';
     @Common.TextFor
     PO_KUNNR_NAME;
     // @Common.Text           : PO_PARTNER_9A_HEAD_NAME
     // @Common.TextArrangement: #TextLast
-    PO_PARTNER_9A_HEAD    @title: '{i18n>PO_PARTNER_9A_HEAD}'               @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
+    PO_PARTNER_9A_HEAD       @title: '{i18n>PO_PARTNER_9A_HEAD}'               @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
     // @Common.TextFor
     // PO_PARTNER_9A_HEAD_NAME;
     // @Common.Text           : PO_PARTNER_9O_HEAD_NAME
     // @Common.TextArrangement: #TextLast
-    PO_PARTNER_9O_HEAD    @title: '{i18n>PO_PARTNER_9O_HEAD}'               @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
+    PO_PARTNER_9O_HEAD       @title: '{i18n>PO_PARTNER_9O_HEAD}'               @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
     // @Common.TextFor
     // PO_PARTNER_9O_HEAD_NAME;
     @Common.Text           : PO_BSART_BATXT
     @Common.TextArrangement: #TextLast
-    PO_BSART              @title: '{i18n>PO_BSART}'                         @sap.Label: '{i18n>PO_BSART}';
+    PO_BSART                 @title: '{i18n>PO_BSART}'                         @sap.Label: '{i18n>PO_BSART}';
     @Common.TextFor
     PO_BSART_BATXT;
     // BL_VBELN_INV_FIRST          @title: '{i18n>BL_VBELN_INV_FIRST}'          @sap.Label: '{i18n>BL_VBELN_INV_FIRST}';
@@ -1448,19 +1451,19 @@ annotate service.allIssues with {
     // Euan's changes
     @Common.Text           : SO_Z5_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_Z5_PARTNER         @title: '{i18n>SO_Z5_PARTNER}'                    @sap.Label: '{i18n>SO_Z5_PARTNER}';
+    SO_Z5_PARTNER            @title: '{i18n>SO_Z5_PARTNER}'                    @sap.Label: '{i18n>SO_Z5_PARTNER}';
     @Common.TextFor
     SO_Z5_PARTNER_NAME;
 
     @Common.Text           : SO_SB_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_SB_PARTNER         @title: '{i18n>SO_SB_PARTNER}'                    @sap.Label: '{i18n>SO_SB_PARTNER}';
+    SO_SB_PARTNER            @title: '{i18n>SO_SB_PARTNER}'                    @sap.Label: '{i18n>SO_SB_PARTNER}';
     @Common.TextFor
     SO_SB_PARTNER_NAME;
 
     @Common.Text           : SO_AD_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_AD_PARTNER         @title: '{i18n>SO_AD_PARTNER}'                    @sap.Label: '{i18n>SO_AD_PARTNER}';
+    SO_AD_PARTNER            @title: '{i18n>SO_AD_PARTNER}'                    @sap.Label: '{i18n>SO_AD_PARTNER}';
     @Common.TextFor
     SO_AD_PARTNER_NAME;
     // End of Euan's changes
@@ -1468,79 +1471,85 @@ annotate service.allIssues with {
     ///// Mandants
     @Common.Text           : SO_MANDT_TEXT
     @Common.TextArrangement: #TextLast
-    SO_MANDT              @title: '{i18n>SO_MANDT}'                         @sap.Label: '{i18n>SO_MANDT}';
+    SO_MANDT                 @title: '{i18n>SO_MANDT}'                         @sap.Label: '{i18n>SO_MANDT}';
     @Common.TextFor
     SO_MANDT_TEXT;
 
     @Common.Text           : DL_MANDT_TEXT
     @Common.TextArrangement: #TextLast
-    DL_MANDT              @title: '{i18n>DL_MANDT}'                         @sap.Label: '{i18n>DL_MANDT}';
+    DL_MANDT                 @title: '{i18n>DL_MANDT}'                         @sap.Label: '{i18n>DL_MANDT}';
     @Common.TextFor
     DL_MANDT_TEXT;
 
     @Common.Text           : TM_MANDT_TEXT
     @Common.TextArrangement: #TextLast
-    TM_MANDT              @title: '{i18n>TM_MANDT}'                         @sap.Label: '{i18n>TM_MANDT}';
+    TM_MANDT                 @title: '{i18n>TM_MANDT}'                         @sap.Label: '{i18n>TM_MANDT}';
     @Common.TextFor
     TM_MANDT_TEXT;
 
     @Common.Text           : BL_MANDT_INV_FIRST_TEXT
     @Common.TextArrangement: #TextLast
-    BL_MANDT_INV_FIRST    @title: '{i18n>BL_MANDT_INV_FIRST}'               @sap.Label: '{i18n>BL_MANDT_INV_FIRST}';
+    BL_MANDT_INV_FIRST       @title: '{i18n>BL_MANDT_INV_FIRST}'               @sap.Label: '{i18n>BL_MANDT_INV_FIRST}';
     @Common.TextFor
     BL_MANDT_INV_FIRST_TEXT;
 
     @Common.Text           : BL_MANDT_INV_LAST_TEXT
     @Common.TextArrangement: #TextLast
-    BL_MANDT_INV_LAST     @title: '{i18n>BL_MANDT_INV_LAST}'                @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
+    BL_MANDT_INV_LAST        @title: '{i18n>BL_MANDT_INV_LAST}'                @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
     @Common.TextFor
     BL_MANDT_INV_LAST_TEXT;
 
     @Common.Text           : SO_FIRST_SO_MANDT_TEXT
     @Common.TextArrangement: #TextLast
-    SO_FIRST_SO_MANDT     @title: '{i18n>SO_FIRST_SO_MANDT}'                @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
+    SO_FIRST_SO_MANDT        @title: '{i18n>SO_FIRST_SO_MANDT}'                @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
     @Common.TextFor
     SO_FIRST_SO_MANDT_TEXT;
 
     @Common.Text           : SO_FINAL_SO_MANDT_TEXT
     @Common.TextArrangement: #TextLast
-    SO_FINAL_SO_MANDT     @title: '{i18n>SO_FINAL_SO_MANDT}'                @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
+    SO_FINAL_SO_MANDT        @title: '{i18n>SO_FINAL_SO_MANDT}'                @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
     @Common.TextFor
     SO_FINAL_SO_MANDT_TEXT;
 
     @Common.Text           : PO_MANDT_TEXT
     @Common.TextArrangement: #TextLast
-    PO_MANDT              @title: '{i18n>PO_MANDT}'                         @sap.Label: '{i18n>PO_MANDT}';
+    PO_MANDT                 @title: '{i18n>PO_MANDT}'                         @sap.Label: '{i18n>PO_MANDT}';
     @Common.TextFor
     PO_MANDT_TEXT;
 
+    @Common.Text           : SO_ISSUE_LOCATION_MANDT_TEXT
+    @Common.TextArrangement: #TextLast
+    SO_ISSUE_LOCATION_MANDT  @title: '{i18n>SO_ISSUE_LOCATION_MANDT}'          @sap.Label: '{i18n>SO_ISSUE_LOCATION_MANDT}';
+    @Common.TextFor
+    SO_ISSUE_LOCATION_MANDT_TEXT;
+
     @Common.Text           : DL_TRMTYP_MAKTX
     @Common.TextArrangement: #TextLast
-    DL_TRMTYP             @title: '{i18n>DL_TRMTYP_MAKTX_LANG}'             @sap.Label: '{i18n>DL_TRMTYP}';
+    DL_TRMTYP                @title: '{i18n>DL_TRMTYP_MAKTX_LANG}'             @sap.Label: '{i18n>DL_TRMTYP}';
     @Common.TextFor
     DL_TRMTYP_MAKTX;
 
     @Common.Text           : SO_AUGRU_BEZEI_LANG
     @Common.TextArrangement: #TextLast
-    SO_AUGRU              @title: '{i18n>SO_AUGRU_BEZEI_LANG}'              @sap.Label: '{i18n>SO_AUGRU}';
+    SO_AUGRU                 @title: '{i18n>SO_AUGRU_BEZEI_LANG}'              @sap.Label: '{i18n>SO_AUGRU}';
     @Common.TextFor
     SO_AUGRU_BEZEI_LANG;
 
     @Common.Text           : SO_KDGRP_KTEXT_LANG
     @Common.TextArrangement: #TextLast
-    SO_KDGRP              @title: '{i18n>SO_KDGRP_KTEXT_LANG}'              @sap.Label: '{i18n>SO_KDGRP}';
+    SO_KDGRP                 @title: '{i18n>SO_KDGRP_KTEXT_LANG}'              @sap.Label: '{i18n>SO_KDGRP}';
     @Common.TextFor
     SO_KDGRP_KTEXT_LANG;
 
     @Common.Text           : SO_WE_PARTNER_REGION_BEZEI_LANG
     @Common.TextArrangement: #TextLast
-    SO_WE_PARTNER_REGION  @title: '{i18n>SO_WE_PARTNER_REGION_BEZEI_LANG}'  @sap.Label: '{i18n>SO_WE_PARTNER_REGION}';
+    SO_WE_PARTNER_REGION     @title: '{i18n>SO_WE_PARTNER_REGION_BEZEI_LANG}'  @sap.Label: '{i18n>SO_WE_PARTNER_REGION}';
     @Common.TextFor
     SO_WE_PARTNER_REGION_BEZEI_LANG;
 
     @Common.Text           : SO_TO_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_TO_PARTNER               @title: '{i18n>SO_TO_PARTNER}'                    @sap.Label: '{i18n>SO_TO_PARTNER}';
+    SO_TO_PARTNER            @title: '{i18n>SO_TO_PARTNER}'                    @sap.Label: '{i18n>SO_TO_PARTNER}';
     @Common.TextFor
     SO_TO_PARTNER_NAME;
 }
@@ -1620,7 +1629,6 @@ annotate service.allIssues with {
     SO_AUGRU_BEZEI_LANG             @UI: {Hidden: true};
     SO_KDGRP_KTEXT_LANG             @UI: {Hidden: true};
     SO_WE_PARTNER_REGION_BEZEI_LANG @UI: {Hidden: true};
-
     SO_TO_PARTNER_NAME              @UI: {Hidden: true};
 }
 
@@ -3936,7 +3944,7 @@ annotate service.allIssues with {
 
         ]
     }
-};
+}
 
 annotate service.allIssues with {
     BL_MANDT_INV_FIRST
@@ -4043,6 +4051,28 @@ annotate service.allIssues with {
             {
                 $Type            : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty: 'PO_MANDT_TEXT'
+            }
+        ]
+    }
+}
+
+annotate service.allIssues with {
+    SO_ISSUE_LOCATION_MANDT
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_ISSUE_LOCATION_MANDT}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_ISSUE_LOCATION_MANDT,
+                ValueListProperty: 'SO_ISSUE_LOCATION_MANDT'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_ISSUE_LOCATION_MANDT_TEXT'
             }
         ]
     }
@@ -4449,6 +4479,7 @@ annotate service.allIssues with {
         ]
     }
 };
+
 // End of Euan's changes
 annotate service.allIssues with {
     SO_IHREZ
@@ -4465,6 +4496,7 @@ annotate service.allIssues with {
         }]
     }
 };
+
 annotate service.allIssues with {
     SO_BNAME
     @Common.ValueList: {
@@ -4508,7 +4540,8 @@ annotate service.allIssues with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
+        Parameters             : [
+            {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: SO_AUGRU,
                 ValueListProperty: 'SO_AUGRU'
@@ -4516,9 +4549,9 @@ annotate service.allIssues with {
             {
                 $Type            : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty: 'SO_AUGRU_BEZEI_LANG'
-            }        
+            }
         ]
-       
+
     }
 };
 
@@ -4530,7 +4563,8 @@ annotate service.allIssues with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
+        Parameters             : [
+            {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: SO_KDGRP,
                 ValueListProperty: 'SO_KDGRP'
@@ -4538,7 +4572,7 @@ annotate service.allIssues with {
             {
                 $Type            : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty: 'SO_KDGRP_KTEXT_LANG'
-            }   
+            }
         ]
     }
 };
@@ -4551,7 +4585,8 @@ annotate service.allIssues with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
+        Parameters             : [
+            {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: SO_WE_PARTNER_REGION,
                 ValueListProperty: 'SO_WE_PARTNER_REGION'
@@ -4559,7 +4594,7 @@ annotate service.allIssues with {
             {
                 $Type            : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty: 'SO_WE_PARTNER_REGION_BEZEI_LANG'
-            }  
+            }
         ]
     }
 };
@@ -4584,7 +4619,7 @@ annotate service.allIssues with {
 
 annotate service.allIssues with {
     SO_TO_PARTNER
-    @Common.ValueList      : {
+    @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>SO_TO_PARTNER}',
         CollectionPath         : 'valueHelps',
@@ -4604,6 +4639,7 @@ annotate service.allIssues with {
         ]
     }
 };
+
 annotate service.allIssues with {
     SO_SPART
     @Common.ValueList: {
