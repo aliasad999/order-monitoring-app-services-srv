@@ -1203,7 +1203,7 @@ annotate service.baseEntity with {
     TM_CURRENT_ETA_VISTA            @title: '{i18n>TM_CURRENT_ETA_VISTA}'        @sap.Label: '{i18n>TM_CURRENT_ETA_VISTA}' @sap.filter.restriction: 'interval';
     SO_BNAME                         @title: '{i18n>SO_BNAME}'                         @sap.Label: '{i18n>SO_BNAME}';
     SO_IHREZ                         @title: '{i18n>SO_IHREZ}'                         @sap.Label: '{i18n>SO_IHREZ}';
-    DL_LPRIO                         @title: '{i18n>DL_LPRIO}'                         @sap.Label: '{i18n>DL_LPRIO}';
+    SO_LPRIO                         @title: '{i18n>SO_LPRIO}'                         @sap.Label: '{i18n>SO_LPRIO}';
     SO_AUGRU                         @title: '{i18n>SO_AUGRU}'                         @sap.Label: '{i18n>SO_AUGRU}';
     SO_AUGRU_BEZEI_LANG              @title: '{i18n>SO_AUGRU_BEZEI_LANG}'              @sap.Label: '{i18n>SO_AUGRU_BEZEI_LANG}';
     SO_KDGRP                         @title: '{i18n>SO_KDGRP}'                         @sap.Label: '{i18n>SO_KDGRP}';
@@ -4515,17 +4515,17 @@ annotate service.allIssues with {
 
 
 annotate service.allIssues with {
-    DL_LPRIO
+    SO_LPRIO
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>DL_LPRIO}',
+        Label                  : '{@i18n>SO_LPRIO}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
             $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: DL_LPRIO,
-            ValueListProperty: 'DL_LPRIO'
+            LocalDataProperty: SO_LPRIO,
+            ValueListProperty: 'SO_LPRIO'
         }
 
         ]
