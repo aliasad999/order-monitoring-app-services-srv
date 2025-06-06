@@ -543,7 +543,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         }
                         lt_contacts.push(CMEntry);
                     })
-                    return lt_contacts;
+                    //return lt_contacts;
 
                 } else {
                     // Run queries
