@@ -316,6 +316,12 @@ entity ![OPENORDERSLIST] {
         TO_PARTNER_NAME1_ITM               : String(40);
         TO_PARTNER_NAME2_ITM               : String(40);
         ISSUE_LOCATION_MANDT               : String(3);
+        DPLBG_TM                           : String(8);
+        DPLBG_TM_DATE                      : Date = DPLBG_TM;
+        ERDAT_TM                           : String(8);
+        ERDAT_TM_DATE                      : Date = ERDAT_TM;
+        DPREG_TM                           : String(8);
+        DPREG_TM_DATE                      : Date = DPREG_TM;
 }
 
 entity ContactsOptions {

@@ -29,6 +29,9 @@ const getDateProps = () => {
         "BL_ERDAT_FIRST",
         "BL_ERDAT_LAST",
         "TM_CURRENT_ETA_VISTA",
+        "TM_DALBG_DATE",
+        "TM_ERDAT_DATE",
+        "TM_DPREG_DATE"
     ]
 }
 

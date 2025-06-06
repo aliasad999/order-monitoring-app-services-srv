@@ -955,6 +955,9 @@ annotate service.allIssues with @UI.LineItem #nps00: {$value: [
     {Value: TM_DATEN},
     {Value: TM_SHIPMENT_CURRENT_STATUS},
     {Value: TM_VISTA_STATUS},
+    {Value: TM_DPLBG_DATE},
+    {Value: TM_ERDAT_DATE},
+    {Value: TM_DPREG_DATE}, 
 // {Value: SO_AUGRU},
 // {Value: SO_AUGRU_BEZEI_LANG},
 // {Value: SO_KDGRP},
@@ -1213,6 +1216,9 @@ annotate service.baseEntity with {
     SO_PRCTR                         @title: '{i18n>SO_PRCTR}'                         @sap.Label: '{i18n>SO_PRCTR}';
     SO_TO_PARTNER                    @title: '{i18n>SO_TO_PARTNER}'                    @sap.Label: '{i18n>SO_TO_PARTNER}'       @Common.IsDigitSequence: true;
     SO_TO_PARTNER_NAME               @title: '{i18n>SO_TO_PARTNER_NAME}'               @sap.Label: '{i18n>SO_TO_PARTNER_NAME}';
+    TM_DPLBG_DATE                   @title: '{i18n>TM_DPLBG}'                    @sap.label: '{i18n>TM_DPLBG}';
+    TM_ERDAT_DATE                   @title: '{i18n>TM_ERDAT}'                    @sap.label: '{i18n>TM_ERDAT}'; 
+    TM_DPREG_DATE                   @title: '{i18n>TM_DPREG}'                    @sap.label: '{i18n>TM_DPREG}';  
 
 };
 
