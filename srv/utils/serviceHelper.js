@@ -29,6 +29,10 @@ const getDateProps = () => {
         "SO_DUE_DATE",
         "BL_ERDAT_FIRST",
         "BL_ERDAT_LAST",
+        "TM_CURRENT_ETA_VISTA",
+        "TM_DPLBG_DATE",
+        "TM_ERDAT_DATE",
+        "TM_DPREG_DATE"
     ]
 }
 
@@ -49,7 +53,8 @@ const getMandtFields = () => {
         "BL_MANDT_INV_LAST",
         "SO_FINAL_SO_MANDT",
         "SO_FIRST_SO_MANDT",
-        "PO_MANDT"
+        "PO_MANDT",
+        "SO_ISSUE_LOCATION_MANDT"
     ]
 }
 

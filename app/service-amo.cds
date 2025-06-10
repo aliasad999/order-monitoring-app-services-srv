@@ -220,8 +220,9 @@ annotate service.valueHelps with {
     DL_TRMTYP_MAKTX                 @title: '{i18n>DL_TRMTYP_MAKTX_LANG}'        @sap.Label: '{i18n>DL_TRMTYP_MAKTX_LANG}';
     DL_ZZ0S2ABGH                    @title: '{i18n>DL_ZZ0S2ABGH}'                @sap.Label: '{i18n>DL_ZZ0S2ABGH}';
     DL_ZZ0S2ZIEH                    @title: '{i18n>DL_ZZ0S2ZIEH}'                @sap.Label: '{i18n>DL_ZZ0S2ZIEH}';
-    TM_VISTA_STATUS                 @title: '{i18n>TM_VISTA_STATUS}'             @sap.Label: '{i18n>TM_VISTA_STATUS}';   
-    DL_LPRIO                        @title: '{i18n>DL_LPRIO}'                    @sap.Label: '{i18n>DL_LPRIO}';
+    TM_VISTA_STATUS                 @title: '{i18n>TM_VISTA_STATUS}'             @sap.Label: '{i18n>TM_VISTA_STATUS}'; 
+    TM_CURRENT_ETA_VISTA            @title: '{i18n>TM_CURRENT_ETA_VISTA}'        @sap.Label: '{i18n>TM_CURRENT_ETA_VISTA}'@sap.filter.restriction: 'interval';
+    SO_LPRIO                        @title: '{i18n>SO_LPRIO}'                    @sap.Label: '{i18n>SO_LPRIO}';
     SO_AUGRU                        @title: '{i18n>SO_AUGRU}'                    @sap.Label: '{i18n>SO_AUGRU}';
     SO_AUGRU_BEZEI_LANG             @title: '{i18n>SO_AUGRU_BEZEI_LANG}'         @sap.Label: '{i18n>SO_AUGRU_BEZEI_LANG}';
     SO_KDGRP                        @title: '{i18n>SO_KDGRP}'                    @sap.Label: '{i18n>SO_KDGRP}';
@@ -242,7 +243,10 @@ annotate service.valueHelps with {
     SO_DEV_CONF_DATE                @title: '{i18n>SO_DEV_CONF_DATE}'            @sap.Label: '{i18n>SO_DEV_CONF_DATE}';
     SO_EMAIL                        @title: '{i18n>SO_EMAIL}'                    @sap.Label: '{i18n>SO_EMAIL}';
     SO_EMAIL_SEND_DATE_F            @title: '{i18n>SO_EMAIL_SEND_DATE_F}'        @sap.Label: '{i18n>SO_EMAIL_SEND_DATE_F}';
-    SO_EMAIL_SENT_ON                @title: '{i18n>SO_EMAIL_SENT_ON}'            @sap.Label: '{i18n>SO_EMAIL_SENT_ON}';   
+    SO_EMAIL_SENT_ON                @title: '{i18n>SO_EMAIL_SENT_ON}'            @sap.Label: '{i18n>SO_EMAIL_SENT_ON}';
+    TM_DPLBG_DATE                   @title: '{i18n>TM_DPLBG}'                    @sap.label: '{i18n>TM_DPLBG}';
+    TM_ERDAT_DATE                   @title: '{i18n>TM_ERDAT}'                    @sap.label: '{i18n>TM_ERDAT}'; 
+    TM_DPREG_DATE                   @title: '{i18n>TM_DPREG}'                    @sap.label: '{i18n>TM_DPREG}';   
 };
 
 annotate service.Results with {
@@ -604,9 +608,10 @@ annotate service.Results with {
     DL_ZZ0S2ABGH                @title: '{i18n>DL_ZZ0S2ABGH}'                     @sap.Label: '{i18n>DL_ZZ0S2ABGH}';
     DL_ZZ0S2ZIEH                @title: '{i18n>DL_ZZ0S2ZIEH}'                     @sap.Label: '{i18n>DL_ZZ0S2ZIEH}';
     TM_VISTA_STATUS             @title: '{i18n>TM_VISTA_STATUS}'                  @sap.Label: '{i18n>TM_VISTA_STATUS}';
+    TM_CURRENT_ETA_VISTA        @title: '{i18n>TM_CURRENT_ETA_VISTA}'             @sap.Label: '{i18n>TM_CURRENT_ETA_VISTA}' ;
     SO_IHREZ                    @title: '{i18n>SO_IHREZ}'                   @sap.Label: '{i18n>SO_IHREZ}';
     SO_BNAME                    @title: '{i18n>SO_BNAME}'                   @sap.Label: '{i18n>SO_BNAME}';
-    DL_LPRIO                    @title: '{i18n>DL_LPRIO}'                   @sap.Label: '{i18n>DL_LPRIO}';
+    SO_LPRIO                    @title: '{i18n>SO_LPRIO}'                   @sap.Label: '{i18n>SO_LPRIO}';
 
 
 
@@ -647,7 +652,10 @@ annotate service.Results with {
     SO_DEV_CONF_DATE                @title: '{i18n>SO_DEV_CONF_DATE}'            @sap.Label: '{i18n>SO_DEV_CONF_DATE}';
     SO_EMAIL                        @title: '{i18n>SO_EMAIL}'                    @sap.Label: '{i18n>SO_EMAIL}';
     SO_EMAIL_SEND_DATE_F            @title: '{i18n>SO_EMAIL_SEND_DATE_F}'        @sap.Label: '{i18n>SO_EMAIL_SEND_DATE_F}';
-    SO_EMAIL_SENT_ON                @title: '{i18n>SO_EMAIL_SENT_ON}'            @sap.Label: '{i18n>SO_EMAIL_SENT_ON}';    
+    SO_EMAIL_SENT_ON                @title: '{i18n>SO_EMAIL_SENT_ON}'            @sap.Label: '{i18n>SO_EMAIL_SENT_ON}';
+    TM_DPLBG_DATE                   @title: '{i18n>TM_DPLBG}'                    @sap.label: '{i18n>TM_DPLBG}';
+    TM_ERDAT_DATE                   @title: '{i18n>TM_ERDAT}'                    @sap.label: '{i18n>TM_ERDAT}'; 
+    TM_DPREG_DATE                   @title: '{i18n>TM_DPREG}'                    @sap.label: '{i18n>TM_DPREG}';     
 }
 
 annotate service.Results with {
@@ -3262,6 +3270,7 @@ annotate service.Results with {
     }
 };
 
+
 // Euan's changes
 annotate service.Results with {
     SO_Z5_PARTNER
@@ -3370,17 +3379,17 @@ annotate service.Results with {
     }
 };
 annotate service.Results with {
-    DL_LPRIO
+    SO_LPRIO
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>DL_LPRIO}',
+        Label                  : '{@i18n>SO_LPRIO}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
             $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: DL_LPRIO,
-            ValueListProperty: 'DL_LPRIO'
+            LocalDataProperty: SO_LPRIO,
+            ValueListProperty: 'SO_LPRIO'
         }
 
         ]

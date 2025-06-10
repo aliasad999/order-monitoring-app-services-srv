@@ -262,9 +262,9 @@ entity ![RESULTS] {
         BL_WAERK_LAST                      : String(5);
         BL_VRKME_LAST                      : String(3);
         LPRIO                              : String(2);
-
-        VISTA_STATUS                       : String(50); 
-        
+        VISTA_STATUS                       : String(50);
+        CURRENT_ETA_VISTA                  : String(8);
+        CURRENT_ETA_VISTA_DATE             : Date = CURRENT_ETA_VISTA ;
         // Euan's changes
         Z5_PARTNER_ITM                     : String(8);
         Z5_PARTNER_NAME_ITM                : String(40);
@@ -306,6 +306,12 @@ entity ![RESULTS] {
         EMAIL                              : String(241);
         EMAIL_SEND_DATE_F                  : String(8);
         EMAIL_SENT_ON                      : String(8);
+        DPLBG_TM                           : String(8);
+        DPLBG_TM_DATE                      : Date = DPLBG_TM;
+        ERDAT_TM                           : String(8);
+        ERDAT_TM_DATE                      : Date = ERDAT_TM;
+        DPREG_TM                           : String(8);
+        DPREG_TM_DATE                      : Date = DPREG_TM;
 
 }
 

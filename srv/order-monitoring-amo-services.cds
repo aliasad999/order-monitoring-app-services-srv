@@ -498,8 +498,9 @@ service srvOpenOrders {
           TRMTYP_MAKTX_LANG                           as DL_TRMTYP_MAKTX,
           ZZ0S2ABGH                                   as DL_ZZ0S2ABGH,
           ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH,
-          LPRIO                                       as DL_LPRIO,
+          LPRIO                                       as SO_LPRIO,
           VISTA_STATUS                                as TM_VISTA_STATUS,
+          CURRENT_ETA_VISTA_DATE                      as TM_CURRENT_ETA_VISTA,
           // Euan's changes
           Z5_PARTNER_ITM                              as SO_Z5_PARTNER,
           Z5_PARTNER_NAME_ITM                         as SO_Z5_PARTNER_NAME,
@@ -560,6 +561,9 @@ service srvOpenOrders {
           EMAIL                                       as SO_EMAIL,
           EMAIL_SEND_DATE_F                           as SO_EMAIL_SEND_DATE_F,
           EMAIL_SENT_ON                               as SO_EMAIL_SENT_ON,
+          DPLBG_TM_DATE                               as TM_DPLBG_DATE,
+          ERDAT_TM_DATE                               as TM_ERDAT_DATE,
+          DPREG_TM_DATE                               as TM_DPREG_DATE
 
     };
 
