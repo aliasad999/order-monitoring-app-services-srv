@@ -322,6 +322,8 @@ entity ![OPENORDERSLIST] {
         ERDAT_TM_DATE                      : Date = ERDAT_TM;
         DPREG_TM                           : String(8);
         DPREG_TM_DATE                      : Date = DPREG_TM;
+        WERKS_DEL                          : String(4);
+        VKORG_DEL                          : String(4);
 }
 
 entity ContactsOptions {
