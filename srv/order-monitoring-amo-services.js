@@ -74,32 +74,6 @@ class srvOpenOrders extends cds.ApplicationService {
             let globalError = [];
             let userID = req.user.id;
 
-            // VARIANT MIGRATION LOGIC
-            let AMOmigrationDone = await variantManagement.checkIfMigrationNeeded(req, "ordermonitoring.allorders");
-            let AMOOmigrationDone = await variantManagement.checkIfMigrationNeeded(req, "ordermonitoring.openorders");
-            if (AMOmigrationDone === "ERROR" || AMOOmigrationDone === "ERROR") {
-                err = 3; // variant migration failed
-                return err;
-            }
-            if (AMOmigrationDone || AMOOmigrationDone) {
-                // means it was done before and not needed (set to true to avoid issues)
-                if (AMOmigrationDone === undefined) {
-                    AMOmigrationDone = true;
-                }
-                // means it was done before and not needed (set to true to avoid issues)
-                if (AMOOmigrationDone === undefined) {
-                    AMOOmigrationDone = true;
-                }
-                await UPSERT.into`allorders.db.variantMigration`.entries([{
-                    userId: userID,
-                    AMOvariantsMigrated: AMOmigrationDone,
-                    AMOOVariantsMigrated: AMOOmigrationDone
-                }])
-                err = 4; // variant migration successful, refresh needed
-                return err;
-            }
-            // VARIANT MIGRATION LOGIC END
-
             let vbakAuths = await SELECT.from(VBAKAuthObjectKeys).where`USERID = ${userID}`.limit(1);
             // Avoid updating authorizations more than once a day
             // Update only if table empty or outdatedf
