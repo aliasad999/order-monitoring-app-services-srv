@@ -545,7 +545,9 @@ service openOrdersSrv {
 
                 DPLBG_TM_DATE                               as TM_DPLBG_DATE,
                 ERDAT_TM_DATE                               as TM_ERDAT_DATE,
-                DPREG_TM_DATE                               as TM_DPREG_DATE  
+                DPREG_TM_DATE                               as TM_DPREG_DATE,
+                WERKS_DEL                                   as DL_WERKS_DEL,
+                VKORG_DEL                                   as DL_VKORG_DEL
 
         }
 

@@ -247,6 +247,8 @@ annotate service.valueHelps with {
     TM_DPLBG_DATE                   @title: '{i18n>TM_DPLBG}'                    @sap.label: '{i18n>TM_DPLBG}';
     TM_ERDAT_DATE                   @title: '{i18n>TM_ERDAT}'                    @sap.label: '{i18n>TM_ERDAT}'; 
     TM_DPREG_DATE                   @title: '{i18n>TM_DPREG}'                    @sap.label: '{i18n>TM_DPREG}';   
+    DL_WERKS_DEL                    @title: '{i18n>DL_WERKS_DEL}'                @sap.label: '{i18n>DL_WERKS_DEL}';
+    DL_VKORG_DEL                    @title: '{i18n>DL_VKORG_DEL}'                @sap.label: '{i18n>DL_VKORG_DEL}';
 };
 
 annotate service.Results with {
@@ -655,7 +657,9 @@ annotate service.Results with {
     SO_EMAIL_SENT_ON                @title: '{i18n>SO_EMAIL_SENT_ON}'            @sap.Label: '{i18n>SO_EMAIL_SENT_ON}';
     TM_DPLBG_DATE                   @title: '{i18n>TM_DPLBG}'                    @sap.label: '{i18n>TM_DPLBG}';
     TM_ERDAT_DATE                   @title: '{i18n>TM_ERDAT}'                    @sap.label: '{i18n>TM_ERDAT}'; 
-    TM_DPREG_DATE                   @title: '{i18n>TM_DPREG}'                    @sap.label: '{i18n>TM_DPREG}';     
+    TM_DPREG_DATE                   @title: '{i18n>TM_DPREG}'                    @sap.label: '{i18n>TM_DPREG}';  
+    DL_WERKS_DEL                    @title: '{i18n>DL_WERKS_DEL}'                @sap.label: '{i18n>DL_WERKS_DEL}';
+    DL_VKORG_DEL                    @title: '{i18n>DL_VKORG_DEL}'                @sap.label: '{i18n>DL_VKORG_DEL}';   
 }
 
 annotate service.Results with {
@@ -3697,6 +3701,40 @@ annotate service.Results with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_SPART,
             ValueListProperty: 'SO_SPART'
+        }
+
+        ]
+    }
+};
+annotate service.Results with {
+    DL_WERKS_DEL
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>DL_WERKS_DEL}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: DL_WERKS_DEL,
+            ValueListProperty: 'DL_WERKS_DEL'
+        }
+
+        ]
+    }
+};
+annotate service.Results with {
+    DL_VKORG_DEL
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>DL_VKORG_DEL}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: DL_VKORG_DEL,
+            ValueListProperty: 'DL_VKORG_DEL'
         }
 
         ]
