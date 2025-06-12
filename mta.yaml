@@ -54,7 +54,7 @@ modules:
       - name: order-monitoring-xsuaa
       - name: order-monitoring-destination
       - name: order-monitoring-connectivity
-      - name: order-monitoring-logs
+      - name: wp-central-cloud-logging-service
       - name: order-monitoring-autoscaler
         parameters:
           path: ./autoscaler.json
@@ -72,7 +72,7 @@ modules:
     requires:
       - name: order-monitoring-app-services-hdi
       - name: otc-csc-hdi 
-      - name: order-monitoring-logs
+      - name: wp-central-cloud-logging-service
     parameters:
       memory: 5GB
       buildpack: nodejs_buildpack
@@ -178,11 +178,8 @@ resources:
   #   │         Application logging         │   #
   #   └─────────────────────────────────────┘   #
   #
-  - name: order-monitoring-logs
+  - name: wp-central-cloud-logging-service
     type: org.cloudfoundry.existing-service
-    parameters:
-      service: application-logs
-      service-plan: lite
   #
   #   ┌─────────────────────────────────────┐   #
   #   │         AutoScaler                  │   #
