@@ -264,7 +264,7 @@ entity ![RESULTS] {
         LPRIO                              : String(2);
         VISTA_STATUS                       : String(50);
         CURRENT_ETA_VISTA                  : String(8);
-        CURRENT_ETA_VISTA_DATE             : Date = CURRENT_ETA_VISTA ;
+        CURRENT_ETA_VISTA_DATE             : Date = CURRENT_ETA_VISTA;
         // Euan's changes
         Z5_PARTNER_ITM                     : String(8);
         Z5_PARTNER_NAME_ITM                : String(40);
@@ -277,24 +277,19 @@ entity ![RESULTS] {
         // End of Euan's changes
         BNAME                              : String(35);
         IHREZ                              : String(35);
-
         AUGRU                              : String(3);
         AUGRU_BEZEI_LANG                   : String(40);
         KDGRP                              : String(2);
         KDGRP_KTEXT_LANG                   : String(20);
         WE_PARTNER_REGION                  : String(3);
         WE_PARTNER_REGION_BEZEI_LANG       : String(20);
-
         PRCTR                              : String(10);
-
         TO_PARTNER_HEAD                    : String(10);
         TO_PARTNER_ITM                     : String(10);
         TO_PARTNER_NAME1_HEAD              : String(40);
         TO_PARTNER_NAME2_HEAD              : String(40);
         TO_PARTNER_NAME1_ITM               : String(40);
         TO_PARTNER_NAME2_ITM               : String(40);
-
-
         ETA_UPDATED                        : String(3);
         FOLLOWUP_NOTES_LANG                : String(50);
         REASON_CODE_01_LANG                : String(255);
@@ -314,6 +309,7 @@ entity ![RESULTS] {
         DPREG_TM_DATE                      : Date = DPREG_TM;
         WERKS_DEL                          : String(4);
         VKORG_DEL                          : String(4);
+        VMSTA                              : String(2);
 
 }
 

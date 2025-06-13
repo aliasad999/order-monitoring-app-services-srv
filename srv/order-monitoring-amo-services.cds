@@ -21,8 +21,8 @@ service srvOpenOrders {
 
     };
 
-  @readonly
-  @cds.redirection.target: true
+          @readonly
+          @cds.redirection.target: true
   entity BaseEntity              as
     select from db_app.RESULTS {
       key null                                        as id                              : UUID,
@@ -111,8 +111,8 @@ service srvOpenOrders {
           KNREF_ITM                                   as SO_KNREF_ITM,
           case
             when
-              VBUND     is not null
-              and VBUND <>     ''
+              VBUND is not null
+              and VBUND <> ''
             then
               'X'
             else
@@ -135,7 +135,7 @@ service srvOpenOrders {
           REQ_TEXT                                    as SO_REQ_TEXT,
           case
             when
-              FAKSP    =  ''
+              FAKSP = ''
               or FAKSP is null
             then
               FAKSK
@@ -144,7 +144,7 @@ service srvOpenOrders {
           end                                         as SO_FAKSP                        : String(2),
           case
             when
-              FAKSP_VTEXT_LANG    =  ''
+              FAKSP_VTEXT_LANG = ''
               or FAKSP_VTEXT_LANG is null
             then
               FAKSK_VTEXT_LANG
@@ -515,7 +515,6 @@ service srvOpenOrders {
           // End of Euan's changes
           BNAME                                       as SO_BNAME,
           IHREZ                                       as SO_IHREZ,
-
           AUGRU                                       as SO_AUGRU,
           AUGRU_BEZEI_LANG                            as SO_AUGRU_BEZEI_LANG,
           KDGRP                                       as SO_KDGRP,
@@ -534,19 +533,19 @@ service srvOpenOrders {
             ), (
               TO_PARTNER_NAME1_HEAD || TO_PARTNER_NAME2_HEAD
             )
-          )                                           as SO_TO_PARTNER_NAME              : String(80),                                   
-          
-          @UI.Hidden: true
-          TO_PARTNER_NAME1_HEAD as SO_TO_PARTNER_NAME1_HEAD,
-          
-          @UI.Hidden: true
-          TO_PARTNER_NAME2_HEAD as SO_TO_PARTNER_NAME2_HEAD,
+          )                                           as SO_TO_PARTNER_NAME              : String(80),
 
           @UI.Hidden: true
-          TO_PARTNER_NAME1_ITM as SO_TO_PARTNER_NAME1_ITM,
+          TO_PARTNER_NAME1_HEAD                       as SO_TO_PARTNER_NAME1_HEAD,
 
           @UI.Hidden: true
-          TO_PARTNER_NAME2_ITM  as SO_TO_PARTNER_NAME2_ITM,
+          TO_PARTNER_NAME2_HEAD                       as SO_TO_PARTNER_NAME2_HEAD,
+
+          @UI.Hidden: true
+          TO_PARTNER_NAME1_ITM                        as SO_TO_PARTNER_NAME1_ITM,
+
+          @UI.Hidden: true
+          TO_PARTNER_NAME2_ITM                        as SO_TO_PARTNER_NAME2_ITM,
 
 
           @UI.HiddenFilter
@@ -565,7 +564,8 @@ service srvOpenOrders {
           ERDAT_TM_DATE                               as TM_ERDAT_DATE,
           DPREG_TM_DATE                               as TM_DPREG_DATE,
           WERKS_DEL                                   as DL_WERKS_DEL,
-          VKORG_DEL                                   as DL_VKORG_DEL
+          VKORG_DEL                                   as DL_VKORG_DEL,
+          VMSTA                                       as SO_VMSTA
 
     };
 
