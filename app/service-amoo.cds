@@ -1218,6 +1218,7 @@ annotate service.baseEntity with {
     TM_DPREG_DATE                   @title: '{i18n>TM_DPREG}'                    @sap.label: '{i18n>TM_DPREG}';
     DL_WERKS_DEL                    @title: '{i18n>DL_WERKS_DEL}'                @sap.label: '{i18n>DL_WERKS_DEL}';
     DL_VKORG_DEL                    @title: '{i18n>DL_VKORG_DEL}'                @sap.label: '{i18n>DL_VKORG_DEL}';  
+    SO_VMSTA                    @title: '{i18n>SO_VMSTA}'                @sap.label: '{i18n>SO_VMSTA}';
 
 };
 
@@ -4691,6 +4692,24 @@ annotate service.allIssues with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: DL_VKORG_DEL,
             ValueListProperty: 'DL_VKORG_DEL'
+        }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_VMSTA
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_VMSTA}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_VMSTA,
+            ValueListProperty: 'SO_VMSTA'
         }
 
         ]
