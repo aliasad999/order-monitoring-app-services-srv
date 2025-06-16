@@ -310,6 +310,16 @@ entity ![RESULTS] {
         WERKS_DEL                          : String(4);
         VKORG_DEL                          : String(4);
         VMSTA                              : String(2);
+        ZZ0S2VGANN                         : String(35);
+        ZZ0S2LOANN                         : String(35);
+        PO_REQ_DEL_DATE                    : String(8);
+        PO_REQ_DEL_DATE_FORMATTED          : Date = PO_REQ_DEL_DATE;
+        AB_CONF_DATE                       : String(8);
+        AB_CONF_DATE_FORMATTED             : Date = AB_CONF_DATE;
+        LA_CONF_DATE                       : String(8);
+        LA_CONF_DATE_FORMATTED             : Date = LA_CONF_DATE;
+        ZD_CONF_DATE                       : String(8);
+        ZD_CONF_DATE_FORMATTED             : Date = ZD_CONF_DATE;
 
 }
 
