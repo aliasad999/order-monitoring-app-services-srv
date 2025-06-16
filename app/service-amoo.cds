@@ -1218,6 +1218,13 @@ annotate service.baseEntity with {
     TM_DPREG_DATE                   @title: '{i18n>TM_DPREG}'                    @sap.label: '{i18n>TM_DPREG}';
     DL_WERKS_DEL                    @title: '{i18n>DL_WERKS_DEL}'                @sap.label: '{i18n>DL_WERKS_DEL}';
     DL_VKORG_DEL                    @title: '{i18n>DL_VKORG_DEL}'                @sap.label: '{i18n>DL_VKORG_DEL}';  
+    SO_VMSTA                    @title: '{i18n>SO_VMSTA}'                @sap.label: '{i18n>SO_VMSTA}';
+    SO_ZZ0S2VGANN                    @title: '{i18n>SO_ZZ0S2VGANN}'                    @sap.label: '{i18n>SO_ZZ0S2VGANN}';
+    SO_ZZ0S2LOANN                    @title: '{i18n>SO_ZZ0S2LOANN}'                    @sap.label: '{i18n>SO_ZZ0S2LOANN}';
+    PO_REQ_DEL_DATE                  @title: '{i18n>PO_REQ_DEL_DATE}'                  @sap.label: '{i18n>PO_REQ_DEL_DATE}';
+    PO_AB_CONF_DATE                  @title: '{i18n>PO_AB_CONF_DATE}'                  @sap.label: '{i18n>PO_AB_CONF_DATE}';
+    PO_LA_CONF_DATE                  @title: '{i18n>PO_LA_CONF_DATE}'                  @sap.label: '{i18n>PO_LA_CONF_DATE}';
+    PO_ZD_CONF_DATE                  @title: '{i18n>PO_ZD_CONF_DATE}'                  @sap.label: '{i18n>PO_ZD_CONF_DATE}';
 
 };
 
@@ -4691,6 +4698,61 @@ annotate service.allIssues with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: DL_VKORG_DEL,
             ValueListProperty: 'DL_VKORG_DEL'
+        }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_VMSTA
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_VMSTA}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_VMSTA,
+            ValueListProperty: 'SO_VMSTA'
+        }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_ZZ0S2VGANN
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_ZZ0S2VGANN}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_ZZ0S2VGANN,
+            ValueListProperty: 'SO_ZZ0S2VGANN'
+        }
+
+        ]
+    }
+};
+
+
+annotate service.allIssues with {
+    SO_ZZ0S2LOANN
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_ZZ0S2LOANN}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_ZZ0S2LOANN,
+            ValueListProperty: 'SO_ZZ0S2LOANN'
         }
 
         ]
