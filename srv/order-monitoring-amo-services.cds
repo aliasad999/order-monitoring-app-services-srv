@@ -565,7 +565,13 @@ service srvOpenOrders {
           DPREG_TM_DATE                               as TM_DPREG_DATE,
           WERKS_DEL                                   as DL_WERKS_DEL,
           VKORG_DEL                                   as DL_VKORG_DEL,
-          VMSTA                                       as SO_VMSTA
+          VMSTA                                       as SO_VMSTA,
+          ZZ0S2VGANN                                  as SO_ZZ0S2VGANN,
+          ZZ0S2LOANN                                  as SO_ZZ0S2LOANN,
+          PO_REQ_DEL_DATE_FORMATTED                   as PO_REQ_DEL_DATE,
+          AB_CONF_DATE_FORMATTED                      as PO_AB_CONF_DATE,
+          LA_CONF_DATE_FORMATTED                      as PO_LA_CONF_DATE,
+          ZD_CONF_DATE_FORMATTED                      as PO_ZD_CONF_DATE
 
     };
 
