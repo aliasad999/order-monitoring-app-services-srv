@@ -49,9 +49,32 @@ class openOrdersSrv extends cds.ApplicationService {
             let salesOrder = req.data.salesOrder;
             let salesOrderItem = req.data.salesOrderItem;
             let orderSystem = req.data.orderSystem;
+            // Purchase order Text
+            const { Results } = cds.entities('srvOpenOrders')
+            let POData = await SELECT.distinct.from(Results).columns(["PO_MANDT", "PO_EBELN", "PO_EBELP"])
+                            .where`SO_VBELN = ${salesOrder} and SO_POSNR = ${salesOrderItem} and SO_MANDT = ${orderSystem} and PO_MANDT <> null`;
+            if(POData.length > 0 && POData[0].PO_MANDT === "100"){
+                const { PO_EBELN, PO_EBELP } = POData[0];
+                const SAPTextsService = await cds.connect.to('DSLServicesService');
+                SAPTexts = await SAPTextsService.run(SELECT.from('SAPTextsSet').where({
+                    TextId: 'F15',
+                    TextName: `${PO_EBELN}${PO_EBELP}`,
+                    TextObject: 'EKPO'
+                  }));
+                if (SAPTexts.length > 0) {
+                    SAPTexts.forEach((text) => {
+                        SAPTextsEntity.push({
+                            TextId: text.TextId,
+                            SAPText: text.Text.replaceAll("--", "\r\n"),
+                            KeyText: getBundle(req.locale).getText(`SAPText${text.TextId}`),
+                            TextLanguage: text.TextLang
+                        })
+                    })
+                }
+            }
 
             switch (orderSystem) {
-                case "100": // Cobalt                   
+                case "100": // Cobalt   
                     let textObjectsData = [
                         {
                             id: "ZAI1",
@@ -76,7 +99,6 @@ class openOrdersSrv extends cds.ApplicationService {
                     ]
 
                     const SAPTextsService = await cds.connect.to('DSLServicesService');
-
                     for (var i = 0; i < textObjectsData.length; i++) {
                         let textObject = textObjectsData[i];
                         try {
