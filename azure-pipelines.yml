@@ -16,10 +16,6 @@ parameters:
   - DEV
   - QA
   - PROD
-- name: SNChange 
-  displayName: Enter your ServiceNow Change Request (Only PROD)
-  type: string
-  default: CHGxxxxxx
 
 trigger:
 - main
@@ -29,6 +25,5 @@ extends:
   parameters:
     TRANSPORT_ID: ${{ parameters.TransportID }}
     ENV: ${{ parameters.Environment }}
-    CHANGE: ${{ parameters.SNChange }}
 
 appendCommitMessageToRunName: false
