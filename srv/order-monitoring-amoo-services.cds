@@ -202,7 +202,6 @@ service openOrdersSrv {
                 IFNULL(
                     KMEIN, KMEIN_ALT
                 )                                           as SO_KMEIN                        : String(3),
-                @Aggregation.default: #SUM
                 NETWR                                       as SO_NETWR,
                 WAERK                                       as SO_WAERK,
                 HTEXT                                       as SO_HTEXT,
