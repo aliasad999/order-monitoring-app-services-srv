@@ -32,7 +32,11 @@ const getDateProps = () => {
         "TM_CURRENT_ETA_VISTA",
         "TM_DPLBG_DATE",
         "TM_ERDAT_DATE",
-        "TM_DPREG_DATE"
+        "TM_DPREG_DATE",
+        "PO_REQ_DEL_DATE",
+        "PO_AB_CONF_DATE",
+        "PO_LA_CONF_DATE",
+        "PO_ZD_CONF_DATE",
     ]
 }
 
