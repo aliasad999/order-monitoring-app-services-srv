@@ -180,6 +180,9 @@ convertCQNtoCQL = (where, ignoreNPS) => {
     cql = cql.replace(/= NULL/g, 'IS NULL');
     cql = cql.replace(/!IS NULL/g, 'IS NOT NULL');
     cql = cql.replace(/(?<!\bAND\b)$/i, ' AND');
+    cql = cql.replace(/'+/g, match => {
+        return match.length % 2 === 0 ? match : match.slice(0, -1);
+    });
     return cql;
 }
  processExpression = (expr) => {
@@ -248,8 +251,11 @@ transformWhereClause = (whereClause) => {
             return `${field} ${operator} '${year}${month}${day}'`;  // Convert date format 
         }
     });
-    transformed = transformed.replace(/''([^']+)''/g, "'$1'");  // keep only single quotes
+    transformed = transformed.replace(/''([^']{2,})''/g, "'$1'");;  // keep only single quotes
     transformed = transformed.replace(/\s*AND\s*$/, ''); // removing ending and
+    transformed = transformed.replace(/''/g, "'");
+    transformed = transformed.replace(/'''/g, "''");
+    transformed = transformed.replace(/ ' /g, "'' ");
     return transformed;
     }
 
