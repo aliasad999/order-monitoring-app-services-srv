@@ -239,18 +239,14 @@ class srvOpenOrders extends cds.ApplicationService {
 
             req.query.SELECT.localized = false;
             req.query.SELECT.distinct = true;
-            const dateProps = serviceHelper.getDateProps();
-            for (let i = 0; i < req.query.SELECT.where?.length; i++) {
-                const item = req.query.SELECT.where[i];
-                if (item.ref && Array.isArray(item.ref) && item.ref.some(prop => dateProps.includes(prop))) {
-                    for (let j = i + 1; j < req.query.SELECT.where.length; j++) {
-                        if (typeof (req.query.SELECT.where[j].val) === 'string' && req.query.SELECT.where[j].val.includes('-') && req.query.SELECT.where[j].val !== undefined && req.query.SELECT.where[j].val !== null) {
-                            req.query.SELECT.where[j].val = req.query.SELECT.where[j].val.split('-').join("");
-                            break;
-                        }
-                    }
-                }
-            }
+            // where clause is initially converted from cqn to cql
+            let whereClause = serviceHelper.convertCQNtoCQL(req.query.SELECT.where,false)
+            // where clause is initially converted from cqn to cql
+            // where clause is then transformed from cql for date formatting and removing additional inverted commas
+            whereClause = serviceHelper.transformWhereClause(whereClause)
+            // where clause is then transformed from cql for date formatting and removing additional inverted commas
+            // where clause is then inserted back to the query
+            req.query.SELECT.where = cds.parse.xpr(whereClause)
         });
 
         this.on("READ", "Results", async (req, next) => {
@@ -367,7 +363,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     item.id = uuid.v1()
                     if ('SO_DCP_ITEM_STATUS' in item) {
                         if (item.SO_DCP_ITEM_STATUS) {
-                            item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
+                            item.SO_DCP_ITEM_STATUS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
                         }
                     }
                     if ('SO_NETWR' in item) // Net Amount
@@ -439,14 +435,14 @@ class srvOpenOrders extends cds.ApplicationService {
                 //query.SELECT.distinct = true;
                 // if any lowerCaseSearchString is added in search field, that should be taken into account as well
                 //query.SELECT.search = req.query.SELECT.search;
-                let searchString = req._query.$search && req._query.$search.replace(/"/g, '')
+                let searchString = req.http.req.query["$search"] && req.http.req.query["$search"].replace(/"/g, '')
                 let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
                 if (lowerCaseSearchString) {
                     let where = []
-                    if (req._query['$select'] && req._query['$select'].split(',').length > 1) {
-                        where = cds.parse.expr(`lower(${req._query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req._query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                   if (req.http.req.query['$select'] && req.http.req.query['$select'].split(',').length > 1) {
+                        where = cds.parse.expr(`lower(${req.http.req.query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req.http.req.query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
                     } else {
-                        where = cds.parse.expr(`lower(${req._query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                        where = cds.parse.expr(`lower(${req.http.req.query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
                     }
                     let requestQuery = query.SELECT.where || [];
                     where && requestQuery.length != 0 && requestQuery.push('and');
@@ -468,7 +464,7 @@ class srvOpenOrders extends cds.ApplicationService {
                         //lt_result = await cds.run(query);
                         // req.header.select will have the string of visible columns. 
                         //this parameater has been manually set to header on every request
-                        const selectedField = req._query && req._query['$select']
+                        const selectedField = req.http.req.query && req.http.req.query['$select']
                         let fields = selectedField && selectedField.split(',');
                         // Workaround for DCP STatus - Need a better fix
                         fields = fields.filter(e => e !== 'SO_DCP_ITEM_STATUS_DESCRIPTION');
@@ -482,13 +478,13 @@ class srvOpenOrders extends cds.ApplicationService {
                             }
                         });
                         // remove duplicates based on fields in the valuehelp dialog box
-                        lt_result = removeDuplicates(fields, lt_result);
+                        lt_result = serviceHelper.removeDuplicates(fields, lt_result);
                     } catch (error) {
-                        req.error(status.EXPECTATION_FAILED, getBundle(req.user.locale).getText("VALUEHELP_NOT_EXECUTED"))
+                        req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                     }
                 } else {
                     try {
-                        const fields = req._query["search-focus"].split(',')
+                        const fields = req.http.req.query["search-focus"].split(',')
                         let queryCount = 0;
                         // sometimes there is a cached query but it has no
                         let lt_count = query.SELECT.where
@@ -500,22 +496,22 @@ class srvOpenOrders extends cds.ApplicationService {
                         }
                         lt_result.push({ $count: queryCount })
                     } catch (error) {
-                        req.error(status.EXPECTATION_FAILED, getBundle(req.user.locale).getText("VALUEHELP_NOT_EXECUTED"))
+                        req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                     }
 
                 }
 
             } else {
-                const fields = req._query["search-focus"].split(',')
+                const fields = req.http.req.query["search-focus"].split(',')
                 // if there is no session id, execute the query directly
-                let searchString = req._query.$search && req._query.$search.replace(/"/g, '')
+                let searchString = req.http.req.query["$search"] && req.http.req.query["$search"].replace(/"/g, '')
                 let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
                 if (lowerCaseSearchString) {
                     let where = []
-                    if (req._query['$select'] && req._query['$select'].split(',').length > 1) {
-                        where = cds.parse.expr(`lower(${req._query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req._query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                    if (req.http.req.query['$select'] && req.http.req.query['$select'].split(',').length > 1) {
+                        where = cds.parse.expr(`lower(${req.http.req.query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req.http.req.query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
                     } else {
-                        where = cds.parse.expr(`lower(${req._query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                        where = cds.parse.expr(`lower(${req.http.req.query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
                     }
                     let requestQuery = req.query.SELECT.where || [];
                     where && requestQuery.length != 0 && requestQuery.push('and');
@@ -546,7 +542,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     for (const prop in item) {
                         if (item[prop] === null) return false;
                         // convert to lowercase both sides in order to avoid case sensitivity issues when searching
-                        if (item[prop].toLowerCase().includes(req.query.SELECT.search[0].val.toLowerCase())) {
+                        if (item[prop].toLowerCase().includes(req.query.SELECT.search[0].val.toLowerCase().replace(/^["']|["']$/g, ''))) {
                             return true;
                         }
                     }
@@ -583,7 +579,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     })
                     if ('SO_DCP_ITEM_STATUS' in item) {
                         if (item.SO_DCP_ITEM_STATUS) {
-                            item.SO_DCP_ITEM_STATUS_DESCRIPTION = getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
+                            item.SO_DCP_ITEM_STATUS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
                         }
                     }
                 })
@@ -671,31 +667,6 @@ module.exports = {
  * @param {array} lt_result - the original array with duplicates
  * @return {array} lt_result_final - the resulting array with duplicates removed
  */
-function removeDuplicates(fields, lt_result) {
-    if (fields) {
-        lt_result = lt_result
-            // .filter(obj => {
-            //     // if all values are null, then allNull will be true
-            //     // if not, allNull will be false
-            //     // return value is the opposite of that to do the right filtering
-            //     var allNull = fields.every(field => obj[field] === null);
-            //     return !allNull;
-            // })
-            .filter(obj => fields.every(field => obj[field] !== null)) // Remove null values
-            .map(obj => {
-                const newObj = {};
-                fields.forEach(field => newObj[field] = obj[field]);
-                return newObj;
-            });
-    } else {
-        // lt_result = lt_result.map((obj) => (obj));
-    }
-    let lt_result_final = [...new Set(lt_result.map(JSON.stringify))].map(JSON.parse);
-    return lt_result_final;
-}
-function getBundle(locale) {
-    return textBundle.getTextBundle(locale)
-}
 function checkScope(req, next, scope) {
     return req.user.is(scope) ? true : false;
 

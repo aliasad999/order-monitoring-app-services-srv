@@ -37,7 +37,7 @@ modules:
       memory: 5GB
       disk-quota: 5GB
       instances: 1
-      command: node ./node_modules/@sap/cds/bin/cds-serve
+      command: node ./node_modules/.bin/cds-serve
     build-parameters:
       builder: npm-ci
       ignore:

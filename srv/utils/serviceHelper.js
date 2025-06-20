@@ -1,3 +1,4 @@
+const textBundle = require('./textBundle')
 const getDateProps = () => {
     return [
         "SO_ERDAT_ORDER",
@@ -114,6 +115,26 @@ const replaceDateInArray = (array ) =>{
     return array;
 }
 
+const removeDuplicates = (fields, lt_result) => {
+    if (fields) {
+        lt_result = lt_result
+            .filter(obj => fields.every(field => obj[field] !== null))
+            .map(obj => {
+                const newObj = {};
+                fields.forEach(field => newObj[field] = obj[field]);
+                return newObj;
+            });
+    } else {
+        // lt_result = lt_result.map((obj) => (obj));
+    }
+    let lt_result_final = [...new Set(lt_result.map(JSON.stringify))].map(JSON.parse);
+    return lt_result_final;
+}
+const getBundle = (locale) => {
+    return textBundle.getTextBundle(locale)
+}
+
+
 const addOrRemoveNPSFilter = (req, npsTabSelected) => {
     const NPSMapping = {
         SO_NPS_10: "10",
@@ -136,6 +157,107 @@ const addOrRemoveNPSFilter = (req, npsTabSelected) => {
         _removeFilterFromQuery(req, "SO_NPS")
     }
 }
+
+convertCQNtoCQL = (where, ignoreNPS) => {
+    const requestQuery = [...where];
+    if (ignoreNPS){
+    // Helper function to process nested expressions
+    for (let i = requestQuery.length - 1; i >= 0; i--) {
+        if (requestQuery[i].ref && requestQuery[i].ref[0] === 'SO_NPS' || requestQuery[i].ref && requestQuery[i].ref[0] === 'SO_IGNORED') {
+            requestQuery.splice(i, 4);
+        }
+    }
+}
+    // Start processing from the top-level requestQuery array
+    let cql = processExpression(requestQuery);
+
+    // Clean up unnecessary spaces and extra parentheses
+    cql = cql.replace(/\s*\(\s*/g, ' (').replace(/\s*\)\s*/g, ') ')
+        .replace(/\s+\(\s+/g, ' (')
+        .replace(/\s+\)\s+/g, ')')
+        .replace(/\s*\(\s*\)/g, '') // Remove empty parentheses if any
+        .trim();
+    cql = cql.replace(/= NULL/g, 'IS NULL');
+    cql = cql.replace(/!IS NULL/g, 'IS NOT NULL');
+    cql = cql.replace(/(?<!\bAND\b)$/i, ' AND');
+    cql = cql.replace(/'+/g, match => {
+        return match.length % 2 === 0 ? match : match.slice(0, -1);
+    });
+    return cql;
+}
+ processExpression = (expr) => {
+    let cqlParts = [];
+    let i = 0;
+
+    while (i < expr.length) {
+        const item = expr[i];
+
+        if (typeof item === 'object') {
+            if (item.xpr) {
+                // Recursively process nested expressions
+                cqlParts.push(`(${processExpression(item.xpr)})`);
+            } else if (item.ref) {
+                // Handle reference
+                cqlParts.push(item.ref.join('.'));
+            } else if (item.func === 'date' ){
+                cqlParts.push(typeof item.args[0].val === 'string' ? `''${item.args[0].val}''` : item.val); 
+            }
+            else if (item.val !== undefined) {
+                // Handle value when is empty is selected --> define conditions
+                if (item.val === null) {
+                    cqlParts.push('NULL');
+                } else {
+                    cqlParts.push(typeof item.val === 'string' ? `''${item.val}''` : item.val);
+                }
+            } else if (item.func && item.func.toLowerCase() === 'contains') {
+                // Handle 'contains' function --> define conditions
+                const column = item.args[0].ref.join('.');
+                const value = item.args[1].val;
+                cqlParts.push(`${column} LIKE ''%'' || ''${value}'' || ''%'' ESCAPE ''^''`);
+            }
+            else if (item.func && item.func.toLowerCase() === 'startswith') {
+                // Handle 'startswith' function --> define conditions
+                const column = item.args[0].ref.join('.');
+                const value = item.args[1].val;
+                cqlParts.push(`${column} LIKE  ''${value}'' || ''%'' ESCAPE ''^''`);
+            }
+            else if (item.func && item.func.toLowerCase() === 'endswith') {
+                // Handle 'endswith' function --> define conditions
+                const column = item.args[0].ref.join('.');
+                const value = item.args[1].val;
+                cqlParts.push(`${column} LIKE ''%'' || ''${value}''  ESCAPE ''^''`);
+            }
+        } else if (typeof item === 'string') {
+            if (item.toLowerCase() === 'or') {
+                cqlParts.push(item.toUpperCase());
+            } else if (item.toLowerCase() === 'and') {
+                // Process AND conditions
+                cqlParts.push('AND');
+            } else {
+                // Handle operators (=, >=, <=, !=)
+                cqlParts.push(item);
+            }
+        }
+        i++;
+    }
+
+    return cqlParts.join(' ').trim();
+}
+transformWhereClause = (whereClause) => {
+    const dateProps = getDateProps()
+    let transformed =  whereClause.replace(/(\b\w+\b)\s*(>=|<=|>|<|=)\s*''(\d{4})-(\d{2})-(\d{2})''/g, 
+        (match, field, operator, year, month, day) => {
+        if (dateProps.includes(field)) {
+            return `${field} ${operator} '${year}${month}${day}'`;  // Convert date format 
+        }
+    });
+    transformed = transformed.replace(/''([^']{2,})''/g, "'$1'");;  // keep only single quotes
+    transformed = transformed.replace(/\s*AND\s*$/, ''); // removing ending and
+    transformed = transformed.replace(/''/g, "'");
+    transformed = transformed.replace(/'''/g, "''");
+    transformed = transformed.replace(/ ' /g, "'' ");
+    return transformed;
+    }
 
 const _removeFilterFromQuery = (query, filterToRemove) => {
     if (query.SELECT.where && query.SELECT.where.length > 0) {
@@ -167,5 +289,9 @@ module.exports =  {
     getMandtFields,
     getMandtFieldsNames,
     addOrRemoveNPSFilter,
-    replaceDateInArray
+    replaceDateInArray,
+    transformWhereClause,
+    convertCQNtoCQL,
+    removeDuplicates,
+    getBundle
 }
