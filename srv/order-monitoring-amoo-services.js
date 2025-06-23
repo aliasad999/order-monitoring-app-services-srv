@@ -66,7 +66,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         SAPTextsEntity.push({
                             TextId: text.TextId,
                             SAPText: text.Text.replaceAll("--", "\r\n"),
-                            KeyText: getBundle(req.locale).getText(`SAPText${text.TextId}`),
+                            KeyText: serviceHelper.getBundle(req.locale).getText(`SAPText${text.TextId}`),
                             TextLanguage: text.TextLang
                         })
                     })
