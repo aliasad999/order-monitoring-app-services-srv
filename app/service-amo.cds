@@ -271,10 +271,10 @@ annotate service.Results with {
     SO_WERKS                    @title: '{i18n>SO_WERKS}'                         @sap.Label: '{i18n>SO_WERKS}';
     SO_VTWEG                    @title: '{i18n>SO_VTWEG}'                         @sap.Label: '{i18n>SO_VTWEG}';
     @Common.Text           : SO_MAKTX
-    @Common.TextArrangement: #TextFirst
-    SO_MATNR                    @title: '{i18n>SO_MAKTX}'                         @sap.Label: '{i18n>SO_MATNR}';
+    @Common.TextArrangement: #TextSeparate
+    SO_MATNR                    @title: '{i18n>SO_MATNR}'                         @sap.Label: '{i18n>SO_MATNR}';
     @Common.TextFor
-    SO_MAKTX;
+    SO_MAKTX                    @title: '{i18n>SO_MAKTX}'                         @sap.Label: '{i18n>SO_MAKTX}';
     SO_KDMAT                    @title: '{i18n>SO_KDMAT}'                         @sap.Label: '{i18n>SO_KDMAT}';
     @Common.Text           : SO_AG_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
@@ -708,7 +708,7 @@ annotate service.Results with {
     // SO_AG_PARTNER_NAME2             @UI                     : {Hidden: true};
     // SO_WE_PARTNER_NAME1             @UI                     : {Hidden: true};
     // SO_WE_PARTNER_NAME2             @UI                     : {Hidden: true};
-    SO_MAKTX                        @UI                     : {Hidden: true};
+    // SO_MAKTX                        @UI                     : {Hidden: true};
     SO_LANDX                        @UI                     : {Hidden: true};
     SO_VKORG_NAME1                  @UI                     : {Hidden: true};
     SO_FAKSP_VTEXT                  @UI                     : {Hidden: true};
@@ -1007,6 +1007,29 @@ annotate service.Results with {
         ]
     }
     @Common.IsDigitSequence: true
+};
+
+annotate service.Results with {
+    SO_MAKTX
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_MAKTX}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_MATNR'
+            },
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_MAKTX,
+                ValueListProperty: 'SO_MAKTX'
+            }
+
+        ]
+    }
 };
 
 annotate service.Results with {
