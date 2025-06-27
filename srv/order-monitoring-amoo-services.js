@@ -951,12 +951,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     }
                 });
             });
-            cds
-                .connect("db")
-                .then(({ db }) =>
-                    db?.before("READ", (req) => enableHints(req)
-                    )
-                );
+            req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
 
             req.query.SELECT.localized = false;
             req.query.SELECT.distinct = true;
@@ -1060,6 +1055,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     try {
                         const db = cds.transaction(req);
                         let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  openOrdersSrv_allIssues   ) `)
+                        query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
                         if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
                         const distinctCount = (req.query.SELECT.where) ?
                             await db.run(query)
@@ -1162,16 +1158,36 @@ class openOrdersSrv extends cds.ApplicationService {
         // ORDER CREATION HANDLERS
         this.before("READ", "orderCreation", async (req, next) => {
             // Deactivated in PROD
-            if (process.env.OC_TAB_STATUS === 'ON') {
-                cds
-                    .connect("db")
-                    .then(({ db }) =>
-                        db?.before("READ", (req) => enableHints(req)
-                        )
-                    );
-
+            if (process.env.OC_TAB_STATUS === 'ACTIVE') {
                 req.query.SELECT.localized = false;
                 req.query.SELECT.distinct = true;
+                req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
+
+                // ADD PO_EBELN and PO_EBELP sorting
+                const addOrderIfNeeded = (orderBy, fieldToOrder) => {
+                    let FieldFilteredIndex = orderBy.findIndex((filterElement) => {
+                        if (filterElement.ref && filterElement.ref[0] === fieldToOrder) {
+                            return true;
+                        }
+                        return false;
+                    });
+                    if (FieldFilteredIndex < 0) {
+                        orderBy.push({ref:[fieldToOrder], sort: 'asc'})
+                    }
+                }
+
+                // Add sorting if necessary only
+                if(!req.query.SELECT?.columns[0].as){
+                    if(req.query.SELECT.orderBy){
+                        addOrderIfNeeded(req.query.SELECT.orderBy, 'PO_EBELN');
+                        addOrderIfNeeded(req.query.SELECT.orderBy, 'PO_EBELP');
+                    }else{
+                        req.query.SELECT.orderBy = [
+                            {ref:['PO_EBELN'], sort: 'asc'},
+                            {ref:['PO_EBELP'], sort: 'asc'}
+                        ]
+                    }
+                }
 
                 // where clause is initially converted from cqn to cql
                 let whereClause = serviceHelper.convertCQNtoCQL(req.query.SELECT.where, false)
@@ -1185,12 +1201,13 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.on("READ", "orderCreation", async (req, next) => {
-            if (process.env.OC_TAB_STATUS === 'ON') {
+            if (process.env.OC_TAB_STATUS === 'ACTIVE') {
                 if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                     try {
                         const db = cds.transaction(req);
                         const countCols = "PO_MANDT,PO_EBELN,PO_EBELP"
-                        let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${countCols} from  openOrdersSrv_orderCreation   ) `)
+                        let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${countCols} from  openOrdersSrv_orderCreation ORDER BY PO_EBELN ASC, PO_EBELP ASC )`)
+                        query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
                         if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
                         const distinctCount = (req.query.SELECT.where) ?
                             await db.run(query)
@@ -1212,7 +1229,7 @@ class openOrdersSrv extends cds.ApplicationService {
         })
 
         this.after("READ", "orderCreation", async (data, req) => {
-            if (process.env.OC_TAB_STATUS === 'ON') {
+            if (process.env.OC_TAB_STATUS === 'ACTIVE') {
                 let sessionID = req.headers['authorization'] || req.headers['x-username'];
                 if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                     // do nothing
@@ -1272,7 +1289,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
         this.on("READ", "OCValueHelps", async (req, next) => {
             let lt_result = []
-            if (process.env.OC_TAB_STATUS === 'ON') {
+            if (process.env.OC_TAB_STATUS === 'ACTIVE') {
                 // get the session id based on auth token
                 let sessionID = req.headers['authorization'] || req.headers['x-username'];
                 const queryId = `${sessionID}OCQuery`
@@ -1408,7 +1425,7 @@ class openOrdersSrv extends cds.ApplicationService {
         })
 
         this.after("READ", "OCValueHelps", async (data, req) => {
-            if (process.env.OC_TAB_STATUS === 'ON') {
+            if (process.env.OC_TAB_STATUS === 'ACTIVE') {
                 data = Array.isArray(data) ? data : [data]
                 // since there is a virtual id field, adding a random guid to each record of the result set.
                 data.forEach((item) => {
