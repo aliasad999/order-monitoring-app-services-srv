@@ -1204,10 +1204,16 @@ class openOrdersSrv extends cds.ApplicationService {
             if (process.env.OC_TAB_STATUS === 'INACTIVE') {
                 if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                     try {
-                        const db = cds.transaction(req);
-                        const countCols = "PO_MANDT,PO_EBELN,PO_EBELP"
-                        let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${countCols} from  openOrdersSrv_orderCreation ORDER BY PO_EBELN ASC, PO_EBELP ASC )`)
+                        const db = cds.tx(req);
+                        // const countCols = "PO_MANDT,PO_EBELN,PO_EBELP"
+                        // let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${countCols} from  openOrdersSrv_orderCreation ORDER BY PO_EBELN ASC, PO_EBELP ASC )`)
                         // query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
+                        const countCols = ['PO_MANDT', 'PO_EBELN','PO_EBELP']; // Define tus columnas
+                        const distinctQuery = SELECT.distinct(...countCols)
+                                .from('openOrdersSrv_orderCreation')
+                                .orderBy({ PO_EBELN: 'asc' }, { PO_EBELP: 'asc' })
+                                .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
+                        const query =  SELECT.from(distinctQuery).columns('count(*) as total');
                         if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
                         const distinctCount = await db.run(query);
                         return req.reply({ $count: Object.values(distinctCount[0])[0] })
