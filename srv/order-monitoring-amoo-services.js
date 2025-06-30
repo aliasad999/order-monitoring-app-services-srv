@@ -1210,7 +1210,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         // query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
                         const countCols = ['PO_MANDT', 'PO_EBELN','PO_EBELP']; // Define tus columnas
                         const distinctQuery = SELECT.distinct(...countCols)
-                                .from('openOrdersSrv_orderCreation')
+                                .from('openOrdersSrv.orderCreation')
                                 .orderBy({ PO_EBELN: 'asc' }, { PO_EBELP: 'asc' })
                                 .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
                         const query =  SELECT.from(distinctQuery).columns('count(*) as total');
@@ -1354,8 +1354,8 @@ class openOrdersSrv extends cds.ApplicationService {
                             let queryCount = 0;
                             // sometimes there is a cached query but it has no
                             let lt_count = query.SELECT.where
-                                ? await db.run(SELECT.from('openOrdersSrv_orderCreation').columns(`countdistinct(${fields})`).where(query.SELECT.where))
-                                : await db.run(SELECT.from('openOrdersSrv_orderCreation').columns(`countdistinct(${fields})`));
+                                ? await db.run(SELECT.from('openOrdersSrv.orderCreation').columns(`countdistinct(${fields})`).where(query.SELECT.where))
+                                : await db.run(SELECT.from('openOrdersSrv.orderCreation').columns(`countdistinct(${fields})`));
 
                             if (lt_count.length > 0) {
                                 queryCount = lt_count[0][Object.keys(lt_count[0])[0]];
@@ -1392,7 +1392,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     } else {
                         try {
                             let queryCount = 0;
-                            let lt_count = await db.run(SELECT.from('openOrdersSrv_orderCreation').columns(`countdistinct(${fields})`))
+                            let lt_count = await db.run(SELECT.from('openOrdersSrv.orderCreation').columns(`countdistinct(${fields})`))
                             if (lt_count.length > 0) {
                                 queryCount = lt_count[0][Object.keys(lt_count[0])[0]];
                             }
