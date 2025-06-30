@@ -1163,24 +1163,11 @@ class openOrdersSrv extends cds.ApplicationService {
                 req.query.SELECT.distinct = true;
                 req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
 
-                // ADD PO_EBELN and PO_EBELP sorting
-                const addOrderIfNeeded = (orderBy, fieldToOrder) => {
-                    let FieldFilteredIndex = orderBy.findIndex((filterElement) => {
-                        if (filterElement.ref && filterElement.ref[0] === fieldToOrder) {
-                            return true;
-                        }
-                        return false;
-                    });
-                    if (FieldFilteredIndex < 0) {
-                        orderBy.push({ref:[fieldToOrder], sort: 'asc'})
-                    }
-                }
-
                 // Add sorting if necessary only
                 if(!req.query.SELECT?.columns[0].as){
                     if(req.query.SELECT.orderBy){
-                        addOrderIfNeeded(req.query.SELECT.orderBy, 'PO_EBELN');
-                        addOrderIfNeeded(req.query.SELECT.orderBy, 'PO_EBELP');
+                        serviceHelper.addOrderIfNeeded(req.query.SELECT.orderBy, 'PO_EBELN');
+                        serviceHelper.addOrderIfNeeded(req.query.SELECT.orderBy, 'PO_EBELP');
                     }else{
                         req.query.SELECT.orderBy = [
                             {ref:['PO_EBELN'], sort: 'asc'},
@@ -1234,7 +1221,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
         this.after("READ", "orderCreation", async (data, req) => {
             if (process.env.OC_TAB_STATUS === 'INACTIVE') {
-                let sessionID = req.headers['authorization'] || req.headers['x-username'];
+                let sessionID = req.headers['x-username'] ||req.headers['authorization'];
                 if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                     // do nothing
                 } else {
@@ -1295,9 +1282,9 @@ class openOrdersSrv extends cds.ApplicationService {
             let lt_result = []
             if (process.env.OC_TAB_STATUS === 'INACTIVE') {
                 // get the session id based on auth token
-                let sessionID = req.headers['authorization'] || req.headers['x-username'];
+                let sessionID = req.headers['x-username'] || req.headers['authorization'];
                 const queryId = `${sessionID}OCQuery`
-                const db = cds.transaction(req);
+                const db = cds.tx(req);
                 // if session id is there, get the cach-ed query and execute it.
                 if (sessionCache.get(queryId)) {
                     const queryString = sessionCache.get(queryId);
@@ -1328,8 +1315,6 @@ class openOrdersSrv extends cds.ApplicationService {
                         if (query.SELECT.orderBy) query.SELECT.orderBy.length = 0;
                         query.SELECT.orderBy = req.query.SELECT.orderBy;
                         try {
-                            lt_result = await db.run(query)
-                            //lt_result = await cds.run(query);
                             // req.header.select will have the string of visible columns. 
                             //this parameater has been manually set to header on every request
                             const selectedField = req.http.req.query && req.http.req.query['$select']
@@ -1343,6 +1328,9 @@ class openOrdersSrv extends cds.ApplicationService {
                                     return true;
                                 }
                             });
+                            // Add order by for key field if needed
+                            serviceHelper.addOrderIfNeeded(query.SELECT.orderBy, fields[0]);
+                            lt_result = await db.run(query)
                             // remove duplicates based on fields in the valuehelp dialog box
                             lt_result = serviceHelper.removeDuplicates(fields, lt_result);
                         } catch (error) {
@@ -1352,13 +1340,20 @@ class openOrdersSrv extends cds.ApplicationService {
                         try {
                             const fields = req.http.req.query["search-focus"].split(',')
                             let queryCount = 0;
-                            // sometimes there is a cached query but it has no
-                            let lt_count = query.SELECT.where
-                                ? await db.run(SELECT.from('openOrdersSrv.orderCreation').columns(`countdistinct(${fields})`).where(query.SELECT.where))
-                                : await db.run(SELECT.from('openOrdersSrv.orderCreation').columns(`countdistinct(${fields})`));
 
-                            if (lt_count.length > 0) {
-                                queryCount = lt_count[0][Object.keys(lt_count[0])[0]];
+                            // We need an orderBy clause to make the query performant
+                            let keyField = fields[0];
+                            let subquery = SELECT.distinct(...fields)
+                                .from('openOrdersSrv_orderCreation')
+                                .orderBy(keyField);
+                            // Add where clause if needed
+                            if(query.SELECT.where){
+                                subquery = subquery.where(query.SELECT.where);
+                            }
+                            // Run the count query
+                            const distinctCount = await SELECT.from(subquery).columns('count(*) as total');
+                            if (distinctCount.length > 0) {
+                                queryCount = distinctCount[0].total;
                             }
                             lt_result.push({ $count: queryCount })
                         } catch (error) {
@@ -1387,14 +1382,27 @@ class openOrdersSrv extends cds.ApplicationService {
                     }
                     if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
                         req.query.SELECT.distinct = true;
+                        // Add order by for key field if needed
+                        serviceHelper.addOrderIfNeeded(req.query.SELECT.orderBy, fields[0]);
                         lt_result = await db.run(req.query)
-                        //await cds.run(req.query);
                     } else {
                         try {
                             let queryCount = 0;
-                            let lt_count = await db.run(SELECT.from('openOrdersSrv.orderCreation').columns(`countdistinct(${fields})`))
-                            if (lt_count.length > 0) {
-                                queryCount = lt_count[0][Object.keys(lt_count[0])[0]];
+                            // We need an orderBy clause to make the query performant
+                            let keyField = fields[0];
+                            let subquery = SELECT.distinct(...fields)
+                                .from('openOrdersSrv_orderCreation')
+                                .orderBy(keyField);
+                            
+                            // Add where clause if needed
+                            if(req.query.SELECT.where){
+                                subquery = subquery.where(req.query.SELECT.where);
+                            }
+
+                            // Run the count query
+                            const distinctCount = await SELECT.from(subquery).columns('count(*) as total');
+                            if (distinctCount.length > 0) {
+                                queryCount = distinctCount[0].total;
                             }
                             lt_result.push({ $count: queryCount })
                         } catch (error) {
@@ -1403,6 +1411,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
                     }
                 }
+                /// Filter the value help search
                 if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count' && req.query.SELECT.search) {
                     lt_result = lt_result.filter((item) => {
                         for (const prop in item) {
