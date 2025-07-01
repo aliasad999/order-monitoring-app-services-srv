@@ -1158,7 +1158,7 @@ class openOrdersSrv extends cds.ApplicationService {
         // ORDER CREATION HANDLERS
         this.before("READ", "orderCreation", async (req, next) => {
             // Deactivated in PROD
-            if (process.env.OC_TAB_STATUS === 'INACTIVE') {
+            if (process.env.OC_TAB_STATUS === 'ACTIVE') {
                 req.query.SELECT.localized = false;
                 req.query.SELECT.distinct = true;
                 req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
@@ -1188,7 +1188,7 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.on("READ", "orderCreation", async (req, next) => {
-            if (process.env.OC_TAB_STATUS === 'INACTIVE') {
+            if (process.env.OC_TAB_STATUS === 'ACTIVE') {
                 if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                     try {
                         const db = cds.tx(req);
@@ -1220,7 +1220,7 @@ class openOrdersSrv extends cds.ApplicationService {
         })
 
         this.after("READ", "orderCreation", async (data, req) => {
-            if (process.env.OC_TAB_STATUS === 'INACTIVE') {
+            if (process.env.OC_TAB_STATUS === 'ACTIVE') {
                 let sessionID = req.headers['x-username'] ||req.headers['authorization'];
                 if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                     // do nothing
@@ -1280,7 +1280,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
         this.on("READ", "OCValueHelps", async (req, next) => {
             let lt_result = []
-            if (process.env.OC_TAB_STATUS === 'INACTIVE') {
+            if (process.env.OC_TAB_STATUS === 'ACTIVE') {
                 // get the session id based on auth token
                 let sessionID = req.headers['x-username'] || req.headers['authorization'];
                 const queryId = `${sessionID}OCQuery`
@@ -1438,7 +1438,7 @@ class openOrdersSrv extends cds.ApplicationService {
         })
 
         this.after("READ", "OCValueHelps", async (data, req) => {
-            if (process.env.OC_TAB_STATUS === 'INACTIVE') {
+            if (process.env.OC_TAB_STATUS === 'ACTIVE') {
                 data = Array.isArray(data) ? data : [data]
                 // since there is a virtual id field, adding a random guid to each record of the result set.
                 data.forEach((item) => {
