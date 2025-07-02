@@ -254,7 +254,9 @@ annotate service.valueHelps with {
     PO_REQ_DEL_DATE                  @title: '{i18n>PO_REQ_DEL_DATE}'                  @sap.label: '{i18n>PO_REQ_DEL_DATE}';
     PO_AB_CONF_DATE                  @title: '{i18n>PO_AB_CONF_DATE}'                  @sap.label: '{i18n>PO_AB_CONF_DATE}';
     PO_LA_CONF_DATE                  @title: '{i18n>PO_LA_CONF_DATE}'                  @sap.label: '{i18n>PO_LA_CONF_DATE}';
-    PO_ZD_CONF_DATE                  @title: '{i18n>PO_ZD_CONF_DATE}'                  @sap.label: '{i18n>PO_ZD_CONF_DATE}';
+    PO_ZD_CONF_DATE                  @title: '{i18n>PO_ZD_CONF_DATE}'                  @sap.label: '{i18n>PO_ZD_CONF_DATE}';    
+    SO_ZZATP_CUST                    @title: '{i18n>SO_ZZATP_CUST}'                    @sap.label: '{i18n>SO_ZZATP_CUST}';
+
 };
 
 annotate service.Results with {
@@ -672,6 +674,7 @@ annotate service.Results with {
     PO_AB_CONF_DATE             @title: '{i18n>PO_AB_CONF_DATE}'                  @sap.label: '{i18n>PO_AB_CONF_DATE}';
     PO_LA_CONF_DATE             @title: '{i18n>PO_LA_CONF_DATE}'                  @sap.label: '{i18n>PO_LA_CONF_DATE}';
     PO_ZD_CONF_DATE             @title: '{i18n>PO_ZD_CONF_DATE}'                  @sap.label: '{i18n>PO_ZD_CONF_DATE}';
+    SO_ZZATP_CUST               @title: '{i18n>SO_ZZATP_CUST}'                    @sap.label: '{i18n>SO_ZZATP_CUST}';    
 }
 
 annotate service.Results with {
@@ -3829,6 +3832,24 @@ annotate service.Results with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_ZZ0S2LOANN,
             ValueListProperty: 'SO_ZZ0S2LOANN'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_ZZATP_CUST
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_ZZATP_CUST}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_ZZATP_CUST,
+            ValueListProperty: 'SO_ZZATP_CUST'
         }
 
         ]
