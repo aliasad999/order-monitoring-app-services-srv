@@ -336,6 +336,8 @@ entity ![OPENORDERSLIST] {
         ZD_CONF_DATE                       : String(8);
         ZD_CONF_DATE_FORMATTED             : Date = ZD_CONF_DATE;
         ZZATP_CUST                         : String(15);
+        CONTRACT                           : String(10);
+        CONTRACT_ITEM                      : String(6);
 }
 
 entity ContactsOptions {
