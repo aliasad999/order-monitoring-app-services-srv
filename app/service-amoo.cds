@@ -1225,6 +1225,7 @@ annotate service.baseEntity with {
     PO_AB_CONF_DATE                  @title: '{i18n>PO_AB_CONF_DATE}'                  @sap.label: '{i18n>PO_AB_CONF_DATE}';
     PO_LA_CONF_DATE                  @title: '{i18n>PO_LA_CONF_DATE}'                  @sap.label: '{i18n>PO_LA_CONF_DATE}';
     PO_ZD_CONF_DATE                  @title: '{i18n>PO_ZD_CONF_DATE}'                  @sap.label: '{i18n>PO_ZD_CONF_DATE}';
+    SO_ZZATP_CUST                    @title: '{i18n>SO_ZZATP_CUST}'                    @sap.label: '{i18n>SO_ZZATP_CUST}'; 
 
 };
 
@@ -1307,8 +1308,8 @@ annotate service.allIssues with {
     @Common.TextFor
     SO_LANDX;
     @Common.Text           : SO_MAKTX
-    @Common.TextArrangement: #TextFirst
-    SO_MATNR                 @title: '{i18n>SO_MAKTX}'                         @sap.Label: '{i18n>SO_MATNR}';
+    @Common.TextArrangement: #TextSeparate
+    SO_MATNR                 @title: '{i18n>SO_MATNR}'                         @sap.Label: '{i18n>SO_MATNR}';
     @Common.TextFor
     SO_MAKTX;
     @Common.Text           : SO_AG_PARTNER_NAME
@@ -1580,7 +1581,7 @@ annotate service.allIssues with {
     // SO_AG_PARTNER_NAME2            @UI: {Hidden: true};
     // SO_WE_PARTNER_NAME1            @UI: {Hidden: true};
     // SO_WE_PARTNER_NAME2            @UI: {Hidden: true};
-    SO_MAKTX                        @UI: {Hidden: true};
+    // SO_MAKTX                        @UI: {Hidden: true};
     SO_LANDX                        @UI: {Hidden: true};
     SO_NPS_DESCRIPTION              @UI: {Hidden: true};
     SO_ISSUE_DESCRIPTION            @UI: {Hidden: true};
@@ -1835,6 +1836,29 @@ annotate service.allIssues with {
         ]
     }
     @Common.IsDigitSequence: true
+};
+
+annotate service.allIssues with {
+    SO_MAKTX
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_MAKTX}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_MATNR'
+            },
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_MAKTX,
+                ValueListProperty: 'SO_MAKTX'
+            }
+
+        ]
+    }
 };
 
 annotate service.allIssues with {
@@ -4753,6 +4777,25 @@ annotate service.allIssues with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_ZZ0S2LOANN,
             ValueListProperty: 'SO_ZZ0S2LOANN'
+        }
+
+        ]
+    }
+};
+
+
+annotate service.allIssues with {
+    SO_ZZATP_CUST
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_ZZATP_CUST}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_ZZATP_CUST,
+            ValueListProperty: 'SO_ZZATP_CUST'
         }
 
         ]
