@@ -555,7 +555,9 @@ service openOrdersSrv {
                 AB_CONF_DATE_FORMATTED                      as PO_AB_CONF_DATE,
                 LA_CONF_DATE_FORMATTED                      as PO_LA_CONF_DATE,
                 ZD_CONF_DATE_FORMATTED                      as PO_ZD_CONF_DATE,
-                ZZATP_CUST                                  as SO_ZZATP_CUST
+                ZZATP_CUST                                  as SO_ZZATP_CUST,
+                @UI.Hidden:true
+                ETA_EVENT_SOURCE                            as TM_ETA_EVENT_SOURCE
 
         }
 
