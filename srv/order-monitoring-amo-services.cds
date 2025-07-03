@@ -571,7 +571,8 @@ service srvOpenOrders {
           PO_REQ_DEL_DATE_FORMATTED                   as PO_REQ_DEL_DATE,
           AB_CONF_DATE_FORMATTED                      as PO_AB_CONF_DATE,
           LA_CONF_DATE_FORMATTED                      as PO_LA_CONF_DATE,
-          ZD_CONF_DATE_FORMATTED                      as PO_ZD_CONF_DATE
+          ZD_CONF_DATE_FORMATTED                      as PO_ZD_CONF_DATE,
+          ZZATP_CUST                                  as SO_ZZATP_CUST
 
     };
 
