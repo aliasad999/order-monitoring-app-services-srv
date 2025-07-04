@@ -5,7 +5,7 @@ const uuid = require('uuid');
 const status = require('http-status');
 const textBundle = require('./utils/textBundle')
 const log = require("cf-nodejs-logging-support");
-// const enableHints = require("./plugins/enable_hints");
+const enableHints = require("./plugins/enable_hints");
 const { startOfToday } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies')
 const variantManagement = require('./utils/variantManagement');
@@ -204,7 +204,12 @@ class srvOpenOrders extends cds.ApplicationService {
                     }
                 });
             });
-            req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
+            cds
+                .connect("db")
+                .then(({ db }) =>
+                    db?.before("READ", (req) => enableHints(req)
+                    )
+                );
             req.query.SELECT.localized = false;
             req.query.SELECT.distinct = true;
             // where clause is initially converted from cqn to cql

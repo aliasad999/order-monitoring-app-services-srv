@@ -5,7 +5,7 @@ const uuid = require('uuid');
 const status = require('http-status');
 
 const log = require("cf-nodejs-logging-support");
-// const enableHints = require("./plugins/enable_hints");
+const enableHints = require("./plugins/enable_hints");
 const { startOfToday } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies')
 const serviceHelper = require('./utils/serviceHelper');
@@ -951,7 +951,12 @@ class openOrdersSrv extends cds.ApplicationService {
                     }
                 });
             });
-            req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
+            cds
+                .connect("db")
+                .then(({ db }) =>
+                    db?.before("READ", (req) => enableHints(req)
+                    )
+                );
 
             req.query.SELECT.localized = false;
             req.query.SELECT.distinct = true;
@@ -1055,7 +1060,6 @@ class openOrdersSrv extends cds.ApplicationService {
                     try {
                         const db = cds.transaction(req);
                         let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  openOrdersSrv_allIssues   ) `)
-                        // query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
                         if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
                         const distinctCount = (req.query.SELECT.where) ?
                             await db.run(query)
@@ -1192,10 +1196,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                     try {
                         const db = cds.tx(req);
-                        // const countCols = "PO_MANDT,PO_EBELN,PO_EBELP"
-                        // let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${countCols} from  openOrdersSrv_orderCreation ORDER BY PO_EBELN ASC, PO_EBELP ASC )`)
-                        // query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
-                        const countCols = ['PO_MANDT', 'PO_EBELN','PO_EBELP']; // Define tus columnas
+                        const countCols = ['PO_MANDT', 'PO_EBELN','PO_EBELP']; // Define count columns
                         const distinctQuery = SELECT.distinct(...countCols)
                                 .from('openOrdersSrv.orderCreation')
                                 .orderBy({ PO_EBELN: 'asc' }, { PO_EBELP: 'asc' })
