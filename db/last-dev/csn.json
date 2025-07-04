@@ -1,41 +1,11 @@
 {
   "namespace": "allorders.db",
   "definitions": {},
-  "extensions": [
-    {
-      "annotate": "srvOpenOrders.Results",
-      "elements": {
-        "USERNAME": {
-          "@title": "{i18n>USERNAME}",
-          "@sap.Label": "{i18n>USERNAME}"
-        },
-        "PO_PARTNER_9A_HEAD_NAME": {
-          "@Common.TextFor": true,
-          "@UI.Hidden": true
-        },
-        "PO_PARTNER_9O_HEAD_NAME": {
-          "@Common.TextFor": true,
-          "@UI.Hidden": true
-        }
-      }
-    },
-    {
-      "annotate": "srvOpenOrders.valueHelps",
-      "elements": {
-        "PO_PARTNER_9A_HEAD_NAME": {
-          "@title": "{i18n>PO_PARTNER_9A_HEAD_NAME}",
-          "@sap.Label": "{i18n>PO_PARTNER_9A_HEAD_NAME}"
-        },
-        "PO_PARTNER_9O_HEAD_NAME": {
-          "@title": "{i18n>PO_PARTNER_9O_HEAD_NAME}",
-          "@sap.Label": "{i18n>PO_PARTNER_9O_HEAD_NAME}"
-        }
-      }
-    }
-  ],
   "meta": {
-    "creator": "CDS Compiler v4.6.2",
-    "build": "CDS Build v7.6.1"
+    "creator": "CDS Compiler v5.9.0",
+    "flavor": "inferred",
+    "minified": true,
+    "build": "CDS Build v8.9.4"
   },
   "$version": "2.0"
 }
