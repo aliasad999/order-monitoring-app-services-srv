@@ -424,6 +424,7 @@ service srvOpenOrders {
           LA_CONF_DATE_FORMATTED                      as PO_LA_CONF_DATE,
           ZD_CONF_DATE_FORMATTED                      as PO_ZD_CONF_DATE,
           ZZATP_CUST                                  as SO_ZZATP_CUST,
+          ETA_EVENT_SOURCE                            as TM_ETA_EVENT_SOURCE ,
           CONTRACT                                    as SO_CONTRACT,
           CONTRACT_ITEM                               as SO_CONTRACT_ITEM
 
