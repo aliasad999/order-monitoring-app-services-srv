@@ -1200,7 +1200,7 @@ annotate service.baseEntity with {
     DL_ZZ0S2ABGH                     @title: '{i18n>DL_ZZ0S2ABGH}'                     @sap.Label: '{i18n>DL_ZZ0S2ABGH}';
     DL_ZZ0S2ZIEH                     @title: '{i18n>DL_ZZ0S2ZIEH}'                     @sap.Label: '{i18n>DL_ZZ0S2ZIEH}';
     TM_VISTA_STATUS                  @title: '{i18n>TM_VISTA_STATUS}'                  @sap.Label: '{i18n>TM_VISTA_STATUS}';
-    TM_CURRENT_ETA_VISTA            @title: '{i18n>TM_CURRENT_ETA_VISTA}'        @sap.Label: '{i18n>TM_CURRENT_ETA_VISTA}' @sap.filter.restriction: 'interval';
+    TM_CURRENT_ETA_VISTA             @title: '{i18n>TM_CURRENT_ETA_VISTA}'             @sap.Label: '{i18n>TM_CURRENT_ETA_VISTA}' @sap.filter.restriction: 'interval';
     SO_BNAME                         @title: '{i18n>SO_BNAME}'                         @sap.Label: '{i18n>SO_BNAME}';
     SO_IHREZ                         @title: '{i18n>SO_IHREZ}'                         @sap.Label: '{i18n>SO_IHREZ}';
     SO_LPRIO                         @title: '{i18n>SO_LPRIO}'                         @sap.Label: '{i18n>SO_LPRIO}';
@@ -1643,6 +1643,8 @@ annotate service.allIssues with {
     SO_KDGRP_KTEXT_LANG             @UI: {Hidden: true};
     SO_WE_PARTNER_REGION_BEZEI_LANG @UI: {Hidden: true};
     SO_TO_PARTNER_NAME              @UI: {Hidden: true};
+    TM_ETA_EVENT_SOURCE             @UI: {Hidden: true};
+
 }
 
 // ------------------------------Value Helps All Issues----------------------------
