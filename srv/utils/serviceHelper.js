@@ -283,6 +283,18 @@ const _removeFilterFromQuery = (query, filterToRemove) => {
     }
 }
 
+const addOrderIfNeeded = (orderBy, fieldToOrder) => {
+    let FieldFilteredIndex = orderBy.findIndex((filterElement) => {
+        if (filterElement.ref && filterElement.ref[0] === fieldToOrder) {
+            return true;
+        }
+        return false;
+    });
+    if (FieldFilteredIndex < 0) {
+        orderBy.push({ref:[fieldToOrder], sort: 'asc'})
+    }
+}
+
 module.exports =  {
     getDateProps,
     getPODateProps,
@@ -293,5 +305,6 @@ module.exports =  {
     transformWhereClause,
     convertCQNtoCQL,
     removeDuplicates,
-    getBundle
+    getBundle,
+    addOrderIfNeeded
 }

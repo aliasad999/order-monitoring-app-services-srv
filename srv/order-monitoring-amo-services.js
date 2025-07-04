@@ -36,32 +36,6 @@ class srvOpenOrders extends cds.ApplicationService {
             await cds.run(`SET 'APPLICATION' = 'CAPServices'`);
         })
 
-
-        // test HANDLERS
-        this.before("READ", "testEntity", async (req, next) => {
-            cds
-                .connect("db")
-                .then(({ db }) =>
-                    db?.before("READ", (req) => enableHints(req)
-                    )
-                );
-
-            req.query.SELECT.localized = false;
-            req.query.SELECT.distinct = true;
-        });
-
-        this.on("READ", "testEntity", async (req, next) => {
-            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
-                return req.reply({ $count: 0 })
-            }
-            await next(req)
-        })
-
-        this.after("READ", "testEntity", async (data, req) => {
-
-        });
-        // END OF test HANDLERS
-
         this.on("getVBAKAuthObjKeys", async req => {
             const { VBAKAuthObjectKeys, EKKOAuthObjectKeys } = await cds.entities('srvOpenOrders');
             const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
@@ -236,7 +210,6 @@ class srvOpenOrders extends cds.ApplicationService {
                     db?.before("READ", (req) => enableHints(req)
                     )
                 );
-
             req.query.SELECT.localized = false;
             req.query.SELECT.distinct = true;
             // where clause is initially converted from cqn to cql
