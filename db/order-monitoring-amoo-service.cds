@@ -338,6 +338,8 @@ entity ![OPENORDERSLIST] {
         ZZATP_CUST                         : String(15);
         ETA_EVENT_SOURCE                   : String(30);
 
+        CONTRACT                           : String(10);
+        CONTRACT_ITEM                      : String(6);
 }
 
 entity ContactsOptions {

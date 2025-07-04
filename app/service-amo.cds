@@ -184,9 +184,9 @@ annotate service.valueHelps with {
     PO_KUNNR                         @title: '{i18n>PO_KUNNR}'                         @sap.Label: '{i18n>PO_KUNNR}';
     PO_KUNNR_NAME                    @title: '{i18n>PO_KUNNR_NAME}'                    @sap.Label: '{i18n>PO_KUNNR_NAME}';
     PO_PARTNER_9A_HEAD               @title: '{i18n>PO_PARTNER_9A_HEAD}'               @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
-    PO_PARTNER_9A_HEAD_NAME          @title: '{i18n>PO_PARTNER_9A_HEAD_NAME}'          @sap.Label: '{i18n>PO_PARTNER_9A_HEAD_NAME}';
+    // PO_PARTNER_9A_HEAD_NAME          @title: '{i18n>PO_PARTNER_9A_HEAD_NAME}'          @sap.Label: '{i18n>PO_PARTNER_9A_HEAD_NAME}';
     PO_PARTNER_9O_HEAD               @title: '{i18n>PO_PARTNER_9O_HEAD}'               @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
-    PO_PARTNER_9O_HEAD_NAME          @title: '{i18n>PO_PARTNER_9O_HEAD_NAME}'          @sap.Label: '{i18n>PO_PARTNER_9O_HEAD_NAME}';
+    // PO_PARTNER_9O_HEAD_NAME          @title: '{i18n>PO_PARTNER_9O_HEAD_NAME}'          @sap.Label: '{i18n>PO_PARTNER_9O_HEAD_NAME}';
     // SO_BSTNK         @title: '{i18n>SO_BSTNK}'     @sap.Label: '{i18n>SO_BSTNK}';
 
     // Euan's changes
@@ -243,19 +243,21 @@ annotate service.valueHelps with {
     SO_EMAIL                         @title: '{i18n>SO_EMAIL}'                         @sap.Label: '{i18n>SO_EMAIL}';
     SO_EMAIL_SEND_DATE_F             @title: '{i18n>SO_EMAIL_SEND_DATE_F}'             @sap.Label: '{i18n>SO_EMAIL_SEND_DATE_F}';
     SO_EMAIL_SENT_ON                 @title: '{i18n>SO_EMAIL_SENT_ON}'                 @sap.Label: '{i18n>SO_EMAIL_SENT_ON}';
-    TM_DPLBG_DATE                    @title: '{i18n>TM_DPLBG}'                         @sap.label: '{i18n>TM_DPLBG}';
-    TM_ERDAT_DATE                    @title: '{i18n>TM_ERDAT}'                         @sap.label: '{i18n>TM_ERDAT}';
-    TM_DPREG_DATE                    @title: '{i18n>TM_DPREG}'                         @sap.label: '{i18n>TM_DPREG}';
-    DL_WERKS_DEL                     @title: '{i18n>DL_WERKS_DEL}'                     @sap.label: '{i18n>DL_WERKS_DEL}';
-    DL_VKORG_DEL                     @title: '{i18n>DL_VKORG_DEL}'                     @sap.label: '{i18n>DL_VKORG_DEL}';
-    SO_VMSTA                         @title: '{i18n>SO_VMSTA}'                         @sap.label: '{i18n>SO_VMSTA}';
-    SO_ZZ0S2VGANN                    @title: '{i18n>SO_ZZ0S2VGANN}'                    @sap.label: '{i18n>SO_ZZ0S2VGANN}';
-    SO_ZZ0S2LOANN                    @title: '{i18n>SO_ZZ0S2LOANN}'                    @sap.label: '{i18n>SO_ZZ0S2LOANN}';
-    PO_REQ_DEL_DATE                  @title: '{i18n>PO_REQ_DEL_DATE}'                  @sap.label: '{i18n>PO_REQ_DEL_DATE}';
-    PO_AB_CONF_DATE                  @title: '{i18n>PO_AB_CONF_DATE}'                  @sap.label: '{i18n>PO_AB_CONF_DATE}';
-    PO_LA_CONF_DATE                  @title: '{i18n>PO_LA_CONF_DATE}'                  @sap.label: '{i18n>PO_LA_CONF_DATE}';
-    PO_ZD_CONF_DATE                  @title: '{i18n>PO_ZD_CONF_DATE}'                  @sap.label: '{i18n>PO_ZD_CONF_DATE}';    
-    SO_ZZATP_CUST                    @title: '{i18n>SO_ZZATP_CUST}'                    @sap.label: '{i18n>SO_ZZATP_CUST}';
+    TM_DPLBG_DATE                    @title: '{i18n>TM_DPLBG}'                         @sap.Label: '{i18n>TM_DPLBG}';
+    TM_ERDAT_DATE                    @title: '{i18n>TM_ERDAT}'                         @sap.Label: '{i18n>TM_ERDAT}';
+    TM_DPREG_DATE                    @title: '{i18n>TM_DPREG}'                         @sap.Label: '{i18n>TM_DPREG}';
+    DL_WERKS_DEL                     @title: '{i18n>DL_WERKS_DEL}'                     @sap.Label: '{i18n>DL_WERKS_DEL}';
+    DL_VKORG_DEL                     @title: '{i18n>DL_VKORG_DEL}'                     @sap.Label: '{i18n>DL_VKORG_DEL}';
+    SO_VMSTA                         @title: '{i18n>SO_VMSTA}'                         @sap.Label: '{i18n>SO_VMSTA}';
+    SO_ZZ0S2VGANN                    @title: '{i18n>SO_ZZ0S2VGANN}'                    @sap.Label: '{i18n>SO_ZZ0S2VGANN}';
+    SO_ZZ0S2LOANN                    @title: '{i18n>SO_ZZ0S2LOANN}'                    @sap.Label: '{i18n>SO_ZZ0S2LOANN}';
+    PO_REQ_DEL_DATE                  @title: '{i18n>PO_REQ_DEL_DATE}'                  @sap.Label: '{i18n>PO_REQ_DEL_DATE}';
+    PO_AB_CONF_DATE                  @title: '{i18n>PO_AB_CONF_DATE}'                  @sap.Label: '{i18n>PO_AB_CONF_DATE}';
+    PO_LA_CONF_DATE                  @title: '{i18n>PO_LA_CONF_DATE}'                  @sap.Label: '{i18n>PO_LA_CONF_DATE}';
+    PO_ZD_CONF_DATE                  @title: '{i18n>PO_ZD_CONF_DATE}'                  @sap.Label: '{i18n>PO_ZD_CONF_DATE}';
+    SO_ZZATP_CUST                    @title: '{i18n>SO_ZZATP_CUST}'                    @sap.Label: '{i18n>SO_ZZATP_CUST}';
+    SO_CONTRACT                      @title: '{i18n>SO_CONTRACT}'                      @sap.Label: '{i18n>SO_CONTRACT}';
+    SO_CONTRACT_ITEM                 @title: '{i18n>SO_CONTRACT_ITEM}'                 @sap.Label: '{i18n>SO_CONTRACT_ITEM}';
 
 };
 
@@ -396,7 +398,7 @@ annotate service.Results with {
     DL_ZZ0S2BLNR                @title: '{i18n>DL_ZZ0S2BLNR}'                     @sap.Label: '{i18n>DL_ZZ0S2BLNR}';
     DL_PEND_DEL_QUAN            @title: '{i18n>DL_PEND_DEL_QUAN}'                 @sap.Label: '{i18n>DL_PEND_DEL_QUAN}';
     LAST_NOTE                   @title: '{i18n>LAST_NOTE}'                        @sap.Label: '{i18n>LAST_NOTE}';
-    USERNAME                    @title: '{i18n>USERNAME}'                         @sap.Label: '{i18n>USERNAME}';
+    // USERNAME                    @title: '{i18n>USERNAME}'                         @sap.Label: '{i18n>USERNAME}';
     TM_TKNUM                    @title: '{i18n>TM_TKNUM}'                         @sap.Label: '{i18n>TM_TKNUM}';
     @Common.TextFor
     TM_VSART_BEZEI;
@@ -524,16 +526,16 @@ annotate service.Results with {
     PO_KUNNR                    @title: '{i18n>PO_KUNNR}'                         @sap.Label: '{i18n>PO_KUNNR}';
     @Common.TextFor
     PO_KUNNR_NAME;
-    @Common.Text           : PO_PARTNER_9A_HEAD_NAME
-    @Common.TextArrangement: #TextFirst
+    // @Common.Text           : PO_PARTNER_9A_HEAD_NAME
+    // @Common.TextArrangement: #TextFirst
     PO_PARTNER_9A_HEAD          @title: '{i18n>PO_PARTNER_9A_HEAD}'               @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
-    @Common.TextFor
-    PO_PARTNER_9A_HEAD_NAME;
-    @Common.Text           : PO_PARTNER_9O_HEAD_NAME
-    @Common.TextArrangement: #TextFirst
+    // @Common.TextFor
+    // PO_PARTNER_9A_HEAD_NAME;
+    // @Common.Text           : PO_PARTNER_9O_HEAD_NAME
+    // @Common.TextArrangement: #TextFirst
     PO_PARTNER_9O_HEAD          @title: '{i18n>PO_PARTNER_9O_HEAD}'               @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
-    @Common.TextFor
-    PO_PARTNER_9O_HEAD_NAME;
+    // @Common.TextFor
+    // PO_PARTNER_9O_HEAD_NAME;
     @Common.Text           : PO_BSART_BATXT
     @Common.TextArrangement: #TextFirst
     PO_BSART                    @title: '{i18n>PO_BSART}'                         @sap.Label: '{i18n>PO_BSART}';
@@ -662,19 +664,21 @@ annotate service.Results with {
     SO_EMAIL                    @title: '{i18n>SO_EMAIL}'                         @sap.Label: '{i18n>SO_EMAIL}';
     SO_EMAIL_SEND_DATE_F        @title: '{i18n>SO_EMAIL_SEND_DATE_F}'             @sap.Label: '{i18n>SO_EMAIL_SEND_DATE_F}';
     SO_EMAIL_SENT_ON            @title: '{i18n>SO_EMAIL_SENT_ON}'                 @sap.Label: '{i18n>SO_EMAIL_SENT_ON}';
-    TM_DPLBG_DATE               @title: '{i18n>TM_DPLBG}'                         @sap.label: '{i18n>TM_DPLBG}';
-    TM_ERDAT_DATE               @title: '{i18n>TM_ERDAT}'                         @sap.label: '{i18n>TM_ERDAT}';
-    TM_DPREG_DATE               @title: '{i18n>TM_DPREG}'                         @sap.label: '{i18n>TM_DPREG}';
-    DL_WERKS_DEL                @title: '{i18n>DL_WERKS_DEL}'                     @sap.label: '{i18n>DL_WERKS_DEL}';
-    DL_VKORG_DEL                @title: '{i18n>DL_VKORG_DEL}'                     @sap.label: '{i18n>DL_VKORG_DEL}';
-    SO_VMSTA                    @title: '{i18n>SO_VMSTA}'                         @sap.label: '{i18n>SO_VMSTA}';
-    SO_ZZ0S2VGANN               @title: '{i18n>SO_ZZ0S2VGANN}'                    @sap.label: '{i18n>SO_ZZ0S2VGANN}';
-    SO_ZZ0S2LOANN               @title: '{i18n>SO_ZZ0S2LOANN}'                    @sap.label: '{i18n>SO_ZZ0S2LOANN}';
-    PO_REQ_DEL_DATE             @title: '{i18n>PO_REQ_DEL_DATE}'                  @sap.label: '{i18n>PO_REQ_DEL_DATE}';
-    PO_AB_CONF_DATE             @title: '{i18n>PO_AB_CONF_DATE}'                  @sap.label: '{i18n>PO_AB_CONF_DATE}';
-    PO_LA_CONF_DATE             @title: '{i18n>PO_LA_CONF_DATE}'                  @sap.label: '{i18n>PO_LA_CONF_DATE}';
-    PO_ZD_CONF_DATE             @title: '{i18n>PO_ZD_CONF_DATE}'                  @sap.label: '{i18n>PO_ZD_CONF_DATE}';
-    SO_ZZATP_CUST               @title: '{i18n>SO_ZZATP_CUST}'                    @sap.label: '{i18n>SO_ZZATP_CUST}';    
+    TM_DPLBG_DATE               @title: '{i18n>TM_DPLBG}'                         @sap.Label: '{i18n>TM_DPLBG}';
+    TM_ERDAT_DATE               @title: '{i18n>TM_ERDAT}'                         @sap.Label: '{i18n>TM_ERDAT}';
+    TM_DPREG_DATE               @title: '{i18n>TM_DPREG}'                         @sap.Label: '{i18n>TM_DPREG}';
+    DL_WERKS_DEL                @title: '{i18n>DL_WERKS_DEL}'                     @sap.Label: '{i18n>DL_WERKS_DEL}';
+    DL_VKORG_DEL                @title: '{i18n>DL_VKORG_DEL}'                     @sap.Label: '{i18n>DL_VKORG_DEL}';
+    SO_VMSTA                    @title: '{i18n>SO_VMSTA}'                         @sap.Label: '{i18n>SO_VMSTA}';
+    SO_ZZ0S2VGANN               @title: '{i18n>SO_ZZ0S2VGANN}'                    @sap.Label: '{i18n>SO_ZZ0S2VGANN}';
+    SO_ZZ0S2LOANN               @title: '{i18n>SO_ZZ0S2LOANN}'                    @sap.Label: '{i18n>SO_ZZ0S2LOANN}';
+    PO_REQ_DEL_DATE             @title: '{i18n>PO_REQ_DEL_DATE}'                  @sap.Label: '{i18n>PO_REQ_DEL_DATE}';
+    PO_AB_CONF_DATE             @title: '{i18n>PO_AB_CONF_DATE}'                  @sap.Label: '{i18n>PO_AB_CONF_DATE}';
+    PO_LA_CONF_DATE             @title: '{i18n>PO_LA_CONF_DATE}'                  @sap.Label: '{i18n>PO_LA_CONF_DATE}';
+    PO_ZD_CONF_DATE             @title: '{i18n>PO_ZD_CONF_DATE}'                  @sap.Label: '{i18n>PO_ZD_CONF_DATE}';
+    SO_ZZATP_CUST               @title: '{i18n>SO_ZZATP_CUST}'                    @sap.Label: '{i18n>SO_ZZATP_CUST}';
+    SO_CONTRACT                 @title: '{i18n>SO_CONTRACT}'                      @sap.Label: '{i18n>SO_CONTRACT}';
+    SO_CONTRACT_ITEM            @title: '{i18n>SO_CONTRACT_ITEM}'                 @sap.Label: '{i18n>SO_CONTRACT_ITEM}';
 }
 
 annotate service.Results with {
@@ -761,8 +765,8 @@ annotate service.Results with {
     SO_DCP_ITEM_STATUS_DESCRIPTION  @UI                     : {Hidden: true};
     SO_PERFK_LTEXT_LANG             @UI                     : {Hidden: true};
     PO_KUNNR_NAME                   @UI                     : {Hidden: true};
-    PO_PARTNER_9A_HEAD_NAME         @UI                     : {Hidden: true};
-    PO_PARTNER_9O_HEAD_NAME         @UI                     : {Hidden: true};
+    // PO_PARTNER_9A_HEAD_NAME         @UI                     : {Hidden: true};
+    // PO_PARTNER_9O_HEAD_NAME         @UI                     : {Hidden: true};
     PO_BSART_BATXT                  @UI                     : {Hidden: true};
     SO_MANDT_TEXT                   @UI                     : {Hidden: true};
     DL_MANDT_TEXT                   @UI                     : {Hidden: true};
@@ -1016,7 +1020,7 @@ annotate service.Results with {
 
 annotate service.Results with {
     SO_MAKTX
-    @Common.ValueList      : {
+    @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>SO_MAKTX}',
         CollectionPath         : 'valueHelps',
@@ -3114,43 +3118,34 @@ annotate service.Results with {
     PO_PARTNER_9A_HEAD
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>PO_PARTNER_9A_HEAD_NAME}',
+        Label                  : '{@i18n>PO_PARTNER_9A_HEAD}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [
-            {
-                $Type            : 'Common.ValueListParameterInOut',
-                LocalDataProperty: PO_PARTNER_9A_HEAD,
-                ValueListProperty: 'PO_PARTNER_9A_HEAD'
-            },
-            {
-                $Type            : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty: 'PO_PARTNER_9A_HEAD_NAME'
-            }
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_PARTNER_9A_HEAD,
+            ValueListProperty: 'PO_PARTNER_9A_HEAD'
+        }
 
         ]
     }
 };
 
+
 annotate service.Results with {
     PO_PARTNER_9O_HEAD
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>PO_PARTNER_9O_HEAD_NAME}',
+        Label                  : '{@i18n>PO_PARTNER_9O_HEAD}',
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [
-            {
-                $Type            : 'Common.ValueListParameterInOut',
-                LocalDataProperty: PO_PARTNER_9O_HEAD,
-                ValueListProperty: 'PO_PARTNER_9O_HEAD'
-            },
-            {
-                $Type            : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty: 'PO_PARTNER_9O_HEAD_NAME'
-            }
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: PO_PARTNER_9O_HEAD,
+            ValueListProperty: 'PO_PARTNER_9O_HEAD'
+        }
 
         ]
     }
@@ -3852,6 +3847,42 @@ annotate service.Results with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_ZZATP_CUST,
             ValueListProperty: 'SO_ZZATP_CUST'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_CONTRACT
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_CONTRACT}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_CONTRACT,
+            ValueListProperty: 'SO_CONTRACT'
+        }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_CONTRACT_ITEM
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_CONTRACT_ITEM}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_CONTRACT_ITEM,
+            ValueListProperty: 'SO_CONTRACT_ITEM'
         }
 
         ]

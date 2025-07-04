@@ -322,6 +322,8 @@ entity ![RESULTS] {
         ZD_CONF_DATE_FORMATTED             : Date = ZD_CONF_DATE;
         ZZATP_CUST                         : String(15);
         ETA_EVENT_SOURCE                   : String(30);
+        CONTRACT                           : String(10);
+        CONTRACT_ITEM                      : String(6);
 
 }
 
