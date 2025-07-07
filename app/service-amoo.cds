@@ -1,14 +1,14 @@
 using openOrdersSrv as service from '../srv/order-monitoring-amoo-services.cds';
 
-annotate service.allIssues with @Consumption.dbHints: [
-    'USE_HEX_PLAN',
-    'HEX_INDEX_JOIN'
-];
+// annotate service.allIssues with @Consumption.dbHints: [
+//     'USE_HEX_PLAN',
+//     'HEX_INDEX_JOIN'
+// ];
 
-annotate service.valueHelps with @Consumption.dbHints: [
-    'USE_HEX_PLAN',
-    'HEX_INDEX_JOIN'
-];
+// annotate service.valueHelps with @Consumption.dbHints: [
+//     'USE_HEX_PLAN',
+//     'HEX_INDEX_JOIN'
+// ];
 
 annotate service.valueHelps with {
     @Common.Text           : SO_NPS_DESCRIPTION

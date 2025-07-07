@@ -1,14 +1,14 @@
 using srvOpenOrders as service from '../srv/order-monitoring-amo-services.cds';
 
-annotate service.Results with @Consumption.dbHints: [
-    'USE_HEX_PLAN',
-    'HEX_INDEX_JOIN'
-];
+// annotate service.Results with @Consumption.dbHints: [
+//     'USE_HEX_PLAN',
+//     'HEX_INDEX_JOIN'
+// ];
 
-annotate service.valueHelps with @Consumption.dbHints: [
-    'USE_HEX_PLAN',
-    'HEX_INDEX_JOIN'
-];
+// annotate service.valueHelps with @Consumption.dbHints: [
+//     'USE_HEX_PLAN',
+//     'HEX_INDEX_JOIN'
+// ];
 
 
 annotate service.valueHelps with {
