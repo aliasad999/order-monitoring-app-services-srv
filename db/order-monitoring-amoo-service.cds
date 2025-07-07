@@ -340,6 +340,7 @@ entity ![OPENORDERSLIST] {
 
         CONTRACT                           : String(10);
         CONTRACT_ITEM                      : String(6);
+        ZZMHDRZ                            : Decimal(4);
 }
 
 entity ContactsOptions {

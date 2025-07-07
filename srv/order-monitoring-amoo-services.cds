@@ -409,7 +409,8 @@ service openOrdersSrv {
                 ZZATP_CUST                                  as SO_ZZATP_CUST,
                 ETA_EVENT_SOURCE                            as TM_ETA_EVENT_SOURCE,
                 CONTRACT                                    as SO_CONTRACT,
-                CONTRACT_ITEM                               as SO_CONTRACT_ITEM
+                CONTRACT_ITEM                               as SO_CONTRACT_ITEM,
+                ZZMHDRZ                                     as SO_ZZMHDRZ
 
         }
 

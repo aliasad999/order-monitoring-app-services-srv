@@ -258,7 +258,7 @@ annotate service.valueHelps with {
     SO_ZZATP_CUST                    @title: '{i18n>SO_ZZATP_CUST}'                    @sap.Label: '{i18n>SO_ZZATP_CUST}';
     SO_CONTRACT                      @title: '{i18n>SO_CONTRACT}'                      @sap.Label: '{i18n>SO_CONTRACT}';
     SO_CONTRACT_ITEM                 @title: '{i18n>SO_CONTRACT_ITEM}'                 @sap.Label: '{i18n>SO_CONTRACT_ITEM}';
-
+    SO_ZZMHDRZ                       @title: '{i18n>SO_ZZMHDRZ}'                       @sap.Label: '{i18n>SO_ZZMHDRZ}';
 };
 
 annotate service.Results with {
@@ -679,6 +679,7 @@ annotate service.Results with {
     SO_ZZATP_CUST               @title: '{i18n>SO_ZZATP_CUST}'                    @sap.Label: '{i18n>SO_ZZATP_CUST}';
     SO_CONTRACT                 @title: '{i18n>SO_CONTRACT}'                      @sap.Label: '{i18n>SO_CONTRACT}';
     SO_CONTRACT_ITEM            @title: '{i18n>SO_CONTRACT_ITEM}'                 @sap.Label: '{i18n>SO_CONTRACT_ITEM}';
+    SO_ZZMHDRZ                  @title: '{i18n>SO_ZZMHDRZ}'                       @sap.Label: '{i18n>SO_ZZMHDRZ}';
 }
 
 annotate service.Results with {
@@ -3889,6 +3890,22 @@ annotate service.Results with {
     }
 };
 
+annotate service.Results with {
+    SO_ZZMHDRZ
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_ZZMHDRZ}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_ZZMHDRZ,
+            ValueListProperty: 'SO_ZZMHDRZ'
+        }
+        ]
+    }
+};
 
 annotate service.Results with @UI.LineItem: {
     ![@UI.Criticality]: 5,
