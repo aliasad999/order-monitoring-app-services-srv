@@ -5,7 +5,6 @@ const uuid = require('uuid');
 const status = require('http-status');
 const textBundle = require('./utils/textBundle')
 const log = require("cf-nodejs-logging-support");
-const enableHints = require("./plugins/enable_hints");
 const { startOfToday } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies')
 const variantManagement = require('./utils/variantManagement');
@@ -204,12 +203,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     }
                 });
             });
-            cds
-                .connect("db")
-                .then(({ db }) =>
-                    db?.before("READ", (req) => enableHints(req)
-                    )
-                );
+            req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
             req.query.SELECT.localized = false;
             req.query.SELECT.distinct = true;
             // where clause is initially converted from cqn to cql
@@ -292,13 +286,15 @@ class srvOpenOrders extends cds.ApplicationService {
 
             if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols) {
                 try {
-                    const db = cds.transaction(req);
-                    let query = cds.parse.cql(`SELECT count(*) from ( SELECT DISTINCT ${req.headers.countcols} from  srvOpenOrders_Results   ) `)
+                    const db = cds.tx(req);
+                    const countCols = req.headers.countcols; // Define count columns
+                    const distinctQuery = SELECT.distinct(countCols)
+                            .from('srvOpenOrders.Results')
+                            .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
+                    const query =  SELECT.from(distinctQuery).columns('count(*) as total');
                     if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
-                    const distinctCount = (req.query.SELECT.where) ?
-                        await db.run(query)
-                        : await db.run(query)
-                    return req.reply({ $count: Object.values(distinctCount[0])[0] })
+                    const distinctCount = await db.run(query);
+                    return req.reply({ $count: distinctCount[0].total })
                 } catch (error) {
                     log.error("[order-monitoring-app-services.js] - Count query failed ! " + JSON.stringify(error));
                     req.error(error)
@@ -397,7 +393,7 @@ class srvOpenOrders extends cds.ApplicationService {
             // get the session id based on auth token
             let sessionID = req.headers['authorization'] || req.headers['x-username'];
             const queryId = `${sessionID}Query`
-            const db = cds.transaction(req);
+            const db = cds.tx(req);
             let lt_result = []
             // if session id is there, get the cach-ed query and execute it.
             if (sessionCache.get(queryId)) {
@@ -459,13 +455,20 @@ class srvOpenOrders extends cds.ApplicationService {
                     try {
                         const fields = req.http.req.query["search-focus"].split(',')
                         let queryCount = 0;
-                        // sometimes there is a cached query but it has no
-                        let lt_count = query.SELECT.where
-                            ? await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`).where(query.SELECT.where))
-                            : await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`));
-
-                        if (lt_count.length > 0) {
-                            queryCount = lt_count[0][Object.keys(lt_count[0])[0]];
+                        // We need an orderBy clause to make the query performant
+                        let keyField = fields[0];
+                        let subquery = SELECT.distinct(...fields)
+                            .from('srvOpenOrders.Results')
+                            .orderBy(keyField)
+                            .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
+                        // Add where clause if needed
+                        if(query.SELECT.where){
+                            subquery = subquery.where(query.SELECT.where);
+                        }
+                        // Run the count query
+                        const distinctCount = await SELECT.from(subquery).columns('count(*) as total');
+                        if (distinctCount.length > 0) {
+                            queryCount = distinctCount[0].total;
                         }
                         lt_result.push({ $count: queryCount })
                     } catch (error) {
@@ -499,9 +502,20 @@ class srvOpenOrders extends cds.ApplicationService {
                 } else {
                     try {
                         let queryCount = 0;
-                        let lt_count = await db.run(SELECT.from('srvOpenOrders_Results').columns(`countdistinct(${fields})`))
-                        if (lt_count.length > 0) {
-                            queryCount = lt_count[0][Object.keys(lt_count[0])[0]];
+                        // We need an orderBy clause to make the query performant
+                        let keyField = fields[0];
+                        let subquery = SELECT.distinct(...fields)
+                            .from('srvOpenOrders.Results')
+                            .orderBy(keyField)
+                            .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
+                        // Add where clause if needed
+                        if(query.SELECT.where){
+                            subquery = subquery.where(query.SELECT.where);
+                        }
+                        // Run the count query
+                        const distinctCount = await SELECT.from(subquery).columns('count(*) as total');
+                        if (distinctCount.length > 0) {
+                            queryCount = distinctCount[0].total;
                         }
                         lt_result.push({ $count: queryCount })
                     } catch (error) {
