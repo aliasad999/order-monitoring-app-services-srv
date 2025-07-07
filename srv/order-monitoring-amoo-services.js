@@ -1394,8 +1394,8 @@ class openOrdersSrv extends cds.ApplicationService {
                             let keyField = fields[0];
                             let subquery = SELECT.distinct(...fields)
                                 .from('openOrdersSrv_orderCreation')
-                                .orderBy(keyField);
-                            
+                                .orderBy(keyField)
+                                .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
                             // Add where clause if needed
                             if(req.query.SELECT.where){
                                 subquery = subquery.where(req.query.SELECT.where);
