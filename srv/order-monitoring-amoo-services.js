@@ -1610,6 +1610,7 @@ class openOrdersSrv extends cds.ApplicationService {
             // let issueReason = []
             let textBundle = serviceHelper.getBundle(req.locale);
             let incompletionLog = []
+            let gtsBlockReasons = []
             let creditData = {}
             let idocData = []
             let atpData = []
@@ -1691,9 +1692,9 @@ class openOrdersSrv extends cds.ApplicationService {
                 case "200": // EC
                     break;
                 case "300": // AP
+                    const OMServicesAP = await cds.connect.to('OMServicesAP');
                     if (issue === "01" || issue === "05") {
                         try {
-                            const OMServicesAP = await cds.connect.to('OMServicesAP');
                             if (issue === "01") { // order incompletion
                                 incompletionLog = await OMServicesAP.send({
                                     method: 'GET',
@@ -1729,6 +1730,27 @@ class openOrdersSrv extends cds.ApplicationService {
                             console.error('Error fetching issue reason:', error);
                         }
                     }
+                    // GTS Block
+                    if(issue === '07'){
+                        try {
+                            gtsBlockReasons = await OMServicesAP.send({
+                                method: 'GET',
+                                query: SELECT.from('OrderGTSBlocks').where`SalesDocument = ${salesOrder} and SalesDocumentItem = ${salesOrderItem}`,
+                                headers: {
+                                    'X-Basf-Sap-Client': process.env.AP_CLIENT
+                                }
+                            });
+                            // Fill the text
+                            gtsBlockReasons.forEach((block) => {
+                                block.EmbargoStatusText = `Embargo Status: ${block.EmbargoStatusText}`;
+                                block.ScreeningStatusText = `Screening Status: ${block.ScreeningStatusText}`;
+                                block.LegalControlStatusText = `Legal Control Status: ${block.LegalControlStatusText}`;
+                            })
+                        } catch (error) {
+                            console.error('Error fetching issue reason:', error);
+                        }
+                    }
+                    //
                     /// AP PLACEHOLDER UNTIL THOSE REASONS FOR ISSUE ARE DONE (APIs MISSING)
                     if (issue === '08' || issue === '11') {
                         idocData.push({
@@ -1759,6 +1781,11 @@ class openOrdersSrv extends cds.ApplicationService {
             // issueReason.forEach((item) => {
             //     combinedResults.push({ text: item.IssueReason })
             // })
+            gtsBlockReasons.forEach((item) => {
+                combinedResults.push({ text: item.EmbargoStatusText })
+                combinedResults.push({ text: item.ScreeningStatusText })
+                combinedResults.push({ text: item.LegalControlStatusText })
+            })
             incompletionLog.forEach((item) => {
                 combinedResults.push({ text: item.IncompletionText })
             })
