@@ -1615,7 +1615,7 @@ class openOrdersSrv extends cds.ApplicationService {
             let idocData = []
             let atpData = []
             const { salesOrder, salesOrderItem, issueLocation,
-                issueLocationItem, issue, nps, material,
+                issueLocationItem, issue, nps, material, issueLoctionDocType,
                 plant, uom, dueDate, firstDate, system } = JSON.parse(req.data.issuePayload);
 
             switch (system) {
@@ -1733,13 +1733,21 @@ class openOrdersSrv extends cds.ApplicationService {
                     // GTS Block
                     if(issue === '07'){
                         try {
+                            let entity = "OrderGTSBlocks";
+                            let whereClause = `SalesDocument = ${issueLocation} and SalesDocumentItem = ${issueLocationItem}`;
+                            // gts block is in outbound delivery
+                            if(issueLoctionDocType === "J"){
+                                entity = "DeliveryGTSBlocks";
+                                whereClause = `DeliveryDocument = ${issueLocation} and DeliveryDocumentItem = ${issueLocationItem}`;
+                            }
                             gtsBlockReasons = await OMServicesAP.send({
                                 method: 'GET',
-                                query: SELECT.from('OrderGTSBlocks').where`SalesDocument = ${salesOrder} and SalesDocumentItem = ${salesOrderItem}`,
+                                query: SELECT.from(entity).where(whereClause),
                                 headers: {
                                     'X-Basf-Sap-Client': process.env.AP_CLIENT
                                 }
                             });
+                                        
                             // Fill the text
                             gtsBlockReasons.forEach((block) => {
                                 block.EmbargoStatusText = `Embargo Status: ${block.EmbargoStatusText}`;
