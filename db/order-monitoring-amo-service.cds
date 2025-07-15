@@ -325,6 +325,8 @@ entity ![RESULTS] {
         CONTRACT                           : String(10);
         CONTRACT_ITEM                      : String(6);
         ZZMHDRZ                            : Decimal(4);
+        ZTERM_HEAD_VTEXT_LANG              : String(30);
+        ZTERM_ITEM_VTEXT_LANG              : String(30);
 
 }
 
