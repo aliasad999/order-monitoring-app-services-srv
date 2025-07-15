@@ -259,6 +259,7 @@ annotate service.valueHelps with {
     SO_CONTRACT                      @title: '{i18n>SO_CONTRACT}'                      @sap.Label: '{i18n>SO_CONTRACT}';
     SO_CONTRACT_ITEM                 @title: '{i18n>SO_CONTRACT_ITEM}'                 @sap.Label: '{i18n>SO_CONTRACT_ITEM}';
     SO_ZZMHDRZ                       @title: '{i18n>SO_ZZMHDRZ}'                       @sap.Label: '{i18n>SO_ZZMHDRZ}';
+    SO_ZTERM_VTEXT_LANG              @title: '{i18n>SO_ZTERM_VTEXT_LANG}'              @sap.Label: '{i18n>SO_ZTERM_VTEXT_LANG}'; 
 };
 
 annotate service.Results with {
@@ -369,6 +370,10 @@ annotate service.Results with {
     SO_AM_PARTNER_NAME          @title: '{i18n>SO_AM_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AM_PARTNER_NAME}';
     SO_INCO1                    @title: '{i18n>SO_INCO1}'                         @sap.Label: '{i18n>SO_INCO1}';
     SO_INCO2                    @title: '{i18n>SO_INCO2}'                         @sap.Label: '{i18n>SO_INCO2}';
+    @Common.TextFor
+    SO_ZTERM_VTEXT_LANG;
+    @Common.Text           : SO_ZTERM_VTEXT_LANG
+    @Common.TextArrangement: #TextFirst
     SO_ZTERM                    @title: '{i18n>SO_ZTERM}'                         @sap.Label: '{i18n>SO_ZTERM}';
     SO_PRSDT                    @title: '{i18n>SO_PRSDT}'                         @sap.Label: '{i18n>SO_PRSDT}';
     SO_ZZ0S2REVG2               @title: '{i18n>SO_ZZ0S2REVG2}'                    @sap.Label: '{i18n>SO_ZZ0S2REVG2}';
@@ -680,6 +685,7 @@ annotate service.Results with {
     SO_CONTRACT                 @title: '{i18n>SO_CONTRACT}'                      @sap.Label: '{i18n>SO_CONTRACT}';
     SO_CONTRACT_ITEM            @title: '{i18n>SO_CONTRACT_ITEM}'                 @sap.Label: '{i18n>SO_CONTRACT_ITEM}';
     SO_ZZMHDRZ                  @title: '{i18n>SO_ZZMHDRZ}'                       @sap.Label: '{i18n>SO_ZZMHDRZ}';
+    SO_ZTERM_VTEXT_LANG              @title: '{i18n>SO_ZTERM_VTEXT_LANG}'              @sap.Label: '{i18n>SO_ZTERM_VTEXT_LANG}'; 
 }
 
 annotate service.Results with {
@@ -791,6 +797,7 @@ annotate service.Results with {
     SO_WE_PARTNER_REGION_BEZEI_LANG @UI                     : {Hidden: true};
     SO_TO_PARTNER_NAME              @UI                     : {Hidden: true};
     TM_ETA_EVENT_SOURCE             @UI                     : {Hidden: true};
+    SO_ZTERM_VTEXT_LANG             @UI                     : {Hidden: true};
     
 }
 
@@ -1675,6 +1682,10 @@ annotate service.Results with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_ZTERM,
             ValueListProperty: 'SO_ZTERM'
+        },
+        {
+            $Type            : 'Common.ValueListParameterDisplayOnly',
+            ValueListProperty: 'SO_ZTERM_VTEXT_LANG'
         }
 
         ]

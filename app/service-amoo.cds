@@ -1218,7 +1218,8 @@ annotate service.baseEntity with {
     SO_ZZATP_CUST                    @title: '{i18n>SO_ZZATP_CUST}'                    @sap.Label: '{i18n>SO_ZZATP_CUST}'; 
     SO_CONTRACT                      @title: '{i18n>SO_CONTRACT}'                      @sap.Label: '{i18n>SO_CONTRACT}';
     SO_CONTRACT_ITEM                 @title: '{i18n>SO_CONTRACT_ITEM}'                 @sap.Label: '{i18n>SO_CONTRACT_ITEM}';
-    SO_ZZMHDRZ                       @title: '{i18n>SO_ZZMHDRZ}'                       @sap.Label: '{i18n>SO_ZZMHDRZ}'; 
+    SO_ZZMHDRZ                       @title: '{i18n>SO_ZZMHDRZ}'                       @sap.Label: '{i18n>SO_ZZMHDRZ}';
+    SO_ZTERM_VTEXT_LANG              @title: '{i18n>SO_ZTERM_VTEXT_LANG}'              @sap.Label: '{i18n>SO_ZTERM_VTEXT_LANG}'; 
 };
 
 annotate service.allIssues with {
@@ -1557,6 +1558,11 @@ annotate service.allIssues with {
     SO_TO_PARTNER            @title: '{i18n>SO_TO_PARTNER}'                    @sap.Label: '{i18n>SO_TO_PARTNER}';
     @Common.TextFor
     SO_TO_PARTNER_NAME;
+    @Common.TextFor
+    SO_ZTERM_VTEXT_LANG;
+    @Common.Text           : SO_ZTERM_VTEXT_LANG
+    @Common.TextArrangement: #TextFirst
+    SO_ZTERM                    @title: '{i18n>SO_ZTERM}'                         @sap.Label: '{i18n>SO_ZTERM}';
 }
 
 annotate service.allIssues with {
@@ -1636,6 +1642,7 @@ annotate service.allIssues with {
     SO_WE_PARTNER_REGION_BEZEI_LANG @UI: {Hidden: true};
     SO_TO_PARTNER_NAME              @UI: {Hidden: true};
     TM_ETA_EVENT_SOURCE             @UI: {Hidden: true};
+    SO_ZTERM_VTEXT_LANG             @UI: {Hidden: true};
 
 }
 
@@ -2482,6 +2489,10 @@ annotate service.allIssues with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_ZTERM,
             ValueListProperty: 'SO_ZTERM'
+        },
+        {
+            $Type            : 'Common.ValueListParameterDisplayOnly',
+            ValueListProperty: 'SO_ZTERM_VTEXT_LANG'
         }
 
         ]

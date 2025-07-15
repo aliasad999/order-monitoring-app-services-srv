@@ -428,6 +428,9 @@ service srvOpenOrders {
           CONTRACT                                    as SO_CONTRACT,
           CONTRACT_ITEM                               as SO_CONTRACT_ITEM,
           ZZMHDRZ                                     as SO_ZZMHDRZ,
+          IFNULL(
+            ZTERM_ITEM_VTEXT_LANG, ZTERM_HEAD_VTEXT_LANG
+          )                                           as SO_ZTERM_VTEXT_LANG                   : String(30),
 
     };
 
