@@ -1734,11 +1734,11 @@ class openOrdersSrv extends cds.ApplicationService {
                     if(issue === '07'){
                         try {
                             let entity = "OrderGTSBlocks";
-                            let whereClause = `SalesDocument = ${issueLocation} and SalesDocumentItem = ${issueLocationItem}`;
+                            let whereClause = `SalesDocument = '${issueLocation}' and SalesDocumentItem = '${issueLocationItem}'`;
                             // gts block is in outbound delivery
                             if(issueLoctionDocType === "J"){
                                 entity = "DeliveryGTSBlocks";
-                                whereClause = `DeliveryDocument = ${issueLocation} and DeliveryDocumentItem = ${issueLocationItem}`;
+                                whereClause = `DeliveryDocument = '${issueLocation}' and DeliveryDocumentItem = '${issueLocationItem}'`;
                             }
                             gtsBlockReasons = await OMServicesAP.send({
                                 method: 'GET',
@@ -1750,9 +1750,9 @@ class openOrdersSrv extends cds.ApplicationService {
                                         
                             // Fill the text
                             gtsBlockReasons.forEach((block) => {
-                                block.EmbargoStatusText = `Embargo Status: ${block.EmbargoStatusText}`;
-                                block.ScreeningStatusText = `Screening Status: ${block.ScreeningStatusText}`;
-                                block.LegalControlStatusText = `Legal Control Status: ${block.LegalControlStatusText}`;
+                                block.EmbargoStatusText = `${serviceHelper.getBundle(req.locale).getText('EmbargoStatus')}: ${block.EmbargoStatusText}`;
+                                block.ScreeningStatusText = `${serviceHelper.getBundle(req.locale).getText('ScreeningStatus')}: ${block.ScreeningStatusText}`;
+                                block.LegalControlStatusText = `${serviceHelper.getBundle(req.locale).getText('LegalCtrlStatus')}: ${block.LegalControlStatusText}`;
                             })
                         } catch (error) {
                             console.error('Error fetching issue reason:', error);
