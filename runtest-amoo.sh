@@ -7,6 +7,7 @@ if [ $? -eq 0 ]; then
     cf default-env order-monitoring-app-services-srv
     if [ $? -eq 0 ]; then
         echo "Default environment set successfully."
+        npm run test:util
         npm run test-amoo
     else
         echo "Error: Failed to set default environment for order-monitoring-app-services-srv."

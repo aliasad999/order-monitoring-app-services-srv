@@ -255,7 +255,6 @@ transformWhereClause = (whereClause) => {
     transformed = transformed.replace(/\s*AND\s*$/, ''); // removing ending and
     transformed = transformed.replace(/''/g, "'");
     transformed = transformed.replace(/'''/g, "''");
-    transformed = transformed.replace(/ ' /g, "'' ");
     return transformed;
     }
 

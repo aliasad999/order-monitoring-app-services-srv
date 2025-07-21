@@ -23,7 +23,6 @@
     "basf-cf-credential-store-helper": "^2.1.1",
     "body-parser": "^1.20.3",
     "cf-nodejs-logging-support": "^7.4.0",
-    "date-fns": "^4.1.0",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
     "http-status": "^2.0.0",
@@ -34,14 +33,17 @@
     "uuid": "^11.0.3"
   },
   "devDependencies": {
+    "@cap-js/cds-test": "^0.4.0",
     "@sap/hdi-deploy": "^5.3.2",
-    "axios": "^1.7.9"
+    "axios": "^1.7.9",
+    "date-fns": "^4.1.0"
   },
   "scripts": {
     "bind": "cds bind -2  order-monitoring-xsuaa:order-monitoring-xsuaa-key && cds bind -2  order-monitoring-destination:order-monitoring-destination-content-order-monitoring-destination-credentials &&  cds bind -2  order-monitoring-app-services-hdi:SharedDevKey &&    cds bind -2  order-monitoring-connectivity:con-key && cds bind -2 order-monitoring-credentials-store:credentials-store-key",
     "start": "node ${NODE_ARGS} ./node_modules/.bin/cds-serve",
     "test": "mocha srv/tests/test.js --timeout 150000 --exit",
     "test-amoo": "mocha srv/tests/test-amoo.js --timeout 150000 --exit",
+    "test:util": "mocha srv/tests/utils/test-*.js",
     "start:backend": "cds watch",
     "build:cds": "cds build",
     "install:all": "npm-recursive-install",
