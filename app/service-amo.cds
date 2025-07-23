@@ -260,8 +260,7 @@ annotate service.valueHelps with {
     SO_CONTRACT_ITEM                 @title: '{i18n>SO_CONTRACT_ITEM}'                 @sap.Label: '{i18n>SO_CONTRACT_ITEM}';
     SO_ZZMHDRZ                       @title: '{i18n>SO_ZZMHDRZ}'                       @sap.Label: '{i18n>SO_ZZMHDRZ}';
     SO_ZTERM_VTEXT_LANG              @title: '{i18n>SO_ZTERM_VTEXT_LANG}'              @sap.Label: '{i18n>SO_ZTERM_VTEXT_LANG}'; 
-    DL_SEED_COUNT                      @title: '{i18n>DL_SEED_COUNT}'                      @sap.Label: '{i18n>DL_SEED_COUNT}';
-    DL_SEEDS_TAGGED_GERM                 @title: '{i18n>DL_SEEDS_TAGGED_GERM}'                 @sap.Label: '{i18n>DL_SEEDS_TAGGED_GERM}';
+    BL_XREF3                         @title: '{i18n>BL_XREF3}'                         @sap.Label: '{i18n>BL_XREF3}';             
 };
 
 annotate service.Results with {
@@ -690,6 +689,7 @@ annotate service.Results with {
     SO_ZTERM_VTEXT_LANG              @title: '{i18n>SO_ZTERM_VTEXT_LANG}'              @sap.Label: '{i18n>SO_ZTERM_VTEXT_LANG}'; 
     DL_SEED_COUNT                      @title: '{i18n>DL_SEED_COUNT}'                      @sap.Label: '{i18n>DL_SEED_COUNT}';
     DL_SEEDS_TAGGED_GERM                 @title: '{i18n>DL_SEEDS_TAGGED_GERM}'                 @sap.Label: '{i18n>DL_SEEDS_TAGGED_GERM}';
+    BL_XREF3                         @title: '{i18n>BL_XREF3}'                         @sap.Label: '{i18n>BL_XREF3}';
 }
 
 annotate service.Results with {
@@ -3917,6 +3917,23 @@ annotate service.Results with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_ZZMHDRZ,
             ValueListProperty: 'SO_ZZMHDRZ'
+        }
+        ]
+    }
+};
+
+annotate service.Results with {
+    BL_XREF3
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_XREF3}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: BL_XREF3,
+            ValueListProperty: 'BL_XREF3'
         }
         ]
     }

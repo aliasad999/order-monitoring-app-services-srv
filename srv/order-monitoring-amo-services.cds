@@ -433,7 +433,9 @@ service srvOpenOrders {
           )                                           as SO_ZTERM_VTEXT_LANG                   : String(30),
           
           SEED_COUNT                         as DL_SEED_COUNT,
-          SEEDS_TAGGED_GERM                  as DL_SEEDS_TAGGED_GERM
+          SEEDS_TAGGED_GERM                  as DL_SEEDS_TAGGED_GERM,
+          XREF3                                       as BL_XREF3,
+
 
     };
 

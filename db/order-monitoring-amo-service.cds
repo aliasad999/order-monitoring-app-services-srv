@@ -329,6 +329,7 @@ entity ![RESULTS] {
         ZTERM_ITEM_VTEXT_LANG              : String(30);  
         SEED_COUNT                         : Decimal(31, 14);
         SEEDS_TAGGED_GERM                  : Decimal(31, 14);
+        XREF3                              : String(20);
 
 }
 
