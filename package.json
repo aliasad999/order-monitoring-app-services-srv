@@ -23,7 +23,6 @@
     "basf-cf-credential-store-helper": "^2.1.1",
     "body-parser": "^1.20.3",
     "cf-nodejs-logging-support": "^7.4.0",
-    "date-fns": "^4.1.0",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
     "http-status": "^2.0.0",
@@ -31,9 +30,11 @@
     "mocha": "^11.0.1",
     "node-cache": "^5.1.2",
     "passport": "^0.7.0",
-    "uuid": "^11.0.3"
+    "uuid": "^11.0.3",
+    "date-fns": "^4.1.0"
   },
   "devDependencies": {
+    "@cap-js/cds-test": "^0.4.0",
     "@sap/hdi-deploy": "^5.3.2",
     "axios": "^1.7.9"
   },
@@ -42,6 +43,7 @@
     "start": "node ${NODE_ARGS} ./node_modules/.bin/cds-serve",
     "test": "mocha srv/tests/test.js --timeout 150000 --exit",
     "test-amoo": "mocha srv/tests/test-amoo.js --timeout 150000 --exit",
+    "test:util": "mocha srv/tests/utils/test-*.js",
     "start:backend": "cds watch",
     "build:cds": "cds build",
     "install:all": "npm-recursive-install",
