@@ -413,7 +413,8 @@ service openOrdersSrv {
                 ZZMHDRZ                                     as SO_ZZMHDRZ,
                 IFNULL(
                     ZTERM_ITEM_VTEXT_LANG, ZTERM_HEAD_VTEXT_LANG
-                )                                           as SO_ZTERM_VTEXT_LANG                   : String(30)
+                )                                           as SO_ZTERM_VTEXT_LANG                   : String(30),
+                XREF3                                       as BL_XREF3,
 
         }
 

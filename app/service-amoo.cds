@@ -1220,6 +1220,7 @@ annotate service.baseEntity with {
     SO_CONTRACT_ITEM                 @title: '{i18n>SO_CONTRACT_ITEM}'                 @sap.Label: '{i18n>SO_CONTRACT_ITEM}';
     SO_ZZMHDRZ                       @title: '{i18n>SO_ZZMHDRZ}'                       @sap.Label: '{i18n>SO_ZZMHDRZ}';
     SO_ZTERM_VTEXT_LANG              @title: '{i18n>SO_ZTERM_VTEXT_LANG}'              @sap.Label: '{i18n>SO_ZTERM_VTEXT_LANG}'; 
+    BL_XREF3                         @title: '{i18n>BL_XREF3}'                         @sap.Label: '{i18n>BL_XREF3}';
 };
 
 annotate service.allIssues with {
@@ -4855,6 +4856,23 @@ annotate service.allIssues with {
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_ZZMHDRZ,
             ValueListProperty: 'SO_ZZMHDRZ'
+        }
+
+        ]
+    }
+};
+annotate service.allIssues with {
+    BL_XREF3
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>BL_XREF3}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: BL_XREF3,
+            ValueListProperty: 'BL_XREF3'
         }
 
         ]
