@@ -327,6 +327,7 @@ entity ![RESULTS] {
         ZZMHDRZ                            : Decimal(4);
         ZTERM_HEAD_VTEXT_LANG              : String(30);
         ZTERM_ITEM_VTEXT_LANG              : String(30);
+        XREF3                              : String(20);
 
 }
 
