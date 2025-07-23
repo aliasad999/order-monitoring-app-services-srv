@@ -431,6 +431,9 @@ service srvOpenOrders {
           IFNULL(
             ZTERM_ITEM_VTEXT_LANG, ZTERM_HEAD_VTEXT_LANG
           )                                           as SO_ZTERM_VTEXT_LANG                   : String(30),
+          
+          SEED_COUNT                         as DL_SEED_COUNT,
+          SEEDS_TAGGED_GERM                  as DL_SEEDS_TAGGED_GERM
 
     };
 
