@@ -37,6 +37,7 @@ const getDateProps = () => {
         "PO_AB_CONF_DATE",
         "PO_LA_CONF_DATE",
         "PO_ZD_CONF_DATE",
+        "SO_VALDT"
     ]
 }
 
