@@ -509,7 +509,7 @@ class srvOpenOrders extends cds.ApplicationService {
                             .orderBy(keyField)
                             .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
                         // Add where clause if needed
-                        if(query.SELECT.where){
+                        if(req.query.SELECT.where){
                             subquery = subquery.where(query.SELECT.where);
                         }
                         // Run the count query
