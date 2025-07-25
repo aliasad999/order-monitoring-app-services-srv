@@ -1,11 +1,11 @@
-PROCEDURE "npsValueExist"( IN IV_whereClause STRING, OUT lt_nps_tab TABLE( id INTEGER, flag BOOLEAN) )
+PROCEDURE "npsValueExist"( IN IV_whereClause NCLOB, OUT lt_nps_tab TABLE( id INTEGER, flag BOOLEAN) )
    LANGUAGE SQLSCRIPT
    SQL SECURITY INVOKER
 --    DEFAULT SCHEMA <default_schema_name>
    READS SQL DATA AS
 BEGIN
       -- Local variables
-      DECLARE sql_stmt NVARCHAR(2000);
+      DECLARE sql_stmt NCLOB;
       DECLARE lt_ignore TABLE (id INTEGER, flag BOOLEAN);  -- Output parameter indicating row existence
       DECLARE lt_ignore_check TABLE (id INTEGER);     
     -- Construct a single SQL statement that checks for all NPS values
