@@ -495,12 +495,13 @@ class srvOpenOrders extends cds.ApplicationService {
                     where && requestQuery.length != 0 && requestQuery.push('and');
                     where && requestQuery.push(where);
                     req.query.SELECT.where = requestQuery
-                    delete req.query.SELECT.search
+                    // delete req.query.SELECT.search
                 }
                 if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
-                    req.query.SELECT.distinct = true;
+                    // req.query.SELECT.distinct = true;
+                    let finalQuery = SELECT.distinct.from(Results).columns(req.query.SELECT.columns).where(req.query.SELECT.where).orderBy(req.query.SELECT.orderBy);
                     try{
-                        lt_result = await db.run(req.query)
+                        lt_result = await db.run(finalQuery)
                     }catch(error){
                         log.error("[amo-services.js] - Results Value help query wo session cache failed! " + error.message +  "||" + JSON.stringify(error));
                     }

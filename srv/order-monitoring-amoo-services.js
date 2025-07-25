@@ -794,12 +794,13 @@ class openOrdersSrv extends cds.ApplicationService {
                     where && requestQuery.length != 0 && requestQuery.push('and');
                     where && requestQuery.push(where);
                     req.query.SELECT.where = requestQuery
-                    delete req.query.SELECT.search
+                    // delete req.query.SELECT.search
                 }
                 if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
-                    req.query.SELECT.distinct = true;
+                    let finalQuery = SELECT.distinct.from(allIssues).columns(req.query.SELECT.columns).where(req.query.SELECT.where).orderBy(req.query.SELECT.orderBy);
+                    // req.query.SELECT.distinct = true;
                     try {
-                        lt_result = await db.run(req.query)
+                        lt_result = await db.run(finalQuery)
                     } catch (error) {
                         log.error("[amoo-services.js] - AllIssues Value help query wo session cache failed! " + error.message +  "||" + JSON.stringify(error));
                         req.error(error)
@@ -1407,11 +1408,12 @@ class openOrdersSrv extends cds.ApplicationService {
                         delete req.query.SELECT.search
                     }
                     if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
-                        req.query.SELECT.distinct = true;
+                        // req.query.SELECT.distinct = true;
                         // Add order by for key field if needed
                         serviceHelper.addOrderIfNeeded(req.query.SELECT.orderBy, fields[0]);
+                        let finalQuery = SELECT.distinct.from(allIssues).columns(req.query.SELECT.columns).where(req.query.SELECT.where).orderBy(req.query.SELECT.orderBy);
                         try {
-                            lt_result = await db.run(req.query)
+                            lt_result = await db.run(finalQuery)
                         } catch (error) {
                             log.error("[amoo-services.js] - OC Value help query wo session cache failed! " + error.message +  "||" +  JSON.stringify(error));
                             req.error(error)
