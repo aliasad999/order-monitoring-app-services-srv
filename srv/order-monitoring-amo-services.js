@@ -510,7 +510,7 @@ class srvOpenOrders extends cds.ApplicationService {
                             .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
                         // Add where clause if needed
                         if(req.query.SELECT.where){
-                            subquery = subquery.where(query.SELECT.where);
+                            subquery = subquery.where(req.query.SELECT.where);
                         }
                         // Run the count query
                         const distinctCount = await SELECT.from(subquery).columns('count(*) as total');
