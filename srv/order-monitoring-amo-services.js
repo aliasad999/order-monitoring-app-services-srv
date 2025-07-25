@@ -449,6 +449,7 @@ class srvOpenOrders extends cds.ApplicationService {
                         // remove duplicates based on fields in the valuehelp dialog box
                         lt_result = serviceHelper.removeDuplicates(fields, lt_result);
                     } catch (error) {
+                        log.error("[amo-services.js] - Results Value help count query w session cache failed! " + error.message +  "||" + JSON.stringify(error));
                         req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                     }
                 } else {
@@ -472,6 +473,7 @@ class srvOpenOrders extends cds.ApplicationService {
                         }
                         lt_result.push({ $count: queryCount })
                     } catch (error) {
+                        log.error("[amo-services.js] - Results Value help count query w session cache failed! " + error.message +  "||" + JSON.stringify(error));
                         req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                     }
 
@@ -497,7 +499,11 @@ class srvOpenOrders extends cds.ApplicationService {
                 }
                 if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
                     req.query.SELECT.distinct = true;
-                    lt_result = await db.run(req.query)
+                    try{
+                        lt_result = await db.run(req.query)
+                    }catch(error){
+                        log.error("[amo-services.js] - Results Value help query wo session cache failed! " + error.message +  "||" + JSON.stringify(error));
+                    }
                     //await cds.run(req.query);
                 } else {
                     try {
@@ -519,6 +525,7 @@ class srvOpenOrders extends cds.ApplicationService {
                         }
                         lt_result.push({ $count: queryCount })
                     } catch (error) {
+                        log.error("[amo-services.js] - Results Value help count query wo session cache failed! " + error.message +  "||" + JSON.stringify(error));
                         req.error(error)
                     }
 
