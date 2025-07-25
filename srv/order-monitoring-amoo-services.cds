@@ -413,8 +413,14 @@ service openOrdersSrv {
                 ZZMHDRZ                                     as SO_ZZMHDRZ,
                 IFNULL(
                     ZTERM_ITEM_VTEXT_LANG, ZTERM_HEAD_VTEXT_LANG
-                )                                           as SO_ZTERM_VTEXT_LANG                   : String(30)
-
+                )                                           as SO_ZTERM_VTEXT_LANG                   : String(30),
+                XREF3                                       as BL_XREF3,
+                ABLAD                                       as SO_ABLAD,
+                DGSTA                                       as SO_DGSTA,
+                MVGR2                                       as SO_MVGR2,
+                VALDT_DATE                                  as SO_VALDT,
+                MVGR2_BEZEI_LANG                            as SO_MVGR2_BEZEI_LANG,
+                DGSTA_DDTEXT_LANG                           as SO_DGSTA_DDTEXT_LANG
         }
 
     entity baseEntity               as

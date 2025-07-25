@@ -327,6 +327,14 @@ entity ![RESULTS] {
         ZZMHDRZ                            : Decimal(4);
         ZTERM_HEAD_VTEXT_LANG              : String(30);
         ZTERM_ITEM_VTEXT_LANG              : String(30);
+        XREF3                              : String(20);
+        ABLAD                              : String(25);
+        DGSTA                              : String(1);
+        MVGR2                              : String(9);
+        VALDT                              : String(8);
+        VALDT_DATE                         : Date = VALDT;
+        MVGR2_BEZEI_LANG                   : String(40);
+        DGSTA_DDTEXT_LANG                  : String(60);
 
 }
 
