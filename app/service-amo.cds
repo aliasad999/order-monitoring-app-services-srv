@@ -261,6 +261,12 @@ annotate service.valueHelps with {
     SO_ZZMHDRZ                       @title: '{i18n>SO_ZZMHDRZ}'                       @sap.Label: '{i18n>SO_ZZMHDRZ}';
     SO_ZTERM_VTEXT_LANG              @title: '{i18n>SO_ZTERM_VTEXT_LANG}'              @sap.Label: '{i18n>SO_ZTERM_VTEXT_LANG}'; 
     BL_XREF3                         @title: '{i18n>BL_XREF3}'                         @sap.Label: '{i18n>BL_XREF3}';             
+    SO_ABLAD                         @title: '{i18n>SO_ABLAD}'                         @sap.Label: '{i18n>SO_ABLAD}';                 
+    SO_DGSTA                         @title: '{i18n>SO_DGSTA}'                         @sap.Label: '{i18n>SO_DGSTA}';             
+    SO_MVGR2                         @title: '{i18n>SO_MVGR2}'                         @sap.Label: '{i18n>SO_MVGR2}';             
+    SO_VALDT                         @title: '{i18n>SO_VALDT}'                         @sap.Label: '{i18n>SO_VALDT}';             
+    SO_MVGR2_BEZEI_LANG              @title: '{i18n>SO_MVGR2_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MVGR2_BEZEI_LANG}';             
+    SO_DGSTA_DDTEXT_LANG             @title: '{i18n>SO_DGSTA_DDTEXT_LANG}'             @sap.Label: '{i18n>SO_DGSTA_DDTEXT_LANG}';             
 };
 
 annotate service.Results with {
@@ -658,6 +664,19 @@ annotate service.Results with {
     SO_TO_PARTNER               @title: '{i18n>SO_TO_PARTNER}'                    @sap.Label: '{i18n>SO_TO_PARTNER}';
     @Common.TextFor
     SO_TO_PARTNER_NAME;
+    @Common.Text           : SO_DGSTA_DDTEXT_LANG
+    @Common.TextArrangement: #TextFirst
+    SO_DGSTA                         @title: '{i18n>SO_DGSTA}'                         @sap.Label: '{i18n>SO_DGSTA}';             
+    @Common.TextFor
+    SO_DGSTA_DDTEXT_LANG             @title: '{i18n>SO_DGSTA_DDTEXT_LANG}'             @sap.Label: '{i18n>SO_DGSTA_DDTEXT_LANG}';             
+    @Common.Text           : SO_MVGR2_BEZEI_LANG
+    @Common.TextArrangement: #TextFirst
+    SO_MVGR2                         @title: '{i18n>SO_MVGR2}'                         @sap.Label: '{i18n>SO_MVGR2}';             
+    @Common.TextFor
+    SO_MVGR2_BEZEI_LANG              @title: '{i18n>SO_MVGR2_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MVGR2_BEZEI_LANG}';             
+    SO_VALDT                         @title: '{i18n>SO_VALDT}'                         @sap.Label: '{i18n>SO_VALDT}';             
+    SO_ABLAD                         @title: '{i18n>SO_ABLAD}'                         @sap.Label: '{i18n>SO_ABLAD}';             
+    
 
     TM_SHIPMENT_ETA_UPDATED     @title: '{i18n>TM_SHIPMENT_ETA_UPDATED}'          @sap.Label: '{i18n>TM_SHIPMENT_ETA_UPDATED}';
     SO_FOLLOWUP_NOTES_LANG      @title: '{i18n>SO_FOLLOWUP_NOTES_LANG}'           @sap.Label: '{i18n>SO_FOLLOWUP_NOTES_LANG}';
@@ -802,7 +821,9 @@ annotate service.Results with {
     SO_TO_PARTNER_NAME              @UI                     : {Hidden: true};
     TM_ETA_EVENT_SOURCE             @UI                     : {Hidden: true};
     SO_ZTERM_VTEXT_LANG             @UI                     : {Hidden: true};
-    
+    SO_MVGR2_BEZEI_LANG              @UI                     : {Hidden: true};
+    SO_DGSTA_DDTEXT_LANG             @UI                     : {Hidden: true};
+    // SO_VALDT             @UI                     : {Hidden: true};
 }
 
 annotate service.valueHelps with {
@@ -3938,6 +3959,71 @@ annotate service.Results with {
         ]
     }
 };
+
+
+annotate service.Results with {
+    SO_ABLAD
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_ABLAD}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_ABLAD,
+            ValueListProperty: 'SO_ABLAD'
+        }
+        ]
+    }
+};
+
+
+
+annotate service.Results with {
+    SO_DGSTA
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_DGSTA}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_DGSTA,
+            ValueListProperty: 'SO_DGSTA'
+        },
+        {
+            $Type            : 'Common.ValueListParameterDisplayOnly',
+            ValueListProperty: 'SO_DGSTA_DDTEXT_LANG'
+        }
+        ]
+    }
+};
+
+
+annotate service.Results with {
+    SO_MVGR2
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_MVGR2}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_MVGR2,
+            ValueListProperty: 'SO_MVGR2'
+        },
+        {
+            $Type            : 'Common.ValueListParameterDisplayOnly',
+            ValueListProperty: 'SO_MVGR2_BEZEI_LANG'
+        }
+        ]
+    }
+};
+
+
 
 annotate service.Results with @UI.LineItem: {
     ![@UI.Criticality]: 5,

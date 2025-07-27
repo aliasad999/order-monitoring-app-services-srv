@@ -330,6 +330,13 @@ entity ![RESULTS] {
         SEED_COUNT                         : Decimal(31, 14);
         SEEDS_TAGGED_GERM                  : Decimal(31, 14);
         XREF3                              : String(20);
+        ABLAD                              : String(25);
+        DGSTA                              : String(1);
+        MVGR2                              : String(9);
+        VALDT                              : String(8);
+        VALDT_DATE                         : Date = VALDT;
+        MVGR2_BEZEI_LANG                   : String(40);
+        DGSTA_DDTEXT_LANG                  : String(60);
 
 }
 

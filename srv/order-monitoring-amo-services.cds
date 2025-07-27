@@ -435,6 +435,12 @@ service srvOpenOrders {
           SEED_COUNT                         as DL_SEED_COUNT,
           SEEDS_TAGGED_GERM                  as DL_SEEDS_TAGGED_GERM,
           XREF3                                       as BL_XREF3,
+          ABLAD                                       as SO_ABLAD,
+          DGSTA                                       as SO_DGSTA,
+          MVGR2                                       as SO_MVGR2,
+          VALDT_DATE                                  as SO_VALDT,
+          MVGR2_BEZEI_LANG                            as SO_MVGR2_BEZEI_LANG,
+          DGSTA_DDTEXT_LANG                           as SO_DGSTA_DDTEXT_LANG
 
 
     };
