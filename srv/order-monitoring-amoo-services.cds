@@ -413,7 +413,9 @@ service openOrdersSrv {
                 ZZMHDRZ                                     as SO_ZZMHDRZ,
                 IFNULL(
                     ZTERM_ITEM_VTEXT_LANG, ZTERM_HEAD_VTEXT_LANG
-                )                                           as SO_ZTERM_VTEXT_LANG                   : String(30),
+                )                                           as SO_ZTERM_VTEXT_LANG                   : String(30),   
+                SEED_COUNT                         as DL_SEED_COUNT,
+                SEEDS_TAGGED_GERM                  as DL_SEEDS_TAGGED_GERM,
                 XREF3                                       as BL_XREF3,
                 ABLAD                                       as SO_ABLAD,
                 DGSTA                                       as SO_DGSTA,
