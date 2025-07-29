@@ -1292,6 +1292,7 @@ annotate service.allIssues with {
     PO_EKNAM                     @UI                     : {Hidden: true};
     PO_EKOTX                     @UI                     : {Hidden: true};
     PO_EBELN                     @UI                     : {Hidden: true};
+    BL_XREF3                     @UI                     : {Hidden: true};
 
 };
 
