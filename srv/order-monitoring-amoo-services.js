@@ -45,20 +45,7 @@ class openOrdersSrv extends cds.ApplicationService {
         /// SAP systems entity
         this.on("READ", "SAPSystems", async (req, next) => {
             let lt_result = []
-            let systems = [
-                {
-                    mandantKey: "100",
-                    mandantText: "Cobalt"
-                },
-                {
-                    mandantKey: "200",
-                    mandantText: "Star"
-                },
-                {
-                    mandantKey: "300",
-                    mandantText: "Spark"
-                }
-            ]
+            let systems = serviceHelper.getMandtEntityValues();
 
             /// Count query
             if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {

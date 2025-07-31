@@ -76,6 +76,23 @@ const getMandtFieldsNames = (mandtFieldValue) => {
     }
 }
 
+const getMandtEntityValues = () => {
+    return [
+        {
+            mandantKey: "100",
+            mandantText: "Cobalt"
+        },
+        {
+            mandantKey: "200",
+            mandantText: "Star"
+        },
+        {
+            mandantKey: "300",
+            mandantText: "Spark"
+        }
+    ]
+}
+
 const _addFilterToQuery = (query, fieldFiltered, filterValue) => {
     if (query.SELECT.where && query.SELECT.where.length > 0) {
         // check if NoAuth filter already exists, if so, modify the value instead of adding the filter again
@@ -305,5 +322,6 @@ module.exports =  {
     convertCQNtoCQL,
     removeDuplicates,
     getBundle,
-    addOrderIfNeeded
+    addOrderIfNeeded,
+    getMandtEntityValues
 }
