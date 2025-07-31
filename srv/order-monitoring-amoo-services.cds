@@ -11,6 +11,9 @@ using {CSEUCockpitService as CSEUCockpitService} from './external/CSEUCockpitSer
 using {OMServicesAP as OMServicesAP} from './external/OMServicesAP';
 
 service openOrdersSrv {
+    @readonly
+    entity SAPSystems as projection on db_app.SAPSystems;
+
     entity currencies               as projection on db_app.currency;
 
     entity rootEntity               as

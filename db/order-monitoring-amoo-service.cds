@@ -2,6 +2,11 @@ namespace openorders.db;
 
 using {User} from '@sap/cds/common';
 
+entity SAPSystems {
+        key mandantKey : String(3);
+            mandantText: String(20);
+}
+
 @cds.persistence.exists
 entity ![OPENORDERSLIST] {
         MANDT                              : String(3);

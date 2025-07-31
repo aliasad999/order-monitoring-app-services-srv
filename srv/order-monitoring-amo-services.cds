@@ -4,6 +4,9 @@ using {CSEUCockpitService as CSEUCockpitService} from './external/CSEUCockpitSer
 
 service srvOpenOrders {
 
+  @readonly
+  entity SAPSystems as projection on db_app.SAPSystems;
+
   entity VBAKAuthObjectKeys      as select from db_app.VBAKAUTH;
   entity EKKOAuthObjectKeys      as select from db_app.EKKOAUTH;
   function getVBAKAuthObjKeys() returns Integer;

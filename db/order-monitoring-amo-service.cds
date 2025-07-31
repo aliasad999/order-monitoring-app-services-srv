@@ -1,5 +1,11 @@
 namespace allorders.db;
 
+
+entity SAPSystems {
+        key mandantKey : String(3);
+            mandantText: String(20);
+}
+
 @cds.persistence.exists
 entity ![RESULTS] {
 

@@ -41,6 +41,34 @@ class openOrdersSrv extends cds.ApplicationService {
         this.before('*', '*', async (req, next) => {
             await cds.run(`SET 'APPLICATION' = 'CAPServices'`);
         })
+
+        /// SAP systems entity
+        this.on("READ", "SAPSystems", async (req, next) => {
+            let lt_result = []
+            let systems = [
+                {
+                    mandantKey: "100",
+                    mandantText: "Cobalt"
+                },
+                {
+                    mandantKey: "200",
+                    mandantText: "Star"
+                },
+                {
+                    mandantKey: "300",
+                    mandantText: "Spark"
+                }
+            ]
+
+            /// Count query
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
+                lt_result.push({ $count: systems.length }) 
+            }else{ // Data query
+                lt_result = systems;
+            }
+            return lt_result
+        })
+
         // GET SAP TEXTS //
         this.on("getSAPTexts", async req => {
             let SAPTextsEntity = [];
