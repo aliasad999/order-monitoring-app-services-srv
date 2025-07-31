@@ -20,6 +20,14 @@ annotate service.SAPSystems with {
     mandantText;
 };
 
+annotate service.DCPStatus with {
+    @Common.Text           : DCPStatusText
+    @Common.TextArrangement: #TextOnly
+    DCPStatusKey                    @title: '{i18n>SO_DCP_ITEM_STATUS}}'                         @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
+    @Common.TextFor
+    DCPStatusText;
+};
+
 // Global fields annotations (e.g. labels and titles)
 // This affects both allIssues and valueHelps entities
 annotate service.baseEntity with {
@@ -300,7 +308,7 @@ annotate service.baseEntity with {
 // Text arrangement annotations (only for allIssues)
 annotate service.allIssues with {
     @Common.Text           : SO_DCP_ITEM_STATUS_DESCRIPTION
-    @Common.TextArrangement: #TextFirst
+    @Common.TextArrangement: #TextOnly
     SO_DCP_ITEM_STATUS       @title: '{i18n>SO_DCP_ITEM_STATUS}'               @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
     @Common.TextFor
     SO_DCP_ITEM_STATUS_DESCRIPTION;
@@ -481,55 +489,55 @@ annotate service.allIssues with {
 
     ///// Mandants
     @Common.Text           : SO_MANDT_TEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextOnly
     SO_MANDT                 @title: '{i18n>SO_MANDT}'                         @sap.Label: '{i18n>SO_MANDT}';
     @Common.TextFor
     SO_MANDT_TEXT;
 
     @Common.Text           : DL_MANDT_TEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextOnly
     DL_MANDT                 @title: '{i18n>DL_MANDT}'                         @sap.Label: '{i18n>DL_MANDT}';
     @Common.TextFor
     DL_MANDT_TEXT;
 
     @Common.Text           : TM_MANDT_TEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextOnly
     TM_MANDT                 @title: '{i18n>TM_MANDT}'                         @sap.Label: '{i18n>TM_MANDT}';
     @Common.TextFor
     TM_MANDT_TEXT;
 
     @Common.Text           : BL_MANDT_INV_FIRST_TEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextOnly
     BL_MANDT_INV_FIRST       @title: '{i18n>BL_MANDT_INV_FIRST}'               @sap.Label: '{i18n>BL_MANDT_INV_FIRST}';
     @Common.TextFor
     BL_MANDT_INV_FIRST_TEXT;
 
     @Common.Text           : BL_MANDT_INV_LAST_TEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextOnly
     BL_MANDT_INV_LAST        @title: '{i18n>BL_MANDT_INV_LAST}'                @sap.Label: '{i18n>BL_MANDT_INV_LAST}';
     @Common.TextFor
     BL_MANDT_INV_LAST_TEXT;
 
     @Common.Text           : SO_FIRST_SO_MANDT_TEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextOnly
     SO_FIRST_SO_MANDT        @title: '{i18n>SO_FIRST_SO_MANDT}'                @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
     @Common.TextFor
     SO_FIRST_SO_MANDT_TEXT;
 
     @Common.Text           : SO_FINAL_SO_MANDT_TEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextOnly
     SO_FINAL_SO_MANDT        @title: '{i18n>SO_FINAL_SO_MANDT}'                @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
     @Common.TextFor
     SO_FINAL_SO_MANDT_TEXT;
 
     @Common.Text           : PO_MANDT_TEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextOnly
     PO_MANDT                 @title: '{i18n>PO_MANDT}'                         @sap.Label: '{i18n>PO_MANDT}';
     @Common.TextFor
     PO_MANDT_TEXT;
 
     @Common.Text           : SO_ISSUE_LOCATION_MANDT_TEXT
-    @Common.TextArrangement: #TextLast
+    @Common.TextArrangement: #TextOnly
     SO_ISSUE_LOCATION_MANDT  @title: '{i18n>SO_ISSUE_LOCATION_MANDT}'          @sap.Label: '{i18n>SO_ISSUE_LOCATION_MANDT}';
     @Common.TextFor
     SO_ISSUE_LOCATION_MANDT_TEXT;

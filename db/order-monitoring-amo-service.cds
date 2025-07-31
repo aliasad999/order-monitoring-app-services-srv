@@ -6,6 +6,11 @@ entity SAPSystems {
             mandantText: String(20);
 }
 
+entity DCPStatus{
+        key DCPStatusKey: String(2);
+            DCPStatusText: String(50);
+}
+
 @cds.persistence.exists
 entity ![RESULTS] {
 

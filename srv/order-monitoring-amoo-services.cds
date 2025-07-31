@@ -9,10 +9,13 @@ using {LORDOdataOrderService as LORDOdataOrderService} from './external/LORDOdat
 // using { ATPService as ATPService } from './external/ATPService';
 using {CSEUCockpitService as CSEUCockpitService} from './external/CSEUCockpitService';
 using {OMServicesAP as OMServicesAP} from './external/OMServicesAP';
+using allorders.db as amo_service from '../db/order-monitoring-amo-service';
 
 service openOrdersSrv {
     @readonly
-    entity SAPSystems as projection on db_app.SAPSystems;
+    entity SAPSystems as projection on amo_service.SAPSystems;
+    @readonly
+    entity DCPStatus as projection on amo_service.DCPStatus;
 
     entity currencies               as projection on db_app.currency;
 

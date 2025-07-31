@@ -14,6 +14,14 @@ annotate service.SAPSystems with {
     mandantText;
 };
 
+annotate service.DCPStatus with {
+    @Common.Text           : DCPStatusText
+    @Common.TextArrangement: #TextOnly
+    DCPStatusKey                    @title: '{i18n>SO_DCP_ITEM_STATUS}}'                         @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
+    @Common.TextFor
+    DCPStatusText;
+};
+
 annotate service.BaseEntity with {
     SO_VBELN                    @title: '{i18n>SO_VBELN}'                         @sap.Label: '{i18n>SO_VBELN}' @Common.IsDigitSequence: true;
     SO_POSNR                    @title: '{i18n>SO_POSNR}'                         @sap.Label: '{i18n>SO_POSNR}' @Common.IsDigitSequence: true;
@@ -403,7 +411,7 @@ annotate service.Results with{
     @Common.TextFor
     SO_ABGRU_BEZEI;
     @Common.Text           : SO_DCP_ITEM_STATUS_DESCRIPTION
-    @Common.TextArrangement: #TextFirst
+    @Common.TextArrangement: #TextOnly
     SO_DCP_ITEM_STATUS          @title: '{i18n>SO_DCP_ITEM_STATUS}'               @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
     @Common.TextFor
     SO_DCP_ITEM_STATUS_DESCRIPTION;

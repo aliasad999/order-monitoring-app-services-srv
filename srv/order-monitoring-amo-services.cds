@@ -6,6 +6,8 @@ service srvOpenOrders {
 
   @readonly
   entity SAPSystems as projection on db_app.SAPSystems;
+  @readonly
+  entity DCPStatus as projection on db_app.DCPStatus;
 
   entity VBAKAuthObjectKeys      as select from db_app.VBAKAUTH;
   entity EKKOAuthObjectKeys      as select from db_app.EKKOAUTH;

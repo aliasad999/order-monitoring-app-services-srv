@@ -803,18 +803,18 @@ annotate service.Results with {
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>SO_DCP_ITEM_STATUS}',
-        CollectionPath         : 'valueHelps',
+        CollectionPath         : 'DCPStatus',
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [
             {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: SO_DCP_ITEM_STATUS,
-                ValueListProperty: 'SO_DCP_ITEM_STATUS'
+                ValueListProperty: 'DCPStatusKey'
             },
             {
                 $Type            : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty: 'SO_DCP_ITEM_STATUS_DESCRIPTION'
+                ValueListProperty: 'DCPStatusText'
             }
 
         ]
