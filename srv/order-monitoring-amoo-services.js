@@ -748,7 +748,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         // remove duplicates based on fields in the valuehelp dialog box
                         lt_result = serviceHelper.removeDuplicates(fields, lt_result);
                     } catch (error) {
-                        log.error("[amoo-services.js] - AllIssues Value help query w session cache failed! " + error.message +  "||" + JSON.stringify(error));
+                        log.error("AMOO VH with Session: " + error.message +  " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT)  + " || " + JSON.stringify(req.query.SELECT.where));
                         req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                     }
                 } else {
@@ -772,7 +772,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         }
                         lt_result.push({ $count: queryCount })
                     } catch (error) {
-                        log.error("[amoo-services.js] - AllIssues Value help count query w session cache failed! " + error.message +  "||" + JSON.stringify(error));
+                        log.error("AMOO VH count with Session: " + error.message +  " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT)  + " || " + JSON.stringify(req.query.SELECT.where));
                         req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                     }
 
@@ -802,7 +802,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     try {
                         lt_result = await db.run(finalQuery)
                     } catch (error) {
-                        log.error("[amoo-services.js] - AllIssues Value help query wo session cache failed! " + error.message +  "||" + JSON.stringify(error));
+                        log.error("AMOO VH without Session: " + error.message +  " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT)  + " || " + JSON.stringify(req.query.SELECT.where));
                         req.error(error)
                     }
                     //await cds.run(req.query);
@@ -827,7 +827,7 @@ class openOrdersSrv extends cds.ApplicationService {
                             }
                             lt_result.push({ $count: queryCount })
                     } catch (error) {
-                        log.error("[amoo-services.js] - AllIssues Value help count query wo session cache failed! " + error.message +  "||" + JSON.stringify(error));
+                        log.error("AMOO VH count without Session: " + error.message +  " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT)  + " || " + JSON.stringify(req.query.SELECT.where));
                         req.error(error)
                     }
 

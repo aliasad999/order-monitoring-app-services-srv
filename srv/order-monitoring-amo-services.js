@@ -449,7 +449,7 @@ class srvOpenOrders extends cds.ApplicationService {
                         // remove duplicates based on fields in the valuehelp dialog box
                         lt_result = serviceHelper.removeDuplicates(fields, lt_result);
                     } catch (error) {
-                        log.error("[amo-services.js] - Results Value help count query w session cache failed! " + error.message +  "||" + JSON.stringify(error));
+                        log.error("AMO VH with Session: " + error.message +  " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT)  + " || " + JSON.stringify(req.query.SELECT.where));
                         req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                     }
                 } else {
@@ -473,7 +473,7 @@ class srvOpenOrders extends cds.ApplicationService {
                         }
                         lt_result.push({ $count: queryCount })
                     } catch (error) {
-                        log.error("[amo-services.js] - Results Value help count query w session cache failed! " + error.message +  "||" + JSON.stringify(error));
+                        log.error("AMO VH count with Session: " + error.message +  " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT)  + " || " + JSON.stringify(req.query.SELECT.where));
                         req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                     }
 
@@ -503,7 +503,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     try{
                         lt_result = await db.run(finalQuery)
                     }catch(error){
-                        log.error("[amo-services.js] - Results Value help query wo session cache failed! " + error.message +  "||" + JSON.stringify(error));
+                        log.error("AMO VH without Session: " + error.message +  " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT)  + " || " + JSON.stringify(req.query.SELECT.where));
                     }
                     //await cds.run(req.query);
                 } else {
@@ -526,7 +526,7 @@ class srvOpenOrders extends cds.ApplicationService {
                         }
                         lt_result.push({ $count: queryCount })
                     } catch (error) {
-                        log.error("[amo-services.js] - Results Value help count query wo session cache failed! " + error.message +  "||" + JSON.stringify(error));
+                        log.error("AMO VH count without Session: " + error.message +  " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT)  + " || " + JSON.stringify(req.query.SELECT.where));
                         req.error(error)
                     }
 
