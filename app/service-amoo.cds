@@ -18,7 +18,7 @@ using from './AMOO annotations/amoo-selectionfields';
 // Base entity annotations
 using from './AMOO annotations/amoo-base-entity';
 
-// Results annotations
+// AllIssues annotations
 using from './AMOO annotations/amoo-allissues-entity';
 
 // valueHelps annotations

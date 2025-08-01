@@ -15,3 +15,19 @@ annotate service.DCPStatus with {
     @Common.TextFor
     DCPStatusText;
 };
+
+annotate service.nextProcessSteps with {
+    @Common.Text           : NextProcessStepText
+    @Common.TextArrangement: #TextOnly
+    NextProcessStepKey  @title: '{i18n>SO_NPS}}'  @sap.Label: '{i18n>SO_NPS}';
+    @Common.TextFor
+    NextProcessStepText;
+};
+
+annotate service.issues with {
+    @Common.Text           : IssueText
+    @Common.TextArrangement: #TextOnly
+    IssueKey  @title: '{i18n>SO_ISSUE}}'  @sap.Label: '{i18n>SO_ISSUE}';
+    @Common.TextFor
+    IssueText;
+};

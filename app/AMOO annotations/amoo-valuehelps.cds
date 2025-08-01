@@ -779,13 +779,17 @@ annotate service.allIssues with {
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>SO_NPS}',
-        CollectionPath         : 'valueHelps',
+        CollectionPath         : 'nextProcessSteps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_NPS,
-            ValueListProperty: 'SO_NPS'
+            ValueListProperty: 'NextProcessStepKey'
+        },
+        {
+            $Type            : 'Common.ValueListParameterDisplayOnly',
+            ValueListProperty: 'NextProcessStepText'
         }]
     }
 };
@@ -795,13 +799,17 @@ annotate service.allIssues with {
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>SO_ISSUE}',
-        CollectionPath         : 'valueHelps',
+        CollectionPath         : 'issues',
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_ISSUE,
-            ValueListProperty: 'SO_ISSUE'
+            ValueListProperty: 'IssueKey'
+        },
+        {
+            $Type            : 'Common.ValueListParameterDisplayOnly',
+            ValueListProperty: 'IssueText'
         }]
     }
 };

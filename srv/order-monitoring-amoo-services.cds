@@ -16,6 +16,10 @@ service openOrdersSrv {
     entity SAPSystems as projection on amo_service.SAPSystems;
     @readonly
     entity DCPStatus as projection on amo_service.DCPStatus;
+    @readonly
+    entity nextProcessSteps as projection on db_app.nextProcessSteps;
+    @readonly
+    entity issues as projection on db_app.issues;
 
     entity currencies               as projection on db_app.currency;
 

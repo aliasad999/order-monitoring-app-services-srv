@@ -2,6 +2,17 @@ namespace openorders.db;
 
 using {User} from '@sap/cds/common';
 
+entity nextProcessSteps {
+        key NextProcessStepKey : String(2);
+            NextProcessStepText    : localized String(100);
+}
+
+entity issues {
+        key IssueKey : String(2);
+            IssueText    : localized String(100)
+}
+
+
 @cds.persistence.exists
 entity ![OPENORDERSLIST] {
         MANDT                              : String(3);

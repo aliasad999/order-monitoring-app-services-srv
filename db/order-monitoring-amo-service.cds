@@ -8,7 +8,7 @@ entity SAPSystems {
 
 entity DCPStatus{
         key DCPStatusKey: String(2);
-            DCPStatusText: String(50);
+            DCPStatusText: localized String(50);
 }
 
 @cds.persistence.exists
