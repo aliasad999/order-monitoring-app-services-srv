@@ -705,8 +705,10 @@ annotate service.Results with {
     SO_CONTRACT                 @title: '{i18n>SO_CONTRACT}'                      @sap.Label: '{i18n>SO_CONTRACT}';
     SO_CONTRACT_ITEM            @title: '{i18n>SO_CONTRACT_ITEM}'                 @sap.Label: '{i18n>SO_CONTRACT_ITEM}';
     SO_ZZMHDRZ                  @title: '{i18n>SO_ZZMHDRZ}'                       @sap.Label: '{i18n>SO_ZZMHDRZ}';
-    SO_ZTERM_VTEXT_LANG         @title: '{i18n>SO_ZTERM_VTEXT_LANG}'              @sap.Label: '{i18n>SO_ZTERM_VTEXT_LANG}'; 
-    BL_XREF3                    @title: '{i18n>BL_XREF3}'                         @sap.Label: '{i18n>BL_XREF3}';
+    SO_ZTERM_VTEXT_LANG              @title: '{i18n>SO_ZTERM_VTEXT_LANG}'              @sap.Label: '{i18n>SO_ZTERM_VTEXT_LANG}'; 
+    DL_SEED_COUNT                      @title: '{i18n>DL_SEED_COUNT}'                      @sap.Label: '{i18n>DL_SEED_COUNT}';
+    DL_SEEDS_TAGGED_GERM                 @title: '{i18n>DL_SEEDS_TAGGED_GERM}'                 @sap.Label: '{i18n>DL_SEEDS_TAGGED_GERM}';
+    BL_XREF3                         @title: '{i18n>BL_XREF3}'                         @sap.Label: '{i18n>BL_XREF3}';
 }
 
 annotate service.Results with {
@@ -822,6 +824,7 @@ annotate service.Results with {
     SO_MVGR2_BEZEI_LANG              @UI                     : {Hidden: true};
     SO_DGSTA_DDTEXT_LANG             @UI                     : {Hidden: true};
     // SO_VALDT             @UI                     : {Hidden: true};
+    BL_XREF3                        @UI                     : {Hidden: true};
 }
 
 annotate service.valueHelps with {
