@@ -68,21 +68,15 @@ service srvOpenOrders {
             CO_PARTNER_ITM, CO_PARTNER_HEAD
           )                                           as SO_CO_PARTNER                   : String(10),
           IFNULL(
-            (
-              CO_PARTNER_NAME1_ITM || CO_PARTNER_NAME2_ITM
-            ), (
-              CO_PARTNER_NAME1_HEAD || CO_PARTNER_NAME2_HEAD
-            )
+              NULLIF(TRIM(COALESCE(CO_PARTNER_NAME1_ITM, '') || ' ' || COALESCE(CO_PARTNER_NAME2_ITM, '')), ''),
+              NULLIF(TRIM(COALESCE(CO_PARTNER_NAME1_HEAD, '') || ' ' || COALESCE(CO_PARTNER_NAME2_HEAD, '')), '')
           )                                           as SO_CO_PARTNER_NAME              : String(80),
           IFNULL(
             NY_PARTNER_ITM, NY_PARTNER_HEAD
           )                                           as SO_NY_PARTNER                   : String(10),
           IFNULL(
-            (
-              NY_PARTNER_NAME1_ITM || NY_PARTNER_NAME2_ITM
-            ), (
-              NY_PARTNER_NAME1_HEAD || NY_PARTNER_NAME2_HEAD
-            )
+              NULLIF(TRIM(COALESCE(NY_PARTNER_NAME1_ITM, '') || ' ' || COALESCE(NY_PARTNER_NAME2_ITM, '')), ''), 
+              NULLIF(TRIM(COALESCE(NY_PARTNER_NAME1_HEAD, '') || ' ' || COALESCE(NY_PARTNER_NAME2_HEAD, '')), '')
           )                                           as SO_NY_PARTNER_NAME              : String(80),
           IFNULL(
             AS_PARTNER_ITM, AS_PARTNER_HEAD
@@ -379,11 +373,8 @@ service srvOpenOrders {
           )                                           as SO_TO_PARTNER                   : String(10),
 
           IFNULL(
-            (
-              TO_PARTNER_NAME1_ITM || TO_PARTNER_NAME2_ITM
-            ), (
-              TO_PARTNER_NAME1_HEAD || TO_PARTNER_NAME2_HEAD
-            )
+              NULLIF(TRIM(COALESCE(TO_PARTNER_NAME1_ITM, '') || ' ' || COALESCE(TO_PARTNER_NAME2_ITM, '')), ''),
+              NULLIF(TRIM(COALESCE(TO_PARTNER_NAME1_HEAD, '') || ' ' || COALESCE(TO_PARTNER_NAME2_HEAD, '')), '')
           )                                           as SO_TO_PARTNER_NAME              : String(80),
 
           @UI.Hidden: true
