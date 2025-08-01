@@ -736,17 +736,19 @@ class openOrdersSrv extends cds.ApplicationService {
                         //this parameater has been manually set to header on every request
                         const selectedField = req.http.req.query && req.http.req.query['$select']
                         let fields = selectedField && selectedField.split(',');
-                        fields = fields.filter((fieldName) => {
-                            const mandtFields = serviceHelper.getMandtFields();
-                            const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
-                            if (mandtTextFields.includes(fieldName)) {
-                                return false;
-                            } else {
-                                return true;
-                            }
-                        });
-                        // remove duplicates based on fields in the valuehelp dialog box
-                        lt_result = serviceHelper.removeDuplicates(fields, lt_result);
+                        if(fields){
+                            fields = fields.filter((fieldName) => {
+                                const mandtFields = serviceHelper.getMandtFields();
+                                const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
+                                if (mandtTextFields.includes(fieldName)) {
+                                    return false;
+                                } else {
+                                    return true;
+                                }
+                            });
+                            // remove duplicates based on fields in the valuehelp dialog box
+                            lt_result = serviceHelper.removeDuplicates(fields, lt_result);
+                        }
                     } catch (error) {
                         log.error("AMOO VH with Session: " + error.message +  " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT)  + " || " + JSON.stringify(req.query.SELECT.where));
                         req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
