@@ -435,20 +435,23 @@ class srvOpenOrders extends cds.ApplicationService {
                         //this parameater has been manually set to header on every request
                         const selectedField = req.http.req.query && req.http.req.query['$select']
                         let fields = selectedField && selectedField.split(',');
-                        // Workaround for DCP STatus - Need a better fix
-                        fields = fields.filter(e => e !== 'SO_DCP_ITEM_STATUS_DESCRIPTION');
-                        fields = fields.filter((fieldName) => {
-                            const mandtFields = serviceHelper.getMandtFields();
-                            const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
-                            if (mandtTextFields.includes(fieldName)) {
-                                return false;
-                            } else {
-                                return true;
-                            }
-                        });
-                        // remove duplicates based on fields in the valuehelp dialog box
-                        lt_result = serviceHelper.removeDuplicates(fields, lt_result);
+                        if(fields){
+                            // Workaround for DCP STatus - Need a better fix
+                            fields = fields.filter(e => e !== 'SO_DCP_ITEM_STATUS_DESCRIPTION');
+                            fields = fields.filter((fieldName) => {
+                                const mandtFields = serviceHelper.getMandtFields();
+                                const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
+                                if (mandtTextFields.includes(fieldName)) {
+                                    return false;
+                                } else {
+                                    return true;
+                                }
+                            });
+                            // remove duplicates based on fields in the valuehelp dialog box
+                            lt_result = serviceHelper.removeDuplicates(fields, lt_result);
+                        }
                     } catch (error) {
+                        log.error("AMO VH with Session: " + error.message +  " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT)  + " || " + JSON.stringify(req.query.SELECT.where));
                         req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                     }
                 } else {
@@ -472,6 +475,7 @@ class srvOpenOrders extends cds.ApplicationService {
                         }
                         lt_result.push({ $count: queryCount })
                     } catch (error) {
+                        log.error("AMO VH count with Session: " + error.message +  " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT)  + " || " + JSON.stringify(req.query.SELECT.where));
                         req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                     }
 
@@ -493,11 +497,16 @@ class srvOpenOrders extends cds.ApplicationService {
                     where && requestQuery.length != 0 && requestQuery.push('and');
                     where && requestQuery.push(where);
                     req.query.SELECT.where = requestQuery
-                    delete req.query.SELECT.search
+                    // delete req.query.SELECT.search
                 }
                 if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
-                    req.query.SELECT.distinct = true;
-                    lt_result = await db.run(req.query)
+                    // req.query.SELECT.distinct = true;
+                    let finalQuery = SELECT.distinct.from(Results).columns(req.query.SELECT.columns).where(req.query.SELECT.where).orderBy(req.query.SELECT.orderBy);
+                    try{
+                        lt_result = await db.run(finalQuery)
+                    }catch(error){
+                        log.error("AMO VH without Session: " + error.message +  " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT)  + " || " + JSON.stringify(req.query.SELECT.where));
+                    }
                     //await cds.run(req.query);
                 } else {
                     try {
@@ -519,6 +528,7 @@ class srvOpenOrders extends cds.ApplicationService {
                         }
                         lt_result.push({ $count: queryCount })
                     } catch (error) {
+                        log.error("AMO VH count without Session: " + error.message +  " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT)  + " || " + JSON.stringify(req.query.SELECT.where));
                         req.error(error)
                     }
 
