@@ -1783,7 +1783,186 @@ class openOrdersSrv extends cds.ApplicationService {
             }
             return combinedResults;
         })
+        this.before("READ", "OpenOrdersAnalytics", async (req, next) => {
+            // if (req.query.SELECT.where) {
+            // req.query.SELECT.where = serviceHelper.replaceDateInArray(req.subject.ref[0].SELECT.where[0].xpr[0].xpr[0].xpr[0].xpr)
+            if (req.headers?.export === 'true') await cds.run(`SET 'APPLICATION' = 'CAPServicesExport'`);
+            // if (req.user.id !== "anonymous") {
+            //     const { VBAKAuthObjectKeys } = await cds.entities('srvOpenOrders');
+            //     let userID = req.user.id;
+            //     let authSet = await SELECT.from(VBAKAuthObjectKeys).where({ USERID: userID });
+            //     if (authSet.length === 0) {
+            //         req.error(413, 'NO_AUTH_LIST')
+            //     }
 
+            req.query.SELECT.orderBy && req.query.SELECT.orderBy.forEach(order => {
+                this._textKeys.forEach(item => {
+                    if (order.ref.includes(item.key)) {
+                        order.ref = [item.value];
+                    }
+                });
+            });
+            req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
+            // let whereClause = serviceHelper.convertCQNtoCQL(req.subject.ref[0].SELECT.where[0].xpr[0].xpr[0].xpr[0].xpr, false)
+            // whereClause = serviceHelper.transformWhereClause(whereClause)
+            // req.subject.ref[0].SELECT.where[0].xpr[0].xpr[0].xpr[0].xpr = cds.parse.xpr(whereClause)
+            // }
+        });
+
+        this.on("READ", 'OpenOrdersAnalytics', async (req, next) => {
+            const db = cds.tx(req);
+            let currentUser = req.user.id;
+            if (currentUser) {
+                let partnerSettingsQuery = cds.parse.cql(`SELECT from srvOpenOrders_PartnerSettings where BASF_USER = '${currentUser}' and ACTIVE = 'X'`);
+                let partnerSettings = await db.run(partnerSettingsQuery);
+                if (partnerSettings.length !== 0) {
+                    let partnersQuery = [];
+                    for (let settingsEntry of partnerSettings) {
+                        let partnerNumber = settingsEntry.PARTNER_NUMBER;
+                        switch (settingsEntry.PARTNER_ROLE) {
+                            case 'VE':
+                                partnersQuery.push(`SO_VE_PARTNER = '${partnerNumber}'`);
+                                break;
+                            case 'AS':
+                                partnersQuery.push(`SO_AS_PARTNER = '${partnerNumber}'`);
+                                break;
+                            case 'AM':
+                                partnersQuery.push(`SO_AM_PARTNER = '${partnerNumber}'`);
+                                break;
+                            case 'AD':
+                                partnersQuery.push(`SO_AD_PARTNER = '${partnerNumber}'`);
+                                break;
+                            case 'Z5':
+                                partnersQuery.push(`SO_Z5_PARTNER = '${partnerNumber}'`);
+                                break;
+                            case 'SB':
+                                partnersQuery.push(`SO_SB_PARTNER = '${partnerNumber}'`);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    let partnersQueryParsed;
+                    if (partnersQuery.length > 0) {
+                        let queryString = "(" + partnersQuery.join(' or ') + ")";
+                        partnersQueryParsed = cds.parse.expr(queryString);
+                    }
+                    let requestQuery = req.query.SELECT.where || [];
+                    if (partnersQuery.length > 0) {
+                        if (requestQuery.length > 0) {
+                            requestQuery.push('and');
+                        }
+                        requestQuery.push(partnersQueryParsed);
+                    }
+
+                    req.query.SELECT.where = requestQuery
+                }
+            }
+            // await next(req)
+            const lt_result = await db.run(req.query);
+            if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
+                const groupFields = req.query.SELECT.orderBy
+                    .map(o => o.ref?.[0])
+                    .filter(f => f && f !== 'id'); // ignore 'id'
+                const grouped = {};
+                for (const row of lt_result) {
+                    const key = groupFields.map(f => row[f]).join('||');
+                    if (!grouped[key]) grouped[key] = [];
+                    grouped[key].push(row);
+                }
+
+                const finalResult = [];
+                for (const groupKey in grouped) {
+                    const rows = grouped[groupKey];
+                    let subtotal = 0;
+                    let vrkme = ''
+
+                    for (const row of rows) {
+                        subtotal += Number(row.SO_KWMENG || 0);
+                        vrkme = row.SO_VRKME
+                        finalResult.push(row);
+                    }
+
+                    const subtotalRow = {
+                        isSubtotal: true,
+                        SO_KWMENG: subtotal
+                    };
+
+                    // Copy grouping values into subtotalRow
+                    groupFields.forEach((field, idx) => {
+                        subtotalRow[field] = rows[0][field];
+                    });
+
+                    finalResult.push(subtotalRow);
+                }
+
+                return finalResult;
+            }
+            return lt_result;
+
+
+        })
+
+        // /**
+        //  * This event is triggered after the backend request for order list data
+        //  * @param {string} "READ" - The type of backend request
+        //  * @param {string} "Results" - The name of the entity set
+        //  * @param {function} - The callback function containing the code that runs when the event is triggered
+        //  * @param {array} data - The array containing the result from the backend request
+        //  * @param {object} req - The request object containing request details
+        //  * */
+        this.after("READ", 'OpenOrdersAnalytics', async (data, req) => {
+            //         if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.select) {
+            //             return;
+            //         } else {
+            //             let sessionID = req.headers['authorization'] || req.headers['x-username'];
+            //             // cache the query, so that all filter conditions can be consumed.. when any valuehelp is called.
+
+            //                 let query = req.query;
+            //                 query.SELECT.where = req.query.SELECT.where;
+            //                 const queryString = JSON.stringify(query);
+            //                 const queryId = `${sessionID}AMOOAnalyticsQuery`
+            //                 sessionCache.set(queryId, queryString);
+
+            //         }
+            data = Array.isArray(data) ? data : [data]
+            //         var dateProps = serviceHelper.getDateProps()
+            data.forEach((item) => {
+                item.id = uuid.v1()
+                if ('SO_NETWR' in item) // Net Amount
+                    item.SO_NETWR = formatSpecialCurrencies(item.SO_NETWR, item.SO_WAERK, this._SpecialCurrencies);
+                if ('SO_KBETR' in item) // Price Per Unit
+                    item.SO_KBETR = formatSpecialCurrencies(item.SO_KBETR, item.SO_WAERK, this._SpecialCurrencies);
+                // if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`nps${item.SO_NPS}`)
+                // if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`OrderIssue${item.SO_ISSUE}`)
+                // if ('SO_DCP_ITEM_STATUS' in item) {
+                //     if (item.SO_DCP_ITEM_STATUS) {
+                //         item.SO_DCP_ITEM_STATUS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
+                //     }
+            });
+            // let mandtFields = serviceHelper.getMandtFields();
+            //             // MANDANT TEXTS LOGIC -------------
+            //             mandtFields.forEach((mandt) => {
+            //                 const mandtProp = item[mandt];
+            //                 if (mandtProp) {
+            //                     let mandtTxtField = mandt + "_TEXT";
+            //                     item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+            //                 }
+            //             })
+            //             dateProps.forEach((property) => {
+            //                 const dateString = item[property]
+            //                 if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
+            //                     const year = parseInt(dateString.substring(0, 4), 10);
+            //                     const month = parseInt(dateString.substring(4, 6), 10) - 1;
+            //                     const day = parseInt(dateString.substring(6, 8), 10);
+            //                     item[property] = new Date(year, month, day);
+            //                 } else {
+            //                     item[property] = null
+            //                 }
+
+            //             })
+        })
         return super.init();
     }
 }
