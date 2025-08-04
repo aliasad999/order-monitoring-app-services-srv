@@ -571,5 +571,200 @@ service openOrdersSrv {
     entity OCValueHelps             as projection on baseOrderCreation;
 
     entity APContacts               as projection on OMServicesAP.SalesOrderPartner;
+    entity VhOpenOrdersAnalytics as projection on OpenOrdersAnalytics;
+    entity OpenOrdersAnalytics      as
+        select from db_app.OPENORDERSLIST {
+            key null                                        as id                   : UUID,
+            virtual false as isSubtotal : Boolean,
+                VBELN                                       as SO_VBELN,
+                POSNR                                       as SO_POSNR,
+                FINAL_SO_MANDT                              as SO_FINAL_SO_MANDT,
+                BL_MANDT_INV_LAST                           as BL_MANDT_INV_LAST,
+                MANDT_TM                                    as TM_MANDT,
+                MANDT_DEL                                   as DL_MANDT,
+                MANDT                                       as SO_MANDT,
+                case
+                    when EDATU_REQUESTED_DATE is not null
+                         then SUBSTRING(
+                                  EDATU_REQUESTED_DATE, 1, 4
+                              ) || '-' || SUBSTRING(
+                                  EDATU_REQUESTED_DATE, 5, 2
+                              ) || '-' || SUBSTRING(
+                                  EDATU_REQUESTED_DATE, 7, 2
+                              )
+                    else '9999-12-31'
+                end                                         as SO_EDATU_REQUESTED   : Date,
+                case
+                    when ERDAT_ITEM_DATE is not null
+                         then SUBSTRING(
+                                  ERDAT_ITEM_DATE, 1, 4
+                              ) || '-' || SUBSTRING(
+                                  ERDAT_ITEM_DATE, 5, 2
+                              ) || '-' || SUBSTRING(
+                                  ERDAT_ITEM_DATE, 7, 2
+                              )
+                    else '9999-12-31'
+                end                                         as SO_ERDAT_ITEM        : Date,
+                case
+                    when WADAT_IST_DATE is not null
+                         then SUBSTRING(
+                                  WADAT_IST_DATE, 1, 4
+                              ) || '-' || SUBSTRING(
+                                  WADAT_IST_DATE, 5, 2
+                              ) || '-' || SUBSTRING(
+                                  WADAT_IST_DATE, 7, 2
+                              )
+                    else '9999-12-31'
+                end                                         as DL_WADAT_IST         : Date,
+                case
+                    when F_LDDAT_DATE is not null
+                         then SUBSTRING(
+                                  F_LDDAT_DATE, 1, 4
+                              ) || '-' || SUBSTRING(
+                                  F_LDDAT_DATE, 5, 2
+                              ) || '-' || SUBSTRING(
+                                  F_LDDAT_DATE, 7, 2
+                              )
+                    else '9999-12-31'
+                end                                         as SO_F_LDDAT           : Date,
+                case
+                    when LDDAT_DEL_DATE is not null
+                         then SUBSTRING(
+                                  LDDAT_DEL_DATE, 1, 4
+                              ) || '-' || SUBSTRING(
+                                  LDDAT_DEL_DATE, 5, 2
+                              ) || '-' || SUBSTRING(
+                                  LDDAT_DEL_DATE, 7, 2
+                              )
+                    else '9999-12-31'
+                end                                         as DL_LDDAT             : Date,
+                case
+                    when ERDAT_ORDER_DATE is not null
+                         then SUBSTRING(
+                                  ERDAT_ORDER_DATE, 1, 4
+                              ) || '-' || SUBSTRING(
+                                  ERDAT_ORDER_DATE, 5, 2
+                              ) || '-' || SUBSTRING(
+                                  ERDAT_ORDER_DATE, 7, 2
+                              )
+                    else '9999-12-31'
+                end                                         as SO_ERDAT_ORDER       : Date,
+                case
+                    when WADAT_DATE is not null
+                         then SUBSTRING(
+                                  WADAT_DATE, 1, 4
+                              ) || '-' || SUBSTRING(
+                                  WADAT_DATE, 5, 2
+                              ) || '-' || SUBSTRING(
+                                  WADAT_DATE, 7, 2
+                              )
+                    else '9999-12-31'
+                end                                         as DL_WADAT             : Date,
+                case
+                    when F_TDDAT_DATE is not null
+                         then SUBSTRING(
+                                  F_TDDAT_DATE, 1, 4
+                              ) || '-' || SUBSTRING(
+                                  F_TDDAT_DATE, 5, 2
+                              ) || '-' || SUBSTRING(
+                                  F_TDDAT_DATE, 7, 2
+                              )
+                    else '9999-12-31'
+                end                                         as SO_F_TDDAT           : Date,
 
+                F_ZZ0S2MATUG                                as SO_F_ZZ0S2MATUG,
+                @Common.Text           : SO_FAKSP_VTEXT
+                @Common.TextArrangement: #TextFirst
+                FAKSP                                       as SO_FAKSP,
+                @Common.TextFor
+                case
+                    when FAKSP_VTEXT_LANG = ''
+                         or FAKSP_VTEXT_LANG is null
+                         then FAKSK_VTEXT_LANG
+                    else FAKSP_VTEXT_LANG
+                end                                         as SO_FAKSP_VTEXT       : String(20),
+                BL_VBELN_INV_LAST                           as BL_VBELN_INV_LAST,
+                BSTKD                                       as SO_BSTKD,
+                VBELN_DEL                                   as DL_VBELN,
+                POSNR_DEL_HEAD                              as DL_POSNR,
+                BL_POSNR_INV_LAST                           as BL_POSNR_INV_LAST,
+                FINAL_SO                                    as SO_F_VBELN,
+                IFNULL(
+                    INCO1_ITEM, INCO1_HEAD
+                )                                           as SO_INCO1             : String(3),
+                IFNULL(
+                    INCO2_ITEM, INCO2_HEAD
+                )                                           as SO_INCO2             : String(28),
+                IFNULL(
+                    ZTERM_ITEM, ZTERM_HEAD
+                )                                           as SO_ZTERM             : String(4),
+                @Common.Text           : SO_ISSUE_DESCRIPTION
+                @Common.TextArrangement: #TextOnly
+                ISSUE                                       as SO_ISSUE,
+                @Common.TextFor
+                virtual null                                as SO_ISSUE_DESCRIPTION : String(100),
+                MAKTX_LANG                                  as SO_MAKTX,
+                MATNR                                       as SO_MATNR,
+                AUART                                       as SO_AUART,
+                @Common.Text           : TM_STTRG_DDTEXT
+                @Common.TextArrangement: #TextFirst
+                STTRG                                       as TM_STTRG,
+                @Common.TextFor
+                STTRG_DDTEXT_LANG                           as TM_STTRG_DDTEXT,
+
+                WERKS                                       as SO_WERKS,
+                @Common.Text           : SO_ABGRU_BEZEI
+                @Common.TextArrangement: #TextFirst
+                ABGRU                                       as SO_ABGRU,
+                @Common.TextFor
+                ABGRU_BEZEI_LANG                            as SO_ABGRU_BEZEI,
+                // TO_DATE(EDATU_REQUESTED, 'YYYY-MM-DD') AS SO_EDATU_REQUESTED: Date,
+
+                // EDATU_REQUESTED_DATE                        as SO_EDATU_REQUESTED,
+                @Common.Text           : SO_WE_PARTNER_NAME
+                @Common.TextArrangement: #TextFirst
+                WE_PARTNER                                  as SO_WE_PARTNER,
+                @Common.TextFor
+                WE_PARTNER_NAME1 || ' ' || WE_PARTNER_NAME2 as SO_WE_PARTNER_NAME   : String(80),
+
+                @Common.Text           : SO_F_VSBED_VTEXT
+                @Common.TextArrangement: #TextFirst
+                F_VSBED                                     as SO_F_VSBED,
+                @Common.TextFor
+                F_VSBED_VTEXT_LANG                          as SO_F_VSBED_VTEXT,
+                @Common.Text           : SO_AG_PARTNER_NAME
+                @Common.TextArrangement: #TextFirst
+                AG_PARTNER                                  as SO_AG_PARTNER,
+                @Common.TextFor
+                AG_PARTNER_NAME1 || ' ' || AG_PARTNER_NAME2 as SO_AG_PARTNER_NAME   : String(80),
+                TKNUM                                       as TM_TKNUM,
+                @Common.Text           : SO_NPS_DESCRIPTION
+                @Common.TextArrangement: #TextOnly
+                NPS                                         as SO_NPS,
+                @Common.TextFor
+                virtual null                                as SO_NPS_DESCRIPTION   : String(100),
+                VBTYP                                       as SO_VBTYP,
+                @Semantics.currencyCode
+                WAERK                                       as SO_WAERK,
+                @Semantics.currencyCode
+                WAERS                                       as SO_WAERS,
+                @Semantics.unitOfMeasure: 'unit-of-measure'
+                VRKME                                       as SO_VRKME,
+                // @Analytics.Measure     : true
+                // @Aggregation.default   : #SUM
+                @Measures.Unit         : SO_VRKME
+                KWMENG                                      as SO_KWMENG,
+                // @Analytics.Measure     : true
+                // @Aggregation.default   : #SUM
+                @Measures.Unit         : SO_VRKME
+                KBMENG                                      as SO_KBMENG,
+                // @Analytics.Measure     : true
+                // @Aggregation.default   : #SUM
+                @Measures.ISOCurrency  : SO_WAERK
+                NETWR                                       as SO_NETWR,
+                // @Analytics.Measure     : true
+                // @Aggregation.default   : #SUM
+                @Measures.ISOCurrency  : SO_WAERS
+                KBETR                                       as SO_KBETR,
+        };
 };
