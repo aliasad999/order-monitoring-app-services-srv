@@ -2019,7 +2019,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
                     }
             data = Array.isArray(data) ? data : [data]
-            //         var dateProps = serviceHelper.getDateProps()
+            let dateProps = serviceHelper.getDateProps()
             data.forEach((item) => {
                 item.id = uuid.v1()
                 if ('SO_NETWR' in item) // Net Amount
@@ -2028,8 +2028,18 @@ class openOrdersSrv extends cds.ApplicationService {
                     item.SO_KBETR = formatSpecialCurrencies(item.SO_KBETR, item.SO_WAERK, this._SpecialCurrencies);
                 if ('SO_NPS' in item && item.SO_NPS) item.SO_NPS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`nps${item.SO_NPS}`)
                 if ('SO_ISSUE' in item && item.SO_ISSUE) item.SO_ISSUE_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`OrderIssue${item.SO_ISSUE}`)
-                
-            });
+            dateProps.forEach((property) => {
+                        const dateString = item[property]
+                        if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
+                            const year = parseInt(dateString.substring(0, 4), 10);
+                            const month = parseInt(dateString.substring(4, 6), 10) - 1;
+                            const day = parseInt(dateString.substring(6, 8), 10);
+                            item[property] = new Date(year, month, day);
+                        } else {
+                            item[property] = null
+                        }
+                    });
+                    })
         })
         // this.on("READ", "VhOpenOrdersAnalytics", async (req, next) => {
         //     // get the session id based on auth token
