@@ -37,6 +37,7 @@ const getDateProps = () => {
         "PO_AB_CONF_DATE",
         "PO_LA_CONF_DATE",
         "PO_ZD_CONF_DATE",
+        "SO_VALDT"
     ]
 }
 
@@ -251,11 +252,9 @@ transformWhereClause = (whereClause) => {
             return `${field} ${operator} '${year}${month}${day}'`;  // Convert date format 
         }
     });
-    transformed = transformed.replace(/''([^']{2,})''/g, "'$1'");;  // keep only single quotes
+    transformed = transformed.replace(/''/g, "'"); // keep only single quotes   
     transformed = transformed.replace(/\s*AND\s*$/, ''); // removing ending and
-    transformed = transformed.replace(/''/g, "'");
-    transformed = transformed.replace(/'''/g, "''");
-    transformed = transformed.replace(/ ' /g, "'' ");
+
     return transformed;
     }
 
