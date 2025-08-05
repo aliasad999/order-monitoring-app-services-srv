@@ -51,15 +51,15 @@ class openOrdersSrv extends cds.ApplicationService {
             // Purchase order Text
             const { Results } = cds.entities('srvOpenOrders')
             let POData = await SELECT.distinct.from(Results).columns(["PO_MANDT", "PO_EBELN", "PO_EBELP"])
-                            .where`SO_VBELN = ${salesOrder} and SO_POSNR = ${salesOrderItem} and SO_MANDT = ${orderSystem} and PO_MANDT <> null`;
-            if(POData.length > 0 && POData[0].PO_MANDT === "100"){
+                .where`SO_VBELN = ${salesOrder} and SO_POSNR = ${salesOrderItem} and SO_MANDT = ${orderSystem} and PO_MANDT <> null`;
+            if (POData.length > 0 && POData[0].PO_MANDT === "100") {
                 const { PO_EBELN, PO_EBELP } = POData[0];
                 const SAPTextsService = await cds.connect.to('DSLServicesService');
                 SAPTexts = await SAPTextsService.run(SELECT.from('SAPTextsSet').where({
                     TextId: 'F15',
                     TextName: `${PO_EBELN}${PO_EBELP}`,
                     TextObject: 'EKPO'
-                  }));
+                }));
                 if (SAPTexts.length > 0) {
                     SAPTexts.forEach((text) => {
                         SAPTextsEntity.push({
@@ -143,17 +143,17 @@ class openOrdersSrv extends cds.ApplicationService {
                     }
 
                     // Header
-                    SAPTexts = await APSAPTextsService.run(SELECT.from('A_SalesOrderText').where({ 
+                    SAPTexts = await APSAPTextsService.run(SELECT.from('A_SalesOrderText').where({
                         SalesOrder: salesOrder,
-                        LongTextID: { in: headerTextIds}
+                        LongTextID: { in: headerTextIds }
                     }))
                     addTexts(SAPTexts);
 
                     // Item
-                    SAPTexts = await APSAPTextsService.run(SELECT.from('A_SalesOrderItemText').where({ 
+                    SAPTexts = await APSAPTextsService.run(SELECT.from('A_SalesOrderItemText').where({
                         SalesOrder: salesOrder,
                         SalesOrderItem: salesOrderItem,
-                        LongTextID: { in: itemTextIds}
+                        LongTextID: { in: itemTextIds }
                     }))
                     addTexts(SAPTexts);
 
@@ -761,7 +761,7 @@ class openOrdersSrv extends cds.ApplicationService {
                             .orderBy(keyField)
                             .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
                         // Add where clause if needed
-                        if(query.SELECT.where){
+                        if (query.SELECT.where) {
                             subquery = subquery.where(query.SELECT.where);
                         }
                         // Run the count query
@@ -801,23 +801,23 @@ class openOrdersSrv extends cds.ApplicationService {
                 } else {
                     try {
                         let queryCount = 0;
-                            // We need an orderBy clause to make the query performant
-                            let keyField = fields[0];
-                            let subquery = SELECT.distinct(...fields)
-                                .from('openOrdersSrv.allIssues')
-                                .orderBy(keyField)
-                                .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
-                            // Add where clause if needed
-                            if(req.query.SELECT.where){
-                                subquery = subquery.where(req.query.SELECT.where);
-                            }
+                        // We need an orderBy clause to make the query performant
+                        let keyField = fields[0];
+                        let subquery = SELECT.distinct(...fields)
+                            .from('openOrdersSrv.allIssues')
+                            .orderBy(keyField)
+                            .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
+                        // Add where clause if needed
+                        if (req.query.SELECT.where) {
+                            subquery = subquery.where(req.query.SELECT.where);
+                        }
 
-                            // Run the count query
-                            const distinctCount = await SELECT.from(subquery).columns('count(*) as total');
-                            if (distinctCount.length > 0) {
-                                queryCount = distinctCount[0].total;
-                            }
-                            lt_result.push({ $count: queryCount })
+                        // Run the count query
+                        const distinctCount = await SELECT.from(subquery).columns('count(*) as total');
+                        if (distinctCount.length > 0) {
+                            queryCount = distinctCount[0].total;
+                        }
+                        lt_result.push({ $count: queryCount })
                     } catch (error) {
                         req.error(error)
                     }
@@ -1073,9 +1073,9 @@ class openOrdersSrv extends cds.ApplicationService {
                         const db = cds.tx(req);
                         const countCols = req.headers.countcols; // Define count columns
                         const distinctQuery = SELECT.distinct(countCols)
-                                .from('openOrdersSrv.allIssues')
-                                .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
-                        const query =  SELECT.from(distinctQuery).columns('count(*) as total');
+                            .from('openOrdersSrv.allIssues')
+                            .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
+                        const query = SELECT.from(distinctQuery).columns('count(*) as total');
                         if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
                         const distinctCount = await db.run(query);
                         let data = JSON.stringify({
@@ -1182,14 +1182,14 @@ class openOrdersSrv extends cds.ApplicationService {
                 req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
 
                 // Add sorting if necessary only
-                if(!req.query.SELECT?.columns[0].as){
-                    if(req.query.SELECT.orderBy){
+                if (!req.query.SELECT?.columns[0].as) {
+                    if (req.query.SELECT.orderBy) {
                         serviceHelper.addOrderIfNeeded(req.query.SELECT.orderBy, 'PO_EBELN');
                         serviceHelper.addOrderIfNeeded(req.query.SELECT.orderBy, 'PO_EBELP');
-                    }else{
+                    } else {
                         req.query.SELECT.orderBy = [
-                            {ref:['PO_EBELN'], sort: 'asc'},
-                            {ref:['PO_EBELP'], sort: 'asc'}
+                            { ref: ['PO_EBELN'], sort: 'asc' },
+                            { ref: ['PO_EBELP'], sort: 'asc' }
                         ]
                     }
                 }
@@ -1210,12 +1210,12 @@ class openOrdersSrv extends cds.ApplicationService {
                 if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                     try {
                         const db = cds.tx(req);
-                        const countCols = ['PO_MANDT', 'PO_EBELN','PO_EBELP']; // Define count columns
+                        const countCols = ['PO_MANDT', 'PO_EBELN', 'PO_EBELP']; // Define count columns
                         const distinctQuery = SELECT.distinct(...countCols)
-                                .from('openOrdersSrv.orderCreation')
-                                .orderBy({ PO_EBELN: 'asc' }, { PO_EBELP: 'asc' })
-                                .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
-                        const query =  SELECT.from(distinctQuery).columns('count(*) as total');
+                            .from('openOrdersSrv.orderCreation')
+                            .orderBy({ PO_EBELN: 'asc' }, { PO_EBELP: 'asc' })
+                            .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
+                        const query = SELECT.from(distinctQuery).columns('count(*) as total');
                         if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
                         const distinctCount = await db.run(query);
                         return req.reply({ $count: distinctCount[0].total })
@@ -1236,7 +1236,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
         this.after("READ", "orderCreation", async (data, req) => {
             if (process.env.OC_TAB_STATUS === 'ACTIVE') {
-                let sessionID = req.headers['x-username'] ||req.headers['authorization'];
+                let sessionID = req.headers['x-username'] || req.headers['authorization'];
                 if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                     // do nothing
                 } else {
@@ -1363,7 +1363,7 @@ class openOrdersSrv extends cds.ApplicationService {
                                 .orderBy(keyField)
                                 .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
                             // Add where clause if needed
-                            if(query.SELECT.where){
+                            if (query.SELECT.where) {
                                 subquery = subquery.where(query.SELECT.where);
                             }
                             // Run the count query
@@ -1411,7 +1411,7 @@ class openOrdersSrv extends cds.ApplicationService {
                                 .orderBy(keyField)
                                 .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
                             // Add where clause if needed
-                            if(req.query.SELECT.where){
+                            if (req.query.SELECT.where) {
                                 subquery = subquery.where(req.query.SELECT.where);
                             }
 
@@ -1686,7 +1686,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         } catch (error) {
                             console.error('Error fetching ATP Pal status:', error);
                         }
-                    } 
+                    }
                     break;
                 case "200": // EC
                     break;
@@ -1803,10 +1803,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 });
             });
             req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
-            // let whereClause = serviceHelper.convertCQNtoCQL(req.subject.ref[0].SELECT.where[0].xpr[0].xpr[0].xpr[0].xpr, false)
-            // whereClause = serviceHelper.transformWhereClause(whereClause)
-            // req.subject.ref[0].SELECT.where[0].xpr[0].xpr[0].xpr[0].xpr = cds.parse.xpr(whereClause)
-            // }
+            req.query.SELECT.distinct = true;
         });
 
         this.on("READ", 'OpenOrdersAnalytics', async (req, next) => {
@@ -1859,73 +1856,123 @@ class openOrdersSrv extends cds.ApplicationService {
                     req.query.SELECT.where = requestQuery
                 }
             }
-            // await next(req)
-            const lt_result = await db.run(req.query);
-            if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
-                const groupFields = req.query.SELECT.orderBy
-                    .map(o => o.ref?.[0])
-                    .filter(f => f && f !== 'id'); // ignore 'id'
-                const grouped = {};
-                for (const row of lt_result) {
-                    const key = groupFields.map(f => row[f]).join('||');
-                    if (!grouped[key]) grouped[key] = [];
-                    grouped[key].push(row);
+
+            let where = serviceHelper.convertCQNtoCQL(req.query.SELECT.where);
+            where = where.replace(/''/g, "'");
+            where = `${where}  SO_IGNORED = 0`;
+
+            let columns = req.headers?.selectedcolumns || '';
+            let groupby = req.headers?.orderby || '';
+
+            // Convert to array
+            let columnsArray = columns.split(',').map(c => c.trim()).filter(Boolean);
+            let groupbySet = new Set(groupby.split(',').map(g => g.trim()).filter(Boolean));
+
+            // Aggregation config
+            const aggrMap = {
+                SO_KWMENG: { sum: `SUM(SO_KWMENG) AS SO_KWMENG`, group: 'SO_VRKME' },
+                SO_KBMENG: { sum: 'SUM(SO_KBMENG) AS SO_KBMENG', group: 'SO_VRKME' },
+                SO_KBETR: { sum: 'SUM(SO_KBETR) AS SO_KBETR', group: 'SO_WAERS' },
+                SO_NETWR: { sum: 'SUM(SO_NETWR) AS SO_NETWR', group: 'SO_WAERK' }
+            };
+
+            // Build columnsWithSum and extend groupby
+            let columnsWithSumArray = [];
+            for (const col of columnsArray) {
+                if (aggrMap[col]) {
+                    columnsWithSumArray.push(col); // placeholder, handled in subtotal
+                    groupbySet.add(aggrMap[col].group);
+                } else {
+                    columnsWithSumArray.push(col);
                 }
-
-                const finalResult = [];
-                for (const groupKey in grouped) {
-                    const rows = grouped[groupKey];
-                    let subtotal = 0;
-                    let vrkme = ''
-
-                    for (const row of rows) {
-                        subtotal += Number(row.SO_KWMENG || 0);
-                        vrkme = row.SO_VRKME
-                        finalResult.push(row);
-                    }
-
-                    const subtotalRow = {
-                        isSubtotal: true,
-                        SO_KWMENG: subtotal
-                    };
-
-                    // Copy grouping values into subtotalRow
-                    groupFields.forEach((field, idx) => {
-                        subtotalRow[field] = rows[0][field];
-                    });
-
-                    finalResult.push(subtotalRow);
-                }
-
-                return finalResult;
             }
-            return lt_result;
 
+            const finalGroupBy = Array.from(groupbySet).join(',');
 
-        })
+            // Build subtotal column expressions
+            let subtotalColumns = columnsArray.map(col => {
+                if (aggrMap[col]) {
+                    return aggrMap[col].sum; // sum field
+                } else if (groupbySet.has(col)) {
+                    return `${col}`; // keep group-by field
+                } else if (col !== 'SO_ISSUE_DESCRIPTION' || col !== 'SO_NPS_DESCRIPTION') {
+                    return `NULL AS ${col}`; // null for all other fields
+                }
+            });
+            columnsArray = columnsArray.filter(col =>
+                col !== 'SO_ISSUE_DESCRIPTION' && col !== 'SO_NPS_DESCRIPTION'
+            );
+            subtotalColumns = subtotalColumns.filter(col =>
+                col !== 'NULL AS SO_ISSUE_DESCRIPTION' && col !== 'NULL AS SO_NPS_DESCRIPTION'
+            );
+            let finalQuery = ''
+            // Build the final SQL query
+            if (req.query.SELECT.columns && req.query.SELECT.columns[0].as === '$count') {
+                finalQuery = `WITH line_items AS (
+                    SELECT SO_VBELN,SO_WAERS,SO_VRKME,SO_WAERK
+                    FROM openOrdersSrv_OpenOrdersAnalytics
+                    WHERE SO_VBELN = '0163657337' AND (SO_EDATU_REQUESTED >= '2025-08-04' AND SO_EDATU_REQUESTED <= '2025-08-04') AND  SO_IGNORED = 0
+                  ),
+                  line_item_counts AS (
+                    SELECT SO_VBELN,SO_WAERS,SO_VRKME,SO_WAERK, COUNT(*) AS lineItemCount
+                    FROM line_items
+                    GROUP BY SO_VBELN,SO_WAERS,SO_VRKME,SO_WAERK
+                  ),
+                  subtotal_counts AS (
+                    SELECT COUNT(*) AS subtotalCount
+                    FROM line_item_counts
+                  )
+                  SELECT 
+                    SUM(lineItemCount) + (SELECT subtotalCount FROM subtotal_counts) AS totalCount
+                  FROM line_item_counts
+                    with hint(USE_HEX_PLAN);`;
+            }
+            else{
+                const limit = req.query.SELECT.limit?.rows?.val ?? 985; 
+                const offset = req.query.SELECT.limit?.offset.val ?? 0;
+                finalQuery = `
+                WITH line_items_with_sort AS (
+                    SELECT DISTINCT 
+                        ${columnsArray.join(', ')},
+                        false AS "isSubtotal",
+                        ROW_NUMBER() OVER (PARTITION BY ${finalGroupBy} ORDER BY ${finalGroupBy}) AS sortKey
+                    FROM openOrdersSrv_OpenOrdersAnalytics
+                    WHERE ${where}
+                    LIMIT ${limit} OFFSET ${offset} 
+                    ),
+                subtotals AS (
+                    SELECT 
+                        ${subtotalColumns.join(', ')},
+                        true AS "isSubtotal",
+                        MAX(sortKey) + 1 AS sortKey
+                    FROM line_items_with_sort
+                    GROUP BY ${finalGroupBy}
+                    )
+                SELECT * FROM line_items_with_sort
+                    UNION ALL
+                SELECT * FROM subtotals
+                ORDER BY ${finalGroupBy}, sortKey
+                WITH HINT(USE_HEX_PLAN, HEX_INDEX_JOIN)`;
+            }
+            const result = await cds.run(finalQuery);
+            return result;
+        
+        });
 
-        // /**
-        //  * This event is triggered after the backend request for order list data
-        //  * @param {string} "READ" - The type of backend request
-        //  * @param {string} "Results" - The name of the entity set
-        //  * @param {function} - The callback function containing the code that runs when the event is triggered
-        //  * @param {array} data - The array containing the result from the backend request
-        //  * @param {object} req - The request object containing request details
-        //  * */
         this.after("READ", 'OpenOrdersAnalytics', async (data, req) => {
-            //         if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.select) {
-            //             return;
-            //         } else {
-            //             let sessionID = req.headers['authorization'] || req.headers['x-username'];
-            //             // cache the query, so that all filter conditions can be consumed.. when any valuehelp is called.
+                    if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.select) {
+                        return;
+                    } else {
+                        let sessionID = req.headers['authorization'] || req.headers['x-username'];
+                        // cache the query, so that all filter conditions can be consumed.. when any valuehelp is called.
 
-            //                 let query = req.query;
-            //                 query.SELECT.where = req.query.SELECT.where;
-            //                 const queryString = JSON.stringify(query);
-            //                 const queryId = `${sessionID}AMOOAnalyticsQuery`
-            //                 sessionCache.set(queryId, queryString);
+                            let query = req.query;
+                            query.SELECT.where = req.query.SELECT.where;
+                            const queryString = JSON.stringify(query);
+                            const queryId = `${sessionID}AMOOAnalyticsQuery`
+                            sessionCache.set(queryId, queryString);
 
-            //         }
+                    }
             data = Array.isArray(data) ? data : [data]
             //         var dateProps = serviceHelper.getDateProps()
             data.forEach((item) => {
@@ -1934,35 +1981,185 @@ class openOrdersSrv extends cds.ApplicationService {
                     item.SO_NETWR = formatSpecialCurrencies(item.SO_NETWR, item.SO_WAERK, this._SpecialCurrencies);
                 if ('SO_KBETR' in item) // Price Per Unit
                     item.SO_KBETR = formatSpecialCurrencies(item.SO_KBETR, item.SO_WAERK, this._SpecialCurrencies);
-                // if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`nps${item.SO_NPS}`)
-                // if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`OrderIssue${item.SO_ISSUE}`)
-                // if ('SO_DCP_ITEM_STATUS' in item) {
-                //     if (item.SO_DCP_ITEM_STATUS) {
-                //         item.SO_DCP_ITEM_STATUS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
-                //     }
+                if ('SO_NPS' in item && item.SO_NPS) item.SO_NPS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`nps${item.SO_NPS}`)
+                if ('SO_ISSUE' in item && item.SO_ISSUE) item.SO_ISSUE_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`OrderIssue${item.SO_ISSUE}`)
+                
             });
-            // let mandtFields = serviceHelper.getMandtFields();
-            //             // MANDANT TEXTS LOGIC -------------
-            //             mandtFields.forEach((mandt) => {
-            //                 const mandtProp = item[mandt];
-            //                 if (mandtProp) {
-            //                     let mandtTxtField = mandt + "_TEXT";
-            //                     item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
-            //                 }
-            //             })
-            //             dateProps.forEach((property) => {
-            //                 const dateString = item[property]
-            //                 if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
-            //                     const year = parseInt(dateString.substring(0, 4), 10);
-            //                     const month = parseInt(dateString.substring(4, 6), 10) - 1;
-            //                     const day = parseInt(dateString.substring(6, 8), 10);
-            //                     item[property] = new Date(year, month, day);
-            //                 } else {
-            //                     item[property] = null
-            //                 }
-
-            //             })
         })
+        this.on("READ", "VhOpenOrdersAnalytics", async (req, next) => {
+            // get the session id based on auth token
+            let sessionID = req.headers['authorization'] || req.headers['x-username'];
+            const queryId = `${sessionID}AMOOAnalyticsQuery`
+            const db = cds.tx(req);
+            let lt_result = []
+            // if session id is there, get the cach-ed query and execute it.
+            if (sessionCache.get(queryId)) {
+                const queryString = sessionCache.get(queryId);
+                const query = JSON.parse(queryString);
+                query.SELECT.from.ref[0] = 'openOrdersSrv.OpenOrdersAnalytics'
+                // make sure pagination is taken into account
+                // if (query.SELECT.limit.rows.val) query.SELECT.limit.rows.val = req.query.SELECT.limit.rows?.val;
+                //query.SELECT.distinct = true;
+                // if any lowerCaseSearchString is added in search field, that should be taken into account as well
+                //query.SELECT.search = req.query.SELECT.search;
+                let searchString = req.http.req.query["$search"] && req.http.req.query["$search"].replace(/"/g, '')
+                let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
+                if (lowerCaseSearchString) {
+                    let where = []
+                    if (req.http.req.query['$select'] && req.http.req.query['$select'].split(',').length > 1) {
+                        where = cds.parse.expr(`lower(${req.http.req.query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req.http.req.query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                    } else {
+                        where = cds.parse.expr(`lower(${req.http.req.query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                    }
+                    let requestQuery = query.SELECT.where || [];
+                    where && requestQuery.length != 0 && requestQuery.push('and');
+                    where && requestQuery.push(where);
+                    query.SELECT.where = requestQuery
+                }
+                // if (query.SELECT.limit.offset && query.SELECT.limit.offset.val && query.SELECT.limit.offset.val) query.SELECT.limit.offset.val = req.query.SELECT.limit.offset?.val || 0;
+                if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
+                    // ISSUE 343357 
+                    // add skip and top parameters from real query
+                    query.SELECT.limit = req.query.SELECT.limit;
+                    // End of ISSUE 343357
+                    query.SELECT.columns.length = 0;
+                    query.SELECT.columns = req.query.SELECT.columns;
+                    if (query.SELECT.orderBy) query.SELECT.orderBy.length = 0;
+                    query.SELECT.orderBy = req.query.SELECT.orderBy;
+                    try {
+                        lt_result = await db.run(query)
+                        //lt_result = await cds.run(query);
+                        // req.header.select will have the string of visible columns. 
+                        //this parameater has been manually set to header on every request
+                        const selectedField = req.http.req.query && req.http.req.query['$select']
+                        let fields = selectedField && selectedField.split(',');
+                        fields = fields.filter((fieldName) => {
+                            const mandtFields = serviceHelper.getMandtFields();
+                            const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
+                            if (mandtTextFields.includes(fieldName)) {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        });
+                        // remove duplicates based on fields in the valuehelp dialog box
+                        lt_result = serviceHelper.removeDuplicates(fields, lt_result);
+                    } catch (error) {
+                        req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
+                    }
+                } else {
+                    try {
+                        const fields = req.http.req.query["search-focus"].split(',')
+                        let queryCount = 0;
+                        // We need an orderBy clause to make the query performant
+                        let keyField = fields[0];
+                        let subquery = SELECT.distinct(...fields)
+                            .from('openOrdersSrv.OpenOrdersAnalytics')
+                            .orderBy(keyField)
+                            .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
+                        // Add where clause if needed
+                        if (query.SELECT.where) {
+                            subquery = subquery.where(query.SELECT.where);
+                        }
+                        // Run the count query
+                        const distinctCount = await SELECT.from(subquery).columns('count(*) as total');
+                        if (distinctCount.length > 0) {
+                            queryCount = distinctCount[0].total;
+                        }
+                        lt_result.push({ $count: queryCount })
+                    } catch (error) {
+                        req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
+                    }
+
+                }
+
+            } else {
+                const fields = req.http.req.query["search-focus"].split(',')
+                // if there is no session id, execute the query directly
+                let searchString = req.http.req.query["$search"] && req.http.req.query["$search"].replace(/"/g, '')
+                let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
+                if (lowerCaseSearchString) {
+                    let where = []
+                    if (req.http.req.query['$select'] && req.http.req.query['$select'].split(',').length > 1) {
+                        where = cds.parse.expr(`lower(${req.http.req.query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req.http.req.query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                    } else {
+                        where = cds.parse.expr(`lower(${req.http.req.query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                    }
+                    let requestQuery = req.query.SELECT.where || [];
+                    where && requestQuery.length != 0 && requestQuery.push('and');
+                    where && requestQuery.push(where);
+                    req.query.SELECT.where = requestQuery
+                    delete req.query.SELECT.search
+                }
+                if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
+                    req.query.SELECT.distinct = true;
+                    lt_result = await db.run(req.query)
+                    //await cds.run(req.query);
+                } else {
+                    try {
+                        let queryCount = 0;
+                        // We need an orderBy clause to make the query performant
+                        let keyField = fields[0];
+                        let subquery = SELECT.distinct(...fields)
+                            .from('openOrdersSrv.OpenOrdersAnalytics')
+                            .orderBy(keyField)
+                            .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
+                        // Add where clause if needed
+                        if (req.query.SELECT.where) {
+                            subquery = subquery.where(req.query.SELECT.where);
+                        }
+
+                        // Run the count query
+                        const distinctCount = await SELECT.from(subquery).columns('count(*) as total');
+                        if (distinctCount.length > 0) {
+                            queryCount = distinctCount[0].total;
+                        }
+                        lt_result.push({ $count: queryCount })
+                    } catch (error) {
+                        req.error(error)
+                    }
+
+                }
+            }
+            if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count' && req.query.SELECT.search) {
+                lt_result = lt_result.filter((item) => {
+                    for (const prop in item) {
+                        if (item[prop] === null) return false;
+                        // convert to lowercase both sides in order to avoid case sensitivity issues when searching
+                        if (item[prop].toLowerCase().includes(req.query.SELECT.search[0].val.toLowerCase().replace(/^["']|["']$/g, ''))) {
+                            return true;
+                        }
+                    }
+                    return false;
+
+                });
+            }
+            return lt_result;
+        })
+        this.after("READ", "VhOpenOrdersAnalytics", async (data, req) => {
+            data = Array.isArray(data) ? data : [data]
+            // since there is a virtual id field, adding a random guid to each record of the result set.
+            data.forEach((item) => {
+                item.id = uuid.v1()
+                if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`nps${item.SO_NPS}`)
+                if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`OrderIssue${item.SO_ISSUE}`)
+                if ('SO_DCP_ITEM_STATUS' in item) {
+                    if (item.SO_DCP_ITEM_STATUS) {
+                        item.SO_DCP_ITEM_STATUS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
+                    }
+                }
+                let mandtFields = serviceHelper.getMandtFields();
+                // MANDANT TEXTS LOGIC -------------
+                mandtFields.forEach((mandt) => {
+                    const mandtProp = item[mandt];
+                    if (mandtProp) {
+                        let mandtTxtField = mandt + "_TEXT";
+                        item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+                    }
+                })
+            })
+
+        });
         return super.init();
     }
 }
