@@ -1859,6 +1859,13 @@ class openOrdersSrv extends cds.ApplicationService {
             });
             req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
             req.query.SELECT.distinct = true;
+            let whereClause = serviceHelper.convertCQNtoCQL(req.query.SELECT.where, false)
+            // where clause is initially converted from cqn to cql
+            // where clause is then transformed from cql for date formatting and removing additional inverted commas
+            whereClause = serviceHelper.transformWhereClause(whereClause)
+            // where clause is then transformed from cql for date formatting and removing additional inverted commas
+            // where clause is then inserted back to the query
+            req.query.SELECT.where = cds.parse.xpr(whereClause)
         });
 
         this.on("READ", 'OpenOrdersAnalytics', async (req, next) => {
@@ -1962,26 +1969,8 @@ class openOrdersSrv extends cds.ApplicationService {
             );
             let finalQuery = ''
             // Build the final SQL query
-            if (req.query.SELECT.columns && req.query.SELECT.columns[0].as === '$count') {
-                finalQuery = `WITH line_items AS (
-                    SELECT SO_VBELN,SO_WAERS,SO_VRKME,SO_WAERK
-                    FROM openOrdersSrv_OpenOrdersAnalytics
-                    WHERE SO_VBELN = '0163657337' AND (SO_EDATU_REQUESTED >= '2025-08-04' AND SO_EDATU_REQUESTED <= '2025-08-04') AND  SO_IGNORED = 0
-                  ),
-                  line_item_counts AS (
-                    SELECT SO_VBELN,SO_WAERS,SO_VRKME,SO_WAERK, COUNT(*) AS lineItemCount
-                    FROM line_items
-                    GROUP BY SO_VBELN,SO_WAERS,SO_VRKME,SO_WAERK
-                  ),
-                  subtotal_counts AS (
-                    SELECT COUNT(*) AS subtotalCount
-                    FROM line_item_counts
-                  )
-                  SELECT 
-                    SUM(lineItemCount) + (SELECT subtotalCount FROM subtotal_counts) AS totalCount
-                  FROM line_item_counts
-                    with hint(USE_HEX_PLAN);`;
-            }
+            if (req.query.SELECT.columns && req.query.SELECT.columns[0].as === '$count') 
+                return;
             else{
                 const limit = req.query.SELECT.limit?.rows?.val ?? 985; 
                 const offset = req.query.SELECT.limit?.offset.val ?? 0;
@@ -2008,14 +1997,15 @@ class openOrdersSrv extends cds.ApplicationService {
                 SELECT * FROM subtotals
                 ORDER BY ${finalGroupBy}, sortKey
                 WITH HINT(USE_HEX_PLAN, HEX_INDEX_JOIN)`;
-            }
+                
             const result = await cds.run(finalQuery);
             return result;
+            }
         
         });
 
         this.after("READ", 'OpenOrdersAnalytics', async (data, req) => {
-                    if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.select) {
+                    if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' ) {
                         return;
                     } else {
                         let sessionID = req.headers['authorization'] || req.headers['x-username'];
@@ -2024,7 +2014,7 @@ class openOrdersSrv extends cds.ApplicationService {
                             let query = req.query;
                             query.SELECT.where = req.query.SELECT.where;
                             const queryString = JSON.stringify(query);
-                            const queryId = `${sessionID}AMOOAnalyticsQuery`
+                            const queryId = `${sessionID}AMOOQuery`
                             sessionCache.set(queryId, queryString);
 
                     }
@@ -2041,180 +2031,180 @@ class openOrdersSrv extends cds.ApplicationService {
                 
             });
         })
-        this.on("READ", "VhOpenOrdersAnalytics", async (req, next) => {
-            // get the session id based on auth token
-            let sessionID = req.headers['authorization'] || req.headers['x-username'];
-            const queryId = `${sessionID}AMOOAnalyticsQuery`
-            const db = cds.tx(req);
-            let lt_result = []
-            // if session id is there, get the cach-ed query and execute it.
-            if (sessionCache.get(queryId)) {
-                const queryString = sessionCache.get(queryId);
-                const query = JSON.parse(queryString);
-                query.SELECT.from.ref[0] = 'openOrdersSrv.OpenOrdersAnalytics'
-                // make sure pagination is taken into account
-                // if (query.SELECT.limit.rows.val) query.SELECT.limit.rows.val = req.query.SELECT.limit.rows?.val;
-                //query.SELECT.distinct = true;
-                // if any lowerCaseSearchString is added in search field, that should be taken into account as well
-                //query.SELECT.search = req.query.SELECT.search;
-                let searchString = req.http.req.query["$search"] && req.http.req.query["$search"].replace(/"/g, '')
-                let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
-                if (lowerCaseSearchString) {
-                    let where = []
-                    if (req.http.req.query['$select'] && req.http.req.query['$select'].split(',').length > 1) {
-                        where = cds.parse.expr(`lower(${req.http.req.query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req.http.req.query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
-                    } else {
-                        where = cds.parse.expr(`lower(${req.http.req.query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
-                    }
-                    let requestQuery = query.SELECT.where || [];
-                    where && requestQuery.length != 0 && requestQuery.push('and');
-                    where && requestQuery.push(where);
-                    query.SELECT.where = requestQuery
-                }
-                // if (query.SELECT.limit.offset && query.SELECT.limit.offset.val && query.SELECT.limit.offset.val) query.SELECT.limit.offset.val = req.query.SELECT.limit.offset?.val || 0;
-                if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
-                    // ISSUE 343357 
-                    // add skip and top parameters from real query
-                    query.SELECT.limit = req.query.SELECT.limit;
-                    // End of ISSUE 343357
-                    query.SELECT.columns.length = 0;
-                    query.SELECT.columns = req.query.SELECT.columns;
-                    if (query.SELECT.orderBy) query.SELECT.orderBy.length = 0;
-                    query.SELECT.orderBy = req.query.SELECT.orderBy;
-                    try {
-                        lt_result = await db.run(query)
-                        //lt_result = await cds.run(query);
-                        // req.header.select will have the string of visible columns. 
-                        //this parameater has been manually set to header on every request
-                        const selectedField = req.http.req.query && req.http.req.query['$select']
-                        let fields = selectedField && selectedField.split(',');
-                        fields = fields.filter((fieldName) => {
-                            const mandtFields = serviceHelper.getMandtFields();
-                            const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
-                            if (mandtTextFields.includes(fieldName)) {
-                                return false;
-                            } else {
-                                return true;
-                            }
-                        });
-                        // remove duplicates based on fields in the valuehelp dialog box
-                        lt_result = serviceHelper.removeDuplicates(fields, lt_result);
-                    } catch (error) {
-                        req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
-                    }
-                } else {
-                    try {
-                        const fields = req.http.req.query["search-focus"].split(',')
-                        let queryCount = 0;
-                        // We need an orderBy clause to make the query performant
-                        let keyField = fields[0];
-                        let subquery = SELECT.distinct(...fields)
-                            .from('openOrdersSrv.OpenOrdersAnalytics')
-                            .orderBy(keyField)
-                            .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
-                        // Add where clause if needed
-                        if (query.SELECT.where) {
-                            subquery = subquery.where(query.SELECT.where);
-                        }
-                        // Run the count query
-                        const distinctCount = await SELECT.from(subquery).columns('count(*) as total');
-                        if (distinctCount.length > 0) {
-                            queryCount = distinctCount[0].total;
-                        }
-                        lt_result.push({ $count: queryCount })
-                    } catch (error) {
-                        req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
-                    }
+        // this.on("READ", "VhOpenOrdersAnalytics", async (req, next) => {
+        //     // get the session id based on auth token
+        //     let sessionID = req.headers['authorization'] || req.headers['x-username'];
+        //     const queryId = `${sessionID}AMOOAnalyticsQuery`
+        //     const db = cds.tx(req);
+        //     let lt_result = []
+        //     // if session id is there, get the cach-ed query and execute it.
+        //     if (sessionCache.get(queryId)) {
+        //         const queryString = sessionCache.get(queryId);
+        //         const query = JSON.parse(queryString);
+        //         query.SELECT.from.ref[0] = 'openOrdersSrv.OpenOrdersAnalytics'
+        //         // make sure pagination is taken into account
+        //         // if (query.SELECT.limit.rows.val) query.SELECT.limit.rows.val = req.query.SELECT.limit.rows?.val;
+        //         //query.SELECT.distinct = true;
+        //         // if any lowerCaseSearchString is added in search field, that should be taken into account as well
+        //         //query.SELECT.search = req.query.SELECT.search;
+        //         let searchString = req.http.req.query["$search"] && req.http.req.query["$search"].replace(/"/g, '')
+        //         let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
+        //         if (lowerCaseSearchString) {
+        //             let where = []
+        //             if (req.http.req.query['$select'] && req.http.req.query['$select'].split(',').length > 1) {
+        //                 where = cds.parse.expr(`lower(${req.http.req.query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req.http.req.query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+        //             } else {
+        //                 where = cds.parse.expr(`lower(${req.http.req.query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+        //             }
+        //             let requestQuery = query.SELECT.where || [];
+        //             where && requestQuery.length != 0 && requestQuery.push('and');
+        //             where && requestQuery.push(where);
+        //             query.SELECT.where = requestQuery
+        //         }
+        //         // if (query.SELECT.limit.offset && query.SELECT.limit.offset.val && query.SELECT.limit.offset.val) query.SELECT.limit.offset.val = req.query.SELECT.limit.offset?.val || 0;
+        //         if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
+        //             // ISSUE 343357 
+        //             // add skip and top parameters from real query
+        //             query.SELECT.limit = req.query.SELECT.limit;
+        //             // End of ISSUE 343357
+        //             query.SELECT.columns.length = 0;
+        //             query.SELECT.columns = req.query.SELECT.columns;
+        //             if (query.SELECT.orderBy) query.SELECT.orderBy.length = 0;
+        //             query.SELECT.orderBy = req.query.SELECT.orderBy;
+        //             try {
+        //                 lt_result = await db.run(query)
+        //                 //lt_result = await cds.run(query);
+        //                 // req.header.select will have the string of visible columns. 
+        //                 //this parameater has been manually set to header on every request
+        //                 const selectedField = req.http.req.query && req.http.req.query['$select']
+        //                 let fields = selectedField && selectedField.split(',');
+        //                 fields = fields.filter((fieldName) => {
+        //                     const mandtFields = serviceHelper.getMandtFields();
+        //                     const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
+        //                     if (mandtTextFields.includes(fieldName)) {
+        //                         return false;
+        //                     } else {
+        //                         return true;
+        //                     }
+        //                 });
+        //                 // remove duplicates based on fields in the valuehelp dialog box
+        //                 lt_result = serviceHelper.removeDuplicates(fields, lt_result);
+        //             } catch (error) {
+        //                 req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
+        //             }
+        //         } else {
+        //             try {
+        //                 const fields = req.http.req.query["search-focus"].split(',')
+        //                 let queryCount = 0;
+        //                 // We need an orderBy clause to make the query performant
+        //                 let keyField = fields[0];
+        //                 let subquery = SELECT.distinct(...fields)
+        //                     .from('openOrdersSrv.OpenOrdersAnalytics')
+        //                     .orderBy(keyField)
+        //                     .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
+        //                 // Add where clause if needed
+        //                 if (query.SELECT.where) {
+        //                     subquery = subquery.where(query.SELECT.where);
+        //                 }
+        //                 // Run the count query
+        //                 const distinctCount = await SELECT.from(subquery).columns('count(*) as total');
+        //                 if (distinctCount.length > 0) {
+        //                     queryCount = distinctCount[0].total;
+        //                 }
+        //                 lt_result.push({ $count: queryCount })
+        //             } catch (error) {
+        //                 req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
+        //             }
 
-                }
+        //         }
 
-            } else {
-                const fields = req.http.req.query["search-focus"].split(',')
-                // if there is no session id, execute the query directly
-                let searchString = req.http.req.query["$search"] && req.http.req.query["$search"].replace(/"/g, '')
-                let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
-                if (lowerCaseSearchString) {
-                    let where = []
-                    if (req.http.req.query['$select'] && req.http.req.query['$select'].split(',').length > 1) {
-                        where = cds.parse.expr(`lower(${req.http.req.query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req.http.req.query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
-                    } else {
-                        where = cds.parse.expr(`lower(${req.http.req.query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
-                    }
-                    let requestQuery = req.query.SELECT.where || [];
-                    where && requestQuery.length != 0 && requestQuery.push('and');
-                    where && requestQuery.push(where);
-                    req.query.SELECT.where = requestQuery
-                    delete req.query.SELECT.search
-                }
-                if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
-                    req.query.SELECT.distinct = true;
-                    lt_result = await db.run(req.query)
-                    //await cds.run(req.query);
-                } else {
-                    try {
-                        let queryCount = 0;
-                        // We need an orderBy clause to make the query performant
-                        let keyField = fields[0];
-                        let subquery = SELECT.distinct(...fields)
-                            .from('openOrdersSrv.OpenOrdersAnalytics')
-                            .orderBy(keyField)
-                            .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
-                        // Add where clause if needed
-                        if (req.query.SELECT.where) {
-                            subquery = subquery.where(req.query.SELECT.where);
-                        }
+        //     } else {
+        //         const fields = req.http.req.query["search-focus"].split(',')
+        //         // if there is no session id, execute the query directly
+        //         let searchString = req.http.req.query["$search"] && req.http.req.query["$search"].replace(/"/g, '')
+        //         let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
+        //         if (lowerCaseSearchString) {
+        //             let where = []
+        //             if (req.http.req.query['$select'] && req.http.req.query['$select'].split(',').length > 1) {
+        //                 where = cds.parse.expr(`lower(${req.http.req.query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req.http.req.query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+        //             } else {
+        //                 where = cds.parse.expr(`lower(${req.http.req.query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+        //             }
+        //             let requestQuery = req.query.SELECT.where || [];
+        //             where && requestQuery.length != 0 && requestQuery.push('and');
+        //             where && requestQuery.push(where);
+        //             req.query.SELECT.where = requestQuery
+        //             delete req.query.SELECT.search
+        //         }
+        //         if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
+        //             req.query.SELECT.distinct = true;
+        //             lt_result = await db.run(req.query)
+        //             //await cds.run(req.query);
+        //         } else {
+        //             try {
+        //                 let queryCount = 0;
+        //                 // We need an orderBy clause to make the query performant
+        //                 let keyField = fields[0];
+        //                 let subquery = SELECT.distinct(...fields)
+        //                     .from('openOrdersSrv.OpenOrdersAnalytics')
+        //                     .orderBy(keyField)
+        //                     .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
+        //                 // Add where clause if needed
+        //                 if (req.query.SELECT.where) {
+        //                     subquery = subquery.where(req.query.SELECT.where);
+        //                 }
 
-                        // Run the count query
-                        const distinctCount = await SELECT.from(subquery).columns('count(*) as total');
-                        if (distinctCount.length > 0) {
-                            queryCount = distinctCount[0].total;
-                        }
-                        lt_result.push({ $count: queryCount })
-                    } catch (error) {
-                        req.error(error)
-                    }
+        //                 // Run the count query
+        //                 const distinctCount = await SELECT.from(subquery).columns('count(*) as total');
+        //                 if (distinctCount.length > 0) {
+        //                     queryCount = distinctCount[0].total;
+        //                 }
+        //                 lt_result.push({ $count: queryCount })
+        //             } catch (error) {
+        //                 req.error(error)
+        //             }
 
-                }
-            }
-            if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count' && req.query.SELECT.search) {
-                lt_result = lt_result.filter((item) => {
-                    for (const prop in item) {
-                        if (item[prop] === null) return false;
-                        // convert to lowercase both sides in order to avoid case sensitivity issues when searching
-                        if (item[prop].toLowerCase().includes(req.query.SELECT.search[0].val.toLowerCase().replace(/^["']|["']$/g, ''))) {
-                            return true;
-                        }
-                    }
-                    return false;
+        //         }
+        //     }
+        //     if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count' && req.query.SELECT.search) {
+        //         lt_result = lt_result.filter((item) => {
+        //             for (const prop in item) {
+        //                 if (item[prop] === null) return false;
+        //                 // convert to lowercase both sides in order to avoid case sensitivity issues when searching
+        //                 if (item[prop].toLowerCase().includes(req.query.SELECT.search[0].val.toLowerCase().replace(/^["']|["']$/g, ''))) {
+        //                     return true;
+        //                 }
+        //             }
+        //             return false;
 
-                });
-            }
-            return lt_result;
-        })
-        this.after("READ", "VhOpenOrdersAnalytics", async (data, req) => {
-            data = Array.isArray(data) ? data : [data]
-            // since there is a virtual id field, adding a random guid to each record of the result set.
-            data.forEach((item) => {
-                item.id = uuid.v1()
-                if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`nps${item.SO_NPS}`)
-                if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`OrderIssue${item.SO_ISSUE}`)
-                if ('SO_DCP_ITEM_STATUS' in item) {
-                    if (item.SO_DCP_ITEM_STATUS) {
-                        item.SO_DCP_ITEM_STATUS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
-                    }
-                }
-                let mandtFields = serviceHelper.getMandtFields();
-                // MANDANT TEXTS LOGIC -------------
-                mandtFields.forEach((mandt) => {
-                    const mandtProp = item[mandt];
-                    if (mandtProp) {
-                        let mandtTxtField = mandt + "_TEXT";
-                        item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
-                    }
-                })
-            })
+        //         });
+        //     }
+        //     return lt_result;
+        // })
+        // this.after("READ", "VhOpenOrdersAnalytics", async (data, req) => {
+        //     data = Array.isArray(data) ? data : [data]
+        //     // since there is a virtual id field, adding a random guid to each record of the result set.
+        //     data.forEach((item) => {
+        //         item.id = uuid.v1()
+        //         if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`nps${item.SO_NPS}`)
+        //         if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`OrderIssue${item.SO_ISSUE}`)
+        //         if ('SO_DCP_ITEM_STATUS' in item) {
+        //             if (item.SO_DCP_ITEM_STATUS) {
+        //                 item.SO_DCP_ITEM_STATUS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
+        //             }
+        //         }
+        //         let mandtFields = serviceHelper.getMandtFields();
+        //         // MANDANT TEXTS LOGIC -------------
+        //         mandtFields.forEach((mandt) => {
+        //             const mandtProp = item[mandt];
+        //             if (mandtProp) {
+        //                 let mandtTxtField = mandt + "_TEXT";
+        //                 item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+        //             }
+        //         })
+        //     })
 
-        });
+        // });
         return super.init();
     }
 }
