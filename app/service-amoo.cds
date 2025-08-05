@@ -1234,7 +1234,8 @@ annotate service.baseEntity with {
     @Common.TextFor
     SO_MVGR2_BEZEI_LANG              @title: '{i18n>SO_MVGR2_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MVGR2_BEZEI_LANG}';             
     SO_VALDT                         @title: '{i18n>SO_VALDT}'                         @sap.Label: '{i18n>SO_VALDT}' @sap.filter.restriction: 'interval';             
-    SO_ABLAD                         @title: '{i18n>SO_ABLAD}'                         @sap.Label: '{i18n>SO_ABLAD}';             
+    SO_ABLAD                         @title: '{i18n>SO_ABLAD}'                         @sap.Label: '{i18n>SO_ABLAD}';
+    TM_TNDR_TRKID                    @title: '{i18n>TM_TNDR_TRKID}'                    @sap.Label: '{i18n>TM_TNDR_TRKID}';          
     
 };
 
@@ -4956,4 +4957,21 @@ annotate service.allIssues with {
     }
 };
 
+annotate service.allIssues with {
+    TM_TNDR_TRKID
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>TM_TNDR_TRKID}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: TM_TNDR_TRKID,
+            ValueListProperty: 'TM_TNDR_TRKID'
+        }
+
+        ]
+    }
+};
 // ------------------------------Value Helps All Issues----------------------------
