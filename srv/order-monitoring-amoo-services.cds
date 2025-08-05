@@ -746,6 +746,7 @@ service openOrdersSrv {
                 @Common.TextFor
                 virtual null                                as SO_NPS_DESCRIPTION   : String(100),
                 VBTYP                                       as SO_VBTYP,
+                IGNORED                                     as SO_IGNORED,
                 @Semantics.currencyCode
                 WAERK                                       as SO_WAERK,
                 @Semantics.currencyCode
