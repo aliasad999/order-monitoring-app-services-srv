@@ -1101,7 +1101,9 @@ class openOrdersSrv extends cds.ApplicationService {
                             "nps90": tabs.nps90,
                             "nps95": tabs.nps95,
                             "nps99": tabs.nps99,
-                            "nps00": tabs.nps0
+                            "nps00": tabs.nps0,
+                            "nps05": tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99,
+                            "nps101":tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99 
                         })
                         req.res.setHeader('custom', data)
                         return req.reply({ $count: distinctCount[0].total })
@@ -1858,10 +1860,14 @@ class openOrdersSrv extends cds.ApplicationService {
                 });
             });
             req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
-            // let whereClause = serviceHelper.convertCQNtoCQL(req.subject.ref[0].SELECT.where[0].xpr[0].xpr[0].xpr[0].xpr, false)
-            // whereClause = serviceHelper.transformWhereClause(whereClause)
-            // req.subject.ref[0].SELECT.where[0].xpr[0].xpr[0].xpr[0].xpr = cds.parse.xpr(whereClause)
-            // }
+            req.query.SELECT.distinct = true;
+            let whereClause = serviceHelper.convertCQNtoCQL(req.query.SELECT.where, false)
+            // where clause is initially converted from cqn to cql
+            // where clause is then transformed from cql for date formatting and removing additional inverted commas
+            whereClause = serviceHelper.transformWhereClause(whereClause)
+            // where clause is then transformed from cql for date formatting and removing additional inverted commas
+            // where clause is then inserted back to the query
+            req.query.SELECT.where = cds.parse.xpr(whereClause)
         });
 
         this.on("READ", 'OpenOrdersAnalytics', async (req, next) => {
@@ -1914,109 +1920,143 @@ class openOrdersSrv extends cds.ApplicationService {
                     req.query.SELECT.where = requestQuery
                 }
             }
-            // await next(req)
-            const lt_result = await db.run(req.query);
-            if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
-                const groupFields = req.query.SELECT.orderBy
-                    .map(o => o.ref?.[0])
-                    .filter(f => f && f !== 'id'); // ignore 'id'
-                const grouped = {};
-                for (const row of lt_result) {
-                    const key = groupFields.map(f => row[f]).join('||');
-                    if (!grouped[key]) grouped[key] = [];
-                    grouped[key].push(row);
+
+            let where = serviceHelper.convertCQNtoCQL(req.query.SELECT.where);
+            where = where.replace(/''/g, "'");
+            where = `${where}  SO_IGNORED = 0`;
+
+            let columns = req.headers?.selectedcolumns || '';
+            let groupby = req.headers?.orderby || '';
+
+            // Convert to array
+            let columnsArray = columns.split(',').map(c => c.trim()).filter(Boolean);
+            let groupbySet = new Set(groupby.split(',').map(g => g.trim()).filter(Boolean));
+
+            // Aggregation config
+            const aggrMap = {
+                SO_KWMENG: { sum: `SUM(SO_KWMENG) AS SO_KWMENG`, group: 'SO_VRKME' },
+                SO_KBMENG: { sum: 'SUM(SO_KBMENG) AS SO_KBMENG', group: 'SO_VRKME' },
+                SO_KBETR: { sum: 'SUM(SO_KBETR) AS SO_KBETR', group: 'SO_WAERS' },
+                SO_NETWR: { sum: 'SUM(SO_NETWR) AS SO_NETWR', group: 'SO_WAERK' }
+            };
+
+            // Build columnsWithSum and extend groupby
+            let columnsWithSumArray = [];
+            for (const col of columnsArray) {
+                if (aggrMap[col]) {
+                    columnsWithSumArray.push(col); // placeholder, handled in subtotal
+                    groupbySet.add(aggrMap[col].group);
+                } else {
+                    columnsWithSumArray.push(col);
                 }
-
-                const finalResult = [];
-                for (const groupKey in grouped) {
-                    const rows = grouped[groupKey];
-                    let subtotal = 0;
-                    let vrkme = ''
-
-                    for (const row of rows) {
-                        subtotal += Number(row.SO_KWMENG || 0);
-                        vrkme = row.SO_VRKME
-                        finalResult.push(row);
-                    }
-
-                    const subtotalRow = {
-                        isSubtotal: true,
-                        SO_KWMENG: subtotal
-                    };
-
-                    // Copy grouping values into subtotalRow
-                    groupFields.forEach((field, idx) => {
-                        subtotalRow[field] = rows[0][field];
-                    });
-
-                    finalResult.push(subtotalRow);
-                }
-
-                return finalResult;
             }
-            return lt_result;
 
+            const finalGroupBy = Array.from(groupbySet).join(',');
 
-        })
+            // Build subtotal column expressions
+            let subtotalColumns = columnsArray.map(col => {
+                if (aggrMap[col]) {
+                    return aggrMap[col].sum; // sum field
+                } else if (groupbySet.has(col)) {
+                    return `${col}`; // keep group-by field
+                } else if (col !== 'SO_ISSUE_DESCRIPTION' || col !== 'SO_NPS_DESCRIPTION') {
+                    return `NULL AS ${col}`; // null for all other fields
+                }
+            });
+            columnsArray = columnsArray.filter(col =>
+                col !== 'SO_ISSUE_DESCRIPTION' && col !== 'SO_NPS_DESCRIPTION' &&
+                col !== 'DL_MANDT_TEXT' && col !== 'SO_MANDT_TEXT' &&
+                col !== 'SO_FINAL_SO_MANDT_TEXT' && col !== 'BL_MANDT_INV_LAST_TEXT' &&
+                col !== 'TM_MANDT_TEXT' 
+            );
+            subtotalColumns = subtotalColumns.filter(col =>
+                col !== 'NULL AS SO_ISSUE_DESCRIPTION' && col !== 'NULL AS SO_NPS_DESCRIPTION'
+                && col !== 'NULL AS DL_MANDT_TEXT' && col !== 'NULL AS SO_MANDT_TEXT'
+                && col !== 'NULL AS SO_FINAL_SO_MANDT_TEXT' && col !== 'NULL AS BL_MANDT_INV_LAST_TEXT'
+                && col !== 'NULL AS TM_MANDT_TEXT'
+            );
+            let finalQuery = ''
+            // Build the final SQL query
+            if (req.query.SELECT.columns && req.query.SELECT.columns[0].as === '$count') 
+                return;
+            else{
+                const limit = req.query.SELECT.limit?.rows?.val ?? 985; 
+                const offset = req.query.SELECT.limit?.offset.val ?? 0;
+                finalQuery = `
+                WITH line_items_with_sort AS (
+                    SELECT DISTINCT 
+                        ${columnsArray.join(', ')},
+                        false AS "isSubtotal",
+                        ROW_NUMBER() OVER (PARTITION BY ${finalGroupBy} ORDER BY ${finalGroupBy}) AS sortKey
+                    FROM openOrdersSrv_OpenOrdersAnalytics
+                    WHERE ${where}
+                    LIMIT ${limit} OFFSET ${offset} 
+                    ),
+                subtotals AS (
+                    SELECT 
+                        ${subtotalColumns.join(', ')},
+                        true AS "isSubtotal",
+                        MAX(sortKey) + 1 AS sortKey
+                    FROM line_items_with_sort
+                    GROUP BY ${finalGroupBy}
+                    )
+                SELECT * FROM line_items_with_sort
+                    UNION ALL
+                SELECT * FROM subtotals
+                ORDER BY ${finalGroupBy}, sortKey
+                WITH HINT(USE_HEX_PLAN, HEX_INDEX_JOIN)`;
+                
+            const result = await cds.run(finalQuery);
+            return result;
+            }
+        
+        });
 
-        // /**
-        //  * This event is triggered after the backend request for order list data
-        //  * @param {string} "READ" - The type of backend request
-        //  * @param {string} "Results" - The name of the entity set
-        //  * @param {function} - The callback function containing the code that runs when the event is triggered
-        //  * @param {array} data - The array containing the result from the backend request
-        //  * @param {object} req - The request object containing request details
-        //  * */
         this.after("READ", 'OpenOrdersAnalytics', async (data, req) => {
-            //         if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.select) {
-            //             return;
-            //         } else {
-            //             let sessionID = req.headers['authorization'] || req.headers['x-username'];
-            //             // cache the query, so that all filter conditions can be consumed.. when any valuehelp is called.
+                    if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' ) {
+                        return;
+                    } else {
+                        let sessionID = req.headers['authorization'] || req.headers['x-username'];
+                        // cache the query, so that all filter conditions can be consumed.. when any valuehelp is called.
 
-            //                 let query = req.query;
-            //                 query.SELECT.where = req.query.SELECT.where;
-            //                 const queryString = JSON.stringify(query);
-            //                 const queryId = `${sessionID}AMOOAnalyticsQuery`
-            //                 sessionCache.set(queryId, queryString);
+                            let query = req.query;
+                            query.SELECT.where = req.query.SELECT.where;
+                            const queryString = JSON.stringify(query);
+                            const queryId = `${sessionID}AMOOQuery`
+                            sessionCache.set(queryId, queryString);
 
-            //         }
+                    }
             data = Array.isArray(data) ? data : [data]
-            //         var dateProps = serviceHelper.getDateProps()
+            let dateProps = serviceHelper.getDateProps()
             data.forEach((item) => {
                 item.id = uuid.v1()
                 if ('SO_NETWR' in item) // Net Amount
                     item.SO_NETWR = formatSpecialCurrencies(item.SO_NETWR, item.SO_WAERK, this._SpecialCurrencies);
                 if ('SO_KBETR' in item) // Price Per Unit
                     item.SO_KBETR = formatSpecialCurrencies(item.SO_KBETR, item.SO_WAERK, this._SpecialCurrencies);
-                // if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`nps${item.SO_NPS}`)
-                // if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`OrderIssue${item.SO_ISSUE}`)
-                // if ('SO_DCP_ITEM_STATUS' in item) {
-                //     if (item.SO_DCP_ITEM_STATUS) {
-                //         item.SO_DCP_ITEM_STATUS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
-                //     }
-            });
-            // let mandtFields = serviceHelper.getMandtFields();
-            //             // MANDANT TEXTS LOGIC -------------
-            //             mandtFields.forEach((mandt) => {
-            //                 const mandtProp = item[mandt];
-            //                 if (mandtProp) {
-            //                     let mandtTxtField = mandt + "_TEXT";
-            //                     item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
-            //                 }
-            //             })
-            //             dateProps.forEach((property) => {
-            //                 const dateString = item[property]
-            //                 if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
-            //                     const year = parseInt(dateString.substring(0, 4), 10);
-            //                     const month = parseInt(dateString.substring(4, 6), 10) - 1;
-            //                     const day = parseInt(dateString.substring(6, 8), 10);
-            //                     item[property] = new Date(year, month, day);
-            //                 } else {
-            //                     item[property] = null
-            //                 }
-
-            //             })
+                if ('SO_NPS' in item && item.SO_NPS) item.SO_NPS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`nps${item.SO_NPS}`)
+                if ('SO_ISSUE' in item && item.SO_ISSUE) item.SO_ISSUE_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`OrderIssue${item.SO_ISSUE}`)
+                    let mandtFields = serviceHelper.getMandtFields();
+                    // MANDANT TEXTS LOGIC -------------
+                mandtFields.forEach((mandt) => {
+                        const mandtProp = item[mandt];
+                        if (mandtProp) {
+                            let mandtTxtField = mandt + "_TEXT";
+                            item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+                        }
+                    })
+                dateProps.forEach((property) => {
+                        const dateString = item[property]
+                        if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
+                            const year = parseInt(dateString.substring(0, 4), 10);
+                            const month = parseInt(dateString.substring(4, 6), 10) - 1;
+                            const day = parseInt(dateString.substring(6, 8), 10);
+                            item[property] = new Date(year, month, day);
+                        } else {
+                            item[property] = null
+                        }
+                    });
+                    })
         })
         return super.init();
     }
