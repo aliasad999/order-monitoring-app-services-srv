@@ -587,95 +587,14 @@ service openOrdersSrv {
                 MANDT_TM                                    as TM_MANDT,
                 MANDT_DEL                                   as DL_MANDT,
                 MANDT                                       as SO_MANDT,
-                case
-                    when EDATU_REQUESTED_DATE is not null
-                         then SUBSTRING(
-                                  EDATU_REQUESTED_DATE, 1, 4
-                              ) || '-' || SUBSTRING(
-                                  EDATU_REQUESTED_DATE, 5, 2
-                              ) || '-' || SUBSTRING(
-                                  EDATU_REQUESTED_DATE, 7, 2
-                              )
-                    else '9999-12-31'
-                end                                         as SO_EDATU_REQUESTED   : Date,
-                case
-                    when ERDAT_ITEM_DATE is not null
-                         then SUBSTRING(
-                                  ERDAT_ITEM_DATE, 1, 4
-                              ) || '-' || SUBSTRING(
-                                  ERDAT_ITEM_DATE, 5, 2
-                              ) || '-' || SUBSTRING(
-                                  ERDAT_ITEM_DATE, 7, 2
-                              )
-                    else '9999-12-31'
-                end                                         as SO_ERDAT_ITEM        : Date,
-                case
-                    when WADAT_IST_DATE is not null
-                         then SUBSTRING(
-                                  WADAT_IST_DATE, 1, 4
-                              ) || '-' || SUBSTRING(
-                                  WADAT_IST_DATE, 5, 2
-                              ) || '-' || SUBSTRING(
-                                  WADAT_IST_DATE, 7, 2
-                              )
-                    else '9999-12-31'
-                end                                         as DL_WADAT_IST         : Date,
-                case
-                    when F_LDDAT_DATE is not null
-                         then SUBSTRING(
-                                  F_LDDAT_DATE, 1, 4
-                              ) || '-' || SUBSTRING(
-                                  F_LDDAT_DATE, 5, 2
-                              ) || '-' || SUBSTRING(
-                                  F_LDDAT_DATE, 7, 2
-                              )
-                    else '9999-12-31'
-                end                                         as SO_F_LDDAT           : Date,
-                case
-                    when LDDAT_DEL_DATE is not null
-                         then SUBSTRING(
-                                  LDDAT_DEL_DATE, 1, 4
-                              ) || '-' || SUBSTRING(
-                                  LDDAT_DEL_DATE, 5, 2
-                              ) || '-' || SUBSTRING(
-                                  LDDAT_DEL_DATE, 7, 2
-                              )
-                    else '9999-12-31'
-                end                                         as DL_LDDAT             : Date,
-                case
-                    when ERDAT_ORDER_DATE is not null
-                         then SUBSTRING(
-                                  ERDAT_ORDER_DATE, 1, 4
-                              ) || '-' || SUBSTRING(
-                                  ERDAT_ORDER_DATE, 5, 2
-                              ) || '-' || SUBSTRING(
-                                  ERDAT_ORDER_DATE, 7, 2
-                              )
-                    else '9999-12-31'
-                end                                         as SO_ERDAT_ORDER       : Date,
-                case
-                    when WADAT_DATE is not null
-                         then SUBSTRING(
-                                  WADAT_DATE, 1, 4
-                              ) || '-' || SUBSTRING(
-                                  WADAT_DATE, 5, 2
-                              ) || '-' || SUBSTRING(
-                                  WADAT_DATE, 7, 2
-                              )
-                    else '9999-12-31'
-                end                                         as DL_WADAT             : Date,
-                case
-                    when F_TDDAT_DATE is not null
-                         then SUBSTRING(
-                                  F_TDDAT_DATE, 1, 4
-                              ) || '-' || SUBSTRING(
-                                  F_TDDAT_DATE, 5, 2
-                              ) || '-' || SUBSTRING(
-                                  F_TDDAT_DATE, 7, 2
-                              )
-                    else '9999-12-31'
-                end                                         as SO_F_TDDAT           : Date,
-
+                EDATU_REQUESTED_DATE                        as SO_EDATU_REQUESTED,
+                ERDAT_ITEM_DATE                             as SO_ERDAT_ITEM,
+                WADAT_IST_DATE                              as DL_WADAT_IST,
+                F_LDDAT_DATE                                as SO_F_LDDAT,
+                LDDAT_DEL_DATE                              as DL_LDDAT,
+                ERDAT_ORDER_DATE                            as SO_ERDAT_ORDER,
+                WADAT_DATE                                  as DL_WADAT,
+                F_TDDAT_DATE                                as SO_F_TDDAT,
                 F_ZZ0S2MATUG                                as SO_F_ZZ0S2MATUG,
                 @Common.Text           : SO_FAKSP_VTEXT
                 @Common.TextArrangement: #TextFirst
@@ -748,6 +667,7 @@ service openOrdersSrv {
                 @Common.TextFor
                 virtual null                                as SO_NPS_DESCRIPTION   : String(100),
                 VBTYP                                       as SO_VBTYP,
+                IGNORED                                     as SO_IGNORED,
                 @Semantics.currencyCode
                 WAERK                                       as SO_WAERK,
                 @Semantics.currencyCode
