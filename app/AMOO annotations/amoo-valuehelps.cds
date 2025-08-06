@@ -835,42 +835,6 @@ annotate service.allIssues with {
 };
 
 annotate service.allIssues with {
-    SO_ISSUE_LOCATION
-    @Common.ValueList: {
-        $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>SO_ISSUE_LOCATION}',
-        CollectionPath         : 'valueHelps',
-        DistinctValuesSupported: true,
-        SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_ISSUE_LOCATION,
-            ValueListProperty: 'SO_ISSUE_LOCATION'
-        }
-
-        ]
-    }
-};
-
-annotate service.allIssues with {
-    SO_ISSUE_LOCATION_ITEM
-    @Common.ValueList: {
-        $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>SO_ISSUE_LOCATION_ITEM}',
-        CollectionPath         : 'valueHelps',
-        DistinctValuesSupported: true,
-        SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_ISSUE_LOCATION_ITEM,
-            ValueListProperty: 'SO_ISSUE_LOCATION_ITEM'
-        }
-
-        ]
-    }
-};
-
-annotate service.allIssues with {
     TM_SHIPMENT_ETA_UPDATED
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1315,27 +1279,17 @@ annotate service.allIssues with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: PO_EKORG,
-            ValueListProperty: 'PO_EKORG'
-        }]
-    }
-}
-
-annotate service.allIssues with {
-    PO_EKOTX
-    @Common.ValueList: {
-        $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>PO_EKOTX}',
-        CollectionPath         : 'valueHelps',
-        DistinctValuesSupported: true,
-        SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: PO_EKOTX,
-            ValueListProperty: 'PO_EKOTX'
-        }]
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_EKORG,
+                ValueListProperty: 'PO_EKORG'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_EKOTX'
+            }
+        ]
     }
 }
 
@@ -1347,28 +1301,17 @@ annotate service.allIssues with {
         CollectionPath         : 'valueHelps',
         DistinctValuesSupported: true,
         SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: PO_EKGRP,
-            ValueListProperty: 'PO_EKGRP'
-        }]
-    }
-}
-
-
-annotate service.allIssues with {
-    PO_EKNAM
-    @Common.ValueList: {
-        $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>PO_EKNAM}',
-        CollectionPath         : 'valueHelps',
-        DistinctValuesSupported: true,
-        SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: PO_EKNAM,
-            ValueListProperty: 'PO_EKNAM'
-        }]
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: PO_EKGRP,
+                ValueListProperty: 'PO_EKGRP'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'PO_EKNAM'
+            }
+        ]
     }
 }
 

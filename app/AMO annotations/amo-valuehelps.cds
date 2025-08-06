@@ -611,24 +611,6 @@ annotate service.Results with {
 };
 
 annotate service.Results with {
-    SO_F_ZZ0S2MATUG
-    @Common.ValueList: {
-        $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>SO_F_ZZ0S2MATUG}',
-        CollectionPath         : 'valueHelps',
-        DistinctValuesSupported: true,
-        SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: SO_F_ZZ0S2MATUG,
-            ValueListProperty: 'SO_F_ZZ0S2MATUG'
-        }
-
-        ]
-    }
-};
-
-annotate service.Results with {
     SO_F_VSBED
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
