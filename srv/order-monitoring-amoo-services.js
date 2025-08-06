@@ -1936,7 +1936,7 @@ class openOrdersSrv extends cds.ApplicationService {
             const aggrMap = {
                 SO_KWMENG: { sum: `SUM(SO_KWMENG) AS SO_KWMENG`, group: 'SO_VRKME' },
                 SO_KBMENG: { sum: 'SUM(SO_KBMENG) AS SO_KBMENG', group: 'SO_VRKME' },
-                SO_KBETR: { sum: 'SUM(SO_KBETR) AS SO_KBETR', group: 'SO_WAERS' },
+                DL_LFIMG: { sum: 'SUM(DL_LFIMG) AS DL_LFIMG', group: 'DL_VRKME' },
                 SO_NETWR: { sum: 'SUM(SO_NETWR) AS SO_NETWR', group: 'SO_WAERK' }
             };
 

@@ -645,7 +645,7 @@ service openOrdersSrv {
                 SO_KBMENG,
                 @Measures.ISOCurrency  : SO_WAERK
                 SO_NETWR,
-                @Measures.ISOCurrency  : DL_VRKME
+                @Measures.Unit         : DL_VRKME
                 DL_LFIMG,
 
                 // hidden fields added just for filtering to work
