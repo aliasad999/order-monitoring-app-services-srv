@@ -1101,7 +1101,9 @@ class openOrdersSrv extends cds.ApplicationService {
                             "nps90": tabs.nps90,
                             "nps95": tabs.nps95,
                             "nps99": tabs.nps99,
-                            "nps00": tabs.nps0
+                            "nps00": tabs.nps0,
+                            "nps05": tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99,
+                            "nps101":tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99 
                         })
                         req.res.setHeader('custom', data)
                         return req.reply({ $count: distinctCount[0].total })
