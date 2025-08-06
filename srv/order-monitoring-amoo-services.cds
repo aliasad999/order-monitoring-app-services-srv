@@ -601,16 +601,9 @@ service openOrdersSrv {
                 DL_WADAT,
                 SO_F_TDDAT,
                 SO_F_ZZ0S2MATUG,
-                @Common.Text           : SO_FAKSP_VTEXT
-                @Common.TextArrangement: #TextFirst
-                SO_FAKSP,
-                @Common.TextFor
-                SO_FAKSP_VTEXT,
-                BL_VBELN_INV_LAST,
                 SO_BSTKD,
                 DL_VBELN,
                 DL_POSNR,
-                BL_POSNR_INV_LAST,
                 SO_F_VBELN,
                 SO_INCO1,
                 SO_INCO2,
@@ -619,30 +612,13 @@ service openOrdersSrv {
                 SO_ZTERM,
                 @Common.TextFor
                 SO_ZTERM_VTEXT_LANG,
-                @Common.Text           : SO_ISSUE_DESCRIPTION
-                @Common.TextArrangement: #TextOnly
-                SO_ISSUE,
-                @Common.TextFor
-                SO_ISSUE_DESCRIPTION,
                 SO_MAKTX,
                 SO_MATNR,
                 SO_AUART,
-                @Common.Text           : TM_STTRG_DDTEXT
-                @Common.TextArrangement: #TextFirst
-                TM_STTRG,
-                @Common.TextFor
-                TM_STTRG_DDTEXT,
                 SO_WERKS,
-                @Common.Text           : SO_ABGRU_BEZEI
-                @Common.TextArrangement: #TextFirst
-                SO_ABGRU,
-                @Common.TextFor
-                SO_ABGRU_BEZEI,
                 @Common.Text           : SO_WE_PARTNER_NAME
                 @Common.TextArrangement: #TextFirst
                 SO_WE_PARTNER,
-                @Common.TextFor
-                SO_WE_PARTNER_NAME   : String(80),
                 @Common.Text           : SO_F_VSBED_VTEXT
                 @Common.TextArrangement: #TextFirst
                 SO_F_VSBED,
@@ -651,8 +627,6 @@ service openOrdersSrv {
                 @Common.Text           : SO_AG_PARTNER_NAME
                 @Common.TextArrangement: #TextFirst
                 SO_AG_PARTNER,
-                @Common.TextFor
-                SO_AG_PARTNER_NAME   : String(80),
                 TM_TKNUM,
                 @Common.Text           : SO_NPS_DESCRIPTION
                 @Common.TextArrangement: #TextOnly
@@ -663,8 +637,8 @@ service openOrdersSrv {
                 SO_IGNORED,
                 @Semantics.currencyCode
                 SO_WAERK,
-                @Semantics.currencyCode
-                SO_WAERS,
+                @Semantics.unitOfMeasure: 'unit-of-measure'
+                DL_VRKME,
                 @Semantics.unitOfMeasure: 'unit-of-measure'
                 SO_VRKME,
                 @Measures.Unit         : SO_VRKME
@@ -673,10 +647,24 @@ service openOrdersSrv {
                 SO_KBMENG,
                 @Measures.ISOCurrency  : SO_WAERK
                 SO_NETWR,
-                @Measures.ISOCurrency  : SO_WAERS
-                SO_KBETR,
+                @Measures.ISOCurrency  : DL_VRKME
+                DL_LFIMG,
 
                 // hidden fields added just for filtering to work
+                BL_POSNR_INV_LAST                @UI.Hidden,
+                BL_VBELN_INV_LAST                @UI.Hidden,
+                SO_FAKSP                         @UI.Hidden,
+                SO_FAKSP_VTEXT                   @UI.Hidden,
+                TM_STTRG                         @UI.Hidden,
+                TM_STTRG_DDTEXT                  @UI.Hidden,
+                SO_ABGRU                         @UI.Hidden,
+                SO_ABGRU_BEZEI                   @UI.Hidden,
+                @Common.TextFor
+                SO_AG_PARTNER_NAME               @UI.Hidden,
+                @Common.TextFor
+                SO_WE_PARTNER_NAME               @UI.Hidden,
+                SO_ISSUE                         @UI.Hidden,
+                SO_ISSUE_DESCRIPTION             @UI.Hidden,
                 SO_VTWEG                         @UI.Hidden,
                 SO_LAND1                         @UI.Hidden,
                 SO_LANDX                         @UI.Hidden,              
@@ -743,8 +731,8 @@ service openOrdersSrv {
                 DL_LFDAT                         @UI.Hidden,
                 DL_HSDAT                         @UI.Hidden,
                 DL_VFDAT                         @UI.Hidden,
-                DL_LFIMG                         @UI.Hidden,
-                DL_VRKME                         @UI.Hidden,
+                SO_KBETR                         @UI.Hidden,
+                SO_WAERS                         @UI.Hidden,
                 DL_POSAR                         @UI.Hidden,
                 DL_VGBEL                         @UI.Hidden,
                 DL_VGPOS                         @UI.Hidden,
