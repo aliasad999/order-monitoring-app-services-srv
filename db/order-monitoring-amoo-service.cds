@@ -249,7 +249,9 @@ entity ![OPENORDERSLIST] {
         DEV_CONF_DATE                      : String(12);
         EMAIL                              : String(241);
         EMAIL_SEND_DATE_F                  : String(8);
+        EMAIL_SEND_DATE_F_DATE : Date = EMAIL_SEND_DATE_F;
         EMAIL_SENT_ON                      : String(8);
+        EMAIL_SENT_ON_DATE : Date = EMAIL_SENT_ON;
         MDB                                : String(3);
         MDB_TEXT                           : String(60);
         DCP_ITEM_STATUS                    : String(2);

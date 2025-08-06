@@ -311,7 +311,9 @@ entity ![RESULTS] {
         DEV_CONF_DATE                      : String(12);
         EMAIL                              : String(241);
         EMAIL_SEND_DATE_F                  : String(8);
+        EMAIL_SEND_DATE_F_DATE : Date = EMAIL_SEND_DATE_F;
         EMAIL_SENT_ON                      : String(8);
+        EMAIL_SENT_ON_DATE : Date = EMAIL_SENT_ON;
         DPLBG_TM                           : String(8);
         DPLBG_TM_DATE                      : Date = DPLBG_TM;
         ERDAT_TM                           : String(8);
