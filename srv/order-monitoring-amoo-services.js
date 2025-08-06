@@ -1983,14 +1983,16 @@ class openOrdersSrv extends cds.ApplicationService {
                 const limit = req.query.SELECT.limit?.rows?.val ?? 985; 
                 const offset = req.query.SELECT.limit?.offset.val ?? 0;
                 finalQuery = `
-                WITH line_items_with_sort AS (
-                    SELECT DISTINCT 
-                        ${columnsArray.join(', ')},
-                        false AS "isSubtotal",
-                        ROW_NUMBER() OVER (PARTITION BY ${finalGroupBy} ORDER BY ${finalGroupBy}) AS sortKey
+                WITH base_data AS (
+                    SELECT DISTINCT ${columnsArray.join(', ')}
                     FROM openOrdersSrv_OpenOrdersAnalytics
                     WHERE ${where}
-                    LIMIT ${limit} OFFSET ${offset} 
+                    LIMIT ${limit} OFFSET ${offset} ),
+                line_items_with_sort AS (
+                    SELECT *,
+                        false AS "isSubtotal",
+                        ROW_NUMBER() OVER (PARTITION BY ${finalGroupBy} ORDER BY ${finalGroupBy}) AS sortKey
+                    FROM base_data
                     ),
                 subtotals AS (
                     SELECT 
