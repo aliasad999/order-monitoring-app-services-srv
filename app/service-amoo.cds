@@ -1203,12 +1203,12 @@ annotate service.baseEntity with {
     SO_PRCTR                         @title: '{i18n>SO_PRCTR}'                         @sap.Label: '{i18n>SO_PRCTR}';
     SO_TO_PARTNER                    @title: '{i18n>SO_TO_PARTNER}'                    @sap.Label: '{i18n>SO_TO_PARTNER}'       @Common.IsDigitSequence: true;
     SO_TO_PARTNER_NAME               @title: '{i18n>SO_TO_PARTNER_NAME}'               @sap.Label: '{i18n>SO_TO_PARTNER_NAME}';
-    TM_DPLBG_DATE                   @title: '{i18n>TM_DPLBG}'                    @sap.Label: '{i18n>TM_DPLBG}';
-    TM_ERDAT_DATE                   @title: '{i18n>TM_ERDAT}'                    @sap.Label: '{i18n>TM_ERDAT}'; 
-    TM_DPREG_DATE                   @title: '{i18n>TM_DPREG}'                    @sap.Label: '{i18n>TM_DPREG}';
-    DL_WERKS_DEL                    @title: '{i18n>DL_WERKS_DEL}'                @sap.Label: '{i18n>DL_WERKS_DEL}';
-    DL_VKORG_DEL                    @title: '{i18n>DL_VKORG_DEL}'                @sap.Label: '{i18n>DL_VKORG_DEL}';  
-    SO_VMSTA                    @title: '{i18n>SO_VMSTA}'                @sap.Label: '{i18n>SO_VMSTA}';
+    TM_DPLBG_DATE                    @title: '{i18n>TM_DPLBG}'                    @sap.Label: '{i18n>TM_DPLBG}';
+    TM_ERDAT_DATE                    @title: '{i18n>TM_ERDAT}'                    @sap.Label: '{i18n>TM_ERDAT}'; 
+    TM_DPREG_DATE                    @title: '{i18n>TM_DPREG}'                    @sap.Label: '{i18n>TM_DPREG}';
+    DL_WERKS_DEL                     @title: '{i18n>DL_WERKS_DEL}'                @sap.Label: '{i18n>DL_WERKS_DEL}';
+    DL_VKORG_DEL                     @title: '{i18n>DL_VKORG_DEL}'                @sap.Label: '{i18n>DL_VKORG_DEL}';  
+    SO_VMSTA                         @title: '{i18n>SO_VMSTA}'                @sap.Label: '{i18n>SO_VMSTA}';
     SO_ZZ0S2VGANN                    @title: '{i18n>SO_ZZ0S2VGANN}'                    @sap.Label: '{i18n>SO_ZZ0S2VGANN}';
     SO_ZZ0S2LOANN                    @title: '{i18n>SO_ZZ0S2LOANN}'                    @sap.Label: '{i18n>SO_ZZ0S2LOANN}';
     PO_REQ_DEL_DATE                  @title: '{i18n>PO_REQ_DEL_DATE}'                  @sap.Label: '{i18n>PO_REQ_DEL_DATE}';
@@ -1220,8 +1220,8 @@ annotate service.baseEntity with {
     SO_CONTRACT_ITEM                 @title: '{i18n>SO_CONTRACT_ITEM}'                 @sap.Label: '{i18n>SO_CONTRACT_ITEM}';
     SO_ZZMHDRZ                       @title: '{i18n>SO_ZZMHDRZ}'                       @sap.Label: '{i18n>SO_ZZMHDRZ}';
     SO_ZTERM_VTEXT_LANG              @title: '{i18n>SO_ZTERM_VTEXT_LANG}'              @sap.Label: '{i18n>SO_ZTERM_VTEXT_LANG}'; 
-    DL_SEED_COUNT                      @title: '{i18n>DL_SEED_COUNT}'                      @sap.Label: '{i18n>DL_SEED_COUNT}';
-    DL_SEEDS_TAGGED_GERM                 @title: '{i18n>DL_SEEDS_TAGGED_GERM}'                 @sap.Label: '{i18n>DL_SEEDS_TAGGED_GERM}';
+    DL_SEED_COUNT                    @title: '{i18n>DL_SEED_COUNT}'                      @sap.Label: '{i18n>DL_SEED_COUNT}';
+    DL_SEEDS_TAGGED_GERM             @title: '{i18n>DL_SEEDS_TAGGED_GERM}'                 @sap.Label: '{i18n>DL_SEEDS_TAGGED_GERM}';
     BL_XREF3                         @title: '{i18n>BL_XREF3}'                         @sap.Label: '{i18n>BL_XREF3}';
     @Common.Text           : SO_DGSTA_DDTEXT_LANG
     @Common.TextArrangement: #TextFirst
