@@ -1101,7 +1101,9 @@ class openOrdersSrv extends cds.ApplicationService {
                             "nps90": tabs.nps90,
                             "nps95": tabs.nps95,
                             "nps99": tabs.nps99,
-                            "nps00": tabs.nps0
+                            "nps00": tabs.nps0,
+                            "nps05": tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99,
+                            "nps101":tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99 
                         })
                         req.res.setHeader('custom', data)
                         return req.reply({ $count: distinctCount[0].total })
@@ -1962,10 +1964,16 @@ class openOrdersSrv extends cds.ApplicationService {
                 }
             });
             columnsArray = columnsArray.filter(col =>
-                col !== 'SO_ISSUE_DESCRIPTION' && col !== 'SO_NPS_DESCRIPTION'
+                col !== 'SO_ISSUE_DESCRIPTION' && col !== 'SO_NPS_DESCRIPTION' &&
+                col !== 'DL_MANDT_TEXT' && col !== 'SO_MANDT_TEXT' &&
+                col !== 'SO_FINAL_SO_MANDT_TEXT' && col !== 'BL_MANDT_INV_LAST_TEXT' &&
+                col !== 'TM_MANDT_TEXT' 
             );
             subtotalColumns = subtotalColumns.filter(col =>
                 col !== 'NULL AS SO_ISSUE_DESCRIPTION' && col !== 'NULL AS SO_NPS_DESCRIPTION'
+                && col !== 'NULL AS DL_MANDT_TEXT' && col !== 'NULL AS SO_MANDT_TEXT'
+                && col !== 'NULL AS SO_FINAL_SO_MANDT_TEXT' && col !== 'NULL AS BL_MANDT_INV_LAST_TEXT'
+                && col !== 'NULL AS TM_MANDT_TEXT'
             );
             let finalQuery = ''
             // Build the final SQL query
@@ -2028,7 +2036,16 @@ class openOrdersSrv extends cds.ApplicationService {
                     item.SO_KBETR = formatSpecialCurrencies(item.SO_KBETR, item.SO_WAERK, this._SpecialCurrencies);
                 if ('SO_NPS' in item && item.SO_NPS) item.SO_NPS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`nps${item.SO_NPS}`)
                 if ('SO_ISSUE' in item && item.SO_ISSUE) item.SO_ISSUE_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`OrderIssue${item.SO_ISSUE}`)
-            dateProps.forEach((property) => {
+                    let mandtFields = serviceHelper.getMandtFields();
+                    // MANDANT TEXTS LOGIC -------------
+                mandtFields.forEach((mandt) => {
+                        const mandtProp = item[mandt];
+                        if (mandtProp) {
+                            let mandtTxtField = mandt + "_TEXT";
+                            item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+                        }
+                    })
+                dateProps.forEach((property) => {
                         const dateString = item[property]
                         if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
                             const year = parseInt(dateString.substring(0, 4), 10);
