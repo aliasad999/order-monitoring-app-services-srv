@@ -51,15 +51,15 @@ class openOrdersSrv extends cds.ApplicationService {
             // Purchase order Text
             const { Results } = cds.entities('srvOpenOrders')
             let POData = await SELECT.distinct.from(Results).columns(["PO_MANDT", "PO_EBELN", "PO_EBELP"])
-                .where`SO_VBELN = ${salesOrder} and SO_POSNR = ${salesOrderItem} and SO_MANDT = ${orderSystem} and PO_MANDT <> null`;
-            if (POData.length > 0 && POData[0].PO_MANDT === "100") {
+                            .where`SO_VBELN = ${salesOrder} and SO_POSNR = ${salesOrderItem} and SO_MANDT = ${orderSystem} and PO_MANDT <> null`;
+            if(POData.length > 0 && POData[0].PO_MANDT === "100"){
                 const { PO_EBELN, PO_EBELP } = POData[0];
                 const SAPTextsService = await cds.connect.to('DSLServicesService');
                 SAPTexts = await SAPTextsService.run(SELECT.from('SAPTextsSet').where({
                     TextId: 'F15',
                     TextName: `${PO_EBELN}${PO_EBELP}`,
                     TextObject: 'EKPO'
-                }));
+                  }));
                 if (SAPTexts.length > 0) {
                     SAPTexts.forEach((text) => {
                         SAPTextsEntity.push({
@@ -143,17 +143,17 @@ class openOrdersSrv extends cds.ApplicationService {
                     }
 
                     // Header
-                    SAPTexts = await APSAPTextsService.run(SELECT.from('A_SalesOrderText').where({
+                    SAPTexts = await APSAPTextsService.run(SELECT.from('A_SalesOrderText').where({ 
                         SalesOrder: salesOrder,
-                        LongTextID: { in: headerTextIds }
+                        LongTextID: { in: headerTextIds}
                     }))
                     addTexts(SAPTexts);
 
                     // Item
-                    SAPTexts = await APSAPTextsService.run(SELECT.from('A_SalesOrderItemText').where({
+                    SAPTexts = await APSAPTextsService.run(SELECT.from('A_SalesOrderItemText').where({ 
                         SalesOrder: salesOrder,
                         SalesOrderItem: salesOrderItem,
-                        LongTextID: { in: itemTextIds }
+                        LongTextID: { in: itemTextIds}
                     }))
                     addTexts(SAPTexts);
 
@@ -764,7 +764,7 @@ class openOrdersSrv extends cds.ApplicationService {
                             .orderBy(keyField)
                             .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
                         // Add where clause if needed
-                        if (query.SELECT.where) {
+                        if(query.SELECT.where){
                             subquery = subquery.where(query.SELECT.where);
                         }
                         // Run the count query
@@ -811,23 +811,23 @@ class openOrdersSrv extends cds.ApplicationService {
                 } else {
                     try {
                         let queryCount = 0;
-                        // We need an orderBy clause to make the query performant
-                        let keyField = fields[0];
-                        let subquery = SELECT.distinct(...fields)
-                            .from('openOrdersSrv.allIssues')
-                            .orderBy(keyField)
-                            .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
-                        // Add where clause if needed
-                        if (req.query.SELECT.where) {
-                            subquery = subquery.where(req.query.SELECT.where);
-                        }
+                            // We need an orderBy clause to make the query performant
+                            let keyField = fields[0];
+                            let subquery = SELECT.distinct(...fields)
+                                .from('openOrdersSrv.allIssues')
+                                .orderBy(keyField)
+                                .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
+                            // Add where clause if needed
+                            if(req.query.SELECT.where){
+                                subquery = subquery.where(req.query.SELECT.where);
+                            }
 
-                        // Run the count query
-                        const distinctCount = await SELECT.from(subquery).columns('count(*) as total');
-                        if (distinctCount.length > 0) {
-                            queryCount = distinctCount[0].total;
-                        }
-                        lt_result.push({ $count: queryCount })
+                            // Run the count query
+                            const distinctCount = await SELECT.from(subquery).columns('count(*) as total');
+                            if (distinctCount.length > 0) {
+                                queryCount = distinctCount[0].total;
+                            }
+                            lt_result.push({ $count: queryCount })
                     } catch (error) {
                         log.error("AMOO VH count without Session: " + error.message +  " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT)  + " || " + JSON.stringify(req.query.SELECT.where));
                         req.error(error)
@@ -1084,9 +1084,9 @@ class openOrdersSrv extends cds.ApplicationService {
                         const db = cds.tx(req);
                         const countCols = req.headers.countcols; // Define count columns
                         const distinctQuery = SELECT.distinct(countCols)
-                            .from('openOrdersSrv.allIssues')
-                            .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
-                        const query = SELECT.from(distinctQuery).columns('count(*) as total');
+                                .from('openOrdersSrv.allIssues')
+                                .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
+                        const query =  SELECT.from(distinctQuery).columns('count(*) as total');
                         if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
                         const distinctCount = await db.run(query);
                         let data = JSON.stringify({
@@ -1101,9 +1101,7 @@ class openOrdersSrv extends cds.ApplicationService {
                             "nps90": tabs.nps90,
                             "nps95": tabs.nps95,
                             "nps99": tabs.nps99,
-                            "nps00": tabs.nps0,
-                            "nps05": tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99,
-                            "nps101":tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99 
+                            "nps00": tabs.nps0
                         })
                         req.res.setHeader('custom', data)
                         return req.reply({ $count: distinctCount[0].total })
@@ -1195,14 +1193,14 @@ class openOrdersSrv extends cds.ApplicationService {
                 req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
 
                 // Add sorting if necessary only
-                if (!req.query.SELECT?.columns[0].as) {
-                    if (req.query.SELECT.orderBy) {
+                if(!req.query.SELECT?.columns[0].as){
+                    if(req.query.SELECT.orderBy){
                         serviceHelper.addOrderIfNeeded(req.query.SELECT.orderBy, 'PO_EBELN');
                         serviceHelper.addOrderIfNeeded(req.query.SELECT.orderBy, 'PO_EBELP');
-                    } else {
+                    }else{
                         req.query.SELECT.orderBy = [
-                            { ref: ['PO_EBELN'], sort: 'asc' },
-                            { ref: ['PO_EBELP'], sort: 'asc' }
+                            {ref:['PO_EBELN'], sort: 'asc'},
+                            {ref:['PO_EBELP'], sort: 'asc'}
                         ]
                     }
                 }
@@ -1223,12 +1221,12 @@ class openOrdersSrv extends cds.ApplicationService {
                 if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                     try {
                         const db = cds.tx(req);
-                        const countCols = ['PO_MANDT', 'PO_EBELN', 'PO_EBELP']; // Define count columns
+                        const countCols = ['PO_MANDT', 'PO_EBELN','PO_EBELP']; // Define count columns
                         const distinctQuery = SELECT.distinct(...countCols)
-                            .from('openOrdersSrv.orderCreation')
-                            .orderBy({ PO_EBELN: 'asc' }, { PO_EBELP: 'asc' })
-                            .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
-                        const query = SELECT.from(distinctQuery).columns('count(*) as total');
+                                .from('openOrdersSrv.orderCreation')
+                                .orderBy({ PO_EBELN: 'asc' }, { PO_EBELP: 'asc' })
+                                .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
+                        const query =  SELECT.from(distinctQuery).columns('count(*) as total');
                         if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
                         const distinctCount = await db.run(query);
                         return req.reply({ $count: distinctCount[0].total })
@@ -1249,7 +1247,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
         this.after("READ", "orderCreation", async (data, req) => {
             if (process.env.OC_TAB_STATUS === 'ACTIVE') {
-                let sessionID = req.headers['x-username'] || req.headers['authorization'];
+                let sessionID = req.headers['x-username'] ||req.headers['authorization'];
                 if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                     // do nothing
                 } else {
@@ -1377,7 +1375,7 @@ class openOrdersSrv extends cds.ApplicationService {
                                 .orderBy(keyField)
                                 .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
                             // Add where clause if needed
-                            if (query.SELECT.where) {
+                            if(query.SELECT.where){
                                 subquery = subquery.where(query.SELECT.where);
                             }
                             // Run the count query
@@ -1432,7 +1430,7 @@ class openOrdersSrv extends cds.ApplicationService {
                                 .orderBy(keyField)
                                 .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
                             // Add where clause if needed
-                            if (req.query.SELECT.where) {
+                            if(req.query.SELECT.where){
                                 subquery = subquery.where(req.query.SELECT.where);
                             }
 
@@ -1709,7 +1707,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         } catch (error) {
                             console.error('Error fetching ATP Pal status:', error);
                         }
-                    }
+                    } 
                     break;
                 case "200": // EC
                     break;
