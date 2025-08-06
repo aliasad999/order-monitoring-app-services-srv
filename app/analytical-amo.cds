@@ -1,4 +1,4 @@
-using openOrdersSrv as service from './service-amoo.cds';
+using openOrdersSrv as service from '../srv/order-monitoring-amoo-services.cds';
 annotate service.OpenOrdersAnalytics with @(
     UI.PresentationVariant: {
             $Type         : 'UI.PresentationVariantType',
