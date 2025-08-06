@@ -266,7 +266,9 @@ annotate service.valueHelps with {
     SO_MVGR2                         @title: '{i18n>SO_MVGR2}'                         @sap.Label: '{i18n>SO_MVGR2}';             
     SO_VALDT                         @title: '{i18n>SO_VALDT}'                         @sap.Label: '{i18n>SO_VALDT}';             
     SO_MVGR2_BEZEI_LANG              @title: '{i18n>SO_MVGR2_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MVGR2_BEZEI_LANG}';             
-    SO_DGSTA_DDTEXT_LANG             @title: '{i18n>SO_DGSTA_DDTEXT_LANG}'             @sap.Label: '{i18n>SO_DGSTA_DDTEXT_LANG}';             
+    SO_DGSTA_DDTEXT_LANG             @title: '{i18n>SO_DGSTA_DDTEXT_LANG}'             @sap.Label: '{i18n>SO_DGSTA_DDTEXT_LANG}';   
+    SO_MFRGR                         @title: '{i18n>SO_MFRGR}'                         @sap.Label: '{i18n>SO_MFRGR}';   
+    SO_MFRGR_BEZEI_LANG              @title: '{i18n>SO_MFRGR_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MFRGR_BEZEI_LANG}';       
 };
 
 annotate service.Results with {
@@ -705,10 +707,15 @@ annotate service.Results with {
     SO_CONTRACT                 @title: '{i18n>SO_CONTRACT}'                      @sap.Label: '{i18n>SO_CONTRACT}';
     SO_CONTRACT_ITEM            @title: '{i18n>SO_CONTRACT_ITEM}'                 @sap.Label: '{i18n>SO_CONTRACT_ITEM}';
     SO_ZZMHDRZ                  @title: '{i18n>SO_ZZMHDRZ}'                       @sap.Label: '{i18n>SO_ZZMHDRZ}';
-    SO_ZTERM_VTEXT_LANG              @title: '{i18n>SO_ZTERM_VTEXT_LANG}'              @sap.Label: '{i18n>SO_ZTERM_VTEXT_LANG}'; 
-    DL_SEED_COUNT                      @title: '{i18n>DL_SEED_COUNT}'                      @sap.Label: '{i18n>DL_SEED_COUNT}';
-    DL_SEEDS_TAGGED_GERM                 @title: '{i18n>DL_SEEDS_TAGGED_GERM}'                 @sap.Label: '{i18n>DL_SEEDS_TAGGED_GERM}';
-    BL_XREF3                         @title: '{i18n>BL_XREF3}'                         @sap.Label: '{i18n>BL_XREF3}';
+    SO_ZTERM_VTEXT_LANG         @title: '{i18n>SO_ZTERM_VTEXT_LANG}'              @sap.Label: '{i18n>SO_ZTERM_VTEXT_LANG}'; 
+    DL_SEED_COUNT               @title: '{i18n>DL_SEED_COUNT}'                    @sap.Label: '{i18n>DL_SEED_COUNT}';
+    DL_SEEDS_TAGGED_GERM        @title: '{i18n>DL_SEEDS_TAGGED_GERM}'             @sap.Label: '{i18n>DL_SEEDS_TAGGED_GERM}';
+    BL_XREF3                    @title: '{i18n>BL_XREF3}'                         @sap.Label: '{i18n>BL_XREF3}';
+    @Common.Text           : SO_MFRGR_BEZEI_LANG
+    @Common.TextArrangement: #TextFirst
+    SO_MFRGR                    @title: '{i18n>SO_MFRGR}'                         @sap.Label: '{i18n>SO_MFRGR}';             
+    @Common.TextFor
+    SO_MFRGR_BEZEI_LANG         @title: '{i18n>SO_MFRGR_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MFRGR_BEZEI_LANG}';      
 }
 
 annotate service.Results with {
@@ -825,6 +832,7 @@ annotate service.Results with {
     SO_DGSTA_DDTEXT_LANG             @UI                     : {Hidden: true};
     // SO_VALDT             @UI                     : {Hidden: true};
     BL_XREF3                        @UI                     : {Hidden: true};
+    SO_MFRGR_BEZEI_LANG             @UI                     : {Hidden: true};
 }
 
 annotate service.valueHelps with {
@@ -4019,6 +4027,27 @@ annotate service.Results with {
         {
             $Type            : 'Common.ValueListParameterDisplayOnly',
             ValueListProperty: 'SO_MVGR2_BEZEI_LANG'
+        }
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_MFRGR
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_MFRGR}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_MFRGR,
+            ValueListProperty: 'SO_MFRGR'
+        },
+        {
+            $Type            : 'Common.ValueListParameterDisplayOnly',
+            ValueListProperty: 'SO_MFRGR_BEZEI_LANG'
         }
         ]
     }

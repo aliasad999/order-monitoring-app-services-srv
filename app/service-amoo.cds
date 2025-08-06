@@ -1234,7 +1234,9 @@ annotate service.baseEntity with {
     @Common.TextFor
     SO_MVGR2_BEZEI_LANG              @title: '{i18n>SO_MVGR2_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MVGR2_BEZEI_LANG}';             
     SO_VALDT                         @title: '{i18n>SO_VALDT}'                         @sap.Label: '{i18n>SO_VALDT}' @sap.filter.restriction: 'interval';             
-    SO_ABLAD                         @title: '{i18n>SO_ABLAD}'                         @sap.Label: '{i18n>SO_ABLAD}';             
+    SO_ABLAD                         @title: '{i18n>SO_ABLAD}'                         @sap.Label: '{i18n>SO_ABLAD}'; 
+    SO_MFRGR                         @title: '{i18n>SO_MFRGR}'                         @sap.Label: '{i18n>SO_MFRGR}';   
+    SO_MFRGR_BEZEI_LANG              @title: '{i18n>SO_MFRGR_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MFRGR_BEZEI_LANG}';            
     
 };
 
@@ -1580,6 +1582,11 @@ annotate service.allIssues with {
     @Common.Text           : SO_ZTERM_VTEXT_LANG
     @Common.TextArrangement: #TextFirst
     SO_ZTERM                    @title: '{i18n>SO_ZTERM}'                         @sap.Label: '{i18n>SO_ZTERM}';
+    @Common.Text           : SO_MFRGR_BEZEI_LANG
+    @Common.TextArrangement: #TextFirst
+    SO_MFRGR                    @title: '{i18n>SO_MFRGR}'                         @sap.Label: '{i18n>SO_MFRGR}';             
+    @Common.TextFor
+    SO_MFRGR_BEZEI_LANG         @title: '{i18n>SO_MFRGR_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MFRGR_BEZEI_LANG}'; 
 }
 
 annotate service.allIssues with {
@@ -1660,8 +1667,9 @@ annotate service.allIssues with {
     SO_TO_PARTNER_NAME              @UI: {Hidden: true};
     TM_ETA_EVENT_SOURCE             @UI: {Hidden: true};
     SO_ZTERM_VTEXT_LANG             @UI: {Hidden: true};
-    SO_MVGR2_BEZEI_LANG              @UI                     : {Hidden: true};
-    SO_DGSTA_DDTEXT_LANG             @UI                     : {Hidden: true};
+    SO_MVGR2_BEZEI_LANG             @UI: {Hidden: true};
+    SO_DGSTA_DDTEXT_LANG            @UI: {Hidden: true};
+    SO_MFRGR_BEZEI_LANG             @UI: {Hidden: true};
 
 }
 
@@ -4950,6 +4958,28 @@ annotate service.allIssues with {
         {
             $Type            : 'Common.ValueListParameterDisplayOnly',
             ValueListProperty: 'SO_DGSTA_DDTEXT_LANG'
+        }
+
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_MFRGR
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_MFRGR}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_MFRGR,
+            ValueListProperty: 'SO_MFRGR'
+        },
+        {
+            $Type            : 'Common.ValueListParameterDisplayOnly',
+            ValueListProperty: 'SO_MFRGR_BEZEI_LANG'
         }
 
         ]
