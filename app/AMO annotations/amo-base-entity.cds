@@ -103,8 +103,8 @@ annotate service.BaseEntity with {
     SO_F_MBDAT                       @title: '{i18n>SO_F_MBDAT}'                       @sap.Label: '{i18n>SO_F_MBDAT}';
     DL_POSNR_BATCH                   @title: '{i18n>DL_POSNR_BATCH}'                   @sap.Label: '{i18n>DL_POSNR_BATCH}';
     DL_LFIMG_BATCH                   @title: '{i18n>DL_LFIMG_BATCH}'                   @sap.Label: '{i18n>DL_LFIMG_BATCH}';
-    PO_EBELN                         @title: '{i18n>PO_EBELN}'                         @sap.Label: '{i18n>PO_EBELN}'; @Common.IsDigitSequence: true;
-    PO_EBELP                         @title: '{i18n>PO_EBELP}'                         @sap.Label: '{i18n>PO_EBELP}'; @Common.IsDigitSequence: true;
+    PO_EBELN                         @title: '{i18n>PO_EBELN}'                         @sap.Label: '{i18n>PO_EBELN}' @Common.IsDigitSequence: true;
+    PO_EBELP                         @title: '{i18n>PO_EBELP}'                         @sap.Label: '{i18n>PO_EBELP}' @Common.IsDigitSequence: true;
     PO_AEDAT_HEAD                    @title: '{i18n>PO_AEDAT_HEAD}'                    @sap.Label: '{i18n>PO_AEDAT_HEAD}';
     PO_AEDAT_ITEM                    @title: '{i18n>PO_AEDAT_ITEM}'                    @sap.Label: '{i18n>PO_AEDAT_ITEM}';
     PO_EMATN                         @title: '{i18n>PO_EMATN}'                         @sap.Label: '{i18n>PO_EMATN}';
