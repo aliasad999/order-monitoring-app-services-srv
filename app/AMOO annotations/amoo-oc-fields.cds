@@ -36,16 +36,16 @@ annotate service.baseOrderCreation with {
     PO_EKOTX            @title: '{i18n>PO_EKOTX}'            @sap.Label: '{i18n>PO_EKOTX}';
     PO_EKGRP            @title: '{i18n>PO_EKGRP}'            @sap.Label: '{i18n>PO_EKGRP}';
     PO_EKNAM            @title: '{i18n>PO_EKNAM}'            @sap.Label: '{i18n>PO_EKNAM}';
-    PO_EMATN            @title: '{i18n>PO_EMATN}'            @sap.Label: '{i18n>PO_EMATN}';
+    PO_EMATN            @title: '{i18n>PO_EMATN}'            @sap.Label: '{i18n>PO_EMATN}' @Common.IsDigitSequence : true;
     PO_WERKS            @title: '{i18n>PO_WERKS_PO}'         @sap.Label: '{i18n>PO_WERKS_PO}';
     PO_MENGE            @title: '{i18n>PO_MENGE}'            @sap.Label: '{i18n>PO_MENGE}'       @Measures.Unit          : PO_MEINS;
     PO_MEINS            @title: '{i18n>PO_MEINS}'            @sap.Label: '{i18n>PO_MEINS}'       @Semantics.unitOfMeasure: 'unit-of-measure';
     PO_DUE_DATE         @title: '{i18n>so_due_date}'         @sap.Label: '{i18n>so_due_date}';
     PO_ERROR_TEXT       @title: '{i18n>PO_ERROR_TEXT}'       @sap.Label: '{i18n>PO_ERROR_TEXT}';
-    PO_KUNNR            @title: '{i18n>PO_KUNNR}'            @sap.Label: '{i18n>PO_KUNNR}';
+    PO_KUNNR            @title: '{i18n>PO_KUNNR}'            @sap.Label: '{i18n>PO_KUNNR}' @Common.IsDigitSequence : true;
     PO_KUNNR_NAME       @title: '{i18n>PO_KUNNR_NAME}'       @sap.Label: '{i18n>PO_KUNNR_NAME}';
-    PO_PARTNER_9A_HEAD  @title: '{i18n>PO_PARTNER_9A_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}';
-    PO_PARTNER_9O_HEAD  @title: '{i18n>PO_PARTNER_9O_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}';
+    PO_PARTNER_9A_HEAD  @title: '{i18n>PO_PARTNER_9A_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9A_HEAD}' @Common.IsDigitSequence : true;
+    PO_PARTNER_9O_HEAD  @title: '{i18n>PO_PARTNER_9O_HEAD}'  @sap.Label: '{i18n>PO_PARTNER_9O_HEAD}' @Common.IsDigitSequence : true;
     PO_BSART_BATXT      @title: '{i18n>PO_BSART}'            @sap.Label: '{i18n>PO_BSART}';
     PO_MANDT_TEXT       @title: '{i18n>PO_MANDT}'            @sap.Label: '{i18n>PO_MANDT}';
 
