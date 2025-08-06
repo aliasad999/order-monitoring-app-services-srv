@@ -13,13 +13,16 @@ using allorders.db as amo_service from '../db/order-monitoring-amo-service';
 
 service openOrdersSrv {
     @readonly
-    entity SAPSystems as projection on amo_service.SAPSystems;
+    entity SAPSystems               as projection on amo_service.SAPSystems;
+
     @readonly
-    entity DCPStatus as projection on amo_service.DCPStatus;
+    entity DCPStatus                as projection on amo_service.DCPStatus;
+
     @readonly
-    entity nextProcessSteps as projection on db_app.nextProcessSteps;
+    entity nextProcessSteps         as projection on db_app.nextProcessSteps;
+
     @readonly
-    entity issues as projection on db_app.issues;
+    entity issues                   as projection on db_app.issues;
 
     entity currencies               as projection on db_app.currency;
 
@@ -76,15 +79,37 @@ service openOrdersSrv {
                     CO_PARTNER_ITM, CO_PARTNER_HEAD
                 )                                           as SO_CO_PARTNER                   : String(10),
                 IFNULL(
-                    NULLIF(TRIM(COALESCE(CO_PARTNER_NAME1_ITM, '') || ' ' || COALESCE(CO_PARTNER_NAME2_ITM, '')), ''),
-                    NULLIF(TRIM(COALESCE(CO_PARTNER_NAME1_HEAD, '') || ' ' || COALESCE(CO_PARTNER_NAME2_HEAD, '')), '')
+                    NULLIF(
+                        TRIM(COALESCE(
+                            CO_PARTNER_NAME1_ITM, ''
+                        ) || ' ' || COALESCE(
+                            CO_PARTNER_NAME2_ITM, ''
+                        )), ''
+                    ), NULLIF(
+                        TRIM(COALESCE(
+                            CO_PARTNER_NAME1_HEAD, ''
+                        ) || ' ' || COALESCE(
+                            CO_PARTNER_NAME2_HEAD, ''
+                        )), ''
+                    )
                 )                                           as SO_CO_PARTNER_NAME              : String(80),
                 IFNULL(
                     NY_PARTNER_ITM, NY_PARTNER_HEAD
                 )                                           as SO_NY_PARTNER                   : String(10),
                 IFNULL(
-                    NULLIF(TRIM(COALESCE(NY_PARTNER_NAME1_ITM, '') || ' ' || COALESCE(NY_PARTNER_NAME2_ITM, '')), ''), 
-                    NULLIF(TRIM(COALESCE(NY_PARTNER_NAME1_HEAD, '') || ' ' || COALESCE(NY_PARTNER_NAME2_HEAD, '')), '')
+                    NULLIF(
+                        TRIM(COALESCE(
+                            NY_PARTNER_NAME1_ITM, ''
+                        ) || ' ' || COALESCE(
+                            NY_PARTNER_NAME2_ITM, ''
+                        )), ''
+                    ), NULLIF(
+                        TRIM(COALESCE(
+                            NY_PARTNER_NAME1_HEAD, ''
+                        ) || ' ' || COALESCE(
+                            NY_PARTNER_NAME2_HEAD, ''
+                        )), ''
+                    )
                 )                                           as SO_NY_PARTNER_NAME              : String(80),
                 IFNULL(
                     AS_PARTNER_ITM, AS_PARTNER_HEAD
@@ -315,8 +340,8 @@ service openOrdersSrv {
                 REASON_CODE_05_LANG                         as SO_REASON_CODE_05_LANG,
                 DEV_CONF_DATE                               as SO_DEV_CONF_DATE,
                 EMAIL                                       as SO_EMAIL,
-                EMAIL_SEND_DATE_F_DATE                           as SO_EMAIL_SEND_DATE_F,
-                EMAIL_SENT_ON_DATE                               as SO_EMAIL_SENT_ON,
+                EMAIL_SEND_DATE_F_DATE                      as SO_EMAIL_SEND_DATE_F,
+                EMAIL_SENT_ON_DATE                          as SO_EMAIL_SENT_ON,
                 MDB                                         as SO_MDB,
                 MDB_TEXT                                    as SO_MDB_TEXT,
                 ERDAT_DEL_DATE                              as DL_ERDAT,
@@ -379,8 +404,19 @@ service openOrdersSrv {
                 )                                           as SO_TO_PARTNER                   : String(10),
 
                 IFNULL(
-                    NULLIF(TRIM(COALESCE(TO_PARTNER_NAME1_ITM, '') || ' ' || COALESCE(TO_PARTNER_NAME2_ITM, '')), ''),
-                    NULLIF(TRIM(COALESCE(TO_PARTNER_NAME1_HEAD, '') || ' ' || COALESCE(TO_PARTNER_NAME2_HEAD, '')), '')
+                    NULLIF(
+                        TRIM(COALESCE(
+                            TO_PARTNER_NAME1_ITM, ''
+                        ) || ' ' || COALESCE(
+                            TO_PARTNER_NAME2_ITM, ''
+                        )), ''
+                    ), NULLIF(
+                        TRIM(COALESCE(
+                            TO_PARTNER_NAME1_HEAD, ''
+                        ) || ' ' || COALESCE(
+                            TO_PARTNER_NAME2_HEAD, ''
+                        )), ''
+                    )
                 )                                           as SO_TO_PARTNER_NAME              : String(80),
 
                 @UI.Hidden: true
@@ -414,9 +450,9 @@ service openOrdersSrv {
                 ZZMHDRZ                                     as SO_ZZMHDRZ,
                 IFNULL(
                     ZTERM_ITEM_VTEXT_LANG, ZTERM_HEAD_VTEXT_LANG
-                )                                           as SO_ZTERM_VTEXT_LANG                   : String(30),   
-                SEED_COUNT                         as DL_SEED_COUNT,
-                SEEDS_TAGGED_GERM                  as DL_SEEDS_TAGGED_GERM,
+                )                                           as SO_ZTERM_VTEXT_LANG             : String(30),
+                SEED_COUNT                                  as DL_SEED_COUNT,
+                SEEDS_TAGGED_GERM                           as DL_SEEDS_TAGGED_GERM,
                 XREF3                                       as BL_XREF3,
                 ABLAD                                       as SO_ABLAD,
                 DGSTA                                       as SO_DGSTA,
@@ -583,300 +619,301 @@ service openOrdersSrv {
     entity OCValueHelps             as projection on baseOrderCreation;
 
     entity APContacts               as projection on OMServicesAP.SalesOrderPartner;
-    entity VhOpenOrdersAnalytics as projection on OpenOrdersAnalytics;
+    entity VhOpenOrdersAnalytics    as projection on OpenOrdersAnalytics;
+
     entity OpenOrdersAnalytics      as
         select from allIssues {
-                id,
-        virtual false                                       as isSubtotal : Boolean,
-                SO_VBELN,
-                SO_POSNR,
-                SO_FINAL_SO_MANDT,
-                SO_FINAL_SO_MANDT_TEXT,
-                BL_MANDT_INV_LAST,
-                BL_MANDT_INV_LAST_TEXT,
-                TM_MANDT,
-                TM_MANDT_TEXT,
-                DL_MANDT,
-                DL_MANDT_TEXT,
-                SO_MANDT,
-                SO_MANDT_TEXT,
-                SO_EDATU_REQUESTED,
-                SO_ERDAT_ITEM,
-                DL_WADAT_IST,
-                SO_F_LDDAT,
-                DL_LDDAT,
-                SO_ERDAT_ORDER,
-                DL_WADAT,
-                SO_F_TDDAT,
-                SO_F_ZZ0S2MATUG,
-                SO_BSTKD,
-                DL_VBELN,
-                DL_POSNR,
-                SO_F_VBELN,
-                SO_INCO1,
-                SO_INCO2,
-                @Common.Text           : SO_ZTERM_VTEXT_LANG
-                @Common.TextArrangement: #TextOnly
-                SO_ZTERM,
-                @Common.TextFor
-                SO_ZTERM_VTEXT_LANG,
-                SO_MAKTX,
-                SO_MATNR,
-                SO_AUART,
-                SO_WERKS,
-                @Common.Text           : SO_WE_PARTNER_NAME
-                @Common.TextArrangement: #TextFirst
-                SO_WE_PARTNER,
-                @Common.Text           : SO_F_VSBED_VTEXT
-                @Common.TextArrangement: #TextFirst
-                SO_F_VSBED,
-                @Common.TextFor
-                SO_F_VSBED_VTEXT,
-                @Common.Text           : SO_AG_PARTNER_NAME
-                @Common.TextArrangement: #TextFirst
-                SO_AG_PARTNER,
-                TM_TKNUM,
-                @Common.Text           : SO_NPS_DESCRIPTION
-                @Common.TextArrangement: #TextOnly
-                SO_NPS,
-                @Common.TextFor
-                virtual null                                as SO_NPS_DESCRIPTION   : String(100),
-                SO_VBTYP,
-                SO_IGNORED,
-                @Semantics.currencyCode
-                SO_WAERK,
-                @Semantics.unitOfMeasure: 'unit-of-measure'
-                DL_VRKME,
-                @Semantics.unitOfMeasure: 'unit-of-measure'
-                SO_VRKME,
-                @Measures.Unit         : SO_VRKME
-                SO_KWMENG,
-                @Measures.Unit         : SO_VRKME
-                SO_KBMENG,
-                @Measures.ISOCurrency  : SO_WAERK
-                SO_NETWR,
-                @Measures.ISOCurrency  : DL_VRKME
-                DL_LFIMG,
+            id,
+            virtual false as isSubtotal         : Boolean,
+            SO_VBELN,
+            SO_POSNR,
+            SO_FINAL_SO_MANDT,
+            SO_FINAL_SO_MANDT_TEXT,
+            BL_MANDT_INV_LAST,
+            BL_MANDT_INV_LAST_TEXT,
+            TM_MANDT,
+            TM_MANDT_TEXT,
+            DL_MANDT,
+            DL_MANDT_TEXT,
+            SO_MANDT,
+            SO_MANDT_TEXT,
+            SO_EDATU_REQUESTED,
+            SO_ERDAT_ITEM,
+            DL_WADAT_IST,
+            SO_F_LDDAT,
+            DL_LDDAT,
+            SO_ERDAT_ORDER,
+            DL_WADAT,
+            SO_F_TDDAT,
+            SO_F_ZZ0S2MATUG,
+            SO_BSTKD,
+            DL_VBELN,
+            DL_POSNR,
+            SO_F_VBELN,
+            SO_INCO1,
+            SO_INCO2,
+            @Common.Text           : SO_ZTERM_VTEXT_LANG
+            @Common.TextArrangement: #TextOnly
+            SO_ZTERM,
+            @Common.TextFor
+            SO_ZTERM_VTEXT_LANG,
+            SO_MAKTX,
+            SO_MATNR,
+            SO_AUART,
+            SO_WERKS,
+            @Common.Text           : SO_WE_PARTNER_NAME
+            @Common.TextArrangement: #TextFirst
+            SO_WE_PARTNER,
+            @Common.Text           : SO_F_VSBED_VTEXT
+            @Common.TextArrangement: #TextFirst
+            SO_F_VSBED,
+            @Common.TextFor
+            SO_F_VSBED_VTEXT,
+            @Common.Text           : SO_AG_PARTNER_NAME
+            @Common.TextArrangement: #TextFirst
+            SO_AG_PARTNER,
+            TM_TKNUM,
+            @Common.Text           : SO_NPS_DESCRIPTION
+            @Common.TextArrangement: #TextOnly
+            SO_NPS,
+            @Common.TextFor
+            virtual null  as SO_NPS_DESCRIPTION : String(100),
+            SO_VBTYP,
+            SO_IGNORED,
+            @Semantics.currencyCode
+            SO_WAERK,
+            @Semantics.unitOfMeasure: 'unit-of-measure'
+            DL_VRKME,
+            @Semantics.unitOfMeasure: 'unit-of-measure'
+            SO_VRKME,
+            @Measures.Unit          : SO_VRKME
+            SO_KWMENG,
+            @Measures.Unit          : SO_VRKME
+            SO_KBMENG,
+            @Measures.ISOCurrency   : SO_WAERK
+            SO_NETWR,
+            @Measures.ISOCurrency   : DL_VRKME
+            DL_LFIMG,
 
-                // hidden fields added just for filtering to work
-                BL_POSNR_INV_LAST                @UI.Hidden,
-                BL_VBELN_INV_LAST                @UI.Hidden,
-                SO_FAKSP                         @UI.Hidden,
-                SO_FAKSP_VTEXT                   @UI.Hidden,
-                TM_STTRG                         @UI.Hidden,
-                TM_STTRG_DDTEXT                  @UI.Hidden,
-                SO_ABGRU                         @UI.Hidden,
-                SO_ABGRU_BEZEI                   @UI.Hidden,
-                @Common.TextFor
-                SO_AG_PARTNER_NAME               @UI.Hidden,
-                @Common.TextFor
-                SO_WE_PARTNER_NAME               @UI.Hidden,
-                SO_ISSUE                         @UI.Hidden,
-                SO_ISSUE_DESCRIPTION             @UI.Hidden,
-                SO_VTWEG                         @UI.Hidden,
-                SO_LAND1                         @UI.Hidden,
-                SO_LANDX                         @UI.Hidden,              
-                SO_ORT01                         @UI.Hidden,
-                SO_VKORG                         @UI.Hidden,
-                SO_VKORG_NAME1                   @UI.Hidden,
-                SO_CO_PARTNER                    @UI.Hidden,                
-                SO_CO_PARTNER_NAME               @UI.Hidden,              
-                SO_NY_PARTNER                    @UI.Hidden,
-                SO_NY_PARTNER_NAME               @UI.Hidden, 
-                SO_AS_PARTNER                    @UI.Hidden,
-                SO_AS_PARTNER_NAME               @UI.Hidden,
-                SO_VE_PARTNER                    @UI.Hidden,
-                SO_VE_PARTNER_NAME               @UI.Hidden,
-                SO_AM_PARTNER                    @UI.Hidden,
-                SO_AM_PARTNER_NAME               @UI.Hidden,
-                SO_KNREF_HEAD                    @UI.Hidden,
-                SO_VBUND                         @UI.Hidden,                         
-                SO_EDATU_CONFIRMED               @UI.Hidden,
-                SO_UNCONFIRMED_QTY               @UI.Hidden,
-                SO_REQ_TEXT                      @UI.Hidden,                       
-                SO_SUPPLY_SITUATION              @UI.Hidden,
-                SO_SUPPLY_SITUATION_DESCR        @UI.Hidden,
-                SO_KPEIN                         @UI.Hidden,
-                SO_KMEIN                         @UI.Hidden,
-                SO_HTEXT                         @UI.Hidden,
-                SO_PSTYV                         @UI.Hidden,
-                SO_PSTYV_VTEXT                   @UI.Hidden,
-                SO_DISPO                         @UI.Hidden,
-                SO_KOSCH                         @UI.Hidden,
-                SO_VKBUR                         @UI.Hidden,
-                SO_VKBUR_BEZEI                   @UI.Hidden,
-                SO_ABSTA                         @UI.Hidden,
-                SO_KNUMV                         @UI.Hidden,
-                SO_SPART                         @UI.Hidden,
-                SO_PRSDT                         @UI.Hidden,
-                SO_ZZ0S2REVG2                    @UI.Hidden,
-                SO_ZZDKPPRODB                    @UI.Hidden,
-                SO_BSARK                         @UI.Hidden,
-                SO_BSARK_VTEXT                   @UI.Hidden,
-                SO_BASF_LOFCR                    @UI.Hidden,
-                SO_GUSCON_LEVEL                  @UI.Hidden,
-                SO_I_VBELN                       @UI.Hidden,
-                SO_LEVEL_TYPE                    @UI.Hidden,
-                SO_N_VBELN                       @UI.Hidden,
-                SO_F_POSNR                       @UI.Hidden,
-                SO_TRAGR                         @UI.Hidden,
-                SO_TRAGR_VTEXT                   @UI.Hidden,
-                SO_VKGRP                         @UI.Hidden,
-                SO_VKGRP_BEZEI                   @UI.Hidden,
-                SO_ROUTE                         @UI.Hidden,
-                SO_F_WERKS                       @UI.Hidden,
-                SO_F_VKORG                       @UI.Hidden,
-                SO_F_VKORG_VTEXT                 @UI.Hidden,
-                SO_F_AS_PARTNER                  @UI.Hidden,
-                SO_F_AS_PARTNER_NAME             @UI.Hidden,
-                SO_F_LGORT                       @UI.Hidden,
-                SO_F_AUFNR                       @UI.Hidden,
-                SO_F_DGLTP                       @UI.Hidden,
-                SO_F_AMEIN                       @UI.Hidden,
-                SO_F_PSMNG                       @UI.Hidden,
-                LAST_NOTE                        @UI.Hidden,
-                DL_CHARG                         @UI.Hidden,
-                DL_LFDAT                         @UI.Hidden,
-                DL_HSDAT                         @UI.Hidden,
-                DL_VFDAT                         @UI.Hidden,
-                SO_KBETR                         @UI.Hidden,
-                SO_WAERS                         @UI.Hidden,
-                DL_POSAR                         @UI.Hidden,
-                DL_VGBEL                         @UI.Hidden,
-                DL_VGPOS                         @UI.Hidden,
-                DL_LFART                         @UI.Hidden,
-                DL_LFART_VTEXT                   @UI.Hidden,
-                DL_TRAID                         @UI.Hidden,
-                DL_ZZ0S2BLNR                     @UI.Hidden,
-                DL_PEND_DEL_QUAN                 @UI.Hidden,
-                TM_VSART                         @UI.Hidden,
-                TM_VSART_BEZEI                   @UI.Hidden,
-                TM_EXTI1                         @UI.Hidden,
-                TM_DPTBG                         @UI.Hidden,
-                TM_DATBG                         @UI.Hidden,
-                TM_DPTEN                         @UI.Hidden,
-                TM_DALBG                         @UI.Hidden,
-                TM_DATEN                         @UI.Hidden,
-                TM_AR_DATE                       @UI.Hidden,
-                TM_TDLNR                         @UI.Hidden,
-                TM_TDLNR_NAME1                   @UI.Hidden,
-                TM_TRACKING_ID_COMP              @UI.Hidden,
-                TM_TRACKING_ID_ELEM              @UI.Hidden,
-                TM_SHIPMENT_ALERT                @UI.Hidden,
-                TM_SHIPMENT_CURRENT_STATUS       @UI.Hidden,
-                SO_DCP_ITEM_STATUS               @UI.Hidden,
-                SO_DCP_ITEM_STATUS_DESCRIPTION   @UI.Hidden,
-                SO_DUE_DATE                      @UI.Hidden,
-                SO_ISSUE_LOCATION                @UI.Hidden,
-                SO_ISSUE_LOCATION_ITEM           @UI.Hidden,
-                criticalityDueDate               @UI.Hidden,
-                TM_SHIPMENT_ETA_UPDATED          @UI.Hidden,
-                BL_VBELN_INV_FIRST               @UI.Hidden,
-                BL_POSNR_INV_FIRST               @UI.Hidden,
-                BL_FKIMG_FIRST                   @UI.Hidden,
-                BL_VRKME_FIRST                   @UI.Hidden,
-                BL_FKART_FIRST                   @UI.Hidden,
-                BL_FKIMG_LAST                    @UI.Hidden,
-                BL_FKART_LAST                    @UI.Hidden,
-                BL_VRKME_LAST                    @UI.Hidden,
-                BL_XBLNR                         @UI.Hidden,
-                BL_NETWR_LAST                    @UI.Hidden,
-                BL_ERDAT_FIRST                   @UI.Hidden,
-                BL_ERDAT_LAST                    @UI.Hidden,
-                BL_WAERK_LAST                    @UI.Hidden,
-                SO_FOLLOWUP_NOTES_LANG           @UI.Hidden,
-                SO_REASON_CODE_01_LANG           @UI.Hidden,
-                SO_REASON_CODE_02_LANG           @UI.Hidden,
-                SO_REASON_CODE_03_LANG           @UI.Hidden,
-                SO_REASON_CODE_04_LANG           @UI.Hidden,
-                SO_REASON_CODE_05_LANG           @UI.Hidden,
-                SO_DEV_CONF_DATE                 @UI.Hidden,
-                SO_EMAIL                         @UI.Hidden,
-                SO_EMAIL_SEND_DATE_F             @UI.Hidden,
-                SO_EMAIL_SENT_ON                 @UI.Hidden,
-                SO_MDB                           @UI.Hidden,
-                SO_MDB_TEXT                      @UI.Hidden,
-                DL_ERDAT                         @UI.Hidden,
-                SO_PERFK                         @UI.Hidden,
-                SO_PERFK_LTEXT_LANG              @UI.Hidden,
-                SO_F_MBDAT                       @UI.Hidden,
-                DL_POSNR_BATCH                   @UI.Hidden,
-                DL_LFIMG_BATCH                   @UI.Hidden,
-                PO_EBELN                         @UI.Hidden,
-                PO_EBELP                         @UI.Hidden,
-                PO_AEDAT_HEAD                    @UI.Hidden,
-                PO_AEDAT_ITEM                    @UI.Hidden,
-                PO_BSART                         @UI.Hidden,
-                PO_BSART_BATXT                   @UI.Hidden,
-                PO_EKORG                         @UI.Hidden,
-                PO_EKOTX                         @UI.Hidden,
-                PO_EKGRP                         @UI.Hidden,
-                PO_EKNAM                         @UI.Hidden,
-                PO_EMATN                         @UI.Hidden,
-                PO_WERKS_PO                      @UI.Hidden,
-                PO_MENGE                         @UI.Hidden,
-                PO_MEINS                         @UI.Hidden,
-                PO_KUNNR                         @UI.Hidden,
-                PO_KUNNR_NAME                    @UI.Hidden,
-                PO_PARTNER_9A_HEAD               @UI.Hidden,
-                PO_PARTNER_9O_HEAD               @UI.Hidden,
-                SO_Z5_PARTNER                    @UI.Hidden,
-                SO_Z5_PARTNER_NAME               @UI.Hidden,
-                SO_SB_PARTNER                    @UI.Hidden,
-                SO_SB_PARTNER_NAME               @UI.Hidden,
-                SO_AD_PARTNER                    @UI.Hidden,
-                SO_AD_PARTNER_NAME               @UI.Hidden,
-                BL_MANDT_INV_FIRST               @UI.Hidden,
-                SO_FIRST_SO_MANDT                @UI.Hidden,
-                PO_MANDT                         @UI.Hidden,
-                SO_ISSUE_LOCATION_MANDT          @UI.Hidden,
-                BL_MANDT_INV_FIRST_TEXT          @UI.Hidden,
-                SO_FIRST_SO_MANDT_TEXT           @UI.Hidden,
-                PO_MANDT_TEXT                    @UI.Hidden,
-                SO_ISSUE_LOCATION_MANDT_TEXT     @UI.Hidden,
-                DL_TRMTYP                        @UI.Hidden,
-                DL_TRMTYP_MAKTX                  @UI.Hidden,
-                DL_ZZ0S2ABGH                     @UI.Hidden,
-                DL_ZZ0S2ZIEH                     @UI.Hidden,
-                TM_VISTA_STATUS                  @UI.Hidden,
-                TM_CURRENT_ETA_VISTA             @UI.Hidden,
-                SO_BNAME                         @UI.Hidden,
-                SO_IHREZ                         @UI.Hidden,
-                SO_LPRIO                         @UI.Hidden,
-                SO_AUGRU                         @UI.Hidden,
-                SO_AUGRU_BEZEI_LANG              @UI.Hidden,
-                SO_KDGRP                         @UI.Hidden,
-                SO_KDGRP_KTEXT_LANG              @UI.Hidden,
-                SO_WE_PARTNER_REGION             @UI.Hidden,
-                SO_WE_PARTNER_REGION_BEZEI_LANG  @UI.Hidden,
-                SO_PRCTR                         @UI.Hidden,
-                SO_TO_PARTNER                    @UI.Hidden,
-                SO_TO_PARTNER_NAME               @UI.Hidden,
-                TM_DPLBG_DATE                    @UI.Hidden,
-                TM_ERDAT_DATE                    @UI.Hidden,
-                TM_DPREG_DATE                    @UI.Hidden,
-                DL_WERKS_DEL                     @UI.Hidden,
-                DL_VKORG_DEL                     @UI.Hidden,
-                SO_VMSTA                         @UI.Hidden,
-                SO_ZZ0S2VGANN                    @UI.Hidden,
-                SO_ZZ0S2LOANN                    @UI.Hidden,
-                PO_REQ_DEL_DATE                  @UI.Hidden,
-                PO_AB_CONF_DATE                  @UI.Hidden,
-                PO_LA_CONF_DATE                  @UI.Hidden,
-                PO_ZD_CONF_DATE                  @UI.Hidden,
-                SO_ZZATP_CUST                    @UI.Hidden,
-                SO_CONTRACT                      @UI.Hidden,
-                SO_CONTRACT_ITEM                 @UI.Hidden,
-                SO_ZZMHDRZ                       @UI.Hidden,
-                DL_SEED_COUNT                    @UI.Hidden,
-                DL_SEEDS_TAGGED_GERM             @UI.Hidden,
-                BL_XREF3                         @UI.Hidden,
-                SO_DGSTA                         @UI.Hidden,
-                SO_DGSTA_DDTEXT_LANG             @UI.Hidden,
-                SO_MVGR2                         @UI.Hidden,
-                SO_MVGR2_BEZEI_LANG              @UI.Hidden,
-                SO_VALDT                         @UI.Hidden,
-                SO_ABLAD                         @UI.Hidden,
-    
+            // hidden fields added just for filtering to work
+            BL_POSNR_INV_LAST               @UI.Hidden,
+            BL_VBELN_INV_LAST               @UI.Hidden,
+            SO_FAKSP                        @UI.Hidden,
+            SO_FAKSP_VTEXT                  @UI.Hidden,
+            TM_STTRG                        @UI.Hidden,
+            TM_STTRG_DDTEXT                 @UI.Hidden,
+            SO_ABGRU                        @UI.Hidden,
+            SO_ABGRU_BEZEI                  @UI.Hidden,
+            @Common.TextFor
+            SO_AG_PARTNER_NAME              @UI.Hidden,
+            @Common.TextFor
+            SO_WE_PARTNER_NAME              @UI.Hidden,
+            SO_ISSUE                        @UI.Hidden,
+            SO_ISSUE_DESCRIPTION            @UI.Hidden,
+            SO_VTWEG                        @UI.Hidden,
+            SO_LAND1                        @UI.Hidden,
+            SO_LANDX                        @UI.Hidden,
+            SO_ORT01                        @UI.Hidden,
+            SO_VKORG                        @UI.Hidden,
+            SO_VKORG_NAME1                  @UI.Hidden,
+            SO_CO_PARTNER                   @UI.Hidden,
+            SO_CO_PARTNER_NAME              @UI.Hidden,
+            SO_NY_PARTNER                   @UI.Hidden,
+            SO_NY_PARTNER_NAME              @UI.Hidden,
+            SO_AS_PARTNER                   @UI.Hidden,
+            SO_AS_PARTNER_NAME              @UI.Hidden,
+            SO_VE_PARTNER                   @UI.Hidden,
+            SO_VE_PARTNER_NAME              @UI.Hidden,
+            SO_AM_PARTNER                   @UI.Hidden,
+            SO_AM_PARTNER_NAME              @UI.Hidden,
+            SO_KNREF_HEAD                   @UI.Hidden,
+            SO_VBUND                        @UI.Hidden,
+            SO_EDATU_CONFIRMED              @UI.Hidden,
+            SO_UNCONFIRMED_QTY              @UI.Hidden,
+            SO_REQ_TEXT                     @UI.Hidden,
+            SO_SUPPLY_SITUATION             @UI.Hidden,
+            SO_SUPPLY_SITUATION_DESCR       @UI.Hidden,
+            SO_KPEIN                        @UI.Hidden,
+            SO_KMEIN                        @UI.Hidden,
+            SO_HTEXT                        @UI.Hidden,
+            SO_PSTYV                        @UI.Hidden,
+            SO_PSTYV_VTEXT                  @UI.Hidden,
+            SO_DISPO                        @UI.Hidden,
+            SO_KOSCH                        @UI.Hidden,
+            SO_VKBUR                        @UI.Hidden,
+            SO_VKBUR_BEZEI                  @UI.Hidden,
+            SO_ABSTA                        @UI.Hidden,
+            SO_KNUMV                        @UI.Hidden,
+            SO_SPART                        @UI.Hidden,
+            SO_PRSDT                        @UI.Hidden,
+            SO_ZZ0S2REVG2                   @UI.Hidden,
+            SO_ZZDKPPRODB                   @UI.Hidden,
+            SO_BSARK                        @UI.Hidden,
+            SO_BSARK_VTEXT                  @UI.Hidden,
+            SO_BASF_LOFCR                   @UI.Hidden,
+            SO_GUSCON_LEVEL                 @UI.Hidden,
+            SO_I_VBELN                      @UI.Hidden,
+            SO_LEVEL_TYPE                   @UI.Hidden,
+            SO_N_VBELN                      @UI.Hidden,
+            SO_F_POSNR                      @UI.Hidden,
+            SO_TRAGR                        @UI.Hidden,
+            SO_TRAGR_VTEXT                  @UI.Hidden,
+            SO_VKGRP                        @UI.Hidden,
+            SO_VKGRP_BEZEI                  @UI.Hidden,
+            SO_ROUTE                        @UI.Hidden,
+            SO_F_WERKS                      @UI.Hidden,
+            SO_F_VKORG                      @UI.Hidden,
+            SO_F_VKORG_VTEXT                @UI.Hidden,
+            SO_F_AS_PARTNER                 @UI.Hidden,
+            SO_F_AS_PARTNER_NAME            @UI.Hidden,
+            SO_F_LGORT                      @UI.Hidden,
+            SO_F_AUFNR                      @UI.Hidden,
+            SO_F_DGLTP                      @UI.Hidden,
+            SO_F_AMEIN                      @UI.Hidden,
+            SO_F_PSMNG                      @UI.Hidden,
+            LAST_NOTE                       @UI.Hidden,
+            DL_CHARG                        @UI.Hidden,
+            DL_LFDAT                        @UI.Hidden,
+            DL_HSDAT                        @UI.Hidden,
+            DL_VFDAT                        @UI.Hidden,
+            SO_KBETR                        @UI.Hidden,
+            SO_WAERS                        @UI.Hidden,
+            DL_POSAR                        @UI.Hidden,
+            DL_VGBEL                        @UI.Hidden,
+            DL_VGPOS                        @UI.Hidden,
+            DL_LFART                        @UI.Hidden,
+            DL_LFART_VTEXT                  @UI.Hidden,
+            DL_TRAID                        @UI.Hidden,
+            DL_ZZ0S2BLNR                    @UI.Hidden,
+            DL_PEND_DEL_QUAN                @UI.Hidden,
+            TM_VSART                        @UI.Hidden,
+            TM_VSART_BEZEI                  @UI.Hidden,
+            TM_EXTI1                        @UI.Hidden,
+            TM_DPTBG                        @UI.Hidden,
+            TM_DATBG                        @UI.Hidden,
+            TM_DPTEN                        @UI.Hidden,
+            TM_DALBG                        @UI.Hidden,
+            TM_DATEN                        @UI.Hidden,
+            TM_AR_DATE                      @UI.Hidden,
+            TM_TDLNR                        @UI.Hidden,
+            TM_TDLNR_NAME1                  @UI.Hidden,
+            TM_TRACKING_ID_COMP             @UI.Hidden,
+            TM_TRACKING_ID_ELEM             @UI.Hidden,
+            TM_SHIPMENT_ALERT               @UI.Hidden,
+            TM_SHIPMENT_CURRENT_STATUS      @UI.Hidden,
+            SO_DCP_ITEM_STATUS              @UI.Hidden,
+            SO_DCP_ITEM_STATUS_DESCRIPTION  @UI.Hidden,
+            SO_DUE_DATE                     @UI.Hidden,
+            SO_ISSUE_LOCATION               @UI.Hidden,
+            SO_ISSUE_LOCATION_ITEM          @UI.Hidden,
+            criticalityDueDate              @UI.Hidden,
+            TM_SHIPMENT_ETA_UPDATED         @UI.Hidden,
+            BL_VBELN_INV_FIRST              @UI.Hidden,
+            BL_POSNR_INV_FIRST              @UI.Hidden,
+            BL_FKIMG_FIRST                  @UI.Hidden,
+            BL_VRKME_FIRST                  @UI.Hidden,
+            BL_FKART_FIRST                  @UI.Hidden,
+            BL_FKIMG_LAST                   @UI.Hidden,
+            BL_FKART_LAST                   @UI.Hidden,
+            BL_VRKME_LAST                   @UI.Hidden,
+            BL_XBLNR                        @UI.Hidden,
+            BL_NETWR_LAST                   @UI.Hidden,
+            BL_ERDAT_FIRST                  @UI.Hidden,
+            BL_ERDAT_LAST                   @UI.Hidden,
+            BL_WAERK_LAST                   @UI.Hidden,
+            SO_FOLLOWUP_NOTES_LANG          @UI.Hidden,
+            SO_REASON_CODE_01_LANG          @UI.Hidden,
+            SO_REASON_CODE_02_LANG          @UI.Hidden,
+            SO_REASON_CODE_03_LANG          @UI.Hidden,
+            SO_REASON_CODE_04_LANG          @UI.Hidden,
+            SO_REASON_CODE_05_LANG          @UI.Hidden,
+            SO_DEV_CONF_DATE                @UI.Hidden,
+            SO_EMAIL                        @UI.Hidden,
+            SO_EMAIL_SEND_DATE_F            @UI.Hidden,
+            SO_EMAIL_SENT_ON                @UI.Hidden,
+            SO_MDB                          @UI.Hidden,
+            SO_MDB_TEXT                     @UI.Hidden,
+            DL_ERDAT                        @UI.Hidden,
+            SO_PERFK                        @UI.Hidden,
+            SO_PERFK_LTEXT_LANG             @UI.Hidden,
+            SO_F_MBDAT                      @UI.Hidden,
+            DL_POSNR_BATCH                  @UI.Hidden,
+            DL_LFIMG_BATCH                  @UI.Hidden,
+            PO_EBELN                        @UI.Hidden,
+            PO_EBELP                        @UI.Hidden,
+            PO_AEDAT_HEAD                   @UI.Hidden,
+            PO_AEDAT_ITEM                   @UI.Hidden,
+            PO_BSART                        @UI.Hidden,
+            PO_BSART_BATXT                  @UI.Hidden,
+            PO_EKORG                        @UI.Hidden,
+            PO_EKOTX                        @UI.Hidden,
+            PO_EKGRP                        @UI.Hidden,
+            PO_EKNAM                        @UI.Hidden,
+            PO_EMATN                        @UI.Hidden,
+            PO_WERKS_PO                     @UI.Hidden,
+            PO_MENGE                        @UI.Hidden,
+            PO_MEINS                        @UI.Hidden,
+            PO_KUNNR                        @UI.Hidden,
+            PO_KUNNR_NAME                   @UI.Hidden,
+            PO_PARTNER_9A_HEAD              @UI.Hidden,
+            PO_PARTNER_9O_HEAD              @UI.Hidden,
+            SO_Z5_PARTNER                   @UI.Hidden,
+            SO_Z5_PARTNER_NAME              @UI.Hidden,
+            SO_SB_PARTNER                   @UI.Hidden,
+            SO_SB_PARTNER_NAME              @UI.Hidden,
+            SO_AD_PARTNER                   @UI.Hidden,
+            SO_AD_PARTNER_NAME              @UI.Hidden,
+            BL_MANDT_INV_FIRST              @UI.Hidden,
+            SO_FIRST_SO_MANDT               @UI.Hidden,
+            PO_MANDT                        @UI.Hidden,
+            SO_ISSUE_LOCATION_MANDT         @UI.Hidden,
+            BL_MANDT_INV_FIRST_TEXT         @UI.Hidden,
+            SO_FIRST_SO_MANDT_TEXT          @UI.Hidden,
+            PO_MANDT_TEXT                   @UI.Hidden,
+            SO_ISSUE_LOCATION_MANDT_TEXT    @UI.Hidden,
+            DL_TRMTYP                       @UI.Hidden,
+            DL_TRMTYP_MAKTX                 @UI.Hidden,
+            DL_ZZ0S2ABGH                    @UI.Hidden,
+            DL_ZZ0S2ZIEH                    @UI.Hidden,
+            TM_VISTA_STATUS                 @UI.Hidden,
+            TM_CURRENT_ETA_VISTA            @UI.Hidden,
+            SO_BNAME                        @UI.Hidden,
+            SO_IHREZ                        @UI.Hidden,
+            SO_LPRIO                        @UI.Hidden,
+            SO_AUGRU                        @UI.Hidden,
+            SO_AUGRU_BEZEI_LANG             @UI.Hidden,
+            SO_KDGRP                        @UI.Hidden,
+            SO_KDGRP_KTEXT_LANG             @UI.Hidden,
+            SO_WE_PARTNER_REGION            @UI.Hidden,
+            SO_WE_PARTNER_REGION_BEZEI_LANG @UI.Hidden,
+            SO_PRCTR                        @UI.Hidden,
+            SO_TO_PARTNER                   @UI.Hidden,
+            SO_TO_PARTNER_NAME              @UI.Hidden,
+            TM_DPLBG_DATE                   @UI.Hidden,
+            TM_ERDAT_DATE                   @UI.Hidden,
+            TM_DPREG_DATE                   @UI.Hidden,
+            DL_WERKS_DEL                    @UI.Hidden,
+            DL_VKORG_DEL                    @UI.Hidden,
+            SO_VMSTA                        @UI.Hidden,
+            SO_ZZ0S2VGANN                   @UI.Hidden,
+            SO_ZZ0S2LOANN                   @UI.Hidden,
+            PO_REQ_DEL_DATE                 @UI.Hidden,
+            PO_AB_CONF_DATE                 @UI.Hidden,
+            PO_LA_CONF_DATE                 @UI.Hidden,
+            PO_ZD_CONF_DATE                 @UI.Hidden,
+            SO_ZZATP_CUST                   @UI.Hidden,
+            SO_CONTRACT                     @UI.Hidden,
+            SO_CONTRACT_ITEM                @UI.Hidden,
+            SO_ZZMHDRZ                      @UI.Hidden,
+            DL_SEED_COUNT                   @UI.Hidden,
+            DL_SEEDS_TAGGED_GERM            @UI.Hidden,
+            BL_XREF3                        @UI.Hidden,
+            SO_DGSTA                        @UI.Hidden,
+            SO_DGSTA_DDTEXT_LANG            @UI.Hidden,
+            SO_MVGR2                        @UI.Hidden,
+            SO_MVGR2_BEZEI_LANG             @UI.Hidden,
+            SO_VALDT                        @UI.Hidden,
+            SO_ABLAD                        @UI.Hidden,
+
         };
 };

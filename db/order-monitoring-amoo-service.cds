@@ -3,13 +3,13 @@ namespace openorders.db;
 using {User} from '@sap/cds/common';
 
 entity nextProcessSteps {
-        key NextProcessStepKey : String(2);
-            NextProcessStepText    : localized String(100);
+        key NextProcessStepKey  : String(2);
+            NextProcessStepText : localized String(100);
 }
 
 entity issues {
-        key IssueKey : String(2);
-            IssueText    : localized String(100)
+        key IssueKey  : String(2);
+            IssueText : localized String(100)
 }
 
 
@@ -249,9 +249,9 @@ entity ![OPENORDERSLIST] {
         DEV_CONF_DATE                      : String(12);
         EMAIL                              : String(241);
         EMAIL_SEND_DATE_F                  : String(8);
-        EMAIL_SEND_DATE_F_DATE : Date = EMAIL_SEND_DATE_F;
+        EMAIL_SEND_DATE_F_DATE             : Date = EMAIL_SEND_DATE_F;
         EMAIL_SENT_ON                      : String(8);
-        EMAIL_SENT_ON_DATE : Date = EMAIL_SENT_ON;
+        EMAIL_SENT_ON_DATE                 : Date = EMAIL_SENT_ON;
         MDB                                : String(3);
         MDB_TEXT                           : String(60);
         DCP_ITEM_STATUS                    : String(2);
@@ -355,7 +355,7 @@ entity ![OPENORDERSLIST] {
         CONTRACT_ITEM                      : String(6);
         ZZMHDRZ                            : Decimal(4);
         ZTERM_HEAD_VTEXT_LANG              : String(30);
-        ZTERM_ITEM_VTEXT_LANG              : String(30);  
+        ZTERM_ITEM_VTEXT_LANG              : String(30);
         SEED_COUNT                         : Decimal(31, 14);
         SEEDS_TAGGED_GERM                  : Decimal(31, 14);
         XREF3                              : String(20);
