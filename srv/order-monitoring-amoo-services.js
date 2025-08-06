@@ -502,101 +502,100 @@ class openOrdersSrv extends cds.ApplicationService {
 
         this.on("READ", "ContactSet", async (req, next) => {
             let lt_contacts = [];
-            try {
-                // let contactsQuery = SELECT.from('ContactSet').limit(req.query.SELECT.limit);
-                // if (req.query.SELECT.where) {
-                //     contactsQuery.where(req.query.SELECT.where);
-                // }
-                // if (req.query.SELECT.orderBy) {
-                //     contactsQuery.orderBy(req.query.SELECT.orderBy);
-                // }
-                // GET Sales Order NUmber and Order Item from WHERE Clause
-                var saleOrder = "";
-                var orderItem = "";
-                var indexOfKey = 1;
-                var iterator = 0;
-                for (const element of req.query.SELECT.where) {
-                    iterator++;
-                    // check if element is the property needed
-                    if (element.ref) {
-                        if (element.ref[0] === 'SalesDocument') {
-                            indexOfKey = iterator;
+            if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
+                try {
+                    // GET Sales Order NUmber and Order Item from WHERE Clause
+                    var saleOrder = "";
+                    var orderItem = "";
+                    var indexOfKey = 1;
+                    var iterator = 0;
+                    for (const element of req.query.SELECT.where) {
+                        iterator++;
+                        // check if element is the property needed
+                        if (element.ref) {
+                            if (element.ref[0] === 'SalesDocument') {
+                                indexOfKey = iterator;
+                            }
+                            if (element.ref[0] === 'OrderItem') {
+                                indexOfKey = iterator;
+                            }
                         }
-                        if (element.ref[0] === 'OrderItem') {
-                            indexOfKey = iterator;
-                        }
-                    }
-                    // get value for selected properties
-                    if (indexOfKey + 2 === iterator) {
-                        if (element.val.length === 6) {
-                            orderItem = element.val;
-                        } else {
-                            saleOrder = element.val;
-                        }
+                        // get value for selected properties
+                        if (indexOfKey + 2 === iterator) {
+                            if (element.val.length === 6) {
+                                orderItem = element.val;
+                            } else {
+                                saleOrder = element.val;
+                            }
 
-                    }
-                }
-                let language = req.locale.toUpperCase();
-                if (req.headers.so_mandt && req.headers.so_mandt == '300') {
-                    const OmServicesAp = await cds.connect.to('OMServicesAP');
-                    const { APContacts } = cds.entities('openOrdersSrv');
-                    const LPadOrderItem = orderItem.replace(/^0+/, "") || "0";
-                    const ltPartners = await OmServicesAp.send({
-                        method: 'GET',
-                        query: SELECT.from(APContacts).where({ SalesOrder: saleOrder, SalesOrderItem: LPadOrderItem }),
-                        headers: {
-                            'X-Basf-Sap-Client': process.env.AP_CLIENT
                         }
+                    }
+                    let language = req.locale.toUpperCase();
+                    if (req.headers.so_mandt && req.headers.so_mandt == '300') {
+                        // get a random number for the personal number of the contact to avoid duplicates
+                        const getRandomInt = function (min, max) {
+                            const minCeiled = Math.ceil(min);
+                            const maxFloored = Math.floor(max);
+                            return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
+                        }
+                        const OmServicesAp = await cds.connect.to('OMServicesAP');
+                        const { APContacts } = cds.entities('openOrdersSrv');
+                        const LPadOrderItem = orderItem.replace(/^0+/, "") || "0";
+                        const ltPartners = await OmServicesAp.send({
+                            method: 'GET',
+                            query: SELECT.from(APContacts).where`(SalesOrder = ${saleOrder} and SalesOrderItem = '000000') or (SalesOrder = ${saleOrder} and SalesOrderItem = ${LPadOrderItem})`,
+                            headers: {
+                                'X-Basf-Sap-Client': process.env.AP_CLIENT
+                            }
+                        });
+                        let CMEntry = {}
+                        ltPartners.forEach((item) => {
+                            CMEntry = {
+                                "SapClient": req.headers.so_mandt,
+                                "PersonalName": item.FullName,
+                                "EmailAddress": item.EmailAddress,
+                                "PhoneNumber": item.PhoneNumber,
+                                "PersonalNumber": getRandomInt(1, 99999999),
+                                "SalesDocument": item.SalesOrder,
+                                "OrderItem": item.SalesOrderItem,
+                                "PartnerFunction": item.PartnerFunction
+                            }
+                            lt_contacts.push(CMEntry);
+                        })
+
+                    } else {
+                        // Run queries
+                        const apiManagementService = await cds.connect.to('ContactsService');
+                        lt_contacts = await apiManagementService.tx(req).send({
+                            query: req.query
+                        });
+                    }
+                    const creditManagerService = await cds.connect.to('CreditManagerService');
+                    let creditMngrQuery = SELECT.from('CreditManagerSet').byKey({ OrderNumber: saleOrder, Language: language });
+                    let creditManager = await creditManagerService.tx(req).send({
+                        query: creditMngrQuery
                     });
-                    // const { APContacts } =  cds.entities('openOrdersSrv');
-                    // const ltPartners = await  OmServicesAp.run(SELECT.from(APContacts).where({SalesOrder: saleOrder, SalesOrderItem: orderItem }));
-                    let CMEntry = {}
-                    ltPartners.forEach((item) => {
-                        CMEntry = {
-                            "SapClient": req.headers.so_mandt,
-                            "PersonalName": item.FullName,
-                            "EmailAddress": item.EmailAddress,
-                            "PhoneNumber": item.PhoneNumber,
+                    if (creditManager && creditManager.NameCreditManager) {
+                        let CMEntry = {
+                            "SapClient": req.headers.so_mandt ?? "100",
+                            "PersonalName": creditManager.NameCreditManager,
+                            "EmailAddress": creditManager.SmtpAddress,
+                            "PhoneNumber": creditManager.TelnrCall,
                             "PersonalNumber": null,
-                            "SalesDocument": item.SalesOrder,
-                            "OrderItem": item.SalesOrderItem,
-                            "PartnerFunction": item.PartnerFunction
+                            "SalesDocument": saleOrder,
+                            "OrderItem": orderItem,
+                            "PartnerFunction": creditManager.PartnerRole
                         }
                         lt_contacts.push(CMEntry);
-                    })
-                    //return lt_contacts;
-
-                } else {
-                    // Run queries
-                    const apiManagementService = await cds.connect.to('ContactsService');
-                    lt_contacts = await apiManagementService.tx(req).send({
-                        query: req.query
-                    });
-                }
-                const creditManagerService = await cds.connect.to('CreditManagerService');
-                let creditMngrQuery = SELECT.from('CreditManagerSet').byKey({ OrderNumber: saleOrder, Language: language });
-                let creditManager = await creditManagerService.tx(req).send({
-                    query: creditMngrQuery
-                });
-                if (creditManager && creditManager.NameCreditManager) {
-                    let CMEntry = {
-                        "SapClient": req.headers.so_mandt ?? "100",
-                        "PersonalName": creditManager.NameCreditManager,
-                        "EmailAddress": creditManager.SmtpAddress,
-                        "PhoneNumber": creditManager.TelnrCall,
-                        "PersonalNumber": null,
-                        "SalesDocument": saleOrder,
-                        "OrderItem": orderItem,
-                        "PartnerFunction": creditManager.PartnerRole
                     }
-                    lt_contacts.push(CMEntry);
+
+                } catch (error) {
+                    // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
+                    req.error(413, error)
                 }
-
-            } catch (error) {
-                // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
-                req.error(413, error)
+            } else {
+                lt_contacts.push({ $count: 0 })
             }
-
             return lt_contacts;
         });
 
