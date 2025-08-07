@@ -2013,7 +2013,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 return result;
             } catch (error) {
                 log.error("[order-monitoring-app-services.js] - subtotal query failed! reason => " + JSON.stringify(error));
-                req.error(400, 'please note: if a column is sorted, it must also be included as selected column');
+                req.error(400, 'ERROR_SORT_COL');
                 }    
             }
         
