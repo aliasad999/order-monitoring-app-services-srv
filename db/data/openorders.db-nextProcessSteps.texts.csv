@@ -1,0 +1,78 @@
+NextProcessStepKey;locale;NextProcessStepText
+10;en;Complete Sales Order
+20;en;Establish Order Chain
+30;en;Confirm Sales Order
+40;en;Create Delivery
+50;en;Complete Delivery
+60;en;Complete Transportation planning
+70;en;Confirm Picking
+80;en;Post Goods Issue
+90;en;In Transit
+95;en;Incorrectly Delivered
+99;en;Create Commercial Invoice
+10;de;Auftrag vervollständigen
+20;de;Belegkette vervollständigen
+30;de;Kundenauftrag bestätigen
+40;de;Lieferung anlegen
+50;de;Lieferung vervollständigen
+60;de;Transportplanung durchführen
+70;de;Kommissionierung durchführen
+80;de;Warenausgang buchen
+90;de;Im Transit
+95;de;Inkorrekt Geliefert
+99;de;Kundenrechnung anlegen
+10;es;Completar Pedido de venta
+20;es;Establecer cadena de pedido
+30;es;Confirmar pedido de venta
+40;es;Crear entrega
+50;es;Completar entrega
+60;es;Completar planificación del transporte
+70;es;Confirmar picking
+80;es;Contabilizar salida de mercancía
+90;es;En camino
+95;es;Entregado Incorrectamente
+99;es;Crear factura comercial
+10;fr;Complétez la commande
+20;fr;Etablissez une chaîne de commande
+30;fr;Confirmez la commande
+40;fr;Créez la livraison
+50;fr;Commplétez la livraison
+60;fr;Complétez le planning de transport
+70;fr;Confirmez la préparation de commande
+80;fr;Sortie de marchandise
+90;fr;En transit
+95;fr;Livré Incorrectement
+99;fr;Créer une facture commerciale
+10;pt;Completar Ordem de Vendas
+20;pt;Estabelecer cadeia da ordem de vendas
+30;pt;Confirmar ordem de vendas
+40;pt;Criar remessa
+50;pt;Atender quantidade solicitada
+60;pt;Finalizar planejamento de transporte
+70;pt;Confirmar picking
+80;pt;Saída de mercadoria
+90;pt;Em trânsito
+95;pt;Entrega incorreta
+99;pt;Emitir fatura comercial
+10;tr;Satış siparişini tamamla
+20;tr;Sipariş zincirini kur
+30;tr;Satış siparişini onayla
+40;tr;Teslimat oluştur
+50;tr;Teslimatı tamamla
+60;tr;Nakliye planlamasını tamamla
+70;tr;Çekme işlemini onayla
+80;tr;Mal çıkışı
+90;tr;Yolda
+95;tr;Yanlış Teslim Edildi
+99;tr;Ticari Faturayı Oluştur
+10;it;Ordine di vendita completo
+20;it;Stabilire la catena dell'ordine
+30;it;Conferma ordine cliente
+40;it;Crea consegna
+50;it;Consegna completa
+60;it;Completa pianificazione dei trasporti
+70;it;Conferma il prelievo
+80;it;Registrazione uscita merci
+90;it;In viaggio
+95;it;Erroneamente Consegnato
+99;it;Crea una fattura commerciale

@@ -1,0 +1,239 @@
+IssueKey;locale;IssueText
+01;en;Order incomplete
+02;en;BASF checking routine not satisfied
+03;en;Multiple Delivery Block in sales order
+04;en;Multiple Delivery Block in outbound delivery
+05;en;Outbound Delivery incomplete
+06;en;Credit Block
+07;en;GTS Block
+08;en;Inbound delivery missing
+09;en;Statistical goods receipt missing
+10;en;PO creation failed
+11;en;PO transmission failed
+12;en;Billing block
+13;en;Transfer of invoice to accounting failed
+14;en;Sales Order quantity not fully confirmed
+15;en;Delivery creation outstanding
+16;en;Transportation planning outstanding
+17;en;Picking of delivery outstanding
+18;en;Goods issue posting outstanding
+19;en;Invoice creation outstanding
+20;en;Process order not released
+21;en;Proof of delivery not posted
+22;en;Business rule(s) violated (H)
+23;en;Business rules violated (DO)
+24;en;Business rule(s) violated (I)
+25;en;Physical transport not completed
+26;en;TRACE
+27;en;Pre-leg missing
+28;en;Process order not confirmed
+29;en;Shipment Status unknown
+30;en;Delivered Incorrectly
+34;en;Sales Order quantity not fully confirmed
+35;en;Delivery creation outstanding
+36;en;Delivery Block in Sales Order
+37;en;Delivery Block in Outbound Delivery
+01;de;Auftrag unvollständig
+02;de;BASF Prüfroutine nicht erfüllt
+03;de;Multiple Liefersperre im Auftrag
+04;de;Multiple Liefersperre in Auslieferung
+05;de;Auslieferung unvollständig
+06;de;Kreditsperre
+07;de;GTS Sperre
+08;de;Anlieferung fehlt
+09;de;Statistischer Wareneingang fehlt
+10;de;Bestellung wurde nicht angelegt
+11;de;Bestellung wurde nicht übertragen
+12;de;Fakturasperre
+13;de;Überleitung an Buchhaltung gescheitert
+14;de;Auftragsmenge nicht voll bestätigt
+15;de;Lieferungsanlage ausstehend
+16;de;Transportplanung ausstehend
+17;de;Kommissionierung ausstehend
+18;de;WA Buchung ausstehend
+19;de;Rechnungsanlage ausstehend
+20;de;Prozessauftrag nicht freigegeben
+21;de;LEB nicht bestätigt
+22;de;Business rule(s) nicht eingehalten (H)
+23;de;Business rules nicht eingehalten (DO)
+24;de;Business rule(s) nicht eingehalten (I)
+25;de;Transport nicht abgeschlossen
+26;de;TRACE
+27;de;Vorlauf fehlt
+28;de;Prozessauftrag nicht rückgemeldet
+29;de;Shipment Status unknown
+30;de;Delivered Incorrectly
+34;de;Auftragsmenge nicht voll bestätigt
+35;de;Lieferungsanlage ausstehend
+36;de;Liefersperre im Auftrag
+37;de;Liefersperre in Auslieferung
+01;es;Pedido incompleto
+02;es;Rutinas de control BASF no satisfechas
+03;es;Multiple Delivery Block en pedido de venta
+04;es;Multiple Delivery Block en entrega de salida
+05;es;Entrega de salida incompleta
+06;es;Bloqueo de crédito
+07;es;Bloqueo GTS
+08;es;Entrega entrante no existe
+09;es;Entrada mercancías estadística no existe
+10;es;Ha fallado creación del pedido de compras
+11;es;Ha fallado la transmisión del pedido de compras
+12;es;Bloqueo de facturación
+13;es;Ha fallado transmisión de la factura a contabilidad
+14;es;Cantidad pedido de ventas no confirmada completamente
+15;es;Creación de entrega pendiente
+16;es;Planificación transporte pendiente
+17;es;Picking de la entrega pendiente
+18;es;Contabilización de salida mercancía pendiente
+19;es;Creación de factura pendiente
+20;es;Orden de proceso no publicado
+21;es;Justificante de entrega no confirmado
+22;es;Reglas de negocio no respetadas (H)
+23;es;Regla(s) de negocio no respetadas (DO)
+24;es;Regla(s) de negocio no respetadas (I)
+25;es;Transporte físico no completado
+26;es;TRACE
+27;es;Transporte previo no encontrado
+28;es;Orden de proceso no confirmada
+29;es;Shipment Status unknown
+30;es;Delivered Incorrectly
+34;es;Cantidad pedido de ventas no confirmada completamente
+35;es;Creación de entrega pendiente
+36;es;Delivery Block en pedido de venta
+37;es;Delivery Block en entrega de salida
+01;fr;Commande incomplète
+02;fr;Routine de commande BASF non satisfaisante
+03;fr;Bons de livraison multiples dans la commande
+04;fr;Bons de livraison multiples dans la sortie de marchandise
+05;fr;Sortie de marchandise incomplète
+06;fr;Contrôle crédit
+07;fr;Blocage Embargo
+08;fr;Entrée de marchandise manquante
+09;fr;Entrée de marchandises statistiques manquante
+10;fr;Echec de la création du bon de commande
+11;fr;Echec de la transmission du bon de commande
+12;fr;Blocage facturation
+13;fr;Echec du transfert de la facture à la comptabilité
+14;fr;Quantité de commande pas entièrement confirmée
+15;fr;Création d'une livraison en attente
+16;fr;Planning de transport en attente
+17;fr;Sélection de la livraison en attente
+18;fr;Entregistrement de la sortie de marchandise en attente
+19;fr;Création de la facture en attente
+20;fr;Ordre de traitement non débloqué
+21;fr;Preuve de livraison non confirmé
+22;fr;Règle(s) d'entreprise non respectée
+23;fr;Règle(s) d'entreprise non respectée
+24;fr;Règle(s) d'entreprise non respectée
+25;fr;Delai manquant
+26;fr;TRACE
+27;fr;Pre-leg missing
+28;fr;Ordre de traitement non confirmé
+29;fr;Shipment Status unknown
+30;fr;Delivered Incorrectly
+34;fr;Quantité de commande pas entièrement confirmée
+35;fr;Création d'une livraison en attente
+36;fr;Bons de livraison dans la commande
+37;fr;Bons de livraison dans la sortie de marchandise
+01;it;Ordine incompleto
+02;it;Controllo periodico BASF non soddisfatto
+03;it;Consegna multipla bloccata nell'ordine di vendita
+04;it;Consegna multipla bloccata nella consegna in uscita
+05;it;Consegna in uscita bloccata
+06;it;Blocco Credito
+07;it;Blocco GTS
+08;it;Consegna in entrata mancante
+09;it;Mancanza di ricevuta di beni statistici
+10;it;Creazione PO fallita
+11;it;Trasmissione PO fallita
+12;it;Blocco di fatturazione
+13;it;Trasferimento della fattura alla contabilità non riuscita
+14;it;La quantità dell'ordine di vendita non è stata completamente confermata
+15;it;Consegna eccezionale
+16;it;Pianificazione del trasporto eccezionale
+17;it;Ritiro di consegna eccezionale
+18;it;Distacco di merci eccezionale
+19;it;Creazione di fatture eccezionale
+20;it;Ordine di processo non rilasciato
+21;it;Prova di consegna non registrata
+22;it;Regole aziendali violate (H)
+23;it;Regole aziendali violate (DO)
+24;it;Regole aziendali violate (I)
+25;it;Trasporto fisico non completato
+26;it;TRACE
+27;it;Pre-leg missing
+28;it;Ordine di processo non confermato
+29;it;Shipment Status unknown
+30;it;Delivered Incorrectly
+34;it;La quantità dell'ordine di vendita non è stata completamente confermata
+35;it;Consegna eccezionale
+36;it;Consegna bloccata nell'ordine di vendita
+37;it;Consegna bloccata nella consegna in uscita
+01;pt;Ordem incompleta
+02;pt;Check list BASF incompleto
+03;pt;Bloqueios ordem de venda
+04;pt;Bloqueios de remessa
+05;pt;Remessa incompleta
+06;pt;Bloqueio de crédito
+07;pt;Bloqueio GTS
+08;pt;Recebimento pendente
+09;pt;Falha no recebimento da mercadoria
+10;pt;Falha na criação do pedido
+11;pt;Falha na transmissão do pedido
+12;pt;Bloqueio de faturamento
+13;pt;Não contabilizado
+14;pt;Quantidade da ordem de vendas não confirmada na totalidade
+15;pt;Criação de remessa pendente
+16;pt;Planejamento de transporte pendente
+17;pt;Picking pendente
+18;pt;Saída da mercadoria pendente
+19;pt;Faturamento pendente
+20;pt;Ordem de processo não liberada
+21;pt;Canhoto de entrega pendente
+22;pt;Violação das regras de negócio (H)
+23;pt;Violação das regras de negócio (DO)
+24;pt;Violação das regras de negócio (I)
+25;pt;Transporte não finalizado
+26;pt;Tracking
+27;pt;Pre leg pendente
+28;pt;Ordem de processo não confirmada
+29;pt;Shipment Status unknown
+30;pt;Delivered Incorrectly
+34;pt;Quantidade da ordem de vendas não confirmada na totalidade
+35;pt;Criação da remessa pendente
+36;pt;Bloqueios ordem de venda
+37;pt;Bloqueios de remessa
+01;tr;Siparişte eksiklik
+02;tr;BASF iş akışına uygun değil
+03;tr;Satış siparişinde MDB Blokajı
+04;tr;Gönderilen teslimatta MDB Blokajı
+05;tr;Gönderilen teslimatta eksiklik
+06;tr;Kredi blokajı
+07;tr;GTS Blokajı
+08;tr;Alınan teslimatta eksiklik
+09;tr;İstatistiksel mal girişi eksikliği
+10;tr;PO yaratma başarısız
+11;tr;PO aktarımı başarısız
+12;tr;Faturalama blokajı
+13;tr;Faturanın muhasebeye aktarımı başarısız
+14;tr;Satış siparişi miktarının tamamı onaylanmadı
+15;tr;Teslimat yaratmada gecikme
+16;tr;Nakliye planlamasında gecikme
+17;tr;Teslimatın çekme işleminde gecikme
+18;tr;Mal çıkışı kaydında gecikme
+19;tr;Fatura yaratmada gecikme
+20;tr;İşlem onaylanmadi
+21;tr;Teslimat Kaydedilmedi
+22;tr;BRM kural ihlali (H)
+23;tr;BRM kural ihlali (DO)
+24;tr;BRM kural ihlali (I)
+25;tr;Fiili tasima tamamlanmadi
+26;tr;TRACE
+27;tr;Pre-leg missing
+28;tr;İşlem onaylanmadi
+29;tr;Shipment Status unknown
+30;tr;Delivered Incorrectly
+34;tr;Satış siparişi miktarının tamamı onaylanmadı
+35;tr;Teslimat yaratmada gecikme
+36;tr;Satış Siparişinde Teslimat Bloğu
+37;tr;Giden Teslimatta Teslimat Bloğu

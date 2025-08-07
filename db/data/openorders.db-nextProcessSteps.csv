@@ -1,0 +1,12 @@
+NextProcessStepKey;NextProcessStepText
+10;Complete Sales Order
+20;Establish Order Chain
+30;Confirm Sales Order
+40;Create Delivery
+50;Complete Delivery
+60;Complete Transportation planning
+70;Confirm Picking
+80;Post Goods Issue
+90;In Transit
+95;Incorrectly Delivered
+99;Create Commercial Invoice

@@ -4,6 +4,12 @@ using {CSEUCockpitService as CSEUCockpitService} from './external/CSEUCockpitSer
 
 service srvOpenOrders {
 
+  @readonly
+  entity SAPSystems              as projection on db_app.SAPSystems;
+
+  @readonly
+  entity DCPStatus               as projection on db_app.DCPStatus;
+
   entity VBAKAuthObjectKeys      as select from db_app.VBAKAUTH;
   entity EKKOAuthObjectKeys      as select from db_app.EKKOAUTH;
   function getVBAKAuthObjKeys() returns Integer;
@@ -21,8 +27,8 @@ service srvOpenOrders {
 
     };
 
-          @readonly
-          @cds.redirection.target: true
+  @readonly
+  @cds.redirection.target: true
   entity BaseEntity              as
     select from db_app.RESULTS {
       key null                                        as id                              : UUID,
@@ -68,15 +74,37 @@ service srvOpenOrders {
             CO_PARTNER_ITM, CO_PARTNER_HEAD
           )                                           as SO_CO_PARTNER                   : String(10),
           IFNULL(
-              NULLIF(TRIM(COALESCE(CO_PARTNER_NAME1_ITM, '') || ' ' || COALESCE(CO_PARTNER_NAME2_ITM, '')), ''),
-              NULLIF(TRIM(COALESCE(CO_PARTNER_NAME1_HEAD, '') || ' ' || COALESCE(CO_PARTNER_NAME2_HEAD, '')), '')
+            NULLIF(
+              TRIM(COALESCE(
+                CO_PARTNER_NAME1_ITM, ''
+              ) || ' ' || COALESCE(
+                CO_PARTNER_NAME2_ITM, ''
+              )), ''
+            ), NULLIF(
+              TRIM(COALESCE(
+                CO_PARTNER_NAME1_HEAD, ''
+              ) || ' ' || COALESCE(
+                CO_PARTNER_NAME2_HEAD, ''
+              )), ''
+            )
           )                                           as SO_CO_PARTNER_NAME              : String(80),
           IFNULL(
             NY_PARTNER_ITM, NY_PARTNER_HEAD
           )                                           as SO_NY_PARTNER                   : String(10),
           IFNULL(
-              NULLIF(TRIM(COALESCE(NY_PARTNER_NAME1_ITM, '') || ' ' || COALESCE(NY_PARTNER_NAME2_ITM, '')), ''), 
-              NULLIF(TRIM(COALESCE(NY_PARTNER_NAME1_HEAD, '') || ' ' || COALESCE(NY_PARTNER_NAME2_HEAD, '')), '')
+            NULLIF(
+              TRIM(COALESCE(
+                NY_PARTNER_NAME1_ITM, ''
+              ) || ' ' || COALESCE(
+                NY_PARTNER_NAME2_ITM, ''
+              )), ''
+            ), NULLIF(
+              TRIM(COALESCE(
+                NY_PARTNER_NAME1_HEAD, ''
+              ) || ' ' || COALESCE(
+                NY_PARTNER_NAME2_HEAD, ''
+              )), ''
+            )
           )                                           as SO_NY_PARTNER_NAME              : String(80),
           IFNULL(
             AS_PARTNER_ITM, AS_PARTNER_HEAD
@@ -104,13 +132,10 @@ service srvOpenOrders {
           KNREF_HEAD                                  as SO_KNREF_HEAD,
           KNREF_ITM                                   as SO_KNREF_ITM,
           case
-            when
-              VBUND is not null
-              and VBUND <> ''
-            then
-              'X'
-            else
-              ''
+            when VBUND is not null
+                 and VBUND <> ''
+                 then 'X'
+            else ''
           end                                         as SO_VBUND                        : String(1),
           SO_EDATU_REQUESTED_DATE                     as SO_EDATU_REQUESTED,
           KWMENG                                      as SO_KWMENG,
@@ -120,22 +145,16 @@ service srvOpenOrders {
           UNCONFIRMED_QTY                             as SO_UNCONFIRMED_QTY,
           REQ_TEXT                                    as SO_REQ_TEXT,
           case
-            when
-              FAKSP = ''
-              or FAKSP is null
-            then
-              FAKSK
-            else
-              FAKSP
+            when FAKSP = ''
+                 or FAKSP is null
+                 then FAKSK
+            else FAKSP
           end                                         as SO_FAKSP                        : String(2),
           case
-            when
-              FAKSP_VTEXT_LANG = ''
-              or FAKSP_VTEXT_LANG is null
-            then
-              FAKSK_VTEXT_LANG
-            else
-              FAKSP_VTEXT_LANG
+            when FAKSP_VTEXT_LANG = ''
+                 or FAKSP_VTEXT_LANG is null
+                 then FAKSK_VTEXT_LANG
+            else FAKSP_VTEXT_LANG
           end                                         as SO_FAKSP_VTEXT                  : String(20),
           F_LGORT                                     as SO_F_LGORT,
           SUPPLY_SITUATION                            as SO_SUPPLY_SITUATION,
@@ -244,39 +263,30 @@ service srvOpenOrders {
           TDLNR_NAME1                                 as TM_TDLNR_NAME1,
           @UI.Hidden: true
           case
-            when
-              (
-                STATUS_REASON_CODE_TEXT_ELEM    is null
-                or STATUS_REASON_CODE_TEXT_ELEM =  ''
-              )
-            then
-              STATUS_CODE_TEXT_ELEM
-            else
-              STATUS_CODE_TEXT_ELEM || ' (' || STATUS_REASON_CODE_ELEM || ' - ' || STATUS_REASON_CODE_TEXT_ELEM || ')'
+            when (
+                   STATUS_REASON_CODE_TEXT_ELEM    is null
+                   or STATUS_REASON_CODE_TEXT_ELEM =  ''
+                 )
+                 then STATUS_CODE_TEXT_ELEM
+            else STATUS_CODE_TEXT_ELEM || ' (' || STATUS_REASON_CODE_ELEM || ' - ' || STATUS_REASON_CODE_TEXT_ELEM || ')'
           end                                         as TM_SHIPMENT_CURRENT_STATUS_ELEM : String(250),
           @UI.Hidden: true
           case
-            when
-              (
-                REASON_CODE_TEXT_COMP    is null
-                or REASON_CODE_TEXT_COMP =  ''
-              )
-            then
-              STATUS_CODE_TEXT_COMP
-            else
-              STATUS_CODE_TEXT_COMP || ' (' || REASON_CODE_COMP || ' - ' || REASON_CODE_TEXT_COMP || ')'
+            when (
+                   REASON_CODE_TEXT_COMP    is null
+                   or REASON_CODE_TEXT_COMP =  ''
+                 )
+                 then STATUS_CODE_TEXT_COMP
+            else STATUS_CODE_TEXT_COMP || ' (' || REASON_CODE_COMP || ' - ' || REASON_CODE_TEXT_COMP || ')'
           end                                         as TM_SHIPMENT_CURRENT_STATUS_COMP : String(250),
 
           case
-            when
-              (
-                ALERT_STATUS_REASON_CODE_TEXT_ELEM    is null
-                or ALERT_STATUS_REASON_CODE_TEXT_ELEM =  ''
-              )
-            then
-              ALERT_STATUS_CODE_TEXT_ELEM
-            else
-              ALERT_STATUS_CODE_TEXT_ELEM || '(' || ALERT_STATUS_REASON_CODE_ELEM || ' - ' || ALERT_STATUS_REASON_CODE_TEXT_ELEM || ')'
+            when (
+                   ALERT_STATUS_REASON_CODE_TEXT_ELEM    is null
+                   or ALERT_STATUS_REASON_CODE_TEXT_ELEM =  ''
+                 )
+                 then ALERT_STATUS_CODE_TEXT_ELEM
+            else ALERT_STATUS_CODE_TEXT_ELEM || '(' || ALERT_STATUS_REASON_CODE_ELEM || ' - ' || ALERT_STATUS_REASON_CODE_TEXT_ELEM || ')'
           end                                         as TM_SHIPMENT_ALERT               : String(250),
           TRACKING_ID_ELEM                            as TM_TRACKING_ID_ELEM,
           TRACKING_ID_COMP                            as TM_TRACKING_ID_COMP,
@@ -307,20 +317,14 @@ service srvOpenOrders {
           EBELN                                       as PO_EBELN,
           EBELP                                       as PO_EBELP,
           case
-            when
-              AEDAT_HEAD_DATE = '00000000'
-            then
-              null
-            else
-              AEDAT_HEAD_DATE
+            when AEDAT_HEAD_DATE = '00000000'
+                 then null
+            else AEDAT_HEAD_DATE
           end                                         as PO_AEDAT_HEAD                   : Date,
           case
-            when
-              AEDAT_ITEM_DATE = '00000000'
-            then
-              null
-            else
-              AEDAT_ITEM_DATE
+            when AEDAT_ITEM_DATE = '00000000'
+                 then null
+            else AEDAT_ITEM_DATE
           end                                         as PO_AEDAT_ITEM                   : Date,
           BSART                                       as PO_BSART,
           EKORG                                       as PO_EKORG,
@@ -373,8 +377,19 @@ service srvOpenOrders {
           )                                           as SO_TO_PARTNER                   : String(10),
 
           IFNULL(
-              NULLIF(TRIM(COALESCE(TO_PARTNER_NAME1_ITM, '') || ' ' || COALESCE(TO_PARTNER_NAME2_ITM, '')), ''),
-              NULLIF(TRIM(COALESCE(TO_PARTNER_NAME1_HEAD, '') || ' ' || COALESCE(TO_PARTNER_NAME2_HEAD, '')), '')
+            NULLIF(
+              TRIM(COALESCE(
+                TO_PARTNER_NAME1_ITM, ''
+              ) || ' ' || COALESCE(
+                TO_PARTNER_NAME2_ITM, ''
+              )), ''
+            ), NULLIF(
+              TRIM(COALESCE(
+                TO_PARTNER_NAME1_HEAD, ''
+              ) || ' ' || COALESCE(
+                TO_PARTNER_NAME2_HEAD, ''
+              )), ''
+            )
           )                                           as SO_TO_PARTNER_NAME              : String(80),
 
           @UI.Hidden: true
@@ -400,8 +415,8 @@ service srvOpenOrders {
           REASON_CODE_05_LANG                         as SO_REASON_CODE_05_LANG,
           DEV_CONF_DATE                               as SO_DEV_CONF_DATE,
           EMAIL                                       as SO_EMAIL,
-          EMAIL_SEND_DATE_F                           as SO_EMAIL_SEND_DATE_F,
-          EMAIL_SENT_ON                               as SO_EMAIL_SENT_ON,
+          EMAIL_SEND_DATE_F_DATE                      as SO_EMAIL_SEND_DATE_F,
+          EMAIL_SENT_ON_DATE                          as SO_EMAIL_SENT_ON,
           DPLBG_TM_DATE                               as TM_DPLBG_DATE,
           ERDAT_TM_DATE                               as TM_ERDAT_DATE,
           DPREG_TM_DATE                               as TM_DPREG_DATE,
@@ -415,16 +430,16 @@ service srvOpenOrders {
           LA_CONF_DATE_FORMATTED                      as PO_LA_CONF_DATE,
           ZD_CONF_DATE_FORMATTED                      as PO_ZD_CONF_DATE,
           ZZATP_CUST                                  as SO_ZZATP_CUST,
-          ETA_EVENT_SOURCE                            as TM_ETA_EVENT_SOURCE ,
+          ETA_EVENT_SOURCE                            as TM_ETA_EVENT_SOURCE,
           CONTRACT                                    as SO_CONTRACT,
           CONTRACT_ITEM                               as SO_CONTRACT_ITEM,
           ZZMHDRZ                                     as SO_ZZMHDRZ,
           IFNULL(
             ZTERM_ITEM_VTEXT_LANG, ZTERM_HEAD_VTEXT_LANG
-          )                                           as SO_ZTERM_VTEXT_LANG                   : String(30),
-          
-          SEED_COUNT                         as DL_SEED_COUNT,
-          SEEDS_TAGGED_GERM                  as DL_SEEDS_TAGGED_GERM,
+          )                                           as SO_ZTERM_VTEXT_LANG             : String(30),
+
+          SEED_COUNT                                  as DL_SEED_COUNT,
+          SEEDS_TAGGED_GERM                           as DL_SEEDS_TAGGED_GERM,
           XREF3                                       as BL_XREF3,
           ABLAD                                       as SO_ABLAD,
           DGSTA                                       as SO_DGSTA,
