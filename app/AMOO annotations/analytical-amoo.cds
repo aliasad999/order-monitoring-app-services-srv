@@ -271,4 +271,6 @@ annotate service.OpenOrdersAnalytics with {
     SO_MVGR2_BEZEI_LANG             @UI.Hidden;
     SO_VALDT                        @UI.Hidden;
     SO_ABLAD                        @UI.Hidden;
+    SO_MFRGR                        @UI.Hidden;
+    SO_MFRGR_BEZEI_LANG             @UI.Hidden;
 };
