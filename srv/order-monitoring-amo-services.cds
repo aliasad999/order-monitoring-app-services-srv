@@ -448,7 +448,7 @@ service srvOpenOrders {
           MVGR2_BEZEI_LANG                            as SO_MVGR2_BEZEI_LANG,
           DGSTA_DDTEXT_LANG                           as SO_DGSTA_DDTEXT_LANG,
           MFRGR                                       as SO_MFRGR,          
-          MFRGR_BEZEI_LANG                            as SO_MFRGR_BEZEI_LANG
+          MFRGR_BEZEI_LANG                            as SO_MFRGR_BEZEI_LANG,
           TNDR_TRKID                                  as TM_TNDR_TRKID
 
 
