@@ -459,7 +459,8 @@ service openOrdersSrv {
                 MVGR2                                       as SO_MVGR2,
                 VALDT_DATE                                  as SO_VALDT,
                 MVGR2_BEZEI_LANG                            as SO_MVGR2_BEZEI_LANG,
-                DGSTA_DDTEXT_LANG                           as SO_DGSTA_DDTEXT_LANG
+                DGSTA_DDTEXT_LANG                           as SO_DGSTA_DDTEXT_LANG,
+                TNDR_TRKID                                  as TM_TNDR_TRKID
         }
 
     entity baseEntity               as
