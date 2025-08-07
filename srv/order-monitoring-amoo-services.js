@@ -2008,9 +2008,13 @@ class openOrdersSrv extends cds.ApplicationService {
                 SELECT * FROM subtotals
                 ORDER BY ${finalGroupBy}, sortKey
                 WITH HINT(USE_HEX_PLAN, HEX_INDEX_JOIN)`;
-                
-            const result = await cds.run(finalQuery);
-            return result;
+            try {
+                const result = await cds.run(finalQuery);    
+                return result;
+            } catch (error) {
+                log.error("[order-monitoring-app-services.js] - subtotal query failed! reason => " + JSON.stringify(error));
+                req.error(400, 'please note: if a column is sorted, it must also be included as selected column');
+                }    
             }
         
         });
@@ -2020,8 +2024,6 @@ class openOrdersSrv extends cds.ApplicationService {
                         return;
                     } else {
                         let sessionID = req.headers['authorization'] || req.headers['x-username'];
-                        // cache the query, so that all filter conditions can be consumed.. when any valuehelp is called.
-
                             let query = req.query;
                             query.SELECT.where = req.query.SELECT.where;
                             const queryString = JSON.stringify(query);
