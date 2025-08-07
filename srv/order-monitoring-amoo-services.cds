@@ -460,6 +460,8 @@ service openOrdersSrv {
                 VALDT_DATE                                  as SO_VALDT,
                 MVGR2_BEZEI_LANG                            as SO_MVGR2_BEZEI_LANG,
                 DGSTA_DDTEXT_LANG                           as SO_DGSTA_DDTEXT_LANG,
+                MFRGR                                       as SO_MFRGR,          
+                MFRGR_BEZEI_LANG                            as SO_MFRGR_BEZEI_LANG,
                 TNDR_TRKID                                  as TM_TNDR_TRKID
         }
 
@@ -624,7 +626,7 @@ service openOrdersSrv {
 
     entity OpenOrdersAnalytics      as
         select from allIssues {
-            virtual false                                       as isSubtotal : Boolean,
+            virtual false as isSubtotal :Boolean,
             *
-        };
+        }
 };

@@ -1534,3 +1534,24 @@ annotate service.Results with {
         ]
     }
 };
+
+annotate service.Results with {
+    SO_MFRGR
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_MFRGR}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_MFRGR,
+            ValueListProperty: 'SO_MFRGR'
+        },
+        {
+            $Type            : 'Common.ValueListParameterDisplayOnly',
+            ValueListProperty: 'SO_MFRGR_BEZEI_LANG'
+        }
+        ]
+    }
+};
