@@ -271,6 +271,11 @@ annotate service.allIssues with {
     @Common.Text           : SO_ZTERM_VTEXT_LANG
     @Common.TextArrangement: #TextFirst
     SO_ZTERM                 @title: '{i18n>SO_ZTERM}'                         @sap.Label: '{i18n>SO_ZTERM}';
+    @Common.Text           : SO_MFRGR_BEZEI_LANG
+    @Common.TextArrangement: #TextFirst
+    SO_MFRGR                 @title: '{i18n>SO_MFRGR}'                         @sap.Label: '{i18n>SO_MFRGR}';
+    @Common.TextFor
+    SO_MFRGR_BEZEI_LANG      @title: '{i18n>SO_MFRGR_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MFRGR_BEZEI_LANG}';
 }
 /// UI visibility of fields
 annotate service.allIssues with {
@@ -379,4 +384,5 @@ annotate service.allIssues with {
     SO_ZTERM_VTEXT_LANG             @UI                     : {Hidden: true};
     SO_MVGR2_BEZEI_LANG             @UI                     : {Hidden: true};
     SO_DGSTA_DDTEXT_LANG            @UI                     : {Hidden: true};
+    SO_MFRGR_BEZEI_LANG             @UI                     : {Hidden: true};
 }

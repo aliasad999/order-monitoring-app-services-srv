@@ -350,6 +350,8 @@ entity ![RESULTS] {
         VALDT_DATE                         : Date = VALDT;
         MVGR2_BEZEI_LANG                   : String(40);
         DGSTA_DDTEXT_LANG                  : String(60);
+        MFRGR                              : String(8);
+        MFRGR_BEZEI_LANG                   : String(80);
         TNDR_TRKID                         : String(35);
 
 }
