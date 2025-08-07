@@ -531,6 +531,8 @@ entity ![SALESORDER_DETAILS](IP_LANG : String(2)) {
             ZTERM_HEAD_VTEXT_LANG  : String(30);
             ZTERM_ITEM_VTEXT_LANG  : String(30);
             MFRGR                  : String(8);
+            MFRGR_BEZEI_LANG       : String(80);
+            
 }
 
 @cds.persistence.exists
