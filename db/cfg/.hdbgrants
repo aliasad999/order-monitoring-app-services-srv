@@ -12,7 +12,8 @@
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_FOLLOWUP_NOTES_G#",
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_IGNORE_TABLE_G#",
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_PARTNER_SETTINGS_G#",
-                "otc.csc.db.app_service.role::EXTERNAL_ACCESS_CV_ORDER_CREATION_G#"
+                "otc.csc.db.app_service.role::EXTERNAL_ACCESS_CV_ORDER_CREATION_G#",
+                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_SHIPMENT_VISTA_ETA_UPDATED_G#"
                 
             ]
         },
@@ -28,7 +29,8 @@
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_FOLLOWUP_NOTES",
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_IGNORE_TABLE",
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_PARTNER_SETTINGS",
-                "otc.csc.db.app_service.role::EXTERNAL_ACCESS_CV_ORDER_CREATION"
+                "otc.csc.db.app_service.role::EXTERNAL_ACCESS_CV_ORDER_CREATION",
+                "otc.csc.db.base.roles::EXTERNAL_ACCESS_SHIPMENT_VISTA_ETA_UPDATED"
             ]
         }
     }

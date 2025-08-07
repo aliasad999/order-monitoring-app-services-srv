@@ -26,6 +26,7 @@ service openOrdersSrv {
 
     entity currencies               as projection on db_app.currency;
 
+
     entity rootEntity               as
         select from db_app.OPENORDERSLIST {
             key null                                        as id                              : UUID,
@@ -459,7 +460,10 @@ service openOrdersSrv {
                 MVGR2                                       as SO_MVGR2,
                 VALDT_DATE                                  as SO_VALDT,
                 MVGR2_BEZEI_LANG                            as SO_MVGR2_BEZEI_LANG,
-                DGSTA_DDTEXT_LANG                           as SO_DGSTA_DDTEXT_LANG
+                DGSTA_DDTEXT_LANG                           as SO_DGSTA_DDTEXT_LANG,
+                @UI.HiddenFilter
+                ETA_UPDATED_VISTA                           as TM_ETA_UPDATED_VISTA,
+                OLD_ETA_VISTA_DATE                          as TM_OLD_ETA_VISTA_DATE,
         }
 
     entity baseEntity               as

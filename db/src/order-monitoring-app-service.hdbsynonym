@@ -95,5 +95,11 @@
       "object": "otc.csc.db.base.tables::ST_APAC_DELAY_REASON_ENTRY",
       "schema": "_PLACEHOLDER_"
     }
+  },
+  "ALLORDERS_DB_ST_VISTA_SHIPMENT_ETA_UPDATED": {
+    "target": {
+      "object": "otc.csc.db.base.tables::ST_VISTA_SHIPMENT_ETA_UPDATED",
+      "schema": "_PLACEHOLDER_"
+    }
   }
 }

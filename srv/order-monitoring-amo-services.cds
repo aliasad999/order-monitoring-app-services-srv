@@ -446,7 +446,10 @@ service srvOpenOrders {
           MVGR2                                       as SO_MVGR2,
           VALDT_DATE                                  as SO_VALDT,
           MVGR2_BEZEI_LANG                            as SO_MVGR2_BEZEI_LANG,
-          DGSTA_DDTEXT_LANG                           as SO_DGSTA_DDTEXT_LANG
+          DGSTA_DDTEXT_LANG                           as SO_DGSTA_DDTEXT_LANG,
+          @UI.HiddenFilter
+          ETA_UPDATED_VISTA                           as TM_ETA_UPDATED_VISTA,
+          OLD_ETA_VISTA_DATE                          as TM_OLD_ETA_VISTA_DATE,
 
 
     };
@@ -486,4 +489,5 @@ service srvOpenOrders {
   entity Variants                as projection on db_app.variants;
   entity VariantsUserSettings    as projection on db_app.variantUserSettings;
   entity ChangeDocSet            as projection on CSEUCockpitService.ChangeDocSet;
+  entity VistaShipmentUpdates    as projection on db_app.ST_VISTA_SHIPMENT_ETA_UPDATED ;
 }

@@ -360,4 +360,5 @@ annotate service.Results with {
     SO_MVGR2_BEZEI_LANG             @UI                     : {Hidden: true};
     SO_DGSTA_DDTEXT_LANG            @UI                     : {Hidden: true};
     BL_XREF3                        @UI                     : {Hidden: true};
+    TM_OLD_ETA_VISTA_DATE           @UI                     : {Hidden: true};
 }

@@ -250,4 +250,5 @@ annotate service.BaseEntity with {
     SO_MVGR2                         @title: '{i18n>SO_MVGR2}'                         @sap.Label: '{i18n>SO_MVGR2}';
     SO_MVGR2_BEZEI_LANG              @title: '{i18n>SO_MVGR2_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MVGR2_BEZEI_LANG}';
     SO_DGSTA_DDTEXT_LANG             @title: '{i18n>SO_DGSTA_DDTEXT_LANG}'             @sap.Label: '{i18n>SO_DGSTA_DDTEXT_LANG}';
+    TM_ETA_UPDATED_VISTA             @title: '{i18n>TM_ETA_UPDATED_VISTA}'             @sap.Label: '{i18n>TM_ETA_UPDATED_VISTA}';
 }
