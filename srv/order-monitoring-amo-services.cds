@@ -490,4 +490,5 @@ service srvOpenOrders {
   entity VariantsUserSettings    as projection on db_app.variantUserSettings;
   entity ChangeDocSet            as projection on CSEUCockpitService.ChangeDocSet;
   entity RegionSettings         as select from db_app.REGION_SETTINGS;
+  function getUserRegionAssigned() returns Integer;
 }

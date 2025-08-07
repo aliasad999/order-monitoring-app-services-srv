@@ -35,8 +35,18 @@ class srvOpenOrders extends cds.ApplicationService {
             await cds.run(`SET 'APPLICATION' = 'CAPServices'`);
         })
 
+        this.on("getUserRegionAssigned", async req => {
+            const { RegionSettings } = await cds.entities('srvOpenOrders');
+            let region = await SELECT.from(RegionSettings).byKey({ USER_ID: userID });
+            if(!region){
+                return 999
+            }else{
+                return RegionSettings.REGION;
+            }
+        })
+
         this.on("getVBAKAuthObjKeys", async req => {
-            const { RegionSettings, VBAKAuthObjectKeys, EKKOAuthObjectKeys } = await cds.entities('srvOpenOrders');
+            const { VBAKAuthObjectKeys, EKKOAuthObjectKeys } = await cds.entities('srvOpenOrders');
             const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
             let updateNeeded = false;
             let lt_result = [];
@@ -46,12 +56,6 @@ class srvOpenOrders extends cds.ApplicationService {
             let err = []
             let globalError = [];
             let userID = req.user.id;
-
-            let region = await SELECT.from(RegionSettings).byKey({ USER_ID: userID });
-            if(!region){
-                // show popup, reject
-                req.reject(400, `Region is missing`);
-            }
 
             let vbakAuths = await SELECT.from(VBAKAuthObjectKeys).where`USERID = ${userID}`.limit(1);
             // Avoid updating authorizations more than once a day
@@ -670,6 +674,10 @@ class srvOpenOrders extends cds.ApplicationService {
             }
 
             return lt_changeDocs;
+        });
+
+        this.before("CREATE", "RegionSettings", async (req) => {
+            req.data.USER_ID = req.user.id;
         });
 
         return super.init();
