@@ -462,6 +462,7 @@ service openOrdersSrv {
                 DGSTA_DDTEXT_LANG                           as SO_DGSTA_DDTEXT_LANG,
                 MFRGR                                       as SO_MFRGR,          
                 MFRGR_BEZEI_LANG                            as SO_MFRGR_BEZEI_LANG
+                TNDR_TRKID                                  as TM_TNDR_TRKID
         }
 
     entity baseEntity               as
@@ -919,5 +920,7 @@ service openOrdersSrv {
             SO_MFRGR                        @UI.Hidden,
             SO_MFRGR_BEZEI_LANG             @UI.Hidden,
 
+            virtual false                                       as isSubtotal : Boolean,
+            *
         };
 };

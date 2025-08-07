@@ -1937,7 +1937,7 @@ class openOrdersSrv extends cds.ApplicationService {
             const aggrMap = {
                 SO_KWMENG: { sum: `SUM(SO_KWMENG) AS SO_KWMENG`, group: 'SO_VRKME' },
                 SO_KBMENG: { sum: 'SUM(SO_KBMENG) AS SO_KBMENG', group: 'SO_VRKME' },
-                SO_KBETR: { sum: 'SUM(SO_KBETR) AS SO_KBETR', group: 'SO_WAERS' },
+                DL_LFIMG: { sum: 'SUM(DL_LFIMG) AS DL_LFIMG', group: 'DL_VRKME' },
                 SO_NETWR: { sum: 'SUM(SO_NETWR) AS SO_NETWR', group: 'SO_WAERK' }
             };
 
@@ -2008,9 +2008,13 @@ class openOrdersSrv extends cds.ApplicationService {
                 SELECT * FROM subtotals
                 ORDER BY ${finalGroupBy}, sortKey
                 WITH HINT(USE_HEX_PLAN, HEX_INDEX_JOIN)`;
-                
-            const result = await cds.run(finalQuery);
-            return result;
+            try {
+                const result = await cds.run(finalQuery);    
+                return result;
+            } catch (error) {
+                log.error("[order-monitoring-app-services.js] - subtotal query failed! reason => " + JSON.stringify(error));
+                req.error(400, 'ERROR_SORT_COL');
+                }    
             }
         
         });
@@ -2020,8 +2024,6 @@ class openOrdersSrv extends cds.ApplicationService {
                         return;
                     } else {
                         let sessionID = req.headers['authorization'] || req.headers['x-username'];
-                        // cache the query, so that all filter conditions can be consumed.. when any valuehelp is called.
-
                             let query = req.query;
                             query.SELECT.where = req.query.SELECT.where;
                             const queryString = JSON.stringify(query);
