@@ -36,7 +36,7 @@ class srvOpenOrders extends cds.ApplicationService {
         })
 
         this.on("getVBAKAuthObjKeys", async req => {
-            const { VBAKAuthObjectKeys, EKKOAuthObjectKeys } = await cds.entities('srvOpenOrders');
+            const { RegionSettings, VBAKAuthObjectKeys, EKKOAuthObjectKeys } = await cds.entities('srvOpenOrders');
             const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
             let updateNeeded = false;
             let lt_result = [];
@@ -46,6 +46,12 @@ class srvOpenOrders extends cds.ApplicationService {
             let err = []
             let globalError = [];
             let userID = req.user.id;
+
+            let region = await SELECT.from(RegionSettings).byKey({ USER_ID: userID });
+            if(!region){
+                // show popup, reject
+                req.reject(400, `Region is missing`);
+            }
 
             let vbakAuths = await SELECT.from(VBAKAuthObjectKeys).where`USERID = ${userID}`.limit(1);
             // Avoid updating authorizations more than once a day
@@ -224,6 +230,23 @@ class srvOpenOrders extends cds.ApplicationService {
             let db = cds.transaction(req);
             let currentUser = req.user.id;
             if (currentUser) {
+                let regionSettingsQuery = cds.parse.cql(`SELECT from srvOpenOrders_RegionSettings where USER_ID = '${currentUser}'`);
+                let regionSettings = await db.run(regionSettingsQuery);
+                if(regionSettings.length !== 0){
+                    // REGION_SHIP_TO  REGION_SUPPLIER
+                    let regionQueryString = `(REGION_SHIP_TO = ${regionSettings[0].REGION} or REGION_SUPPLIER = ${regionSettings[0].REGION})`;
+                    let regionQueryParsed = cds.parse.expr(regionQueryString);
+                    // Add queries to request
+                    let requestQuery = req.query.SELECT.where || [];
+                    if (requestQuery.length > 0) {
+                        requestQuery.push('and');
+                    }
+                    requestQuery.push(regionQueryParsed);
+                    req.query.SELECT.where = requestQuery
+                }else{
+                    //Throw error (USER SHOULD ALWAYS HAVE A REGION CHOSEN)
+                }
+
                 let partnerSettingsQuery = cds.parse.cql(`SELECT from srvOpenOrders_PartnerSettings where BASF_USER = '${currentUser}' and ACTIVE = 'X'`);
                 let partnerSettings = await db.run(partnerSettingsQuery);
                 if (partnerSettings.length !== 0) {

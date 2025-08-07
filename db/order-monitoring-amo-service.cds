@@ -408,6 +408,12 @@ entity PARTNER_SETTINGS_DB {
             COMMT          : String(50);
 }
 
+@cds.persistence.exists
+entity REGION_SETTINGS {
+        key USER_ID        : String(12);
+            REGION   : Integer;
+}
+
 entity variants {
             // key id                 : UUID;
         key fileName           : String(255);

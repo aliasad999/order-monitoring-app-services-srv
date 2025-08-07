@@ -1003,6 +1003,22 @@ class openOrdersSrv extends cds.ApplicationService {
             let db = cds.transaction(req);
             let currentUser = req.user.id;
             if (currentUser) {
+                let regionSettingsQuery = cds.parse.cql(`SELECT from srvOpenOrders_RegionSettings where USER_ID = '${currentUser}'`);
+                let regionSettings = await db.run(regionSettingsQuery);
+                if(regionSettings.length !== 0){
+                    // REGION_SHIP_TO  REGION_SUPPLIER
+                    let regionQueryString = `(REGION_SHIP_TO = ${regionSettings[0].REGION} or REGION_SUPPLIER = ${regionSettings[0].REGION})`;
+                    let regionQueryParsed = cds.parse.expr(regionQueryString);
+                    // Add queries to request
+                    let requestQuery = req.query.SELECT.where || [];
+                    if (requestQuery.length > 0) {
+                        requestQuery.push('and');
+                    }
+                    requestQuery.push(regionQueryParsed);
+                    req.query.SELECT.where = requestQuery
+                }else{
+                    //Throw error (USER SHOULD ALWAYS HAVE A REGION CHOSEN)
+                }
                 let partnerSettingsQuery = cds.parse.cql(`SELECT from srvOpenOrders_PartnerSettings where BASF_USER = '${currentUser}' and ACTIVE = 'X'`);
                 let partnerSettings = await db.run(partnerSettingsQuery);
                 if (partnerSettings.length !== 0) {
