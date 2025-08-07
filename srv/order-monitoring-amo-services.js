@@ -37,7 +37,7 @@ class srvOpenOrders extends cds.ApplicationService {
 
         this.on("getUserRegionAssigned", async req => {
             const { RegionSettings } = await cds.entities('srvOpenOrders');
-            let region = await SELECT.from(RegionSettings).byKey({ USER_ID: userID });
+            let region = await SELECT.from(RegionSettings).byKey({ USER_ID: req.user.id });
             if(!region){
                 return 999
             }else{
