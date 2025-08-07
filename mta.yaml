@@ -9,7 +9,7 @@ build-parameters:
     - builder: custom
       commands:
         - npm ci --production
-        - npx -p @sap/cds-dk@8.8.2 cds build --production
+        - npx -p @sap/cds-dk@8.9.8 cds build --production
         - npm ci --prefix ./gen/srv
 modules:
   #
