@@ -23,3 +23,5 @@ using from './AMOO annotations/amoo-allissues-entity';
 
 // valueHelps annotations
 using from './AMOO annotations/amoo-valuehelp-entity';
+
+using from './AMOO annotations/analytical-amoo';
