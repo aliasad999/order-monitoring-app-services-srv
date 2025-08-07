@@ -1,0 +1,148 @@
+DCPStatusKey;locale;DCPStatusText
+01;en;Created
+02;en;Quantity partially allocated
+03;en;Quantity allocated
+04;en;Transport Planning
+05;en;Partially Shipped
+06;en;Shipped
+07;en;Completed
+08;en;Cancelled
+09;en;Scheduled
+10;en;Partially Completed
+11;en;Shipped to (air-) port of departure
+12;en;Vessel / Plane departed
+13;en;Vessel / Plane arrived
+80;en;In Transit
+81;en;Delay expected
+82;en;Delayed
+83;en;Arrived at Destination
+84;en;Unloaded
+86;en;Delivery Failed
+98;en;Received
+99;en;See details
+01;es;Pedido Creado
+02;es;Cantidad Parcialmente Asignada
+03;es;Cantidad Asignada
+04;es;Planificación de Transporte
+05;es;Enviado Parcialmente
+06;es;Enviado
+07;es;Finalizado
+08;es;Cancelado
+09;es;Programado
+10;es;Parcialmente finalizado
+11;es;Enviado al puerto (aéreo) de salida
+12;es;Barco / Avión partió
+13;es;Barco / Avión llegó
+80;es;En tránsito
+81;es;Retraso estimado
+82;es;Retrasado
+83;es;Llegó a destino
+84;es;No cargado
+86;es;Falla en la entrega
+98;es;Recibido
+99;es;Ver detalles
+01;fr;Créée
+02;fr;Quantité partiellement allouée
+03;fr;Quantité allouée
+04;fr;Planification du transport
+05;fr;Partiellement expédiée
+06;fr;Expédiée
+07;fr;Clôturée
+08;fr;Annulée
+09;fr;Transport alloué
+10;fr;Partiellement terminé
+11;fr;Expédié au port (aérien) de départ
+12;fr;Navire / Avion parti
+13;fr;Navire / Avion arrivé
+80;fr;En route
+81;fr;Retard attendu
+82;fr;En retard
+83;fr;Destination atteinte
+84;fr;Déchargé
+86;fr;Échec de la livraison
+98;fr;Reçue
+99;fr;Ci-dessous les détails
+01;it;Creato
+02;it;Quantità parzialmente assegnata
+03;it;Quantità assegnata
+04;it;Pianificazione dei trasporti
+05;it;Parzialmente spedito
+06;it;Spedito
+07;it;Completato
+08;it;Annullato
+09;it;In programma
+10;it;Parzialmente completato
+11;it;Spedito al porto (aereo) di partenza
+12;it;Nave / Aereo partito
+13;it;Nave / Aereo arrivato
+80;it;In viaggio
+81;it;Ritardo previsto
+82;it;In ritardo
+83;it;Destinazione raggiunta
+84;it;Scarica
+86;it;Consegna non riuscita
+98;it;Ricevuto
+99;it;Vedi dettagli
+01;pt;Pedido Criado
+02;pt;Quantidade Parcialmente Alocada
+03;pt;Quantidade Alocada
+04;pt;Planejando Transporte
+05;pt;Parcialmente Enviado
+06;pt;Enviado
+07;pt;Completo
+08;pt;Cancelado
+09;pt;Agendado
+10;pt;Parcialmente concluída
+11;pt;Enviado para o porto (aéreo) de partida
+12;pt;Navio / Avião partiu
+13;pt;Navio / Avião chegou
+80;pt;Em trânsito
+81;pt;Estimado atraso
+82;pt;Atrasado
+83;pt;Chegou ao destino
+84;pt;Não carregado
+86;pt;Falha na entrega
+98;pt;Recebido
+99;pt;Ver detalhes
+01;tr;Oluşturuldu
+02;tr;Kısmen tahsis edilen miktar
+03;tr;Tahsis edilen miktar
+04;tr;Ulaşım Planlaması
+05;tr;Kısmen Sevk Edildi
+06;tr;Sevkiyat
+07;tr;Tamamlandı
+08;tr;İptal Edildi
+09;tr;Planlanmış
+10;tr;Kısmen tamamlandı
+11;tr;(İlgili havaalanı) kalkış limanına gönde
+12;tr;Gemi / Uçak ayrıldı
+13;tr;Gemi / Uçak geldi
+80;tr;Transit Halinde
+81;tr;Beklenen gecikme
+82;tr;Gecikmeli
+83;tr;Varış Noktasına Ulaşıldı
+84;tr;Boşaltılmış
+86;tr;Teslimat Başarısız
+98;tr;Alındı
+99;tr;Ayrıntılara bakın
+01;de;Angelegt
+02;de;Menge teilweise zugeteilt
+03;de;Menge zugeteilt
+04;de;Transport in Planung
+05;de;Teilweise versendet
+06;de;Versendet
+07;de;Abgeschlossen
+08;de;Storniert
+09;de;Versand terminiert
+10;de;Teilweise abgeschlossen
+11;de;Zum (Flug-)Hafen versandt
+12;de;Schiff / Flugzeug unterwegs
+13;de;Schiff / Flugzeug angekommen
+80;de;Unterwegs
+81;de;Verspätung erwartet
+82;de;Verspätet
+83;de;Bestimmungsort erreicht
+84;de;Entladen
+86;de;Lieferung fehlgeschlagen
+98;de;Empfangen
+99;de;Siehe Details

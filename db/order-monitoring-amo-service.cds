@@ -1,5 +1,16 @@
 namespace allorders.db;
 
+
+entity SAPSystems {
+        key mandantKey  : String(3);
+            mandantText : String(20);
+}
+
+entity DCPStatus {
+        key DCPStatusKey  : String(2);
+            DCPStatusText : localized String(50);
+}
+
 @cds.persistence.exists
 entity ![RESULTS] {
 
@@ -300,7 +311,9 @@ entity ![RESULTS] {
         DEV_CONF_DATE                      : String(12);
         EMAIL                              : String(241);
         EMAIL_SEND_DATE_F                  : String(8);
+        EMAIL_SEND_DATE_F_DATE             : Date = EMAIL_SEND_DATE_F;
         EMAIL_SENT_ON                      : String(8);
+        EMAIL_SENT_ON_DATE                 : Date = EMAIL_SENT_ON;
         DPLBG_TM                           : String(8);
         DPLBG_TM_DATE                      : Date = DPLBG_TM;
         ERDAT_TM                           : String(8);
@@ -326,7 +339,7 @@ entity ![RESULTS] {
         CONTRACT_ITEM                      : String(6);
         ZZMHDRZ                            : Decimal(4);
         ZTERM_HEAD_VTEXT_LANG              : String(30);
-        ZTERM_ITEM_VTEXT_LANG              : String(30);  
+        ZTERM_ITEM_VTEXT_LANG              : String(30);
         SEED_COUNT                         : Decimal(31, 14);
         SEEDS_TAGGED_GERM                  : Decimal(31, 14);
         XREF3                              : String(20);
