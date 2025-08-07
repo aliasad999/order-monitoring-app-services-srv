@@ -1,0 +1,22 @@
+DCPStatusKey;DCPStatusText
+01;Created
+02;Quantity partially allocated
+03;Quantity allocated
+04;Transport Planning
+05;Partially Shipped
+06;Shipped
+07;Completed
+08;Cancelled
+09;Scheduled
+10;Partially Completed
+11;Shipped to (air-) port of departure
+12;Vessel / Plane departed
+13;Vessel / Plane arrived
+80;In Transit
+81;Delay expected
+82;Delayed
+83;Arrived at Destination
+84;Unloaded
+86;Delivery Failed
+98;Received
+99;See details

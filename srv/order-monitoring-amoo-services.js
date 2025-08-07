@@ -41,6 +41,7 @@ class openOrdersSrv extends cds.ApplicationService {
         this.before('*', '*', async (req, next) => {
             await cds.run(`SET 'APPLICATION' = 'CAPServices'`);
         })
+
         // GET SAP TEXTS //
         this.on("getSAPTexts", async req => {
             let SAPTextsEntity = [];

@@ -1,0 +1,35 @@
+IssueKey;IssueText
+01;Order incomplete
+02;BASF checking routine not satisfied
+03;Multiple Delivery Block in sales order
+04;Multiple Delivery Block in outbound delivery
+05;Outbound Delivery incomplete
+06;Credit Block
+07;GTS Block
+08;Inbound delivery missing
+09;Statistical goods receipt missing
+10;PO creation failed
+11;PO transmission failed
+12;Billing block
+13;Transfer of invoice to accounting failed
+14;Sales Order quantity not fully confirmed
+15;Delivery creation outstanding
+16;Transportation planning outstanding
+17;Picking of delivery outstanding
+18;Goods issue posting outstanding
+19;Invoice creation outstanding
+20;Process order not released
+21;Proof of delivery not posted
+22;Business rule(s) violated (H)
+23;Business rules violated (DO)
+24;Business rule(s) violated (I)
+25;Physical transport not completed
+26;TRACE
+27;Pre-leg missing
+28;Process order not confirmed
+29;Shipment Status unknown
+30;Delivered Incorrectly
+34;Sales Order quantity not fully confirmed
+35;Delivery creation outstanding
+36;Delivery Block in Sales Order
+37;Delivery Block in Outbound Delivery
