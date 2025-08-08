@@ -353,6 +353,7 @@ entity ![RESULTS] {
         MFRGR                              : String(8);
         MFRGR_BEZEI_LANG                   : String(80);
         TNDR_TRKID                         : String(35);
+        YRDSDV1_IMPORT_CARGO_NO            : String (70);
 
 }
 
