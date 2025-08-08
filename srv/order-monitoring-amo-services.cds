@@ -12,7 +12,7 @@ service srvOpenOrders {
 
   entity VBAKAuthObjectKeys      as select from db_app.VBAKAUTH;
   entity EKKOAuthObjectKeys      as select from db_app.EKKOAUTH;
-  function getVBAKAuthObjKeys() returns Integer;
+  function getVBAKAuthObjKeys()    returns Integer;
 
   @readonly
   @cds.redirection.target: true
@@ -447,11 +447,9 @@ service srvOpenOrders {
           VALDT_DATE                                  as SO_VALDT,
           MVGR2_BEZEI_LANG                            as SO_MVGR2_BEZEI_LANG,
           DGSTA_DDTEXT_LANG                           as SO_DGSTA_DDTEXT_LANG,
-          MFRGR                                       as SO_MFRGR,          
+          MFRGR                                       as SO_MFRGR,
           MFRGR_BEZEI_LANG                            as SO_MFRGR_BEZEI_LANG,
           TNDR_TRKID                                  as TM_TNDR_TRKID
-
-
     };
 
   entity Results                 as
@@ -489,6 +487,9 @@ service srvOpenOrders {
   entity Variants                as projection on db_app.variants;
   entity VariantsUserSettings    as projection on db_app.variantUserSettings;
   entity ChangeDocSet            as projection on CSEUCockpitService.ChangeDocSet;
-  entity RegionSettings         as select from db_app.REGION_SETTINGS;
+  entity RegionSettings          as select from db_app.REGION_SETTINGS;
   function getUserRegionAssigned() returns Integer;
+
+  @readonly
+  entity AvailableRegions        as projection on db_app.AvailableRegions;
 }

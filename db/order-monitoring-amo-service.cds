@@ -353,7 +353,6 @@ entity ![RESULTS] {
         MFRGR                              : String(8);
         MFRGR_BEZEI_LANG                   : String(80);
         TNDR_TRKID                         : String(35);
-
 }
 
 entity PARTNER_SETTINGS {
@@ -412,8 +411,13 @@ entity PARTNER_SETTINGS_DB {
 
 @cds.persistence.exists
 entity REGION_SETTINGS {
-        key USER_ID        : String(12);
-            REGION   : Integer;
+        key USER_ID : String(12);
+            REGION  : Integer;
+}
+
+entity AvailableRegions {
+        key Region     : Integer;
+            RegionText : localized String;
 }
 
 entity variants {

@@ -369,7 +369,6 @@ entity ![OPENORDERSLIST] {
         MFRGR                              : String(8);
         MFRGR_BEZEI_LANG                   : String(80);
         TNDR_TRKID                         : String(35);
-
 }
 
 entity ContactsOptions {
