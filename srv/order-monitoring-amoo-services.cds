@@ -463,7 +463,10 @@ service openOrdersSrv {
                 DGSTA_DDTEXT_LANG                           as SO_DGSTA_DDTEXT_LANG,
                 MFRGR                                       as SO_MFRGR,          
                 MFRGR_BEZEI_LANG                            as SO_MFRGR_BEZEI_LANG,
-                TNDR_TRKID                                  as TM_TNDR_TRKID
+                TNDR_TRKID                                  as TM_TNDR_TRKID,
+                @UI.HiddenFilter
+                ETA_UPDATED_VISTA                           as TM_ETA_UPDATED_VISTA,
+                OLD_ETA_VISTA_DATE                          as TM_OLD_ETA_VISTA_DATE,
         }
 
     entity baseEntity               as
