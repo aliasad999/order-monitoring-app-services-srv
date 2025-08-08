@@ -447,6 +447,10 @@ service srvOpenOrders {
           VALDT_DATE                                  as SO_VALDT,
           MVGR2_BEZEI_LANG                            as SO_MVGR2_BEZEI_LANG,
           DGSTA_DDTEXT_LANG                           as SO_DGSTA_DDTEXT_LANG,
+          MFRGR                                       as SO_MFRGR,          
+          MFRGR_BEZEI_LANG                            as SO_MFRGR_BEZEI_LANG,
+          TNDR_TRKID                                  as TM_TNDR_TRKID
+          DGSTA_DDTEXT_LANG                           as SO_DGSTA_DDTEXT_LANG,
           @UI.HiddenFilter
           ETA_UPDATED_VISTA                           as TM_ETA_UPDATED_VISTA,
           OLD_ETA_VISTA_DATE                          as TM_OLD_ETA_VISTA_DATE,

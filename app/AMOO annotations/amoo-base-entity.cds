@@ -274,6 +274,9 @@ annotate service.baseEntity with {
     SO_MVGR2_BEZEI_LANG              @title: '{i18n>SO_MVGR2_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MVGR2_BEZEI_LANG}';
     SO_VALDT                         @title: '{i18n>SO_VALDT}'                         @sap.Label: '{i18n>SO_VALDT}'              @sap.filter.restriction: 'interval';
     SO_ABLAD                         @title: '{i18n>SO_ABLAD}'                         @sap.Label: '{i18n>SO_ABLAD}';
+    SO_MFRGR                         @title: '{i18n>SO_MFRGR}'                         @sap.Label: '{i18n>SO_MFRGR}';
+    SO_MFRGR_BEZEI_LANG              @title: '{i18n>SO_MFRGR_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MFRGR_BEZEI_LANG}';
+    TM_TNDR_TRKID                    @title: '{i18n>TM_TNDR_TRKID}'                    @sap.Label: '{i18n>TM_TNDR_TRKID}';
     TM_ETA_UPDATED_VISTA             @title: '{i18n>TM_ETA_UPDATED_VISTA}'             @sap.Label: '{i18n>TM_ETA_UPDATED_VISTA}';
     
 

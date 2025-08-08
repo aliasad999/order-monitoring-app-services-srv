@@ -264,6 +264,11 @@ annotate service.Results with {
     SO_MVGR2                    @title: '{i18n>SO_MVGR2}'                         @sap.Label: '{i18n>SO_MVGR2}';
     @Common.TextFor
     SO_MVGR2_BEZEI_LANG         @title: '{i18n>SO_MVGR2_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MVGR2_BEZEI_LANG}';
+    @Common.Text           : SO_MFRGR_BEZEI_LANG
+    @Common.TextArrangement: #TextFirst
+    SO_MFRGR                    @title: '{i18n>SO_MFRGR}'                         @sap.Label: '{i18n>SO_MFRGR}';
+    @Common.TextFor
+    SO_MFRGR_BEZEI_LANG         @title: '{i18n>SO_MFRGR_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MFRGR_BEZEI_LANG}';
 }
 
 /// UI AND MEASURES ANNOTATIONS
@@ -361,4 +366,5 @@ annotate service.Results with {
     SO_DGSTA_DDTEXT_LANG            @UI                     : {Hidden: true};
     BL_XREF3                        @UI                     : {Hidden: true};
     TM_OLD_ETA_VISTA_DATE           @UI                     : {Hidden: true};
+    SO_MFRGR_BEZEI_LANG             @UI                     : {Hidden: true};
 }

@@ -366,6 +366,9 @@ entity ![OPENORDERSLIST] {
         VALDT_DATE                         : Date = VALDT;
         MVGR2_BEZEI_LANG                   : String(40);
         DGSTA_DDTEXT_LANG                  : String(60);
+        MFRGR                              : String(8);
+        MFRGR_BEZEI_LANG                   : String(80);
+        TNDR_TRKID                         : String(35);
         ETA_UPDATED_VISTA                  : String(3);
         OLD_ETA_VISTA                      : String(10);
         OLD_ETA_VISTA_DATE                 : Date = OLD_ETA_VISTA;
@@ -531,6 +534,9 @@ entity ![SALESORDER_DETAILS](IP_LANG : String(2)) {
             TO_PARTNER_NAME2_ITM   : String(40);
             ZTERM_HEAD_VTEXT_LANG  : String(30);
             ZTERM_ITEM_VTEXT_LANG  : String(30);
+            MFRGR                  : String(8);
+            MFRGR_BEZEI_LANG       : String(80);
+            
             ETA_UPDATED_VISTA      : String(3);
             OLD_ETA_VISTA          : String(10);
             OLD_ETA_VISTA_DATE     : Date = OLD_ETA_VISTA;
