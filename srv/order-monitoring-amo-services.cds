@@ -449,7 +449,8 @@ service srvOpenOrders {
           DGSTA_DDTEXT_LANG                           as SO_DGSTA_DDTEXT_LANG,
           MFRGR                                       as SO_MFRGR,          
           MFRGR_BEZEI_LANG                            as SO_MFRGR_BEZEI_LANG,
-          TNDR_TRKID                                  as TM_TNDR_TRKID
+          TNDR_TRKID                                  as TM_TNDR_TRKID,
+          YRDSDV1_IMPORT_CARGO_NO                     as SO_YRDSDV1_IMPORT_CARGO_NO
 
 
     };
