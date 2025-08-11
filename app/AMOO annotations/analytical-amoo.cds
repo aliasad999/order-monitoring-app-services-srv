@@ -68,7 +68,6 @@ annotate service.OpenOrdersAnalytics with {
     SO_ISSUE                        @UI.Hidden;
     SO_ISSUE_DESCRIPTION            @UI.Hidden;
     SO_VTWEG                        @UI.Hidden;
-    SO_LAND1                        @UI.Hidden;
     SO_LANDX                        @UI.Hidden;
     SO_ORT01                        @UI.Hidden;
     SO_VKORG                        @UI.Hidden;
@@ -152,7 +151,6 @@ annotate service.OpenOrdersAnalytics with {
     TM_DALBG                        @UI.Hidden;
     TM_DATEN                        @UI.Hidden;
     TM_AR_DATE                      @UI.Hidden;
-    TM_TDLNR                        @UI.Hidden;
     TM_TDLNR_NAME1                  @UI.Hidden;
     TM_TRACKING_ID_COMP             @UI.Hidden;
     TM_TRACKING_ID_ELEM             @UI.Hidden;
@@ -220,7 +218,7 @@ annotate service.OpenOrdersAnalytics with {
     SO_SB_PARTNER_NAME              @UI.Hidden;
     SO_AD_PARTNER                   @UI.Hidden;
     SO_AD_PARTNER_NAME              @UI.Hidden;
-    BL_MANDT_INV_FIRST              @UI.Hidden;
+    
     SO_FIRST_SO_MANDT               @UI.Hidden;
     PO_MANDT                        @UI.Hidden;
     SO_ISSUE_LOCATION_MANDT         @UI.Hidden;
@@ -273,4 +271,14 @@ annotate service.OpenOrdersAnalytics with {
     SO_ABLAD                        @UI.Hidden;
     SO_MFRGR                        @UI.Hidden;
     SO_MFRGR_BEZEI_LANG             @UI.Hidden;
+    SO_YRDSDV1_IMPORT_CARGO_NO      @UI.Hidden;
+    BL_MANDT_INV_FIRST              @UI.Hidden;
+    SO_MANDT                        @UI.Hidden;
+    DL_MANDT                        @UI.Hidden;
+    SO_FINAL_SO_MANDT               @UI.Hidden;
+    SO_INCO2                        @UI.Hidden;
+    SO_ZTERM                        @UI.Hidden;
+    TM_MANDT                        @UI.Hidden;
+    SO_F_VBELN                      @UI.Hidden;
+
 };
