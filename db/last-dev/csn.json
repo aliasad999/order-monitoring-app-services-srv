@@ -1,6 +1,16 @@
 {
   "namespace": "allorders.db",
   "definitions": {},
+  "extensions": [
+    {
+      "annotate": "openOrdersSrv.OpenOrdersAnalytics",
+      "elements": {
+        "TM_SHIPMENT_ETA_UPDATED": {
+          "@UI.Hidden": true
+        }
+      }
+    }
+  ],
   "meta": {
     "creator": "CDS Compiler v5.9.0",
     "flavor": "inferred",

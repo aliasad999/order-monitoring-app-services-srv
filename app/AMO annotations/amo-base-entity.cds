@@ -123,7 +123,7 @@ annotate service.BaseEntity with {
     SO_PRCTR                         @title: '{i18n>SO_PRCTR}'                         @sap.Label: '{i18n>SO_PRCTR}';
     SO_VALDT                         @title: '{i18n>SO_VALDT}'                         @sap.Label: '{i18n>SO_VALDT}';
     SO_ABLAD                         @title: '{i18n>SO_ABLAD}'                         @sap.Label: '{i18n>SO_ABLAD}';
-    TM_SHIPMENT_ETA_UPDATED          @title: '{i18n>TM_SHIPMENT_ETA_UPDATED}'          @sap.Label: '{i18n>TM_SHIPMENT_ETA_UPDATED}';
+    // TM_SHIPMENT_ETA_UPDATED          @title: '{i18n>TM_SHIPMENT_ETA_UPDATED}'          @sap.Label: '{i18n>TM_SHIPMENT_ETA_UPDATED}';
     SO_FOLLOWUP_NOTES_LANG           @title: '{i18n>SO_FOLLOWUP_NOTES_LANG}'           @sap.Label: '{i18n>SO_FOLLOWUP_NOTES_LANG}';
     SO_REASON_CODE_01_LANG           @title: '{i18n>SO_REASON_CODE_01_LANG}'           @sap.Label: '{i18n>SO_REASON_CODE_01_LANG}';
     SO_REASON_CODE_02_LANG           @title: '{i18n>SO_REASON_CODE_02_LANG}'           @sap.Label: '{i18n>SO_REASON_CODE_02_LANG}';

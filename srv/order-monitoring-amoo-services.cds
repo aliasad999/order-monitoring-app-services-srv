@@ -310,8 +310,8 @@ service openOrdersSrv {
                 virtual 0                                   as criticalityDueDate              : Integer,
                 IGNORED                                     as SO_IGNORED,
 
-                @UI.HiddenFilter
-                ETA_UPDATED                                 as TM_SHIPMENT_ETA_UPDATED,
+                // @UI.HiddenFilter
+                // ETA_UPDATED                                 as TM_SHIPMENT_ETA_UPDATED,
                 BL_VBELN_INV_FIRST                          as BL_VBELN_INV_FIRST,
                 BL_VBELN_INV_LAST                           as BL_VBELN_INV_LAST,
                 case
