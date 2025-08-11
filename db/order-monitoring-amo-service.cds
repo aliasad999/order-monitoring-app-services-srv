@@ -353,6 +353,7 @@ entity ![RESULTS] {
         MFRGR                              : String(8);
         MFRGR_BEZEI_LANG                   : String(80);
         TNDR_TRKID                         : String(35);
+        YRDSDV1_IMPORT_CARGO_NO            : String (70);
         ETA_UPDATED_VISTA                  : String(3);
         OLD_ETA_VISTA                      : String(10);
         OLD_ETA_VISTA_DATE                 : Date = OLD_ETA_VISTA;
@@ -412,6 +413,17 @@ entity PARTNER_SETTINGS_DB {
         key PARTNER_NUMBER : String(8);
             ACTIVE         : String(1);
             COMMT          : String(50);
+}
+
+@cds.persistence.exists
+entity REGION_SETTINGS {
+        key USER_ID : String(12);
+            REGION  : Integer;
+}
+
+entity AvailableRegions {
+        key Region     : Integer;
+            RegionText : localized String;
 }
 
 @cds.persistence.exists

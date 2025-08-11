@@ -295,6 +295,27 @@ const addOrderIfNeeded = (orderBy, fieldToOrder) => {
         orderBy.push({ref:[fieldToOrder], sort: 'asc'})
     }
 }
+const buildSubtotalColumns = (columnsArray, groupByFields, aggrMap) => {
+    // Collect all required unit fields based on selected aggregation columns
+    const requiredUnitFields = new Set();
+
+    for (const col of columnsArray) {
+        if (aggrMap[col]) {
+            requiredUnitFields.add(aggrMap[col].group);
+        }
+    }
+
+    return columnsArray.map(col => {
+        if (aggrMap[col]) {
+            return aggrMap[col].sum; // aggregated field
+        } else if (groupByFields.includes(col) || requiredUnitFields.has(col)) {
+            return `${col}`; // keep group-by or required unit field
+        } else {
+            return `NULL AS ${col}`; // null for all other fields
+        }
+    });
+};
+
 
 module.exports =  {
     getDateProps,
@@ -307,5 +328,6 @@ module.exports =  {
     convertCQNtoCQL,
     removeDuplicates,
     getBundle,
-    addOrderIfNeeded
+    addOrderIfNeeded,
+    buildSubtotalColumns
 }

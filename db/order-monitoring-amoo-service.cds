@@ -369,6 +369,7 @@ entity ![OPENORDERSLIST] {
         MFRGR                              : String(8);
         MFRGR_BEZEI_LANG                   : String(80);
         TNDR_TRKID                         : String(35);
+        YRDSDV1_IMPORT_CARGO_NO            : String (70);
         ETA_UPDATED_VISTA                  : String(3);
         OLD_ETA_VISTA                      : String(10);
         OLD_ETA_VISTA_DATE                 : Date = OLD_ETA_VISTA;

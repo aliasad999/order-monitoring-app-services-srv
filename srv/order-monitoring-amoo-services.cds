@@ -464,6 +464,7 @@ service openOrdersSrv {
                 MFRGR                                       as SO_MFRGR,          
                 MFRGR_BEZEI_LANG                            as SO_MFRGR_BEZEI_LANG,
                 TNDR_TRKID                                  as TM_TNDR_TRKID,
+                YRDSDV1_IMPORT_CARGO_NO                     as SO_YRDSDV1_IMPORT_CARGO_NO,
                 @UI.HiddenFilter
                 ETA_UPDATED_VISTA                           as TM_ETA_UPDATED_VISTA,
                 OLD_ETA_VISTA_DATE                          as TM_OLD_ETA_VISTA_DATE,
@@ -627,7 +628,7 @@ service openOrdersSrv {
 
     entity APContacts               as projection on OMServicesAP.SalesOrderPartner;
     entity VhOpenOrdersAnalytics    as projection on OpenOrdersAnalytics;
-
+    @cds.query.limit.max: 10000
     entity OpenOrdersAnalytics      as
         select from allIssues {
             virtual false as isSubtotal :Boolean,
