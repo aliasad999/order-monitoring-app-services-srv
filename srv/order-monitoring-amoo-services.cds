@@ -624,7 +624,7 @@ service openOrdersSrv {
 
     entity APContacts               as projection on OMServicesAP.SalesOrderPartner;
     entity VhOpenOrdersAnalytics    as projection on OpenOrdersAnalytics;
-
+    @cds.query.limit.max: 10000
     entity OpenOrdersAnalytics      as
         select from allIssues {
             virtual false as isSubtotal :Boolean,
