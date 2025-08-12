@@ -280,5 +280,6 @@ annotate service.OpenOrdersAnalytics with {
     SO_ZTERM                        @UI.Hidden;
     TM_MANDT                        @UI.Hidden;
     SO_F_VBELN                      @UI.Hidden;
+    TM_TNDR_TRKID                   @UI.Hidden;     
 
 };
