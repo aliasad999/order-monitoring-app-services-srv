@@ -403,10 +403,9 @@ service srvOpenOrders {
 
           @UI.Hidden: true
           TO_PARTNER_NAME2_ITM                        as SO_TO_PARTNER_NAME2_ITM,
-
-
-          @UI.HiddenFilter
-          ETA_UPDATED                                 as TM_SHIPMENT_ETA_UPDATED,
+          
+          // @UI.HiddenFilter
+          // ETA_UPDATED                                 as TM_SHIPMENT_ETA_UPDATED,
           FOLLOWUP_NOTES_LANG                         as SO_FOLLOWUP_NOTES_LANG,
           REASON_CODE_01_LANG                         as SO_REASON_CODE_01_LANG,
           REASON_CODE_02_LANG                         as SO_REASON_CODE_02_LANG,
@@ -450,7 +449,10 @@ service srvOpenOrders {
           MFRGR                                       as SO_MFRGR,
           MFRGR_BEZEI_LANG                            as SO_MFRGR_BEZEI_LANG,
           TNDR_TRKID                                  as TM_TNDR_TRKID,
-          YRDSDV1_IMPORT_CARGO_NO                     as SO_YRDSDV1_IMPORT_CARGO_NO
+          YRDSDV1_IMPORT_CARGO_NO                     as SO_YRDSDV1_IMPORT_CARGO_NO,
+          @UI.HiddenFilter
+          ETA_UPDATED_VISTA                           as TM_ETA_UPDATED_VISTA,
+          OLD_ETA_VISTA_DATE                          as TM_OLD_ETA_VISTA_DATE,
 
 
     };
@@ -495,4 +497,5 @@ service srvOpenOrders {
 
   @readonly
   entity AvailableRegions        as projection on db_app.AvailableRegions;
+  entity VistaShipmentUpdates    as projection on db_app.ST_VISTA_SHIPMENT_ETA_UPDATED ;
 }

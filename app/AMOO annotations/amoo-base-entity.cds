@@ -147,7 +147,7 @@ annotate service.baseEntity with {
     SO_ISSUE_LOCATION                @title: '{i18n>SO_ISSUE_LOCATION}'                @sap.Label: '{i18n>SO_ISSUE_LOCATION}';
     SO_ISSUE_LOCATION_ITEM           @title: '{i18n>SO_ISSUE_LOCATION_ITEM}'           @sap.Label: '{i18n>SO_ISSUE_LOCATION_ITEM}';
     criticalityDueDate               @title: '{i18n>dueDateCriticality}'               @sap.Label: '{i18n>dueDateCriticality}';
-    TM_SHIPMENT_ETA_UPDATED          @title: '{i18n>TM_SHIPMENT_ETA_UPDATED}'          @sap.Label: '{i18n>TM_SHIPMENT_ETA_UPDATED}';
+    // TM_SHIPMENT_ETA_UPDATED          @title: '{i18n>TM_SHIPMENT_ETA_UPDATED}'          @sap.Label: '{i18n>TM_SHIPMENT_ETA_UPDATED}';
     BL_VBELN_INV_FIRST               @title: '{i18n>BL_VBELN_INV_FIRST}'               @sap.Label: '{i18n>BL_VBELN_INV_FIRST}'    @Common.IsDigitSequence: true;
     BL_POSNR_INV_FIRST               @title: '{i18n>BL_POSNR_INV_FIRST}'               @sap.Label: '{i18n>BL_POSNR_INV_FIRST}'    @Common.IsDigitSequence: true;
     BL_FKIMG_FIRST                   @title: '{i18n>BL_FKIMG_FIRST}'                   @sap.Label: '{i18n>BL_FKIMG_FIRST}';
@@ -278,5 +278,7 @@ annotate service.baseEntity with {
     SO_MFRGR_BEZEI_LANG              @title: '{i18n>SO_MFRGR_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MFRGR_BEZEI_LANG}';
     TM_TNDR_TRKID                    @title: '{i18n>TM_TNDR_TRKID}'                    @sap.Label: '{i18n>TM_TNDR_TRKID}';
     SO_YRDSDV1_IMPORT_CARGO_NO       @title: '{i18n>SO_YRDSDV1_IMPORT_CARGO_NO}'       @sap.Label: '{i18n>SO_YRDSDV1_IMPORT_CARGO_NO}';
+    TM_ETA_UPDATED_VISTA             @title: '{i18n>TM_ETA_UPDATED_VISTA}'             @sap.Label: '{i18n>TM_ETA_UPDATED_VISTA}';
+    
 
 };

@@ -162,7 +162,6 @@ annotate service.OpenOrdersAnalytics with {
     SO_ISSUE_LOCATION               @UI.Hidden;
     SO_ISSUE_LOCATION_ITEM          @UI.Hidden;
     criticalityDueDate              @UI.Hidden;
-    TM_SHIPMENT_ETA_UPDATED         @UI.Hidden;
     BL_VBELN_INV_FIRST              @UI.Hidden;
     BL_POSNR_INV_FIRST              @UI.Hidden;
     BL_FKIMG_FIRST                  @UI.Hidden;
@@ -281,5 +280,7 @@ annotate service.OpenOrdersAnalytics with {
     TM_MANDT                        @UI.Hidden;
     SO_F_VBELN                      @UI.Hidden;
     TM_TNDR_TRKID                   @UI.Hidden;     
+    TM_OLD_ETA_VISTA_DATE           @UI.Hidden;
+    TM_ETA_UPDATED_VISTA            @UI.Hidden;
 
 };

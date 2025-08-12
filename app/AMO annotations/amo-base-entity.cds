@@ -123,7 +123,7 @@ annotate service.BaseEntity with {
     SO_PRCTR                         @title: '{i18n>SO_PRCTR}'                         @sap.Label: '{i18n>SO_PRCTR}';
     SO_VALDT                         @title: '{i18n>SO_VALDT}'                         @sap.Label: '{i18n>SO_VALDT}';
     SO_ABLAD                         @title: '{i18n>SO_ABLAD}'                         @sap.Label: '{i18n>SO_ABLAD}';
-    TM_SHIPMENT_ETA_UPDATED          @title: '{i18n>TM_SHIPMENT_ETA_UPDATED}'          @sap.Label: '{i18n>TM_SHIPMENT_ETA_UPDATED}';
+    // TM_SHIPMENT_ETA_UPDATED          @title: '{i18n>TM_SHIPMENT_ETA_UPDATED}'          @sap.Label: '{i18n>TM_SHIPMENT_ETA_UPDATED}';
     SO_FOLLOWUP_NOTES_LANG           @title: '{i18n>SO_FOLLOWUP_NOTES_LANG}'           @sap.Label: '{i18n>SO_FOLLOWUP_NOTES_LANG}';
     SO_REASON_CODE_01_LANG           @title: '{i18n>SO_REASON_CODE_01_LANG}'           @sap.Label: '{i18n>SO_REASON_CODE_01_LANG}';
     SO_REASON_CODE_02_LANG           @title: '{i18n>SO_REASON_CODE_02_LANG}'           @sap.Label: '{i18n>SO_REASON_CODE_02_LANG}';
@@ -250,6 +250,7 @@ annotate service.BaseEntity with {
     SO_MVGR2                         @title: '{i18n>SO_MVGR2}'                         @sap.Label: '{i18n>SO_MVGR2}';
     SO_MVGR2_BEZEI_LANG              @title: '{i18n>SO_MVGR2_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MVGR2_BEZEI_LANG}';
     SO_DGSTA_DDTEXT_LANG             @title: '{i18n>SO_DGSTA_DDTEXT_LANG}'             @sap.Label: '{i18n>SO_DGSTA_DDTEXT_LANG}';
+    TM_ETA_UPDATED_VISTA             @title: '{i18n>TM_ETA_UPDATED_VISTA}'             @sap.Label: '{i18n>TM_ETA_UPDATED_VISTA}';
     SO_MFRGR                         @title: '{i18n>SO_MFRGR}'                         @sap.Label: '{i18n>SO_MFRGR}';
     SO_MFRGR_BEZEI_LANG              @title: '{i18n>SO_MFRGR_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MFRGR_BEZEI_LANG}';
     TM_TNDR_TRKID                    @title: '{i18n>TM_TNDR_TRKID}'                    @sap.Label: '{i18n>TM_TNDR_TRKID}';

@@ -26,6 +26,7 @@ service openOrdersSrv {
 
     entity currencies               as projection on db_app.currency;
 
+
     entity rootEntity               as
         select from db_app.OPENORDERSLIST {
             key null                                        as id                              : UUID,
@@ -309,8 +310,8 @@ service openOrdersSrv {
                 virtual 0                                   as criticalityDueDate              : Integer,
                 IGNORED                                     as SO_IGNORED,
 
-                @UI.HiddenFilter
-                ETA_UPDATED                                 as TM_SHIPMENT_ETA_UPDATED,
+                // @UI.HiddenFilter
+                // ETA_UPDATED                                 as TM_SHIPMENT_ETA_UPDATED,
                 BL_VBELN_INV_FIRST                          as BL_VBELN_INV_FIRST,
                 BL_VBELN_INV_LAST                           as BL_VBELN_INV_LAST,
                 case
@@ -463,7 +464,10 @@ service openOrdersSrv {
                 MFRGR                                       as SO_MFRGR,          
                 MFRGR_BEZEI_LANG                            as SO_MFRGR_BEZEI_LANG,
                 TNDR_TRKID                                  as TM_TNDR_TRKID,
-                YRDSDV1_IMPORT_CARGO_NO                     as SO_YRDSDV1_IMPORT_CARGO_NO
+                YRDSDV1_IMPORT_CARGO_NO                     as SO_YRDSDV1_IMPORT_CARGO_NO,
+                @UI.HiddenFilter
+                ETA_UPDATED_VISTA                           as TM_ETA_UPDATED_VISTA,
+                OLD_ETA_VISTA_DATE                          as TM_OLD_ETA_VISTA_DATE,
         }
 
     entity baseEntity               as

@@ -354,6 +354,10 @@ entity ![RESULTS] {
         MFRGR_BEZEI_LANG                   : String(80);
         TNDR_TRKID                         : String(35);
         YRDSDV1_IMPORT_CARGO_NO            : String (70);
+        ETA_UPDATED_VISTA                  : String(3);
+        OLD_ETA_VISTA                      : String(10);
+        OLD_ETA_VISTA_DATE                 : Date = OLD_ETA_VISTA;
+
 
 }
 
@@ -421,6 +425,17 @@ entity AvailableRegions {
         key Region     : Integer;
             RegionText : localized String;
 }
+
+@cds.persistence.exists
+entity  ![ST_VISTA_SHIPMENT_ETA_UPDATED]{
+      key  DELIVERY_NUMBER    : String(10);
+      key  SHIPMENT_NUMBER    : String(10);
+           LAST_UPDATE        : Date;
+           ETA_UPDATED        : String(3) ;
+	   CURRENT_ETA        : Date;
+	   OLD_ETA            : Date;
+}
+
 
 entity variants {
             // key id                 : UUID;
