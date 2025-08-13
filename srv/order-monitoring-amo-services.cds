@@ -484,7 +484,10 @@ service srvOpenOrders {
           NOTE_TITLE,
           NOTE_TEXT,
           USERNAME,
-          LAST_NOTE_FLAG
+          LAST_NOTE_FLAG,
+          CLIENT_CHAIN,
+          VBELN_CHAIN,
+          POSNR_CHAIN
     };
 
   entity PartnerSettings         as select from db_app.PARTNER_SETTINGS_DB;
@@ -497,5 +500,27 @@ service srvOpenOrders {
 
   @readonly
   entity AvailableRegions        as projection on db_app.AvailableRegions;
+
+   entity OMDocFlow               as
+   select from db_app.ST_OM_DOC_FLOW{
+        key SEQUENCE                   : Int16,
+        key FIRST_DOCUMENT_MANDT       : String(3) ,
+        key FIRST_DOCUMENT             : String(10),
+        key FIRST_DOCUMENT_ITEM        : String(6) ,
+        key FIRST_DOCUMENT_CATEGORY    : String(1) ,
+        key PRECEDING_PO_MANDT         : String(3),
+        key PRECEDING_PO               : String(10),
+        key PRECEDING_PO_ITEM          : String(5),
+        SUBSEQUENT_SO_MANDT            : String(3),
+        SUBSEQUENT_SO                  : String(10),
+        SUBSEQUENT_SO_ITEM             : String(6),
+        FIRST_SO_MANDT                 : String(3),
+        FIRST_SO                       : String(10),
+        FIRST_SO_ITEM                  : String(6),
+        LAST_SO_MANDT                  : String(3),
+        LAST_SO                        : String(10),
+        LAST_SO_ITEM                   : String(6)
+  };
+
   entity VistaShipmentUpdates    as projection on db_app.ST_VISTA_SHIPMENT_ETA_UPDATED ;
 }
