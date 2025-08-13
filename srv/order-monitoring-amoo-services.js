@@ -1970,13 +1970,39 @@ class openOrdersSrv extends cds.ApplicationService {
                 const limit = req.query.SELECT.limit?.rows?.val ?? 500;
                 const offset = req.query.SELECT.limit?.offset?.val ?? 0;
                 let queryParts = [];
+                if (columns.includes('SO_NPS')){
                 queryParts.push(`
-                    WITH base_data AS (
+                    WITH base_data_raw AS (
                         SELECT DISTINCT ${columnsArray.join(', ')}
                         FROM openOrdersSrv_OpenOrdersAnalytics
                         WHERE ${where}
+                        LIMIT ${limit} OFFSET ${offset}),
+                        base_data AS (
+                            SELECT *
+                            FROM base_data_raw t
+                                WHERE NOT (t.SO_NPS IN (20,30,40) AND EXISTS (
+                            SELECT 1 FROM base_data_raw x 
+                                WHERE x.SO_NPS = 10
+                        ))
+                        AND NOT (t.SO_NPS IN (30,40) AND EXISTS (
+                            SELECT 1 FROM base_data_raw x 
+                                WHERE x.SO_NPS = 20
+                        ))
+                        AND NOT (t.SO_NPS = 40 AND EXISTS (
+                            SELECT 1 FROM base_data_raw x 
+                                WHERE x.SO_NPS = 30
+                            ))
+                    )`);
+                    }
+                    else{
+                        queryParts.push(`
+                        WITH base_data AS (
+                            SELECT DISTINCT ${columnsArray.join(', ')}
+                            FROM openOrdersSrv_OpenOrdersAnalytics
+                            WHERE ${where}
                         LIMIT ${limit} OFFSET ${offset})`);
 
+                    }
                 // Line items with sort key
                 queryParts.push(`, 
                     line_items_with_sort AS (
