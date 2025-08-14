@@ -1964,19 +1964,69 @@ class openOrdersSrv extends cds.ApplicationService {
             columnsArray = columnsArray.filter(col => !excludeColumns.includes(col));
             let finalQuery = '';
             if (req.query.SELECT.columns && req.query.SELECT.columns[0].as === '$count') {
+                const where = serviceHelper.convertCQNtoCQL(req.query.SELECT.where, true)
+                const sQuery = `CALL"npsValueExist"(IV_WHERECLAUSE => '${where}',LT_NPS_TAB => ?)`;
+                const npstabs = await db.run(sQuery)
+                const tabs = npstabs.reduce((acc, item) => {
+                            acc[`nps${item.ID}`] = item.FLAG;
+                            return acc;
+                        }, {});
+                let data = JSON.stringify({
+                            "nps10": tabs.nps10,
+                            "nps20": tabs.nps20,
+                            "nps30": tabs.nps30,
+                            "nps40": tabs.nps40,
+                            "nps50": tabs.nps50,
+                            "nps60": tabs.nps60,
+                            "nps70": tabs.nps70,
+                            "nps80": tabs.nps80,
+                            "nps90": tabs.nps90,
+                            "nps95": tabs.nps95,
+                            "nps99": tabs.nps99,
+                            "nps00": tabs.nps0,
+                            "nps05": tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99,
+                            "nps101":tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99 
+                        })
+                        req.res.setHeader('custom', data)
                 return;
             } else {
                 // get pagination values
                 const limit = req.query.SELECT.limit?.rows?.val ?? 500;
                 const offset = req.query.SELECT.limit?.offset?.val ?? 0;
                 let queryParts = [];
+                if (columns.includes('SO_NPS')){
                 queryParts.push(`
-                    WITH base_data AS (
+                    WITH base_data_raw AS (
                         SELECT DISTINCT ${columnsArray.join(', ')}
                         FROM openOrdersSrv_OpenOrdersAnalytics
                         WHERE ${where}
+                        LIMIT ${limit} OFFSET ${offset}),
+                        base_data AS (
+                            SELECT *
+                            FROM base_data_raw t
+                                WHERE NOT (t.SO_NPS IN (20,30,40) AND EXISTS (
+                            SELECT 1 FROM base_data_raw x 
+                                WHERE x.SO_VBELN = t.SO_VBELN AND x.SO_POSNR = t.SO_POSNR AND x.SO_NPS = 10
+                        ))
+                        AND NOT (t.SO_NPS IN (30,40) AND EXISTS (
+                            SELECT 1 FROM base_data_raw x 
+                                WHERE x.SO_VBELN = t.SO_VBELN AND x.SO_POSNR = t.SO_POSNR AND x.SO_NPS = 20
+                        ))
+                        AND NOT (t.SO_NPS = 40 AND EXISTS (
+                            SELECT 1 FROM base_data_raw x 
+                                WHERE x.SO_VBELN = t.SO_VBELN AND x.SO_POSNR = t.SO_POSNR AND x.SO_NPS = 30
+                            ))
+                    )`);
+                    }
+                    else{
+                        queryParts.push(`
+                        WITH base_data AS (
+                            SELECT DISTINCT ${columnsArray.join(', ')}
+                            FROM openOrdersSrv_OpenOrdersAnalytics
+                            WHERE ${where}
                         LIMIT ${limit} OFFSET ${offset})`);
 
+                    }
                 // Line items with sort key
                 queryParts.push(`, 
                     line_items_with_sort AS (
