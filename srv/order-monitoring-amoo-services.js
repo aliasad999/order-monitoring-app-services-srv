@@ -2051,6 +2051,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
                 // Add subtotal levels
                 for (let level = 1; level <= groupbyArray.length; level++) {
+                    
                     const levelGroupBy = groupbyArray.slice(0, level);
                     const levelGroupByWithUnits = [...new Set([...levelGroupBy, ...unitFields])];
                     const levelGroupByStr = levelGroupByWithUnits.join(', ');
@@ -2061,14 +2062,14 @@ class openOrdersSrv extends cds.ApplicationService {
                         SELECT 
                             ${subtotalColumns.join(', ')},
                             TRUE AS "isSubtotal",
-                            MAX(base_sort_key) AS base_sort_key
+                            MAX(base_sort_key)  AS base_sort_key
                         FROM line_items_with_sort
                         GROUP BY ${levelGroupByStr})`);
 
-                    const sortOffset = level * 100;
+                    const sortOffset = ( groupbyArray.length - level ) * 100;
                     unionSelects.push(`
                         SELECT *, 
-                            base_sort_key * 1000 + ${sortOffset} AS final_sort_key
+                            base_sort_key * 1000 + ${sortOffset} + ${level} AS final_sort_key
                             FROM ${cteName}`);
                 }
 
