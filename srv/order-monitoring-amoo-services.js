@@ -1967,8 +1967,11 @@ class openOrdersSrv extends cds.ApplicationService {
                 'SO_MANDT_TEXT', 'SO_FINAL_SO_MANDT_TEXT', 'BL_MANDT_INV_LAST_TEXT',
                 'TM_MANDT_TEXT'
             ];
+            columnsArray = columns.split(',')
+                    .map(c => c.trim())
+                    .filter(Boolean)
+                    .map(col => excludeColumns.includes(col) ? `NULL AS ${col}` : col);
 
-            columnsArray = columnsArray.filter(col => !excludeColumns.includes(col));
             let finalQuery = '';
             if (req.query.SELECT.columns && req.query.SELECT.columns[0].as === '$count') {
                 const where = serviceHelper.convertCQNtoCQL(req.query.SELECT.where, true)
@@ -2055,7 +2058,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     const levelGroupBy = groupbyArray.slice(0, level);
                     const levelGroupByWithUnits = [...new Set([...levelGroupBy, ...unitFields])];
                     const levelGroupByStr = levelGroupByWithUnits.join(', ');
-                    const subtotalColumns = serviceHelper.buildSubtotalColumns(columnsArray, levelGroupBy, aggrMap);
+                    const subtotalColumns = serviceHelper.buildSubtotalColumns(columnsArray, levelGroupBy, aggrMap,excludeColumns);
                     const cteName = `subtotals_level_${level}`;
 
                     queryParts.push(`, ${cteName} AS (
