@@ -1924,20 +1924,27 @@ class openOrdersSrv extends cds.ApplicationService {
             let where = serviceHelper.convertCQNtoCQL(req.query.SELECT.where);
             where = where.replace(/''/g, "'");
             where = `${where}  SO_IGNORED = 0`;
-            //  get selected columns & sorters
+            //  get selected columns & sorters & summation fields
             let columns = req.headers?.selectedcolumns || '';
             let groupby = req.headers?.orderby || '';
+            let summationFields = req.headers.summationfields ||'';
             // Convert to array
             let columnsArray = columns.split(',').map(c => c.trim()).filter(Boolean);
             let groupbyArray = groupby.split(',').map(g => g.trim()).filter(Boolean);
             let groupbySet = new Set(groupbyArray);
             // Aggregated Fields
-            const aggrMap = {
+            let aggrMap = {
                 SO_KWMENG: { sum: `SUM(SO_KWMENG) AS SO_KWMENG`, group: 'SO_VRKME' },
                 SO_KBMENG: { sum: 'SUM(SO_KBMENG) AS SO_KBMENG', group: 'SO_VRKME' },
                 DL_LFIMG:  { sum: 'SUM(DL_LFIMG) AS DL_LFIMG', group: 'DL_VRKME' },
                 SO_NETWR:  { sum: 'SUM(SO_NETWR) AS SO_NETWR', group: 'SO_WAERK' }
             };
+            const keys = Object.keys(aggrMap)
+            keys.forEach(key => {
+                if (!summationFields.includes(key)) {
+                    delete aggrMap[key];
+                }
+            });
             const unitFields = new Set();
             for (const col of columnsArray) {
                 if (aggrMap[col]) 
