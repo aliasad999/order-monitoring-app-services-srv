@@ -922,7 +922,7 @@ class openOrdersSrv extends cds.ApplicationService {
             const createDelivery = await cds.connect.to('createDelivery');
             try {
                 const responseDelivery = await createDelivery.tx(req).send({
-                    method: req.method,
+                    method: req.http.req.method,
                     path: fullURL
                 });
                 return sendDeliveryResponse(req, responseDelivery)
@@ -943,7 +943,7 @@ class openOrdersSrv extends cds.ApplicationService {
             const createDelivery = await cds.connect.to('createDelivery');
             try {
                 const responseDelivery = await createDelivery.tx(req).send({
-                    method: req.method,
+                    method: req.http.req.method,
                     path: fullURL,
                 });
                 return sendDeliveryResponse(req, responseDelivery)
