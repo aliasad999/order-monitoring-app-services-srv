@@ -928,7 +928,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 return sendDeliveryResponse(req, responseDelivery)
 
             } catch (error) {
-                req.error(error.message)
+                req.error(status.status.PRECONDITION_FAILED,error.message);
             }
         })
         this.on("createDeliveryforItem", async (req) => {
@@ -948,7 +948,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 });
                 return sendDeliveryResponse(req, responseDelivery)
             } catch (error) {
-                req.error(error.message);
+                req.error(status.status.PRECONDITION_FAILED,error.message);
             }
         })
         /**
@@ -2186,7 +2186,7 @@ function sendDeliveryResponse(req, responseDelivery) {
     });
     if (error) {
         let message = Array.from(messageSet).join(' ');
-        req.error(message);
+        req.error(status.status.PRECONDITION_FAILED,message);
         return false;
     }
     return true;
