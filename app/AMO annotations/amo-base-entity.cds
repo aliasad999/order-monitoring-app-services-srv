@@ -41,7 +41,7 @@ annotate service.BaseEntity with {
     SO_PRSDT                         @title: '{i18n>SO_PRSDT}'                         @sap.Label: '{i18n>SO_PRSDT}';
     SO_ZZ0S2REVG2                    @title: '{i18n>SO_ZZ0S2REVG2}'                    @sap.Label: '{i18n>SO_ZZ0S2REVG2}';
     SO_ZZDKPPRODB                    @title: '{i18n>SO_ZZDKPPRODB}'                    @sap.Label: '{i18n>SO_ZZDKPPRODB}';
-    DL_VBELN                         @title: '{i18n>DL_VBELN}'                         @sap.Label: '{i18n>DL_VBELN}'            @Common.IsDigitSequence: true;
+    DL_VBELN                         @title: '{i18n>DL_VBELN}'                         @sap.Label: '{i18n>DL_VBELN}';           
     DL_POSNR                         @title: '{i18n>DL_POSNR}'                         @sap.Label: '{i18n>DL_POSNR}'            @Common.IsDigitSequence: true;
     DL_CHARG                         @title: '{i18n>DL_CHARG}'                         @sap.Label: '{i18n>DL_CHARG}';
     DL_LFIMG                         @title: '{i18n>DL_LFIMG}'                         @sap.Label: '{i18n>DL_LFIMG}';
