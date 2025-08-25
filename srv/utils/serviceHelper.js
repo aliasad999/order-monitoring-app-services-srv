@@ -295,10 +295,9 @@ const addOrderIfNeeded = (orderBy, fieldToOrder) => {
         orderBy.push({ref:[fieldToOrder], sort: 'asc'})
     }
 }
-const buildSubtotalColumns = (columnsArray, groupByFields, aggrMap) => {
+const buildSubtotalColumns = (columnsArray, groupByFields, aggrMap, excludeColumns = []) => {
     // Collect all required unit fields based on selected aggregation columns
     const requiredUnitFields = new Set();
-
     for (const col of columnsArray) {
         if (aggrMap[col]) {
             requiredUnitFields.add(aggrMap[col].group);
@@ -306,12 +305,15 @@ const buildSubtotalColumns = (columnsArray, groupByFields, aggrMap) => {
     }
 
     return columnsArray.map(col => {
-        if (aggrMap[col]) {
-            return aggrMap[col].sum; // aggregated field
-        } else if (groupByFields.includes(col) || requiredUnitFields.has(col)) {
-            return `${col}`; // keep group-by or required unit field
+        let baseCol = col.replace(/^NULL AS\s+/i, '');
+        if (aggrMap[baseCol]) {
+            return aggrMap[baseCol].sum; 
+        } else if (groupByFields.includes(baseCol) || requiredUnitFields.has(baseCol)) {
+            return baseCol; 
+        } else if (excludeColumns.includes(baseCol)) {
+            return `NULL AS ${baseCol}`;
         } else {
-            return `NULL AS ${col}`; // null for all other fields
+            return `NULL AS ${baseCol}`;
         }
     });
 };

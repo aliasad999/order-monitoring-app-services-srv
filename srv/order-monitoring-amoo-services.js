@@ -922,13 +922,13 @@ class openOrdersSrv extends cds.ApplicationService {
             const createDelivery = await cds.connect.to('createDelivery');
             try {
                 const responseDelivery = await createDelivery.tx(req).send({
-                    method: req.method,
+                    method: req.http.req.method,
                     path: fullURL
                 });
                 return sendDeliveryResponse(req, responseDelivery)
 
             } catch (error) {
-                req.error(error.message)
+                req.error(status.status.PRECONDITION_FAILED,error.message);
             }
         })
         this.on("createDeliveryforItem", async (req) => {
@@ -943,12 +943,12 @@ class openOrdersSrv extends cds.ApplicationService {
             const createDelivery = await cds.connect.to('createDelivery');
             try {
                 const responseDelivery = await createDelivery.tx(req).send({
-                    method: req.method,
+                    method: req.http.req.method,
                     path: fullURL,
                 });
                 return sendDeliveryResponse(req, responseDelivery)
             } catch (error) {
-                req.error(error.message);
+                req.error(status.status.PRECONDITION_FAILED,error.message);
             }
         })
         /**
@@ -1924,20 +1924,27 @@ class openOrdersSrv extends cds.ApplicationService {
             let where = serviceHelper.convertCQNtoCQL(req.query.SELECT.where);
             where = where.replace(/''/g, "'");
             where = `${where}  SO_IGNORED = 0`;
-            //  get selected columns & sorters
+            //  get selected columns & sorters & summation fields
             let columns = req.headers?.selectedcolumns || '';
             let groupby = req.headers?.orderby || '';
+            let summationFields = req.headers.summationfields ||'';
             // Convert to array
             let columnsArray = columns.split(',').map(c => c.trim()).filter(Boolean);
             let groupbyArray = groupby.split(',').map(g => g.trim()).filter(Boolean);
             let groupbySet = new Set(groupbyArray);
             // Aggregated Fields
-            const aggrMap = {
+            let aggrMap = {
                 SO_KWMENG: { sum: `SUM(SO_KWMENG) AS SO_KWMENG`, group: 'SO_VRKME' },
                 SO_KBMENG: { sum: 'SUM(SO_KBMENG) AS SO_KBMENG', group: 'SO_VRKME' },
                 DL_LFIMG:  { sum: 'SUM(DL_LFIMG) AS DL_LFIMG', group: 'DL_VRKME' },
                 SO_NETWR:  { sum: 'SUM(SO_NETWR) AS SO_NETWR', group: 'SO_WAERK' }
             };
+            const keys = Object.keys(aggrMap)
+            keys.forEach(key => {
+                if (!summationFields.includes(key)) {
+                    delete aggrMap[key];
+                }
+            });
             const unitFields = new Set();
             for (const col of columnsArray) {
                 if (aggrMap[col]) 
@@ -1960,8 +1967,11 @@ class openOrdersSrv extends cds.ApplicationService {
                 'SO_MANDT_TEXT', 'SO_FINAL_SO_MANDT_TEXT', 'BL_MANDT_INV_LAST_TEXT',
                 'TM_MANDT_TEXT'
             ];
+            columnsArray = columns.split(',')
+                    .map(c => c.trim())
+                    .filter(Boolean)
+                    .map(col => excludeColumns.includes(col) ? `NULL AS ${col}` : col);
 
-            columnsArray = columnsArray.filter(col => !excludeColumns.includes(col));
             let finalQuery = '';
             if (req.query.SELECT.columns && req.query.SELECT.columns[0].as === '$count') {
                 const where = serviceHelper.convertCQNtoCQL(req.query.SELECT.where, true)
@@ -2044,24 +2054,25 @@ class openOrdersSrv extends cds.ApplicationService {
 
                 // Add subtotal levels
                 for (let level = 1; level <= groupbyArray.length; level++) {
+                    
                     const levelGroupBy = groupbyArray.slice(0, level);
                     const levelGroupByWithUnits = [...new Set([...levelGroupBy, ...unitFields])];
                     const levelGroupByStr = levelGroupByWithUnits.join(', ');
-                    const subtotalColumns = serviceHelper.buildSubtotalColumns(columnsArray, levelGroupBy, aggrMap);
+                    const subtotalColumns = serviceHelper.buildSubtotalColumns(columnsArray, levelGroupBy, aggrMap,excludeColumns);
                     const cteName = `subtotals_level_${level}`;
 
                     queryParts.push(`, ${cteName} AS (
                         SELECT 
                             ${subtotalColumns.join(', ')},
                             TRUE AS "isSubtotal",
-                            MAX(base_sort_key) AS base_sort_key
+                            MAX(base_sort_key)  AS base_sort_key
                         FROM line_items_with_sort
                         GROUP BY ${levelGroupByStr})`);
 
-                    const sortOffset = level * 100;
+                    const sortOffset = ( groupbyArray.length - level ) * 100;
                     unionSelects.push(`
                         SELECT *, 
-                            base_sort_key * 1000 + ${sortOffset} AS final_sort_key
+                            base_sort_key * 1000 + ${sortOffset} + ${level} AS final_sort_key
                             FROM ${cteName}`);
                 }
 
@@ -2178,7 +2189,7 @@ function sendDeliveryResponse(req, responseDelivery) {
     });
     if (error) {
         let message = Array.from(messageSet).join(' ');
-        req.error(message);
+        req.error(status.status.PRECONDITION_FAILED,message);
         return false;
     }
     return true;
