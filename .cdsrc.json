@@ -171,6 +171,18 @@
                 "destination": "APIM",
                 "path": "/sal/sapapis/erpap/op_api_sales_order_srv_0001/v1"
             }
+        },
+        "S4OrderChangeService": {
+            "kind": "odata-v2",
+            "csrf": {
+                "method": "get",
+                "url": "/it/omg/ocs/order-change-service/v1"
+            },
+            "csrfInBatch": false,
+            "credentials": {
+                "destination": "APIM",
+                "path": "/it/omg/ocs/order-change-service/v1"
+            }
         }
     }
 }
