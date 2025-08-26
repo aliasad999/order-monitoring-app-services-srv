@@ -259,8 +259,8 @@ class openOrdersSrv extends cds.ApplicationService {
             let reqData = JSON.parse(req.data); // parse stringified object
 
             try {
-                const bizagiSrv = await cds.connect.to('S4OrderChangeService');
-                var bizagiCall = await bizagiSrv.tx(req).send({
+                const orderChangeService = await cds.connect.to('S4OrderChangeService');
+                var bizagiCaseCreationCall = await orderChangeService.tx(req).send({
                     method: "POST",
                     path: "/workflowOrderChange",
                     data: reqData
@@ -269,7 +269,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 req.error(413, error)
             }
 
-            return bizagiCall
+            return bizagiCaseCreationCall
         });
 
         this.on("submitOrderChange", async req => {
@@ -292,7 +292,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 // directOrderChange - endpoint
                 // S4OrderChangeService - service
                 const orderChangeSAPSrv = await cds.connect.to('S4OrderChangeService');
-                let lt_finalOrderLines = await orderChangeSAPSrv.tx(req).send({
+                let directSAPChangeCall = await orderChangeSAPSrv.tx(req).send({
                     method: "POST",
                     path: "/directOrderChange",
                     data: postData
