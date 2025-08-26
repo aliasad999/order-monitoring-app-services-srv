@@ -224,13 +224,13 @@ class openOrdersSrv extends cds.ApplicationService {
         // END OF REMOVE DELIVERY BLOCK //
 
         this.on("cancelOrder", async req => {
-            let reqData = JSON.parse(req.data.payload); // parse stringified object
+            let reqData = JSON.parse(req.data); // parse stringified object
 
             try {
-                const CSEUCockpitService = await cds.connect.to('CSEUCockpitService');
-                var cancelOrderCall = await CSEUCockpitService.tx(req).send({
+                const OrderChangeService = await cds.connect.to('S4OrderChangeService');
+                var cancelOrderCall = await OrderChangeService.tx(req).send({
                     method: "POST",
-                    path: "/OrderSet",
+                    path: "/directOrderChange",
                     data: reqData
                 });
             } catch (error) {
@@ -256,7 +256,7 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.on("submitOrderChangeWF", async req => {
-            let reqData = JSON.parse(req.data.payload); // parse stringified object
+            let reqData = JSON.parse(req.data); // parse stringified object
 
             try {
                 const bizagiSrv = await cds.connect.to('S4OrderChangeService');
@@ -275,14 +275,16 @@ class openOrdersSrv extends cds.ApplicationService {
         this.on("submitOrderChange", async req => {
             let reqData = JSON.parse(req.data.payload); // parse stringified object
             let postData = {
-                "SalesOrder": reqData.SalesOrder,
-                "SalesOrderItem": reqData.SalesOrderItem,
-                "Internal": reqData.internal,
-                "RejectionReason": null,
-                "RequestedScheduleLines": {
-                    "Date": reqData.RequestedScheduleLines.Date,
-                    "Quantity": reqData.RequestedScheduleLines.Quantity,
-                    "Unit": reqData.RequestedScheduleLines.SalesUnit
+                payload: {
+                    "SalesOrder": reqData.SalesOrder,
+                    "SalesOrderItem": reqData.SalesOrderItem,
+                    "Internal": reqData.internal,
+                    "RejectionReason": null,
+                    "RequestedScheduleLines": {
+                        "Date": reqData.RequestedScheduleLines.Date,
+                        "Quantity": reqData.RequestedScheduleLines.Quantity,
+                        "Unit": reqData.RequestedScheduleLines.SalesUnit
+                    }
                 }
             };
 
