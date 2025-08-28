@@ -171,6 +171,13 @@
                 "destination": "APIM",
                 "path": "/sal/sapapis/erpap/op_api_sales_order_srv_0001/v1"
             }
+        },
+        "OMServicesMercury": {
+            "kind": "odata-v2",
+            "credentials": {
+                "destination": "APIM",
+                "path": "/it/omg/omc/cb-om-services/v1"
+            }
         }
     }
 }

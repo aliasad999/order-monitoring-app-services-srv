@@ -532,19 +532,21 @@ class openOrdersSrv extends cds.ApplicationService {
                         }
                     }
                     let language = req.locale.toUpperCase();
-                    if (req.headers.so_mandt && req.headers.so_mandt == '300') {
+                    if (req.headers.so_mandt && ( req.headers.so_mandt == '300' || req.headers.so_mandt == '400')) { // AP or Mercury
+                        let OMServices = await cds.connect.to('OMServicesAP'); // AP
+                        if(req.headers.so_mandt == '400'){
+                            OMServices = await cds.connect.to('OMServicesMercury'); // Mercury
+                        }
                         // get a random number for the personal number of the contact to avoid duplicates
                         const getRandomInt = function (min, max) {
                             const minCeiled = Math.ceil(min);
                             const maxFloored = Math.floor(max);
                             return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
                         }
-                        const OmServicesAp = await cds.connect.to('OMServicesAP');
-                        const { APContacts } = cds.entities('openOrdersSrv');
                         const LPadOrderItem = orderItem.replace(/^0+/, "") || "0";
-                        const ltPartners = await OmServicesAp.send({
+                        const ltPartners = await OMServices.send({
                             method: 'GET',
-                            query: SELECT.from(APContacts).where`(SalesOrder = ${saleOrder} and SalesOrderItem = '000000') or (SalesOrder = ${saleOrder} and SalesOrderItem = ${LPadOrderItem})`,
+                            query: SELECT.from('SalesOrderPartner').where`(SalesOrder = ${saleOrder} and SalesOrderItem = '000000') or (SalesOrder = ${saleOrder} and SalesOrderItem = ${LPadOrderItem})`,
                             headers: {
                                 'X-Basf-Sap-Client': process.env.AP_CLIENT
                             }
@@ -564,7 +566,7 @@ class openOrdersSrv extends cds.ApplicationService {
                             lt_contacts.push(CMEntry);
                         })
 
-                    } else {
+                    }else {
                         // Run queries
                         const apiManagementService = await cds.connect.to('ContactsService');
                         lt_contacts = await apiManagementService.tx(req).send({
@@ -603,15 +605,7 @@ class openOrdersSrv extends cds.ApplicationService {
         this.on("READ", "ServicesSet", async (req, next) => {
             let lt_services = [];
             try {
-                // let contactsQuery = SELECT.from('ServicesSet').limit(req.query.SELECT.limit);
-                // if (req.query.SELECT.where) {
-                //     contactsQuery.where(req.query.SELECT.where);
-                // }
-                // if (req.query.SELECT.orderBy) {
-                //     contactsQuery.orderBy(req.query.SELECT.orderBy);
-                // }
                 const apiManagementService = await cds.connect.to('DSLServicesService');
-                // lt_contacts = await apiManagementService.get("/ContactSet?$filter=SapClient eq '100' and SalesDocument eq '0005508482' and OrderItem eq '000010'");
                 lt_services = await apiManagementService.tx(req).send({
                     query: req.query
                 });
