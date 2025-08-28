@@ -534,8 +534,10 @@ class openOrdersSrv extends cds.ApplicationService {
                     let language = req.locale.toUpperCase();
                     if (req.headers.so_mandt && ( req.headers.so_mandt == '300' || req.headers.so_mandt == '400')) { // AP or Mercury
                         let OMServices = await cds.connect.to('OMServicesAP'); // AP
+                        let systemClient = process.env.AP_CLIENT;
                         if(req.headers.so_mandt == '400'){
                             OMServices = await cds.connect.to('OMServicesMercury'); // Mercury
+                            systemClient = '100';
                         }
                         // get a random number for the personal number of the contact to avoid duplicates
                         const getRandomInt = function (min, max) {
@@ -548,7 +550,7 @@ class openOrdersSrv extends cds.ApplicationService {
                             method: 'GET',
                             query: SELECT.from('SalesOrderPartner').where`(SalesOrder = ${saleOrder} and SalesOrderItem = '000000') or (SalesOrder = ${saleOrder} and SalesOrderItem = ${LPadOrderItem})`,
                             headers: {
-                                'X-Basf-Sap-Client': process.env.AP_CLIENT
+                                'X-Basf-Sap-Client': systemClient
                             }
                         });
                         let CMEntry = {}
