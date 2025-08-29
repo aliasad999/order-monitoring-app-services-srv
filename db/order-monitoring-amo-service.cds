@@ -1,5 +1,16 @@
 namespace allorders.db;
 
+
+entity SAPSystems {
+        key mandantKey  : String(3);
+            mandantText : String(20);
+}
+
+entity DCPStatus {
+        key DCPStatusKey  : String(2);
+            DCPStatusText : localized String(50);
+}
+
 @cds.persistence.exists
 entity ![RESULTS] {
 
@@ -300,7 +311,9 @@ entity ![RESULTS] {
         DEV_CONF_DATE                      : String(12);
         EMAIL                              : String(241);
         EMAIL_SEND_DATE_F                  : String(8);
+        EMAIL_SEND_DATE_F_DATE             : Date = EMAIL_SEND_DATE_F;
         EMAIL_SENT_ON                      : String(8);
+        EMAIL_SENT_ON_DATE                 : Date = EMAIL_SENT_ON;
         DPLBG_TM                           : String(8);
         DPLBG_TM_DATE                      : Date = DPLBG_TM;
         ERDAT_TM                           : String(8);
@@ -326,7 +339,7 @@ entity ![RESULTS] {
         CONTRACT_ITEM                      : String(6);
         ZZMHDRZ                            : Decimal(4);
         ZTERM_HEAD_VTEXT_LANG              : String(30);
-        ZTERM_ITEM_VTEXT_LANG              : String(30);  
+        ZTERM_ITEM_VTEXT_LANG              : String(30);
         SEED_COUNT                         : Decimal(31, 14);
         SEEDS_TAGGED_GERM                  : Decimal(31, 14);
         XREF3                              : String(20);
@@ -337,6 +350,14 @@ entity ![RESULTS] {
         VALDT_DATE                         : Date = VALDT;
         MVGR2_BEZEI_LANG                   : String(40);
         DGSTA_DDTEXT_LANG                  : String(60);
+        MFRGR                              : String(8);
+        MFRGR_BEZEI_LANG                   : String(80);
+        TNDR_TRKID                         : String(35);
+        YRDSDV1_IMPORT_CARGO_NO            : String (70);
+        ETA_UPDATED_VISTA                  : String(3);
+        OLD_ETA_VISTA                      : String(10);
+        OLD_ETA_VISTA_DATE                 : Date = OLD_ETA_VISTA;
+
 
 }
 
@@ -393,6 +414,28 @@ entity PARTNER_SETTINGS_DB {
             ACTIVE         : String(1);
             COMMT          : String(50);
 }
+
+@cds.persistence.exists
+entity REGION_SETTINGS {
+        key USER_ID : String(12);
+            REGION  : Integer;
+}
+
+entity AvailableRegions {
+        key Region     : Integer;
+            RegionText : localized String;
+}
+
+@cds.persistence.exists
+entity  ![ST_VISTA_SHIPMENT_ETA_UPDATED]{
+      key  DELIVERY_NUMBER    : String(10);
+      key  SHIPMENT_NUMBER    : String(10);
+           LAST_UPDATE        : Date;
+           ETA_UPDATED        : String(3) ;
+	   CURRENT_ETA        : Date;
+	   OLD_ETA            : Date;
+}
+
 
 entity variants {
             // key id                 : UUID;

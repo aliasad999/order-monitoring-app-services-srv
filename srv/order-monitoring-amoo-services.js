@@ -41,6 +41,7 @@ class openOrdersSrv extends cds.ApplicationService {
         this.before('*', '*', async (req, next) => {
             await cds.run(`SET 'APPLICATION' = 'CAPServices'`);
         })
+
         // GET SAP TEXTS //
         this.on("getSAPTexts", async req => {
             let SAPTextsEntity = [];
@@ -502,101 +503,100 @@ class openOrdersSrv extends cds.ApplicationService {
 
         this.on("READ", "ContactSet", async (req, next) => {
             let lt_contacts = [];
-            try {
-                // let contactsQuery = SELECT.from('ContactSet').limit(req.query.SELECT.limit);
-                // if (req.query.SELECT.where) {
-                //     contactsQuery.where(req.query.SELECT.where);
-                // }
-                // if (req.query.SELECT.orderBy) {
-                //     contactsQuery.orderBy(req.query.SELECT.orderBy);
-                // }
-                // GET Sales Order NUmber and Order Item from WHERE Clause
-                var saleOrder = "";
-                var orderItem = "";
-                var indexOfKey = 1;
-                var iterator = 0;
-                for (const element of req.query.SELECT.where) {
-                    iterator++;
-                    // check if element is the property needed
-                    if (element.ref) {
-                        if (element.ref[0] === 'SalesDocument') {
-                            indexOfKey = iterator;
+            if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
+                try {
+                    // GET Sales Order NUmber and Order Item from WHERE Clause
+                    var saleOrder = "";
+                    var orderItem = "";
+                    var indexOfKey = 1;
+                    var iterator = 0;
+                    for (const element of req.query.SELECT.where) {
+                        iterator++;
+                        // check if element is the property needed
+                        if (element.ref) {
+                            if (element.ref[0] === 'SalesDocument') {
+                                indexOfKey = iterator;
+                            }
+                            if (element.ref[0] === 'OrderItem') {
+                                indexOfKey = iterator;
+                            }
                         }
-                        if (element.ref[0] === 'OrderItem') {
-                            indexOfKey = iterator;
-                        }
-                    }
-                    // get value for selected properties
-                    if (indexOfKey + 2 === iterator) {
-                        if (element.val.length === 6) {
-                            orderItem = element.val;
-                        } else {
-                            saleOrder = element.val;
-                        }
+                        // get value for selected properties
+                        if (indexOfKey + 2 === iterator) {
+                            if (element.val.length === 6) {
+                                orderItem = element.val;
+                            } else {
+                                saleOrder = element.val;
+                            }
 
-                    }
-                }
-                let language = req.locale.toUpperCase();
-                if (req.headers.so_mandt && req.headers.so_mandt == '300') {
-                    const OmServicesAp = await cds.connect.to('OMServicesAP');
-                    const { APContacts } = cds.entities('openOrdersSrv');
-                    const LPadOrderItem = orderItem.replace(/^0+/, "") || "0";
-                    const ltPartners = await OmServicesAp.send({
-                        method: 'GET',
-                        query: SELECT.from(APContacts).where({ SalesOrder: saleOrder, SalesOrderItem: LPadOrderItem }),
-                        headers: {
-                            'X-Basf-Sap-Client': process.env.AP_CLIENT
                         }
+                    }
+                    let language = req.locale.toUpperCase();
+                    if (req.headers.so_mandt && req.headers.so_mandt == '300') {
+                        // get a random number for the personal number of the contact to avoid duplicates
+                        const getRandomInt = function (min, max) {
+                            const minCeiled = Math.ceil(min);
+                            const maxFloored = Math.floor(max);
+                            return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
+                        }
+                        const OmServicesAp = await cds.connect.to('OMServicesAP');
+                        const { APContacts } = cds.entities('openOrdersSrv');
+                        const LPadOrderItem = orderItem.replace(/^0+/, "") || "0";
+                        const ltPartners = await OmServicesAp.send({
+                            method: 'GET',
+                            query: SELECT.from(APContacts).where`(SalesOrder = ${saleOrder} and SalesOrderItem = '000000') or (SalesOrder = ${saleOrder} and SalesOrderItem = ${LPadOrderItem})`,
+                            headers: {
+                                'X-Basf-Sap-Client': process.env.AP_CLIENT
+                            }
+                        });
+                        let CMEntry = {}
+                        ltPartners.forEach((item) => {
+                            CMEntry = {
+                                "SapClient": req.headers.so_mandt,
+                                "PersonalName": item.FullName,
+                                "EmailAddress": item.EmailAddress,
+                                "PhoneNumber": item.PhoneNumber,
+                                "PersonalNumber": getRandomInt(1, 99999999),
+                                "SalesDocument": item.SalesOrder,
+                                "OrderItem": item.SalesOrderItem,
+                                "PartnerFunction": item.PartnerFunction
+                            }
+                            lt_contacts.push(CMEntry);
+                        })
+
+                    } else {
+                        // Run queries
+                        const apiManagementService = await cds.connect.to('ContactsService');
+                        lt_contacts = await apiManagementService.tx(req).send({
+                            query: req.query
+                        });
+                    }
+                    const creditManagerService = await cds.connect.to('CreditManagerService');
+                    let creditMngrQuery = SELECT.from('CreditManagerSet').byKey({ OrderNumber: saleOrder, Language: language });
+                    let creditManager = await creditManagerService.tx(req).send({
+                        query: creditMngrQuery
                     });
-                    // const { APContacts } =  cds.entities('openOrdersSrv');
-                    // const ltPartners = await  OmServicesAp.run(SELECT.from(APContacts).where({SalesOrder: saleOrder, SalesOrderItem: orderItem }));
-                    let CMEntry = {}
-                    ltPartners.forEach((item) => {
-                        CMEntry = {
-                            "SapClient": req.headers.so_mandt,
-                            "PersonalName": item.FullName,
-                            "EmailAddress": item.EmailAddress,
-                            "PhoneNumber": item.PhoneNumber,
+                    if (creditManager && creditManager.NameCreditManager) {
+                        let CMEntry = {
+                            "SapClient": req.headers.so_mandt ?? "100",
+                            "PersonalName": creditManager.NameCreditManager,
+                            "EmailAddress": creditManager.SmtpAddress,
+                            "PhoneNumber": creditManager.TelnrCall,
                             "PersonalNumber": null,
-                            "SalesDocument": item.SalesOrder,
-                            "OrderItem": item.SalesOrderItem,
-                            "PartnerFunction": item.PartnerFunction
+                            "SalesDocument": saleOrder,
+                            "OrderItem": orderItem,
+                            "PartnerFunction": creditManager.PartnerRole
                         }
                         lt_contacts.push(CMEntry);
-                    })
-                    //return lt_contacts;
-
-                } else {
-                    // Run queries
-                    const apiManagementService = await cds.connect.to('ContactsService');
-                    lt_contacts = await apiManagementService.tx(req).send({
-                        query: req.query
-                    });
-                }
-                const creditManagerService = await cds.connect.to('CreditManagerService');
-                let creditMngrQuery = SELECT.from('CreditManagerSet').byKey({ OrderNumber: saleOrder, Language: language });
-                let creditManager = await creditManagerService.tx(req).send({
-                    query: creditMngrQuery
-                });
-                if (creditManager && creditManager.NameCreditManager) {
-                    let CMEntry = {
-                        "SapClient": req.headers.so_mandt ?? "100",
-                        "PersonalName": creditManager.NameCreditManager,
-                        "EmailAddress": creditManager.SmtpAddress,
-                        "PhoneNumber": creditManager.TelnrCall,
-                        "PersonalNumber": null,
-                        "SalesDocument": saleOrder,
-                        "OrderItem": orderItem,
-                        "PartnerFunction": creditManager.PartnerRole
                     }
-                    lt_contacts.push(CMEntry);
+
+                } catch (error) {
+                    // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
+                    req.error(413, error)
                 }
-
-            } catch (error) {
-                // log.error("[order-monitoring-app-services.js] - Remote service to Cobalt failed ! " + JSON.stringify(error));
-                req.error(413, error)
+            } else {
+                lt_contacts.push({ $count: 0 })
             }
-
             return lt_contacts;
         });
 
@@ -922,13 +922,13 @@ class openOrdersSrv extends cds.ApplicationService {
             const createDelivery = await cds.connect.to('createDelivery');
             try {
                 const responseDelivery = await createDelivery.tx(req).send({
-                    method: req.method,
+                    method: req.http.req.method,
                     path: fullURL
                 });
                 return sendDeliveryResponse(req, responseDelivery)
 
             } catch (error) {
-                req.error(error.message)
+                req.error(status.status.PRECONDITION_FAILED,error.message);
             }
         })
         this.on("createDeliveryforItem", async (req) => {
@@ -943,12 +943,12 @@ class openOrdersSrv extends cds.ApplicationService {
             const createDelivery = await cds.connect.to('createDelivery');
             try {
                 const responseDelivery = await createDelivery.tx(req).send({
-                    method: req.method,
+                    method: req.http.req.method,
                     path: fullURL,
                 });
                 return sendDeliveryResponse(req, responseDelivery)
             } catch (error) {
-                req.error(error.message);
+                req.error(status.status.PRECONDITION_FAILED,error.message);
             }
         })
         /**
@@ -1101,7 +1101,9 @@ class openOrdersSrv extends cds.ApplicationService {
                             "nps90": tabs.nps90,
                             "nps95": tabs.nps95,
                             "nps99": tabs.nps99,
-                            "nps00": tabs.nps0
+                            "nps00": tabs.nps0,
+                            "nps05": tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99,
+                            "nps101":tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99 
                         })
                         req.res.setHeader('custom', data)
                         return req.reply({ $count: distinctCount[0].total })
@@ -1838,7 +1840,309 @@ class openOrdersSrv extends cds.ApplicationService {
             }
             return combinedResults;
         })
+        this.before("READ", "OpenOrdersAnalytics", async (req, next) => {
+            // if (req.query.SELECT.where) {
+            // req.query.SELECT.where = serviceHelper.replaceDateInArray(req.subject.ref[0].SELECT.where[0].xpr[0].xpr[0].xpr[0].xpr)
+            if (req.headers?.export === 'true') await cds.run(`SET 'APPLICATION' = 'CAPServicesExport'`);
+            // if (req.user.id !== "anonymous") {
+            //     const { VBAKAuthObjectKeys } = await cds.entities('srvOpenOrders');
+            //     let userID = req.user.id;
+            //     let authSet = await SELECT.from(VBAKAuthObjectKeys).where({ USERID: userID });
+            //     if (authSet.length === 0) {
+            //         req.error(413, 'NO_AUTH_LIST')
+            //     }
 
+            req.query.SELECT.orderBy && req.query.SELECT.orderBy.forEach(order => {
+                this._textKeys.forEach(item => {
+                    if (order.ref.includes(item.key)) {
+                        order.ref = [item.value];
+                    }
+                });
+            });
+            req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
+            req.query.SELECT.distinct = true;
+            let whereClause = serviceHelper.convertCQNtoCQL(req.query.SELECT.where, false)
+            // where clause is initially converted from cqn to cql
+            // where clause is then transformed from cql for date formatting and removing additional inverted commas
+            whereClause = serviceHelper.transformWhereClause(whereClause)
+            // where clause is then transformed from cql for date formatting and removing additional inverted commas
+            // where clause is then inserted back to the query
+            req.query.SELECT.where = cds.parse.xpr(whereClause)
+        });
+
+        this.on("READ", 'OpenOrdersAnalytics', async (req, next) => {
+            const db = cds.tx(req);
+            let currentUser = req.user.id;
+            if (currentUser) {
+                let partnerSettingsQuery = cds.parse.cql(`SELECT from srvOpenOrders_PartnerSettings where BASF_USER = '${currentUser}' and ACTIVE = 'X'`);
+                let partnerSettings = await db.run(partnerSettingsQuery);
+                if (partnerSettings.length !== 0) {
+                    let partnersQuery = [];
+                    for (let settingsEntry of partnerSettings) {
+                        let partnerNumber = settingsEntry.PARTNER_NUMBER;
+                        switch (settingsEntry.PARTNER_ROLE) {
+                            case 'VE':
+                                partnersQuery.push(`SO_VE_PARTNER = '${partnerNumber}'`);
+                                break;
+                            case 'AS':
+                                partnersQuery.push(`SO_AS_PARTNER = '${partnerNumber}'`);
+                                break;
+                            case 'AM':
+                                partnersQuery.push(`SO_AM_PARTNER = '${partnerNumber}'`);
+                                break;
+                            case 'AD':
+                                partnersQuery.push(`SO_AD_PARTNER = '${partnerNumber}'`);
+                                break;
+                            case 'Z5':
+                                partnersQuery.push(`SO_Z5_PARTNER = '${partnerNumber}'`);
+                                break;
+                            case 'SB':
+                                partnersQuery.push(`SO_SB_PARTNER = '${partnerNumber}'`);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    let partnersQueryParsed;
+                    if (partnersQuery.length > 0) {
+                        let queryString = "(" + partnersQuery.join(' or ') + ")";
+                        partnersQueryParsed = cds.parse.expr(queryString);
+                    }
+                    let requestQuery = req.query.SELECT.where || [];
+                    if (partnersQuery.length > 0) {
+                        if (requestQuery.length > 0) {
+                            requestQuery.push('and');
+                        }
+                        requestQuery.push(partnersQueryParsed);
+                    }
+
+                    req.query.SELECT.where = requestQuery
+                }
+            }
+
+            let where = serviceHelper.convertCQNtoCQL(req.query.SELECT.where);
+            where = where.replace(/''/g, "'");
+            where = `${where}  SO_IGNORED = 0`;
+            //  get selected columns & sorters & summation fields
+            let columns = req.headers?.selectedcolumns || '';
+            let groupby = req.headers?.orderby || '';
+            let summationFields = req.headers.summationfields ||'';
+            // Convert to array
+            let columnsArray = columns.split(',').map(c => c.trim()).filter(Boolean);
+            let groupbyArray = groupby.split(',').map(g => g.trim()).filter(Boolean);
+            let groupbySet = new Set(groupbyArray);
+            // Aggregated Fields
+            let aggrMap = {
+                SO_KWMENG: { sum: `SUM(SO_KWMENG) AS SO_KWMENG`, group: 'SO_VRKME' },
+                SO_KBMENG: { sum: 'SUM(SO_KBMENG) AS SO_KBMENG', group: 'SO_VRKME' },
+                DL_LFIMG:  { sum: 'SUM(DL_LFIMG) AS DL_LFIMG', group: 'DL_VRKME' },
+                SO_NETWR:  { sum: 'SUM(SO_NETWR) AS SO_NETWR', group: 'SO_WAERK' }
+            };
+            const keys = Object.keys(aggrMap)
+            keys.forEach(key => {
+                if (!summationFields.includes(key)) {
+                    delete aggrMap[key];
+                }
+            });
+            const unitFields = new Set();
+            for (const col of columnsArray) {
+                if (aggrMap[col]) 
+                    unitFields.add(aggrMap[col].group);
+            }
+            // Add required grouping fields for aggregated columns
+            for (const col of columnsArray) {
+                if (aggrMap[col]) {
+                    groupbySet.add(aggrMap[col].group);
+                }
+            }
+
+            // Convert back to array for final group by
+            const finalGroupByArray = Array.from(groupbySet);
+            const finalGroupBy = finalGroupByArray.join(', ');
+
+            // Filter out NPS, Issue Description and text columns
+            const excludeColumns = [
+                'SO_ISSUE_DESCRIPTION', 'SO_NPS_DESCRIPTION', 'DL_MANDT_TEXT',
+                'SO_MANDT_TEXT', 'SO_FINAL_SO_MANDT_TEXT', 'BL_MANDT_INV_LAST_TEXT',
+                'TM_MANDT_TEXT'
+            ];
+            columnsArray = columns.split(',')
+                    .map(c => c.trim())
+                    .filter(Boolean)
+                    .map(col => excludeColumns.includes(col) ? `NULL AS ${col}` : col);
+
+            let finalQuery = '';
+            if (req.query.SELECT.columns && req.query.SELECT.columns[0].as === '$count') {
+                const where = serviceHelper.convertCQNtoCQL(req.query.SELECT.where, true)
+                const sQuery = `CALL"npsValueExist"(IV_WHERECLAUSE => '${where}',LT_NPS_TAB => ?)`;
+                const npstabs = await db.run(sQuery)
+                const tabs = npstabs.reduce((acc, item) => {
+                            acc[`nps${item.ID}`] = item.FLAG;
+                            return acc;
+                        }, {});
+                let data = JSON.stringify({
+                            "nps10": tabs.nps10,
+                            "nps20": tabs.nps20,
+                            "nps30": tabs.nps30,
+                            "nps40": tabs.nps40,
+                            "nps50": tabs.nps50,
+                            "nps60": tabs.nps60,
+                            "nps70": tabs.nps70,
+                            "nps80": tabs.nps80,
+                            "nps90": tabs.nps90,
+                            "nps95": tabs.nps95,
+                            "nps99": tabs.nps99,
+                            "nps00": tabs.nps0,
+                            "nps05": tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99,
+                            "nps101":tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99 
+                        })
+                        req.res.setHeader('custom', data)
+                return;
+            } else {
+                // get pagination values
+                const limit = req.query.SELECT.limit?.rows?.val ?? 500;
+                const offset = req.query.SELECT.limit?.offset?.val ?? 0;
+                let queryParts = [];
+                if (columns.includes('SO_NPS')){
+                queryParts.push(`
+                    WITH base_data_raw AS (
+                        SELECT DISTINCT ${columnsArray.join(', ')}
+                        FROM openOrdersSrv_OpenOrdersAnalytics
+                        WHERE ${where}
+                        LIMIT ${limit} OFFSET ${offset}),
+                        base_data AS (
+                            SELECT *
+                            FROM base_data_raw t
+                                WHERE NOT (t.SO_NPS IN (20,30,40) AND EXISTS (
+                            SELECT 1 FROM base_data_raw x 
+                                WHERE x.SO_VBELN = t.SO_VBELN AND x.SO_POSNR = t.SO_POSNR AND x.SO_NPS = 10
+                        ))
+                        AND NOT (t.SO_NPS IN (30,40) AND EXISTS (
+                            SELECT 1 FROM base_data_raw x 
+                                WHERE x.SO_VBELN = t.SO_VBELN AND x.SO_POSNR = t.SO_POSNR AND x.SO_NPS = 20
+                        ))
+                        AND NOT (t.SO_NPS = 40 AND EXISTS (
+                            SELECT 1 FROM base_data_raw x 
+                                WHERE x.SO_VBELN = t.SO_VBELN AND x.SO_POSNR = t.SO_POSNR AND x.SO_NPS = 30
+                            ))
+                    )`);
+                    }
+                    else{
+                        queryParts.push(`
+                        WITH base_data AS (
+                            SELECT DISTINCT ${columnsArray.join(', ')}
+                            FROM openOrdersSrv_OpenOrdersAnalytics
+                            WHERE ${where}
+                        LIMIT ${limit} OFFSET ${offset})`);
+
+                    }
+                // Line items with sort key
+                queryParts.push(`, 
+                    line_items_with_sort AS (
+                        SELECT 
+                            *,
+                            FALSE AS "isSubtotal",
+                            ROW_NUMBER() OVER (ORDER BY ${finalGroupBy}) AS base_sort_key
+                        FROM base_data)`);
+
+                // Union queries
+                let unionSelects = [`
+                    SELECT *, 
+                        base_sort_key * 1000 AS final_sort_key
+                    FROM line_items_with_sort`];
+
+                // Add subtotal levels
+                for (let level = 1; level <= groupbyArray.length; level++) {
+                    
+                    const levelGroupBy = groupbyArray.slice(0, level);
+                    const levelGroupByWithUnits = [...new Set([...levelGroupBy, ...unitFields])];
+                    const levelGroupByStr = levelGroupByWithUnits.join(', ');
+                    const subtotalColumns = serviceHelper.buildSubtotalColumns(columnsArray, levelGroupBy, aggrMap,excludeColumns);
+                    const cteName = `subtotals_level_${level}`;
+
+                    queryParts.push(`, ${cteName} AS (
+                        SELECT 
+                            ${subtotalColumns.join(', ')},
+                            TRUE AS "isSubtotal",
+                            MAX(base_sort_key)  AS base_sort_key
+                        FROM line_items_with_sort
+                        GROUP BY ${levelGroupByStr})`);
+
+                    const sortOffset = ( groupbyArray.length - level ) * 100;
+                    unionSelects.push(`
+                        SELECT *, 
+                            base_sort_key * 1000 + ${sortOffset} + ${level} AS final_sort_key
+                            FROM ${cteName}`);
+                }
+
+                const withClause = queryParts.join('');
+                const unionClause = unionSelects.join('\n    UNION ALL');
+
+                finalQuery = `${withClause}
+                    SELECT * FROM (
+                        ${unionClause}
+                    ) AS final_result
+                    ORDER BY final_sort_key
+                    WITH HINT(USE_HEX_PLAN, HEX_INDEX_JOIN)`;
+
+                try {
+                    const result = await cds.run(finalQuery);
+                    return result;
+                } catch (error) {
+                    log.error("[order-monitoring-app-services.js] - subtotal query failed! reason => " + JSON.stringify(error));
+                    req.error(400, 'ERROR_SORT_COL');
+                }
+            }
+
+
+
+        });
+
+        this.after("READ", 'OpenOrdersAnalytics', async (data, req) => {
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
+                return;
+            } else {
+                let sessionID = req.headers['authorization'] || req.headers['x-username'];
+                let query = req.query;
+                query.SELECT.where = req.query.SELECT.where;
+                const queryString = JSON.stringify(query);
+                const queryId = `${sessionID}AMOOQuery`
+                sessionCache.set(queryId, queryString);
+
+                    }
+            data = Array.isArray(data) ? data : [data]
+            let dateProps = serviceHelper.getDateProps()
+            data.forEach((item) => {
+                item.id = uuid.v1()
+                if ('SO_NETWR' in item) // Net Amount
+                    item.SO_NETWR = formatSpecialCurrencies(item.SO_NETWR, item.SO_WAERK, this._SpecialCurrencies);
+                if ('SO_KBETR' in item) // Price Per Unit
+                    item.SO_KBETR = formatSpecialCurrencies(item.SO_KBETR, item.SO_WAERK, this._SpecialCurrencies);
+                if ('SO_NPS' in item && item.SO_NPS) item.SO_NPS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`nps${item.SO_NPS}`)
+                if ('SO_ISSUE' in item && item.SO_ISSUE) item.SO_ISSUE_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`OrderIssue${item.SO_ISSUE}`)
+                let mandtFields = serviceHelper.getMandtFields();
+                // MANDANT TEXTS LOGIC -------------
+                mandtFields.forEach((mandt) => {
+                    const mandtProp = item[mandt];
+                    if (mandtProp) {
+                        let mandtTxtField = mandt + "_TEXT";
+                        item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+                    }
+                })
+                dateProps.forEach((property) => {
+                    const dateString = item[property]
+                    if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
+                        const year = parseInt(dateString.substring(0, 4), 10);
+                        const month = parseInt(dateString.substring(4, 6), 10) - 1;
+                        const day = parseInt(dateString.substring(6, 8), 10);
+                        item[property] = new Date(year, month, day);
+                    } else {
+                        item[property] = null
+                    }
+                });
+            })
+        })
         return super.init();
     }
 }
@@ -1858,6 +2162,7 @@ function checkScope(req, next, scope) {
     return req.user.is(scope) ? true : false;
 
 }
+// Function to build subtotal column expressions
 function parseDate(dateString) {
     const year = parseInt(dateString.substring(0, 4), 10);
     const month = parseInt(dateString.substring(4, 6), 10) - 1; // Months are 0-based
@@ -1884,7 +2189,7 @@ function sendDeliveryResponse(req, responseDelivery) {
     });
     if (error) {
         let message = Array.from(messageSet).join(' ');
-        req.error(message);
+        req.error(status.status.PRECONDITION_FAILED,message);
         return false;
     }
     return true;

@@ -8,7 +8,7 @@ const log = require("cf-nodejs-logging-support");
 const { startOfToday } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies')
 const variantManagement = require('./utils/variantManagement');
-const serviceHelper = require('./utils/serviceHelper')
+const serviceHelper = require('./utils/serviceHelper');
 
 class srvOpenOrders extends cds.ApplicationService {
 
@@ -33,6 +33,16 @@ class srvOpenOrders extends cds.ApplicationService {
         }
         this.before('*', '*', async (req, next) => {
             await cds.run(`SET 'APPLICATION' = 'CAPServices'`);
+        })
+
+        this.on("getUserRegionAssigned", async req => {
+            const { RegionSettings } = await cds.entities('srvOpenOrders');
+            let region = await SELECT.from(RegionSettings).byKey({ USER_ID: req.user.id });
+            if(!region){
+                return 999
+            }else{
+                return region.REGION;
+            }
         })
 
         this.on("getVBAKAuthObjKeys", async req => {
@@ -647,6 +657,12 @@ class srvOpenOrders extends cds.ApplicationService {
             }
 
             return lt_changeDocs;
+        });
+
+        this.on("CREATE", "RegionSettings", async (req) => {
+            const { RegionSettings } = await cds.entities('srvOpenOrders');
+            req.data.USER_ID = req.user.id;
+            await UPSERT.into(RegionSettings).entries([req.data]);
         });
 
         return super.init();

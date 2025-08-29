@@ -9,9 +9,23 @@ using {LORDOdataOrderService as LORDOdataOrderService} from './external/LORDOdat
 // using { ATPService as ATPService } from './external/ATPService';
 using {CSEUCockpitService as CSEUCockpitService} from './external/CSEUCockpitService';
 using {OMServicesAP as OMServicesAP} from './external/OMServicesAP';
+using allorders.db as amo_service from '../db/order-monitoring-amo-service';
 
 service openOrdersSrv {
+    @readonly
+    entity SAPSystems               as projection on amo_service.SAPSystems;
+
+    @readonly
+    entity DCPStatus                as projection on amo_service.DCPStatus;
+
+    @readonly
+    entity nextProcessSteps         as projection on db_app.nextProcessSteps;
+
+    @readonly
+    entity issues                   as projection on db_app.issues;
+
     entity currencies               as projection on db_app.currency;
+
 
     entity rootEntity               as
         select from db_app.OPENORDERSLIST {
@@ -66,15 +80,37 @@ service openOrdersSrv {
                     CO_PARTNER_ITM, CO_PARTNER_HEAD
                 )                                           as SO_CO_PARTNER                   : String(10),
                 IFNULL(
-                    NULLIF(TRIM(COALESCE(CO_PARTNER_NAME1_ITM, '') || ' ' || COALESCE(CO_PARTNER_NAME2_ITM, '')), ''),
-                    NULLIF(TRIM(COALESCE(CO_PARTNER_NAME1_HEAD, '') || ' ' || COALESCE(CO_PARTNER_NAME2_HEAD, '')), '')
+                    NULLIF(
+                        TRIM(COALESCE(
+                            CO_PARTNER_NAME1_ITM, ''
+                        ) || ' ' || COALESCE(
+                            CO_PARTNER_NAME2_ITM, ''
+                        )), ''
+                    ), NULLIF(
+                        TRIM(COALESCE(
+                            CO_PARTNER_NAME1_HEAD, ''
+                        ) || ' ' || COALESCE(
+                            CO_PARTNER_NAME2_HEAD, ''
+                        )), ''
+                    )
                 )                                           as SO_CO_PARTNER_NAME              : String(80),
                 IFNULL(
                     NY_PARTNER_ITM, NY_PARTNER_HEAD
                 )                                           as SO_NY_PARTNER                   : String(10),
                 IFNULL(
-                    NULLIF(TRIM(COALESCE(NY_PARTNER_NAME1_ITM, '') || ' ' || COALESCE(NY_PARTNER_NAME2_ITM, '')), ''), 
-                    NULLIF(TRIM(COALESCE(NY_PARTNER_NAME1_HEAD, '') || ' ' || COALESCE(NY_PARTNER_NAME2_HEAD, '')), '')
+                    NULLIF(
+                        TRIM(COALESCE(
+                            NY_PARTNER_NAME1_ITM, ''
+                        ) || ' ' || COALESCE(
+                            NY_PARTNER_NAME2_ITM, ''
+                        )), ''
+                    ), NULLIF(
+                        TRIM(COALESCE(
+                            NY_PARTNER_NAME1_HEAD, ''
+                        ) || ' ' || COALESCE(
+                            NY_PARTNER_NAME2_HEAD, ''
+                        )), ''
+                    )
                 )                                           as SO_NY_PARTNER_NAME              : String(80),
                 IFNULL(
                     AS_PARTNER_ITM, AS_PARTNER_HEAD
@@ -274,8 +310,8 @@ service openOrdersSrv {
                 virtual 0                                   as criticalityDueDate              : Integer,
                 IGNORED                                     as SO_IGNORED,
 
-                @UI.HiddenFilter
-                ETA_UPDATED                                 as TM_SHIPMENT_ETA_UPDATED,
+                // @UI.HiddenFilter
+                // ETA_UPDATED                                 as TM_SHIPMENT_ETA_UPDATED,
                 BL_VBELN_INV_FIRST                          as BL_VBELN_INV_FIRST,
                 BL_VBELN_INV_LAST                           as BL_VBELN_INV_LAST,
                 case
@@ -305,8 +341,8 @@ service openOrdersSrv {
                 REASON_CODE_05_LANG                         as SO_REASON_CODE_05_LANG,
                 DEV_CONF_DATE                               as SO_DEV_CONF_DATE,
                 EMAIL                                       as SO_EMAIL,
-                EMAIL_SEND_DATE_F                           as SO_EMAIL_SEND_DATE_F,
-                EMAIL_SENT_ON                               as SO_EMAIL_SENT_ON,
+                EMAIL_SEND_DATE_F_DATE                      as SO_EMAIL_SEND_DATE_F,
+                EMAIL_SENT_ON_DATE                          as SO_EMAIL_SENT_ON,
                 MDB                                         as SO_MDB,
                 MDB_TEXT                                    as SO_MDB_TEXT,
                 ERDAT_DEL_DATE                              as DL_ERDAT,
@@ -369,8 +405,19 @@ service openOrdersSrv {
                 )                                           as SO_TO_PARTNER                   : String(10),
 
                 IFNULL(
-                    NULLIF(TRIM(COALESCE(TO_PARTNER_NAME1_ITM, '') || ' ' || COALESCE(TO_PARTNER_NAME2_ITM, '')), ''),
-                    NULLIF(TRIM(COALESCE(TO_PARTNER_NAME1_HEAD, '') || ' ' || COALESCE(TO_PARTNER_NAME2_HEAD, '')), '')
+                    NULLIF(
+                        TRIM(COALESCE(
+                            TO_PARTNER_NAME1_ITM, ''
+                        ) || ' ' || COALESCE(
+                            TO_PARTNER_NAME2_ITM, ''
+                        )), ''
+                    ), NULLIF(
+                        TRIM(COALESCE(
+                            TO_PARTNER_NAME1_HEAD, ''
+                        ) || ' ' || COALESCE(
+                            TO_PARTNER_NAME2_HEAD, ''
+                        )), ''
+                    )
                 )                                           as SO_TO_PARTNER_NAME              : String(80),
 
                 @UI.Hidden: true
@@ -404,16 +451,23 @@ service openOrdersSrv {
                 ZZMHDRZ                                     as SO_ZZMHDRZ,
                 IFNULL(
                     ZTERM_ITEM_VTEXT_LANG, ZTERM_HEAD_VTEXT_LANG
-                )                                           as SO_ZTERM_VTEXT_LANG                   : String(30),   
-                SEED_COUNT                         as DL_SEED_COUNT,
-                SEEDS_TAGGED_GERM                  as DL_SEEDS_TAGGED_GERM,
+                )                                           as SO_ZTERM_VTEXT_LANG             : String(30),
+                SEED_COUNT                                  as DL_SEED_COUNT,
+                SEEDS_TAGGED_GERM                           as DL_SEEDS_TAGGED_GERM,
                 XREF3                                       as BL_XREF3,
                 ABLAD                                       as SO_ABLAD,
                 DGSTA                                       as SO_DGSTA,
                 MVGR2                                       as SO_MVGR2,
                 VALDT_DATE                                  as SO_VALDT,
                 MVGR2_BEZEI_LANG                            as SO_MVGR2_BEZEI_LANG,
-                DGSTA_DDTEXT_LANG                           as SO_DGSTA_DDTEXT_LANG
+                DGSTA_DDTEXT_LANG                           as SO_DGSTA_DDTEXT_LANG,
+                MFRGR                                       as SO_MFRGR,          
+                MFRGR_BEZEI_LANG                            as SO_MFRGR_BEZEI_LANG,
+                TNDR_TRKID                                  as TM_TNDR_TRKID,
+                YRDSDV1_IMPORT_CARGO_NO                     as SO_YRDSDV1_IMPORT_CARGO_NO,
+                @UI.HiddenFilter
+                ETA_UPDATED_VISTA                           as TM_ETA_UPDATED_VISTA,
+                OLD_ETA_VISTA_DATE                          as TM_OLD_ETA_VISTA_DATE,
         }
 
     entity baseEntity               as
@@ -573,5 +627,11 @@ service openOrdersSrv {
     entity OCValueHelps             as projection on baseOrderCreation;
 
     entity APContacts               as projection on OMServicesAP.SalesOrderPartner;
-
+    entity VhOpenOrdersAnalytics    as projection on OpenOrdersAnalytics;
+    @cds.query.limit.max: 10000
+    entity OpenOrdersAnalytics      as
+        select from allIssues {
+            virtual false as isSubtotal :Boolean,
+            *
+        }
 };

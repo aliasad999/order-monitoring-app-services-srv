@@ -94,5 +94,17 @@
       "object": "otc.csc.db.base.tables::ST_APAC_DELAY_REASON_ENTRY",
       "schema.configure": "otc-csc-hdi/schema"
     }
+  },
+  "ALLORDERS_DB_ST_VISTA_SHIPMENT_ETA_UPDATED": {
+    "target": {
+      "object": "otc.csc.db.base.tables::ST_VISTA_SHIPMENT_ETA_UPDATED",
+      "schema.configure": "otc-csc-hdi/schema"
+    }
+  },
+  "ALLORDERS_DB_REGION_SETTINGS": {
+    "target": {
+      "object": "otc.csc.db.base.tables::USER_REGION",
+      "schema.configure": "otc-csc-hdi/schema"
+    }
   }
 }
