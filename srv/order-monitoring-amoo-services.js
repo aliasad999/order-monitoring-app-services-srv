@@ -981,17 +981,49 @@ class openOrdersSrv extends cds.ApplicationService {
                 });
             });
             req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
-            req.query.SELECT.localized = false;
+            req.query.SELECT.localized = false; 
             req.query.SELECT.distinct = true;
-            // where clause is initially converted from cqn to cql
-            let whereClause = serviceHelper.convertCQNtoCQL(req.query.SELECT.where, false)
-            // where clause is initially converted from cqn to cql
-            // where clause is then transformed from cql for date formatting and removing additional inverted commas
-            whereClause = serviceHelper.transformWhereClause(whereClause)
-            // where clause is then transformed from cql for date formatting and removing additional inverted commas
-            // where clause is then inserted back to the query
-            req.query.SELECT.where = cds.parse.xpr(whereClause)
+            // // where clause is initially converted from cqn to cql
+            // let whereClause = serviceHelper.convertCQNtoCQL(req.query.SELECT.where, false)
+            // // where clause is initially converted from cqn to cql
+            // // where clause is then transformed from cql for date formatting and removing additional inverted commas
+            // whereClause = serviceHelper.transformWhereClause(whereClause)
+            // // where clause is then transformed from cql for date formatting and removing additional inverted commas
+            // // where clause is then inserted back to the query
+            // req.query.SELECT.where = cds.parse.xpr(whereClause)
+            transformDateFilters(req.query.SELECT.where);
         });
+
+        function transformDateFilters(where) {
+        if (Array.isArray(where)) {
+            where.forEach(condition => {
+            if (typeof condition === 'object') {
+                transformDateFilters(condition);
+            }
+            });
+        } else if (where && typeof where === 'object') {
+            Object.keys(where).forEach(key => {
+            if (where[key] && /^\d{4}-\d{2}-\d{2}$/.test(where[key])) {
+                // Transform ISO date to YYYYMMDD format
+                where[key] = where[key].replace(/-/g, '');
+            } else if (typeof where[key] === 'object') {
+                transformDateFilters(where[key]);
+            }
+            });
+        }
+        }
+
+        function changeIgnored(requestQuery, bChangeIgnored){
+            for (let i = requestQuery.length - 1; i >= 0; i--) {
+                if (requestQuery[i].ref && requestQuery[i].ref[0] === 'SO_NPS') {
+                    requestQuery.splice(i, 4);
+                }
+                if(requestQuery[i].ref && requestQuery[i].ref[0] === 'SO_IGNORED' && bChangeIgnored){
+                    requestQuery[i + 2].val = 1;
+                }
+            }
+            return requestQuery;
+        }
 
         this.on("READ", ["allIssues", "allIssuesDetails"], async (req, next) => {
             // OTC-24554 Partner Settings Functionality
@@ -1063,14 +1095,40 @@ class openOrdersSrv extends cds.ApplicationService {
             // End of Code OTC-24554
 
             if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols) {
+                // return req.reply({ $count: 0 })
                 if (req.target.name === 'openOrdersSrv.allIssues') {
                     let nps10, nps20, nps30, nps40, nps50, nps60, nps70, nps80, nps90, nps95, nps99, nps00;
                     let tabs = {}
                     try {
                         const db = cds.tx(req);
-                        const where = serviceHelper.convertCQNtoCQL(req.query.SELECT.where, true)
-                        const sQuery = `CALL"npsValueExist"(IV_WHERECLAUSE => '${where}',LT_NPS_TAB => ?)`;
-                        const npstabs = await db.run(sQuery)
+                        // const where = serviceHelper.convertCQNtoCQL(req.query.SELECT.where, true)
+                        let whereClause1 = structuredClone(req.query.SELECT.where);
+                        whereClause1 = changeIgnored(whereClause1);
+                        const ignored0Query = SELECT.distinct
+                                .from('openOrdersSrv.allIssues')
+                                .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN')
+                                .columns([
+                                    { ref: ['so_nps'], as: 'ID' },
+                                    { val: true, as: 'FLAG' }
+                                ])
+                                .where(whereClause1);
+                        let whereClause2 = structuredClone(req.query.SELECT.where);
+                        whereClause2 = changeIgnored(whereClause2, true);
+                        const ignored1Query = SELECT
+                                .from('openOrdersSrv.allIssues')
+                                .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN')
+                                .columns([
+                                    { val: '00', as: 'ID' },
+                                    { val: true, as: 'FLAG' }
+                                ])
+                                .where(whereClause2);
+                        const [result1, result2] = await Promise.all([
+                            db.run(ignored0Query),
+                            db.run(ignored1Query)
+                        ]);
+                        const npstabs = [...result1, ...result2];
+                        // const sQuery = `CALL"npsValueExist"(IV_WHERECLAUSE => '${where}',LT_NPS_TAB => ?)`;
+                        // const npstabs = await db.run(sQuery)
                         tabs = npstabs.reduce((acc, item) => {
                             acc[`nps${item.ID}`] = item.FLAG;
                             return acc;
