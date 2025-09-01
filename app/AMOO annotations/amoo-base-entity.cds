@@ -101,7 +101,7 @@ annotate service.baseEntity with {
     SO_F_VSBED                       @title: '{i18n>SO_F_VSBED}'                       @sap.Label: '{i18n>SO_F_VSBED}';
     SO_F_VSBED_VTEXT                 @title: '{i18n>SO_F_VSBED_VTEXT}'                 @sap.Label: '{i18n>SO_F_VSBED_VTEXT}';
     LAST_NOTE                        @title: '{i18n>LAST_NOTE}'                        @sap.Label: '{i18n>LAST_NOTE}';
-    DL_VBELN                         @title: '{i18n>DL_VBELN}'                         @sap.Label: '{i18n>DL_VBELN}'              @Common.IsDigitSequence: true;
+    DL_VBELN                         @title: '{i18n>DL_VBELN}'                         @sap.Label: '{i18n>DL_VBELN}';             
     DL_POSNR                         @title: '{i18n>DL_POSNR}'                         @sap.Label: '{i18n>DL_POSNR}'              @Common.IsDigitSequence: true;
     DL_CHARG                         @title: '{i18n>DL_CHARG}'                         @sap.Label: '{i18n>DL_CHARG}';
     DL_LFDAT                         @title: '{i18n>DL_LFDAT}'                         @sap.Label: '{i18n>DL_LFDAT}'              @sap.filter.restriction: 'interval';
