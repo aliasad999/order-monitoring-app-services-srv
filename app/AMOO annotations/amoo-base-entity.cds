@@ -147,7 +147,7 @@ annotate service.baseEntity with {
     SO_ISSUE_LOCATION                @title: '{i18n>SO_ISSUE_LOCATION}'                @sap.Label: '{i18n>SO_ISSUE_LOCATION}';
     SO_ISSUE_LOCATION_ITEM           @title: '{i18n>SO_ISSUE_LOCATION_ITEM}'           @sap.Label: '{i18n>SO_ISSUE_LOCATION_ITEM}';
     DL_ISSUE_ROOT                    @title: '{i18n>DL_ISSUE_ROOT}'                    @sap.Label: '{i18n>DL_ISSUE_ROOT}';
-    DL_ISSUE_ROOT_ITEM               @title: '{i18n>DL_ISSUE_ROOT_ITEM}'               @sap.Label: '{i18n>DL_ISSUE_ROOT_ITEM}';
+    DL_ISSUE_ROOT_ITEM               @title: '{i18n>DL_ISSUE_ROOT_ITEM}'               @sap.Label: '{i18n>DL_ISSUE_ROOT_ITEM}'    @Common.IsDigitSequence: true;
     criticalityDueDate               @title: '{i18n>dueDateCriticality}'               @sap.Label: '{i18n>dueDateCriticality}';
     // TM_SHIPMENT_ETA_UPDATED          @title: '{i18n>TM_SHIPMENT_ETA_UPDATED}'          @sap.Label: '{i18n>TM_SHIPMENT_ETA_UPDATED}';
     BL_VBELN_INV_FIRST               @title: '{i18n>BL_VBELN_INV_FIRST}'               @sap.Label: '{i18n>BL_VBELN_INV_FIRST}'    @Common.IsDigitSequence: true;
