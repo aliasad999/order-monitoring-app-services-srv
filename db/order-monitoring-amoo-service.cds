@@ -373,6 +373,8 @@ entity ![OPENORDERSLIST] {
         ETA_UPDATED_VISTA                  : String(3);
         OLD_ETA_VISTA                      : String(10);
         OLD_ETA_VISTA_DATE                 : Date = OLD_ETA_VISTA;
+        ISSUE_DELIVERY_ROOT                : String(10);
+        ISSUE_DELIVERY_ROOT_ITEM           : String(6);
 
 }
 
