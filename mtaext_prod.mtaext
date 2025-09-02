@@ -10,8 +10,8 @@ modules:
       SUBACCOUNT: PROD
       OC_TAB_STATUS: ACTIVE
     parameters:
-      memory: 8GB
-      disk-quota: 8GB
+      memory: 12GB
+      disk-quota: 12GB
       instances: 2
       OPTIMIZE_MEMORY: true
     requires:
