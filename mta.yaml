@@ -29,6 +29,7 @@ modules:
       SAP_CALM_DCI_LOG_LEVEL: info
       SAP_CALM_FESR_LOG_LEVEL: info
       AP_CLIENT: 100
+      MERCURY_CLIENT: 100
       SUBACCOUNT: DEV
       OC_TAB_STATUS: ACTIVE
       NODE_ARGS: -r @sap/xotel-agent-ext-js/dist/common/tracer    
