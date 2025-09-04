@@ -1555,3 +1555,38 @@ annotate service.Results with {
         ]
     }
 };
+
+
+annotate service.Results with {
+    SO_AKB_FLAG
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_AKB_FLAG}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_AKB_FLAG,
+            ValueListProperty: 'SO_AKB_FLAG'
+        }
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_MTVFP
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_MTVFP}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_MTVFP,
+            ValueListProperty: 'SO_MTVFP'
+        }
+        ]
+    }
+};

@@ -279,6 +279,8 @@ annotate service.baseEntity with {
     TM_TNDR_TRKID                    @title: '{i18n>TM_TNDR_TRKID}'                    @sap.Label: '{i18n>TM_TNDR_TRKID}';
     SO_YRDSDV1_IMPORT_CARGO_NO       @title: '{i18n>SO_YRDSDV1_IMPORT_CARGO_NO}'       @sap.Label: '{i18n>SO_YRDSDV1_IMPORT_CARGO_NO}';
     TM_ETA_UPDATED_VISTA             @title: '{i18n>TM_ETA_UPDATED_VISTA}'             @sap.Label: '{i18n>TM_ETA_UPDATED_VISTA}';
-    
+    SO_AKB_FLAG                      @title: '{i18n>SO_AKB_FLAG}'                      @sap.Label: '{i18n>SO_AKB_FLAG}';
+    SO_ABRDT                         @title: '{i18n>SO_ABRDT}'                         @sap.Label: '{i18n>SO_ABRDT}';
+    SO_MTVFP                         @title: '{i18n>SO_MTVFP}'                         @sap.Label: '{i18n>SO_MTVFP}';
 
 };
