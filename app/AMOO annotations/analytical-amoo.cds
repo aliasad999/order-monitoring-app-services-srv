@@ -154,7 +154,7 @@ annotate service.OpenOrdersAnalytics with {
     TM_TDLNR_NAME1                  @UI.Hidden;
     TM_TRACKING_ID_COMP             @UI.Hidden;
     TM_TRACKING_ID_ELEM             @UI.Hidden;
-    TM_SHIPMENT_ALERT               @UI.Hidden;
+    // TM_SHIPMENT_ALERT               @UI.Hidden;
     // TM_SHIPMENT_CURRENT_STATUS      @UI.Hidden;
     SO_DCP_ITEM_STATUS              @UI.Hidden;
     SO_DCP_ITEM_STATUS_DESCRIPTION  @UI.Hidden;

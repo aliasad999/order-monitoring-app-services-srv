@@ -92,7 +92,7 @@ annotate service.BaseEntity with {
     SO_F_ZZ0S2MATUG                  @title: '{i18n>SO_F_ZZ0S2MATUG}'                  @sap.Label: '{i18n>SO_F_ZZ0S2MATUG}';
     DL_WADAT                         @title: '{i18n>DL_WADAT}'                         @sap.Label: '{i18n>DL_WADAT}';
     DL_WADAT_IST                     @title: '{i18n>DL_WADAT_IST}'                     @sap.Label: '{i18n>DL_WADAT_IST}';
-    TM_SHIPMENT_ALERT                @title: '{i18n>TM_SHIPMENT_ALERT}'                @sap.Label: '{i18n>TM_SHIPMENT_ALERT}';
+    // TM_SHIPMENT_ALERT                @title: '{i18n>TM_SHIPMENT_ALERT}'                @sap.Label: '{i18n>TM_SHIPMENT_ALERT}';
     SO_F_WERKS                       @title: '{i18n>SO_F_WERKS}'                       @sap.Label: '{i18n>SO_F_WERKS}';
     SO_F_AUFNR                       @title: '{i18n>SO_F_AUFNR}'                       @sap.Label: '{i18n>SO_F_AUFNR}';
     SO_F_DGLTP                       @title: '{i18n>SO_F_DGLTP}'                       @sap.Label: '{i18n>SO_F_DGLTP}';

@@ -135,7 +135,7 @@ annotate service.baseEntity with {
     TM_TRACKING_ID_ELEM              @title: '{i18n>TM_TRACKING_ID_ELEM}'              @sap.Label: '{i18n>TM_TRACKING_ID_ELEM}';
     TM_STTRG                         @title: '{i18n>TM_STTRG}'                         @sap.Label: '{i18n>TM_STTRG}';
     TM_STTRG_DDTEXT                  @title: '{i18n>TM_STTRG_DDTEXT}'                  @sap.Label: '{i18n>TM_STTRG_DDTEXT}';
-    TM_SHIPMENT_ALERT                @title: '{i18n>TM_SHIPMENT_ALERT}'                @sap.Label: '{i18n>TM_SHIPMENT_ALERT}';
+    // TM_SHIPMENT_ALERT                @title: '{i18n>TM_SHIPMENT_ALERT}'                @sap.Label: '{i18n>TM_SHIPMENT_ALERT}';
     TM_SHIPMENT_CURRENT_STATUS       @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'       @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
     SO_NPS                           @title: '{i18n>SO_NPS}'                           @sap.Label: '{i18n>SO_NPS}';
     SO_NPS_DESCRIPTION               @title: '{i18n>SO_NPS}'                           @sap.Label: '{i18n>SO_NPS}';
