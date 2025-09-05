@@ -173,7 +173,7 @@
             }
         },
         "OMServicesMercury": {
-            "kind": "odata-v2",
+            "kind": "odata-v4",
             "credentials": {
                 "destination": "APIM",
                 "path": "/it/omg/omc/cb-om-services/v1"
