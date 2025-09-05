@@ -118,7 +118,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     globalError.push({ user: 'noAPUser', error: error });
                     // Do not proceed to the second call
                 }
-                
+                if (process.env.SUBACCOUNT !== 'PROD'){
                 // Mercury Auth call
                 try {
                     const service = await cds.connect.to('OMServicesMercury');
@@ -149,6 +149,7 @@ class srvOpenOrders extends cds.ApplicationService {
                 } catch (error) {
                     globalError.push({ user: 'noMercuryUser', error: error });
                     // Do not proceed to the second call
+                }
                 }
                 // Mercury Auth call
                 await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
