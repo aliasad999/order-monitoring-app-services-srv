@@ -161,6 +161,8 @@ annotate service.OpenOrdersAnalytics with {
     SO_DUE_DATE                     @UI.Hidden;
     SO_ISSUE_LOCATION               @UI.Hidden;
     SO_ISSUE_LOCATION_ITEM          @UI.Hidden;
+    DL_ISSUE_ROOT                   @UI.Hidden;
+    DL_ISSUE_ROOT_ITEM              @UI.Hidden;
     criticalityDueDate              @UI.Hidden;
     BL_VBELN_INV_FIRST              @UI.Hidden;
     BL_POSNR_INV_FIRST              @UI.Hidden;

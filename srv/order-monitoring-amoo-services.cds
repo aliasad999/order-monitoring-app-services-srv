@@ -468,6 +468,9 @@ service openOrdersSrv {
                 @UI.HiddenFilter
                 ETA_UPDATED_VISTA                           as TM_ETA_UPDATED_VISTA,
                 OLD_ETA_VISTA_DATE                          as TM_OLD_ETA_VISTA_DATE,
+
+                ISSUE_DELIVERY_ROOT                         as DL_ISSUE_ROOT,
+                ISSUE_DELIVERY_ROOT_ITEM                    as DL_ISSUE_ROOT_ITEM,
                 AKB_FLAG                                    as SO_AKB_FLAG,
                 ABRDT_DATE                                  as SO_ABRDT,
                 MTVFP                                       as SO_MTVFP,

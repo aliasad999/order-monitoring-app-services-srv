@@ -1,45 +1,6 @@
 {
   "namespace": "allorders.db",
   "definitions": {},
-  "extensions": [
-    {
-      "annotate": "openOrdersSrv.Results",
-      "elements": {
-        "SO_AKB_FLAG": {
-          "@Common.ValueList.$Type": "Common.ValueListType",
-          "@Common.ValueList.Label": "{@i18n>SO_AKB_FLAG}",
-          "@Common.ValueList.CollectionPath": "valueHelps",
-          "@Common.ValueList.DistinctValuesSupported": true,
-          "@Common.ValueList.SearchSupported": true,
-          "@Common.ValueList.Parameters": [
-            {
-              "$Type": "Common.ValueListParameterInOut",
-              "LocalDataProperty": {
-                "=": "SO_AKB_FLAG"
-              },
-              "ValueListProperty": "SO_AKB_FLAG"
-            }
-          ]
-        },
-        "SO_MTVFP": {
-          "@Common.ValueList.$Type": "Common.ValueListType",
-          "@Common.ValueList.Label": "{@i18n>SO_MTVFP}",
-          "@Common.ValueList.CollectionPath": "valueHelps",
-          "@Common.ValueList.DistinctValuesSupported": true,
-          "@Common.ValueList.SearchSupported": true,
-          "@Common.ValueList.Parameters": [
-            {
-              "$Type": "Common.ValueListParameterInOut",
-              "LocalDataProperty": {
-                "=": "SO_MTVFP"
-              },
-              "ValueListProperty": "SO_MTVFP"
-            }
-          ]
-        }
-      }
-    }
-  ],
   "meta": {
     "creator": "CDS Compiler v5.9.0",
     "flavor": "inferred",

@@ -13,6 +13,7 @@ modules:
       memory: 8GB
       disk-quota: 8GB
       instances: 2
+      OPTIMIZE_MEMORY: true
     requires:
       - name: order-monitoring-autoscaler
         parameters:
