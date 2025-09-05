@@ -282,5 +282,8 @@ annotate service.OpenOrdersAnalytics with {
     TM_TNDR_TRKID                   @UI.Hidden;     
     TM_OLD_ETA_VISTA_DATE           @UI.Hidden;
     TM_ETA_UPDATED_VISTA            @UI.Hidden;
+    SO_AKB_FLAG                     @UI.Hidden;
+    SO_ABRDT                        @UI.Hidden;
+    SO_MTVFP                        @UI.Hidden;
 
 };

@@ -253,5 +253,7 @@ annotate service.BaseEntity with {
     SO_MFRGR_BEZEI_LANG              @title: '{i18n>SO_MFRGR_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MFRGR_BEZEI_LANG}';
     TM_TNDR_TRKID                    @title: '{i18n>TM_TNDR_TRKID}'                    @sap.Label: '{i18n>TM_TNDR_TRKID}';
     SO_YRDSDV1_IMPORT_CARGO_NO       @title: '{i18n>SO_YRDSDV1_IMPORT_CARGO_NO}'       @sap.Label: '{i18n>SO_YRDSDV1_IMPORT_CARGO_NO}';
-    
+    SO_AKB_FLAG                      @title: '{i18n>SO_AKB_FLAG}'                      @sap.Label: '{i18n>SO_AKB_FLAG}';
+    SO_ABRDT                         @title: '{i18n>SO_ABRDT}'                         @sap.Label: '{i18n>SO_ABRDT}';
+    SO_MTVFP                         @title: '{i18n>SO_MTVFP}'                         @sap.Label: '{i18n>SO_MTVFP}';
 }

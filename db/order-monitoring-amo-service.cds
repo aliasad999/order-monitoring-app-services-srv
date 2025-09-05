@@ -357,7 +357,10 @@ entity ![RESULTS] {
         ETA_UPDATED_VISTA                  : String(3);
         OLD_ETA_VISTA                      : String(10);
         OLD_ETA_VISTA_DATE                 : Date = OLD_ETA_VISTA;
-
+        AKB_FLAG                           : String(1);
+        ABRDT                              : String(8);
+        ABRDT_DATE                         : Date = ABRDT;
+        MTVFP                              : String(2);
 
 }
 
