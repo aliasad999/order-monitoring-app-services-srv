@@ -1645,7 +1645,7 @@ annotate service.allIssues with {
     }
 };
 
-annotate service.Results with {
+annotate service.allIssues with {
     SO_AKB_FLAG
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -1662,7 +1662,7 @@ annotate service.Results with {
     }
 };
 
-annotate service.Results with {
+annotate service.allIssues with {
     SO_MTVFP
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
