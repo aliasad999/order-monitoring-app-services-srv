@@ -651,23 +651,7 @@ annotate service.Results with {
     }
 };
 
-// annotate service.Results with {
-//     TM_SHIPMENT_ALERT
-//     @Common.ValueList: {
-//         $Type                  : 'Common.ValueListType',
-//         Label                  : '{@i18n>TM_SHIPMENT_ALERT}',
-//         CollectionPath         : 'valueHelps',
-//         DistinctValuesSupported: true,
-//         SearchSupported        : true,
-//         Parameters             : [{
-//             $Type            : 'Common.ValueListParameterInOut',
-//             LocalDataProperty: TM_SHIPMENT_ALERT,
-//             ValueListProperty: 'TM_SHIPMENT_ALERT'
-//         }
 
-//         ]
-//     }
-// };
 
 annotate service.Results with {
     SO_F_VKORG
