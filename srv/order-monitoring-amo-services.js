@@ -50,9 +50,11 @@ class srvOpenOrders extends cds.ApplicationService {
             const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
             let updateNeeded = false;
             let lt_result = [];
-            let lt_resultEC = [];
+            // let lt_resultEC = [];
             let lt_resultAP = [];
             let lt_resultAPEKKO = [];
+            let lt_resultMercury = [];
+            let lt_resultMercuryEKKO = [];
             let err = []
             let globalError = [];
             let userID = req.user.id;
@@ -78,14 +80,14 @@ class srvOpenOrders extends cds.ApplicationService {
                     globalError.push({ user: 'noCobaltUser', error: error })
                     err = 1 //Cobalt call failed
                 }
-                /// EC AUTH CALL
-                try {
-                    const service = await cds.connect.to('authServiceEC');
-                    lt_resultEC = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
-                } catch (error) {
-                    globalError.push({ user: 'noECUser', error: error })
-                    err = 2 // EC called failed
-                }
+                // // EC AUTH CALL
+                // try {
+                //     const service = await cds.connect.to('authServiceEC');
+                //     lt_resultEC = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
+                // } catch (error) {
+                //     globalError.push({ user: 'noECUser', error: error })
+                //     err = 2 // EC called failed
+                // }
                 try {
                     const service = await cds.connect.to('authServiceAP');
                     lt_resultAP = await service.send({
@@ -116,29 +118,74 @@ class srvOpenOrders extends cds.ApplicationService {
                     globalError.push({ user: 'noAPUser', error: error });
                     // Do not proceed to the second call
                 }
+                if (process.env.SUBACCOUNT === 'DEV'){
+                // Mercury Auth call
+                try {
+                    const service = await cds.connect.to('OMServicesMercury');
+                    lt_resultMercury = await service.send({
+                        method: "GET",
+                        path: "/xBASFxVBAKAUTH?$format=json",
+                        headers: {
+                            "Accept-Encoding": "",
+                            'X-Basf-Sap-Client': process.env.MERCURY_CLIENT
+                        }
+                    });
 
+                    // Only execute the second call if the first one succeeds
+                    try {
+                        lt_resultMercuryEKKO = await service.send({
+                            method: "GET",
+                            path: "/xBASFxEKKOAUTH?$format=json",
+                            headers: {
+                                "Accept-Encoding": "",
+                                'X-Basf-Sap-Client': process.env.MERCURY_CLIENT
+                            }
+                        });
+                    } catch (error) {
+                        globalError.push({ user: 'noMercuryUser', error: error });
+                        // Handle the error if needed
+                    }
+
+                } catch (error) {
+                    globalError.push({ user: 'noMercuryUser', error: error });
+                    // Do not proceed to the second call
+                }
+                }
+                // Mercury Auth call
                 await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
                 await DELETE.from(EKKOAuthObjectKeys).where({ USERID: userID });
 
                 /// New Authorization scenario
                 if (lt_result.VBAK) {
-                    lt_resultEC.VBAK = lt_resultEC.VBAK || []
-                    lt_resultEC.EKKO = lt_resultEC.EKKO || []
+                    // lt_resultEC.VBAK = lt_resultEC.VBAK || []
+                    // lt_resultEC.EKKO = lt_resultEC.EKKO || []
                     lt_resultAP = lt_resultAP || []
                     lt_resultAPEKKO = lt_resultAPEKKO || []
+                    lt_resultMercuryEKKO = lt_resultMercuryEKKO || []                  
+                    lt_resultMercuryEKKO = lt_resultMercuryEKKO || []
                     let lt_vbak = lt_result.VBAK || []
                     let lt_ekko = lt_result.EKKO || []
                     lt_vbak = [
                         ...lt_vbak,
-                        ...(lt_resultEC?.VBAK ?? []),
+                        // ...(lt_resultEC?.VBAK ?? []),
                         ...(lt_resultAP.d?.results ?? []).map(({ vkorg, vtweg, spart }) => ({
                             VKORG: vkorg,
                             VTWEG: vtweg,
                             SPART: spart
+                        })),
+                        ...(lt_resultMercury ?? []).map(({ vkorg, vtweg, spart }) => ({
+                            VKORG: vkorg,
+                            VTWEG: vtweg,
+                            SPART: spart
                         }))];
-                    lt_ekko = [...lt_ekko, ...lt_resultEC?.EKKO ?? [], ...(lt_resultAPEKKO?.d?.results ?? []).map(({ PurchasingOrganization }) => ({
-                        EKORG: PurchasingOrganization
-                    }))];
+                    lt_ekko = [...lt_ekko, 
+                        // ...lt_resultEC?.EKKO ?? [], 
+                        ...(lt_resultAPEKKO?.d?.results ?? []).map(({ PurchasingOrganization }) => ({
+                            EKORG: PurchasingOrganization
+                        })),
+                        ...(lt_resultMercuryEKKO ?? []).map(({ PurchasingOrganization }) => ({
+                            EKORG: PurchasingOrganization
+                        }))];
                     const vbakSet = new Set();
                     const lt_vbakUnique = lt_vbak.filter(obj => {
                         const key = `${obj.VKORG}-${obj.VTWEG}-${obj.SPART}`;
