@@ -102,11 +102,11 @@ const _addFilterToQuery = (query, fieldFiltered, filterValue) => {
 
 const replaceDateInArray = (array ) =>{
     array.forEach(item => {
-        if (item && item.val === '1999-12-31') {
+        if (item && /^3000-12-\d{2}$/.test(item.val)) { // Check that date is in format YYYY-MM-DD with value 3000-12-DD
             item.val = '00000000'; // date in DB is stored without "-"
         }
 
-        if (item && item.val === '1899-12-31') {
+        if (item && /^4000-12-\d{2}$/.test(item.val)) { // Check that date is in format YYYY-MM-DD with value 4000-12-DD
             item.val = ''; // alternatively, empty date values are stored as an empty string
         }
 
