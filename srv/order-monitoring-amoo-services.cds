@@ -288,12 +288,7 @@ service openOrdersSrv {
                          then STATUS_CODE_TEXT_COMP
                     else STATUS_CODE_TEXT_COMP || ' (' || REASON_CODE_COMP || ' - ' || REASON_CODE_TEXT_COMP || ')'
                 end                                         as TM_SHIPMENT_CURRENT_STATUS_COMP : String(250),
-                case
-                    when ALERT_STATUS_REASON_CODE_TEXT_ELEM = ''
-                         or ALERT_STATUS_REASON_CODE_TEXT_ELEM is null
-                         then ALERT_STATUS_CODE_TEXT_ELEM
-                    else ALERT_STATUS_CODE_TEXT_ELEM || '(' || ALERT_STATUS_REASON_CODE_ELEM || ' - ' || ALERT_STATUS_REASON_CODE_TEXT_ELEM || ')'
-                end                                         as TM_SHIPMENT_ALERT               : String(250),
+                
                 TRACKING_ID_ELEM                            as TM_TRACKING_ID_ELEM,
                 TRACKING_ID_COMP                            as TM_TRACKING_ID_COMP,
                 STTRG                                       as TM_STTRG,
@@ -309,9 +304,6 @@ service openOrdersSrv {
                 virtual null                                as SO_DCP_ITEM_STATUS_DESCRIPTION  : String(50),
                 virtual 0                                   as criticalityDueDate              : Integer,
                 IGNORED                                     as SO_IGNORED,
-
-                // @UI.HiddenFilter
-                // ETA_UPDATED                                 as TM_SHIPMENT_ETA_UPDATED,
                 BL_VBELN_INV_FIRST                          as BL_VBELN_INV_FIRST,
                 BL_VBELN_INV_LAST                           as BL_VBELN_INV_LAST,
                 case
@@ -376,7 +368,14 @@ service openOrdersSrv {
                 ZZ0S2ABGH                                   as DL_ZZ0S2ABGH,
                 ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH,
                 LPRIO                                       as SO_LPRIO,
-                VISTA_STATUS                                as TM_VISTA_STATUS,
+                 case
+                when (
+                   STATUS_REASON_CODE_ELEM    is not null
+                   or STATUS_REASON_CODE_ELEM !=  ''
+                 )
+                 then VISTA_STATUS || ' (' || STATUS_REASON_CODE_ELEM || ' - ' || STATUS_REASON_CODE_TEXT_ELEM || ')' 
+                else VISTA_STATUS
+                end                                         as  TM_VISTA_STATUS               : String(250),
                 CURRENT_ETA_VISTA_DATE                      as TM_CURRENT_ETA_VISTA,
                 // Euan's changes
                 Z5_PARTNER_ITM                              as SO_Z5_PARTNER,

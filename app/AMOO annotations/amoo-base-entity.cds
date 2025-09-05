@@ -135,7 +135,6 @@ annotate service.baseEntity with {
     TM_TRACKING_ID_ELEM              @title: '{i18n>TM_TRACKING_ID_ELEM}'              @sap.Label: '{i18n>TM_TRACKING_ID_ELEM}';
     TM_STTRG                         @title: '{i18n>TM_STTRG}'                         @sap.Label: '{i18n>TM_STTRG}';
     TM_STTRG_DDTEXT                  @title: '{i18n>TM_STTRG_DDTEXT}'                  @sap.Label: '{i18n>TM_STTRG_DDTEXT}';
-    TM_SHIPMENT_ALERT                @title: '{i18n>TM_SHIPMENT_ALERT}'                @sap.Label: '{i18n>TM_SHIPMENT_ALERT}';
     TM_SHIPMENT_CURRENT_STATUS       @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'       @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
     SO_NPS                           @title: '{i18n>SO_NPS}'                           @sap.Label: '{i18n>SO_NPS}';
     SO_NPS_DESCRIPTION               @title: '{i18n>SO_NPS}'                           @sap.Label: '{i18n>SO_NPS}';
@@ -149,7 +148,6 @@ annotate service.baseEntity with {
     DL_ISSUE_ROOT                    @title: '{i18n>DL_ISSUE_ROOT}'                    @sap.Label: '{i18n>DL_ISSUE_ROOT}';
     DL_ISSUE_ROOT_ITEM               @title: '{i18n>DL_ISSUE_ROOT_ITEM}'               @sap.Label: '{i18n>DL_ISSUE_ROOT_ITEM}'    @Common.IsDigitSequence: true;
     criticalityDueDate               @title: '{i18n>dueDateCriticality}'               @sap.Label: '{i18n>dueDateCriticality}';
-    // TM_SHIPMENT_ETA_UPDATED          @title: '{i18n>TM_SHIPMENT_ETA_UPDATED}'          @sap.Label: '{i18n>TM_SHIPMENT_ETA_UPDATED}';
     BL_VBELN_INV_FIRST               @title: '{i18n>BL_VBELN_INV_FIRST}'               @sap.Label: '{i18n>BL_VBELN_INV_FIRST}'    @Common.IsDigitSequence: true;
     BL_POSNR_INV_FIRST               @title: '{i18n>BL_POSNR_INV_FIRST}'               @sap.Label: '{i18n>BL_POSNR_INV_FIRST}'    @Common.IsDigitSequence: true;
     BL_FKIMG_FIRST                   @title: '{i18n>BL_FKIMG_FIRST}'                   @sap.Label: '{i18n>BL_FKIMG_FIRST}';
