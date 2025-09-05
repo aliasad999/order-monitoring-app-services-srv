@@ -50,7 +50,7 @@ class srvOpenOrders extends cds.ApplicationService {
             const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
             let updateNeeded = false;
             let lt_result = [];
-            let lt_resultEC = [];
+            // let lt_resultEC = [];
             let lt_resultAP = [];
             let lt_resultAPEKKO = [];
             let lt_resultMercury = [];
@@ -80,14 +80,14 @@ class srvOpenOrders extends cds.ApplicationService {
                     globalError.push({ user: 'noCobaltUser', error: error })
                     err = 1 //Cobalt call failed
                 }
-                /// EC AUTH CALL
-                try {
-                    const service = await cds.connect.to('authServiceEC');
-                    lt_resultEC = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
-                } catch (error) {
-                    globalError.push({ user: 'noECUser', error: error })
-                    err = 2 // EC called failed
-                }
+                // // EC AUTH CALL
+                // try {
+                //     const service = await cds.connect.to('authServiceEC');
+                //     lt_resultEC = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
+                // } catch (error) {
+                //     globalError.push({ user: 'noECUser', error: error })
+                //     err = 2 // EC called failed
+                // }
                 try {
                     const service = await cds.connect.to('authServiceAP');
                     lt_resultAP = await service.send({
@@ -157,8 +157,8 @@ class srvOpenOrders extends cds.ApplicationService {
 
                 /// New Authorization scenario
                 if (lt_result.VBAK) {
-                    lt_resultEC.VBAK = lt_resultEC.VBAK || []
-                    lt_resultEC.EKKO = lt_resultEC.EKKO || []
+                    // lt_resultEC.VBAK = lt_resultEC.VBAK || []
+                    // lt_resultEC.EKKO = lt_resultEC.EKKO || []
                     lt_resultAP = lt_resultAP || []
                     lt_resultAPEKKO = lt_resultAPEKKO || []
                     lt_resultMercuryEKKO = lt_resultMercuryEKKO || []                  
@@ -167,7 +167,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     let lt_ekko = lt_result.EKKO || []
                     lt_vbak = [
                         ...lt_vbak,
-                        ...(lt_resultEC?.VBAK ?? []),
+                        // ...(lt_resultEC?.VBAK ?? []),
                         ...(lt_resultAP.d?.results ?? []).map(({ vkorg, vtweg, spart }) => ({
                             VKORG: vkorg,
                             VTWEG: vtweg,
@@ -178,7 +178,9 @@ class srvOpenOrders extends cds.ApplicationService {
                             VTWEG: vtweg,
                             SPART: spart
                         }))];
-                    lt_ekko = [...lt_ekko, ...lt_resultEC?.EKKO ?? [], ...(lt_resultAPEKKO?.d?.results ?? []).map(({ PurchasingOrganization }) => ({
+                    lt_ekko = [...lt_ekko, 
+                        // ...lt_resultEC?.EKKO ?? [], 
+                        ...(lt_resultAPEKKO?.d?.results ?? []).map(({ PurchasingOrganization }) => ({
                             EKORG: PurchasingOrganization
                         })),
                         ...(lt_resultMercuryEKKO ?? []).map(({ PurchasingOrganization }) => ({
