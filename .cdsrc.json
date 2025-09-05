@@ -175,7 +175,7 @@
         "OMServicesMercury": {
             "kind": "odata-v4",
             "credentials": {
-                "destination": "APIM",
+                "destination": "APIM_DEV",
                 "path": "/it/omg/omc/cb-om-services/v1"
             }
         }
