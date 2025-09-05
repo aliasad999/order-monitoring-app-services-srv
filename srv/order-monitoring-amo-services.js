@@ -118,7 +118,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     globalError.push({ user: 'noAPUser', error: error });
                     // Do not proceed to the second call
                 }
-                if (process.env.SUBACCOUNT !== 'PROD'){
+                if (process.env.SUBACCOUNT === 'DEV'){
                 // Mercury Auth call
                 try {
                     const service = await cds.connect.to('OMServicesMercury');
