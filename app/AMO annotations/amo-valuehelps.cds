@@ -1574,3 +1574,26 @@ annotate service.Results with {
         ]
     }
 };
+
+annotate service.Results with {
+    TM_TS_PARTNER
+    @Common.ValueList      : {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>TM_TS_PARTNER_NAME1}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: TM_TS_PARTNER,
+                ValueListProperty: 'TM_TS_PARTNER'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'TM_TS_PARTNER_NAME1'
+            }
+
+        ]
+    }
+};

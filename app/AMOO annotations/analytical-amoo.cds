@@ -285,5 +285,9 @@ annotate service.OpenOrdersAnalytics with {
     SO_AKB_FLAG                     @UI.Hidden;
     SO_ABRDT                        @UI.Hidden;
     SO_MTVFP                        @UI.Hidden;
+    SO_BIZAGI_STATUS                @UI.Hidden;
+    TM_TS_PARTNER                   @UI.Hidden;
+    TM_TS_PARTNER_NAME1             @UI.Hidden;
+    
 
 };

@@ -256,4 +256,7 @@ annotate service.BaseEntity with {
     SO_AKB_FLAG                      @title: '{i18n>SO_AKB_FLAG}'                      @sap.Label: '{i18n>SO_AKB_FLAG}';
     SO_ABRDT                         @title: '{i18n>SO_ABRDT}'                         @sap.Label: '{i18n>SO_ABRDT}';
     SO_MTVFP                         @title: '{i18n>SO_MTVFP}'                         @sap.Label: '{i18n>SO_MTVFP}';
+    SO_BIZAGI_STATUS                 @title: '{i18n>SO_BIZAGI_STATUS}'                 @sap.Label: '{i18n>SO_BIZAGI_STATUS}';
+    TM_TS_PARTNER                    @title: '{i18n>TM_TS_PARTNER}'                    @sap.Label: '{i18n>TM_TS_PARTNER}'    @Common.IsDigitSequence: true;
+    TM_TS_PARTNER_NAME1              @title: '{i18n>TM_TS_PARTNER_NAME1}'              @sap.Label: '{i18n>TM_TS_PARTNER_NAME1}';
 }
