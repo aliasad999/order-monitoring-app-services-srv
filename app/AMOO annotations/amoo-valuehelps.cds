@@ -669,24 +669,6 @@ annotate service.allIssues with {
 };
 
 annotate service.allIssues with {
-    TM_SHIPMENT_ALERT
-    @Common.ValueList: {
-        $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>TM_SHIPMENT_ALERT}',
-        CollectionPath         : 'valueHelps',
-        DistinctValuesSupported: true,
-        SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: TM_SHIPMENT_ALERT,
-            ValueListProperty: 'TM_SHIPMENT_ALERT'
-        }
-
-        ]
-    }
-};
-
-annotate service.allIssues with {
     SO_F_VKORG
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
@@ -833,25 +815,6 @@ annotate service.allIssues with {
         }]
     }
 };
-
-// annotate service.allIssues with {
-//     TM_SHIPMENT_ETA_UPDATED
-//     @Common.ValueList: {
-//         $Type                  : 'Common.ValueListType',
-//         Label                  : '{@i18n>TM_SHIPMENT_ETA_UPDATED}',
-//         CollectionPath         : 'valueHelps',
-//         DistinctValuesSupported: true,
-//         SearchSupported        : true,
-//         Parameters             : [{
-//             $Type            : 'Common.ValueListParameterInOut',
-//             LocalDataProperty: TM_SHIPMENT_ETA_UPDATED,
-//             ValueListProperty: 'TM_SHIPMENT_ETA_UPDATED'
-//         }
-
-//         ]
-//     }
-// };
-
 
 annotate service.allIssues with {
     BL_FKIMG_FIRST
@@ -1678,6 +1641,40 @@ annotate service.allIssues with {
                 ValueListProperty: 'SO_MFRGR_BEZEI_LANG'
             }
 
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_AKB_FLAG
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_AKB_FLAG}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_AKB_FLAG,
+            ValueListProperty: 'SO_AKB_FLAG'
+        }
+        ]
+    }
+};
+
+annotate service.allIssues with {
+    SO_MTVFP
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_MTVFP}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_MTVFP,
+            ValueListProperty: 'SO_MTVFP'
+        }
         ]
     }
 };

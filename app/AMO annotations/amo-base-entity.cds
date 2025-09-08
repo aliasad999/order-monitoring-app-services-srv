@@ -93,7 +93,6 @@ annotate service.BaseEntity with {
     SO_F_ZZ0S2MATUG                  @title: '{i18n>SO_F_ZZ0S2MATUG}'                  @sap.Label: '{i18n>SO_F_ZZ0S2MATUG}';
     DL_WADAT                         @title: '{i18n>DL_WADAT}'                         @sap.Label: '{i18n>DL_WADAT}';
     DL_WADAT_IST                     @title: '{i18n>DL_WADAT_IST}'                     @sap.Label: '{i18n>DL_WADAT_IST}';
-    TM_SHIPMENT_ALERT                @title: '{i18n>TM_SHIPMENT_ALERT}'                @sap.Label: '{i18n>TM_SHIPMENT_ALERT}';
     SO_F_WERKS                       @title: '{i18n>SO_F_WERKS}'                       @sap.Label: '{i18n>SO_F_WERKS}';
     SO_F_AUFNR                       @title: '{i18n>SO_F_AUFNR}'                       @sap.Label: '{i18n>SO_F_AUFNR}';
     SO_F_DGLTP                       @title: '{i18n>SO_F_DGLTP}'                       @sap.Label: '{i18n>SO_F_DGLTP}';
@@ -124,7 +123,6 @@ annotate service.BaseEntity with {
     SO_PRCTR                         @title: '{i18n>SO_PRCTR}'                         @sap.Label: '{i18n>SO_PRCTR}';
     SO_VALDT                         @title: '{i18n>SO_VALDT}'                         @sap.Label: '{i18n>SO_VALDT}';
     SO_ABLAD                         @title: '{i18n>SO_ABLAD}'                         @sap.Label: '{i18n>SO_ABLAD}';
-    // TM_SHIPMENT_ETA_UPDATED          @title: '{i18n>TM_SHIPMENT_ETA_UPDATED}'          @sap.Label: '{i18n>TM_SHIPMENT_ETA_UPDATED}';
     SO_FOLLOWUP_NOTES_LANG           @title: '{i18n>SO_FOLLOWUP_NOTES_LANG}'           @sap.Label: '{i18n>SO_FOLLOWUP_NOTES_LANG}';
     SO_REASON_CODE_01_LANG           @title: '{i18n>SO_REASON_CODE_01_LANG}'           @sap.Label: '{i18n>SO_REASON_CODE_01_LANG}';
     SO_REASON_CODE_02_LANG           @title: '{i18n>SO_REASON_CODE_02_LANG}'           @sap.Label: '{i18n>SO_REASON_CODE_02_LANG}';
@@ -256,5 +254,7 @@ annotate service.BaseEntity with {
     SO_MFRGR_BEZEI_LANG              @title: '{i18n>SO_MFRGR_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MFRGR_BEZEI_LANG}';
     TM_TNDR_TRKID                    @title: '{i18n>TM_TNDR_TRKID}'                    @sap.Label: '{i18n>TM_TNDR_TRKID}';
     SO_YRDSDV1_IMPORT_CARGO_NO       @title: '{i18n>SO_YRDSDV1_IMPORT_CARGO_NO}'       @sap.Label: '{i18n>SO_YRDSDV1_IMPORT_CARGO_NO}';
-    
+    SO_AKB_FLAG                      @title: '{i18n>SO_AKB_FLAG}'                      @sap.Label: '{i18n>SO_AKB_FLAG}';
+    SO_ABRDT                         @title: '{i18n>SO_ABRDT}'                         @sap.Label: '{i18n>SO_ABRDT}';
+    SO_MTVFP                         @title: '{i18n>SO_MTVFP}'                         @sap.Label: '{i18n>SO_MTVFP}';
 }

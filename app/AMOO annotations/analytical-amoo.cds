@@ -155,8 +155,6 @@ annotate service.OpenOrdersAnalytics with {
     TM_TDLNR_NAME1                  @UI.Hidden;
     TM_TRACKING_ID_COMP             @UI.Hidden;
     TM_TRACKING_ID_ELEM             @UI.Hidden;
-    TM_SHIPMENT_ALERT               @UI.Hidden;
-    // TM_SHIPMENT_CURRENT_STATUS      @UI.Hidden;
     SO_DCP_ITEM_STATUS              @UI.Hidden;
     SO_DCP_ITEM_STATUS_DESCRIPTION  @UI.Hidden;
     SO_DUE_DATE                     @UI.Hidden;
@@ -285,5 +283,8 @@ annotate service.OpenOrdersAnalytics with {
     TM_TNDR_TRKID                   @UI.Hidden;     
     TM_OLD_ETA_VISTA_DATE           @UI.Hidden;
     TM_ETA_UPDATED_VISTA            @UI.Hidden;
+    SO_AKB_FLAG                     @UI.Hidden;
+    SO_ABRDT                        @UI.Hidden;
+    SO_MTVFP                        @UI.Hidden;
 
 };
