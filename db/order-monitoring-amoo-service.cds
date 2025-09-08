@@ -379,6 +379,9 @@ entity ![OPENORDERSLIST] {
         ABRDT                              : String(8);
         ABRDT_DATE                         : Date = ABRDT;
         MTVFP                              : String(2);
+        BIZAGI_STATUS                      : String(100);
+        TS_PARTNER                         : String(10);
+        TS_PARTNER_NAME1                   : String(40);
 }
 
 entity ContactsOptions {

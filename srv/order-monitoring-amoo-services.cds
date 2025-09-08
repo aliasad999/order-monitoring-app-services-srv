@@ -473,6 +473,9 @@ service openOrdersSrv {
                 AKB_FLAG                                    as SO_AKB_FLAG,
                 ABRDT_DATE                                  as SO_ABRDT,
                 MTVFP                                       as SO_MTVFP,
+                BIZAGI_STATUS                               as SO_BIZAGI_STATUS,
+                TS_PARTNER                                  as TM_TS_PARTNER,
+                TS_PARTNER_NAME1                            as TM_TS_PARTNER_NAME1,
         }
 
     entity baseEntity               as
