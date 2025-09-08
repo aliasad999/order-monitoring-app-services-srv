@@ -177,6 +177,7 @@ entity ![RESULTS] {
         WADAT_IST                          : String(8);
         DL_WADAT_IST_DATE                  : Date = WADAT_IST;
         NOTE_TEXT                          : String(1000);
+        NOTE_TEXT_FROMORDERCHAIN           : String(1000);
         // LANGUAGE                           : String(2);
         TKNUM                              : String(10);
         VSART                              : String(2);

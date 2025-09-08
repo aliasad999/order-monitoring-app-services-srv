@@ -255,6 +255,7 @@ service srvOpenOrders {
           DL_WADAT_DATE                               as DL_WADAT,
           DL_WADAT_IST_DATE                           as DL_WADAT_IST,
           NOTE_TEXT                                   as LAST_NOTE,
+          NOTE_TEXT_FROMORDERCHAIN                    as LAST_NOTE_FROMORDERCHAIN,
           TKNUM                                       as TM_TKNUM,
           VSART                                       as TM_VSART,
           VSART_BEZEI_LANG                            as TM_VSART_BEZEI,

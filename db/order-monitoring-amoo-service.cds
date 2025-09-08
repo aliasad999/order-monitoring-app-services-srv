@@ -224,6 +224,7 @@ entity ![OPENORDERSLIST] {
         ISSUE_LOCATION                     : String(12);
         ISSUE_LOCATION_ITEM                : String(6);
         NOTE_TEXT                          : String(1000);
+        NOTE_TEXT_FROMORDERCHAIN           : String(1000);
         IGNORED                            : Integer;
         ETA_UPDATED                        : String(3);
         BL_VBELN_INV_FIRST                 : String(10);

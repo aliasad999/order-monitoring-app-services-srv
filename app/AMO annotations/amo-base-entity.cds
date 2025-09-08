@@ -56,6 +56,7 @@ annotate service.BaseEntity with {
     DL_ZZ0S2BLNR                     @title: '{i18n>DL_ZZ0S2BLNR}'                     @sap.Label: '{i18n>DL_ZZ0S2BLNR}';
     DL_PEND_DEL_QUAN                 @title: '{i18n>DL_PEND_DEL_QUAN}'                 @sap.Label: '{i18n>DL_PEND_DEL_QUAN}';
     LAST_NOTE                        @title: '{i18n>LAST_NOTE}'                        @sap.Label: '{i18n>LAST_NOTE}';
+    LAST_NOTE_FROMORDERCHAIN         @title: '{i18n>LAST_NOTE_FROMORDERCHAIN}'         @sap.Label: '{i18n>LAST_NOTE_FROMORDERCHAIN}';
     TM_TKNUM                         @title: '{i18n>TM_TKNUM}'                         @sap.Label: '{i18n>TM_TKNUM}'            @Common.IsDigitSequence: true;
     TM_EXTI1                         @title: '{i18n>TM_EXTI1}'                         @sap.Label: '{i18n>TM_EXTI1}';
     TM_TRACKING_ID_COMP              @title: '{i18n>TM_TRACKING_ID_COMP}'              @sap.Label: '{i18n>TM_TRACKING_ID_COMP}';
