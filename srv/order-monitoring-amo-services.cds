@@ -449,7 +449,6 @@ service srvOpenOrders {
           @UI.HiddenFilter
           ETA_UPDATED_VISTA                           as TM_ETA_UPDATED_VISTA,
           OLD_ETA_VISTA_DATE                          as TM_OLD_ETA_VISTA_DATE,
-          AKB_FLAG                                    as SO_AKB_FLAG,
           ABRDT_DATE                                  as SO_ABRDT,
           MTVFP                                       as SO_MTVFP,
           BIZAGI_STATUS                               as SO_BIZAGI_STATUS,
