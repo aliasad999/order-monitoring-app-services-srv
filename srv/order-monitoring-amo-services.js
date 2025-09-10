@@ -542,7 +542,7 @@ class srvOpenOrders extends cds.ApplicationService {
                 const fields = req.http.req.query["search-focus"] && req.http.req.query["search-focus"].split(',')
                     if (!fields) {
                         req.error(status.EXPECTATION_FAILED, 'ERR_VALUE_HELP_NO_CACHE')
-                        log.error("[order-monitoring-app-services.js] - Valuehelp query failed ! AMOO: req.http.req.query.search-focus is empty");
+                        log.error(`[order-monitoring-app-services.js] - AMO VH without Session search-focus undefined:  user: ${req.user.id} SELECT:${JSON.stringify(req.query.SELECT)} WHERE:${JSON.stringify(req.query.SELECT.where)}`);
                         return;
                     }
                 // if there is no session id, execute the query directly
