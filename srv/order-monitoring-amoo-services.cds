@@ -471,6 +471,7 @@ service openOrdersSrv {
 
                 ISSUE_DELIVERY_ROOT                         as DL_ISSUE_ROOT,
                 ISSUE_DELIVERY_ROOT_ITEM                    as DL_ISSUE_ROOT_ITEM,
+                 @UI.HiddenFilter
                 AKB_FLAG                                    as SO_AKB_FLAG,
                 ABRDT_DATE                                  as SO_ABRDT,
                 MTVFP                                       as SO_MTVFP,
