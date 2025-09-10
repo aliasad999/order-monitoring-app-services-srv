@@ -2,7 +2,7 @@ const cds = require("@sap/cds");
 const NodeCache = require('node-cache');
 const sessionCache = new NodeCache();
 const uuid = require('uuid');
-const status = require('http-status');
+const status = require('http-status').status;
 const textBundle = require('./utils/textBundle')
 const log = require("cf-nodejs-logging-support");
 const { startOfToday } = require('date-fns');
@@ -539,7 +539,12 @@ class srvOpenOrders extends cds.ApplicationService {
                 }
 
             } else {
-                const fields = req.http.req.query["search-focus"].split(',')
+                const fields = req.http.req.query["search-focus"] && req.http.req.query["search-focus"].split(',')
+                    if (!fields) {
+                        req.error(status.EXPECTATION_FAILED, 'ERR_VALUE_HELP_NO_CACHE')
+                        log.error("[order-monitoring-app-services.js] - Valuehelp query failed ! AMOO: req.http.req.query.search-focus is empty");
+                        return;
+                    }
                 // if there is no session id, execute the query directly
                 let searchString = req.http.req.query["$search"] && req.http.req.query["$search"].replace(/"/g, '')
                 let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
