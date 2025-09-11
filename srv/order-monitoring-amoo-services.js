@@ -2,7 +2,7 @@ const cds = require("@sap/cds");
 const NodeCache = require('node-cache');
 const sessionCache = new NodeCache();
 const uuid = require('uuid');
-const status = require('http-status');
+const status = require('http-status').status;
 
 const log = require("cf-nodejs-logging-support");
 const { startOfToday } = require('date-fns');
@@ -777,7 +777,12 @@ class openOrdersSrv extends cds.ApplicationService {
                 }
 
             } else {
-                const fields = req.http.req.query["search-focus"].split(',')
+                const fields = req.http.req.query && req.http.req.query["search-focus"] && req.http.req.query["search-focus"].split(',')
+                if (!fields) {
+                        req.error(status.EXPECTATION_FAILED, 'ERR_VALUE_HELP_NO_CACHE')
+                        log.error(`[order-monitoring-app-services.js] - AMOO VH without Session search-focus undefined:  user: ${req.user.id} SELECT:${JSON.stringify(req.query.SELECT)} WHERE:${JSON.stringify(req.query.SELECT.where)}`);
+                        return;
+                    }
                 // if there is no session id, execute the query directly
                 let searchString = req.http.req.query["$search"] && req.http.req.query["$search"].replace(/"/g, '')
                 let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
@@ -924,7 +929,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 return sendDeliveryResponse(req, responseDelivery)
 
             } catch (error) {
-                req.error(status.status.PRECONDITION_FAILED,error.message);
+                req.error(status.PRECONDITION_FAILED,error.message);
             }
         })
         this.on("createDeliveryforItem", async (req) => {
@@ -944,7 +949,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 });
                 return sendDeliveryResponse(req, responseDelivery)
             } catch (error) {
-                req.error(status.status.PRECONDITION_FAILED,error.message);
+                req.error(status.PRECONDITION_FAILED,error.message);
             }
         })
         /**
@@ -2185,7 +2190,7 @@ function sendDeliveryResponse(req, responseDelivery) {
     });
     if (error) {
         let message = Array.from(messageSet).join(' ');
-        req.error(status.status.PRECONDITION_FAILED,message);
+        req.error(status.PRECONDITION_FAILED,message);
         return false;
     }
     return true;
