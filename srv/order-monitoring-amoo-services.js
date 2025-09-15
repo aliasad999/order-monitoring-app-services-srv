@@ -996,22 +996,22 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         function transformDateFilters(where) {
-        if (Array.isArray(where)) {
-            where.forEach(condition => {
-            if (typeof condition === 'object') {
-                transformDateFilters(condition);
+            if (Array.isArray(where)) {
+                where.forEach(condition => {
+                if (typeof condition === 'object') {
+                    transformDateFilters(condition);
+                }
+                });
+            } else if (where && typeof where === 'object') {
+                Object.keys(where).forEach(key => {
+                if (where[key] && /^\d{4}-\d{2}-\d{2}$/.test(where[key])) {
+                    // Transform ISO date to YYYYMMDD format
+                    where[key] = where[key].replace(/-/g, '');
+                } else if (typeof where[key] === 'object') {
+                    transformDateFilters(where[key]);
+                }
+                });
             }
-            });
-        } else if (where && typeof where === 'object') {
-            Object.keys(where).forEach(key => {
-            if (where[key] && /^\d{4}-\d{2}-\d{2}$/.test(where[key])) {
-                // Transform ISO date to YYYYMMDD format
-                where[key] = where[key].replace(/-/g, '');
-            } else if (typeof where[key] === 'object') {
-                transformDateFilters(where[key]);
-            }
-            });
-        }
         }
 
         function changeIgnored(requestQuery, bChangeIgnored){
