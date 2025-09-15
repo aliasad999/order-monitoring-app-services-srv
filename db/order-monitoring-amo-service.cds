@@ -357,7 +357,12 @@ entity ![RESULTS] {
         ETA_UPDATED_VISTA                  : String(3);
         OLD_ETA_VISTA                      : String(10);
         OLD_ETA_VISTA_DATE                 : Date = OLD_ETA_VISTA;
-
+        ABRDT                              : String(8);
+        ABRDT_DATE                         : Date = ABRDT;
+        MTVFP                              : String(2);
+        BIZAGI_STATUS                      : String(100);
+        TS_PARTNER                         : String(10);
+        TS_PARTNER_NAME1                   : String(40);
 
 }
 
