@@ -429,6 +429,7 @@ entity REGION_SETTINGS {
 entity AvailableRegions {
         key Region     : Integer;
             RegionText : localized String;
+            RegionDescription : localized String;
 }
 
 @cds.persistence.exists
