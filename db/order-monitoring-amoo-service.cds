@@ -373,7 +373,15 @@ entity ![OPENORDERSLIST] {
         ETA_UPDATED_VISTA                  : String(3);
         OLD_ETA_VISTA                      : String(10);
         OLD_ETA_VISTA_DATE                 : Date = OLD_ETA_VISTA;
-
+        ISSUE_DELIVERY_ROOT                : String(10);
+        ISSUE_DELIVERY_ROOT_ITEM           : String(6);
+        AKB_FLAG                           : String(1);
+        ABRDT                              : String(8);
+        ABRDT_DATE                         : Date = ABRDT;
+        MTVFP                              : String(2);
+        BIZAGI_STATUS                      : String(100);
+        TS_PARTNER                         : String(10);
+        TS_PARTNER_NAME1                   : String(40);
 }
 
 entity ContactsOptions {
@@ -537,6 +545,10 @@ entity ![SALESORDER_DETAILS](IP_LANG : String(2)) {
             ZTERM_ITEM_VTEXT_LANG  : String(30);
             MFRGR                  : String(8);
             MFRGR_BEZEI_LANG       : String(80);
+            AKB_FLAG               : String(1);
+            ABRDT                  : String(8);
+            ABRDT_DATE             : Date = ABRDT;
+            MTVFP                  : String(2);
 }
 
 @cds.persistence.exists
