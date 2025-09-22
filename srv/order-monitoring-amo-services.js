@@ -263,14 +263,8 @@ class srvOpenOrders extends cds.ApplicationService {
             req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
             req.query.SELECT.localized = false;
             req.query.SELECT.distinct = true;
-            // where clause is initially converted from cqn to cql
-            let whereClause = serviceHelper.convertCQNtoCQL(req.query.SELECT.where,false)
-            // where clause is initially converted from cqn to cql
-            // where clause is then transformed from cql for date formatting and removing additional inverted commas
-            whereClause = serviceHelper.transformWhereClause(whereClause)
-            // where clause is then transformed from cql for date formatting and removing additional inverted commas
-            // where clause is then inserted back to the query
-            req.query.SELECT.where = cds.parse.xpr(whereClause)
+            // Transform date filters from YYYY-MM-DD to YYYYMMDD
+            serviceHelper.transformDateFilters(req.query.SELECT.where);
         });
 
         this.on("READ", "Results", async (req, next) => {
