@@ -183,6 +183,13 @@
                 "destination": "APIM",
                 "path": "/it/omg/ocs/order-change-service/v1"
             }
+        },
+        "OMServicesMercury": {
+            "kind": "odata-v4",
+            "credentials": {
+                "destination": "APIM_DEV",
+                "path": "/it/omg/omc/cb-om-services/v1"
+            }
         }
     }
 }

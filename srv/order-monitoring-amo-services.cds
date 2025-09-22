@@ -279,15 +279,6 @@ service srvOpenOrders {
                  then STATUS_CODE_TEXT_COMP
             else STATUS_CODE_TEXT_COMP || ' (' || REASON_CODE_COMP || ' - ' || REASON_CODE_TEXT_COMP || ')'
           end                                         as TM_SHIPMENT_CURRENT_STATUS_COMP : String(250),
-
-          case
-            when (
-                   ALERT_STATUS_REASON_CODE_TEXT_ELEM    is null
-                   or ALERT_STATUS_REASON_CODE_TEXT_ELEM =  ''
-                 )
-                 then ALERT_STATUS_CODE_TEXT_ELEM
-            else ALERT_STATUS_CODE_TEXT_ELEM || '(' || ALERT_STATUS_REASON_CODE_ELEM || ' - ' || ALERT_STATUS_REASON_CODE_TEXT_ELEM || ')'
-          end                                         as TM_SHIPMENT_ALERT               : String(250),
           TRACKING_ID_ELEM                            as TM_TRACKING_ID_ELEM,
           TRACKING_ID_COMP                            as TM_TRACKING_ID_COMP,
           TM_DPTBG_DATE                               as TM_DPTBG,
@@ -348,7 +339,14 @@ service srvOpenOrders {
           ZZ0S2ABGH                                   as DL_ZZ0S2ABGH,
           ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH,
           LPRIO                                       as SO_LPRIO,
-          VISTA_STATUS                                as TM_VISTA_STATUS,
+           case
+            when (
+                   STATUS_REASON_CODE_ELEM    is not null
+                   or STATUS_REASON_CODE_ELEM !=  ''
+                 )
+                 then VISTA_STATUS || ' (' || STATUS_REASON_CODE_ELEM || ' - ' || STATUS_REASON_CODE_TEXT_ELEM || ')' 
+            else VISTA_STATUS
+          end                                         as  TM_VISTA_STATUS               : String(250),
           CURRENT_ETA_VISTA_DATE                      as TM_CURRENT_ETA_VISTA,
           // Euan's changes
           Z5_PARTNER_ITM                              as SO_Z5_PARTNER,
@@ -404,8 +402,6 @@ service srvOpenOrders {
           @UI.Hidden: true
           TO_PARTNER_NAME2_ITM                        as SO_TO_PARTNER_NAME2_ITM,
           
-          // @UI.HiddenFilter
-          // ETA_UPDATED                                 as TM_SHIPMENT_ETA_UPDATED,
           FOLLOWUP_NOTES_LANG                         as SO_FOLLOWUP_NOTES_LANG,
           REASON_CODE_01_LANG                         as SO_REASON_CODE_01_LANG,
           REASON_CODE_02_LANG                         as SO_REASON_CODE_02_LANG,
@@ -453,7 +449,11 @@ service srvOpenOrders {
           @UI.HiddenFilter
           ETA_UPDATED_VISTA                           as TM_ETA_UPDATED_VISTA,
           OLD_ETA_VISTA_DATE                          as TM_OLD_ETA_VISTA_DATE,
-
+          ABRDT_DATE                                  as SO_ABRDT,
+          MTVFP                                       as SO_MTVFP,
+          BIZAGI_STATUS                               as SO_BIZAGI_STATUS,
+          TS_PARTNER                                  as TM_TS_PARTNER,
+          TS_PARTNER_NAME1                            as TM_TS_PARTNER_NAME1,
 
     };
 

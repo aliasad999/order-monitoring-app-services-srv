@@ -2,7 +2,7 @@ const cds = require("@sap/cds");
 const NodeCache = require('node-cache');
 const sessionCache = new NodeCache();
 const uuid = require('uuid');
-const status = require('http-status');
+const status = require('http-status').status;
 
 const log = require("cf-nodejs-logging-support");
 const { startOfToday } = require('date-fns');
@@ -519,21 +519,25 @@ class openOrdersSrv extends cds.ApplicationService {
                         }
                     }
                     let language = req.locale.toUpperCase();
-                    if (req.headers.so_mandt && req.headers.so_mandt == '300') {
+                    if (req.headers.so_mandt && ( req.headers.so_mandt == '300' || req.headers.so_mandt == '400')) { // AP or Mercury
+                        let OMServices = await cds.connect.to('OMServicesAP'); // AP
+                        let systemClient = process.env.AP_CLIENT;
+                        if(req.headers.so_mandt == '400'){
+                            OMServices = await cds.connect.to('OMServicesMercury'); // Mercury
+                            systemClient = '100';
+                        }
                         // get a random number for the personal number of the contact to avoid duplicates
                         const getRandomInt = function (min, max) {
                             const minCeiled = Math.ceil(min);
                             const maxFloored = Math.floor(max);
                             return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
                         }
-                        const OmServicesAp = await cds.connect.to('OMServicesAP');
-                        const { APContacts } = cds.entities('openOrdersSrv');
                         const LPadOrderItem = orderItem.replace(/^0+/, "") || "0";
-                        const ltPartners = await OmServicesAp.send({
+                        const ltPartners = await OMServices.send({
                             method: 'GET',
-                            query: SELECT.from(APContacts).where`(SalesOrder = ${saleOrder} and SalesOrderItem = '000000') or (SalesOrder = ${saleOrder} and SalesOrderItem = ${LPadOrderItem})`,
+                            query: SELECT.from('SalesOrderPartner').where`(SalesOrder = ${saleOrder} and SalesOrderItem = '000000') or (SalesOrder = ${saleOrder} and SalesOrderItem = ${LPadOrderItem})`,
                             headers: {
-                                'X-Basf-Sap-Client': process.env.AP_CLIENT
+                                'X-Basf-Sap-Client': systemClient
                             }
                         });
                         let CMEntry = {}
@@ -551,7 +555,7 @@ class openOrdersSrv extends cds.ApplicationService {
                             lt_contacts.push(CMEntry);
                         })
 
-                    } else {
+                    }else {
                         // Run queries
                         const apiManagementService = await cds.connect.to('ContactsService');
                         lt_contacts = await apiManagementService.tx(req).send({
@@ -590,15 +594,7 @@ class openOrdersSrv extends cds.ApplicationService {
         this.on("READ", "ServicesSet", async (req, next) => {
             let lt_services = [];
             try {
-                // let contactsQuery = SELECT.from('ServicesSet').limit(req.query.SELECT.limit);
-                // if (req.query.SELECT.where) {
-                //     contactsQuery.where(req.query.SELECT.where);
-                // }
-                // if (req.query.SELECT.orderBy) {
-                //     contactsQuery.orderBy(req.query.SELECT.orderBy);
-                // }
                 const apiManagementService = await cds.connect.to('DSLServicesService');
-                // lt_contacts = await apiManagementService.get("/ContactSet?$filter=SapClient eq '100' and SalesDocument eq '0005508482' and OrderItem eq '000010'");
                 lt_services = await apiManagementService.tx(req).send({
                     query: req.query
                 });
@@ -768,7 +764,12 @@ class openOrdersSrv extends cds.ApplicationService {
                 }
 
             } else {
-                const fields = req.http.req.query["search-focus"].split(',')
+                const fields = req.http.req.query && req.http.req.query["search-focus"] && req.http.req.query["search-focus"].split(',')
+                if (!fields) {
+                        req.error(status.EXPECTATION_FAILED, 'ERR_VALUE_HELP_NO_CACHE')
+                        log.error(`[order-monitoring-app-services.js] - AMOO VH without Session search-focus undefined:  user: ${req.user.id} SELECT:${JSON.stringify(req.query.SELECT)} WHERE:${JSON.stringify(req.query.SELECT.where)}`);
+                        return;
+                    }
                 // if there is no session id, execute the query directly
                 let searchString = req.http.req.query["$search"] && req.http.req.query["$search"].replace(/"/g, '')
                 let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
@@ -915,7 +916,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 return sendDeliveryResponse(req, responseDelivery)
 
             } catch (error) {
-                req.error(status.status.PRECONDITION_FAILED, error.message);
+                req.error(status.PRECONDITION_FAILED,error.message);
             }
         })
         this.on("createDeliveryforItem", async (req) => {
@@ -935,7 +936,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 });
                 return sendDeliveryResponse(req, responseDelivery)
             } catch (error) {
-                req.error(status.status.PRECONDITION_FAILED, error.message);
+                req.error(status.PRECONDITION_FAILED,error.message);
             }
         })
         /**
@@ -2176,7 +2177,7 @@ function sendDeliveryResponse(req, responseDelivery) {
     });
     if (error) {
         let message = Array.from(messageSet).join(' ');
-        req.error(status.status.PRECONDITION_FAILED, message);
+        req.error(status.PRECONDITION_FAILED,message);
         return false;
     }
     return true;

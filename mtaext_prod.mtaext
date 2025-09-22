@@ -7,12 +7,14 @@ modules:
     properties:
       OTEL_RESOURCE_ATTRIBUTES: sap.tenancy.tenant_id=43b092c5-2fed-4194-aca6-1019abe786a8
       AP_CLIENT: 100
+      MERCURY_CLIENT: 100
       SUBACCOUNT: PROD
       OC_TAB_STATUS: ACTIVE
     parameters:
       memory: 8GB
       disk-quota: 8GB
       instances: 2
+      OPTIMIZE_MEMORY: true
     requires:
       - name: order-monitoring-autoscaler
         parameters:
