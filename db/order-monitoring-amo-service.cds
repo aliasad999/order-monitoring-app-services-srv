@@ -363,6 +363,8 @@ entity ![RESULTS] {
         BIZAGI_STATUS                      : String(100);
         TS_PARTNER                         : String(10);
         TS_PARTNER_NAME1                   : String(40);
+        KVGR5                              : String(3);
+        STCEG                              : String(20);
 
 }
 
