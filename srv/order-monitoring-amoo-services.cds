@@ -573,7 +573,8 @@ service openOrdersSrv {
             key PREDEFINED_ID      as FollowupNote,
             key LANGUAGE           as Language,
                 PREDEFINED_CONTENT as Content,
-                CREATED_AT         as CreatedAt
+                CREATED_AT         as CreatedAt,
+                LAST_FOLLOWUPNOTE_FLAG  as LastFollowupNoteFlag                
         };
 
     entity dueDateLimit             as projection on db_app.DUE_DATE_LIMIT;

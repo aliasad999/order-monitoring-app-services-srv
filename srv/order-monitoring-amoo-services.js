@@ -1588,6 +1588,23 @@ class openOrdersSrv extends cds.ApplicationService {
             return predefFUNotes;
         });
 
+                this.before("CREATE", "FollowupNotes", async (req) => {
+                    const { FollowupNotes } = await cds.entities('srvOpenOrders');
+                    req.query.INSERT.entries.forEach(async (entry) => {
+                        req.query.INSERT.entries[0].LastFollowupNoteFlag = 'X'
+                        await UPDATE(FollowupNotes).set({ LastFollowupNoteFlag: ' ' }).where({ SalesOrder: entry.SalesOrder, OrderItem: entry.OrderItem, LastFollowupNoteFlag: 'X' });
+                    })
+                })
+        
+        
+                this.after("DELETE", "FollowupNotes", async (data, req) => {
+                    const { FollowupNotes } = await cds.entities('srvOpenOrders');
+                    let Followupnote = await SELECT.from(FollowupNotes).where({  SalesOrder: entry.SalesOrder, OrderItem: entry.OrderItem,}).orderBy('CreatedAt desc').limit(1)
+                    if (Followupnote.length > 0 && req.data.CreatedAt > Followupnote[0].CreatedAt) {
+                        await UPDATE(FollowupNotes).set({ LastFollowupNoteFlag: 'X' }).where({ SalesOrder: entry.SalesOrder, OrderItem: entry.OrderItem, CreatedAt: note[0].CreatedAt });
+                    }
+                })
+
         this.on("READ", "ChangeDocSet", async req => {
             let lt_changeDocs = [];
             try {
