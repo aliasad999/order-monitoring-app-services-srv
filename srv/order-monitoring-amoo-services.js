@@ -1601,7 +1601,7 @@ class openOrdersSrv extends cds.ApplicationService {
                     const { FollowupNotes } = await cds.entities('srvOpenOrders');
                     let Followupnote = await SELECT.from(FollowupNotes).where({  SalesOrder: entry.SalesOrder, OrderItem: entry.OrderItem,}).orderBy('CreatedAt desc').limit(1)
                     if (Followupnote.length > 0 && req.data.CreatedAt > Followupnote[0].CreatedAt) {
-                        await UPDATE(FollowupNotes).set({ LastFollowupNoteFlag: 'X' }).where({ SalesOrder: entry.SalesOrder, OrderItem: entry.OrderItem, CreatedAt: note[0].CreatedAt });
+                        await UPDATE(FollowupNotes).set({ LastFollowupNoteFlag: 'X' }).where({ SalesOrder: entry.SalesOrder, OrderItem: entry.OrderItem, CreatedAt: Followupnote[0].CreatedAt });
                     }
                 })
 
