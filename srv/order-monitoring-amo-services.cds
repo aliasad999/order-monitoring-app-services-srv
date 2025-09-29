@@ -455,6 +455,9 @@ service srvOpenOrders {
           BIZAGI_STATUS                               as SO_BIZAGI_STATUS,
           TS_PARTNER                                  as TM_TS_PARTNER,
           TS_PARTNER_NAME1                            as TM_TS_PARTNER_NAME1,
+          KVGR5                                       as SO_KVGR5,
+          STCEG                                       as BL_STCEG,
+
 
     };
 
