@@ -288,6 +288,8 @@ annotate service.OpenOrdersAnalytics with {
     SO_BIZAGI_STATUS                @UI.Hidden;
     TM_TS_PARTNER                   @UI.Hidden;
     TM_TS_PARTNER_NAME1             @UI.Hidden;
+    SO_KVGR5                        @UI.Hidden;
+    BL_STCEG                        @UI.Hidden;
     
 
 };
