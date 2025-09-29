@@ -376,7 +376,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
                 finalOrderLine = await orderChangeService.send({
                     method: "GET",
-                    path: `/isOrderChangeable?salesOrder=${saleOrder}&salesOrderItem=${orderItem}`
+                    path: `/isOrderChangeable?salesOrder='${saleOrder}'&salesOrderItem='${orderItem}'`
                 });
                 let bizagiStatus = null;
                 try {
