@@ -1589,8 +1589,9 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.before("CREATE", "FollowupNotes", async (req) => {
-                    const { FollowupNotes } = await cds.entities('srvOpenOrders');
-                    req.query.INSERT.entries.forEach(async (entry) => {
+                    const { FollowupNotes } = await cds.entities('openOrdersSrv');
+                
+                    req.query.INSERT.entries.forEach(async (entry) => {   
                         req.query.INSERT.entries[0].LastFollowupNoteFlag = 'X'
                         await UPDATE(FollowupNotes).set({ LastFollowupNoteFlag: ' ' }).where({ SalesOrder: entry.SalesOrder, OrderItem: entry.OrderItem, LastFollowupNoteFlag: 'X' });
                     })
@@ -1598,11 +1599,15 @@ class openOrdersSrv extends cds.ApplicationService {
         
         
         this.after("DELETE", "FollowupNotes", async (data, req) => {
-                    const { FollowupNotes } = await cds.entities('srvOpenOrders');
-                    let Followupnote = await SELECT.from(FollowupNotes).where({  SalesOrder:req.data.SalesOrder, OrderItem: req.data.OrderItem,}).orderBy('CreatedAt desc').limit(1)
-                    if (Followupnote.length > 0 && req.data.CreatedAt > Followupnote[0].CreatedAt) {
+                    const { FollowupNotes } = await cds.entities('openOrdersSrv');
+                    let Followupnote = await SELECT.from(FollowupNotes).where({  SalesOrder:req.data.SalesOrder, OrderItem: req.data.OrderItem}).orderBy('CreatedAt desc').limit(1);
+                    console.log('LatestNote:', Followupnote);
+                    console.log(req.data.CreatedAt);
+                    console.log('Timestamp from table' ,Followupnote[0].CreatedAt);
+                    if (Followupnote.length > 0 ) {
                         await UPDATE(FollowupNotes).set({ LastFollowupNoteFlag: 'X' }).where({ SalesOrder: req.data.SalesOrder, OrderItem: req.data.OrderItem, CreatedAt: Followupnote[0].CreatedAt });
                     }
+
                 })
 
         this.on("READ", "ChangeDocSet", async req => {
