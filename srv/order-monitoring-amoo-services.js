@@ -1588,6 +1588,7 @@ class openOrdersSrv extends cds.ApplicationService {
             return predefFUNotes;
         });
 
+        // Adding Flag for latest followup notes 
         this.before("CREATE", "FollowupNotes", async (req) => {
                     const { FollowupNotes } = await cds.entities('openOrdersSrv');
                 
@@ -1597,13 +1598,10 @@ class openOrdersSrv extends cds.ApplicationService {
                     })
                 })
         
-        
+        // Adding Flag for first entry in the table after deleting one of the FollowupNotes
         this.after("DELETE", "FollowupNotes", async (data, req) => {
                     const { FollowupNotes } = await cds.entities('openOrdersSrv');
                     let Followupnote = await SELECT.from(FollowupNotes).where({  SalesOrder:req.data.SalesOrder, OrderItem: req.data.OrderItem}).orderBy('CreatedAt desc').limit(1);
-                    console.log('LatestNote:', Followupnote);
-                    console.log(req.data.CreatedAt);
-                    console.log('Timestamp from table' ,Followupnote[0].CreatedAt);
                     if (Followupnote.length > 0 ) {
                         await UPDATE(FollowupNotes).set({ LastFollowupNoteFlag: 'X' }).where({ SalesOrder: req.data.SalesOrder, OrderItem: req.data.OrderItem, CreatedAt: Followupnote[0].CreatedAt });
                     }
