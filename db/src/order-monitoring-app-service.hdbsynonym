@@ -102,6 +102,12 @@
         "schema": "_PLACEHOLDER_"
     }
   },
+   "ALLORDERS_DB_ST_OM_DOC_FLOW": {
+    "target": {
+      "object": "otc.csc.db.base.tables::ST_OM_DOC_FLOW",
+      "schema": "_PLACEHOLDER_"
+    }
+  },
   "ALLORDERS_DB_REGION_SETTINGS": {
     "target": {
       "object": "otc.csc.db.base.tables::USER_REGION",
