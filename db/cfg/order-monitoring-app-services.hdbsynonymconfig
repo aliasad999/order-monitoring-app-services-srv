@@ -23,6 +23,12 @@
       "schema.configure": "otc-csc-hdi/schema"
     }
   },
+   "ALLORDERS_DB_ST_OM_DOC_FLOW": {
+    "target": {
+      "object": "otc.csc.db.base.tables::ST_OM_DOC_FLOW",
+      "schema.configure": "otc-csc-hdi/schema"
+    }
+  },
   "OPENORDERS_DB_OPENORDERSLIST": {
     "target": {
       "object": "otc.csc.db.app_service.views::CV_OPEN_ORDERLIST_FINAL",
