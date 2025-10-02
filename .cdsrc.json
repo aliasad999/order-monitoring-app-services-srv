@@ -173,7 +173,8 @@
             }
         },
         "S4OrderChangeService": {
-            "kind": "odata-v2",
+            "kind": "odata-v4",
+            "model": "srv/external/S4OrderChangeService",
             "csrf": {
                 "method": "get",
                 "url": "/it/omg/ocs/order-change-service/v1"

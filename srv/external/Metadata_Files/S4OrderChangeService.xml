@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="OrderChangeAPI" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <Annotation Term="Core.Links">
+                <Collection>
+                    <Record>
+                        <PropertyValue Property="rel" String="author"/>
+                        <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+                    </Record>
+                </Collection>
+            </Annotation>
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Test" EntityType="OrderChangeAPI.Test"/>
+                <ActionImport Name="directOrderChange" Action="OrderChangeAPI.directOrderChange"/>
+                <ActionImport Name="workflowOrderChange" Action="OrderChangeAPI.workflowOrderChange"/>
+                <ActionImport Name="directOrderChangeV2" Action="OrderChangeAPI.directOrderChangeV2"/>
+                <FunctionImport Name="TestFunction" Function="OrderChangeAPI.TestFunction"/>
+                <FunctionImport Name="isOrderChangeable" Function="OrderChangeAPI.isOrderChangeable"/>
+            </EntityContainer>
+            <EntityType Name="Test">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="test" Type="Edm.String"/>
+            </EntityType>
+            <ComplexType Name="responses_DirectOrderChangeResponse">
+                <Property Name="response" Type="Edm.String"/>
+            </ComplexType>
+            <ComplexType Name="payloads_DirectOrderChangePayload">
+                <Property Name="SalesOrder" Type="Edm.String"/>
+                <Property Name="SalesOrderItem" Type="Edm.String"/>
+                <Property Name="RejectionReason" Type="Edm.String"/>
+                <Property Name="Internal" Type="Edm.Boolean"/>
+                <Property Name="RequestedScheduleLines" Type="OrderChangeAPI.payloads_DirectOrderChangePayload_RequestedScheduleLines"/>
+            </ComplexType>
+            <ComplexType Name="payloads_DirectOrderChangePayload_RequestedScheduleLines">
+                <Property Name="Date" Type="Edm.DateTimeOffset"/>
+                <Property Name="Quantity" Type="Edm.String"/>
+                <Property Name="Unit" Type="Edm.String"/>
+            </ComplexType>
+            <ComplexType Name="responses_WorkflowOrderChangeResponse">
+                <Property Name="response" Type="Edm.String"/>
+            </ComplexType>
+            <ComplexType Name="payloads_WorkflowOrderChangePayload">
+                <Property Name="startParameters" Type="Collection(OrderChangeAPI.payloads_WorkflowOrderChangePayload_startParameters)" Nullable="true"/>
+            </ComplexType>
+            <ComplexType Name="payloads_WorkflowOrderChangePayload_startParameters">
+                <Property Name="xpath" Type="Edm.String"/>
+                <Property Name="type" Type="Edm.String"/>
+                <Property Name="value" Type="Edm.String"/>
+                <Property Name="rows" Type="Collection(OrderChangeAPI.payloads_WorkflowOrderChangePayload_startParameters_rows)" Nullable="true"/>
+            </ComplexType>
+            <ComplexType Name="payloads_WorkflowOrderChangePayload_startParameters_rows">
+                <Property Name="columns" Type="Collection(OrderChangeAPI.payloads_WorkflowOrderChangePayload_startParameters_rows_columns)" Nullable="true"/>
+            </ComplexType>
+            <ComplexType Name="payloads_WorkflowOrderChangePayload_startParameters_rows_columns">
+                <Property Name="xpath" Type="Edm.String"/>
+                <Property Name="value" Type="Edm.String"/>
+            </ComplexType>
+            <ComplexType Name="responses_IsOrderChangeableResponse">
+                <Property Name="Editable" Type="Edm.Boolean"/>
+                <Property Name="DirectChange" Type="Edm.Boolean"/>
+                <Property Name="WorkflowChange" Type="Edm.Boolean"/>
+                <Property Name="CancelFlag" Type="Edm.Boolean"/>
+                <Property Name="BizagiCaseInProgress" Type="Edm.Boolean"/>
+                <Property Name="BizagiCaseStatus" Type="Edm.String"/>
+                <Property Name="BizagiCaseID" Type="Edm.String"/>
+                <Property Name="BizagiCase" Type="Edm.String"/>
+                <Property Name="FinalOrder" Type="Edm.String"/>
+                <Property Name="FinalItem" Type="Edm.String"/>
+                <Property Name="FirstOrder" Type="Edm.String"/>
+                <Property Name="FirstItem" Type="Edm.String"/>
+                <Property Name="NextOrder" Type="Edm.String"/>
+                <Property Name="NextItem" Type="Edm.String"/>
+                <Property Name="ProcessOrder" Type="Edm.String"/>
+                <Property Name="SalesOrder" Type="Edm.String"/>
+                <Property Name="SalesOrderItem" Type="Edm.String"/>
+                <Property Name="OrdSchedReq" Type="Collection(OrderChangeAPI.responses_IsOrderChangeableResponse_OrdSchedReq)" Nullable="true"/>
+                <Property Name="OrdSchedConf" Type="Collection(OrderChangeAPI.responses_IsOrderChangeableResponse_OrdSchedConf)" Nullable="true"/>
+                <Property Name="OrdWFPartnersFinalOrder" Type="Collection(OrderChangeAPI.responses_IsOrderChangeableResponse_OrdWFPartnersFinalOrder)" Nullable="true"/>
+                <Property Name="OrdWFPartnersNextOrder" Type="Collection(OrderChangeAPI.responses_IsOrderChangeableResponse_OrdWFPartnersNextOrder)" Nullable="true"/>
+                <Property Name="OrdDeliveries" Type="Collection(OrderChangeAPI.responses_IsOrderChangeableResponse_OrdDeliveries)" Nullable="true"/>
+                <Property Name="OrdShipments" Type="Collection(OrderChangeAPI.responses_IsOrderChangeableResponse_OrdShipments)" Nullable="true"/>
+            </ComplexType>
+            <ComplexType Name="responses_IsOrderChangeableResponse_OrdSchedReq">
+                <Property Name="SalesOrder" Type="Edm.String"/>
+                <Property Name="SalesOrderItem" Type="Edm.String"/>
+                <Property Name="SlNum" Type="Edm.String"/>
+                <Property Name="SlDate" Type="Edm.DateTimeOffset"/>
+                <Property Name="Quantity" Type="Edm.String"/>
+                <Property Name="SalesUnit" Type="Edm.String"/>
+            </ComplexType>
+            <ComplexType Name="responses_IsOrderChangeableResponse_OrdSchedConf">
+                <Property Name="SalesOrder" Type="Edm.String"/>
+                <Property Name="SalesOrderItem" Type="Edm.String"/>
+                <Property Name="SlNum" Type="Edm.String"/>
+                <Property Name="SlDate" Type="Edm.DateTimeOffset"/>
+                <Property Name="Quantity" Type="Edm.String"/>
+                <Property Name="SalesUnit" Type="Edm.String"/>
+            </ComplexType>
+            <ComplexType Name="responses_IsOrderChangeableResponse_OrdWFPartnersFinalOrder">
+                <Property Name="SalesOrder" Type="Edm.String"/>
+                <Property Name="PartnFn" Type="Edm.String"/>
+                <Property Name="SalesOrderItem" Type="Edm.String"/>
+                <Property Name="Usrid" Type="Edm.String"/>
+                <Property Name="Name" Type="Edm.String"/>
+                <Property Name="MailAddr" Type="Edm.String"/>
+                <Property Name="TelNum" Type="Edm.String"/>
+            </ComplexType>
+            <ComplexType Name="responses_IsOrderChangeableResponse_OrdWFPartnersNextOrder">
+                <Property Name="SalesOrder" Type="Edm.String"/>
+                <Property Name="PartnFn" Type="Edm.String"/>
+                <Property Name="SalesOrderItem" Type="Edm.String"/>
+                <Property Name="Usrid" Type="Edm.String"/>
+                <Property Name="Name" Type="Edm.String"/>
+                <Property Name="MailAddr" Type="Edm.String"/>
+                <Property Name="TelNum" Type="Edm.String"/>
+            </ComplexType>
+            <ComplexType Name="responses_IsOrderChangeableResponse_OrdDeliveries">
+                <Property Name="SalesOrder" Type="Edm.String"/>
+                <Property Name="SalesOrderItem" Type="Edm.String"/>
+                <Property Name="DeliveryNumber" Type="Edm.String"/>
+                <Property Name="DeliveryItem" Type="Edm.String"/>
+            </ComplexType>
+            <ComplexType Name="responses_IsOrderChangeableResponse_OrdShipments">
+                <Property Name="SalesOrder" Type="Edm.String"/>
+                <Property Name="SalesOrderItem" Type="Edm.String"/>
+                <Property Name="DeliveryNumber" Type="Edm.String"/>
+                <Property Name="DeliveryItem" Type="Edm.String"/>
+                <Property Name="ShipmentNumber" Type="Edm.String"/>
+            </ComplexType>
+            <Action Name="directOrderChange" IsBound="false">
+                <Parameter Name="payload" Type="OrderChangeAPI.payloads_DirectOrderChangePayload"/>
+                <ReturnType Type="OrderChangeAPI.responses_DirectOrderChangeResponse"/>
+            </Action>
+            <Action Name="workflowOrderChange" IsBound="false">
+                <Parameter Name="payload" Type="OrderChangeAPI.payloads_WorkflowOrderChangePayload"/>
+                <ReturnType Type="OrderChangeAPI.responses_WorkflowOrderChangeResponse"/>
+            </Action>
+            <Action Name="directOrderChangeV2" IsBound="false">
+                <Parameter Name="payload" Type="OrderChangeAPI.payloads_DirectOrderChangePayload"/>
+                <ReturnType Type="Edm.String"/>
+            </Action>
+            <Function Name="TestFunction" IsBound="false" IsComposable="false">
+                <ReturnType Type="Edm.String"/>
+            </Function>
+            <Function Name="isOrderChangeable" IsBound="false" IsComposable="false">
+                <Parameter Name="salesOrder" Type="Edm.String"/>
+                <Parameter Name="salesOrderItem" Type="Edm.String"/>
+                <ReturnType Type="OrderChangeAPI.responses_IsOrderChangeableResponse"/>
+            </Function>
+            <Annotations Target="OrderChangeAPI.Test/ID">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="OrderChangeAPI.isOrderChangeable(Edm.String,Edm.String)/salesOrder">
+                <Annotation Term="Core.OptionalParameter">
+                    <Record Type="Core.OptionalParameterType"/>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="OrderChangeAPI.isOrderChangeable(Edm.String,Edm.String)/salesOrderItem">
+                <Annotation Term="Core.OptionalParameter">
+                    <Record Type="Core.OptionalParameterType"/>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

@@ -256,14 +256,16 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.on("submitOrderChangeWF", async req => {
-            let reqData = JSON.parse(req.data); // parse stringified object
+            let parsedPayload = JSON.parse(req.data.payload); // parse stringified object
 
             try {
                 const orderChangeService = await cds.connect.to('S4OrderChangeService');
                 var bizagiCaseCreationCall = await orderChangeService.tx(req).send({
                     method: "POST",
                     path: "/workflowOrderChange",
-                    data: reqData
+                    data: {
+                        payload : parsedPayload
+                    }
                 });
             } catch (error) {
                 req.error(413, error)
@@ -321,6 +323,24 @@ class openOrdersSrv extends cds.ApplicationService {
             }
 
         })
+
+        this.on("isOrderChangeable", async req => {
+            let SalesOrderNumber = req.data.salesOrder; 
+            let SalesOrderItem = req.data.salesOrderItem;
+            let orderChangeTabData = {};
+            const orderChangeService = await cds.connect.to('S4OrderChangeService');
+
+            try {
+                orderChangeTabData = await orderChangeService.send({
+                    method: "GET",
+                    path: `/isOrderChangeable?salesOrder='${SalesOrderNumber}'&salesOrderItem='${SalesOrderItem}'`
+                });
+            } catch (error) {
+                req.error(413, error)
+            }
+            // orderChangeTabData.OrdSchedConf[0].SlDate = new Date()
+            return orderChangeTabData
+        });
 
         this.on("READ", "FinalOrderLineSet", async (req, next) => {
             let finalOrderLine = {};

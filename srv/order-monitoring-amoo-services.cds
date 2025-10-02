@@ -10,6 +10,7 @@ using {LORDOdataOrderService as LORDOdataOrderService} from './external/LORDOdat
 using {CSEUCockpitService as CSEUCockpitService} from './external/CSEUCockpitService';
 using {OMServicesAP as OMServicesAP} from './external/OMServicesAP';
 using allorders.db as amo_service from '../db/order-monitoring-amo-service';
+using {S4OrderChangeService as S4OCS} from './external/S4OrderChangeService';
 
 service openOrdersSrv {
     @readonly
@@ -592,6 +593,7 @@ service openOrdersSrv {
     action   createDeliveryforItem(salesOrder : String(10), salesOrderItem : String(6))                returns Boolean;
     entity SAPTexts                 as projection on db_app.SAPTexts;
     function getSAPTexts(salesOrder : String(10), salesOrderItem : String(6), orderSystem : String(3)) returns array of SAPTexts;
+    function isOrderChangeable(salesOrder : String(10), salesOrderItem : String(6)) returns S4OCS.responses_IsOrderChangeableResponse;
 
     /// ORDER CREATION ENTITIES
     @readonly
