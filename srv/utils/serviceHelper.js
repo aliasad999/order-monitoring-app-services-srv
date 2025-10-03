@@ -67,7 +67,7 @@ const getMandtFields = () => {
 }
 
 const getMandtFieldsNames = (mandtFieldValue) => {
-    switch(mandtFieldValue){
+    switch (mandtFieldValue) {
         case "100":
             return "Cobalt";
         case "200":
@@ -101,7 +101,7 @@ const _addFilterToQuery = (query, fieldFiltered, filterValue) => {
     }
 }
 
-const replaceDateInArray = (array ) =>{
+const replaceDateInArray = (array) => {
     array.forEach(item => {
         if (item && /^3000-12-\d{2}$/.test(item.val)) { // Check that date is in format YYYY-MM-DD with value 3000-12-DD
             item.val = '00000000'; // date in DB is stored without "-"
@@ -155,23 +155,23 @@ const addOrRemoveNPSFilter = (req, npsTabSelected) => {
         SO_NPS_00: "00"
     };
     let filterValue = NPSMapping[npsTabSelected];
-    if(filterValue){ // other tabs apart from all issues
+    if (filterValue) { // other tabs apart from all issues
         _addFilterToQuery(req, "SO_NPS", filterValue)
-    }else{ // all issues tab
+    } else { // all issues tab
         _removeFilterFromQuery(req, "SO_NPS")
     }
 }
 
 convertCQNtoCQL = (where, ignoreNPS) => {
     const requestQuery = [...where];
-    if (ignoreNPS){
-    // Helper function to process nested expressions
-    for (let i = requestQuery.length - 1; i >= 0; i--) {
-        if (requestQuery[i].ref && requestQuery[i].ref[0] === 'SO_NPS' || requestQuery[i].ref && requestQuery[i].ref[0] === 'SO_IGNORED') {
-            requestQuery.splice(i, 4);
+    if (ignoreNPS) {
+        // Helper function to process nested expressions
+        for (let i = requestQuery.length - 1; i >= 0; i--) {
+            if (requestQuery[i].ref && requestQuery[i].ref[0] === 'SO_NPS' || requestQuery[i].ref && requestQuery[i].ref[0] === 'SO_IGNORED') {
+                requestQuery.splice(i, 4);
+            }
         }
     }
-}
     // Start processing from the top-level requestQuery array
     let cql = processExpression(requestQuery);
 
@@ -189,7 +189,7 @@ convertCQNtoCQL = (where, ignoreNPS) => {
     });
     return cql;
 }
- processExpression = (expr) => {
+processExpression = (expr) => {
     let cqlParts = [];
     let i = 0;
 
@@ -203,8 +203,8 @@ convertCQNtoCQL = (where, ignoreNPS) => {
             } else if (item.ref) {
                 // Handle reference
                 cqlParts.push(item.ref.join('.'));
-            } else if (item.func === 'date' ){
-                cqlParts.push(typeof item.args[0].val === 'string' ? `''${item.args[0].val}''` : item.val); 
+            } else if (item.func === 'date') {
+                cqlParts.push(typeof item.args[0].val === 'string' ? `''${item.args[0].val}''` : item.val);
             }
             else if (item.val !== undefined) {
                 // Handle value when is empty is selected --> define conditions
@@ -249,17 +249,17 @@ convertCQNtoCQL = (where, ignoreNPS) => {
 }
 transformWhereClause = (whereClause) => {
     const dateProps = getDateProps()
-    let transformed =  whereClause.replace(/(\b\w+\b)\s*(>=|<=|>|<|=)\s*''(\d{4})-(\d{2})-(\d{2})''/g, 
+    let transformed = whereClause.replace(/(\b\w+\b)\s*(>=|<=|>|<|=)\s*''(\d{4})-(\d{2})-(\d{2})''/g,
         (match, field, operator, year, month, day) => {
-        if (dateProps.includes(field)) {
-            return `${field} ${operator} '${year}${month}${day}'`;  // Convert date format 
-        }
-    });
+            if (dateProps.includes(field)) {
+                return `${field} ${operator} '${year}${month}${day}'`;  // Convert date format 
+            }
+        });
     transformed = transformed.replace(/''/g, "'"); // keep only single quotes   
     transformed = transformed.replace(/\s*AND\s*$/, ''); // removing ending and
 
     return transformed;
-    }
+}
 
 const _removeFilterFromQuery = (query, filterToRemove) => {
     if (query.SELECT.where && query.SELECT.where.length > 0) {
@@ -273,14 +273,14 @@ const _removeFilterFromQuery = (query, filterToRemove) => {
         if (FieldFilteredIndex >= 0) {
             // check if previous part is an AND, remove it if so
             let previousIndex = FieldFilteredIndex - 1;
-            if(query.SELECT.where[previousIndex] === "and"){
+            if (query.SELECT.where[previousIndex] === "and") {
                 // remove 4 parts starting from previousIndex
                 query.SELECT.where.splice(previousIndex, 4);
-            }else{
+            } else {
                 // remove 3 parts starting from FieldFilteredIndex
                 query.SELECT.where.splice(FieldFilteredIndex, 4);
             }
-            
+
         }
     }
 }
@@ -293,7 +293,7 @@ const addOrderIfNeeded = (orderBy, fieldToOrder) => {
         return false;
     });
     if (FieldFilteredIndex < 0) {
-        orderBy.push({ref:[fieldToOrder], sort: 'asc'})
+        orderBy.push({ ref: [fieldToOrder], sort: 'asc' })
     }
 }
 const buildSubtotalColumns = (columnsArray, groupByFields, aggrMap, excludeColumns = []) => {
@@ -308,9 +308,9 @@ const buildSubtotalColumns = (columnsArray, groupByFields, aggrMap, excludeColum
     return columnsArray.map(col => {
         let baseCol = col.replace(/^NULL AS\s+/i, '');
         if (aggrMap[baseCol]) {
-            return aggrMap[baseCol].sum; 
+            return aggrMap[baseCol].sum;
         } else if (groupByFields.includes(baseCol) || requiredUnitFields.has(baseCol)) {
-            return baseCol; 
+            return baseCol;
         } else if (excludeColumns.includes(baseCol)) {
             return `NULL AS ${baseCol}`;
         } else {
@@ -319,8 +319,39 @@ const buildSubtotalColumns = (columnsArray, groupByFields, aggrMap, excludeColum
     });
 };
 
+const transformDateFilters = (whereClause) => {
+    if (Array.isArray(whereClause)) {
+        whereClause.forEach(condition => {
+            if (typeof condition === 'object') {
+                transformDateFilters(condition);
+            }
+        });
+    } else if (whereClause && typeof whereClause === 'object') {
+        Object.keys(whereClause).forEach(key => {
+            if (whereClause[key] && /^\d{4}-\d{2}-\d{2}$/.test(whereClause[key])) {
+                // Transform ISO date to YYYYMMDD format
+                whereClause[key] = whereClause[key].replace(/-/g, '');
+            } else if (typeof whereClause[key] === 'object') {
+                transformDateFilters(whereClause[key]);
+            }
+        });
+    }
+}
 
-module.exports =  {
+const changeIgnored = (requestQuery, bChangeIgnored) => {
+    for (let i = requestQuery.length - 1; i >= 0; i--) {
+        if (requestQuery[i].ref && requestQuery[i].ref[0] === 'SO_NPS') {
+            requestQuery.splice(i, 4);
+        }
+        if(requestQuery[i].ref && requestQuery[i].ref[0] === 'SO_IGNORED' && bChangeIgnored){
+            requestQuery[i + 2].val = 1;
+        }
+    }
+    return requestQuery;
+}
+
+
+module.exports = {
     getDateProps,
     getPODateProps,
     getMandtFields,
@@ -332,5 +363,7 @@ module.exports =  {
     removeDuplicates,
     getBundle,
     addOrderIfNeeded,
-    buildSubtotalColumns
+    buildSubtotalColumns,
+    transformDateFilters,
+    changeIgnored
 }
