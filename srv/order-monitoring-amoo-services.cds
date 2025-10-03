@@ -242,6 +242,7 @@ service openOrdersSrv {
                 F_VSBED                                     as SO_F_VSBED,
                 F_VSBED_VTEXT_LANG                          as SO_F_VSBED_VTEXT,
                 NOTE_TEXT                                   as LAST_NOTE,
+                NOTE_TEXT_FROMORDERCHAIN                    as LAST_NOTE_FROMORDERCHAIN,
                 VBELN_DEL                                   as DL_VBELN,
                 POSNR_DEL                                   as DL_POSNR_BATCH,
                 POSNR_DEL_HEAD                              as DL_POSNR,
@@ -573,7 +574,8 @@ service openOrdersSrv {
             key PREDEFINED_ID      as FollowupNote,
             key LANGUAGE           as Language,
                 PREDEFINED_CONTENT as Content,
-                CREATED_AT         as CreatedAt
+                CREATED_AT         as CreatedAt,
+                LAST_FOLLOWUPNOTE_FLAG  as LastFollowupNoteFlag                
         };
 
     entity dueDateLimit             as projection on db_app.DUE_DATE_LIMIT;
