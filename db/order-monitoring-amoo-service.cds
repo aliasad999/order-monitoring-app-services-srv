@@ -621,6 +621,8 @@ entity ![ST_FOLLOWUP_NOTES] {
         PREDEFINED_CONTENT : String(50);
         LANGUAGE           : String(1);
         CREATED_AT         : Timestamp;
+        LAST_FOLLOWUPNOTE_FLAG  : String(1);
+
 }
 
 @cds.persistence.exists
