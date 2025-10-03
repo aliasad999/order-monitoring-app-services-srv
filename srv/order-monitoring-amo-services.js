@@ -263,14 +263,8 @@ class srvOpenOrders extends cds.ApplicationService {
             req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
             req.query.SELECT.localized = false;
             req.query.SELECT.distinct = true;
-            // where clause is initially converted from cqn to cql
-            let whereClause = serviceHelper.convertCQNtoCQL(req.query.SELECT.where,false)
-            // where clause is initially converted from cqn to cql
-            // where clause is then transformed from cql for date formatting and removing additional inverted commas
-            whereClause = serviceHelper.transformWhereClause(whereClause)
-            // where clause is then transformed from cql for date formatting and removing additional inverted commas
-            // where clause is then inserted back to the query
-            req.query.SELECT.where = cds.parse.xpr(whereClause)
+            // Transform date filters from YYYY-MM-DD to YYYYMMDD
+            serviceHelper.transformDateFilters(req.query.SELECT.where);
         });
 
         this.on("READ", "Results", async (req, next) => {
@@ -648,15 +642,16 @@ class srvOpenOrders extends cds.ApplicationService {
         this.before("CREATE", "notes", async (req) => {
             const { notes } = await cds.entities('srvOpenOrders');
             req.query.INSERT.entries.forEach(async (entry) => {
-                req.query.INSERT.entries[0].LAST_NOTE_FLAG = 'X'
-                await UPDATE(notes).set({ LAST_NOTE_FLAG: ' ' }).where({ VBELN: entry.VBELN, POSNR: entry.POSNR, LAST_NOTE_FLAG: 'X' });
+                if(entry.LAST_NOTE_FLAG != "Y"){
+                    req.query.INSERT.entries[0].LAST_NOTE_FLAG = 'X'
+                    await UPDATE(notes).set({ LAST_NOTE_FLAG: ' ' }).where({ VBELN: entry.VBELN, POSNR: entry.POSNR, LAST_NOTE_FLAG: 'X' });
+                }
             })
         })
 
-
         this.after("DELETE", "notes", async (data, req) => {
             const { notes } = await cds.entities('srvOpenOrders');
-            let note = await SELECT.from(notes).where({ VBELN: req.data.VBELN, POSNR: req.data.POSNR }).orderBy('UTCTIME desc').limit(1)
+            let note = await SELECT.from(notes).where({ VBELN: req.data.VBELN, POSNR: req.data.POSNR,LAST_NOTE_FLAG: { '!=': 'Y' } }).orderBy('UTCTIME desc').limit(1)
             if (note.length > 0 && req.data.UTCTIME > note[0].UTCTIME) {
                 await UPDATE(notes).set({ LAST_NOTE_FLAG: 'X' }).where({ VBELN: req.data.VBELN, POSNR: req.data.POSNR, UTCTIME: note[0].UTCTIME });
             }
