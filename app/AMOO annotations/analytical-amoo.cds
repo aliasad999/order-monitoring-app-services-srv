@@ -128,6 +128,7 @@ annotate service.OpenOrdersAnalytics with {
     SO_F_AMEIN                      @UI.Hidden;
     SO_F_PSMNG                      @UI.Hidden;
     LAST_NOTE                       @UI.Hidden;
+    LAST_NOTE_FROMORDERCHAIN        @UI.Hidden;
     DL_CHARG                        @UI.Hidden;
     // DL_LFDAT                        @UI.Hidden;
     DL_HSDAT                        @UI.Hidden;
@@ -288,6 +289,8 @@ annotate service.OpenOrdersAnalytics with {
     SO_BIZAGI_STATUS                @UI.Hidden;
     TM_TS_PARTNER                   @UI.Hidden;
     TM_TS_PARTNER_NAME1             @UI.Hidden;
+    SO_KVGR5                        @UI.Hidden;
+    BL_STCEG                        @UI.Hidden;
     
 
 };

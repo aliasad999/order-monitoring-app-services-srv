@@ -101,6 +101,7 @@ annotate service.baseEntity with {
     SO_F_VSBED                       @title: '{i18n>SO_F_VSBED}'                       @sap.Label: '{i18n>SO_F_VSBED}';
     SO_F_VSBED_VTEXT                 @title: '{i18n>SO_F_VSBED_VTEXT}'                 @sap.Label: '{i18n>SO_F_VSBED_VTEXT}';
     LAST_NOTE                        @title: '{i18n>LAST_NOTE}'                        @sap.Label: '{i18n>LAST_NOTE}';
+    LAST_NOTE_FROMORDERCHAIN         @title: '{i18n>LAST_NOTE_FROMORDERCHAIN}'         @sap.Label: '{i18n>LAST_NOTE_FROMORDERCHAIN}';
     DL_VBELN                         @title: '{i18n>DL_VBELN}'                         @sap.Label: '{i18n>DL_VBELN}';             
     DL_POSNR                         @title: '{i18n>DL_POSNR}'                         @sap.Label: '{i18n>DL_POSNR}'              @Common.IsDigitSequence: true;
     DL_CHARG                         @title: '{i18n>DL_CHARG}'                         @sap.Label: '{i18n>DL_CHARG}';
@@ -285,5 +286,8 @@ annotate service.baseEntity with {
     SO_BIZAGI_STATUS                 @title: '{i18n>SO_BIZAGI_STATUS}'                 @sap.Label: '{i18n>SO_BIZAGI_STATUS}';
     TM_TS_PARTNER                    @title: '{i18n>TM_TS_PARTNER}'                    @sap.Label: '{i18n>TM_TS_PARTNER}' @Common.IsDigitSequence: true;
     TM_TS_PARTNER_NAME1              @title: '{i18n>TM_TS_PARTNER_NAME1}'              @sap.Label: '{i18n>TM_TS_PARTNER_NAME1}';
+    SO_KVGR5                         @title: '{i18n>SO_KVGR5}'                         @sap.Label: '{i18n>SO_KVGR5}';
+    BL_STCEG                         @title: '{i18n>BL_STCEG}'                         @sap.Label: '{i18n>BL_STCEG}';
+    
 
 };

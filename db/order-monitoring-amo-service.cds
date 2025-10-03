@@ -13,7 +13,6 @@ entity DCPStatus {
 
 @cds.persistence.exists
 entity ![RESULTS] {
-
         MANDT                              : String(3);
         VBELN                              : String(10);
         POSNR                              : String(6);
@@ -178,6 +177,7 @@ entity ![RESULTS] {
         WADAT_IST                          : String(8);
         DL_WADAT_IST_DATE                  : Date = WADAT_IST;
         NOTE_TEXT                          : String(1000);
+        NOTE_TEXT_FROMORDERCHAIN           : String(1000);
         // LANGUAGE                           : String(2);
         TKNUM                              : String(10);
         VSART                              : String(2);
@@ -363,6 +363,8 @@ entity ![RESULTS] {
         BIZAGI_STATUS                      : String(100);
         TS_PARTNER                         : String(10);
         TS_PARTNER_NAME1                   : String(40);
+        KVGR5                              : String(3);
+        STCEG                              : String(20);
 
 }
 
@@ -408,6 +410,9 @@ entity ![ST_NOTES] {
         NOTE_TEXT      : String(1000);
         USERNAME       : String(12);
         LAST_NOTE_FLAG : String(1);
+        CLIENT_CHAIN    : String(3);
+        VBELN_CHAIN    : String(10);
+        POSNR_CHAIN    : String(6);
 }
 
 @cds.persistence.exists
@@ -482,4 +487,25 @@ entity variantUserSettings {
             favorite           : Boolean;
             standardVariant    : Boolean;
             executeOnSelection : Boolean;
+}
+
+@cds.persistence.exists
+entity ST_OM_DOC_FLOW {
+        key SEQUENCE                   : Int16      not null;
+        key FIRST_DOCUMENT_MANDT       : String(3)  not null;
+        key FIRST_DOCUMENT             : String(10) not null;
+        key FIRST_DOCUMENT_ITEM        : String(6)  not null;
+        key FIRST_DOCUMENT_CATEGORY    : String(1)  not null;
+        key PRECEDING_PO_MANDT         : String(3);
+        key PRECEDING_PO               : String(10);
+        key PRECEDING_PO_ITEM          : String(5);
+        SUBSEQUENT_SO_MANDT            : String(3);
+        SUBSEQUENT_SO                  : String(10);
+        SUBSEQUENT_SO_ITEM             : String(6);
+        FIRST_SO_MANDT                 : String(3);
+        FIRST_SO                       : String(10);
+        FIRST_SO_ITEM                  : String(6);
+        LAST_SO_MANDT                  : String(3);
+        LAST_SO                        : String(10);
+        LAST_SO_ITEM                   : String(6);
 }
