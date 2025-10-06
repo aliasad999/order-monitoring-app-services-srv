@@ -47,14 +47,6 @@
                 "path": "/it/omg/omc/dsl-services/v1"
             }
         },
-        "OrderChangeService": {
-            "kind": "odata-v2",
-            "model": "srv/external/OrderChangeService",
-            "credentials": {
-                "destination": "APIM",
-                "path": "/it/omg/omc/order-change/v1"
-            }
-        },
         "CreditManagerService": {
             "kind": "odata-v2",
             "model": "srv/external/CreditManagerService",
