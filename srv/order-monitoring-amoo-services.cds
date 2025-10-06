@@ -1,5 +1,4 @@
 using openorders.db as db_app from '../db/order-monitoring-amoo-service';
-using {OrderChangeService as orderChange} from './external/OrderChangeService';
 using {ContactsService as orderContacts} from './external/ContactsService';
 // using { CreditManagerService as creditManagerService } from './external/CreditManagerService';
 using {DSLServicesService as DSLServicesService} from './external/DSLServicesService';
