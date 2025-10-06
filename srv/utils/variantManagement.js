@@ -216,13 +216,13 @@ const getUserVariants = async (req, res) => {
     const userId = req.user.id;
     
     // Only one query
-    const userVariants = await SELECT.from(`${Variants.name} as B`)
-        .leftJoin(`${VariantsUserSettings.name} as A`)
-        .on`B.fileName = A.fileName
-            and A.userId = ${userId}`
-        .where`B.reference = ${appInput}
-            and ((B.supportUser = ${userId} and B.layer = 'USER') 
-                or B.layer = 'CUSTOMER')`;
+    const userVariants = await SELECT.from(`${Variants.name} as Variants`)
+        .leftJoin(`${VariantsUserSettings.name} as VariantSettings`)
+        .on`Variants.fileName = VariantSettings.fileName
+            and VariantSettings.userId = ${userId}`
+        .where`Variants.reference = ${appInput}
+            and ((Variants.supportUser = ${userId} and Variants.layer = 'USER') 
+                or Variants.layer = 'CUSTOMER')`;
 
     // Map properties to response
     const changes = userVariants.map(variant => ({
