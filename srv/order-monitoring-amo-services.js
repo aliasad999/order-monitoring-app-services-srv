@@ -152,6 +152,23 @@ class srvOpenOrders extends cds.ApplicationService {
                 }
                 }
                 // Mercury Auth call
+                // OTC-1010881 Fault Tolerance if Cobalt is not available due to downtimes
+                // | noCobaltUser | noAPUser | noMercuryUser | Result |
+                // | ❌            | ❌        | ❌             | ❌ Fail |
+                // | ❌            | ✅        | ❌             | ✅ Pass |
+                // | ❌            | ✅        | ✅             | ✅ Pass |
+                // | ✅            | ❌        | ❌             | ✅ Pass |
+                // | ✅            | ✅        | ❌             | ✅ Pass |
+                // | ✅            | ❌        | ✅             | ✅ Pass |
+                // | ✅            | ✅        | ✅             | ✅ Pass |
+
+
+                const hasCobalt = globalError.some(e => e.user === 'noCobaltUser');
+                const hasAP = globalError.some(e => e.user === 'noAPUser');
+                if (hasCobalt && hasAP) {
+                    return;
+                } 
+                // OTC-1010881 Fault Tolerance if Cobalt is not available due to downtimes
                 await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
                 await DELETE.from(EKKOAuthObjectKeys).where({ USERID: userID });
 
