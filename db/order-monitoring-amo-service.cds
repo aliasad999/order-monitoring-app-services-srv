@@ -470,9 +470,6 @@ entity variants {
             variantName        : String(255);
             variantId          : String(100);
             projectId          : String(100);
-            standardVariant    : Boolean;
-            favorite           : Boolean;
-            executeOnSelection : Boolean;
 };
 
 entity variantMigration {
