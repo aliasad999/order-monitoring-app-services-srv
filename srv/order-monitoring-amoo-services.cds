@@ -1,5 +1,4 @@
 using openorders.db as db_app from '../db/order-monitoring-amoo-service';
-using {OrderChangeService as orderChange} from './external/OrderChangeService';
 using {ContactsService as orderContacts} from './external/ContactsService';
 // using { CreditManagerService as creditManagerService } from './external/CreditManagerService';
 using {DSLServicesService as DSLServicesService} from './external/DSLServicesService';
@@ -10,6 +9,7 @@ using {LORDOdataOrderService as LORDOdataOrderService} from './external/LORDOdat
 using {CSEUCockpitService as CSEUCockpitService} from './external/CSEUCockpitService';
 using {OMServicesAP as OMServicesAP} from './external/OMServicesAP';
 using allorders.db as amo_service from '../db/order-monitoring-amo-service';
+using {S4OrderChangeService as S4OCS} from './external/S4OrderChangeService';
 
 service openOrdersSrv {
     @readonly
@@ -501,21 +501,6 @@ service openOrdersSrv {
     entity ContactSet               as select * from orderContacts.ContactSet;
     entity ContactsOptions          as select * from db_app.ContactsOptions;
     entity ServicesSet              as select * from DSLServicesService.ServicesSet;
-
-    entity FinalOrderLineSet        as
-        select from orderChange.FinalOrderLineSet {
-            *,
-            ''    as BizagiCaseStatus     : String(100),
-            ''    as BizagiCaseID         : String(10),
-            ''    as BizagiCase           : String(16),
-            false as BizagiCaseInProgress : Boolean
-        };
-
-    entity ScheduleLineRequestedSet as select * from orderChange.ScheduleLineRequestedSet;
-    entity ScheduleLineConfirmedSet as select * from orderChange.ScheduleLineConfirmedSet;
-    entity WorkflowPartnerSet       as select * from orderChange.WorkflowPartnerSet;
-    entity DeliverySet              as select * from orderChange.DeliverySet;
-    entity ShipmentSet              as select * from orderChange.ShipmentSet;
     entity BizagiCaseStatus         as projection on AMOOUtilsService.BizagiCaseStatus;
     entity RejCodesSet              as projection on CSEUCockpitService.RejCodesSet;
     entity LORDHeaderSet            as projection on LORDOdataOrderService.HeaderSet;
@@ -594,6 +579,7 @@ service openOrdersSrv {
     action   createDeliveryforItem(salesOrder : String(10), salesOrderItem : String(6))                returns Boolean;
     entity SAPTexts                 as projection on db_app.SAPTexts;
     function getSAPTexts(salesOrder : String(10), salesOrderItem : String(6), orderSystem : String(3)) returns array of SAPTexts;
+    function isOrderChangeable(salesOrder : String(10), salesOrderItem : String(6)) returns S4OCS.responses_IsOrderChangeableResponse;
 
     /// ORDER CREATION ENTITIES
     @readonly
