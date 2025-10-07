@@ -77,7 +77,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     const service = await cds.connect.to('authService');
                     lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
                 } catch (error) {
-                    globalError.push({ user: 'noCobaltUser', error: error })
+                    globalError.push({ user: 'cobaltNotAvailable', error: error })
                     err = 1 //Cobalt call failed
                 }
                 // // EC AUTH CALL
@@ -110,12 +110,12 @@ class srvOpenOrders extends cds.ApplicationService {
                             }
                         });
                     } catch (error) {
-                        globalError.push({ user: 'noAPUser', error: error });
+                        globalError.push({ user: 'apNotAvailable', error: error });
                         // Handle the error if needed
                     }
 
                 } catch (error) {
-                    globalError.push({ user: 'noAPUser', error: error });
+                    globalError.push({ user: 'apNotAvailable', error: error });
                     // Do not proceed to the second call
                 }
                 if (process.env.SUBACCOUNT === 'DEV'){
@@ -142,12 +142,12 @@ class srvOpenOrders extends cds.ApplicationService {
                             }
                         });
                     } catch (error) {
-                        globalError.push({ user: 'noMercuryUser', error: error });
+                        globalError.push({ user: 'mercuryNotAvailable', error: error });
                         // Handle the error if needed
                     }
 
                 } catch (error) {
-                    globalError.push({ user: 'noMercuryUser', error: error });
+                    globalError.push({ user: 'mercuryNotAvailable', error: error });
                     // Do not proceed to the second call
                 }
                 }
@@ -163,8 +163,8 @@ class srvOpenOrders extends cds.ApplicationService {
                 // | ✅            | ✅        | ✅             | ✅ Pass |
 
 
-                const hasCobalt = globalError.some(e => e.user === 'noCobaltUser');
-                const hasAP = globalError.some(e => e.user === 'noAPUser');
+                const hasCobalt = globalError.some(e => e.user === 'cobaltNotAvailable');
+                const hasAP = globalError.some(e => e.user === 'apNotAvailable');
                 if (hasCobalt && hasAP) {
                     return;
                 } 
