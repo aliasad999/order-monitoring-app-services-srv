@@ -449,7 +449,6 @@ entity  ![ST_VISTA_SHIPMENT_ETA_UPDATED]{
 
 
 entity variants {
-            // key id                 : UUID;
         key fileName           : String(255);
             fileType           : String(10);
             changeType         : String(40);
@@ -471,12 +470,6 @@ entity variants {
             variantId          : String(100);
             projectId          : String(100);
 };
-
-entity variantMigration {
-        key userId               : String;
-            AMOvariantsMigrated  : Boolean;
-            AMOOvariantsMigrated : Boolean;
-}
 
 entity variantUserSettings {
         key fileName           : String(255);
