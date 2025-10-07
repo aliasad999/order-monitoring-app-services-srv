@@ -1,0 +1,434 @@
+{
+ "meta": {
+  "creator": "cds-dk 9.0.6"
+ },
+ "$version": "2.0",
+ "definitions": {
+  "S4OrderChangeService.TestFunction": {
+   "kind": "function",
+   "@cds.external": true,
+   "returns": {
+    "type": "cds.LargeString"
+   }
+  },
+  "S4OrderChangeService.isOrderChangeable": {
+   "kind": "function",
+   "@cds.external": true,
+   "params": {
+    "salesOrder": {
+     "type": "cds.LargeString",
+     "default": {
+      "val": null
+     }
+    },
+    "salesOrderItem": {
+     "type": "cds.LargeString",
+     "default": {
+      "val": null
+     }
+    }
+   },
+   "returns": {
+    "type": "S4OrderChangeService.responses_IsOrderChangeableResponse"
+   }
+  },
+  "S4OrderChangeService.directOrderChange": {
+   "kind": "action",
+   "@cds.external": true,
+   "params": {
+    "payload": {
+     "type": "S4OrderChangeService.payloads_DirectOrderChangePayload"
+    }
+   },
+   "returns": {
+    "type": "S4OrderChangeService.responses_DirectOrderChangeResponse"
+   }
+  },
+  "S4OrderChangeService.workflowOrderChange": {
+   "kind": "action",
+   "@cds.external": true,
+   "params": {
+    "payload": {
+     "type": "S4OrderChangeService.payloads_WorkflowOrderChangePayload"
+    }
+   },
+   "returns": {
+    "type": "S4OrderChangeService.responses_WorkflowOrderChangeResponse"
+   }
+  },
+  "S4OrderChangeService.directOrderChangeV2": {
+   "kind": "action",
+   "@cds.external": true,
+   "params": {
+    "payload": {
+     "type": "S4OrderChangeService.payloads_DirectOrderChangePayload"
+    }
+   },
+   "returns": {
+    "type": "cds.LargeString"
+   }
+  },
+  "S4OrderChangeService.Test": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "ID": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true,
+     "@Core.ComputedDefaultValue": true
+    },
+    "test": {
+     "type": "cds.LargeString"
+    }
+   }
+  },
+  "S4OrderChangeService.responses_DirectOrderChangeResponse": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "response": {
+     "type": "cds.LargeString"
+    }
+   }
+  },
+  "S4OrderChangeService.payloads_DirectOrderChangePayload": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "SalesOrder": {
+     "type": "cds.LargeString"
+    },
+    "SalesOrderItem": {
+     "type": "cds.LargeString"
+    },
+    "RejectionReason": {
+     "type": "cds.LargeString"
+    },
+    "Internal": {
+     "type": "cds.Boolean"
+    },
+    "RequestedScheduleLines": {
+     "type": "S4OrderChangeService.payloads_DirectOrderChangePayload_RequestedScheduleLines"
+    }
+   }
+  },
+  "S4OrderChangeService.payloads_DirectOrderChangePayload_RequestedScheduleLines": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "Date": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset"
+    },
+    "Quantity": {
+     "type": "cds.LargeString"
+    },
+    "Unit": {
+     "type": "cds.LargeString"
+    }
+   }
+  },
+  "S4OrderChangeService.responses_WorkflowOrderChangeResponse": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "response": {
+     "type": "cds.LargeString"
+    }
+   }
+  },
+  "S4OrderChangeService.payloads_WorkflowOrderChangePayload": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "startParameters": {
+     "items": {
+      "type": "S4OrderChangeService.payloads_WorkflowOrderChangePayload_startParameters"
+     }
+    }
+   }
+  },
+  "S4OrderChangeService.payloads_WorkflowOrderChangePayload_startParameters": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "xpath": {
+     "type": "cds.LargeString"
+    },
+    "type": {
+     "type": "cds.LargeString"
+    },
+    "value": {
+     "type": "cds.LargeString"
+    },
+    "rows": {
+     "items": {
+      "type": "S4OrderChangeService.payloads_WorkflowOrderChangePayload_startParameters_rows"
+     }
+    }
+   }
+  },
+  "S4OrderChangeService.payloads_WorkflowOrderChangePayload_startParameters_rows": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "columns": {
+     "items": {
+      "type": "S4OrderChangeService.payloads_WorkflowOrderChangePayload_startParameters_rows_columns"
+     }
+    }
+   }
+  },
+  "S4OrderChangeService.payloads_WorkflowOrderChangePayload_startParameters_rows_columns": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "xpath": {
+     "type": "cds.LargeString"
+    },
+    "value": {
+     "type": "cds.LargeString"
+    }
+   }
+  },
+  "S4OrderChangeService.responses_IsOrderChangeableResponse": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "Editable": {
+     "type": "cds.Boolean"
+    },
+    "DirectChange": {
+     "type": "cds.Boolean"
+    },
+    "WorkflowChange": {
+     "type": "cds.Boolean"
+    },
+    "CancelFlag": {
+     "type": "cds.Boolean"
+    },
+    "BizagiCaseInProgress": {
+     "type": "cds.Boolean"
+    },
+    "BizagiCaseStatus": {
+     "type": "cds.LargeString"
+    },
+    "BizagiCaseID": {
+     "type": "cds.LargeString"
+    },
+    "BizagiCase": {
+     "type": "cds.LargeString"
+    },
+    "FinalOrder": {
+     "type": "cds.LargeString"
+    },
+    "FinalItem": {
+     "type": "cds.LargeString"
+    },
+    "FirstOrder": {
+     "type": "cds.LargeString"
+    },
+    "FirstItem": {
+     "type": "cds.LargeString"
+    },
+    "NextOrder": {
+     "type": "cds.LargeString"
+    },
+    "NextItem": {
+     "type": "cds.LargeString"
+    },
+    "ProcessOrder": {
+     "type": "cds.LargeString"
+    },
+    "SalesOrder": {
+     "type": "cds.LargeString"
+    },
+    "SalesOrderItem": {
+     "type": "cds.LargeString"
+    },
+    "OrdSchedReq": {
+     "items": {
+      "type": "S4OrderChangeService.responses_IsOrderChangeableResponse_OrdSchedReq"
+     }
+    },
+    "OrdSchedConf": {
+     "items": {
+      "type": "S4OrderChangeService.responses_IsOrderChangeableResponse_OrdSchedConf"
+     }
+    },
+    "OrdWFPartnersFinalOrder": {
+     "items": {
+      "type": "S4OrderChangeService.responses_IsOrderChangeableResponse_OrdWFPartnersFinalOrder"
+     }
+    },
+    "OrdWFPartnersNextOrder": {
+     "items": {
+      "type": "S4OrderChangeService.responses_IsOrderChangeableResponse_OrdWFPartnersNextOrder"
+     }
+    },
+    "OrdDeliveries": {
+     "items": {
+      "type": "S4OrderChangeService.responses_IsOrderChangeableResponse_OrdDeliveries"
+     }
+    },
+    "OrdShipments": {
+     "items": {
+      "type": "S4OrderChangeService.responses_IsOrderChangeableResponse_OrdShipments"
+     }
+    }
+   }
+  },
+  "S4OrderChangeService.responses_IsOrderChangeableResponse_OrdSchedReq": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "SalesOrder": {
+     "type": "cds.LargeString"
+    },
+    "SalesOrderItem": {
+     "type": "cds.LargeString"
+    },
+    "SlNum": {
+     "type": "cds.LargeString"
+    },
+    "SlDate": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset"
+    },
+    "Quantity": {
+     "type": "cds.LargeString"
+    },
+    "SalesUnit": {
+     "type": "cds.LargeString"
+    }
+   }
+  },
+  "S4OrderChangeService.responses_IsOrderChangeableResponse_OrdSchedConf": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "SalesOrder": {
+     "type": "cds.LargeString"
+    },
+    "SalesOrderItem": {
+     "type": "cds.LargeString"
+    },
+    "SlNum": {
+     "type": "cds.LargeString"
+    },
+    "SlDate": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset"
+    },
+    "Quantity": {
+     "type": "cds.LargeString"
+    },
+    "SalesUnit": {
+     "type": "cds.LargeString"
+    }
+   }
+  },
+  "S4OrderChangeService.responses_IsOrderChangeableResponse_OrdWFPartnersFinalOrder": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "SalesOrder": {
+     "type": "cds.LargeString"
+    },
+    "PartnFn": {
+     "type": "cds.LargeString"
+    },
+    "SalesOrderItem": {
+     "type": "cds.LargeString"
+    },
+    "Usrid": {
+     "type": "cds.LargeString"
+    },
+    "Name": {
+     "type": "cds.LargeString"
+    },
+    "MailAddr": {
+     "type": "cds.LargeString"
+    },
+    "TelNum": {
+     "type": "cds.LargeString"
+    }
+   }
+  },
+  "S4OrderChangeService.responses_IsOrderChangeableResponse_OrdWFPartnersNextOrder": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "SalesOrder": {
+     "type": "cds.LargeString"
+    },
+    "PartnFn": {
+     "type": "cds.LargeString"
+    },
+    "SalesOrderItem": {
+     "type": "cds.LargeString"
+    },
+    "Usrid": {
+     "type": "cds.LargeString"
+    },
+    "Name": {
+     "type": "cds.LargeString"
+    },
+    "MailAddr": {
+     "type": "cds.LargeString"
+    },
+    "TelNum": {
+     "type": "cds.LargeString"
+    }
+   }
+  },
+  "S4OrderChangeService.responses_IsOrderChangeableResponse_OrdDeliveries": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "SalesOrder": {
+     "type": "cds.LargeString"
+    },
+    "SalesOrderItem": {
+     "type": "cds.LargeString"
+    },
+    "DeliveryNumber": {
+     "type": "cds.LargeString"
+    },
+    "DeliveryItem": {
+     "type": "cds.LargeString"
+    }
+   }
+  },
+  "S4OrderChangeService.responses_IsOrderChangeableResponse_OrdShipments": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "SalesOrder": {
+     "type": "cds.LargeString"
+    },
+    "SalesOrderItem": {
+     "type": "cds.LargeString"
+    },
+    "DeliveryNumber": {
+     "type": "cds.LargeString"
+    },
+    "DeliveryItem": {
+     "type": "cds.LargeString"
+    },
+    "ShipmentNumber": {
+     "type": "cds.LargeString"
+    }
+   }
+  },
+  "S4OrderChangeService": {
+   "kind": "service",
+   "@cds.external": true
+  }
+ }
+}
