@@ -39,9 +39,13 @@ class srvOpenOrders extends cds.ApplicationService {
             const { RegionSettings } = await cds.entities('srvOpenOrders');
             let region = await SELECT.from(RegionSettings).byKey({ USER_ID: req.user.id });
             if(!region){
-                return 999
+                return {
+                    USER_ID: req.user.id,
+                    REGION: 0,
+                    REGION_2: 0
+                }
             }else{
-                return region.REGION;
+                return region;
             }
         })
 
@@ -648,7 +652,17 @@ class srvOpenOrders extends cds.ApplicationService {
                 }
             })
         })
-
+        // OTC-1018723 - Last note should only be deleted by the user who created it
+        this.on("DELETE", "notes", async(req,next)=>{
+            const { notes } = await cds.entities('srvOpenOrders');
+            const users = await SELECT.columns('USERNAME').from(notes).where({VBELN: req.data.VBELN, POSNR: req.data.POSNR,UTCTIME: req.data.UTCTIME, USERNAME: req.user.id})
+            if (users && users.length > 0 )
+                return  await next(req);
+            else
+                return req.error(status.CONFLICT,'NOTESNOTDELETED_USER_DIFFERENT')
+            
+        })
+        // OTC-1018723 - Last note should only be deleted by the user who created it
         this.after("DELETE", "notes", async (data, req) => {
             const { notes } = await cds.entities('srvOpenOrders');
             let note = await SELECT.from(notes).where({ VBELN: req.data.VBELN, POSNR: req.data.POSNR,LAST_NOTE_FLAG: { '!=': 'Y' } }).orderBy('UTCTIME desc').limit(1)
