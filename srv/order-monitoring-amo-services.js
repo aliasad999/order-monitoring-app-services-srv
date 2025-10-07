@@ -142,7 +142,7 @@ class srvOpenOrders extends cds.ApplicationService {
                             }
                         });
                     } catch (error) {
-                        globalError.push({ user: 'mercuryNotAvailable', error: error });
+                        globalError.push({ user: 'm', error: error });
                         // Handle the error if needed
                     }
 
@@ -153,19 +153,19 @@ class srvOpenOrders extends cds.ApplicationService {
                 }
                 // Mercury Auth call
                 // OTC-1010881 Fault Tolerance if Cobalt is not available due to downtimes
-                // | noCobaltUser | noAPUser | noMercuryUser | Result |
-                // | ❌            | ❌        | ❌             | ❌ Fail |
-                // | ❌            | ✅        | ❌             | ✅ Pass |
-                // | ❌            | ✅        | ✅             | ✅ Pass |
-                // | ✅            | ❌        | ❌             | ✅ Pass |
-                // | ✅            | ✅        | ❌             | ✅ Pass |
-                // | ✅            | ❌        | ✅             | ✅ Pass |
-                // | ✅            | ✅        | ✅             | ✅ Pass |
+                // | cobaltNotAvailable | apNotAvailable | MercuryNotAvailable | Result |
+                // | ❌                 | ❌            | ❌             | ❌ Fail |
+                // | ❌                 | ✅            | ❌             | ✅ Pass |
+                // | ❌                 | ✅            | ✅             | ✅ Pass |
+                // | ✅                 | ❌            | ❌             | ✅ Pass |
+                // | ✅                 | ✅            | ❌             | ✅ Pass |
+                // | ✅                 | ❌            | ✅             | ✅ Pass |
+                // | ✅                 | ✅            | ✅             | ✅ Pass |
 
 
-                const hasCobalt = globalError.some(e => e.user === 'cobaltNotAvailable');
-                const hasAP = globalError.some(e => e.user === 'apNotAvailable');
-                if (hasCobalt && hasAP) {
+                const CobaltNotAvailableFlag = globalError.some(e => e.user === 'cobaltNotAvailable');
+                const ApNotAvailable = globalError.some(e => e.user === 'apNotAvailable');
+                if (CobaltNotAvailableFlag && ApNotAvailable) {
                     return;
                 } 
                 // OTC-1010881 Fault Tolerance if Cobalt is not available due to downtimes
