@@ -92,23 +92,23 @@ annotate service.Results with {
     }
 };
 
-// annotate service.Results with {
-//     SO_ORT01
-//     @Common.ValueList: {
-//         $Type                  : 'Common.ValueListType',
-//         Label                  : '{@i18n>SO_ORT01}',
-//         CollectionPath         : 'valueHelps',
-//         DistinctValuesSupported: true,
-//         SearchSupported        : true,
-//         Parameters             : [{
-//             $Type            : 'Common.ValueListParameterInOut',
-//             LocalDataProperty: SO_ORT01,
-//             ValueListProperty: 'SO_ORT01'
-//         }
+annotate service.Results with {
+    SO_ORT01
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_ORT01}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [{
+            $Type            : 'Common.ValueListParameterInOut',
+            LocalDataProperty: SO_ORT01,
+            ValueListProperty: 'SO_ORT01'
+        }
 
-//         ]
-//     }
-// };
+        ]
+    }
+};
 
 annotate service.Results with {
     SO_VKORG
