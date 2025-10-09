@@ -46,7 +46,9 @@ const upsertVariant = async (req, res, body) => {
         texts: JSON.stringify(body.texts),
         variantName: variantName,
         variantId: body.variantId,
-        projectId: body.projectId
+        projectId: body.projectId,
+        changedBy: userId,
+        changedOn: new Date()
     }];
     // add variant user settings for user
     let variantUserSettings = [{
@@ -148,7 +150,9 @@ const getUserVariants = async (req, res) => {
         // JOIN Data (VariantsUserSettings)
         standardVariant: variant.standardVariant ?? false,
         favorite: variant.favorite ?? false,
-        executeOnSelection: variant.executeOnSelection ?? false
+        executeOnSelection: variant.executeOnSelection ?? false,
+        changedBy: userId,
+        changedOn: new Date()
     }));
 
     // Response

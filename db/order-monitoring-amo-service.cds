@@ -469,6 +469,8 @@ entity variants {
             variantName        : String(255);
             variantId          : String(100);
             projectId          : String(100);
+            changedBy          : String(100);
+            changedOn          : DateTime;
 };
 
 entity variantUserSettings {
