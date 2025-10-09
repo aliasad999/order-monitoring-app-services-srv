@@ -1231,6 +1231,11 @@ class openOrdersSrv extends cds.ApplicationService {
 
         // END OF ORDER CREATION HANDLERS
 
+        this.on("openOrdersSrv.resolve", async (req) => {
+            console.log("test");
+        });
+
+
         // BEGIN OF ORDER CREATION VALUE HELPS HANDLERS
         this.before("READ", "OCValueHelps", async (req, next) => {
             // Nothing yet
