@@ -370,7 +370,7 @@ entity ![OPENORDERSLIST] {
         MFRGR                              : String(8);
         MFRGR_BEZEI_LANG                   : String(80);
         TNDR_TRKID                         : String(35);
-        YRDSDV1_IMPORT_CARGO_NO            : String (70);
+        YRDSDV1_IMPORT_CARGO_NO            : String(70);
         ETA_UPDATED_VISTA                  : String(3);
         OLD_ETA_VISTA                      : String(10);
         OLD_ETA_VISTA_DATE                 : Date = OLD_ETA_VISTA;
@@ -411,7 +411,7 @@ entity orderChangeUsers {
 
 @cds.persistence.exists
 @cds.persistence.calcview
-entity ![SALESORDER_DETAILS](IP_LANG : String(2)) {
+entity ![SALESORDER_DETAILS](IP_LANG: String(2)) {
         key MANDT                  : String(3);
         key VBELN                  : String(10);
         key POSNR                  : String(6);
@@ -614,14 +614,14 @@ entity ![ORDER_CREATION] {
 
 @cds.persistence.exists
 entity ![ST_FOLLOWUP_NOTES] {
-        MANDT              : String(3);
-        VBELN              : String(10);
-        POSNR              : String(6);
-        PREDEFINED_ID      : String(5);
-        PREDEFINED_CONTENT : String(50);
-        LANGUAGE           : String(1);
-        CREATED_AT         : Timestamp;
-        LAST_FOLLOWUPNOTE_FLAG  : String(1);
+        MANDT                  : String(3);
+        VBELN                  : String(10);
+        POSNR                  : String(6);
+        PREDEFINED_ID          : String(5);
+        PREDEFINED_CONTENT     : String(50);
+        LANGUAGE               : String(1);
+        CREATED_AT             : Timestamp;
+        LAST_FOLLOWUPNOTE_FLAG : String(1);
 
 }
 
@@ -640,6 +640,34 @@ entity SAPTexts {
             SAPText      : String;
             KeyText      : String;
             TextLanguage : String(2);
+}
+
+@cds.persistence.exists
+entity ![ST_BIM_ERRORS] {
+        key BIM_ERROR_ID         : String(36);
+            IS_RESOLVED          : Boolean;
+}
+
+@cds.persistence.exists
+entity ![GENERAL_BIM_ERRORS] {
+        key BIM_ERROR_ID         : String(36);
+            PURCHASE_ORDER       : String(35);
+            PURCHASEORDER_ITEM   : String(5);
+            SOURCE_SYSTEM        : String(20);
+            TARGET_SYSTEM        : String(20);
+            ERROR_TEXT           : String(500);
+            SHORT_ERROR_TEXT     : String(100);
+            OUTBOUND_DELIVERY    : String(10);
+            SALES_ORG            : String(4);
+            CUSTOMER             : String(10);
+            DISTRIBUTION_CHANNEL : String(2);
+            DIVISION             : String(2);
+            CHANNEL              : String(30);
+            SOLUTION             : String(20);
+            STEP                 : String(30);
+            CREATED_AT           : Timestamp;
+            CHANGED_AT           : Timestamp;
+            CHANGED_BY           : String(50);
 }
 
 // entity POIssues {

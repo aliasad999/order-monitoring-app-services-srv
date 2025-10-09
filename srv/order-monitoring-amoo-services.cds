@@ -623,6 +623,11 @@ service openOrdersSrv {
     entity orderCreation            as projection on baseOrderCreation;
 
     @readonly
+    entity BIMGeneralErrors as projection on db_app.GENERAL_BIM_ERRORS actions {
+        action resolve() returns String;
+    };
+
+    @readonly
     entity OCValueHelps             as projection on baseOrderCreation;
 
     entity APContacts               as projection on OMServicesAP.SalesOrderPartner;

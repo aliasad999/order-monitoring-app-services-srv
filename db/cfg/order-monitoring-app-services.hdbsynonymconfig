@@ -89,6 +89,18 @@
       "schema.configure": "otc-csc-hdi/schema"
     }
   },
+"OPENORDERS_DB_GENERAL_BIM_ERRORS": {
+    "target": {
+      "object": "otc.csc.db.app_service.views::CV_GENERAL_BIM_ERRORS",
+      "schema.configure": "otc-csc-hdi/schema"
+    }
+  },  
+  "OPENORDERS_DB_ST_BIM_ERRORS": {
+    "target": {
+      "object": "otc.csc.db.base.tables::ST_BIM_ERRORS",
+      "schema.configure": "otc-csc-hdi/schema"
+    }
+  },    
   "OPENORDERS_DB_ST_FOLLOWUP_NOTES": {
     "target": {
       "object": "otc.csc.db.base.tables::ST_FOLLOWUP_NOTES",

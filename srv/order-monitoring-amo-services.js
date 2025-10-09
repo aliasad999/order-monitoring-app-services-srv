@@ -77,7 +77,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     const service = await cds.connect.to('authService');
                     lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
                 } catch (error) {
-                    globalError.push({ user: 'noCobaltUser', error: error })
+                    globalError.push({ user: 'cobaltNotAvailable', error: error })
                     err = 1 //Cobalt call failed
                 }
                 // // EC AUTH CALL
@@ -110,12 +110,12 @@ class srvOpenOrders extends cds.ApplicationService {
                             }
                         });
                     } catch (error) {
-                        globalError.push({ user: 'noAPUser', error: error });
+                        globalError.push({ user: 'apNotAvailable', error: error });
                         // Handle the error if needed
                     }
 
                 } catch (error) {
-                    globalError.push({ user: 'noAPUser', error: error });
+                    globalError.push({ user: 'apNotAvailable', error: error });
                     // Do not proceed to the second call
                 }
                 if (process.env.SUBACCOUNT === 'DEV'){
@@ -142,16 +142,33 @@ class srvOpenOrders extends cds.ApplicationService {
                             }
                         });
                     } catch (error) {
-                        globalError.push({ user: 'noMercuryUser', error: error });
+                        globalError.push({ user: 'm', error: error });
                         // Handle the error if needed
                     }
 
                 } catch (error) {
-                    globalError.push({ user: 'noMercuryUser', error: error });
+                    globalError.push({ user: 'mercuryNotAvailable', error: error });
                     // Do not proceed to the second call
                 }
                 }
                 // Mercury Auth call
+                // OTC-1010881 Fault Tolerance if Cobalt is not available due to downtimes
+                // | cobaltNotAvailable | apNotAvailable | MercuryNotAvailable | Result |
+                // | ❌                 | ❌            | ❌             | ❌ Fail |
+                // | ❌                 | ✅            | ❌             | ✅ Pass |
+                // | ❌                 | ✅            | ✅             | ✅ Pass |
+                // | ✅                 | ❌            | ❌             | ✅ Pass |
+                // | ✅                 | ✅            | ❌             | ✅ Pass |
+                // | ✅                 | ❌            | ✅             | ✅ Pass |
+                // | ✅                 | ✅            | ✅             | ✅ Pass |
+
+
+                const CobaltNotAvailableFlag = globalError.some(e => e.user === 'cobaltNotAvailable');
+                const ApNotAvailable = globalError.some(e => e.user === 'apNotAvailable');
+                if (CobaltNotAvailableFlag && ApNotAvailable) {
+                    return;
+                } 
+                // OTC-1010881 Fault Tolerance if Cobalt is not available due to downtimes
                 await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
                 await DELETE.from(EKKOAuthObjectKeys).where({ USERID: userID });
 
@@ -648,7 +665,17 @@ class srvOpenOrders extends cds.ApplicationService {
                 }
             })
         })
-
+        // OTC-1018723 - Last note should only be deleted by the user who created it
+        this.on("DELETE", "notes", async(req,next)=>{
+            const { notes } = await cds.entities('srvOpenOrders');
+            const users = await SELECT.columns('USERNAME').from(notes).where({VBELN: req.data.VBELN, POSNR: req.data.POSNR,UTCTIME: req.data.UTCTIME, USERNAME: req.user.id})
+            if (users && users.length > 0 )
+                return  await next(req);
+            else
+                return req.error(status.CONFLICT,'NOTESNOTDELETED_USER_DIFFERENT')
+            
+        })
+        // OTC-1018723 - Last note should only be deleted by the user who created it
         this.after("DELETE", "notes", async (data, req) => {
             const { notes } = await cds.entities('srvOpenOrders');
             let note = await SELECT.from(notes).where({ VBELN: req.data.VBELN, POSNR: req.data.POSNR,LAST_NOTE_FLAG: { '!=': 'Y' } }).orderBy('UTCTIME desc').limit(1)
