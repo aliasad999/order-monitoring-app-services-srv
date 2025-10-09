@@ -1231,6 +1231,12 @@ class openOrdersSrv extends cds.ApplicationService {
 
         // END OF ORDER CREATION HANDLERS
 
+        this.on("BIMGeneralErrors_resolve", async (req) => {
+            
+            console.log("todo", req);
+        });
+
+
         // BEGIN OF ORDER CREATION VALUE HELPS HANDLERS
         this.before("READ", "OCValueHelps", async (req, next) => {
             // Nothing yet
