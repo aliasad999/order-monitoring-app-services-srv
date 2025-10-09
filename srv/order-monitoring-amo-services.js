@@ -652,17 +652,7 @@ class srvOpenOrders extends cds.ApplicationService {
                 }
             })
         })
-        // OTC-1018723 - Last note should only be deleted by the user who created it
-        this.on("DELETE", "notes", async(req,next)=>{
-            const { notes } = await cds.entities('srvOpenOrders');
-            const users = await SELECT.columns('USERNAME').from(notes).where({VBELN: req.data.VBELN, POSNR: req.data.POSNR,UTCTIME: req.data.UTCTIME, USERNAME: req.user.id})
-            if (users && users.length > 0 )
-                return  await next(req);
-            else
-                return req.error(status.CONFLICT,'NOTESNOTDELETED_USER_DIFFERENT')
-            
-        })
-        // OTC-1018723 - Last note should only be deleted by the user who created it
+
         this.after("DELETE", "notes", async (data, req) => {
             const { notes } = await cds.entities('srvOpenOrders');
             let note = await SELECT.from(notes).where({ VBELN: req.data.VBELN, POSNR: req.data.POSNR,LAST_NOTE_FLAG: { '!=': 'Y' } }).orderBy('UTCTIME desc').limit(1)
