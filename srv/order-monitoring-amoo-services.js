@@ -1231,9 +1231,12 @@ class openOrdersSrv extends cds.ApplicationService {
 
         // END OF ORDER CREATION HANDLERS
 
-        this.on("BIMGeneralErrors_resolve", async (req) => {
-            
-            console.log("todo", req);
+        this.on("resolveBIMErrors", async (req) => {
+            const errorIds = req.data.errorIds?.split(',')
+            if (!errorIds) return;
+
+            const { ST_BIM_ERRORS } = await cds.entities('openorders.db');
+            await UPDATE(ST_BIM_ERRORS).set({ IS_RESOLVED: true }).where`BIM_ERROR_ID IN ${errorIds}`;            
         });
 
 

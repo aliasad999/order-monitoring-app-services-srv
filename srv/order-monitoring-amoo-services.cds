@@ -581,6 +581,8 @@ service openOrdersSrv {
     function getSAPTexts(salesOrder : String(10), salesOrderItem : String(6), orderSystem : String(3)) returns array of SAPTexts;
     function isOrderChangeable(salesOrder : String(10), salesOrderItem : String(6)) returns S4OCS.responses_IsOrderChangeableResponse;
 
+    action resolveBIMErrors(errorIds: String) returns String;
+
     /// ORDER CREATION ENTITIES
     @readonly
     entity baseOrderCreation        as
@@ -623,9 +625,7 @@ service openOrdersSrv {
     entity orderCreation            as projection on baseOrderCreation;
 
     @readonly
-    entity BIMGeneralErrors as projection on db_app.GENERAL_BIM_ERRORS actions {
-        action resolve() returns String;
-    };
+    entity BIMGeneralErrors as projection on db_app.GENERAL_BIM_ERRORS;
 
     @readonly
     entity OCValueHelps             as projection on baseOrderCreation;

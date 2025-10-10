@@ -129,8 +129,7 @@ annotate service.BIMGeneralErrors with @UI.LineItem: {$value: [
     {Value: STEP},
     {Value: CREATED_AT},
     {Value: CHANGED_AT},
-    {Value: CHANGED_BY},
-    {$Type: 'UI.DataFieldForAction', Action: 'openOrdersSrv.resolve' }
+    {Value: CHANGED_BY}
 ]};
 
 annotate service.BIMGeneralErrors with @(UI: {SelectionFields: [
