@@ -429,6 +429,7 @@ entity PARTNER_SETTINGS_DB {
 entity REGION_SETTINGS {
         key USER_ID : String(12);
             REGION  : Integer;
+            REGION_2 : Integer;
 }
 
 entity AvailableRegions {
