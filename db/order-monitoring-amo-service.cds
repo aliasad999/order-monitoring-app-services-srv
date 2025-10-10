@@ -455,7 +455,6 @@ entity variants {
             reference          : String(100);
             packageName        : String(100);
             content            : LargeString;
-            binaryContent      : LargeBinary;
             namespace          : String(100);
             creation           : DateTime default current_timestamp;
             originalLanguage   : String(2);
