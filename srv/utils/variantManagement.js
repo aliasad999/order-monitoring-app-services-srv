@@ -114,23 +114,57 @@ const getUserVariants = async (req, res) => {
     const { Variants, VariantsUserSettings } = await cds.entities("srvOpenOrders");
     const appInput = req.params.app;
     const userId = req.user.id;
+    const favorite = true;
     
-    // Only one query
+    // Get content for user variants and favorite public ones only 
     const userVariants = await SELECT.from(`${Variants.name} as Variants`)
         .leftJoin(`${VariantsUserSettings.name} as VariantSettings`)
         .on`Variants.fileName = VariantSettings.fileName
             and VariantSettings.userId = ${userId}`
         .where`Variants.reference = ${appInput}
-            and ((Variants.supportUser = ${userId} and Variants.layer = 'USER') 
-                or Variants.layer = 'CUSTOMER')`;
+            and (Variants.supportUser = ${userId} 
+                or (Variants.layer = 'CUSTOMER' and VariantSettings.favorite = ${favorite}))`;
+    
+    // Get data for the rest only (content loaded on demand)
+    const publicVariantsNotFavorite = await SELECT.from(`${Variants.name} as Variants`)
+        .leftJoin(`${VariantsUserSettings.name} as VariantSettings`)
+        .on`Variants.fileName = VariantSettings.fileName
+            and VariantSettings.userId = ${userId}`
+        .columns([
+            "Variants.fileName",
+            "Variants.fileType",
+            "Variants.changeType",
+            "Variants.conditions",
+            "Variants.contexts",
+            "Variants.creation",
+            "Variants.layer",
+            "Variants.namespace",
+            "Variants.originalLanguage",
+            "Variants.packageName",
+            "Variants.reference",
+            "Variants.selector",
+            "Variants.texts",
+            "Variants.supportGenerator",
+            "Variants.supportService",
+            "Variants.supportUser",
+            "Variants.variantId",
+            "Variants.projectId",
+            "VariantSettings.standardVariant",
+            "VariantSettings.favorite",
+            "VariantSettings.executeOnSelection"
+        ])
+        .where`Variants.reference = ${appInput} and Variants.layer = 'CUSTOMER'
+            and (VariantSettings.favorite = false or VariantSettings.favorite = null)`;
+    
+    const allVariants = userVariants.concat(publicVariantsNotFavorite);
 
     // Map properties to response
-    const changes = userVariants.map(variant => ({
+    const changes = allVariants.map(variant => ({
         fileName: variant.fileName,
         fileType: variant.fileType,
         changeType: variant.changeType,
         conditions: JSON.parse(variant.conditions),
-        content: JSON.parse(variant.content),
+        content:  variant.content ? JSON.parse(variant.content) : {},
         contexts: JSON.parse(variant.contexts),
         creation: variant.creation,
         layer: variant.layer,
@@ -150,9 +184,7 @@ const getUserVariants = async (req, res) => {
         // JOIN Data (VariantsUserSettings)
         standardVariant: variant.standardVariant ?? false,
         favorite: variant.favorite ?? false,
-        executeOnSelection: variant.executeOnSelection ?? false,
-        changedBy: userId,
-        changedOn: new Date()
+        executeOnSelection: variant.executeOnSelection ?? false
     }));
 
     // Response
