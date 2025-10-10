@@ -2,4 +2,5 @@ Region;locale;RegionText;RegionDescription
 1;en;EMEA DE/BE;EMEA Region with only Germany & Belgium
 2;en;EMEA Rest;EMEA Region without  Germany & Belgium
 3;en;APAC;Asia Pacific
-4;en;Americas;North-/South America
+4;en;North America;North America
+5;en;LATAM;Latin America

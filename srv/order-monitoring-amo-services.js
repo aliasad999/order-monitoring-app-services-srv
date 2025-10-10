@@ -39,9 +39,13 @@ class srvOpenOrders extends cds.ApplicationService {
             const { RegionSettings } = await cds.entities('srvOpenOrders');
             let region = await SELECT.from(RegionSettings).byKey({ USER_ID: req.user.id });
             if(!region){
-                return 999
+                return {
+                    USER_ID: req.user.id,
+                    REGION: 0,
+                    REGION_2: 0
+                }
             }else{
-                return region.REGION;
+                return region;
             }
         })
 

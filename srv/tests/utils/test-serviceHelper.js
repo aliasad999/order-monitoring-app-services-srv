@@ -12,8 +12,8 @@ describe('Service Helper Test', function () {
     });
 
     it('transformWhereClause - contains with space', function () {
-        const originalWhere = `((SO_EDATU_REQUESTED >= ''2025-07-01'' AND SO_EDATU_REQUESTED <= ''2025-07-31'') AND SO_HTEXT LIKE ''%'' || ''Auftrag '' || ''%'' ESCAPE ''^'') AND  SO_IGNORED = 0 AND`;
-        const expectedWhere = `((SO_EDATU_REQUESTED >= '20250701' AND SO_EDATU_REQUESTED <= '20250731') AND SO_HTEXT LIKE '%' || 'Auftrag ' || '%' ESCAPE '^')  AND SO_IGNORED = 0`;
+        const originalWhere = `((SO_EDATU_REQUESTED >= ''2025-07-01'' AND SO_EDATU_REQUESTED <= ''2025-07-31'') AND SO_HTEXT LIKE ''%'' || ''Auftrag '' || ''%'' ESCAPE ''^'') AND SO_IGNORED = 0 AND`;
+        const expectedWhere = `((SO_EDATU_REQUESTED >= '20250701' AND SO_EDATU_REQUESTED <= '20250731') AND SO_HTEXT LIKE '%' || 'Auftrag ' || '%' ESCAPE '^') AND SO_IGNORED = 0`;
         const transformedWhere = serviceHelper.transformWhereClause(originalWhere);
         assert.strictEqual(transformedWhere, expectedWhere);
     });
