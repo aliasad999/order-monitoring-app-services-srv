@@ -373,68 +373,6 @@ const changeIgnored = (requestQuery, bChangeIgnored) => {
     return requestQuery;
 }
 
-/**
- * Converts dates from YYYY-MM-DD format to 'YYYYMMDD' format
- */
-const convertDatesToYYYYMMDD = (filterString) => {
-    // Match dates in format YYYY-MM-DD (with or without quotes)
-    // Matches: 2025-10-13, '2025-10-13', "2025-10-13"
-    const datePattern = /(['"]?)(\d{4})-(\d{2})-(\d{2})\1/g;
-    
-    return filterString.replace(datePattern, (match, quote, year, month, day) => {
-        // Return in 'YYYYMMDD' format with quotes
-        return `''${year}${month}${day}''`;
-    });
-}
-
-
-const test = (filterString) => {
-    if (!filterString) return '';
-    
-    let cql = filterString;
-    let ignoreRegex = /SO_IGNORED\s+eq\s+[01]/;
-    if(ignoreRegex.test(cql)){
-        cql = cql.replace(ignoreRegex, "");
-    }
-
-    // Convert dates from YYYY-MM-DD to 'YYYYMMDD' format
-    cql = convertDatesToYYYYMMDD(cql);
-    
-    // Replace OData operators with SQL/CQL operators
-    const replacements = [
-        // Logical operators
-        { pattern: / and /gi, replacement: ' and ' },
-        { pattern: / or /gi, replacement: ' or ' },
-        { pattern: / not /gi, replacement: ' not ' },
-        
-        // Comparison operators
-        { pattern: / eq /g, replacement: ' = ' },
-        { pattern: / ne /g, replacement: ' != ' },
-        { pattern: / gt /g, replacement: ' > ' },
-        { pattern: / ge /g, replacement: ' >= ' },
-        { pattern: / lt /g, replacement: ' < ' },
-        { pattern: / le /g, replacement: ' <= ' },
-        
-        // String functions
-        { pattern: /startswith\(([^,]+),\s*'([^']+)'\)/gi, replacement: "$1 LIKE ( ''%'' || ''$2'' ) ESCAPE ''^''" }, 
-        { pattern: /endswith\(([^,]+),\s*'([^']+)'\)/gi, replacement: "$1 LIKE  ( ''$2'' || ''%'' ) ESCAPE ''^''" },
-        { pattern: /contains\(([^,]+),\s*'([^']+)'\)/gi, replacement: "$1 LIKE ( ''%'' || ''$2'' || ''%'' ) ESCAPE ''^''" },
-        
-        // Case functions
-        { pattern: /toupper\(([^)]+)\)/gi, replacement: '(upper($1))' },
-        { pattern: /tolower\(([^)]+)\)/gi, replacement: '(lower($1))' },
-        
-    ];
-    
-    // Apply all replacements
-    replacements.forEach(({ pattern, replacement }) => {
-        cql = cql.replace(pattern, replacement);
-    });
-    
-    return cql;
-}
-
-
 module.exports = {
     getDateProps,
     getPODateProps,
@@ -449,6 +387,5 @@ module.exports = {
     addOrderIfNeeded,
     buildSubtotalColumns,
     transformDateFilters,
-    changeIgnored,
-    test
+    changeIgnored
 }
