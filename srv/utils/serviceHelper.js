@@ -361,17 +361,6 @@ const transformDateFilters = (whereClause) => {
     }
 }
 
-const changeIgnored = (requestQuery, bChangeIgnored) => {
-    for (let i = requestQuery.length - 1; i >= 0; i--) {
-        if (requestQuery[i].ref && requestQuery[i].ref[0] === 'SO_NPS') {
-            requestQuery.splice(i, 4);
-        }
-        if(requestQuery[i].ref && requestQuery[i].ref[0] === 'SO_IGNORED' && bChangeIgnored){
-            requestQuery[i + 2].val = 1;
-        }
-    }
-    return requestQuery;
-}
 
 module.exports = {
     getDateProps,
@@ -386,6 +375,5 @@ module.exports = {
     getBundle,
     addOrderIfNeeded,
     buildSubtotalColumns,
-    transformDateFilters,
-    changeIgnored
+    transformDateFilters
 }
