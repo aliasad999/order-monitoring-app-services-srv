@@ -893,6 +893,7 @@ class openOrdersSrv extends cds.ApplicationService {
             req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
             req.query.SELECT.localized = false; 
             req.query.SELECT.distinct = true;
+            
             serviceHelper.transformDateFilters(req.query.SELECT.where);
         });
   
@@ -973,34 +974,10 @@ class openOrdersSrv extends cds.ApplicationService {
                     let tabs = {}
                     try {
                         const db = cds.tx(req);
-                        // const where = serviceHelper.convertCQNtoCQL(req.query.SELECT.where, true)
-                        let whereClause1 = structuredClone(req.query.SELECT.where);
-                        whereClause1 = serviceHelper.changeIgnored(whereClause1);
-                        const ignored0Query = SELECT.distinct
-                                .from('openOrdersSrv.allIssues')
-                                .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN')
-                                .columns([
-                                    { ref: ['so_nps'], as: 'ID' },
-                                    { val: true, as: 'FLAG' }
-                                ])
-                                .where(whereClause1);
-                        let whereClause2 = structuredClone(req.query.SELECT.where);
-                        whereClause2 = serviceHelper.changeIgnored(whereClause2, true);
-                        const ignored1Query = SELECT
-                                .from('openOrdersSrv.allIssues')
-                                .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN')
-                                .columns([
-                                    { val: '00', as: 'ID' },
-                                    { val: true, as: 'FLAG' }
-                                ])
-                                .where(whereClause2);
-                        const [result1, result2] = await Promise.all([
-                            db.run(ignored0Query),
-                            db.run(ignored1Query)
-                        ]);
-                        const npstabs = [...result1, ...result2];
-                        // const sQuery = `CALL"npsValueExist"(IV_WHERECLAUSE => '${where}',LT_NPS_TAB => ?)`;
-                        // const npstabs = await db.run(sQuery)
+                        const where = serviceHelper.convertCQNtoCQL(req.query.SELECT.where, true)
+                        const sQuery = `CALL"npsValueExist"(IV_WHERECLAUSE => '${where}',LT_NPS_TAB => ?)`;
+                        const npstabs = await db.run(sQuery)
+
                         tabs = npstabs.reduce((acc, item) => {
                             acc[`nps${item.ID}`] = item.FLAG;
                             return acc;
