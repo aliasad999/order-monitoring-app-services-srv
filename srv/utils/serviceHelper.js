@@ -222,7 +222,7 @@ processExpression = (expr) => {
                 }else{
                     const column = item.args[0].ref.join('.');
                     const value = item.args[1].val;
-                    cqlParts.push(`${column} LIKE ''%'' || ''${value}'' || ''%'' ESCAPE ''^''`);
+                    cqlParts.push(`( ${column} LIKE ( ''%'' || ''${value}'' || ''%'' ) ESCAPE ''^'' )`);
                 }
             }
             else if (item.func && item.func.toLowerCase() === 'startswith') {
@@ -234,7 +234,7 @@ processExpression = (expr) => {
                 }else{
                     const column = item.args[0].ref.join('.');
                     const value = item.args[1].val;
-                    cqlParts.push(`${column} LIKE  ''${value}'' || ''%'' ESCAPE ''^''`);
+                    cqlParts.push(`( ${column} LIKE ( ''${value}'' || ''%'' ) ESCAPE ''^'' )`);
                 }
             }
             else if (item.func && item.func.toLowerCase() === 'endswith') {
@@ -246,7 +246,7 @@ processExpression = (expr) => {
                 }else{
                     const column = item.args[0].ref.join('.');
                     const value = item.args[1].val;
-                    cqlParts.push(`${column} LIKE ''%'' || ''${value}''  ESCAPE ''^''`);
+                    cqlParts.push(`( ${column} LIKE ( ''%'' || ''${value}' ) ESCAPE ''^'' )`);
                 }
             }
             else if(item.func && item.func.toLowerCase() === 'toupper'){
