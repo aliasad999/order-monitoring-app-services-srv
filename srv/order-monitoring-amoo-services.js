@@ -1236,7 +1236,7 @@ class openOrdersSrv extends cds.ApplicationService {
             if (!errorIds) return;
 
             const { ST_BIM_ERRORS } = await cds.entities('openorders.db');
-            await UPDATE(ST_BIM_ERRORS).set({ IS_RESOLVED: true }).where`BIM_ERROR_ID IN ${errorIds}`;            
+            await UPDATE(ST_BIM_ERRORS).set({ IS_RESOLVED: true }).where({ BIM_ERROR_ID:  { in:  errorIds} });            
         });
 
 
