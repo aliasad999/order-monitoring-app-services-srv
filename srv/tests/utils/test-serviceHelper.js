@@ -388,3 +388,67 @@ describe('processExpression Method Tests', function () {
     });
 
 });
+
+
+describe('convertCQNtoCQL Method Tests', function () {
+        
+        it('should remove SO_IGNORED', function () {
+            const expr = [
+                {
+                    xpr: [
+                        { ref: ['SO_EDATU_REQUESTED'] },
+                        '>=',
+                        { val: '2025-07-01' },
+                        'and',
+                        { ref: ['SO_EDATU_REQUESTED'] },
+                        '<=',
+                        { val: '2025-07-31' }
+                    ]
+                },
+                'and',
+                {
+                    func: 'contains',
+                    args: [
+                        { ref: ['SO_HTEXT'] },
+                        { val: 'Auftrag' }
+                    ]
+                },
+                'and',
+                { ref: ['SO_IGNORED'] },
+                '=',
+                { val: 0 }
+            ];
+            const result = serviceHelper.convertCQNtoCQL(expr, true);
+            assert.strictEqual(result, "(SO_EDATU_REQUESTED >= ''2025-07-01'' AND SO_EDATU_REQUESTED <= ''2025-07-31'') AND (SO_HTEXT LIKE (''%'' || ''Auftrag'' || ''%'') ESCAPE ''^'') AND");
+        });
+
+        it('should keep SO_IGNORED', function () {
+            const expr = [
+                {
+                    xpr: [
+                        { ref: ['SO_EDATU_REQUESTED'] },
+                        '>=',
+                        { val: '2025-07-01' },
+                        'and',
+                        { ref: ['SO_EDATU_REQUESTED'] },
+                        '<=',
+                        { val: '2025-07-31' }
+                    ]
+                },
+                'and',
+                {
+                    func: 'contains',
+                    args: [
+                        { ref: ['SO_HTEXT'] },
+                        { val: 'Auftrag' }
+                    ]
+                },
+                'and',
+                { ref: ['SO_IGNORED'] },
+                '=',
+                { val: 0 }
+            ];
+            const result = serviceHelper.convertCQNtoCQL(expr, false);
+            assert.strictEqual(result, "(SO_EDATU_REQUESTED >= ''2025-07-01'' AND SO_EDATU_REQUESTED <= ''2025-07-31'') AND (SO_HTEXT LIKE (''%'' || ''Auftrag'' || ''%'') ESCAPE ''^'') AND SO_IGNORED = 0 AND");
+        });
+});
