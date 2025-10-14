@@ -10,108 +10,6 @@ const isEmpty = (obj) => {
     return true
 }
 
-const checkIfMigrationNeeded = async (req, appname) => {
-    let userID = req.user.id;
-    let variantsMigrationNeeded = false;
-    let lt_variants = {};
-    let userVariantsMigrated = await SELECT.from `allorders.db.variantMigration`.where`userId = ${userID}`;
-    if(userVariantsMigrated.length > 0){
-        if(!userVariantsMigrated[0].AMOvariantsMigrated && appname === "ordermonitoring.allorders"){
-            variantsMigrationNeeded = true
-        }
-        if(!userVariantsMigrated[0].AMOOvariantsMigrated && appname === "ordermonitoring.openorders"){
-            variantsMigrationNeeded = true
-        }
-    }else{
-        variantsMigrationNeeded = true
-    }
-    if(variantsMigrationNeeded){
-        var variantsMigrated = true;
-        try {
-            const PersService = await cds.connect.to('PersonalizationService');
-            lt_variants = await PersService.get(`/flex/data/${appname}`);   
-        } catch (error) {
-            return "ERROR";
-        }
-        if(lt_variants.changes && lt_variants.changes.length > 0){
-            lt_variants.changes.forEach(async (variant) => {
-                if(variant.changeType !== 'updateVariant'){
-                    let migrated = await migrateVariant(userID, variant);
-                    if(!migrated){
-                        variantsMigrated = false;
-                    }
-                }
-            })
-        }
-        if(variantsMigrated){
-            return true;
-        }
-        return false;
-    }
-}
-
-const migrateVariant = async (reqUser, body) => {
-    const { Variants, VariantsUserSettings } = await cds.entities("srvOpenOrders");
-    var userID = '';
-    var generator = '';
-    var service = '';
-    var variantName = '';
-
-    if (typeof body.support !== 'undefined') {
-        generator = body.support.generator;
-        service = body.support.service;
-        userID = body.support.user;
-        // avoid adding other users variants
-        if(userID !== reqUser){
-            return true;
-        }
-    }
-    if (typeof body.texts !== 'undefined') {
-        if (typeof body.texts.variantName !== 'undefined') {
-            variantName = body.texts.variantName.value;
-        }
-    }
-    let variantData = [{
-        fileName: body.fileName,
-        fileType: body.fileType,
-        changeType: body.changeType,
-        reference: body.reference,
-        packageName: body.packageName,
-        content: JSON.stringify(body.content),
-        namespace: body.namespace,
-        originalLanguage: body.originalLanguage,
-        conditions: JSON.stringify(body.conditions),
-        contexts: JSON.stringify(body.contexts),
-        supportGenerator: generator,
-        supportService: service,
-        supportUser: reqUser,
-        layer: body.layer,
-        selector: JSON.stringify(body.selector),
-        texts: JSON.stringify(body.texts),
-        variantName: variantName,
-        variantId: body.variantId,
-        projectId: body.projectId,
-        standardVariant: body.standardVariant,
-        favorite: body.favorite,
-        executeOnSelection: body.executeOnSelection
-    }];
-    // add variant user settings for user
-    let variantUserSettings = [{
-        fileName: body.fileName,
-        userId: reqUser,
-        favorite: body.standardVariant,
-        standardVariant: body.favorite,
-        executeOnSelection: body.executeOnSelection
-    }]
-    try {
-        await UPSERT.into(Variants).entries(variantData);
-        await UPSERT.into(VariantsUserSettings).entries(variantUserSettings);
-        return true;
-    } catch (err) {
-        return false;
-    }
-}
-
 const upsertVariant = async (req, res, body) => {
     const { Variants, VariantsUserSettings } = await cds.entities("srvOpenOrders");
     // var body = req.body[0];
@@ -149,9 +47,8 @@ const upsertVariant = async (req, res, body) => {
         variantName: variantName,
         variantId: body.variantId,
         projectId: body.projectId,
-        standardVariant: body.standardVariant,
-        favorite: body.favorite,
-        executeOnSelection: body.executeOnSelection
+        changedBy: userId,
+        changedOn: new Date()
     }];
     // add variant user settings for user
     let variantUserSettings = [{
@@ -199,17 +96,8 @@ const upsertVariant = async (req, res, body) => {
 
 }
 
-const getUserVariants = async (req, res) => {
-    const { Variants, VariantsUserSettings } = await cds.entities("srvOpenOrders");
-    var appInput = req.params.app;
-    var userId = req.user.id;
-    var userVariants = await SELECT.from(Variants).where`reference = ${appInput}
-            and (( supportUser = ${userId} and layer = 'USER' ) or
-                layer = 'CUSTOMER' )`;
-    var userVariantsSettings = await SELECT.from(VariantsUserSettings).where`userId = ${userId}`;
-
-    var outer = {
-        'changes': [],
+const getVariantManagementSettings = async (req, res) => {
+    var settings = {
         'settings': {
             "isKeyUser": true,
             "isAtoAvailable": true,
@@ -219,44 +107,99 @@ const getUserVariants = async (req, res) => {
             "isZeroDowntimeUpgradeRunning": false
         }
     };
-
-    userVariants.forEach(function (variant) {
-        // get user settings for variant if they exist
-        let variantSettingsFiltered = userVariantsSettings.filter(function (settings) {
-            if (settings.fileName === variant.fileName ) {
-                return true;
-            }
-            return false;
-        })
-        let variantSettings = variantSettingsFiltered[0] ? variantSettingsFiltered[0] : {};
-        var body = {};
-        body.fileName = variant.fileName;
-        body.fileType = variant.fileType;
-        body.changeType = variant.changeType;
-        body.conditions = JSON.parse(variant.conditions);
-        body.content = JSON.parse(variant.content);
-        body.contexts = JSON.parse(variant.contexts);
-        body.creation = variant.creation;
-        body.layer = variant.layer;
-        body.namespace = variant.namespace;
-        body.originalLanguage = variant.originalLanguage;
-        body.packageName = variant.packageName;
-        body.reference = variant.reference;
-        body.selector = JSON.parse(variant.selector);
-        body.texts = JSON.parse(variant.texts);
-        body.support = {};
-        body.support.generator = variant.supportGenerator;
-        body.support.service = variant.supportService;
-        body.support.user = variant.supportUser;
-        body.variantId = variant.variantId;
-        body.projectId = variant.projectId;
-        body.standardVariant = variantSettings.standardVariant ? variantSettings.standardVariant : false; // from variants user settings 
-        body.favorite = variantSettings.favorite ? variantSettings.favorite : false; // from variants user settings 
-        body.executeOnSelection = variantSettings.executeOnSelection ? variantSettings.executeOnSelection: false; // from variants user settings
-        outer.changes.push(body);
-    })
-    res.type('application/json').status(200).send(outer);
+    res.type('application/json').status(200).send(settings);
 }
+
+const getUserVariants = async (req, res) => {
+    const { Variants, VariantsUserSettings } = await cds.entities("srvOpenOrders");
+    const appInput = req.params.app;
+    const userId = req.user.id;
+    const favorite = true;
+    
+    // Get content for user variants and favorite public ones only 
+    const userVariants = await SELECT.from(`${Variants.name} as Variants`)
+        .leftJoin(`${VariantsUserSettings.name} as VariantSettings`)
+        .on`Variants.fileName = VariantSettings.fileName
+            and VariantSettings.userId = ${userId}`
+        .where`Variants.reference = ${appInput}
+            and (Variants.supportUser = ${userId} 
+                or (Variants.layer = 'CUSTOMER' and VariantSettings.favorite = ${favorite}))`;
+    
+    // Get data for the rest only (content loaded on demand)
+    const publicVariantsNotFavorite = await SELECT.from(`${Variants.name} as Variants`)
+        .leftJoin(`${VariantsUserSettings.name} as VariantSettings`)
+        .on`Variants.fileName = VariantSettings.fileName
+            and VariantSettings.userId = ${userId}`
+        .columns([
+            "Variants.fileName",
+            "Variants.fileType",
+            "Variants.changeType",
+            "Variants.conditions",
+            "Variants.contexts",
+            "Variants.creation",
+            "Variants.layer",
+            "Variants.namespace",
+            "Variants.originalLanguage",
+            "Variants.packageName",
+            "Variants.reference",
+            "Variants.selector",
+            "Variants.texts",
+            "Variants.supportGenerator",
+            "Variants.supportService",
+            "Variants.supportUser",
+            "Variants.variantId",
+            "Variants.projectId",
+            "VariantSettings.standardVariant",
+            "VariantSettings.favorite",
+            "VariantSettings.executeOnSelection"
+        ])
+        .where`Variants.reference = ${appInput} and Variants.layer = 'CUSTOMER'
+            and (VariantSettings.favorite = false or VariantSettings.favorite = null)`;
+    
+    const allVariants = userVariants.concat(publicVariantsNotFavorite);
+
+    // Map properties to response
+    const changes = allVariants.map(variant => ({
+        fileName: variant.fileName,
+        fileType: variant.fileType,
+        changeType: variant.changeType,
+        conditions: JSON.parse(variant.conditions),
+        content:  variant.content ? JSON.parse(variant.content) : {},
+        contexts: JSON.parse(variant.contexts),
+        creation: variant.creation,
+        layer: variant.layer,
+        namespace: variant.namespace,
+        originalLanguage: variant.originalLanguage,
+        packageName: variant.packageName,
+        reference: variant.reference,
+        selector: JSON.parse(variant.selector),
+        texts: JSON.parse(variant.texts),
+        support: {
+            generator: variant.supportGenerator,
+            service: variant.supportService,
+            user: variant.supportUser
+        },
+        variantId: variant.variantId,
+        projectId: variant.projectId,
+        // JOIN Data (VariantsUserSettings)
+        standardVariant: variant.standardVariant ?? false,
+        favorite: variant.favorite ?? false,
+        executeOnSelection: variant.executeOnSelection ?? false
+    }));
+
+    // Response
+    res.status(200).json({
+        changes,
+        settings: {
+            isKeyUser: true,
+            isAtoAvailable: true,
+            isAtoEnabled: false,
+            isProductiveSystem: true,
+            isVariantSharingEnabled: true,
+            isZeroDowntimeUpgradeRunning: false
+        }
+    });
+};
 
 const deleteVariant = async (req, res) => {
     const { Variants, VariantsUserSettings } = await cds.entities("srvOpenOrders");
@@ -277,6 +220,5 @@ module.exports = {
     upsertVariant,
     deleteVariant,
     getUserVariants,
-    migrateVariant,
-    checkIfMigrationNeeded
+    getVariantManagementSettings
 };
