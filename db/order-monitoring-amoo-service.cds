@@ -608,6 +608,7 @@ entity ![ORDER_CREATION] {
         DUE_DATE_FORMATTED   : Date = DUE_DATE;
         ERROR_TEXT           : String(250);
         BIM_ERROR_ID         : String(36);
+        SOLUTION             : String(20);
 // ISSUE_TEXT: String(60);
 // NPS_TEXT: String(30);
 }

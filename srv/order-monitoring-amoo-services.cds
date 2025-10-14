@@ -618,7 +618,9 @@ service openOrdersSrv {
                 // ISSUE_TEXT as PO_ISSUE_TEXT,
                 DUE_DATE_FORMATTED                as PO_DUE_DATE,
                 ERROR_TEXT                        as PO_ERROR_TEXT,
-                BIM_ERROR_ID                      as PO_BIM_ERROR_ID
+                BIM_ERROR_ID                      as PO_BIM_ERROR_ID,
+                @UI.Hidden: true
+                SOLUTION                          as PO_BIM_ERROR_SOLUTION
         };
 
     @readonly
