@@ -37,6 +37,9 @@ cds.on('bootstrap', async (app) => {
     // Set default body parser (100kb)
     app.use(bodyParser.json());
     // Do not delete this even if cloud variants are removed
+    app.get('/flex/settings', async (req, res) => {
+        await variantManager.getVariantManagementSettings(req, res);
+    });
 
     app.get('/flex/data/:app?', async (req, res) => {
         await variantManager.getUserVariants(req, res);
