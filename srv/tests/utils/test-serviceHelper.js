@@ -1,7 +1,7 @@
 const assert = require('assert');
 const serviceHelper = require('../../utils/serviceHelper');
 
-
+///// transformWhereClause tests
 describe('Service Helper Test', function () {
 
     it('transformWhereClause - empty dates', function () {
@@ -27,6 +27,8 @@ describe('Service Helper Test', function () {
 
 });
 
+
+///// processExpression tests
 describe('processExpression Method Tests', function () {
 
     describe('Basic operations', function () {
@@ -389,66 +391,42 @@ describe('processExpression Method Tests', function () {
 
 });
 
-
+///// convertCQNtoCQL tests
 describe('convertCQNtoCQL Method Tests', function () {
-        
-        it('should remove SO_IGNORED', function () {
-            const expr = [
-                {
-                    xpr: [
-                        { ref: ['SO_EDATU_REQUESTED'] },
-                        '>=',
-                        { val: '2025-07-01' },
-                        'and',
-                        { ref: ['SO_EDATU_REQUESTED'] },
-                        '<=',
-                        { val: '2025-07-31' }
-                    ]
-                },
-                'and',
-                {
-                    func: 'contains',
-                    args: [
-                        { ref: ['SO_HTEXT'] },
-                        { val: 'Auftrag' }
-                    ]
-                },
-                'and',
-                { ref: ['SO_IGNORED'] },
-                '=',
-                { val: 0 }
-            ];
+    
+        it('Simple expression - Should remove SO_IGNORED', function () {
+            const expr = [{"xpr":[{"ref":["SO_EDATU_REQUESTED"]},">=",{"val":"20251014"},"and",{"ref":["SO_EDATU_REQUESTED"]},"<=",{"val":"20251014"}]},"and",{"ref":["SO_IGNORED"]},"=",{"val":0}];
             const result = serviceHelper.convertCQNtoCQL(expr, true);
-            assert.strictEqual(result, "(SO_EDATU_REQUESTED >= ''2025-07-01'' AND SO_EDATU_REQUESTED <= ''2025-07-31'') AND (SO_HTEXT LIKE (''%'' || ''Auftrag'' || ''%'') ESCAPE ''^'') AND");
+            assert.strictEqual(result, "(SO_EDATU_REQUESTED >= ''20251014'' AND SO_EDATU_REQUESTED <= ''20251014'') AND");
         });
 
-        it('should keep SO_IGNORED', function () {
-            const expr = [
-                {
-                    xpr: [
-                        { ref: ['SO_EDATU_REQUESTED'] },
-                        '>=',
-                        { val: '2025-07-01' },
-                        'and',
-                        { ref: ['SO_EDATU_REQUESTED'] },
-                        '<=',
-                        { val: '2025-07-31' }
-                    ]
-                },
-                'and',
-                {
-                    func: 'contains',
-                    args: [
-                        { ref: ['SO_HTEXT'] },
-                        { val: 'Auftrag' }
-                    ]
-                },
-                'and',
-                { ref: ['SO_IGNORED'] },
-                '=',
-                { val: 0 }
-            ];
+        it('Simple expression - Should keep SO_IGNORED', function () {
+            const expr = [{"xpr":[{"ref":["SO_EDATU_REQUESTED"]},">=",{"val":"20251014"},"and",{"ref":["SO_EDATU_REQUESTED"]},"<=",{"val":"20251014"}]},"and",{"ref":["SO_IGNORED"]},"=",{"val":0}];
             const result = serviceHelper.convertCQNtoCQL(expr, false);
-            assert.strictEqual(result, "(SO_EDATU_REQUESTED >= ''2025-07-01'' AND SO_EDATU_REQUESTED <= ''2025-07-31'') AND (SO_HTEXT LIKE (''%'' || ''Auftrag'' || ''%'') ESCAPE ''^'') AND SO_IGNORED = 0 AND");
+            assert.strictEqual(result, "(SO_EDATU_REQUESTED >= ''20251014'' AND SO_EDATU_REQUESTED <= ''20251014'') AND SO_IGNORED = 0 AND");
+        });
+
+        it('Simple filter - Should remove SO_IGNORED', function () {
+            const expr = [{"ref":["SO_VBELN"]},"=",{"val":"6013006712"},"and",{"ref":["SO_IGNORED"]},"=",{"val":0}]
+            const result = serviceHelper.convertCQNtoCQL(expr, true);
+            assert.strictEqual(result, "SO_VBELN = ''6013006712'' AND");
+        });
+
+        it('Simple filter - Should keep SO_IGNORED', function () {
+            const expr = [{"ref":["SO_VBELN"]},"=",{"val":"6013006712"},"and",{"ref":["SO_IGNORED"]},"=",{"val":0}]
+            const result = serviceHelper.convertCQNtoCQL(expr, false);
+            assert.strictEqual(result, "SO_VBELN = ''6013006712'' AND SO_IGNORED = 0 AND");
+        });
+        
+        it('Complex expression - Should remove SO_IGNORED', function () {
+            const expr = [{"xpr":[{"func":"contains","args":[{"ref":["SO_VBELN"]},{"val":"12"}]},"and",{"xpr":[{"ref":["SO_EDATU_REQUESTED"]},">=",{"val":"20251014"},"and",{"ref":["SO_EDATU_REQUESTED"]},"<=",{"val":"20251014"}]},"and",{"func":"endswith","args":[{"func":"toupper","args":[{"ref":["SO_ORT01"]}]},{"val":"CANG"}]}]},"and",{"ref":["SO_IGNORED"]},"=",{"val":0}]
+            const result = serviceHelper.convertCQNtoCQL(expr, true);
+            assert.strictEqual(result, "((SO_VBELN LIKE (''%'' || ''12'' || ''%'') ESCAPE ''^'') AND (SO_EDATU_REQUESTED >= ''20251014'' AND SO_EDATU_REQUESTED <= ''20251014'') AND (upper (SO_ORT01) LIKE (''%'' || ''CANG'') ESCAPE ''^''))AND");
+        });
+
+        it('Complex expression - Should keep SO_IGNORED', function () {
+            const expr = [{"xpr":[{"func":"contains","args":[{"ref":["SO_VBELN"]},{"val":"12"}]},"and",{"xpr":[{"ref":["SO_EDATU_REQUESTED"]},">=",{"val":"20251014"},"and",{"ref":["SO_EDATU_REQUESTED"]},"<=",{"val":"20251014"}]},"and",{"func":"endswith","args":[{"func":"toupper","args":[{"ref":["SO_ORT01"]}]},{"val":"CANG"}]}]},"and",{"ref":["SO_IGNORED"]},"=",{"val":0}]
+            const result = serviceHelper.convertCQNtoCQL(expr, false);
+            assert.strictEqual(result, "((SO_VBELN LIKE (''%'' || ''12'' || ''%'') ESCAPE ''^'') AND (SO_EDATU_REQUESTED >= ''20251014'' AND SO_EDATU_REQUESTED <= ''20251014'') AND (upper (SO_ORT01) LIKE (''%'' || ''CANG'') ESCAPE ''^''))AND SO_IGNORED = 0 AND");
         });
 });
