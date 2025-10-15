@@ -189,64 +189,77 @@ convertCQNtoCQL = (where, ignoreNPS) => {
     });
     return cql;
 }
-processExpression = (expr) => {
-    let cqlParts = [];
-    let i = 0;
 
-    while (i < expr.length) {
-        const item = expr[i];
 
-        if (typeof item === 'object') {
-            if (item.xpr) {
-                // Recursively process nested expressions
-                cqlParts.push(`(${processExpression(item.xpr)})`);
-            } else if (item.ref) {
-                // Handle reference
-                cqlParts.push(item.ref.join('.'));
-            } else if (item.func === 'date') {
-                cqlParts.push(typeof item.args[0].val === 'string' ? `''${item.args[0].val}''` : item.val);
-            }
-            else if (item.val !== undefined) {
-                // Handle value when is empty is selected --> define conditions
-                if (item.val === null) {
-                    cqlParts.push('NULL');
-                } else {
-                    cqlParts.push(typeof item.val === 'string' ? `''${item.val}''` : item.val);
-                }
-            } else if (item.func && item.func.toLowerCase() === 'contains') {
-                // Handle 'contains' function --> define conditions
-                const column = item.args[0].ref.join('.');
-                const value = item.args[1].val;
-                cqlParts.push(`${column} LIKE ''%'' || ''${value}'' || ''%'' ESCAPE ''^''`);
-            }
-            else if (item.func && item.func.toLowerCase() === 'startswith') {
-                // Handle 'startswith' function --> define conditions
-                const column = item.args[0].ref.join('.');
-                const value = item.args[1].val;
-                cqlParts.push(`${column} LIKE  ''${value}'' || ''%'' ESCAPE ''^''`);
-            }
-            else if (item.func && item.func.toLowerCase() === 'endswith') {
-                // Handle 'endswith' function --> define conditions
-                const column = item.args[0].ref.join('.');
-                const value = item.args[1].val;
-                cqlParts.push(`${column} LIKE ''%'' || ''${value}''  ESCAPE ''^''`);
-            }
-        } else if (typeof item === 'string') {
-            if (item.toLowerCase() === 'or') {
-                cqlParts.push(item.toUpperCase());
-            } else if (item.toLowerCase() === 'and') {
-                // Process AND conditions
-                cqlParts.push('AND');
-            } else {
-                // Handle operators (=, >=, <=, !=)
-                cqlParts.push(item);
-            }
-        }
-        i++;
+const processExpression = (expr) => {
+  const formatValue = (val) => 
+    val === null ? 'NULL' : 
+    typeof val === 'string' ? `''${val}''` : val;
+
+  const buildLikePattern = (pattern, value) => 
+    `LIKE ( ${pattern.replace('VALUE', `''${value}''`)} ) ESCAPE ''^''`;
+
+  const handleStringFunction = (item) => {
+    const patterns = {
+      contains: "''%'' || VALUE || ''%''",
+      startswith: "VALUE || ''%''",
+      endswith: "''%'' || VALUE"
+    };
+    
+    const func = item.func.toLowerCase();
+    const hasUpper = item.args[0].func?.toLowerCase() === 'toupper';
+    const column = hasUpper ? item.args[0].args[0].ref.join('.') : item.args[0].ref.join('.');
+    const value = item.args[1].val;
+    const columnExpr = hasUpper ? `upper (${column})` : column;
+    
+    return `( ${columnExpr} ${buildLikePattern(patterns[func], value)} )`;
+  };
+
+  const processItem = (item) => {
+    if (typeof item === 'string') {
+      return ['or', 'and'].includes(item.toLowerCase()) 
+        ? item.toUpperCase() 
+        : item;
     }
 
-    return cqlParts.join(' ').trim();
-}
+    if (typeof item !== 'object') return '';
+
+    // Nested expression
+    if (item.xpr) {
+      return `(${processExpression(item.xpr)})`;
+    }
+
+    // Reference
+    if (item.ref) {
+      return item.ref.join('.');
+    }
+
+    // Date function
+    if (item.func === 'date') {
+      return formatValue(item.args[0].val);
+    }
+
+    // Value
+    if (item.val !== undefined) {
+      return formatValue(item.val);
+    }
+
+    // String functions (contains, startswith, endswith)
+    if (['contains', 'startswith', 'endswith'].includes(item.func?.toLowerCase())) {
+      return handleStringFunction(item);
+    }
+
+    // toUpper function
+    if (item.func?.toLowerCase() === 'toupper') {
+      return `upper (${item.args[0].ref.join('.')})`;
+    }
+
+    return '';
+  };
+
+  return expr.map(processItem).filter(part => part !== '').join(' ').trim();
+};
+
 transformWhereClause = (whereClause) => {
     const dateProps = getDateProps()
     let transformed = whereClause.replace(/(\b\w+\b)\s*(>=|<=|>|<|=)\s*''(\d{4})-(\d{2})-(\d{2})''/g,
@@ -338,18 +351,6 @@ const transformDateFilters = (whereClause) => {
     }
 }
 
-const changeIgnored = (requestQuery, bChangeIgnored) => {
-    for (let i = requestQuery.length - 1; i >= 0; i--) {
-        if (requestQuery[i].ref && requestQuery[i].ref[0] === 'SO_NPS') {
-            requestQuery.splice(i, 4);
-        }
-        if(requestQuery[i].ref && requestQuery[i].ref[0] === 'SO_IGNORED' && bChangeIgnored){
-            requestQuery[i + 2].val = 1;
-        }
-    }
-    return requestQuery;
-}
-
 
 module.exports = {
     getDateProps,
@@ -365,5 +366,5 @@ module.exports = {
     addOrderIfNeeded,
     buildSubtotalColumns,
     transformDateFilters,
-    changeIgnored
+    processExpression
 }
