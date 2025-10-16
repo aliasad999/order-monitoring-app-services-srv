@@ -117,7 +117,7 @@ const getUserVariants = async (req, res) => {
     const favorite = true;
     
     // Get content for user variants and favorite public ones only 
-    const userVariants = await SELECT.from(`${Variants.name} as Variants`)
+    const variantsWithContentQuery = SELECT.from(`${Variants.name} as Variants`)
         .leftJoin(`${VariantsUserSettings.name} as VariantSettings`)
         .on`Variants.fileName = VariantSettings.fileName
             and VariantSettings.userId = ${userId}`
@@ -126,7 +126,7 @@ const getUserVariants = async (req, res) => {
                 or (Variants.layer = 'CUSTOMER' and VariantSettings.favorite = ${favorite}))`;
     
     // Get data for the rest only (content loaded on demand)
-    const publicVariantsNotFavorite = await SELECT.from(`${Variants.name} as Variants`)
+    const variantsWithoutContentQuery = SELECT.from(`${Variants.name} as Variants`)
         .leftJoin(`${VariantsUserSettings.name} as VariantSettings`)
         .on`Variants.fileName = VariantSettings.fileName
             and VariantSettings.userId = ${userId}`
@@ -156,6 +156,14 @@ const getUserVariants = async (req, res) => {
         .where`Variants.reference = ${appInput} and Variants.layer = 'CUSTOMER'
             and (VariantSettings.favorite = false or VariantSettings.favorite = null)`;
     
+    // Connect to DB
+    const db = await cds.connect.to('db')
+    // Run both promises in parallel to make it a little bit faster
+    const [userVariants, publicVariantsNotFavorite] = await Promise.all([
+        db.run(variantsWithContentQuery),
+        db.run(variantsWithoutContentQuery)
+    ]);
+    // Concatenate both arrays
     const allVariants = userVariants.concat(publicVariantsNotFavorite);
 
     // Map properties to response
