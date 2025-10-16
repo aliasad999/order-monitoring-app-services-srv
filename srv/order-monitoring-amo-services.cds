@@ -498,6 +498,7 @@ service srvOpenOrders {
   entity ShipmentMarkedDelivered as select from AMOOUtilsService.ShipmentMarkedDelivered;
   entity Variants                as projection on db_app.variants;
   entity VariantsUserSettings    as projection on db_app.variantUserSettings;
+  entity variantErrors as projection on db_app.variantErrors;
   entity ChangeDocSet            as projection on CSEUCockpitService.ChangeDocSet;
   entity RegionSettings          as select from db_app.REGION_SETTINGS;
   function getUserRegionAssigned() returns RegionSettings;

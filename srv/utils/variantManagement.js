@@ -1,4 +1,4 @@
-const cds = require('@sap/cds')
+const cds = require('@sap/cds');
 
 const isEmpty = (obj) => {
     for (var prop in obj) {
@@ -110,12 +110,12 @@ const getVariantManagementSettings = async (req, res) => {
     res.type('application/json').status(200).send(settings);
 }
 
-const getUserVariants = async (req, res) => {
+const _getUserVariants = async (req, res) => {
     const { Variants, VariantsUserSettings } = await cds.entities("srvOpenOrders");
     const appInput = req.params.app;
     const userId = req.user.id;
     const favorite = true;
-    
+
     // Get content for user variants and favorite public ones only 
     const variantsWithContentQuery = SELECT.from(`${Variants.name} as Variants`)
         .leftJoin(`${VariantsUserSettings.name} as VariantSettings`)
@@ -195,8 +195,7 @@ const getUserVariants = async (req, res) => {
         executeOnSelection: variant.executeOnSelection ?? false
     }));
 
-    // Response
-    res.status(200).json({
+    return {
         changes,
         settings: {
             isKeyUser: true,
@@ -206,7 +205,41 @@ const getUserVariants = async (req, res) => {
             isVariantSharingEnabled: true,
             isZeroDowntimeUpgradeRunning: false
         }
-    });
+    }
+}
+
+const getUserVariants = async (req, res) => {
+    const appInput = req.params.app;
+    const userId = req.user.id;
+    const { variantErrors } = await cds.entities("srvOpenOrders");
+    try {
+        // Timeout that rejects after 18 seconds
+        const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Request timeout - took more than 18 seconds")), 18000)
+        );
+        
+        // Race function and timeout, since we can't intercept the xhr timeout, we will use a fixed timeout of 18 seconds
+        // If timeout is reached, it will return an error we can handle
+        const data = await Promise.race([
+            _getUserVariants(req, res),
+            timeoutPromise
+        ]);
+        
+        // Delete user errors
+        await DELETE.from(variantErrors).where({ userId: userId, application: appInput });
+
+        res.status(200).json(data);
+    } catch (error) {
+        // Add error to notify UI
+        await UPSERT.into(variantErrors).entries([{
+            userId : userId,
+            application: appInput,
+            errorTime: new Date()
+        }])        
+        res.status(408).json({ 
+            errors: error.message || "Request timeout or error occurred" 
+        });
+    }
 };
 
 const deleteVariant = async (req, res) => {
