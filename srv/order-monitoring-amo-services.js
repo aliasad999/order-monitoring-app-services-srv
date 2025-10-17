@@ -4,7 +4,7 @@ const sessionCache = new NodeCache();
 const uuid = require('uuid');
 const status = require('http-status').status;
 const log = require("cf-nodejs-logging-support");
-const { startOfToday } = require('date-fns');
+const { startOfToday, subDays } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies')
 const serviceHelper = require('./utils/serviceHelper');
 
