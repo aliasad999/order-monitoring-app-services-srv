@@ -3,11 +3,9 @@ const NodeCache = require('node-cache');
 const sessionCache = new NodeCache();
 const uuid = require('uuid');
 const status = require('http-status').status;
-const textBundle = require('./utils/textBundle')
 const log = require("cf-nodejs-logging-support");
 const { startOfToday } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies')
-const variantManagement = require('./utils/variantManagement');
 const serviceHelper = require('./utils/serviceHelper');
 
 class srvOpenOrders extends cds.ApplicationService {
@@ -50,8 +48,10 @@ class srvOpenOrders extends cds.ApplicationService {
         })
 
         this.on("getVBAKAuthObjKeys", async req => {
+            let bForceRefresh = req.data.forceRefresh;
             const { VBAKAuthObjectKeys, EKKOAuthObjectKeys } = await cds.entities('srvOpenOrders');
-            const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
+            const OneWeekAgoDate = subDays(startOfToday(), 7).toISOString().slice(0, 19).replace('T', ' ');
+            // const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
             let updateNeeded = false;
             let lt_result = [];
             // let lt_resultEC = [];
@@ -64,10 +64,12 @@ class srvOpenOrders extends cds.ApplicationService {
             let userID = req.user.id;
 
             let vbakAuths = await SELECT.from(VBAKAuthObjectKeys).where`USERID = ${userID}`.limit(1);
-            // Avoid updating authorizations more than once a day
+            // Avoid updating authorizations more than once a week
             // Update only if table empty or outdatedf
-            if (vbakAuths.length > 0) {
-                if ((vbakAuths[0].LAST_UPDATE === null || vbakAuths[0].LAST_UPDATE < todayDate)) {
+            if(bForceRefresh){ // manual refresh triggered by the user, update always
+                updateNeeded = true;
+            }else if (vbakAuths.length > 0) {
+                if ((vbakAuths[0].LAST_UPDATE === null || vbakAuths[0].LAST_UPDATE < OneWeekAgoDate)) {
                     updateNeeded = true;
                 }
             } else {
