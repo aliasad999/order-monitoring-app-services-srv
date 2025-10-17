@@ -482,6 +482,12 @@ entity variantUserSettings {
             executeOnSelection : Boolean;
 }
 
+entity variantErrors {
+        key userId : String;
+        key application: String;
+            errorTime : DateTime;
+}
+
 @cds.persistence.exists
 entity ST_OM_DOC_FLOW {
         key SEQUENCE                   : Int16      not null;
