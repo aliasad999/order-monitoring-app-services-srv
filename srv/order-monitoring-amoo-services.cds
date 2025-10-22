@@ -213,6 +213,7 @@ service openOrdersSrv {
                 FIRST_POSNR                                 as SO_I_POSNR,
                 LEVEL_TYPE                                  as SO_LEVEL_TYPE,
                 NEXT_SO                                     as SO_N_VBELN,
+                NEXT_POSNR                                  as SO_N_POSNR,
                 FINAL_SO                                    as SO_F_VBELN,
                 FINAL_POSNR                                 as SO_F_POSNR,
                 VBTYP                                       as SO_VBTYP,
