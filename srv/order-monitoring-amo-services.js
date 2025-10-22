@@ -50,7 +50,8 @@ class srvOpenOrders extends cds.ApplicationService {
         this.on("getVBAKAuthObjKeys", async req => {
             let bForceRefresh = req.data.forceRefresh;
             const { VBAKAuthObjectKeys, EKKOAuthObjectKeys } = await cds.entities('srvOpenOrders');
-            const OneWeekAgoDate = subDays(startOfToday(), 7).toISOString().slice(0, 19).replace('T', ' ');
+            // Get one month ago date
+            const OneMonthAgoDate = subDays(startOfToday(), 30).toISOString().slice(0, 19).replace('T', ' ');
             // const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
             let updateNeeded = false;
             let lt_result = [];
@@ -69,7 +70,7 @@ class srvOpenOrders extends cds.ApplicationService {
             if(bForceRefresh){ // manual refresh triggered by the user, update always
                 updateNeeded = true;
             }else if (vbakAuths.length > 0) {
-                if ((vbakAuths[0].LAST_UPDATE === null || vbakAuths[0].LAST_UPDATE < OneWeekAgoDate)) {
+                if ((vbakAuths[0].LAST_UPDATE === null || vbakAuths[0].LAST_UPDATE < OneMonthAgoDate)) {
                     updateNeeded = true;
                 }
             } else {
