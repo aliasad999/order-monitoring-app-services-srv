@@ -60,7 +60,7 @@ class srvOpenOrders extends cds.ApplicationService {
             let lt_resultAPEKKO = [];
             let lt_resultMercury = [];
             let lt_resultMercuryEKKO = [];
-            let err = []
+            let errorSet = []
             let globalError = [];
             let userID = req.user.id;
 
@@ -85,16 +85,9 @@ class srvOpenOrders extends cds.ApplicationService {
                     lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
                 } catch (error) {
                     globalError.push({ user: 'cobaltNotAvailable', error: error })
-                    err = 1 //Cobalt call failed
+                    errorSet.push({errorText: "Cobalt Auth call failed", system : "COBALT"});
                 }
-                // // EC AUTH CALL
-                // try {
-                //     const service = await cds.connect.to('authServiceEC');
-                //     lt_resultEC = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
-                // } catch (error) {
-                //     globalError.push({ user: 'noECUser', error: error })
-                //     err = 2 // EC called failed
-                // }
+                /// AP CALL
                 try {
                     const service = await cds.connect.to('authServiceAP');
                     lt_resultAP = await service.send({
@@ -118,45 +111,45 @@ class srvOpenOrders extends cds.ApplicationService {
                         });
                     } catch (error) {
                         globalError.push({ user: 'apNotAvailable', error: error });
-                        // Handle the error if needed
+                        errorSet.push({errorText: "AP PO Auth call failed", system : "AP"});
                     }
 
                 } catch (error) {
                     globalError.push({ user: 'apNotAvailable', error: error });
-                    // Do not proceed to the second call
+                    errorSet.push({errorText: "AP SO Auth call failed", system : "AP"});
                 }
                 if (process.env.SUBACCOUNT === 'DEV'){
-                // Mercury Auth call
-                try {
-                    const service = await cds.connect.to('OMServicesMercury');
-                    lt_resultMercury = await service.send({
-                        method: "GET",
-                        path: "/xBASFxVBAKAUTH?$format=json",
-                        headers: {
-                            "Accept-Encoding": "",
-                            'X-Basf-Sap-Client': process.env.MERCURY_CLIENT
-                        }
-                    });
-
-                    // Only execute the second call if the first one succeeds
+                    // MERCURY Auth call
                     try {
-                        lt_resultMercuryEKKO = await service.send({
+                        const service = await cds.connect.to('OMServicesMercury');
+                        lt_resultMercury = await service.send({
                             method: "GET",
-                            path: "/xBASFxEKKOAUTH?$format=json",
+                            path: "/xBASFxVBAKAUTH?$format=json",
                             headers: {
                                 "Accept-Encoding": "",
                                 'X-Basf-Sap-Client': process.env.MERCURY_CLIENT
                             }
                         });
-                    } catch (error) {
-                        globalError.push({ user: 'm', error: error });
-                        // Handle the error if needed
-                    }
 
-                } catch (error) {
-                    globalError.push({ user: 'mercuryNotAvailable', error: error });
-                    // Do not proceed to the second call
-                }
+                        // Only execute the second call if the first one succeeds
+                        try {
+                            lt_resultMercuryEKKO = await service.send({
+                                method: "GET",
+                                path: "/xBASFxEKKOAUTH?$format=json",
+                                headers: {
+                                    "Accept-Encoding": "",
+                                    'X-Basf-Sap-Client': process.env.MERCURY_CLIENT
+                                }
+                            });
+                        } catch (error) {
+                            globalError.push({ user: 'mercuryNotAvailable', error: error });
+                            errorSet.push({errorText: "MERCURY SO Auth call failed", system : "MERCURY"});
+                        }
+
+                    } catch (error) {
+                        globalError.push({ user: 'mercuryNotAvailable', error: error });
+                        errorSet.push({errorText: "MERCURY SO Auth call failed", system : "MERCURY"});
+                    }
                 }
                 // Mercury Auth call
                 // OTC-1010881 Fault Tolerance if Cobalt is not available due to downtimes
@@ -173,7 +166,8 @@ class srvOpenOrders extends cds.ApplicationService {
                 const CobaltNotAvailableFlag = globalError.some(e => e.user === 'cobaltNotAvailable');
                 const ApNotAvailable = globalError.some(e => e.user === 'apNotAvailable');
                 if (CobaltNotAvailableFlag && ApNotAvailable) {
-                    return;
+                    // Return an error so we can inform the user
+                    return JSON.stringify([{errorText: "No auth call succeeded", system : "GLOBAL"}]);
                 } 
                 // OTC-1010881 Fault Tolerance if Cobalt is not available due to downtimes
                 await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
@@ -254,7 +248,7 @@ class srvOpenOrders extends cds.ApplicationService {
             }
             // if (globalError.length === 2)
             //     req.error(globalError[0].error)
-            // return err;
+            return JSON.stringify(errorSet);
         });
 
         /**
