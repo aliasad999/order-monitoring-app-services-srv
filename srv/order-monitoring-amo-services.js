@@ -85,7 +85,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
                 } catch (error) {
                     globalError.push({ user: 'cobaltNotAvailable', error: error })
-                    errorSet.push({errorText: "Cobalt Auth call failed", system : "COBALT"});
+                    errorSet.push({errorCode: "COBALTGLOBAL"});
                 }
                 /// AP CALL
                 try {
@@ -111,12 +111,12 @@ class srvOpenOrders extends cds.ApplicationService {
                         });
                     } catch (error) {
                         globalError.push({ user: 'apNotAvailable', error: error });
-                        errorSet.push({errorText: "AP PO Auth call failed", system : "AP"});
+                        errorSet.push({errorCode: "APPO"});
                     }
 
                 } catch (error) {
                     globalError.push({ user: 'apNotAvailable', error: error });
-                    errorSet.push({errorText: "AP SO Auth call failed", system : "AP"});
+                    errorSet.push({errorCode: "APSO"});
                 }
                 if (process.env.SUBACCOUNT === 'DEV'){
                     // MERCURY Auth call
@@ -143,12 +143,12 @@ class srvOpenOrders extends cds.ApplicationService {
                             });
                         } catch (error) {
                             globalError.push({ user: 'mercuryNotAvailable', error: error });
-                            errorSet.push({errorText: "MERCURY SO Auth call failed", system : "MERCURY"});
+                            errorSet.push({errorCode: "MERCURYPO"});
                         }
 
                     } catch (error) {
                         globalError.push({ user: 'mercuryNotAvailable', error: error });
-                        errorSet.push({errorText: "MERCURY SO Auth call failed", system : "MERCURY"});
+                        errorSet.push({errorCode: "MERCURYSO"});
                     }
                 }
                 // Mercury Auth call
@@ -167,7 +167,7 @@ class srvOpenOrders extends cds.ApplicationService {
                 const ApNotAvailable = globalError.some(e => e.user === 'apNotAvailable');
                 if (CobaltNotAvailableFlag && ApNotAvailable) {
                     // Return an error so we can inform the user
-                    return JSON.stringify([{errorText: "No auth call succeeded", system : "GLOBAL"}]);
+                    return JSON.stringify([{errorCode: "GLOBALFAIL"}]);
                 } 
                 // OTC-1010881 Fault Tolerance if Cobalt is not available due to downtimes
                 await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
