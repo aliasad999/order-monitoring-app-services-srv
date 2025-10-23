@@ -398,35 +398,49 @@ class openOrdersSrv extends cds.ApplicationService {
                             lt_contacts.push(CMEntry);
                         })
 
-                        // if(addGTSContacts){
-                        //     let GTScontacts = [
-                        //         {   
-                        //             name: "SPL Blocks Contact",
-                        //             email: "gts-trade-control@basf.com"
-                        //         },
-                        //         {   
-                        //             name: "Embargo Blocks Contact",
-                        //             email: "NA-Trade-Compliance@basf.com"
-                        //         },
-                        //         {   
-                        //             name: "Legal Blocks Contact",
-                        //             email: "TBD@basf.com"
-                        //         }
-                        //     ]
-                        //     GTScontacts.forEach((gtscontact) => {
-                        //         let GTSEntry = {
-                        //             "SapClient": req.headers.so_mandt,
-                        //             "PersonalName": gtscontact.name,
-                        //             "EmailAddress": gtscontact.email,
-                        //             "PhoneNumber": "",
-                        //             "PersonalNumber": getRandomInt(1, 99999999),
-                        //             "SalesDocument": "",
-                        //             "OrderItem": "",
-                        //             "PartnerFunction": ""
-                        //         }
-                        //         lt_contacts.push(GTSEntry);
-                        //     }) 
-                        // }
+                        if(addGTSContacts){
+                            const OMServicesAP = await cds.connect.to('OMServicesAP');
+                            let issueData = JSON.parse(req.headers.issue_data);
+                            let entity = "OrderGTSBlocks";
+                            let whereClause = `SalesDocument = '${issueData.issueLocation}' and SalesDocumentItem = '${issueData.issueLocationItem}'`;
+                            // gts block is in outbound delivery
+                            if (issueData.issueLoctionDocType === "J") {
+                                entity = "DeliveryGTSBlocks";
+                                whereClause = `DeliveryDocument = '${issueData.issueLocation}' and DeliveryDocumentItem = '${issueData.issueLocationItem}'`;
+                            }
+                            let gtsBlockReasons = await OMServicesAP.send({
+                                method: 'GET',
+                                query: SELECT.from(entity).where(whereClause),
+                                headers: {
+                                    'X-Basf-Sap-Client': process.env.AP_CLIENT
+                                }
+                            });
+                            gtsBlockReasons.forEach((gtsBlockReasons) =>{
+                                let GTSEntry = {
+                                    "SapClient": req.headers.so_mandt,
+                                    "PersonalName": "",
+                                    "EmailAddress": "",
+                                    "PhoneNumber": "",
+                                    "PersonalNumber": getRandomInt(1, 99999999),
+                                    "SalesDocument": "",
+                                    "OrderItem": "",
+                                    "PartnerFunction": ""
+                                }
+                                if(gtsBlockReasons.EmbargoStatus !== "A"){
+                                    GTSEntry.EmailAddress = "NA-Trade-Compliance@basf.com";
+                                    GTSEntry.PersonalName = "Embargo Blocks Contact";
+                                }
+                                if(gtsBlockReasons.ScreeningStatus !== "A"){
+                                    GTSEntry.EmailAddress = "gts-trade-control@basf.com";
+                                    GTSEntry.PersonalName = "SPL Blocks Contact";
+                                }
+                                if(gtsBlockReasons.LegalControlStatus !== "A"){
+                                    GTSEntry.EmailAddress = "TBD@basf.com";
+                                    GTSEntry.PersonalName = "Legal Blocks Contact";
+                                }
+                                lt_contacts.push(GTSEntry);
+                            })
+                        }
 
                     }else {
                         // Run queries
