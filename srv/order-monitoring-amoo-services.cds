@@ -510,6 +510,15 @@ service openOrdersSrv {
     action   submitOrderChangeWF(payload : String)                                                     returns String;
     action   cancelOrder(payload : String)                                                             returns String;
     action   RemoveDeliveryBlock(SalesOrderID : String(10), ItemID : String(6))                        returns String;
+    function getOrderContacts(
+            SalesOrder: String(10),
+            SalesOrderItem: String(6),
+            Issue: String(2),
+            IssueLocation: String(12),
+            IssueLocationItem: String(6),
+            issueLoctionDocType: String(1)
+            ) 
+        returns orderContacts.ContactSet;
 
     entity PredefReasonBuckets      as
         select from AMOOUtilsService.PredefinedReasonBuckets {
