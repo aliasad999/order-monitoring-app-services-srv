@@ -3,11 +3,9 @@ const NodeCache = require('node-cache');
 const sessionCache = new NodeCache();
 const uuid = require('uuid');
 const status = require('http-status').status;
-const textBundle = require('./utils/textBundle')
 const log = require("cf-nodejs-logging-support");
-const { startOfToday } = require('date-fns');
+const { startOfToday, subDays } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies')
-const variantManagement = require('./utils/variantManagement');
 const serviceHelper = require('./utils/serviceHelper');
 
 class srvOpenOrders extends cds.ApplicationService {
@@ -50,8 +48,11 @@ class srvOpenOrders extends cds.ApplicationService {
         })
 
         this.on("getVBAKAuthObjKeys", async req => {
+            let bForceRefresh = req.data.forceRefresh;
             const { VBAKAuthObjectKeys, EKKOAuthObjectKeys } = await cds.entities('srvOpenOrders');
-            const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
+            // Get one month ago date
+            const OneMonthAgoDate = subDays(startOfToday(), 30).toISOString().slice(0, 19).replace('T', ' ');
+            // const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
             let updateNeeded = false;
             let lt_result = [];
             // let lt_resultEC = [];
@@ -59,15 +60,17 @@ class srvOpenOrders extends cds.ApplicationService {
             let lt_resultAPEKKO = [];
             let lt_resultMercury = [];
             let lt_resultMercuryEKKO = [];
-            let err = []
+            let errorSet = []
             let globalError = [];
             let userID = req.user.id;
 
             let vbakAuths = await SELECT.from(VBAKAuthObjectKeys).where`USERID = ${userID}`.limit(1);
-            // Avoid updating authorizations more than once a day
+            // Avoid updating authorizations more than once a week
             // Update only if table empty or outdatedf
-            if (vbakAuths.length > 0) {
-                if ((vbakAuths[0].LAST_UPDATE === null || vbakAuths[0].LAST_UPDATE < todayDate)) {
+            if(bForceRefresh){ // manual refresh triggered by the user, update always
+                updateNeeded = true;
+            }else if (vbakAuths.length > 0) {
+                if ((vbakAuths[0].LAST_UPDATE === null || vbakAuths[0].LAST_UPDATE < OneMonthAgoDate)) {
                     updateNeeded = true;
                 }
             } else {
@@ -81,17 +84,10 @@ class srvOpenOrders extends cds.ApplicationService {
                     const service = await cds.connect.to('authService');
                     lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
                 } catch (error) {
-                    globalError.push({ user: 'noCobaltUser', error: error })
-                    err = 1 //Cobalt call failed
+                    globalError.push({ user: 'cobaltNotAvailable', error: error })
+                    errorSet.push({errorCode: "COBALTGLOBAL"});
                 }
-                // // EC AUTH CALL
-                // try {
-                //     const service = await cds.connect.to('authServiceEC');
-                //     lt_resultEC = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
-                // } catch (error) {
-                //     globalError.push({ user: 'noECUser', error: error })
-                //     err = 2 // EC called failed
-                // }
+                /// AP CALL
                 try {
                     const service = await cds.connect.to('authServiceAP');
                     lt_resultAP = await service.send({
@@ -114,48 +110,66 @@ class srvOpenOrders extends cds.ApplicationService {
                             }
                         });
                     } catch (error) {
-                        globalError.push({ user: 'noAPUser', error: error });
-                        // Handle the error if needed
+                        globalError.push({ user: 'apNotAvailable', error: error });
+                        errorSet.push({errorCode: "APPO"});
                     }
 
                 } catch (error) {
-                    globalError.push({ user: 'noAPUser', error: error });
-                    // Do not proceed to the second call
+                    globalError.push({ user: 'apNotAvailable', error: error });
+                    errorSet.push({errorCode: "APSO"});
                 }
                 if (process.env.SUBACCOUNT === 'DEV'){
-                // Mercury Auth call
-                try {
-                    const service = await cds.connect.to('OMServicesMercury');
-                    lt_resultMercury = await service.send({
-                        method: "GET",
-                        path: "/xBASFxVBAKAUTH?$format=json",
-                        headers: {
-                            "Accept-Encoding": "",
-                            'X-Basf-Sap-Client': process.env.MERCURY_CLIENT
-                        }
-                    });
-
-                    // Only execute the second call if the first one succeeds
+                    // MERCURY Auth call
                     try {
-                        lt_resultMercuryEKKO = await service.send({
+                        const service = await cds.connect.to('OMServicesMercury');
+                        lt_resultMercury = await service.send({
                             method: "GET",
-                            path: "/xBASFxEKKOAUTH?$format=json",
+                            path: "/xBASFxVBAKAUTH?$format=json",
                             headers: {
                                 "Accept-Encoding": "",
                                 'X-Basf-Sap-Client': process.env.MERCURY_CLIENT
                             }
                         });
-                    } catch (error) {
-                        globalError.push({ user: 'noMercuryUser', error: error });
-                        // Handle the error if needed
-                    }
 
-                } catch (error) {
-                    globalError.push({ user: 'noMercuryUser', error: error });
-                    // Do not proceed to the second call
-                }
+                        // Only execute the second call if the first one succeeds
+                        try {
+                            lt_resultMercuryEKKO = await service.send({
+                                method: "GET",
+                                path: "/xBASFxEKKOAUTH?$format=json",
+                                headers: {
+                                    "Accept-Encoding": "",
+                                    'X-Basf-Sap-Client': process.env.MERCURY_CLIENT
+                                }
+                            });
+                        } catch (error) {
+                            globalError.push({ user: 'mercuryNotAvailable', error: error });
+                            errorSet.push({errorCode: "MERCURYPO"});
+                        }
+
+                    } catch (error) {
+                        globalError.push({ user: 'mercuryNotAvailable', error: error });
+                        errorSet.push({errorCode: "MERCURYSO"});
+                    }
                 }
                 // Mercury Auth call
+                // OTC-1010881 Fault Tolerance if Cobalt is not available due to downtimes
+                // | cobaltNotAvailable | apNotAvailable | MercuryNotAvailable | Result |
+                // | ❌                 | ❌            | ❌             | ❌ Fail |
+                // | ❌                 | ✅            | ❌             | ✅ Pass |
+                // | ❌                 | ✅            | ✅             | ✅ Pass |
+                // | ✅                 | ❌            | ❌             | ✅ Pass |
+                // | ✅                 | ✅            | ❌             | ✅ Pass |
+                // | ✅                 | ❌            | ✅             | ✅ Pass |
+                // | ✅                 | ✅            | ✅             | ✅ Pass |
+
+
+                const CobaltNotAvailableFlag = globalError.some(e => e.user === 'cobaltNotAvailable');
+                const ApNotAvailable = globalError.some(e => e.user === 'apNotAvailable');
+                if (CobaltNotAvailableFlag && ApNotAvailable) {
+                    // Return an error so we can inform the user
+                    return JSON.stringify([{errorCode: "GLOBALFAIL"}]);
+                } 
+                // OTC-1010881 Fault Tolerance if Cobalt is not available due to downtimes
                 await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
                 await DELETE.from(EKKOAuthObjectKeys).where({ USERID: userID });
 
@@ -234,7 +248,7 @@ class srvOpenOrders extends cds.ApplicationService {
             }
             // if (globalError.length === 2)
             //     req.error(globalError[0].error)
-            // return err;
+            return JSON.stringify(errorSet);
         });
 
         /**
@@ -652,7 +666,17 @@ class srvOpenOrders extends cds.ApplicationService {
                 }
             })
         })
-
+        // OTC-1018723 - Last note should only be deleted by the user who created it
+        this.on("DELETE", "notes", async(req,next)=>{
+            const { notes } = await cds.entities('srvOpenOrders');
+            const users = await SELECT.columns('USERNAME').from(notes).where({VBELN: req.data.VBELN, POSNR: req.data.POSNR,UTCTIME: req.data.UTCTIME, USERNAME: req.user.id})
+            if (users && users.length > 0 )
+                return  await next(req);
+            else
+                return req.error(status.CONFLICT,'NOTESNOTDELETED_USER_DIFFERENT')
+            
+        })
+        // OTC-1018723 - Last note should only be deleted by the user who created it
         this.after("DELETE", "notes", async (data, req) => {
             const { notes } = await cds.entities('srvOpenOrders');
             let note = await SELECT.from(notes).where({ VBELN: req.data.VBELN, POSNR: req.data.POSNR,LAST_NOTE_FLAG: { '!=': 'Y' } }).orderBy('UTCTIME desc').limit(1)

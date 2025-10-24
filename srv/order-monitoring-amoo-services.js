@@ -52,15 +52,15 @@ class openOrdersSrv extends cds.ApplicationService {
             // Purchase order Text
             const { Results } = cds.entities('srvOpenOrders')
             let POData = await SELECT.distinct.from(Results).columns(["PO_MANDT", "PO_EBELN", "PO_EBELP"])
-                            .where`SO_VBELN = ${salesOrder} and SO_POSNR = ${salesOrderItem} and SO_MANDT = ${orderSystem} and PO_MANDT <> null`;
-            if(POData.length > 0 && POData[0].PO_MANDT === "100"){
+                .where`SO_VBELN = ${salesOrder} and SO_POSNR = ${salesOrderItem} and SO_MANDT = ${orderSystem} and PO_MANDT <> null`;
+            if (POData.length > 0 && POData[0].PO_MANDT === "100") {
                 const { PO_EBELN, PO_EBELP } = POData[0];
                 const SAPTextsService = await cds.connect.to('DSLServicesService');
                 SAPTexts = await SAPTextsService.run(SELECT.from('SAPTextsSet').where({
                     TextId: 'F15',
                     TextName: `${PO_EBELN}${PO_EBELP}`,
                     TextObject: 'EKPO'
-                  }));
+                }));
                 if (SAPTexts.length > 0) {
                     SAPTexts.forEach((text) => {
                         SAPTextsEntity.push({
@@ -144,17 +144,17 @@ class openOrdersSrv extends cds.ApplicationService {
                     }
 
                     // Header
-                    SAPTexts = await APSAPTextsService.run(SELECT.from('A_SalesOrderText').where({ 
+                    SAPTexts = await APSAPTextsService.run(SELECT.from('A_SalesOrderText').where({
                         SalesOrder: salesOrder,
-                        LongTextID: { in: headerTextIds}
+                        LongTextID: { in: headerTextIds }
                     }))
                     addTexts(SAPTexts);
 
                     // Item
-                    SAPTexts = await APSAPTextsService.run(SELECT.from('A_SalesOrderItemText').where({ 
+                    SAPTexts = await APSAPTextsService.run(SELECT.from('A_SalesOrderItemText').where({
                         SalesOrder: salesOrder,
                         SalesOrderItem: salesOrderItem,
-                        LongTextID: { in: itemTextIds}
+                        LongTextID: { in: itemTextIds }
                     }))
                     addTexts(SAPTexts);
 
@@ -224,13 +224,13 @@ class openOrdersSrv extends cds.ApplicationService {
         // END OF REMOVE DELIVERY BLOCK //
 
         this.on("cancelOrder", async req => {
-            let reqData = JSON.parse(req.data.payload); // parse stringified object
+            let reqData = JSON.parse(req.data); // parse stringified object
 
             try {
-                const CSEUCockpitService = await cds.connect.to('CSEUCockpitService');
-                var cancelOrderCall = await CSEUCockpitService.tx(req).send({
+                const OrderChangeService = await cds.connect.to('S4OrderChangeService');
+                var cancelOrderCall = await OrderChangeService.tx(req).send({
                     method: "POST",
-                    path: "/OrderSet",
+                    path: "/directOrderChange",
                     data: reqData
                 });
             } catch (error) {
@@ -256,53 +256,47 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         this.on("submitOrderChangeWF", async req => {
-            let reqData = JSON.parse(req.data.payload); // parse stringified object
+            let parsedPayload = JSON.parse(req.data.payload); // parse stringified object
 
             try {
-                const bizagiSrv = await cds.connect.to('BizagiService');
-                var bizagiCall = await bizagiSrv.tx(req).send({
+                const orderChangeService = await cds.connect.to('S4OrderChangeService');
+                var bizagiCaseCreationCall = await orderChangeService.tx(req).send({
                     method: "POST",
-                    path: "/",
-                    data: reqData
+                    path: "/workflowOrderChange",
+                    data: {
+                        payload : parsedPayload
+                    }
                 });
             } catch (error) {
                 req.error(413, error)
             }
 
-            return bizagiCall
+            return bizagiCaseCreationCall
         });
 
         this.on("submitOrderChange", async req => {
             let reqData = JSON.parse(req.data.payload); // parse stringified object
-            let reasonCode = "KU";
-            if (reqData.internal) {
-                reasonCode = "WD";
-            }
             let postData = {
-                "DocumentNumber": reqData.SalesOrder,
-                "to_Items": [
-                    {
-                        "DocumentNumber": reqData.SalesOrder,
-                        "DocumentItem": reqData.SalesOrderItem,
-                        "ReasonCode": reasonCode,
-                        "Cause": "0001",
-                        "to_ScheduleLines": [
-                            {
-                                "DocumentNumber": reqData.SalesOrder,
-                                "DocumentItem": reqData.SalesOrderItem,
-                                "ScheduleLineNumber": "0001",
-                                "OrderQuantity": reqData.RequestedScheduleLines.Quantity,
-                                "DeliveryDate": reqData.RequestedScheduleLines.Date
-                            }
-                        ]
+                payload: {
+                    "SalesOrder": reqData.SalesOrder,
+                    "SalesOrderItem": reqData.SalesOrderItem,
+                    "Internal": reqData.internal,
+                    "RejectionReason": null,
+                    "RequestedScheduleLines": {
+                        "Date": reqData.RequestedScheduleLines.Date,
+                        "Quantity": reqData.RequestedScheduleLines.Quantity,
+                        "Unit": reqData.RequestedScheduleLines.SalesUnit
                     }
-                ]
-            }
+                }
+            };
+
             try {
-                const orderChangeSAPSrv = await cds.connect.to('YRDSDV1Foe1Service');
-                let lt_finalOrderLines = await orderChangeSAPSrv.tx(req).send({
+                // directOrderChange - endpoint
+                // S4OrderChangeService - service
+                const orderChangeSAPSrv = await cds.connect.to('S4OrderChangeService');
+                let directSAPChangeCall = await orderChangeSAPSrv.tx(req).send({
                     method: "POST",
-                    path: "/SalesOrderHeaderSet",
+                    path: "/directOrderChange",
                     data: postData
                 });
             } catch (error) {
@@ -330,107 +324,22 @@ class openOrdersSrv extends cds.ApplicationService {
 
         })
 
-        this.on("READ", "FinalOrderLineSet", async (req, next) => {
-            let finalOrderLine = {};
-            let editableFlag = true;
-            let saleOrder = "";
-            let orderItem = "";
-            const { orderChangeUsers } = await cds.entities('openOrdersSrv');
-            let userIsActive = await SELECT.from(orderChangeUsers).where({ userId: req.user.id, active: true });
-            if (userIsActive.length === 0) {
-                editableFlag = false;
-            }
+        this.on("isOrderChangeable", async req => {
+            let SalesOrderNumber = req.data.salesOrder; 
+            let SalesOrderItem = req.data.salesOrderItem;
+            let orderChangeTabData = {};
+            const orderChangeService = await cds.connect.to('S4OrderChangeService');
+
             try {
-                let orderLineQuery = SELECT.from('FinalOrderLineSet').limit(req.query.SELECT.limit);
-
-                if (req.query.SELECT.from.ref[0].where) {
-                    orderLineQuery.where(req.query.SELECT.from.ref[0].where);
-                    // GET Sales Order NUmber and Order Item from WHERE Clause
-                    let indexOfKey = 1;
-                    let iterator = 0;
-                    for (const element of req.query.SELECT.from.ref[0].where) {
-                        iterator++;
-                        // check if element is the property needed
-                        if (element.ref) {
-                            if (element.ref[0] === 'SalesOrder') {
-                                indexOfKey = iterator;
-                            }
-                            if (element.ref[0] === 'SalesOrderItem') {
-                                indexOfKey = iterator;
-                            }
-                        }
-                        // get value for selected properties
-                        if (indexOfKey + 2 === iterator) {
-                            if (element.val.length === 6) {
-                                orderItem = element.val;
-                            } else {
-                                saleOrder = element.val;
-                            }
-
-                        }
-                    }
-                }
-                if (req.query.SELECT.orderBy) {
-                    orderLineQuery.orderBy(req.query.SELECT.orderBy);
-                }
-
-                if (req.query.SELECT.columns) {
-                    orderLineQuery.SELECT.columns = req.query.SELECT.columns
-                }
-                const apiManagementService = await cds.connect.to('OrderChangeService');
-                const AMOOUtilsService = await cds.connect.to('AMOOUtilsService');
-
-                let bizagiQuery = SELECT.from('BizagiCaseStatus').byKey({ SALES_ORDER: saleOrder, SALES_ORDER_ITEM: orderItem })
-
-                finalOrderLine = await apiManagementService.tx(req).send({
-                    query: orderLineQuery
+                orderChangeTabData = await orderChangeService.send({
+                    method: "GET",
+                    path: `/isOrderChangeable?salesOrder='${SalesOrderNumber}'&salesOrderItem='${SalesOrderItem}'`
                 });
-                let bizagiStatus = null;
-                try {
-                    bizagiStatus = await AMOOUtilsService.tx(req).send({
-                        query: bizagiQuery
-                    });
-                } catch (error) {
-                    if (error.reason.response.status !== 404) {
-                        req.error(413, error)
-                    }
-                }
-
-                if (finalOrderLine.length > 0) {
-                    finalOrderLine = finalOrderLine[0];
-                } else {
-                    // no data
-                    return {};
-                }
-
-                // Update editable flag based on the BTP table of active users
-                if (finalOrderLine.SalesOrder && !editableFlag) {
-                    finalOrderLine.Editable = editableFlag;
-                }
-                finalOrderLine.BizagiCaseInProgress = false;
-                finalOrderLine.BizagiCaseStatus = '';
-                finalOrderLine.BizagiCaseID = '';
-                finalOrderLine.BizagiCase = '';
-                if (bizagiStatus) {
-                    // Add Bizagi Case information only if not approved to block order change UI
-                    if (bizagiStatus.STATUS.indexOf("Approved") < 0) {
-                        finalOrderLine.Editable = false;
-                        finalOrderLine.BizagiCaseInProgress = true;
-                        finalOrderLine.BizagiCaseStatus = bizagiStatus.STATUS;
-                        finalOrderLine.BizagiCaseID = bizagiStatus.CASE_ID;
-                        finalOrderLine.BizagiCase = bizagiStatus.BIZAGI_CASE;
-                    }
-                    if (bizagiStatus.STATUS === 'Rejected') finalOrderLine.Editable = true;
-                }
-
-
-                //TEMPORARY
-                // finalOrderLine.Editable = true;
-
             } catch (error) {
                 req.error(413, error)
             }
-            return finalOrderLine;
+            // orderChangeTabData.OrdSchedConf[0].SlDate = new Date()
+            return orderChangeTabData
         });
 
         this.on("READ", "ContactsOptions", async (req, next) => {
@@ -618,46 +527,6 @@ class openOrdersSrv extends cds.ApplicationService {
             return lt_services;
         });
 
-        this.on("getVBAKAuthObjKeys", async req => {
-            const { VBAKAuthObjectKeys } = await cds.entities('srvOpenOrders');
-            const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
-            let updateNeeded = false;
-            let lt_result = [];
-            let userID = req.user.id;
-            let vbakAuths = await SELECT.from(VBAKAuthObjectKeys).where`USERID = ${userID}`.limit(1);
-            // Avoid updating authorizations more than once a day
-            // Update only if table empty or outdated
-            if (vbakAuths.length > 0) {
-                if ((vbakAuths[0].LAST_UPDATE === null || vbakAuths[0].LAST_UPDATE < todayDate)) {
-                    updateNeeded = true;
-                }
-            } else {
-                updateNeeded = true;
-            }
-            if (updateNeeded) {
-                let SQLdate = new Date().toISOString().slice(0, 19).replace('T', ' ');
-                try {
-                    const service = await cds.connect.to('authService');
-                    lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO&sap-client=100");
-
-                } catch (error) {
-                    req.error(413, 'ERROR_AUTH_CALL')
-                }
-                await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
-
-                if (lt_result.length !== 0) {
-                    lt_result.forEach((set) => {
-                        set.LAST_UPDATE = SQLdate;
-                        set.USERID = userID;
-                    })
-                    await INSERT.into(VBAKAuthObjectKeys, lt_result);
-                }
-                return true;
-            }
-            return false;
-
-        });
-
         /**
       * This event is triggered before the backend request for order list data
       * @param {string} "READ" - The type of backend request
@@ -732,7 +601,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         //this parameater has been manually set to header on every request
                         const selectedField = req.http.req.query && req.http.req.query['$select']
                         let fields = selectedField && selectedField.split(',');
-                        if(fields){
+                        if (fields) {
                             fields = fields.filter((fieldName) => {
                                 const mandtFields = serviceHelper.getMandtFields();
                                 const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
@@ -746,7 +615,7 @@ class openOrdersSrv extends cds.ApplicationService {
                             lt_result = serviceHelper.removeDuplicates(fields, lt_result);
                         }
                     } catch (error) {
-                        log.error("AMOO VH with Session: " + error.message +  " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT)  + " || " + JSON.stringify(req.query.SELECT.where));
+                        log.error("AMOO VH with Session: " + error.message + " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT) + " || " + JSON.stringify(req.query.SELECT.where));
                         req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                     }
                 } else {
@@ -760,7 +629,7 @@ class openOrdersSrv extends cds.ApplicationService {
                             .orderBy(keyField)
                             .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
                         // Add where clause if needed
-                        if(query.SELECT.where){
+                        if (query.SELECT.where) {
                             subquery = subquery.where(query.SELECT.where);
                         }
                         // Run the count query
@@ -770,7 +639,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         }
                         lt_result.push({ $count: queryCount })
                     } catch (error) {
-                        log.error("AMOO VH count with Session: " + error.message +  " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT)  + " || " + JSON.stringify(req.query.SELECT.where));
+                        log.error("AMOO VH count with Session: " + error.message + " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT) + " || " + JSON.stringify(req.query.SELECT.where));
                         req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                     }
 
@@ -805,32 +674,32 @@ class openOrdersSrv extends cds.ApplicationService {
                     try {
                         lt_result = await db.run(finalQuery)
                     } catch (error) {
-                        log.error("AMOO VH without Session: " + error.message +  " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT)  + " || " + JSON.stringify(req.query.SELECT.where));
+                        log.error("AMOO VH without Session: " + error.message + " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT) + " || " + JSON.stringify(req.query.SELECT.where));
                         req.error(error)
                     }
                     //await cds.run(req.query);
                 } else {
                     try {
                         let queryCount = 0;
-                            // We need an orderBy clause to make the query performant
-                            let keyField = fields[0];
-                            let subquery = SELECT.distinct(...fields)
-                                .from('openOrdersSrv.allIssues')
-                                .orderBy(keyField)
-                                .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
-                            // Add where clause if needed
-                            if(req.query.SELECT.where){
-                                subquery = subquery.where(req.query.SELECT.where);
-                            }
+                        // We need an orderBy clause to make the query performant
+                        let keyField = fields[0];
+                        let subquery = SELECT.distinct(...fields)
+                            .from('openOrdersSrv.allIssues')
+                            .orderBy(keyField)
+                            .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
+                        // Add where clause if needed
+                        if (req.query.SELECT.where) {
+                            subquery = subquery.where(req.query.SELECT.where);
+                        }
 
-                            // Run the count query
-                            const distinctCount = await SELECT.from(subquery).columns('count(*) as total');
-                            if (distinctCount.length > 0) {
-                                queryCount = distinctCount[0].total;
-                            }
-                            lt_result.push({ $count: queryCount })
+                        // Run the count query
+                        const distinctCount = await SELECT.from(subquery).columns('count(*) as total');
+                        if (distinctCount.length > 0) {
+                            queryCount = distinctCount[0].total;
+                        }
+                        lt_result.push({ $count: queryCount })
                     } catch (error) {
-                        log.error("AMOO VH count without Session: " + error.message +  " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT)  + " || " + JSON.stringify(req.query.SELECT.where));
+                        log.error("AMOO VH count without Session: " + error.message + " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT) + " || " + JSON.stringify(req.query.SELECT.where));
                         req.error(error)
                     }
 
@@ -984,6 +853,7 @@ class openOrdersSrv extends cds.ApplicationService {
             req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
             req.query.SELECT.localized = false; 
             req.query.SELECT.distinct = true;
+            
             serviceHelper.transformDateFilters(req.query.SELECT.where);
         });
   
@@ -1064,34 +934,10 @@ class openOrdersSrv extends cds.ApplicationService {
                     let tabs = {}
                     try {
                         const db = cds.tx(req);
-                        // const where = serviceHelper.convertCQNtoCQL(req.query.SELECT.where, true)
-                        let whereClause1 = structuredClone(req.query.SELECT.where);
-                        whereClause1 = serviceHelper.changeIgnored(whereClause1);
-                        const ignored0Query = SELECT.distinct
-                                .from('openOrdersSrv.allIssues')
-                                .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN')
-                                .columns([
-                                    { ref: ['so_nps'], as: 'ID' },
-                                    { val: true, as: 'FLAG' }
-                                ])
-                                .where(whereClause1);
-                        let whereClause2 = structuredClone(req.query.SELECT.where);
-                        whereClause2 = serviceHelper.changeIgnored(whereClause2, true);
-                        const ignored1Query = SELECT
-                                .from('openOrdersSrv.allIssues')
-                                .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN')
-                                .columns([
-                                    { val: '00', as: 'ID' },
-                                    { val: true, as: 'FLAG' }
-                                ])
-                                .where(whereClause2);
-                        const [result1, result2] = await Promise.all([
-                            db.run(ignored0Query),
-                            db.run(ignored1Query)
-                        ]);
-                        const npstabs = [...result1, ...result2];
-                        // const sQuery = `CALL"npsValueExist"(IV_WHERECLAUSE => '${where}',LT_NPS_TAB => ?)`;
-                        // const npstabs = await db.run(sQuery)
+                        const where = serviceHelper.convertCQNtoCQL(req.query.SELECT.where, true)
+                        const sQuery = `CALL"npsValueExist"(IV_WHERECLAUSE => '${where}',LT_NPS_TAB => ?)`;
+                        const npstabs = await db.run(sQuery)
+
                         tabs = npstabs.reduce((acc, item) => {
                             acc[`nps${item.ID}`] = item.FLAG;
                             return acc;
@@ -1105,9 +951,9 @@ class openOrdersSrv extends cds.ApplicationService {
                         const db = cds.tx(req);
                         const countCols = req.headers.countcols; // Define count columns
                         const distinctQuery = SELECT.distinct(countCols)
-                                .from('openOrdersSrv.allIssues')
-                                .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
-                        const query =  SELECT.from(distinctQuery).columns('count(*) as total');
+                            .from('openOrdersSrv.allIssues')
+                            .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
+                        const query = SELECT.from(distinctQuery).columns('count(*) as total');
                         if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
                         const distinctCount = await db.run(query);
                         let data = JSON.stringify({
@@ -1124,7 +970,7 @@ class openOrdersSrv extends cds.ApplicationService {
                             "nps99": tabs.nps99,
                             "nps00": tabs.nps0,
                             "nps05": tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99,
-                            "nps101":tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99 
+                            "nps101": tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99
                         })
                         req.res.setHeader('custom', data)
                         return req.reply({ $count: distinctCount[0].total })
@@ -1216,14 +1062,14 @@ class openOrdersSrv extends cds.ApplicationService {
                 req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
 
                 // Add sorting if necessary only
-                if(!req.query.SELECT?.columns[0].as){
-                    if(req.query.SELECT.orderBy){
+                if (!req.query.SELECT?.columns[0].as) {
+                    if (req.query.SELECT.orderBy) {
                         serviceHelper.addOrderIfNeeded(req.query.SELECT.orderBy, 'PO_EBELN');
                         serviceHelper.addOrderIfNeeded(req.query.SELECT.orderBy, 'PO_EBELP');
-                    }else{
+                    } else {
                         req.query.SELECT.orderBy = [
-                            {ref:['PO_EBELN'], sort: 'asc'},
-                            {ref:['PO_EBELP'], sort: 'asc'}
+                            { ref: ['PO_EBELN'], sort: 'asc' },
+                            { ref: ['PO_EBELP'], sort: 'asc' }
                         ]
                     }
                 }
@@ -1244,12 +1090,12 @@ class openOrdersSrv extends cds.ApplicationService {
                 if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                     try {
                         const db = cds.tx(req);
-                        const countCols = ['PO_MANDT', 'PO_EBELN','PO_EBELP']; // Define count columns
+                        const countCols = ['PO_MANDT', 'PO_EBELN', 'PO_EBELP']; // Define count columns
                         const distinctQuery = SELECT.distinct(...countCols)
-                                .from('openOrdersSrv.orderCreation')
-                                .orderBy({ PO_EBELN: 'asc' }, { PO_EBELP: 'asc' })
-                                .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
-                        const query =  SELECT.from(distinctQuery).columns('count(*) as total');
+                            .from('openOrdersSrv.orderCreation')
+                            .orderBy({ PO_EBELN: 'asc' }, { PO_EBELP: 'asc' })
+                            .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
+                        const query = SELECT.from(distinctQuery).columns('count(*) as total');
                         if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
                         const distinctCount = await db.run(query);
                         return req.reply({ $count: distinctCount[0].total })
@@ -1270,7 +1116,7 @@ class openOrdersSrv extends cds.ApplicationService {
 
         this.after("READ", "orderCreation", async (data, req) => {
             if (process.env.OC_TAB_STATUS === 'ACTIVE') {
-                let sessionID = req.headers['x-username'] ||req.headers['authorization'];
+                let sessionID = req.headers['x-username'] || req.headers['authorization'];
                 if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count') {
                     // do nothing
                 } else {
@@ -1321,6 +1167,15 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
         // END OF ORDER CREATION HANDLERS
+
+        this.on("resolveBIMErrors", async (req) => {
+            const errorIds = req.data.errorIds?.split(',')
+            if (!errorIds) return;
+
+            const { ST_BIM_ERRORS } = await cds.entities('openorders.db');
+            await UPDATE(ST_BIM_ERRORS).set({ IS_RESOLVED: true }).where({ BIM_ERROR_ID:  { in:  errorIds} });            
+        });
+
 
         // BEGIN OF ORDER CREATION VALUE HELPS HANDLERS
         this.before("READ", "OCValueHelps", async (req, next) => {
@@ -1383,7 +1238,7 @@ class openOrdersSrv extends cds.ApplicationService {
                             // remove duplicates based on fields in the valuehelp dialog box
                             lt_result = serviceHelper.removeDuplicates(fields, lt_result);
                         } catch (error) {
-                            log.error("[amoo-services.js] - OC Value help query w session cache failed! " + error.message +  "||" + JSON.stringify(error));
+                            log.error("[amoo-services.js] - OC Value help query w session cache failed! " + error.message + "||" + JSON.stringify(error));
                             req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                         }
                     } else {
@@ -1398,7 +1253,7 @@ class openOrdersSrv extends cds.ApplicationService {
                                 .orderBy(keyField)
                                 .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
                             // Add where clause if needed
-                            if(query.SELECT.where){
+                            if (query.SELECT.where) {
                                 subquery = subquery.where(query.SELECT.where);
                             }
                             // Run the count query
@@ -1408,7 +1263,7 @@ class openOrdersSrv extends cds.ApplicationService {
                             }
                             lt_result.push({ $count: queryCount })
                         } catch (error) {
-                            log.error("[amoo-services.js] - OC Value help count query w session cache failed! " + error.message +  "||" + JSON.stringify(error));
+                            log.error("[amoo-services.js] - OC Value help count query w session cache failed! " + error.message + "||" + JSON.stringify(error));
                             req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
                         }
 
@@ -1440,7 +1295,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         try {
                             lt_result = await db.run(finalQuery)
                         } catch (error) {
-                            log.error("[amoo-services.js] - OC Value help query wo session cache failed! " + error.message +  "||" +  JSON.stringify(error));
+                            log.error("[amoo-services.js] - OC Value help query wo session cache failed! " + error.message + "||" + JSON.stringify(error));
                             req.error(error)
                         }
                     } else {
@@ -1453,7 +1308,7 @@ class openOrdersSrv extends cds.ApplicationService {
                                 .orderBy(keyField)
                                 .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
                             // Add where clause if needed
-                            if(req.query.SELECT.where){
+                            if (req.query.SELECT.where) {
                                 subquery = subquery.where(req.query.SELECT.where);
                             }
 
@@ -1464,7 +1319,7 @@ class openOrdersSrv extends cds.ApplicationService {
                             }
                             lt_result.push({ $count: queryCount })
                         } catch (error) {
-                            log.error("[amoo-services.js] - OC Value help count query wo session cache failed! " + error.message +  "||" + JSON.stringify(error));
+                            log.error("[amoo-services.js] - OC Value help count query wo session cache failed! " + error.message + "||" + JSON.stringify(error));
                             req.error(error)
                         }
 
@@ -1750,7 +1605,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         } catch (error) {
                             console.error('Error fetching ATP Pal status:', error);
                         }
-                    } 
+                    }
                     break;
                 case "200": // EC
                     break;
@@ -1794,12 +1649,12 @@ class openOrdersSrv extends cds.ApplicationService {
                         }
                     }
                     // GTS Block
-                    if(issue === '07'){
+                    if (issue === '07') {
                         try {
                             let entity = "OrderGTSBlocks";
                             let whereClause = `SalesDocument = '${issueLocation}' and SalesDocumentItem = '${issueLocationItem}'`;
                             // gts block is in outbound delivery
-                            if(issueLoctionDocType === "J"){
+                            if (issueLoctionDocType === "J") {
                                 entity = "DeliveryGTSBlocks";
                                 whereClause = `DeliveryDocument = '${issueLocation}' and DeliveryDocumentItem = '${issueLocationItem}'`;
                             }
@@ -1810,7 +1665,7 @@ class openOrdersSrv extends cds.ApplicationService {
                                     'X-Basf-Sap-Client': process.env.AP_CLIENT
                                 }
                             });
-                                        
+
                             // Fill the text
                             gtsBlockReasons.forEach((block) => {
                                 block.EmbargoStatusText = `${serviceHelper.getBundle(req.locale).getText('EmbargoStatus')}: ${block.EmbargoStatusText}`;
@@ -1968,7 +1823,7 @@ class openOrdersSrv extends cds.ApplicationService {
             //  get selected columns & sorters & summation fields
             let columns = req.headers?.selectedcolumns || '';
             let groupby = req.headers?.orderby || '';
-            let summationFields = req.headers.summationfields ||'';
+            let summationFields = req.headers.summationfields || '';
             // Convert to array
             let columnsArray = columns.split(',').map(c => c.trim()).filter(Boolean);
             let groupbyArray = groupby.split(',').map(g => g.trim()).filter(Boolean);
@@ -1977,8 +1832,8 @@ class openOrdersSrv extends cds.ApplicationService {
             let aggrMap = {
                 SO_KWMENG: { sum: `SUM(SO_KWMENG) AS SO_KWMENG`, group: 'SO_VRKME' },
                 SO_KBMENG: { sum: 'SUM(SO_KBMENG) AS SO_KBMENG', group: 'SO_VRKME' },
-                DL_LFIMG:  { sum: 'SUM(DL_LFIMG) AS DL_LFIMG', group: 'DL_VRKME' },
-                SO_NETWR:  { sum: 'SUM(SO_NETWR) AS SO_NETWR', group: 'SO_WAERK' }
+                DL_LFIMG: { sum: 'SUM(DL_LFIMG) AS DL_LFIMG', group: 'DL_VRKME' },
+                SO_NETWR: { sum: 'SUM(SO_NETWR) AS SO_NETWR', group: 'SO_WAERK' }
             };
             const keys = Object.keys(aggrMap)
             keys.forEach(key => {
@@ -1988,7 +1843,7 @@ class openOrdersSrv extends cds.ApplicationService {
             });
             const unitFields = new Set();
             for (const col of columnsArray) {
-                if (aggrMap[col]) 
+                if (aggrMap[col])
                     unitFields.add(aggrMap[col].group);
             }
             // Add required grouping fields for aggregated columns
@@ -2009,9 +1864,9 @@ class openOrdersSrv extends cds.ApplicationService {
                 'TM_MANDT_TEXT'
             ];
             columnsArray = columns.split(',')
-                    .map(c => c.trim())
-                    .filter(Boolean)
-                    .map(col => excludeColumns.includes(col) ? `NULL AS ${col}` : col);
+                .map(c => c.trim())
+                .filter(Boolean)
+                .map(col => excludeColumns.includes(col) ? `NULL AS ${col}` : col);
 
             let finalQuery = '';
             if (req.query.SELECT.columns && req.query.SELECT.columns[0].as === '$count') {
@@ -2019,34 +1874,34 @@ class openOrdersSrv extends cds.ApplicationService {
                 const sQuery = `CALL"npsValueExist"(IV_WHERECLAUSE => '${where}',LT_NPS_TAB => ?)`;
                 const npstabs = await db.run(sQuery)
                 const tabs = npstabs.reduce((acc, item) => {
-                            acc[`nps${item.ID}`] = item.FLAG;
-                            return acc;
-                        }, {});
+                    acc[`nps${item.ID}`] = item.FLAG;
+                    return acc;
+                }, {});
                 let data = JSON.stringify({
-                            "nps10": tabs.nps10,
-                            "nps20": tabs.nps20,
-                            "nps30": tabs.nps30,
-                            "nps40": tabs.nps40,
-                            "nps50": tabs.nps50,
-                            "nps60": tabs.nps60,
-                            "nps70": tabs.nps70,
-                            "nps80": tabs.nps80,
-                            "nps90": tabs.nps90,
-                            "nps95": tabs.nps95,
-                            "nps99": tabs.nps99,
-                            "nps00": tabs.nps0,
-                            "nps05": tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99,
-                            "nps101":tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99 
-                        })
-                        req.res.setHeader('custom', data)
+                    "nps10": tabs.nps10,
+                    "nps20": tabs.nps20,
+                    "nps30": tabs.nps30,
+                    "nps40": tabs.nps40,
+                    "nps50": tabs.nps50,
+                    "nps60": tabs.nps60,
+                    "nps70": tabs.nps70,
+                    "nps80": tabs.nps80,
+                    "nps90": tabs.nps90,
+                    "nps95": tabs.nps95,
+                    "nps99": tabs.nps99,
+                    "nps00": tabs.nps0,
+                    "nps05": tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99,
+                    "nps101": tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99
+                })
+                req.res.setHeader('custom', data)
                 return;
             } else {
                 // get pagination values
                 const limit = req.query.SELECT.limit?.rows?.val ?? 500;
                 const offset = req.query.SELECT.limit?.offset?.val ?? 0;
                 let queryParts = [];
-                if (columns.includes('SO_NPS')){
-                queryParts.push(`
+                if (columns.includes('SO_NPS')) {
+                    queryParts.push(`
                     WITH base_data_raw AS (
                         SELECT DISTINCT ${columnsArray.join(', ')}
                         FROM openOrdersSrv_OpenOrdersAnalytics
@@ -2068,16 +1923,16 @@ class openOrdersSrv extends cds.ApplicationService {
                                 WHERE x.SO_VBELN = t.SO_VBELN AND x.SO_POSNR = t.SO_POSNR AND x.SO_NPS = 30
                             ))
                     )`);
-                    }
-                    else{
-                        queryParts.push(`
+                }
+                else {
+                    queryParts.push(`
                         WITH base_data AS (
                             SELECT DISTINCT ${columnsArray.join(', ')}
                             FROM openOrdersSrv_OpenOrdersAnalytics
                             WHERE ${where}
                         LIMIT ${limit} OFFSET ${offset})`);
 
-                    }
+                }
                 // Line items with sort key
                 queryParts.push(`, 
                     line_items_with_sort AS (
@@ -2095,11 +1950,11 @@ class openOrdersSrv extends cds.ApplicationService {
 
                 // Add subtotal levels
                 for (let level = 1; level <= groupbyArray.length; level++) {
-                    
+
                     const levelGroupBy = groupbyArray.slice(0, level);
                     const levelGroupByWithUnits = [...new Set([...levelGroupBy, ...unitFields])];
                     const levelGroupByStr = levelGroupByWithUnits.join(', ');
-                    const subtotalColumns = serviceHelper.buildSubtotalColumns(columnsArray, levelGroupBy, aggrMap,excludeColumns);
+                    const subtotalColumns = serviceHelper.buildSubtotalColumns(columnsArray, levelGroupBy, aggrMap, excludeColumns);
                     const cteName = `subtotals_level_${level}`;
 
                     queryParts.push(`, ${cteName} AS (
@@ -2110,7 +1965,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         FROM line_items_with_sort
                         GROUP BY ${levelGroupByStr})`);
 
-                    const sortOffset = ( groupbyArray.length - level ) * 100;
+                    const sortOffset = (groupbyArray.length - level) * 100;
                     unionSelects.push(`
                         SELECT *, 
                             base_sort_key * 1000 + ${sortOffset} + ${level} AS final_sort_key
@@ -2151,7 +2006,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 const queryId = `${sessionID}AMOOQuery`
                 sessionCache.set(queryId, queryString);
 
-                    }
+            }
             data = Array.isArray(data) ? data : [data]
             let dateProps = serviceHelper.getDateProps()
             data.forEach((item) => {
