@@ -12,7 +12,7 @@ service srvOpenOrders {
 
   entity VBAKAuthObjectKeys      as select from db_app.VBAKAUTH;
   entity EKKOAuthObjectKeys      as select from db_app.EKKOAUTH;
-  function getVBAKAuthObjKeys(forceRefresh : Boolean)    returns Integer;
+  function getVBAKAuthObjKeys(forceRefresh : Boolean)    returns String;
 
   @readonly
   @cds.redirection.target: true
