@@ -543,12 +543,11 @@ service openOrdersSrv {
             key LANGUAGE     as Language,
                 REASON_CODE  as ReasonCodeKey
         };
-
+    @readonly
     entity PredefFollowupNotes      as
-        select from AMOOUtilsService.PredefinedFollowupNotes {
-            PREDEFINED_ID      as FollowUpNoteId,
-            PREDEFINED_CONTENT as FollowUpNoteContent,
-            LANGUAGE           as Language
+        select from amo_service.PredefFollowupNotes {
+            defId      as FollowUpNoteId,
+            defContent as FollowUpNoteContent
         };
 
     entity FollowupNotes            as

@@ -15,3 +15,10 @@ annotate service.DCPStatus with {
     @Common.TextFor
     DCPStatusText;
 };
+annotate service.PredefFollowupNotes with {
+    @Common.Text           : FollowUpNoteContent
+    @Common.TextArrangement: #TextOnly
+    FollowUpNoteId  @title: '{i18n>SO_FOLLOWUP_NOTES_LANG}'  @sap.Label: '{i18n>SO_FOLLOWUP_NOTES_LANG}';
+    @Common.TextFor
+    FollowUpNoteContent;
+};
