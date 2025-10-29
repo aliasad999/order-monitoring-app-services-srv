@@ -1449,19 +1449,6 @@ class openOrdersSrv extends cds.ApplicationService {
             }
         });
 
-        this.on("READ", "PredefFollowupNotes", async req => {
-            let predefFUNotes = [];
-            try {
-                const AMOOService = await cds.connect.to('AMOOUtilsService');
-                predefFUNotes = await AMOOService.tx(req).send({
-                    query: req.query
-                });
-            } catch (error) {
-                req.error(413, error)
-            }
-
-            return predefFUNotes;
-        });
 
         // Adding Flag for latest followup notes 
         this.before("CREATE", "FollowupNotes", async (req) => {

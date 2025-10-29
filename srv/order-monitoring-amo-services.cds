@@ -9,6 +9,12 @@ service srvOpenOrders {
 
   @readonly
   entity DCPStatus               as projection on db_app.DCPStatus;
+   @readonly
+  entity PredefFollowupNotes      as
+      select from db_app.PredefFollowupNotes {
+          defId      as FollowUpNoteId,
+          defContent as FollowUpNoteContent
+        };
 
   entity VBAKAuthObjectKeys      as select from db_app.VBAKAUTH;
   entity EKKOAuthObjectKeys      as select from db_app.EKKOAUTH;

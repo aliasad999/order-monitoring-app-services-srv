@@ -619,11 +619,8 @@ entity ![ST_FOLLOWUP_NOTES] {
         VBELN                  : String(10);
         POSNR                  : String(6);
         PREDEFINED_ID          : String(5);
-        PREDEFINED_CONTENT     : String(50);
-        LANGUAGE               : String(1);
         CREATED_AT             : Timestamp;
         LAST_FOLLOWUPNOTE_FLAG : String(1);
-
 }
 
 @cds.persistence.exists

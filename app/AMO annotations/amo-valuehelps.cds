@@ -1316,16 +1316,18 @@ annotate service.Results with {
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>SO_FOLLOWUP_NOTES_LANG}',
-        CollectionPath         : 'valueHelps',
+        CollectionPath         : 'PredefFollowupNotes',
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
             $Type            : 'Common.ValueListParameterInOut',
             LocalDataProperty: SO_FOLLOWUP_NOTES_LANG,
-            ValueListProperty: 'SO_FOLLOWUP_NOTES_LANG'
-        }
-
-        ]
+            ValueListProperty: 'FollowUpNoteId'
+        },
+        {
+            $Type            : 'Common.ValueListParameterDisplayOnly',
+            ValueListProperty: 'FollowUpNoteContent'
+        }]
     }
 };
 
