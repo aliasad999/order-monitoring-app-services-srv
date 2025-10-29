@@ -556,8 +556,6 @@ service openOrdersSrv {
             key VBELN              as SalesOrder,
             key POSNR              as OrderItem,
             key PREDEFINED_ID      as FollowupNote,
-            key LANGUAGE           as Language,
-                PREDEFINED_CONTENT as Content,
                 CREATED_AT         as CreatedAt,
                 LAST_FOLLOWUPNOTE_FLAG  as LastFollowupNoteFlag                
         };
