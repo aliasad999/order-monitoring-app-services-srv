@@ -463,7 +463,12 @@ service srvOpenOrders {
           TS_PARTNER_NAME1                            as TM_TS_PARTNER_NAME1,
           KVGR5                                       as SO_KVGR5,
           STCEG                                       as BL_STCEG,
-
+          IFNULL(
+            OM_PARTNER_ITM, OM_PARTNER_HEAD
+          )                                           as SO_OM_PARTNER                   : String(8),
+          IFNULL(
+            OM_PARTNER_NAME_ITM, OM_PARTNER_NAME_HEAD
+          )                                           as SO_OM_PARTNER_NAME              : String(80)
 
     };
 

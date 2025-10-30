@@ -281,6 +281,12 @@ annotate service.allIssues with {
     TM_TS_PARTNER                 @title: '{i18n>TM_TS_PARTNER}'               @sap.Label: '{i18n>TM_TS_PARTNER}';
     @Common.TextFor
     TM_TS_PARTNER_NAME1      @title: '{i18n>TM_TS_PARTNER_NAME1}'              @sap.Label: '{i18n>TM_TS_PARTNER_NAME1}';
+    
+    @Common.Text           : SO_OM_PARTNER_NAME
+    @Common.TextArrangement: #TextFirst
+    SO_OM_PARTNER               @title: '{i18n>SO_OM_PARTNER}'                    @sap.Label: '{i18n>SO_OM_PARTNER}'    @Common.IsDigitSequence: true;
+    @Common.TextFor
+    SO_OM_PARTNER_NAME          @title: '{i18n>SO_OM_PARTNER_NAME}'               @sap.Label: '{i18n>SO_OM_PARTNER_NAME}';
 }
 /// UI visibility of fields
 annotate service.allIssues with {
@@ -392,4 +398,5 @@ annotate service.allIssues with {
     TM_OLD_ETA_VISTA_DATE           @UI                     : {Hidden: true};
     SO_MFRGR_BEZEI_LANG             @UI                     : {Hidden: true};
     TM_TS_PARTNER_NAME1             @UI                     : {Hidden: true};
+    SO_OM_PARTNER_NAME              @UI                     : {Hidden: true};
 }

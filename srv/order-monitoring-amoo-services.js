@@ -899,6 +899,9 @@ class openOrdersSrv extends cds.ApplicationService {
                                 partnersQuery.push(`SO_SB_PARTNER = '${partnerNumber}'`);
                                 break;
                             // Added with user story 851475 
+                            case 'OM':
+                                partnersQuery.push(`SO_OM_PARTNER = '${partnerNumber}'`);
+                                break;
 
                             default:
                                 break;

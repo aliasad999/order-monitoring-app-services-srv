@@ -261,5 +261,7 @@ annotate service.BaseEntity with {
     TM_TS_PARTNER_NAME1              @title: '{i18n>TM_TS_PARTNER_NAME1}'              @sap.Label: '{i18n>TM_TS_PARTNER_NAME1}';
     SO_KVGR5                         @title: '{i18n>SO_KVGR5}'                         @sap.Label: '{i18n>SO_KVGR5}';
     BL_STCEG                         @title: '{i18n>BL_STCEG}'                         @sap.Label: '{i18n>BL_STCEG}';
+    SO_OM_PARTNER                    @title: '{i18n>SO_OM_PARTNER}'                    @sap.Label: '{i18n>SO_OM_PARTNER}' @Common.IsDigitSequence: true;
+    SO_OM_PARTNER_NAME               @title: '{i18n>SO_OM_PARTNER_NAME}'               @sap.Label: '{i18n>SO_OM_PARTNER_NAME}';
 
 }
