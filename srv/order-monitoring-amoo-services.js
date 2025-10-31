@@ -431,7 +431,7 @@ class openOrdersSrv extends cds.ApplicationService {
                                     GTSEntry.PersonalName = "Embargo Blocks Contact";
                                 }
                                 if(gtsBlockReasons.ScreeningStatus !== "A"){
-                                    GTSEntry.EmailAddress = "gts-trade-control@basf.com";
+                                    GTSEntry.EmailAddress = "gts-trade-control@basf.com"; // TODO change to spl-global@basf.com by end of november
                                     GTSEntry.PersonalName = "SPL Blocks Contact";
                                 }
                                 if(gtsBlockReasons.LegalControlStatus !== "A"){
