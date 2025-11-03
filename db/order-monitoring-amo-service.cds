@@ -11,6 +11,11 @@ entity DCPStatus {
             DCPStatusText : localized String(50);
 }
 
+entity PredefFollowupNotes {
+       key defId      : String(5);
+           defContent : localized String(70);
+        
+}
 @cds.persistence.exists
 entity ![RESULTS] {
         MANDT                              : String(3);
