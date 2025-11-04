@@ -902,7 +902,9 @@ class openOrdersSrv extends cds.ApplicationService {
                             case 'OM':
                                 partnersQuery.push(`SO_OM_PARTNER = '${partnerNumber}'`);
                                 break;
-
+                            case 'AH':
+                                partnersQuery.push(`SO_AH_PARTNER = '${partnerNumber}'`);
+                                break;
                             default:
                                 break;
                         }
@@ -1784,6 +1786,12 @@ class openOrdersSrv extends cds.ApplicationService {
                                 break;
                             case 'SB':
                                 partnersQuery.push(`SO_SB_PARTNER = '${partnerNumber}'`);
+                                break;
+                            case 'OM':
+                                partnersQuery.push(`SO_OM_PARTNER = '${partnerNumber}'`);
+                                break;
+                            case 'AH':
+                                partnersQuery.push(`SO_AH_PARTNER = '${partnerNumber}'`);
                                 break;
                             default:
                                 break;

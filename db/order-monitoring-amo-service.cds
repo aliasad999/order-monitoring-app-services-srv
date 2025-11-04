@@ -373,7 +373,11 @@ entity ![RESULTS] {
         OM_PARTNER_HEAD                    : String(8);
         OM_PARTNER_NAME_HEAD               : String(80);
         OM_PARTNER_ITM                     : String(8);
-        OM_PARTNER_NAME_ITM                : String(80)
+        OM_PARTNER_NAME_ITM                : String(80);
+        AH_PARTNER_HEAD                    : String(8);
+        AH_PARTNER_NAME_HEAD               : String(80);
+        AH_PARTNER_ITM                     : String(8);
+        AH_PARTNER_NAME_ITM                : String(80);
 }
 
 entity PARTNER_SETTINGS {

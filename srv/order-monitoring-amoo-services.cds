@@ -485,7 +485,13 @@ service openOrdersSrv {
                 )                                           as SO_OM_PARTNER                   : String(8),
                 IFNULL(
                     OM_PARTNER_NAME_ITM, OM_PARTNER_NAME_HEAD
-                )                                           as SO_OM_PARTNER_NAME              : String(80)
+                )                                           as SO_OM_PARTNER_NAME              : String(80),
+                IFNULL(
+                    AH_PARTNER_ITM, AH_PARTNER_HEAD
+                )                                           as SO_AH_PARTNER                   : String(8),
+                IFNULL(
+                    AH_PARTNER_NAME_ITM, AH_PARTNER_NAME_HEAD
+                )                                           as SO_AH_PARTNER_NAME              : String(80)
         }
 
     entity baseEntity               as

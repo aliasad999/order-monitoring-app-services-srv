@@ -2105,3 +2105,49 @@ annotate service.Results with {
         ]
     }
 };
+
+annotate service.Results with {
+    SO_OM_PARTNER
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_OM_PARTNER}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_OM_PARTNER,
+                ValueListProperty: 'SO_OM_PARTNER'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_OM_PARTNER_NAME'
+            }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_AH_PARTNER
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_AH_PARTNER}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_AH_PARTNER,
+                ValueListProperty: 'SO_AH_PARTNER'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_AH_PARTNER_NAME'
+            }
+
+        ]
+    }
+};

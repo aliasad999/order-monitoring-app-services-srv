@@ -328,7 +328,9 @@ class srvOpenOrders extends cds.ApplicationService {
                             case 'OM':
                                 partnersQuery.push(`SO_OM_PARTNER = '${partnerNumber}'`);
                                 break;
-
+                            case 'AH':
+                                partnersQuery.push(`SO_AH_PARTNER = '${partnerNumber}'`);
+                                break;
                             default:
                                 break;
                         }
