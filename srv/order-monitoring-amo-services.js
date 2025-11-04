@@ -362,6 +362,9 @@ class srvOpenOrders extends cds.ApplicationService {
                             .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
                     const query =  SELECT.from(distinctQuery).columns('count(*) as total');
                     if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
+                    // added for including global search field... otherwise there is an infite loop as count doesnt match the actual resultset
+                    if (req.query.SELECT.search) query.SELECT.from.SELECT.search = req.query.SELECT.search
+                    // added for including global search field... otherwise there is an infite loop as count doesnt match the actual resultset
                     const distinctCount = await db.run(query);
                     return req.reply({ $count: distinctCount[0].total })
                 } catch (error) {
