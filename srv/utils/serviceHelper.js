@@ -353,7 +353,7 @@ const transformDateFilters = (whereClause) => {
 
 const addPartnerSettings = async (currentUser, whereClause) => {
     let partnerSettingsQuery = cds.parse.cql(`SELECT from srvOpenOrders_PartnerSettings where BASF_USER = '${currentUser}' and ACTIVE = 'X'`);
-    let partnerSettings = await db.run(partnerSettingsQuery);
+    let partnerSettings = await cds.run(partnerSettingsQuery);
     if (partnerSettings.length !== 0) {
         let partnersQuery = [];
         for (let settingsEntry of partnerSettings) {
