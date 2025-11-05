@@ -281,11 +281,17 @@ annotate service.Results with {
     @Common.TextFor
     SO_OM_PARTNER_NAME          @title: '{i18n>SO_OM_PARTNER_NAME}'               @sap.Label: '{i18n>SO_OM_PARTNER_NAME}';
 
-    @Common.Text           : SO_OM_PARTNER_NAME
+    @Common.Text           : SO_AH_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
     SO_AH_PARTNER               @title: '{i18n>SO_AH_PARTNER}'                    @sap.Label: '{i18n>SO_AH_PARTNER}'    @Common.IsDigitSequence: true;
     @Common.TextFor
     SO_AH_PARTNER_NAME          @title: '{i18n>SO_AH_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AH_PARTNER_NAME}';
+
+    @Common.Text           : SO_KVGR5_TEXT
+    @Common.TextArrangement: #TextFirst
+    SO_KVGR5               @title: '{i18n>SO_KVGR5}'                    @sap.Label: '{i18n>SO_KVGR5}'    @Common.IsDigitSequence: true;
+    @Common.TextFor
+    SO_KVGR5_TEXT          @title: '{i18n>SO_KVGR5_TEXT}'               @sap.Label: '{i18n>SO_KVGR5_TEXT}';
 }
 
 /// UI AND MEASURES ANNOTATIONS
@@ -386,4 +392,5 @@ annotate service.Results with {
     TM_TS_PARTNER_NAME1             @UI                     : {Hidden: true};
     SO_OM_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_AH_PARTNER_NAME              @UI                     : {Hidden: true};
+    SO_KVGR5_TEXT                   @UI                     : {Hidden: true};
 }

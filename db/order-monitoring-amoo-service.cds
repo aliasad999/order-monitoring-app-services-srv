@@ -393,6 +393,8 @@ entity ![OPENORDERSLIST] {
         AH_PARTNER_NAME_HEAD               : String(80);
         AH_PARTNER_ITM                     : String(8);
         AH_PARTNER_NAME_ITM                : String(80);
+        LABST                              : Decimal(13, 3);
+        KVGR5_LANG                         : String(20)
 }
 
 entity ContactsOptions {

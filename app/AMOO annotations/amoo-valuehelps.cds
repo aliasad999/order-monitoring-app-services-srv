@@ -2280,4 +2280,27 @@ annotate service.allIssues with {
     }
 };
 
+annotate service.allIssues with {
+    SO_KVGR5
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_KVGR5}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_KVGR5,
+                ValueListProperty: 'SO_KVGR5'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_KVGR5_TEXT'
+            }
+
+        ]
+    }
+};
+
 // ------------------------------Value Helps All Issues----------------------------
