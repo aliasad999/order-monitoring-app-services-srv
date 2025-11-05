@@ -293,7 +293,7 @@ class srvOpenOrders extends cds.ApplicationService {
             let db = cds.transaction(req);
             let currentUser = req.user.id;
             if (currentUser) {
-                serviceHelper.addPartnerSettings(currentUser, req.query.SELECT.where);
+                await serviceHelper.addPartnerSettings(currentUser, req.query.SELECT.where);
             }
             // *-------------------------------------------------------------------*
             // End of Code OTC-24554

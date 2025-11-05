@@ -867,7 +867,7 @@ class openOrdersSrv extends cds.ApplicationService {
             let db = cds.transaction(req);
             let currentUser = req.user.id;
             if (currentUser) {
-                serviceHelper.addPartnerSettings(currentUser, req.query.SELECT.where);
+                await serviceHelper.addPartnerSettings(currentUser, req.query.SELECT.where);
             }
             // *-------------------------------------------------------------------*
             // End of Code OTC-24554
@@ -1702,7 +1702,7 @@ class openOrdersSrv extends cds.ApplicationService {
             const db = cds.tx(req);
             let currentUser = req.user.id;
             if (currentUser) {
-                serviceHelper.addPartnerSettings(currentUser, req.query.SELECT.where);
+                await serviceHelper.addPartnerSettings(currentUser, req.query.SELECT.where);
             }
 
             let where = serviceHelper.convertCQNtoCQL(req.query.SELECT.where);
