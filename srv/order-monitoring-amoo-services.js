@@ -867,62 +867,7 @@ class openOrdersSrv extends cds.ApplicationService {
             let db = cds.transaction(req);
             let currentUser = req.user.id;
             if (currentUser) {
-                let partnerSettingsQuery = cds.parse.cql(`SELECT from srvOpenOrders_PartnerSettings where BASF_USER = '${currentUser}' and ACTIVE = 'X'`);
-                let partnerSettings = await db.run(partnerSettingsQuery);
-                if (partnerSettings.length !== 0) {
-                    let partnersQuery = [];
-                    for (let settingsEntry of partnerSettings) {
-                        let partnerNumber = settingsEntry.PARTNER_NUMBER;
-                        switch (settingsEntry.PARTNER_ROLE) {
-                            case 'VE':
-                                partnersQuery.push(`SO_VE_PARTNER = '${partnerNumber}'`);
-                                break;
-
-                            case 'AS':
-                                partnersQuery.push(`SO_AS_PARTNER = '${partnerNumber}'`);
-                                break;
-
-                            case 'AM':
-                                partnersQuery.push(`SO_AM_PARTNER = '${partnerNumber}'`);
-                                break;
-
-                            // Added with user story 851475
-                            case 'AD':
-                                partnersQuery.push(`SO_AD_PARTNER = '${partnerNumber}'`);
-                                break;
-
-                            case 'Z5':
-                                partnersQuery.push(`SO_Z5_PARTNER = '${partnerNumber}'`);
-                                break;
-
-                            case 'SB':
-                                partnersQuery.push(`SO_SB_PARTNER = '${partnerNumber}'`);
-                                break;
-                            // Added with user story 851475 
-
-                            default:
-                                break;
-                        }
-                    }
-
-                    let partnersQueryParsed;
-                    // Construct queries 
-                    if (partnersQuery.length > 0) {
-                        let queryString = "(" + partnersQuery.join(' or ') + ")";
-                        partnersQueryParsed = cds.parse.expr(queryString);
-                    }
-
-                    // Add queries to request
-                    let requestQuery = req.query.SELECT.where || [];
-                    if (partnersQuery.length > 0) {
-                        if (requestQuery.length > 0) {
-                            requestQuery.push('and');
-                        }
-                        requestQuery.push(partnersQueryParsed);
-                    }
-
-                    req.query.SELECT.where = requestQuery
-                }
+                await serviceHelper.addPartnerSettings(currentUser, req.query.SELECT.where);
             }
             // *-------------------------------------------------------------------*
             // End of Code OTC-24554
@@ -1762,51 +1707,7 @@ class openOrdersSrv extends cds.ApplicationService {
             const db = cds.tx(req);
             let currentUser = req.user.id;
             if (currentUser) {
-                let partnerSettingsQuery = cds.parse.cql(`SELECT from srvOpenOrders_PartnerSettings where BASF_USER = '${currentUser}' and ACTIVE = 'X'`);
-                let partnerSettings = await db.run(partnerSettingsQuery);
-                if (partnerSettings.length !== 0) {
-                    let partnersQuery = [];
-                    for (let settingsEntry of partnerSettings) {
-                        let partnerNumber = settingsEntry.PARTNER_NUMBER;
-                        switch (settingsEntry.PARTNER_ROLE) {
-                            case 'VE':
-                                partnersQuery.push(`SO_VE_PARTNER = '${partnerNumber}'`);
-                                break;
-                            case 'AS':
-                                partnersQuery.push(`SO_AS_PARTNER = '${partnerNumber}'`);
-                                break;
-                            case 'AM':
-                                partnersQuery.push(`SO_AM_PARTNER = '${partnerNumber}'`);
-                                break;
-                            case 'AD':
-                                partnersQuery.push(`SO_AD_PARTNER = '${partnerNumber}'`);
-                                break;
-                            case 'Z5':
-                                partnersQuery.push(`SO_Z5_PARTNER = '${partnerNumber}'`);
-                                break;
-                            case 'SB':
-                                partnersQuery.push(`SO_SB_PARTNER = '${partnerNumber}'`);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-
-                    let partnersQueryParsed;
-                    if (partnersQuery.length > 0) {
-                        let queryString = "(" + partnersQuery.join(' or ') + ")";
-                        partnersQueryParsed = cds.parse.expr(queryString);
-                    }
-                    let requestQuery = req.query.SELECT.where || [];
-                    if (partnersQuery.length > 0) {
-                        if (requestQuery.length > 0) {
-                            requestQuery.push('and');
-                        }
-                        requestQuery.push(partnersQueryParsed);
-                    }
-
-                    req.query.SELECT.where = requestQuery
-                }
+                await serviceHelper.addPartnerSettings(currentUser, req.query.SELECT.where);
             }
 
             let where = serviceHelper.convertCQNtoCQL(req.query.SELECT.where);
