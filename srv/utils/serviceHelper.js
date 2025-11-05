@@ -356,6 +356,7 @@ const addPartnerSettings = async (currentUser, whereClause) => {
     let partnerSettings = await cds.run(partnerSettingsQuery);
     if (partnerSettings.length !== 0) {
         let partnersQuery = [];
+        // add partner settings filters programmatically to avoid having to add new partners
         for (let settingsEntry of partnerSettings) {
             let partnerNumber = settingsEntry.PARTNER_NUMBER;
             let partnerRole = settingsEntry.PARTNER_ROLE;
