@@ -351,6 +351,37 @@ const transformDateFilters = (whereClause) => {
     }
 }
 
+const addPartnerSettings = async (currentUser, whereClause) => {
+    let partnerSettingsQuery = cds.parse.cql(`SELECT from srvOpenOrders_PartnerSettings where BASF_USER = '${currentUser}' and ACTIVE = 'X'`);
+    let partnerSettings = await db.run(partnerSettingsQuery);
+    if (partnerSettings.length !== 0) {
+        let partnersQuery = [];
+        for (let settingsEntry of partnerSettings) {
+            let partnerNumber = settingsEntry.PARTNER_NUMBER;
+            let partnerRole = settingsEntry.PARTNER_ROLE;
+            
+            partnersQuery.push(`SO_${partnerRole}_PARTNER = '${partnerNumber}'`);
+        }
+
+        let partnersQueryParsed;
+        // Construct queries 
+        if (partnersQuery.length > 0) {
+            let queryString = "(" + partnersQuery.join(' or ') + ")";
+            partnersQueryParsed = cds.parse.expr(queryString);
+        }
+
+        // Add queries to request
+        let requestQuery = whereClause || [];
+        if (partnersQuery.length > 0) {
+            if (requestQuery.length > 0) {
+                requestQuery.push('and');
+            }
+            requestQuery.push(partnersQueryParsed);
+        }
+
+        whereClause = requestQuery
+    }
+}
 
 module.exports = {
     getDateProps,
@@ -366,5 +397,6 @@ module.exports = {
     addOrderIfNeeded,
     buildSubtotalColumns,
     transformDateFilters,
-    processExpression
+    processExpression,
+    addPartnerSettings
 }
