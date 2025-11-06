@@ -52,7 +52,9 @@ class srvOpenOrders extends cds.ApplicationService {
             const { VBAKAuthObjectKeys, EKKOAuthObjectKeys } = await cds.entities('srvOpenOrders');
             // Get one month ago date
             const OneMonthAgoDate = subDays(startOfToday(), 30).toISOString().slice(0, 19).replace('T', ' ');
+            const todaysDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
             // const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
+            let lastUpdatedDate;
             let updateNeeded = false;
             let lt_result = [];
             // let lt_resultEC = [];
@@ -68,8 +70,16 @@ class srvOpenOrders extends cds.ApplicationService {
             // Avoid updating authorizations more than once a week
             // Update only if table empty or outdatedf
             if(bForceRefresh){ // manual refresh triggered by the user, update always
-                updateNeeded = true;
+                // check if user already refreshed manually successfully
+                if(vbakAuths.length === 0){
+                    updateNeeded = true;
+                }else if(vbakAuths[0].LAST_UPDATE === null || vbakAuths[0].LAST_UPDATE < todaysDate){
+                    updateNeeded = true;
+                }else{
+                    return JSON.stringify([{errorCode: "ALREADY_REFRESHED"}]);
+                }
             }else if (vbakAuths.length > 0) {
+                lastUpdatedDate = vbakAuths[0].LAST_UPDATE ? vbakAuths[0].LAST_UPDATE.slice(0, 19).replace('T', ' ') : "Not Available";
                 if ((vbakAuths[0].LAST_UPDATE === null || vbakAuths[0].LAST_UPDATE < OneMonthAgoDate)) {
                     updateNeeded = true;
                 }
@@ -79,6 +89,7 @@ class srvOpenOrders extends cds.ApplicationService {
 
             if (updateNeeded) {
                 let SQLdate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+                lastUpdatedDate = SQLdate;
                 /// COBALT AUTH CALL
                 try {
                     const service = await cds.connect.to('authService');
@@ -245,9 +256,12 @@ class srvOpenOrders extends cds.ApplicationService {
                         await INSERT.into(VBAKAuthObjectKeys, lt_result);
                     }
                 }
+                
             }
-            // if (globalError.length === 2)
-            //     req.error(globalError[0].error)
+            // push the latest updated date
+            errorSet.push({
+                lastUpdate: lastUpdatedDate || "Not Available"
+            })
             return JSON.stringify(errorSet);
         });
 
