@@ -1,0 +1,85 @@
+defId;locale;defContent
+00001;en;Documentation (copies) sent
+00003;en;Documentation complete
+00004;en;Waiting for payment
+00005;en;BL received and sent to customer
+00006;en;Waiting for all docs. to send
+00007;en;Waiting for waybill, but other docs sent
+00008;en;Waiting for spec. document but other sent
+00009;en;FTA received
+00010;en;Booking cut-off process
+00011;en;Booking confirmation received
+00012;en;Order confirmation sent to the customer
+00013;en;Shipping documents sent to the customer
+00001;de;Dokumentation (Kopien) gesendet
+00003;de;Dokumentation vollständig
+00004;de;Warten auf Zahlung
+00005;de;Ladeschein erhalten und an den Kunden gesandt
+00006;de;Warten auf alle Unterlagen zum Versenden
+00007;de;Warten auf Frachtbrief, aber andere Dokumente gesendet
+00008;de;Warten auf spez. Dokument, aber andere gesendet
+00009;de;Ursprungszeugnis (FTA) erhalten
+00010;de;Buchungsschluss-Prozess
+00011;de;Buchungsbestätigung erhalten
+00012;de;Auftragsbestätigung an den Kunden gesendet
+00013;de;Versanddokumente an den Kunden gesendet
+00001;fr;Documentation (copies) envoyée
+00003;fr;Documentation complète
+00004;fr;En attente de paiement
+00005;fr;Connaissement reçu et envoyé au client
+00006;fr;En attente de tous les documents à envoyer
+00007;fr;En attente du bordereau de transport, mais autres documents envoyés
+00008;fr;En attente du document spécifique, mais autres envoyés
+00009;fr;Certificat d'origine (FTA) reçu
+00010;fr;Processus de clôture de réservation
+00011;fr;Confirmation de réservation reçue
+00012;fr;Confirmation de commande envoyée au client
+00013;fr;Documents d'expédition envoyés au client
+00001;es;Documentación (copias) enviada
+00003;es;Documentación completa
+00004;es;Esperando pago
+00005;es;Conocimiento de embarque recibido y enviado al cliente
+00006;es;Esperando todos los documentos para enviar
+00007;es;Esperando guía de envío, pero otros documentos enviados
+00008;es;Esperando documento específico, pero otros enviados
+00009;es;Certificado de origen (FTA) recibido
+00010;es;Proceso de cierre de reserva
+00011;es;Confirmación de reserva recibida
+00012;es;Confirmación de pedido enviada al cliente
+00013;es;Documentos de envío enviados al cliente
+00001;pt;Documentação (cópias) enviada
+00003;pt;Documentação completa
+00004;pt;Aguardando pagamento
+00005;pt;Conhecimento de embarque recebido e enviado ao cliente
+00006;pt;Aguardando todos os documentos para enviar
+00007;pt;Aguardando guia de transporte, mas outros documentos enviados
+00008;pt;Aguardando documento específico, mas outros enviados
+00009;pt;Certificado de origem (FTA) recebido
+00010;pt;Processo de corte de reserva
+00011;pt;Confirmação de reserva recebida
+00012;pt;Confirmação do pedido enviada ao cliente
+00013;pt;Documentos de envio enviados ao cliente
+00001;it;Documentazione (copie) inviata
+00003;it;Documentazione completa
+00004;it;In attesa di pagamento
+00005;it;BL ricevuta e inviata al cliente
+00006;it;In attesa di tutti i documenti da inviare
+00007;it;In attesa della lettera di vettura, ma altri documenti inviati
+00008;it;In attesa del documento specifico, ma altri inviati
+00009;it;FTA ricevuto
+00010;it;Processo di chiusura prenotazione
+00011;it;Conferma della prenotazione ricevuta
+00012;it;Conferma dell'ordine inviata al cliente
+00013;it;Documenti di spedizione inviati al cliente
+00001;tr;Dokümantasyon (kopyalar) gönderildi
+00003;tr;Dokümantasyon tamamlandı
+00004;tr;Ödeme bekleniyor
+00005;tr;BL alındı ve müşteriye gönderildi
+00006;tr;Gönderilecek tüm belgeler bekleniyor
+00007;tr;Taşıma belgesi bekleniyor, ancak diğer belgeler gönderildi
+00008;tr;Özel belge bekleniyor, ancak diğer belgeler gönderildi
+00009;tr;FTA alındı
+00010;tr;Rezervasyon kapanış işlemi
+00011;tr;Rezervasyon onayı alındı
+00012;tr;Sipariş onayı müşteriye gönderildi
+00013;tr;Sevkiyat belgeleri müşteriye gönderildi

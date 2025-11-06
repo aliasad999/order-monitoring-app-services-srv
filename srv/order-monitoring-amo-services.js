@@ -52,7 +52,9 @@ class srvOpenOrders extends cds.ApplicationService {
             const { VBAKAuthObjectKeys, EKKOAuthObjectKeys } = await cds.entities('srvOpenOrders');
             // Get one month ago date
             const OneMonthAgoDate = subDays(startOfToday(), 30).toISOString().slice(0, 19).replace('T', ' ');
+            const todaysDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
             // const todayDate = startOfToday().toISOString().slice(0, 19).replace('T', ' ');
+            let lastUpdatedDate;
             let updateNeeded = false;
             let lt_result = [];
             // let lt_resultEC = [];
@@ -60,7 +62,7 @@ class srvOpenOrders extends cds.ApplicationService {
             let lt_resultAPEKKO = [];
             let lt_resultMercury = [];
             let lt_resultMercuryEKKO = [];
-            let err = []
+            let errorSet = []
             let globalError = [];
             let userID = req.user.id;
 
@@ -68,8 +70,16 @@ class srvOpenOrders extends cds.ApplicationService {
             // Avoid updating authorizations more than once a week
             // Update only if table empty or outdatedf
             if(bForceRefresh){ // manual refresh triggered by the user, update always
-                updateNeeded = true;
+                // check if user already refreshed manually successfully
+                if(vbakAuths.length === 0){
+                    updateNeeded = true;
+                }else if(vbakAuths[0].LAST_UPDATE === null || vbakAuths[0].LAST_UPDATE < todaysDate){
+                    updateNeeded = true;
+                }else{
+                    return JSON.stringify([{errorCode: "ALREADY_REFRESHED"}]);
+                }
             }else if (vbakAuths.length > 0) {
+                lastUpdatedDate = vbakAuths[0].LAST_UPDATE ? vbakAuths[0].LAST_UPDATE.slice(0, 19).replace('T', ' ') : "Not Available";
                 if ((vbakAuths[0].LAST_UPDATE === null || vbakAuths[0].LAST_UPDATE < OneMonthAgoDate)) {
                     updateNeeded = true;
                 }
@@ -79,22 +89,16 @@ class srvOpenOrders extends cds.ApplicationService {
 
             if (updateNeeded) {
                 let SQLdate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+                lastUpdatedDate = SQLdate;
                 /// COBALT AUTH CALL
                 try {
                     const service = await cds.connect.to('authService');
                     lt_result = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
                 } catch (error) {
                     globalError.push({ user: 'cobaltNotAvailable', error: error })
-                    err = 1 //Cobalt call failed
+                    errorSet.push({errorCode: "COBALTGLOBAL"});
                 }
-                // // EC AUTH CALL
-                // try {
-                //     const service = await cds.connect.to('authServiceEC');
-                //     lt_resultEC = await service.get("/authObjectRequest?authObjName=V_VBAK_VKO%2CM_BEST_EKO&sap-client=100");
-                // } catch (error) {
-                //     globalError.push({ user: 'noECUser', error: error })
-                //     err = 2 // EC called failed
-                // }
+                /// AP CALL
                 try {
                     const service = await cds.connect.to('authServiceAP');
                     lt_resultAP = await service.send({
@@ -118,45 +122,45 @@ class srvOpenOrders extends cds.ApplicationService {
                         });
                     } catch (error) {
                         globalError.push({ user: 'apNotAvailable', error: error });
-                        // Handle the error if needed
+                        errorSet.push({errorCode: "APPO"});
                     }
 
                 } catch (error) {
                     globalError.push({ user: 'apNotAvailable', error: error });
-                    // Do not proceed to the second call
+                    errorSet.push({errorCode: "APSO"});
                 }
                 if (process.env.SUBACCOUNT === 'DEV'){
-                // Mercury Auth call
-                try {
-                    const service = await cds.connect.to('OMServicesMercury');
-                    lt_resultMercury = await service.send({
-                        method: "GET",
-                        path: "/xBASFxVBAKAUTH?$format=json",
-                        headers: {
-                            "Accept-Encoding": "",
-                            'X-Basf-Sap-Client': process.env.MERCURY_CLIENT
-                        }
-                    });
-
-                    // Only execute the second call if the first one succeeds
+                    // MERCURY Auth call
                     try {
-                        lt_resultMercuryEKKO = await service.send({
+                        const service = await cds.connect.to('OMServicesMercury');
+                        lt_resultMercury = await service.send({
                             method: "GET",
-                            path: "/xBASFxEKKOAUTH?$format=json",
+                            path: "/xBASFxVBAKAUTH?$format=json",
                             headers: {
                                 "Accept-Encoding": "",
                                 'X-Basf-Sap-Client': process.env.MERCURY_CLIENT
                             }
                         });
-                    } catch (error) {
-                        globalError.push({ user: 'm', error: error });
-                        // Handle the error if needed
-                    }
 
-                } catch (error) {
-                    globalError.push({ user: 'mercuryNotAvailable', error: error });
-                    // Do not proceed to the second call
-                }
+                        // Only execute the second call if the first one succeeds
+                        try {
+                            lt_resultMercuryEKKO = await service.send({
+                                method: "GET",
+                                path: "/xBASFxEKKOAUTH?$format=json",
+                                headers: {
+                                    "Accept-Encoding": "",
+                                    'X-Basf-Sap-Client': process.env.MERCURY_CLIENT
+                                }
+                            });
+                        } catch (error) {
+                            globalError.push({ user: 'mercuryNotAvailable', error: error });
+                            errorSet.push({errorCode: "MERCURYPO"});
+                        }
+
+                    } catch (error) {
+                        globalError.push({ user: 'mercuryNotAvailable', error: error });
+                        errorSet.push({errorCode: "MERCURYSO"});
+                    }
                 }
                 // Mercury Auth call
                 // OTC-1010881 Fault Tolerance if Cobalt is not available due to downtimes
@@ -173,7 +177,8 @@ class srvOpenOrders extends cds.ApplicationService {
                 const CobaltNotAvailableFlag = globalError.some(e => e.user === 'cobaltNotAvailable');
                 const ApNotAvailable = globalError.some(e => e.user === 'apNotAvailable');
                 if (CobaltNotAvailableFlag && ApNotAvailable) {
-                    return;
+                    // Return an error so we can inform the user
+                    return JSON.stringify([{errorCode: "GLOBALFAIL"}]);
                 } 
                 // OTC-1010881 Fault Tolerance if Cobalt is not available due to downtimes
                 await DELETE.from(VBAKAuthObjectKeys).where({ USERID: userID });
@@ -251,10 +256,13 @@ class srvOpenOrders extends cds.ApplicationService {
                         await INSERT.into(VBAKAuthObjectKeys, lt_result);
                     }
                 }
+                
             }
-            // if (globalError.length === 2)
-            //     req.error(globalError[0].error)
-            // return err;
+            // push the latest updated date
+            errorSet.push({
+                lastUpdate: lastUpdatedDate || "Not Available"
+            })
+            return JSON.stringify(errorSet);
         });
 
         /**
@@ -299,62 +307,7 @@ class srvOpenOrders extends cds.ApplicationService {
             let db = cds.transaction(req);
             let currentUser = req.user.id;
             if (currentUser) {
-                let partnerSettingsQuery = cds.parse.cql(`SELECT from srvOpenOrders_PartnerSettings where BASF_USER = '${currentUser}' and ACTIVE = 'X'`);
-                let partnerSettings = await db.run(partnerSettingsQuery);
-                if (partnerSettings.length !== 0) {
-                    let partnersQuery = [];
-                    for (let settingsEntry of partnerSettings) {
-                        let partnerNumber = settingsEntry.PARTNER_NUMBER;
-                        switch (settingsEntry.PARTNER_ROLE) {
-                            case 'VE':
-                                partnersQuery.push(`SO_VE_PARTNER = '${partnerNumber}'`);
-                                break;
-
-                            case 'AS':
-                                partnersQuery.push(`SO_AS_PARTNER = '${partnerNumber}'`);
-                                break;
-
-                            case 'AM':
-                                partnersQuery.push(`SO_AM_PARTNER = '${partnerNumber}'`);
-                                break;
-
-                            // Added with user story 851475
-                            case 'AD':
-                                partnersQuery.push(`SO_AD_PARTNER = '${partnerNumber}'`);
-                                break;
-
-                            case 'Z5':
-                                partnersQuery.push(`SO_Z5_PARTNER = '${partnerNumber}'`);
-                                break;
-
-                            case 'SB':
-                                partnersQuery.push(`SO_SB_PARTNER = '${partnerNumber}'`);
-                                break;
-                            // Added with user story 851475 
-
-                            default:
-                                break;
-                        }
-                    }
-
-                    let partnersQueryParsed;
-                    // Construct queries 
-                    if (partnersQuery.length > 0) {
-                        let queryString = "(" + partnersQuery.join(' or ') + ")";
-                        partnersQueryParsed = cds.parse.expr(queryString);
-                    }
-
-                    // Add queries to request
-                    let requestQuery = req.query.SELECT.where || [];
-                    if (partnersQuery.length > 0) {
-                        if (requestQuery.length > 0) {
-                            requestQuery.push('and');
-                        }
-                        requestQuery.push(partnersQueryParsed);
-                    }
-
-                    req.query.SELECT.where = requestQuery
-                }
+                await serviceHelper.addPartnerSettings(currentUser, req.query.SELECT.where);
             }
             // *-------------------------------------------------------------------*
             // End of Code OTC-24554
@@ -368,6 +321,9 @@ class srvOpenOrders extends cds.ApplicationService {
                             .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
                     const query =  SELECT.from(distinctQuery).columns('count(*) as total');
                     if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
+                    // added for including global search field... otherwise there is an infite loop as count doesnt match the actual resultset
+                    if (req.query.SELECT.search) query.SELECT.from.SELECT.search = req.query.SELECT.search
+                    // added for including global search field... otherwise there is an infite loop as count doesnt match the actual resultset
                     const distinctCount = await db.run(query);
                     return req.reply({ $count: distinctCount[0].total })
                 } catch (error) {

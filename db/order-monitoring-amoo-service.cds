@@ -385,6 +385,16 @@ entity ![OPENORDERSLIST] {
         TS_PARTNER_NAME1                   : String(40);
         KVGR5                              : String(3);
         STCEG                              : String(20);
+        OM_PARTNER_HEAD                    : String(8);
+        OM_PARTNER_NAME_HEAD               : String(80);
+        OM_PARTNER_ITM                     : String(8);
+        OM_PARTNER_NAME_ITM                : String(80);
+        AH_PARTNER_HEAD                    : String(8);
+        AH_PARTNER_NAME_HEAD               : String(80);
+        AH_PARTNER_ITM                     : String(8);
+        AH_PARTNER_NAME_ITM                : String(80);
+        LABST                              : Decimal(13, 3);
+        KVGR5_LANG                         : String(20)
 }
 
 entity ContactsOptions {
@@ -619,11 +629,8 @@ entity ![ST_FOLLOWUP_NOTES] {
         VBELN                  : String(10);
         POSNR                  : String(6);
         PREDEFINED_ID          : String(5);
-        PREDEFINED_CONTENT     : String(50);
-        LANGUAGE               : String(1);
         CREATED_AT             : Timestamp;
         LAST_FOLLOWUPNOTE_FLAG : String(1);
-
 }
 
 @cds.persistence.exists

@@ -11,6 +11,11 @@ entity DCPStatus {
             DCPStatusText : localized String(50);
 }
 
+entity PredefFollowupNotes {
+       key defId      : String(5);
+           defContent : localized String(70);
+        
+}
 @cds.persistence.exists
 entity ![RESULTS] {
         MANDT                              : String(3);
@@ -365,7 +370,16 @@ entity ![RESULTS] {
         TS_PARTNER_NAME1                   : String(40);
         KVGR5                              : String(3);
         STCEG                              : String(20);
-
+        OM_PARTNER_HEAD                    : String(8);
+        OM_PARTNER_NAME_HEAD               : String(80);
+        OM_PARTNER_ITM                     : String(8);
+        OM_PARTNER_NAME_ITM                : String(80);
+        AH_PARTNER_HEAD                    : String(8);
+        AH_PARTNER_NAME_HEAD               : String(80);
+        AH_PARTNER_ITM                     : String(8);
+        AH_PARTNER_NAME_ITM                : String(80);
+        LABST                              : Decimal(13, 3);
+        KVGR5_LANG                         : String(20)
 }
 
 entity PARTNER_SETTINGS {
