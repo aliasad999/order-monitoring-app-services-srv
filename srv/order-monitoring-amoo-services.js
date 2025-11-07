@@ -342,106 +342,27 @@ class openOrdersSrv extends cds.ApplicationService {
             return orderChangeTabData
         });
 
-        this.on("READ", "ContactsOptions", async (req, next) => {
-            var orderSelection = [];
-            let orderData = await SELECT.from('openOrdersSrv.salesOrderDetails').byKey(req.query.SELECT.where);
-            if (orderData) {
-                var allOrders = {};
-                if (orderData.VBELN) allOrders.myOrder = orderData.VBELN;
-                if (orderData.FIRST_SO) allOrders.firstOrder = orderData.FIRST_SO;
-                if (orderData.NEXT_SO) allOrders.nextOrder = orderData.NEXT_SO;
-                if (orderData.FINAL_SO) allOrders.finalOrder = orderData.FINAL_SO;
-
-                var bAllOrdersEqual = true;
-                for (const property in allOrders) {
-                    if (allOrders[property] !== orderData.VBELN) {
-                        bAllOrdersEqual = false;
-                    }
-                }
-                if (bAllOrdersEqual) {
-                    // only show my order
-                    orderSelection.push(_buildContactOption(allOrders.myOrder, orderData.POSNR, "myOrder", "My order"));
-                } else {
-                    if (allOrders.firstOrder) {
-                        // show first order
-                        orderSelection.push(_buildContactOption(allOrders.firstOrder, orderData.FIRST_POSNR, "firstOrder", "First order"));
-                    }
-                    if (allOrders.nextOrder && (allOrders.nextOrder !== allOrders.finalOrder || orderData.NEXT_POSNR !== orderData.FINAL_POSNR)) {
-                        // show next order
-                        orderSelection.push(_buildContactOption(allOrders.nextOrder, orderData.NEXT_POSNR, "nextOrder", "Next order"));
-                    }
-                    if (allOrders.finalOrder && (allOrders.firstOrder !== allOrders.finalOrder || orderData.FIRST_POSNR !== orderData.FINAL_POSNR)) {
-                        // show final order
-                        orderSelection.push(_buildContactOption(allOrders.finalOrder, orderData.FINAL_POSNR, "finalOrder", "Final order"));
-                    }
-
-                }
-
-            } else {
-                // GET Sales Order NUmber and Order Item from WHERE Clause
-                var saleOrder = "";
-                var orderItem = "";
-                var indexOfKey = 1;
-                var iterator = 0;
-                for (const element of req.query.SELECT.where) {
-                    iterator++;
-                    // check if element is the property needed
-                    if (element.ref) {
-                        if (element.ref[0] === 'VBELN') {
-                            indexOfKey = iterator;
-                        }
-                        if (element.ref[0] === 'POSNR') {
-                            indexOfKey = iterator;
-                        }
-                    }
-                    // get value for selected properties
-                    if (indexOfKey + 2 === iterator) {
-                        if (element.val.length === 6) {
-                            orderItem = element.val;
-                        } else {
-                            saleOrder = element.val;
-                        }
-
-                    }
-                }
-                orderSelection.push(_buildContactOption(saleOrder, orderItem, "myOrder", "My order"));
-            }
-
-            return orderSelection;
-        });
-
         this.on("READ", "ContactSet", async (req, next) => {
             let lt_contacts = [];
             if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
                 try {
-                    // GET Sales Order NUmber and Order Item from WHERE Clause
-                    var saleOrder = "";
-                    var orderItem = "";
-                    var indexOfKey = 1;
-                    var iterator = 0;
-                    for (const element of req.query.SELECT.where) {
-                        iterator++;
-                        // check if element is the property needed
-                        if (element.ref) {
-                            if (element.ref[0] === 'SalesDocument') {
-                                indexOfKey = iterator;
+                    // GET Filters as an object from WHERE Clause
+                    const filtersAsObject = req.query.SELECT.where.reduce((obj, item, index, arr) => {
+                        // If item has ref, then look for val
+                        if (item.ref) {
+                            // Look for the next val value
+                            for (let i = index + 1; i < arr.length; i++) {
+                            if (arr[i].val) {
+                                obj[item.ref[0]] = arr[i].val;
+                                break;
                             }
-                            if (element.ref[0] === 'OrderItem') {
-                                indexOfKey = iterator;
                             }
                         }
-                        // get value for selected properties
-                        if (indexOfKey + 2 === iterator) {
-                            if (element.val.length === 6) {
-                                orderItem = element.val;
-                            } else {
-                                saleOrder = element.val;
-                            }
-
-                        }
-                    }
+                        return obj;
+                    }, {});
                     let language = req.locale.toUpperCase();
                     if (req.headers.so_mandt && ( req.headers.so_mandt == '300' || req.headers.so_mandt == '400')) { // AP or Mercury
+                        let addGTSContacts = req.headers.add_gts_contacts;
                         let OMServices = await cds.connect.to('OMServicesAP'); // AP
                         let systemClient = process.env.AP_CLIENT;
                         if(req.headers.so_mandt == '400'){
@@ -454,10 +375,10 @@ class openOrdersSrv extends cds.ApplicationService {
                             const maxFloored = Math.floor(max);
                             return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
                         }
-                        const LPadOrderItem = orderItem.replace(/^0+/, "") || "0";
+                        const LPadOrderItem = filtersAsObject.OrderItem.replace(/^0+/, "") || "0";
                         const ltPartners = await OMServices.send({
                             method: 'GET',
-                            query: SELECT.from('SalesOrderPartner').where`(SalesOrder = ${saleOrder} and SalesOrderItem = '000000') or (SalesOrder = ${saleOrder} and SalesOrderItem = ${LPadOrderItem})`,
+                            query: SELECT.from('SalesOrderPartner').where`(SalesOrder = ${filtersAsObject.SalesDocument} and SalesOrderItem = '000000') or (SalesOrder = ${filtersAsObject.SalesDocument} and SalesOrderItem = ${LPadOrderItem})`,
                             headers: {
                                 'X-Basf-Sap-Client': systemClient
                             }
@@ -477,15 +398,63 @@ class openOrdersSrv extends cds.ApplicationService {
                             lt_contacts.push(CMEntry);
                         })
 
+                        if(addGTSContacts){
+                            const OMServicesAP = await cds.connect.to('OMServicesAP');
+                            let issueData = JSON.parse(req.headers.issue_data);
+                            let entity = "OrderGTSBlocks";
+                            let whereClause = `SalesDocument = '${issueData.issueLocation}' and SalesDocumentItem = '${issueData.issueLocationItem}'`;
+                            // gts block is in outbound delivery
+                            if (issueData.issueLoctionDocType === "J") {
+                                entity = "DeliveryGTSBlocks";
+                                whereClause = `DeliveryDocument = '${issueData.issueLocation}' and DeliveryDocumentItem = '${issueData.issueLocationItem}'`;
+                            }
+                            let gtsBlockReasons = await OMServicesAP.send({
+                                method: 'GET',
+                                query: SELECT.from(entity).where(whereClause),
+                                headers: {
+                                    'X-Basf-Sap-Client': process.env.AP_CLIENT
+                                }
+                            });
+                            gtsBlockReasons.forEach((gtsBlockReasons) =>{
+                                let GTSEntry = {
+                                    "SapClient": req.headers.so_mandt,
+                                    "PersonalName": "",
+                                    "EmailAddress": "",
+                                    "PhoneNumber": "",
+                                    "PersonalNumber": getRandomInt(1, 99999999),
+                                    "SalesDocument": "",
+                                    "OrderItem": "",
+                                    "PartnerFunction": ""
+                                }
+                                if(gtsBlockReasons.EmbargoStatus !== "A"){
+                                    GTSEntry.EmailAddress = "NA-Trade-Compliance@basf.com";
+                                    GTSEntry.PersonalName = "Embargo Blocks Contact";
+                                }
+                                if(gtsBlockReasons.ScreeningStatus !== "A"){
+                                    GTSEntry.EmailAddress = "gts-trade-control@basf.com"; // TODO change to spl-global@basf.com by end of november
+                                    GTSEntry.PersonalName = "SPL Blocks Contact";
+                                }
+                                if(gtsBlockReasons.LegalControlStatus !== "A"){
+                                    GTSEntry.EmailAddress = "GTS-Legal-Reg-AP@basf.com";
+                                    GTSEntry.PersonalName = "Legal Blocks Contact";
+                                }
+                                lt_contacts.push(GTSEntry);
+                            })
+                        }
+
                     }else {
                         // Run queries
                         const apiManagementService = await cds.connect.to('ContactsService');
+                        let whereClause = `SalesDocument = '${filtersAsObject.SalesDocument}' and OrderItem = '${filtersAsObject.OrderItem}'`;
+                        if(filtersAsObject.Material){
+                            whereClause += ` and Material = '${filtersAsObject.Material}'`
+                        }
                         lt_contacts = await apiManagementService.tx(req).send({
-                            query: req.query
+                            query: SELECT.from('ContactSet').where(whereClause)  //req.query
                         });
                     }
                     const creditManagerService = await cds.connect.to('CreditManagerService');
-                    let creditMngrQuery = SELECT.from('CreditManagerSet').byKey({ OrderNumber: saleOrder, Language: language });
+                    let creditMngrQuery = SELECT.from('CreditManagerSet').byKey({ OrderNumber: filtersAsObject.SalesDocument, Language: language });
                     let creditManager = await creditManagerService.tx(req).send({
                         query: creditMngrQuery
                     });
@@ -496,8 +465,8 @@ class openOrdersSrv extends cds.ApplicationService {
                             "EmailAddress": creditManager.SmtpAddress,
                             "PhoneNumber": creditManager.TelnrCall,
                             "PersonalNumber": null,
-                            "SalesDocument": saleOrder,
-                            "OrderItem": orderItem,
+                            "SalesDocument": filtersAsObject.SalesDocument,
+                            "OrderItem": filtersAsObject.OrderItem,
                             "PartnerFunction": creditManager.PartnerRole
                         }
                         lt_contacts.push(CMEntry);
