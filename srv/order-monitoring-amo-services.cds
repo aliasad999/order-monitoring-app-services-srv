@@ -6,7 +6,10 @@ service srvOpenOrders {
 
   @readonly
   entity SAPSystems              as projection on db_app.SAPSystems;
-
+  @readonly
+  entity PredefReasonBuckets as projection on db_app.PreDefReasonBucket;
+  @readonly
+  entity PredefReasonComments as projection on db_app.PreDefReasonComments;
   @readonly
   entity DCPStatus               as projection on db_app.DCPStatus;
    @readonly

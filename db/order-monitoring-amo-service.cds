@@ -14,7 +14,21 @@ entity DCPStatus {
 entity PredefFollowupNotes {
        key defId      : String(5);
            defContent : localized String(70);
-        
+}
+entity PreDefReasonBucket{
+        key BucketKey: String(2);
+        BucketText : localized String(255);
+}
+entity PreDefReasonComments{
+        key BucketKey: String(2);
+        key ReasonCodeKey: String(2);
+            ReasonComment: localized String(255);
+}
+entity ReasonComments {
+            key SalesOrder: String(10);
+            key OrderItem : String(6);
+            key BucketKey: String(2);
+            key ReasonCodeKey: String(2);
 }
 @cds.persistence.exists
 entity ![RESULTS] {

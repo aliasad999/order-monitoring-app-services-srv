@@ -1,0 +1,78 @@
+BucketKey;ReasonCodeKey;locale;ReasonComment
+01;01;en;Pending Allocation / No Quota
+01;02;en;Insufficient Stock/Raw Material Shortage
+01;03;en;Production Delayed
+01;04;en;Non-Forecasted Order
+01;05;en;Short Leadtime / Rush Order
+01;06;en;MDB Block : EHS/GTS/DG
+01;07;en;MDB Block : Pre-payment /Credit Limit
+01;08;en;Customer Request to delay (ZTMT)
+01;09;en;BRM Block
+01;10;en;Pending LC 
+01;11;en;Others
+01;01;fr;Allocation en attente / Pas de quota
+01;02;fr;Stock insuffisant / Pénurie de matières premières
+01;03;fr;Production retardée
+01;04;fr;Commande non prévue
+01;05;fr;Délai court / Commande urgente
+01;06;fr;Blocage MDB : EHS/GTS/DG
+01;07;fr;Blocage MDB : Pré-paiement / Limite de crédit
+01;08;fr;Demande du client de reporter (ZTMT)
+01;09;fr;Blocage BRM
+01;10;fr;LC en attente
+01;11;fr;Autres
+01;01;it;Allocazione in sospeso / Nessuna quota
+01;02;it;Stock insufficiente / Mancanza di materie prime
+01;03;it;Produzione ritardata
+01;04;it;Ordine non previsto
+01;05;it;Tempi brevi / Ordine urgente
+01;06;it;Blocco MDB: EHS/GTS/DG
+01;07;it;Blocco MDB: Anticipo / Limite di credito
+01;08;it;Richiesta del cliente di posticipare (ZTMT)
+01;09;it;Blocco BRM
+01;10;it;LC in sospeso
+01;11;it;Altri
+01;01;tr;Atama Beklemede / Kota Yok
+01;02;tr;Yetersiz Stok / Hammadde Eksikliği
+01;03;tr;Üretim Gecikmeli
+01;04;tr;Tahmin Edilmeyen Sipariş
+01;05;tr;Kısa Teslim Süresi / Acele Sipariş
+01;06;tr;MDB Engeli: EHS/GTS/DG
+01;07;tr;MDB Engeli: Ön Ödeme / Kredi Limiti
+01;08;tr;Müşteri Talebiyle Gecikme (ZTMT)
+01;09;tr;BRM Engeli
+01;10;tr;LC Beklemede
+01;11;tr;Diğerleri
+01;01;es;Asignación pendiente / Sin cuota
+01;02;es;Stock insuficiente / Falta de materia prima
+01;03;es;Producción retrasada
+01;04;es;Pedido no previsto
+01;05;es;Plazo corto / Pedido urgente
+01;06;es;Bloqueo MDB: EHS/GTS/DG
+01;07;es;Bloqueo MDB: Prepago / Límite de crédito
+01;08;es;Solicitud del cliente para retrasar (ZTMT)
+01;09;es;Bloqueo BRM
+01;10;es;LC pendiente
+01;11;es;Otros
+01;01;de;Zuweisung ausstehend / Kein Kontingent
+01;02;de;Unzureichender Lagerbestand / Rohstoffmangel
+01;03;de;Produktion verzögert
+01;04;de;Nicht prognostizierte Bestellung
+01;05;de;Kurze Lieferzeit / Eilauftrag
+01;06;de;MDB-Block: EHS/GTS/DG
+01;07;de;MDB-Block: Vorauszahlung / Kreditlimit
+01;08;de;Kundenwunsch zur Verzögerung (ZTMT)
+01;09;de;BRM-Block
+01;10;de;LC ausstehend
+01;11;de;Andere
+01;01;pt;Alocação pendente / Sem cota
+01;02;pt;Estoque insuficiente / Falta de matéria-prima
+01;03;pt;Produção atrasada
+01;04;pt;Pedido não previsto
+01;05;pt;Prazo curto / Pedido urgente
+01;06;pt;Bloqueio MDB: EHS/GTS/DG
+01;07;pt;Bloqueio MDB: Pré-pagamento / Limite de crédito
+01;08;pt;Solicitação do cliente para adiar (ZTMT)
+01;09;pt;Bloqueio BRM
+01;10;pt;LC pendente
+01;11;pt;Outros

@@ -1,0 +1,12 @@
+BucketKey;ReasonCodeKey;ReasonComment
+01;01;Pending Allocation / No Quota
+01;02;Insufficient Stock/Raw Material Shortage
+01;03;Production Delayed
+01;04;Non-Forecasted Order
+01;05;Short Leadtime / Rush Order
+01;06;MDB Block : EHS/GTS/DG
+01;07;MDB Block : Pre-payment /Credit Limit
+01;08;Customer Request to delay (ZTMT)
+01;09;BRM Block
+01;10;Pending LC 
+01;11;Others
