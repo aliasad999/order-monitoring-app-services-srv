@@ -1321,54 +1321,6 @@ class openOrdersSrv extends cds.ApplicationService {
         });
 
 
-
-        this.on("READ", "ReasonComments", async req => {
-            let reasonEntries = [];
-            try {
-                const AMOOService = await cds.connect.to('AMOOUtilsService');
-                reasonEntries = await AMOOService.tx(req).send({
-                    query: req.query
-                });
-            } catch (error) {
-                req.error(413, error)
-            }
-
-            return reasonEntries;
-        });
-
-        this.on("CREATE", "ReasonComments", async req => {
-            try {
-                const AMOOService = await cds.connect.to('AMOOUtilsService');
-                let postReq = await AMOOService.tx(req).send({
-                    query: req.query
-                });
-
-                return postReq;
-
-            } catch (error) {
-                req.error(413, error)
-            }
-        });
-
-        this.on("DELETE", "ReasonComments", async req => {
-            try {
-                const AMOOService = await cds.connect.to('AMOOUtilsService');
-                let deleteReq = await AMOOService.tx(req).send({
-                    query: req.query
-                });
-
-                return deleteReq;
-
-            } catch (error) {
-                if (error.reason.response.status === 204) {
-                    // This is not an error, supress it
-                    return null;
-                }
-                req.error(413, error)
-            }
-        });
-
-
         // Adding Flag for latest followup notes 
         this.before("CREATE", "FollowupNotes", async (req) => {
             const db = await cds.connect.to('db');
