@@ -14,7 +14,16 @@ using {S4OrderChangeService as S4OCS} from './external/S4OrderChangeService';
 service openOrdersSrv {
     @readonly
     entity SAPSystems               as projection on amo_service.SAPSystems;
-
+    @readonly
+    entity PredefReasonComments01 as projection on amo_service.PreDefReasonComments where BucketKey = '01';
+    @readonly
+    entity PredefReasonComments02 as projection on amo_service.PreDefReasonComments where BucketKey = '02';
+    @readonly
+    entity PredefReasonComments03 as projection on amo_service.PreDefReasonComments where BucketKey = '03';
+    @readonly
+    entity PredefReasonComments04 as projection on amo_service.PreDefReasonComments where BucketKey = '04';
+    @readonly
+    entity PredefReasonComments05 as projection on amo_service.PreDefReasonComments where BucketKey = '05';
     @readonly
     entity DCPStatus                as projection on amo_service.DCPStatus;
 
@@ -555,7 +564,6 @@ service openOrdersSrv {
             key ORDER_NUMBER as SalesOrder,
             key ITEM_NUMBER  as OrderItem,
             key BUCKET       as BucketKey,
-            key LANGUAGE     as Language,
                 REASON_CODE  as ReasonCodeKey
         };
     @readonly

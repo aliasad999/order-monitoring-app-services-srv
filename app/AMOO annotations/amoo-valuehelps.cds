@@ -863,13 +863,13 @@ annotate service.allIssues with {
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>SO_REASON_CODE_01_LANG}',
-        CollectionPath         : 'valueHelps',
+        CollectionPath         : 'PredefReasonComments01',
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
             $Type            : 'Common.ValueListParameterInOut',
+            ValueListProperty: 'ReasonCodeKey',
             LocalDataProperty: SO_REASON_CODE_01_LANG,
-            ValueListProperty: 'SO_REASON_CODE_01_LANG'
         }
 
         ]
@@ -881,13 +881,13 @@ annotate service.allIssues with {
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>SO_REASON_CODE_02_LANG}',
-        CollectionPath         : 'valueHelps',
+        CollectionPath         : 'PredefReasonComments02',
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
             $Type            : 'Common.ValueListParameterInOut',
+            ValueListProperty: 'ReasonCodeKey',
             LocalDataProperty: SO_REASON_CODE_02_LANG,
-            ValueListProperty: 'SO_REASON_CODE_02_LANG'
         }
 
         ]
@@ -899,13 +899,13 @@ annotate service.allIssues with {
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>SO_REASON_CODE_03_LANG}',
-        CollectionPath         : 'valueHelps',
+        CollectionPath         : 'PredefReasonComments03',
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
             $Type            : 'Common.ValueListParameterInOut',
+            ValueListProperty: 'ReasonCodeKey',
             LocalDataProperty: SO_REASON_CODE_03_LANG,
-            ValueListProperty: 'SO_REASON_CODE_03_LANG'
         }
 
         ]
@@ -917,13 +917,13 @@ annotate service.allIssues with {
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>SO_REASON_CODE_04_LANG}',
-        CollectionPath         : 'valueHelps',
+        CollectionPath         : 'PredefReasonComments04',
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
             $Type            : 'Common.ValueListParameterInOut',
+            ValueListProperty: 'ReasonCodeKey',
             LocalDataProperty: SO_REASON_CODE_04_LANG,
-            ValueListProperty: 'SO_REASON_CODE_04_LANG'
         }
 
         ]
@@ -935,20 +935,18 @@ annotate service.allIssues with {
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',
         Label                  : '{@i18n>SO_REASON_CODE_05_LANG}',
-        CollectionPath         : 'valueHelps',
+        CollectionPath         : 'PredefReasonComments05',
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
             $Type            : 'Common.ValueListParameterInOut',
+            ValueListProperty: 'ReasonCodeKey',
             LocalDataProperty: SO_REASON_CODE_05_LANG,
-            ValueListProperty: 'SO_REASON_CODE_05_LANG'
         }
 
         ]
     }
 };
-
-
 annotate service.allIssues with {
     SO_MDB
     @Common.ValueList: {

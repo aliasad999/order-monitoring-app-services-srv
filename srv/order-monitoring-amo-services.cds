@@ -11,6 +11,16 @@ service srvOpenOrders {
   @readonly
   entity PredefReasonComments as projection on db_app.PreDefReasonComments;
   @readonly
+  entity PredefReasonComments01 as projection on db_app.PreDefReasonComments where BucketKey = '01';
+  @readonly
+  entity PredefReasonComments02 as projection on db_app.PreDefReasonComments where BucketKey = '02';
+  @readonly
+  entity PredefReasonComments03 as projection on db_app.PreDefReasonComments where BucketKey = '03';
+  @readonly
+  entity PredefReasonComments04 as projection on db_app.PreDefReasonComments where BucketKey = '04';
+  @readonly
+  entity PredefReasonComments05 as projection on db_app.PreDefReasonComments where BucketKey = '05';
+  @readonly
   entity DCPStatus               as projection on db_app.DCPStatus;
    @readonly
   entity PredefFollowupNotes      as

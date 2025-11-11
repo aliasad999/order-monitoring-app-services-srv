@@ -76,3 +76,416 @@ BucketKey;ReasonCodeKey;locale;ReasonComment
 01;09;pt;Bloqueio BRM
 01;10;pt;LC pendente
 01;11;pt;Outros
+02;01;de;Platzproblem auf dem Schiff
+02;02;de;Container nicht verfügbar
+02;03;de;Ausstehende Spotsatzrate / Luftfrachtfreigabe
+02;04;de;Sendung Konsolidierung/Kombination
+02;05;de;Kundenwunsch „Auf‑Hold“ Auftrag
+02;06;de;Lieferblock auf DO‑Ebene
+02;07;de;Sonstiges
+02;08;de;Ausstehende Buchungsbestätigung
+02;09;de;Ausstehende Gefahrgutfreigabe
+02;10;de;Kein EDI für Joint‑Venture/3rd‑Party‑Anbieter
+02;11;de;Ausstehende Kundenbestätigung für Lieferung
+02;12;de;Ausstehender Lieferpunkt zur Erstellung TM, Buchung für Schiff vorhanden
+02;13;de;Containermangel
+02;14;de;Ladedatum noch nicht fällig
+02;15;de;Ausstehende Rückmeldung vom Lieferanten
+03;01;de;Interne Anfrage zur Verschiebung der Sendung
+03;02;de;Kundenanfrage zur Verschiebung der Sendung
+03;03;de;Änderung von Plan / Rotation / Schiff
+03;04;de;Verzögerung beim Kommissionieren & Verpacken, Verstauung
+03;05;de;Sendung storniert
+03;06;de;Sonstiges
+03;07;de;MDB‑Sperre auf DO‑Ebene
+03;08;de;Systemproblem / Batch‑Problem / Falsch
+03;09;de;Abholmenge
+03;10;de;Ausstehendes Laden
+03;11;de;MAD verzögert
+04;01;de;Falsche Preisgestaltung
+04;02;de;LC‑Abweichung
+04;03;de;Schiffsverspätung/Umleitung
+04;04;de;Ausstehende Freigabe vom POL
+04;05;de;Ausstehende Abholung bei Spediteur
+04;06;de;Ausstehende Handelsdokumentation
+04;07;de;Ausstehendes FTA‑Formular / COO
+04;08;de;Ausstehende weitere Dokumente
+04;09;de;Sonstiges
+04;10;de;Änderung des B/L
+04;11;de;Ausstehende Gesundheitszert., BRC (vom QM Team SE), Tanksäuberungszert., etc.
+04;12;de;Ausstehender PD
+04;13;de;Ausstehender MI
+04;14;de;Ausstehende QD / Herstellungsdeklaration
+04;15;de;Ausstehendes Versandzertifikat
+04;16;de;Ausstehendes OBL vom Spediteur
+04;17;de;Ausstehender Überweisungsbrief und Dokumentenzusammenstellung
+04;18;de;Rechnungskorrektur ‑ Incoterm, Abrechnungsdatum, etc.
+04;19;de;Ausstehende Schiffsankunft ‑ bei „Merch‑through“ Aufträgen ausstehend für Rechnung
+04;20;de;Konsolidierte Rechnung
+05;01;de;Ausgelassener Hafen / Schiff umgeleitet
+05;02;de;Schiffsverspätung
+05;03;de;Hafenbezogene Probleme (Stau, Streik / Niedrigwasserstand, etc.)
+05;04;de;Wetterbedingte Probleme
+05;05;de;Höhere Gewalt
+05;06;de;Verpasster Cut‑off (Dokumentation, Materialverzögerung, Mengenunvollständig)
+05;07;de;Vorlaufverzögerung – Schiene, Lkw
+05;08;de;Späte DG‑Freigabe oder Stornierung von DG
+05;09;de;Zieländerung
+05;10;de;Sonstiges
+05;11;de;Roll‑over / Neubuchung
+05;12;de;Allgemeiner Grund – Aufgrund unvorhersehbarem Ereignis auf See
+05;13;de;Alle Arten von Streik
+02;01;en;Vessel space problem
+02;02;en;Container unavailable
+02;03;en;Pending spot rate / airfreight approval
+02;04;en;Shipment consolidation/combination
+02;05;en;Customer request to put order on hold
+02;06;en;Delivery block at DO level
+02;07;en;Others
+02;08;en;Pending booking confirmation
+02;09;en;Pending dangerous goods approval
+02;10;en;No EDI for joint venture / 3rd party vendor
+02;11;en;Pending customer confirmation for delivery
+02;12;en;Pending supply point to create TM, vessel booking available
+02;13;en;Container shortage
+02;14;en;Loading date not yet due
+02;15;en;Pending supplier feedback
+03;01;en;Internal request to postpone shipment
+03;02;en;Customer request to postpone shipment
+03;03;en;Change of schedule / rotation / vessel
+03;04;en;Delay in pick & pack, stuffing
+03;05;en;Shipment cancelled
+03;06;en;Others
+03;07;en;MDB block at DO level
+03;08;en;System issue / batch issue / incorrect
+03;09;en;Picking quantity
+03;10;en;Pending loading
+03;11;en;MAD delayed
+04;01;en;Wrong pricing
+04;02;en;LC discrepancy
+04;03;en;Vessel delay / rollover
+04;04;en;Pending release from POL
+04;05;en;Pending collection from carriers
+04;06;en;Pending trade documentation
+04;07;en;Pending FTA form / COO
+04;08;en;Pending other documents
+04;09;en;Others
+04;10;en;B/L amendment
+04;11;en;Pending health certificate, BRC (from QM team SE), tank cleaning certificate, etc.
+04;12;en;Pending PD
+04;13;en;Pending MI
+04;14;en;Pending QD / manufacturing declaration
+04;15;en;Pending shipping certificate
+04;16;en;Pending OBL from carrier
+04;17;en;Pending remittance letter and document compilation
+04;18;en;Invoice cancellation – Incoterm, billing date, etc.
+04;19;en;Pending vessel arrival – for merch-through orders pending invoice
+04;20;en;Consolidated invoice
+05;01;en;Port omitted / vessel rerouted
+05;02;en;Vessel delay
+05;03;en;Port-related issues (congestion, strike / low water level, etc.)
+05;04;en;Weather-related issues
+05;05;en;Force majeure
+05;06;en;Missed cut-off (documentation, material delay, quantity incomplete)
+05;07;en;Pre-carriage delay – rail, truck
+05;08;en;Late DG approval or DG cancellation
+05;09;en;Change of destination
+05;10;en;Others
+05;11;en;Rollover / re-booking
+05;12;en;General reason – due to unforeseeable event at sea
+05;13;en;All types of strike
+02;01;fr;Problème d'espace sur le navire
+02;02;fr;Conteneur indisponible
+02;03;fr;Taux spot / approbation du fret aérien en attente
+02;04;fr;Consolidation / combinaison d'expédition
+02;05;fr;Demande du client de mettre la commande en attente
+02;06;fr;Blocage de livraison au niveau DO
+02;07;fr;Autres
+02;08;fr;Confirmation de réservation en attente
+02;09;fr;Approbation des matières dangereuses en attente
+02;10;fr;Pas d'EDI pour joint-venture / fournisseur tiers
+02;11;fr;Confirmation du client pour la livraison en attente
+02;12;fr;Point d'approvisionnement en attente pour créer TM, réservation du navire disponible
+02;13;fr;Pénurie de conteneurs
+02;14;fr;Date de chargement pas encore arrivée
+02;15;fr;Retour du fournisseur en attente
+03;01;fr;Demande interne de report d'expédition
+03;02;fr;Demande du client de report d'expédition
+03;03;fr;Changement de planning / rotation / navire
+03;04;fr;Retard dans le prélèvement et l'emballage, calage
+03;05;fr;Expédition annulée
+03;06;fr;Autres
+03;07;fr;Blocage MDB au niveau DO
+03;08;fr;Problème système / lot / incorrect
+03;09;fr;Quantité à prélever
+03;10;fr;Chargement en attente
+03;11;fr;MAD retardé
+04;01;fr;Mauvaise tarification
+04;02;fr;Écart LC
+04;03;fr;Retard / report du navire
+04;04;fr;Libération du POL en attente
+04;05;fr;Collecte auprès des transporteurs en attente
+04;06;fr;Documentation commerciale en attente
+04;07;fr;Formulaire FTA / COO en attente
+04;08;fr;Autres documents en attente
+04;09;fr;Autres
+04;10;fr;Amendement du B/L
+04;11;fr;Certificat sanitaire en attente, BRC (de l'équipe QM SE), certificat de nettoyage de réservoir, etc.
+04;12;fr;PD en attente
+04;13;fr;MI en attente
+04;14;fr;QD / déclaration de fabrication en attente
+04;15;fr;Certificat d'expédition en attente
+04;16;fr;OBL en attente auprès du transporteur
+04;17;fr;Lettre de remise et compilation de documents en attente
+04;18;fr;Annulation de facture – Incoterm, date de facturation, etc.
+04;19;fr;Arrivée du navire en attente – pour les commandes « merch-through » en attente de facture
+04;20;fr;Facture consolidée
+05;01;fr;Port omis / navire redirigé
+05;02;fr;Retard du navire
+05;03;fr;Problèmes liés au port (congestion, grève / faible niveau d'eau, etc.)
+05;04;fr;Problèmes liés aux conditions météorologiques
+05;05;fr;Force majeure
+05;06;fr;Date limite manquée (documentation, retard de matériel, quantité incomplète)
+05;07;fr;Retard du pré-acheminement – train, camion
+05;08;fr;Approbation DG tardive ou annulation DG
+05;09;fr;Changement de destination
+05;10;fr;Autres
+05;11;fr;Report / nouvelle réservation
+05;12;fr;Raison générale – en raison d'un événement imprévisible en mer
+05;13;fr;Tous types de grève
+02;01;it;Problema di spazio sulla nave
+02;02;it;Contenitore non disponibile
+02;03;it;Tariffa spot / approvazione del trasporto aereo in sospeso
+02;04;it;Consolidamento / combinazione della spedizione
+02;05;it;Richiesta del cliente di mettere l'ordine in attesa
+02;06;it;Blocco di consegna a livello DO
+02;07;it;Altro
+02;08;it;Conferma della prenotazione in sospeso
+02;09;it;Approvazione merci pericolose in sospeso
+02;10;it;Nessun EDI per joint venture / fornitore terzo
+02;11;it;Conferma del cliente per la consegna in sospeso
+02;12;it;Punto di approvvigionamento in sospeso per creare TM, prenotazione nave disponibile
+02;13;it;Carenza di contenitori
+02;14;it;Data di carico non ancora scaduta
+02;15;it;Feedback del fornitore in sospeso
+03;01;it;Richiesta interna di posticipare la spedizione
+03;02;it;Richiesta del cliente di posticipare la spedizione
+03;03;it;Cambiamento di programma / rotazione / nave
+03;04;it;Ritardo nel picking & packing, stivaggio
+03;05;it;Spedizione annullata
+03;06;it;Altro
+03;07;it;Blocco MDB a livello DO
+03;08;it;Problema di sistema / batch / errato
+03;09;it;Quantità da prelevare
+03;10;it;Caricamento in sospeso
+03;11;it;MAD ritardato
+04;01;it;Prezzo errato
+04;02;it;Discrepanza LC
+04;03;it;Ritardo / rinvio della nave
+04;04;it;Rilascio dal POL in sospeso
+04;05;it;Ritiro dai vettori in sospeso
+04;06;it;Documentazione commerciale in sospeso
+04;07;it;Modulo FTA / COO in sospeso
+04;08;it;Altri documenti in sospeso
+04;09;it;Altro
+04;10;it;Modifica del B/L
+04;11;it;Certificato sanitario in sospeso, BRC (dal team QM SE), certificato di pulizia serbatoio, ecc.
+04;12;it;PD in sospeso
+04;13;it;MI in sospeso
+04;14;it;QD / dichiarazione di produzione in sospeso
+04;15;it;Certificato di spedizione in sospeso
+04;16;it;OBL dal vettore in sospeso
+04;17;it;Lettera di rimessa e compilazione documenti in sospeso
+04;18;it;Annullamento fattura – Incoterm, data di fatturazione, ecc.
+04;19;it;Arrivo nave in sospeso – per ordini merch-through in attesa di fattura
+04;20;it;Fattura consolidata
+05;01;it;Porto omesso / nave dirottata
+05;02;it;Ritardo della nave
+05;03;it;Problemi legati al porto (congestione, sciopero / basso livello dell'acqua, ecc.)
+05;04;it;Problemi legati al meteo
+05;05;it;Forza maggiore
+05;06;it;Scadenza persa (documentazione, ritardo materiali, quantità incompleta)
+05;07;it;Ritardo pre-trasporto – treno, camion
+05;08;it;Approvazione DG tardiva o cancellazione DG
+05;09;it;Cambio di destinazione
+05;10;it;Altro
+05;11;it;Riprogrammazione / nuova prenotazione
+05;12;it;Motivo generale – a causa di evento imprevedibile in mare
+05;13;it;Tutti i tipi di sciopero
+02;01;es;Problema de espacio en el buque
+02;02;es;Contenedor no disponible
+02;03;es;Tasa spot / aprobación de flete aéreo pendiente
+02;04;es;Consolidación / combinación de envío
+02;05;es;Solicitud del cliente para poner el pedido en espera
+02;06;es;Bloqueo de entrega a nivel DO
+02;07;es;Otros
+02;08;es;Confirmación de reserva pendiente
+02;09;es;Aprobación de mercancías peligrosas pendiente
+02;10;es;No hay EDI para joint venture / proveedor tercero
+02;11;es;Confirmación del cliente para la entrega pendiente
+02;12;es;Punto de suministro pendiente para crear TM, reserva de buque disponible
+02;13;es;Escasez de contenedores
+02;14;es;Fecha de carga aún no vencida
+02;15;es;Retroalimentación del proveedor pendiente
+03;01;es;Solicitud interna de posponer el envío
+03;02;es;Solicitud del cliente de posponer el envío
+03;03;es;Cambio de programación / rotación / buque
+03;04;es;Retraso en pick & pack, estiba
+03;05;es;Envío cancelado
+03;06;es;Otros
+03;07;es;Bloqueo MDB a nivel DO
+03;08;es;Problema de sistema / lote / incorrecto
+03;09;es;Cantidad a recoger
+03;10;es;Carga pendiente
+03;11;es;MAD retrasado
+04;01;es;Precio incorrecto
+04;02;es;Discrepancia LC
+04;03;es;Retraso / reprogramación del buque
+04;04;es;Liberación de POL pendiente
+04;05;es;Recolección de transportistas pendiente
+04;06;es;Documentación comercial pendiente
+04;07;es;Formulario FTA / COO pendiente
+04;08;es;Otros documentos pendientes
+04;09;es;Otros
+04;10;es;Enmienda de B/L
+04;11;es;Certificado sanitario pendiente, BRC (del equipo QM SE), certificado de limpieza de tanque, etc.
+04;12;es;PD pendiente
+04;13;es;MI pendiente
+04;14;es;QD / declaración de fabricación pendiente
+04;15;es;Certificado de envío pendiente
+04;16;es;OBL del transportista pendiente
+04;17;es;Carta de remesa y compilación de documentos pendiente
+04;18;es;Cancelación de factura – Incoterm, fecha de facturación, etc.
+04;19;es;Llegada del buque pendiente – para pedidos merch-through pendientes de factura
+04;20;es;Factura consolidada
+05;01;es;Puerto omitido / buque redirigido
+05;02;es;Retraso del buque
+05;03;es;Problemas relacionados con el puerto (congestión, huelga / bajo nivel de agua, etc.)
+05;04;es;Problemas meteorológicos
+05;05;es;Fuerza mayor
+05;06;es;Corte de plazo perdido (documentación, retraso de material, cantidad incompleta)
+05;07;es;Retraso en pre-transporte – tren, camión
+05;08;es;Aprobación DG tardía o cancelación de DG
+05;09;es;Cambio de destino
+05;10;es;Otros
+05;11;es;Reprogramación / nueva reserva
+05;12;es;Razón general – debido a un evento imprevisible en el mar
+05;13;es;Todo tipo de huelga
+02;01;pt;Problema de espaço no navio
+02;02;pt;Contêiner indisponível
+02;03;pt;Taxa spot / aprovação de frete aéreo pendente
+02;04;pt;Consolidação / combinação de remessa
+02;05;pt;Solicitação do cliente para colocar o pedido em espera
+02;06;pt;Bloqueio de entrega no nível DO
+02;07;pt;Outros
+02;08;pt;Confirmação de reserva pendente
+02;09;pt;Aprovação de produtos perigosos pendente
+02;10;pt;Sem EDI para joint venture / fornecedor terceirizado
+02;11;pt;Confirmação do cliente para entrega pendente
+02;12;pt;Ponto de fornecimento pendente para criar TM, reserva do navio disponível
+02;13;pt;Escassez de contêineres
+02;14;pt;Data de carregamento ainda não vencida
+02;15;pt;Retorno do fornecedor pendente
+03;01;pt;Solicitação interna para adiar o envio
+03;02;pt;Solicitação do cliente para adiar o envio
+03;03;pt;Mudança de programação / rotação / navio
+03;04;pt;Atraso na separação e embalagem, estufagem
+03;05;pt;Remessa cancelada
+03;06;pt;Outros
+03;07;pt;Bloqueio MDB no nível DO
+03;08;pt;Problema de sistema / lote / incorreto
+03;09;pt;Quantidade de coleta
+03;10;pt;Carregamento pendente
+03;11;pt;MAD atrasado
+04;01;pt;Precificação incorreta
+04;02;pt;Discrepância de LC
+04;03;pt;Atraso / reprogramação do navio
+04;04;pt;Liberação do POL pendente
+04;05;pt;Coleta dos transportadores pendente
+04;06;pt;Documentação comercial pendente
+04;07;pt;Formulário FTA / COO pendente
+04;08;pt;Outros documentos pendentes
+04;09;pt;Outros
+04;10;pt;Alteração do B/L
+04;11;pt;Certificado de saúde pendente, BRC (da equipe QM SE), certificado de limpeza do tanque, etc.
+04;12;pt;PD pendente
+04;13;pt;MI pendente
+04;14;pt;QD / declaração de fabricação pendente
+04;15;pt;Certificado de envio pendente
+04;16;pt;OBL do transportador pendente
+04;17;pt;Carta de remessa e compilação de documentos pendente
+04;18;pt;Cancelamento de fatura – Incoterm, data de faturamento, etc.
+04;19;pt;Chegada do navio pendente – para pedidos merch-through pendentes de faturamento
+04;20;pt;Fatura consolidada
+05;01;pt;Porto omitido / navio redirecionado
+05;02;pt;Atraso do navio
+05;03;pt;Problemas relacionados ao porto (congestionamento, greve / baixo nível de água, etc.)
+05;04;pt;Problemas relacionados ao clima
+05;05;pt;Força maior
+05;06;pt;Prazo final perdido (documentação, atraso de material, quantidade incompleta)
+05;07;pt;Atraso no pré-transporte – trem, caminhão
+05;08;pt;Aprovação DG tardia ou cancelamento de DG
+05;09;pt;Alteração de destino
+05;10;pt;Outros
+05;11;pt;Reagendamento / nova reserva
+05;12;pt;Motivo geral – devido a evento imprevisível no mar
+05;13;pt;Todos os tipos de greve
+02;01;tr;Gemide yer sorunu
+02;02;tr;Konteyner mevcut değil
+02;03;tr;Spot oran / hava kargo onayı bekleniyor
+02;04;tr;Sevkiyat konsolidasyonu / birleştirme
+02;05;tr;Müşteri talebi üzerine sipariş beklemeye alındı
+02;06;tr;Teslimat engeli (DO seviyesinde)
+02;07;tr;Diğerleri
+02;08;tr;Rezervasyon onayı bekleniyor
+02;09;tr;Tehlikeli madde onayı bekleniyor
+02;10;tr;Ortak girişim / üçüncü taraf satıcı için EDI yok
+02;11;tr;Teslimat için müşteri onayı bekleniyor
+02;12;tr;TM oluşturmak için tedarik noktası bekleniyor, gemi rezervasyonu mevcut
+02;13;tr;Konteyner eksikliği
+02;14;tr;Yükleme tarihi henüz gelmedi
+02;15;tr;Tedarikçi geri bildirimi bekleniyor
+03;01;tr;Sevkiyatın ertelenmesi için dahili talep
+03;02;tr;Müşteri talebiyle sevkiyatın ertelenmesi
+03;03;tr;Program / rotasyon / gemi değişikliği
+03;04;tr;Toplama ve paketlemede gecikme, yükleme gecikmesi
+03;05;tr;Sevkiyat iptal edildi
+03;06;tr;Diğerleri
+03;07;tr;MDB engeli (DO seviyesinde)
+03;08;tr;Sistem sorunu / parti hatası / yanlış
+03;09;tr;Toplama miktarı
+03;10;tr;Yükleme bekleniyor
+03;11;tr;MAD gecikti
+04;01;tr;Yanlış fiyatlandırma
+04;02;tr;LC uyuşmazlığı
+04;03;tr;Gemi gecikmesi / yeniden planlama
+04;04;tr;POL'den serbest bırakma bekleniyor
+04;05;tr;Taşıyıcılardan toplama bekleniyor
+04;06;tr;Ticari belgeler bekleniyor
+04;07;tr;FTA formu / COO bekleniyor
+04;08;tr;Diğer belgeler bekleniyor
+04;09;tr;Diğerleri
+04;10;tr;B/L değişikliği
+04;11;tr;Sağlık sertifikası, BRC (QM ekibinden SE), tank temizleme sertifikası vb. bekleniyor
+04;12;tr;PD bekleniyor
+04;13;tr;MI bekleniyor
+04;14;tr;QD / üretim beyanı bekleniyor
+04;15;tr;Sevkiyat sertifikası bekleniyor
+04;16;tr;Taşıyıcıdan OBL bekleniyor
+04;17;tr;Havale mektubu ve belge derlemesi bekleniyor
+04;18;tr;Fatura iptali – Incoterm, fatura tarihi vb.
+04;19;tr;Gemi varışı bekleniyor – fatura bekleyen merch-through siparişleri için
+04;20;tr;Konsolide fatura
+05;01;tr;Liman atlandı / gemi yeniden yönlendirildi
+05;02;tr;Gemi gecikmesi
+05;03;tr;Limanla ilgili sorunlar (yoğunluk, grev / düşük su seviyesi vb.)
+05;04;tr;Hava koşullarına bağlı sorunlar
+05;05;tr;Mücbir sebep
+05;06;tr;Son teslim tarihi kaçırıldı (belgeler, malzeme gecikmesi, eksik miktar)
+05;07;tr;Ön taşıma gecikmesi – tren, kamyon
+05;08;tr;DG onayı gecikti veya DG iptal edildi
+05;09;tr;Varış noktası değişikliği
+05;10;tr;Diğerleri
+05;11;tr;Yeniden rezervasyon / yeniden planlama
+05;12;tr;Genel neden – denizde öngörülemeyen bir olay nedeniyle
+05;13;tr;Her türlü grev
