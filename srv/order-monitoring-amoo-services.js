@@ -1371,13 +1371,23 @@ class openOrdersSrv extends cds.ApplicationService {
 
         // Adding Flag for latest followup notes 
         this.before("CREATE", "FollowupNotes", async (req) => {
-                    const { FollowupNotes } = await cds.entities('openOrdersSrv');
-                
-                    req.query.INSERT.entries.forEach(async (entry) => {   
-                        req.query.INSERT.entries[0].LastFollowupNoteFlag = 'X'
-                        await UPDATE(FollowupNotes).set({ LastFollowupNoteFlag: ' ' }).where({ SalesOrder: entry.SalesOrder, OrderItem: entry.OrderItem, LastFollowupNoteFlag: 'X' });
-                    })
-                })
+            const db = await cds.connect.to('db');
+            const entries = req.query.INSERT.entries;
+            for (const entry of entries) {
+                await db.run(
+                    UPDATE('OPENORDERS_DB_ST_FOLLOWUP_NOTES')
+                        .set({ LAST_FOLLOWUPNOTE_FLAG: ' ' })
+                        .where({
+                            MANDT: entry.Client,
+                            VBELN: entry.SalesOrder,
+                            POSNR: entry.OrderItem,
+                            LAST_FOLLOWUPNOTE_FLAG: 'X'
+                        })
+                );
+                // Mark the new entry as last note
+                entry.LastFollowupNoteFlag = 'X';
+            }
+        });
         
         // Adding Flag for first entry in the table after deleting one of the FollowupNotes
         this.after("DELETE", "FollowupNotes", async (data, req) => {
