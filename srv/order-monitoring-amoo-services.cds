@@ -549,15 +549,6 @@ service openOrdersSrv {
                 REASON_TEXT as ReasonComment
         };
 
-    entity ReasonComments           as
-        select from AMOOUtilsService.APACDelayReasons {
-            key ORDER_NUMBER as SalesOrder,
-            key ITEM_NUMBER  as OrderItem,
-            key BUCKET       as BucketKey,
-            key LANGUAGE     as Language,
-                REASON_CODE  as ReasonCodeKey
-        };
-
     entity ReasonCommentsCloud      as
         select from db_app.ST_APAC_DELAY_REASON_ENTRY {
             key MANDT        as Client,
