@@ -153,8 +153,6 @@ annotate service.OpenOrdersAnalytics with {
     TM_DATEN                        @UI.Hidden;
     TM_AR_DATE                      @UI.Hidden;
     TM_TDLNR_NAME1                  @UI.Hidden;
-    TM_TRACKING_ID_COMP             @UI.Hidden;
-    TM_TRACKING_ID_ELEM             @UI.Hidden;
     SO_DCP_ITEM_STATUS              @UI.Hidden;
     SO_DCP_ITEM_STATUS_DESCRIPTION  @UI.Hidden;
     SO_DUE_DATE                     @UI.Hidden;

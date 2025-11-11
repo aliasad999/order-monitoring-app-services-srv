@@ -651,24 +651,6 @@ annotate service.allIssues with {
 };
 
 annotate service.allIssues with {
-    TM_SHIPMENT_CURRENT_STATUS
-    @Common.ValueList: {
-        $Type                  : 'Common.ValueListType',
-        Label                  : '{@i18n>TM_SHIPMENT_CURRENT_STATUS}',
-        CollectionPath         : 'valueHelps',
-        DistinctValuesSupported: true,
-        SearchSupported        : true,
-        Parameters             : [{
-            $Type            : 'Common.ValueListParameterInOut',
-            LocalDataProperty: TM_SHIPMENT_CURRENT_STATUS,
-            ValueListProperty: 'TM_SHIPMENT_CURRENT_STATUS'
-        }
-
-        ]
-    }
-};
-
-annotate service.allIssues with {
     SO_F_VKORG
     @Common.ValueList: {
         $Type                  : 'Common.ValueListType',

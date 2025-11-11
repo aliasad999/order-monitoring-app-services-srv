@@ -27,7 +27,7 @@ service openOrdersSrv {
     entity currencies               as projection on db_app.currency;
 
 
-    entity rootEntity               as
+    entity baseEntity               as
         select from db_app.OPENORDERSLIST {
             key null                                        as id                              : UUID,
                 MANDT                                       as SO_MANDT,
@@ -275,22 +275,7 @@ service openOrdersSrv {
                 DATEN_DATE                                  as TM_DATEN,
                 AR_DATE_DATE                                as TM_AR_DATE,
                 TDLNR                                       as TM_TDLNR,
-                TDLNR_NAME1                                 as TM_TDLNR_NAME1,
-                @UI.Hidden: true
-                case
-                    when STATUS_REASON_CODE_TEXT_ELEM = ''
-                         or STATUS_REASON_CODE_TEXT_ELEM is null
-                         then STATUS_CODE_TEXT_ELEM
-                    else STATUS_CODE_TEXT_ELEM || ' (' || STATUS_REASON_CODE_ELEM || ' - ' || STATUS_REASON_CODE_TEXT_ELEM || ')'
-                end                                         as TM_SHIPMENT_CURRENT_STATUS_ELEM : String(250),
-                @UI.Hidden: true
-                case
-                    when REASON_CODE_TEXT_COMP = ''
-                         or REASON_CODE_TEXT_COMP is null
-                         then STATUS_CODE_TEXT_COMP
-                    else STATUS_CODE_TEXT_COMP || ' (' || REASON_CODE_COMP || ' - ' || REASON_CODE_TEXT_COMP || ')'
-                end                                         as TM_SHIPMENT_CURRENT_STATUS_COMP : String(250),
-                
+                TDLNR_NAME1                                 as TM_TDLNR_NAME1,                
                 TRACKING_ID_ELEM                            as TM_TRACKING_ID_ELEM,
                 TRACKING_ID_COMP                            as TM_TRACKING_ID_COMP,
                 STTRG                                       as TM_STTRG,
@@ -497,18 +482,9 @@ service openOrdersSrv {
                 KVGR5_LANG                                  as SO_KVGR5_TEXT
         }
 
-    entity baseEntity               as
-        projection on rootEntity {
-            *,
-            IFNULL(
-                TM_SHIPMENT_CURRENT_STATUS_ELEM, TM_SHIPMENT_CURRENT_STATUS_COMP
-            ) as TM_SHIPMENT_CURRENT_STATUS : String(250)
-        }
-
 
     @readonly
     entity allIssues                as projection on baseEntity;
-
     entity allIssuesDetails         as projection on allIssues;
     entity valueHelps               as projection on baseEntity;
     // entity unrestrictedUser  as projection on db_app.UNRESTRICTED_USER;

@@ -59,8 +59,6 @@ annotate service.BaseEntity with {
     LAST_NOTE_FROMORDERCHAIN         @title: '{i18n>LAST_NOTE_FROMORDERCHAIN}'         @sap.Label: '{i18n>LAST_NOTE_FROMORDERCHAIN}';
     TM_TKNUM                         @title: '{i18n>TM_TKNUM}'                         @sap.Label: '{i18n>TM_TKNUM}'            @Common.IsDigitSequence: true;
     TM_EXTI1                         @title: '{i18n>TM_EXTI1}'                         @sap.Label: '{i18n>TM_EXTI1}';
-    TM_TRACKING_ID_COMP              @title: '{i18n>TM_TRACKING_ID_COMP}'              @sap.Label: '{i18n>TM_TRACKING_ID_COMP}';
-    TM_TRACKING_ID_ELEM              @title: '{i18n>TM_TRACKING_ID_ELEM}'              @sap.Label: '{i18n>TM_TRACKING_ID_ELEM}';
     TM_DPTBG                         @title: '{i18n>TM_DPTBG}'                         @sap.Label: '{i18n>TM_DPTBG}';
     TM_DATBG                         @title: '{i18n>TM_DATBG}'                         @sap.Label: '{i18n>TM_DATBG}';
     TM_DPTEN                         @title: '{i18n>TM_DPTEN}'                         @sap.Label: '{i18n>TM_DPTEN}';

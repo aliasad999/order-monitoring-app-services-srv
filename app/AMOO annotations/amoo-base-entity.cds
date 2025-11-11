@@ -132,11 +132,8 @@ annotate service.baseEntity with {
     TM_AR_DATE                       @title: '{i18n>TM_AR_DATE}'                       @sap.Label: '{i18n>TM_AR_DATE}'            @sap.filter.restriction: 'interval';
     TM_TDLNR                         @title: '{i18n>TM_TDLNR}'                         @sap.Label: '{i18n>TM_TDLNR}'              @Common.IsDigitSequence: true;
     TM_TDLNR_NAME1                   @title: '{i18n>TM_TDLNR_NAME1}'                   @sap.Label: '{i18n>TM_TDLNR_NAME1}';
-    TM_TRACKING_ID_COMP              @title: '{i18n>TM_TRACKING_ID_COMP}'              @sap.Label: '{i18n>TM_TRACKING_ID_COMP}';
-    TM_TRACKING_ID_ELEM              @title: '{i18n>TM_TRACKING_ID_ELEM}'              @sap.Label: '{i18n>TM_TRACKING_ID_ELEM}';
     TM_STTRG                         @title: '{i18n>TM_STTRG}'                         @sap.Label: '{i18n>TM_STTRG}';
     TM_STTRG_DDTEXT                  @title: '{i18n>TM_STTRG_DDTEXT}'                  @sap.Label: '{i18n>TM_STTRG_DDTEXT}';
-    TM_SHIPMENT_CURRENT_STATUS       @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'       @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
     SO_NPS                           @title: '{i18n>SO_NPS}'                           @sap.Label: '{i18n>SO_NPS}';
     SO_NPS_DESCRIPTION               @title: '{i18n>SO_NPS}'                           @sap.Label: '{i18n>SO_NPS}';
     SO_ISSUE                         @title: '{i18n>SO_ISSUE}'                         @sap.Label: '{i18n>SO_ISSUE}';

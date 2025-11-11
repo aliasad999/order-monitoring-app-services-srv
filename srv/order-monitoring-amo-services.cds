@@ -268,26 +268,6 @@ service srvOpenOrders {
           EXTI1                                       as TM_EXTI1,
           TDLNR                                       as TM_TDLNR,
           TDLNR_NAME1                                 as TM_TDLNR_NAME1,
-          @UI.Hidden: true
-          case
-            when (
-                   STATUS_REASON_CODE_TEXT_ELEM    is null
-                   or STATUS_REASON_CODE_TEXT_ELEM =  ''
-                 )
-                 then STATUS_CODE_TEXT_ELEM
-            else STATUS_CODE_TEXT_ELEM || ' (' || STATUS_REASON_CODE_ELEM || ' - ' || STATUS_REASON_CODE_TEXT_ELEM || ')'
-          end                                         as TM_SHIPMENT_CURRENT_STATUS_ELEM : String(250),
-          @UI.Hidden: true
-          case
-            when (
-                   REASON_CODE_TEXT_COMP    is null
-                   or REASON_CODE_TEXT_COMP =  ''
-                 )
-                 then STATUS_CODE_TEXT_COMP
-            else STATUS_CODE_TEXT_COMP || ' (' || REASON_CODE_COMP || ' - ' || REASON_CODE_TEXT_COMP || ')'
-          end                                         as TM_SHIPMENT_CURRENT_STATUS_COMP : String(250),
-          TRACKING_ID_ELEM                            as TM_TRACKING_ID_ELEM,
-          TRACKING_ID_COMP                            as TM_TRACKING_ID_COMP,
           TM_DPTBG_DATE                               as TM_DPTBG,
           TM_DATBG_DATE                               as TM_DATBG,
           TM_DPTEN_DATE                               as TM_DPTEN,
@@ -480,21 +460,8 @@ service srvOpenOrders {
 
     };
 
-  entity Results                 as
-    projection on BaseEntity {
-      *,
-      IFNULL(
-        TM_SHIPMENT_CURRENT_STATUS_ELEM, TM_SHIPMENT_CURRENT_STATUS_COMP
-      ) as TM_SHIPMENT_CURRENT_STATUS : String(250)
-    };
-
-  entity valueHelps              as
-    projection on BaseEntity {
-      *,
-      IFNULL(
-        TM_SHIPMENT_CURRENT_STATUS_ELEM, TM_SHIPMENT_CURRENT_STATUS_COMP
-      ) as TM_SHIPMENT_CURRENT_STATUS : String(250)
-    };
+  entity Results as projection on BaseEntity;
+  entity valueHelps as projection on BaseEntity;
 
 
   entity notes                   as

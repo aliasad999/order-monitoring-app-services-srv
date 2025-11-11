@@ -40,7 +40,6 @@ annotate service.allIssues with @UI.LineItem #allIssues: {
         {Value: TM_DPTEN},
         {Value: TM_DATBG},
         {Value: TM_DATEN},
-        {Value: TM_SHIPMENT_CURRENT_STATUS},
         {Value: TM_VISTA_STATUS}
     ]
 };
@@ -342,7 +341,6 @@ annotate service.allIssues with @UI.LineItem #nps90: {$value: [
     {Value: DL_VBELN},
     {Value: SO_ZZDKPPRODB},
     {Value: DL_POSNR},
-    {Value: TM_SHIPMENT_CURRENT_STATUS},
     {Value: TM_TKNUM},
     {Value: TM_DPTBG},
     {Value: TM_DPTEN},
@@ -368,7 +366,6 @@ annotate service.allIssues with @UI.LineItem #nps95: {$value: [
     {Value: SO_LAND1},
     {Value: DL_VBELN},
     {Value: DL_POSNR},
-    {Value: TM_SHIPMENT_CURRENT_STATUS},
     {Value: SO_ZZDKPPRODB},
     {Value: SO_EDATU_CONFIRMED},
     {Value: DL_LFDAT},
@@ -441,7 +438,6 @@ annotate service.allIssues with @UI.LineItem #nps00: {$value: [
     {Value: TM_DPTEN},
     {Value: TM_DATBG},
     {Value: TM_DATEN},
-    {Value: TM_SHIPMENT_CURRENT_STATUS},
     {Value: TM_VISTA_STATUS}
 
 ]};
