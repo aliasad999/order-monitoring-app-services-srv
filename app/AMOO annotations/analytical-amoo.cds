@@ -63,6 +63,8 @@ annotate service.OpenOrdersAnalytics with {
     SO_FAKSP_VTEXT                  @UI.Hidden;
     TM_STTRG                        @UI.Hidden;
     TM_STTRG_DDTEXT                 @UI.Hidden;
+    SO_KDMAT                        @UI.Hidden;
+    TM_SHIPMENT_CURRENT_STATUS      @UI.Hidden;
     SO_ABGRU                        @UI.Hidden;
     SO_ABGRU_BEZEI                  @UI.Hidden;
     SO_ISSUE                        @UI.Hidden;
@@ -96,7 +98,7 @@ annotate service.OpenOrdersAnalytics with {
     SO_PSTYV_VTEXT                  @UI.Hidden;
     SO_DISPO                        @UI.Hidden;
     SO_KOSCH                        @UI.Hidden;
-    SO_VKBUR                        @UI.Hidden;
+    // SO_VKBUR                        @UI.Hidden;
     SO_VKBUR_BEZEI                  @UI.Hidden;
     SO_ABSTA                        @UI.Hidden;
     SO_KNUMV                        @UI.Hidden;
@@ -114,7 +116,7 @@ annotate service.OpenOrdersAnalytics with {
     SO_F_POSNR                      @UI.Hidden;
     SO_TRAGR                        @UI.Hidden;
     SO_TRAGR_VTEXT                  @UI.Hidden;
-    SO_VKGRP                        @UI.Hidden;
+    // SO_VKGRP                        @UI.Hidden;
     SO_VKGRP_BEZEI                  @UI.Hidden;
     SO_ROUTE                        @UI.Hidden;
     SO_F_WERKS                      @UI.Hidden;
