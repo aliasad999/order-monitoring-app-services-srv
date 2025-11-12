@@ -148,7 +148,6 @@ annotate service.OpenOrdersAnalytics with {
     TM_EXTI1                        @UI.Hidden;
     TM_DPTBG                        @UI.Hidden;
     TM_DATBG                        @UI.Hidden;
-    TM_DPTEN                        @UI.Hidden;
     TM_DALBG                        @UI.Hidden;
     TM_DATEN                        @UI.Hidden;
     TM_AR_DATE                      @UI.Hidden;

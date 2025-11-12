@@ -210,7 +210,7 @@ entity ![RESULTS] {
         DATBG                              : String(8);
         TM_DATBG_DATE                      : Date = DATBG;
         DPTEN                              : String(8);
-        TM_DPTEN_DATE                      : Date = DPTEN;
+        DPTEN_DATE                      : Date = DPTEN;
         DALBG                              : String(8);
         TM_DALBG_DATE                      : Date = DALBG;
         DATEN                              : String(8);

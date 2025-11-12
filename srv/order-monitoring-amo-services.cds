@@ -270,7 +270,6 @@ service srvOpenOrders {
           TDLNR_NAME1                                 as TM_TDLNR_NAME1,
           TM_DPTBG_DATE                               as TM_DPTBG,
           TM_DATBG_DATE                               as TM_DATBG,
-          TM_DPTEN_DATE                               as TM_DPTEN,
           TM_DATEN_DATE                               as TM_DATEN,
           TM_AR_DATE_DATE                             as TM_AR_DATE,
           TM_DALBG_DATE                               as TM_DALBG,
@@ -334,7 +333,7 @@ service srvOpenOrders {
                  then VISTA_STATUS || ' (' || STATUS_REASON_CODE_ELEM || ' - ' || STATUS_REASON_CODE_TEXT_ELEM || ')' 
             else VISTA_STATUS
           end                                         as  TM_VISTA_STATUS               : String(250),
-          CURRENT_ETA_VISTA_DATE                      as TM_CURRENT_ETA_VISTA,
+          case when ( CURRENT_ETA_VISTA_DATE is null or CURRENT_ETA_VISTA_DATE = '' ) then DPTEN_DATE else CURRENT_ETA_VISTA_DATE end as TM_CURRENT_ETA_VISTA,
           // Euan's changes
           Z5_PARTNER_ITM                              as SO_Z5_PARTNER,
           Z5_PARTNER_NAME_ITM                         as SO_Z5_PARTNER_NAME,

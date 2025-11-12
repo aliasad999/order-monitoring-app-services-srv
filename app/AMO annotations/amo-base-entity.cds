@@ -61,7 +61,6 @@ annotate service.BaseEntity with {
     TM_EXTI1                         @title: '{i18n>TM_EXTI1}'                         @sap.Label: '{i18n>TM_EXTI1}';
     TM_DPTBG                         @title: '{i18n>TM_DPTBG}'                         @sap.Label: '{i18n>TM_DPTBG}';
     TM_DATBG                         @title: '{i18n>TM_DATBG}'                         @sap.Label: '{i18n>TM_DATBG}';
-    TM_DPTEN                         @title: '{i18n>TM_DPTEN}'                         @sap.Label: '{i18n>TM_DPTEN}';
     TM_DALBG                         @title: '{i18n>TM_DALBG}'                         @sap.Label: '{i18n>TM_DALBG}';
     TM_DATEN                         @title: '{i18n>TM_DATEN}'                         @sap.Label: '{i18n>TM_DATEN}';
     TM_AR_DATE                       @title: '{i18n>TM_AR_DATE}'                       @sap.Label: '{i18n>TM_AR_DATE}';
