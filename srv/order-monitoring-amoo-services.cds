@@ -354,13 +354,9 @@ service openOrdersSrv {
                 ZZ0S2ABGH                                   as DL_ZZ0S2ABGH,
                 ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH,
                 LPRIO                                       as SO_LPRIO,
-                 case
-                when (
-                   STATUS_REASON_CODE_ELEM    is not null
-                   or STATUS_REASON_CODE_ELEM !=  ''
-                 )
-                 then VISTA_STATUS || ' (' || STATUS_REASON_CODE_ELEM || ' - ' || STATUS_REASON_CODE_TEXT_ELEM || ')' 
-                else VISTA_STATUS
+                case
+                    when (STATUS_REASON_CODE_ELEM    is null or STATUS_REASON_CODE_ELEM =  '' ) then VISTA_STATUS 
+                    else VISTA_STATUS || ' (' || STATUS_REASON_CODE_ELEM || ' - ' || STATUS_REASON_CODE_TEXT_ELEM || ')' 
                 end                                         as  TM_VISTA_STATUS               : String(250),
                 case when ( CURRENT_ETA_VISTA_DATE is null or CURRENT_ETA_VISTA_DATE = '' ) then DPTEN_DATE else CURRENT_ETA_VISTA_DATE end as TM_CURRENT_ETA_VISTA,
                 // Euan's changes
