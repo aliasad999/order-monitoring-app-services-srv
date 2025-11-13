@@ -617,7 +617,7 @@ entity ![ORDER_CREATION] {
         DUE_DATE             : String(8);
         DUE_DATE_FORMATTED   : Date = DUE_DATE;
         ERROR_TEXT           : String(250);
-        BIM_ERROR_ID         : String(36);
+        BIM_ERROR_ID         : String(50);
         SOLUTION             : String(20);
 // ISSUE_TEXT: String(60);
 // NPS_TEXT: String(30);
@@ -652,13 +652,13 @@ entity SAPTexts {
 
 @cds.persistence.exists
 entity ![ST_BIM_ERRORS] {
-        key BIM_ERROR_ID         : String(36);
+        key BIM_ERROR_ID         : String(50);
             IS_RESOLVED          : Boolean;
 }
 
 @cds.persistence.exists
 entity ![GENERAL_BIM_ERRORS] {
-        key BIM_ERROR_ID         : String(36);
+        key BIM_ERROR_ID         : String(50);
             PURCHASE_ORDER       : String(35);
             PURCHASEORDER_ITEM   : String(5);
             SOURCE_SYSTEM        : String(20);
