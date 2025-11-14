@@ -1,0 +1,13 @@
+defId;defContent
+00001;Documentation (copies) sent
+00003;Documentation complete
+00004;Waiting for payment
+00005;BL received and sent to customer
+00006;Waiting for all docs. to send
+00007;Waiting for waybill, but other docs sent
+00008;Waiting for spec. document but other sent
+00009;FTA received
+00010;Booking cut-off process
+00011;Booking confirmation received
+00012;Order confirmation sent to the customer
+00013;Shipping documents sent to the customer

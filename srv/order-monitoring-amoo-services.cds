@@ -213,6 +213,7 @@ service openOrdersSrv {
                 FIRST_POSNR                                 as SO_I_POSNR,
                 LEVEL_TYPE                                  as SO_LEVEL_TYPE,
                 NEXT_SO                                     as SO_N_VBELN,
+                NEXT_POSNR                                  as SO_N_POSNR,
                 FINAL_SO                                    as SO_F_VBELN,
                 FINAL_POSNR                                 as SO_F_POSNR,
                 VBTYP                                       as SO_VBTYP,
@@ -480,6 +481,20 @@ service openOrdersSrv {
                 TS_PARTNER_NAME1                            as TM_TS_PARTNER_NAME1,
                 KVGR5                                       as SO_KVGR5,
                 STCEG                                       as BL_STCEG,
+                IFNULL(
+                    OM_PARTNER_ITM, OM_PARTNER_HEAD
+                )                                           as SO_OM_PARTNER                   : String(8),
+                IFNULL(
+                    OM_PARTNER_NAME_ITM, OM_PARTNER_NAME_HEAD
+                )                                           as SO_OM_PARTNER_NAME              : String(80),
+                IFNULL(
+                    AH_PARTNER_ITM, AH_PARTNER_HEAD
+                )                                           as SO_AH_PARTNER                   : String(8),
+                IFNULL(
+                    AH_PARTNER_NAME_ITM, AH_PARTNER_NAME_HEAD
+                )                                           as SO_AH_PARTNER_NAME              : String(80),
+                LABST                                       as SO_LABST,
+                KVGR5_LANG                                  as SO_KVGR5_TEXT
         }
 
     entity baseEntity               as
@@ -543,12 +558,11 @@ service openOrdersSrv {
             key LANGUAGE     as Language,
                 REASON_CODE  as ReasonCodeKey
         };
-
+    @readonly
     entity PredefFollowupNotes      as
-        select from AMOOUtilsService.PredefinedFollowupNotes {
-            PREDEFINED_ID      as FollowUpNoteId,
-            PREDEFINED_CONTENT as FollowUpNoteContent,
-            LANGUAGE           as Language
+        select from amo_service.PredefFollowupNotes {
+            defId      as FollowUpNoteId,
+            defContent as FollowUpNoteContent
         };
 
     entity FollowupNotes            as
@@ -557,8 +571,6 @@ service openOrdersSrv {
             key VBELN              as SalesOrder,
             key POSNR              as OrderItem,
             key PREDEFINED_ID      as FollowupNote,
-            key LANGUAGE           as Language,
-                PREDEFINED_CONTENT as Content,
                 CREATED_AT         as CreatedAt,
                 LAST_FOLLOWUPNOTE_FLAG  as LastFollowupNoteFlag                
         };

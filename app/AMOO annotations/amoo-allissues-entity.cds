@@ -281,6 +281,24 @@ annotate service.allIssues with {
     TM_TS_PARTNER                 @title: '{i18n>TM_TS_PARTNER}'               @sap.Label: '{i18n>TM_TS_PARTNER}';
     @Common.TextFor
     TM_TS_PARTNER_NAME1      @title: '{i18n>TM_TS_PARTNER_NAME1}'              @sap.Label: '{i18n>TM_TS_PARTNER_NAME1}';
+    
+    @Common.Text           : SO_OM_PARTNER_NAME
+    @Common.TextArrangement: #TextFirst
+    SO_OM_PARTNER               @title: '{i18n>SO_OM_PARTNER}'                    @sap.Label: '{i18n>SO_OM_PARTNER}'    @Common.IsDigitSequence: true;
+    @Common.TextFor
+    SO_OM_PARTNER_NAME          @title: '{i18n>SO_OM_PARTNER_NAME}'               @sap.Label: '{i18n>SO_OM_PARTNER_NAME}';
+
+    @Common.Text           : SO_AH_PARTNER_NAME
+    @Common.TextArrangement: #TextFirst
+    SO_AH_PARTNER               @title: '{i18n>SO_AH_PARTNER}'                    @sap.Label: '{i18n>SO_AH_PARTNER}'    @Common.IsDigitSequence: true;
+    @Common.TextFor
+    SO_AH_PARTNER_NAME          @title: '{i18n>SO_AH_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AH_PARTNER_NAME}';
+
+    @Common.Text           : SO_KVGR5_TEXT
+    @Common.TextArrangement: #TextFirst
+    SO_KVGR5               @title: '{i18n>SO_KVGR5}'                    @sap.Label: '{i18n>SO_KVGR5}'    @Common.IsDigitSequence: true;
+    @Common.TextFor
+    SO_KVGR5_TEXT          @title: '{i18n>SO_KVGR5_TEXT}'               @sap.Label: '{i18n>SO_KVGR5_TEXT}';
 }
 /// UI visibility of fields
 annotate service.allIssues with {
@@ -350,6 +368,7 @@ annotate service.allIssues with {
     SO_BSARK_VTEXT                  @UI                     : {Hidden: true};
     SO_VKBUR_BEZEI                  @UI                     : {Hidden: true};
     SO_F_POSNR                      @UI                     : {Hidden: true};
+    SO_N_POSNR                      @UI                     : {Hidden: true};
     SO_I_POSNR                      @UI                     : {Hidden: true};
     SO_VBTYP                        @UI                     : {Hidden: true};
     SO_TRAGR_VTEXT                  @UI                     : {Hidden: true};
@@ -392,4 +411,7 @@ annotate service.allIssues with {
     TM_OLD_ETA_VISTA_DATE           @UI                     : {Hidden: true};
     SO_MFRGR_BEZEI_LANG             @UI                     : {Hidden: true};
     TM_TS_PARTNER_NAME1             @UI                     : {Hidden: true};
+    SO_OM_PARTNER_NAME              @UI                     : {Hidden: true};
+    SO_AH_PARTNER_NAME              @UI                     : {Hidden: true};
+    SO_KVGR5_TEXT                   @UI                     : {Hidden: true};
 }
