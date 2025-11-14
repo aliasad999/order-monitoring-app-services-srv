@@ -358,7 +358,7 @@ service openOrdersSrv {
                     when (STATUS_REASON_CODE_ELEM    is null or STATUS_REASON_CODE_ELEM =  '' ) then VISTA_STATUS 
                     else VISTA_STATUS || ' (' || STATUS_REASON_CODE_ELEM || ' - ' || STATUS_REASON_CODE_TEXT_ELEM || ')' 
                 end                                         as  TM_VISTA_STATUS               : String(250),
-                case when ( CURRENT_ETA_VISTA_DATE is null or CURRENT_ETA_VISTA_DATE = '' ) then DPTEN_DATE else CURRENT_ETA_VISTA_DATE end as TM_CURRENT_ETA_VISTA,
+                case when ( CURRENT_ETA_VISTA is null or CURRENT_ETA_VISTA = '' or CURRENT_ETA_VISTA = '00000000') then DPTEN else CURRENT_ETA_VISTA end as TM_CURRENT_ETA_VISTA : Date,
                 // Euan's changes
                 Z5_PARTNER_ITM                              as SO_Z5_PARTNER,
                 Z5_PARTNER_NAME_ITM                         as SO_Z5_PARTNER_NAME,

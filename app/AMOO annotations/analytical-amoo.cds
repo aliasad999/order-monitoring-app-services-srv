@@ -64,7 +64,6 @@ annotate service.OpenOrdersAnalytics with {
     TM_STTRG                        @UI.Hidden;
     TM_STTRG_DDTEXT                 @UI.Hidden;
     SO_KDMAT                        @UI.Hidden;
-    TM_SHIPMENT_CURRENT_STATUS      @UI.Hidden;
     SO_ABGRU                        @UI.Hidden;
     SO_ABGRU_BEZEI                  @UI.Hidden;
     SO_ISSUE                        @UI.Hidden;
