@@ -294,4 +294,6 @@ annotate service.baseEntity with {
     SO_AH_PARTNER_NAME               @title: '{i18n>SO_AH_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AH_PARTNER_NAME}';
     SO_LABST                         @title: '{i18n>SO_LABST}'                         @sap.Label: '{i18n>SO_LABST}';
     SO_KVGR5_TEXT                    @title: '{i18n>SO_KVGR5_TEXT}'                    @sap.Label: '{i18n>SO_KVGR5_TEXT}';
+    SO_ZMENG                         @title: '{i18n>SO_ZMENG}'                         @sap.Label: '{i18n>SO_ZMENG}';
+    SO_ZIEME                         @title: '{i18n>SO_ZIEME}'                         @sap.Label: '{i18n>SO_ZIEME}';
 };
