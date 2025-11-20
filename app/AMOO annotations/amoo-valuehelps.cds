@@ -867,6 +867,9 @@ annotate service.allIssues with {
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
+            $Type            : 'Common.ValueListParameterDisplayOnly',
+            ValueListProperty: 'ReasonComment'
+        },{
             $Type            : 'Common.ValueListParameterInOut',
             ValueListProperty: 'ReasonCodeKey',
             LocalDataProperty: SO_REASON_CODE_01_LANG,
@@ -885,6 +888,9 @@ annotate service.allIssues with {
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
+            $Type            : 'Common.ValueListParameterDisplayOnly',
+            ValueListProperty: 'ReasonComment'
+        },{
             $Type            : 'Common.ValueListParameterInOut',
             ValueListProperty: 'ReasonCodeKey',
             LocalDataProperty: SO_REASON_CODE_02_LANG,
@@ -903,6 +909,9 @@ annotate service.allIssues with {
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
+            $Type            : 'Common.ValueListParameterDisplayOnly',
+            ValueListProperty: 'ReasonComment'
+        },{
             $Type            : 'Common.ValueListParameterInOut',
             ValueListProperty: 'ReasonCodeKey',
             LocalDataProperty: SO_REASON_CODE_03_LANG,
@@ -921,6 +930,9 @@ annotate service.allIssues with {
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
+            $Type            : 'Common.ValueListParameterDisplayOnly',
+            ValueListProperty: 'ReasonComment'
+        },{
             $Type            : 'Common.ValueListParameterInOut',
             ValueListProperty: 'ReasonCodeKey',
             LocalDataProperty: SO_REASON_CODE_04_LANG,
@@ -939,6 +951,9 @@ annotate service.allIssues with {
         DistinctValuesSupported: true,
         SearchSupported        : true,
         Parameters             : [{
+            $Type            : 'Common.ValueListParameterDisplayOnly',
+            ValueListProperty: 'ReasonComment'
+        },{
             $Type            : 'Common.ValueListParameterInOut',
             ValueListProperty: 'ReasonCodeKey',
             LocalDataProperty: SO_REASON_CODE_05_LANG,

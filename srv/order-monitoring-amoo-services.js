@@ -1292,34 +1292,7 @@ class openOrdersSrv extends cds.ApplicationService {
         });
         // END OF ORDER CREATION VALUE HELPS HANDLERS
 
-        this.on("READ", "PredefReasonBuckets", async req => {
-            let reasonBuckets = [];
-            try {
-                const AMOOService = await cds.connect.to('AMOOUtilsService');
-                reasonBuckets = await AMOOService.tx(req).send({
-                    query: req.query
-                });
-            } catch (error) {
-                req.error(413, error)
-            }
-
-            return reasonBuckets;
-        });
-
-        this.on("READ", "PredefReasonComments", async req => {
-            let predefReasonComments = [];
-            try {
-                const AMOOService = await cds.connect.to('AMOOUtilsService');
-                predefReasonComments = await AMOOService.tx(req).send({
-                    query: req.query
-                });
-            } catch (error) {
-                req.error(413, error)
-            }
-
-            return predefReasonComments;
-        });
-
+        
 
         // Adding Flag for latest followup notes 
         this.before("CREATE", "FollowupNotes", async (req) => {
