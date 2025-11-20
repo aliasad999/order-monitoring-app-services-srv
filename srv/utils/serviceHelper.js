@@ -44,6 +44,16 @@ const getDateProps = () => {
     ]
 }
 
+const getBucketText = (req,bucket)=>{
+    if (bucket )
+    return getBundle(req.locale).getText(`ReasonBucket${bucket}`)
+    else  return ''
+}
+const getReasonCodeText = (req,bucket, code)=>{
+    if (bucket && code)
+    return getBundle(req.locale).getText(`ReasonCode${bucket}_${code}`)
+    else  return ''
+}
 const getPODateProps = () => {
     return [
         "PO_AEDAT_HEAD",
@@ -399,5 +409,7 @@ module.exports = {
     buildSubtotalColumns,
     transformDateFilters,
     processExpression,
-    addPartnerSettings
+    addPartnerSettings,
+    getReasonCodeText,
+    getBucketText
 }

@@ -934,6 +934,16 @@ class openOrdersSrv extends cds.ApplicationService {
                 var dateProps = serviceHelper.getDateProps()
                 data.forEach((item) => {
                     item.id = uuid.v1()
+                    if ('SO_REASON_CODE_01_LANG' in item)
+                        item.SO_REASON_CODE_01_LANG = serviceHelper.getReasonCodeText(req,'01',item.SO_REASON_CODE_01_LANG)
+                    if ('SO_REASON_CODE_02_LANG' in item)
+                        item.SO_REASON_CODE_02_LANG = serviceHelper.getReasonCodeText(req,'02',item.SO_REASON_CODE_02_LANG)
+                    if ('SO_REASON_CODE_03_LANG' in item)
+                        item.SO_REASON_CODE_03_LANG = serviceHelper.getReasonCodeText(req,'03',item.SO_REASON_CODE_03_LANG)
+                    if ('SO_REASON_CODE_04_LANG' in item)
+                        item.SO_REASON_CODE_04_LANG = serviceHelper.getReasonCodeText(req,'04',item.SO_REASON_CODE_04_LANG)
+                    if ('SO_REASON_CODE_05_LANG' in item)
+                        item.SO_REASON_CODE_05_LANG = serviceHelper.getReasonCodeText(req,'05',item.SO_REASON_CODE_05_LANG)
                     if ('SO_NETWR' in item) // Net Amount
                         item.SO_NETWR = formatSpecialCurrencies(item.SO_NETWR, item.SO_WAERK, this._SpecialCurrencies);
                     if ('SO_KBETR' in item) // Price Per Unit
@@ -1292,7 +1302,14 @@ class openOrdersSrv extends cds.ApplicationService {
         });
         // END OF ORDER CREATION VALUE HELPS HANDLERS
 
-        
+        this.after('READ','ReasonCommentsCloud', async(data,req)=>{
+            data = Array.isArray(data) ? data : [data]
+            data.forEach((item)=>{
+                item.BucketText = serviceHelper.getBucketText(req, item.BucketKey)
+                item.ReasonCodeText = serviceHelper.getReasonCodeText(req, item.BucketKey,item.ReasonCodeKey)
+            })
+            
+        })
 
         // Adding Flag for latest followup notes 
         this.before("CREATE", "FollowupNotes", async (req) => {

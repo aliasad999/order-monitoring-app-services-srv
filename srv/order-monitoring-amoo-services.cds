@@ -554,8 +554,10 @@ service openOrdersSrv {
             key MANDT        as Client,
             key ORDER_NUMBER as SalesOrder,
             key ITEM_NUMBER  as OrderItem,
-            key BUCKET       as BucketKey,
-                REASON_CODE  as ReasonCodeKey
+            key BUCKET       as BucketKey, 
+                REASON_CODE  as ReasonCodeKey,
+            virtual null                      as BucketText : String(255),
+            virtual null                      as ReasonCodeText : String(255),
         };
     @readonly
     entity PredefFollowupNotes      as
