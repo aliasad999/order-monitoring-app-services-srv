@@ -54,6 +54,11 @@ const getReasonCodeText = (req,bucket, code)=>{
     return getBundle(req.locale).getText(`ReasonCode${bucket}_${code}`)
     else  return ''
 }
+const getFollowupNoteText =  (req,value) =>{
+	if (value )
+    return getBundle(req.locale).getText(`FollowUpNote${value}`)
+    else  return ''
+}
 const getPODateProps = () => {
     return [
         "PO_AEDAT_HEAD",
@@ -411,5 +416,6 @@ module.exports = {
     processExpression,
     addPartnerSettings,
     getReasonCodeText,
-    getBucketText
+    getBucketText,
+    getFollowupNoteText
 }

@@ -366,6 +366,8 @@ class srvOpenOrders extends cds.ApplicationService {
                             item.SO_DCP_ITEM_STATUS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
                         }
                     }
+                    if ( 'SO_FOLLOWUP_NOTES_LANG' in item )
+                        item.SO_FOLLOWUP_NOTES_LANG = serviceHelper.getFollowupNoteText(req,item.SO_FOLLOWUP_NOTES_LANG)
                     if ('SO_REASON_CODE_01_LANG' in item)
                         item.SO_REASON_CODE_01_LANG = serviceHelper.getReasonCodeText(req,'01',item.SO_REASON_CODE_01_LANG)
                     if ('SO_REASON_CODE_02_LANG' in item)

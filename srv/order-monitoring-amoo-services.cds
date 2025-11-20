@@ -573,7 +573,8 @@ service openOrdersSrv {
             key POSNR              as OrderItem,
             key PREDEFINED_ID      as FollowupNote,
                 CREATED_AT         as CreatedAt,
-                LAST_FOLLOWUPNOTE_FLAG  as LastFollowupNoteFlag                
+                LAST_FOLLOWUPNOTE_FLAG  as LastFollowupNoteFlag,   
+            virtual null as FollowupNoteText  : String(70)           
         };
 
     entity dueDateLimit             as projection on db_app.DUE_DATE_LIMIT;

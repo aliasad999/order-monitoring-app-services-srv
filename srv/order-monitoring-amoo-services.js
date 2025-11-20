@@ -934,6 +934,8 @@ class openOrdersSrv extends cds.ApplicationService {
                 var dateProps = serviceHelper.getDateProps()
                 data.forEach((item) => {
                     item.id = uuid.v1()
+                    if ( 'SO_FOLLOWUP_NOTES_LANG' in item )
+                        item.SO_FOLLOWUP_NOTES_LANG = serviceHelper.getFollowupNoteText(req,item.SO_FOLLOWUP_NOTES_LANG)
                     if ('SO_REASON_CODE_01_LANG' in item)
                         item.SO_REASON_CODE_01_LANG = serviceHelper.getReasonCodeText(req,'01',item.SO_REASON_CODE_01_LANG)
                     if ('SO_REASON_CODE_02_LANG' in item)
@@ -1343,6 +1345,12 @@ class openOrdersSrv extends cds.ApplicationService {
                     }
 
                 })
+        this.after("READ","FollowupNotes", async(data,req)=>{
+            data = Array.isArray(data) ? data : [data]
+            data.forEach((item)=>{
+                item.FollowupNoteText = serviceHelper.getFollowupNoteText(req,item.FollowupNote )
+            })
+        })
 
         this.on("READ", "ChangeDocSet", async req => {
             let lt_changeDocs = [];
