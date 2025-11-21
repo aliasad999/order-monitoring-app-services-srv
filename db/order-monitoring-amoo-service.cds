@@ -639,7 +639,6 @@ entity ![ST_APAC_DELAY_REASON_ENTRY] {
         ORDER_NUMBER : String(10);
         ITEM_NUMBER  : String(6);
         BUCKET       : String(2);
-        LANGUAGE     : String(2);
         REASON_CODE  : String(2);
 }
 
