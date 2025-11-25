@@ -14,7 +14,16 @@ using {S4OrderChangeService as S4OCS} from './external/S4OrderChangeService';
 service openOrdersSrv {
     @readonly
     entity SAPSystems               as projection on amo_service.SAPSystems;
-
+    @readonly
+    entity PredefReasonComments01 as projection on amo_service.PreDefReasonComments where BucketKey = '01';
+    @readonly
+    entity PredefReasonComments02 as projection on amo_service.PreDefReasonComments where BucketKey = '02';
+    @readonly
+    entity PredefReasonComments03 as projection on amo_service.PreDefReasonComments where BucketKey = '03';
+    @readonly
+    entity PredefReasonComments04 as projection on amo_service.PreDefReasonComments where BucketKey = '04';
+    @readonly
+    entity PredefReasonComments05 as projection on amo_service.PreDefReasonComments where BucketKey = '05';
     @readonly
     entity DCPStatus                as projection on amo_service.DCPStatus;
 
@@ -501,23 +510,15 @@ service openOrdersSrv {
                 REASON_TEXT as ReasonComment
         };
 
-    entity ReasonComments           as
-        select from AMOOUtilsService.APACDelayReasons {
-            key ORDER_NUMBER as SalesOrder,
-            key ITEM_NUMBER  as OrderItem,
-            key BUCKET       as BucketKey,
-            key LANGUAGE     as Language,
-                REASON_CODE  as ReasonCodeKey
-        };
-
     entity ReasonCommentsCloud      as
         select from db_app.ST_APAC_DELAY_REASON_ENTRY {
             key MANDT        as Client,
             key ORDER_NUMBER as SalesOrder,
             key ITEM_NUMBER  as OrderItem,
-            key BUCKET       as BucketKey,
-            key LANGUAGE     as Language,
-                REASON_CODE  as ReasonCodeKey
+            key BUCKET       as BucketKey, 
+                REASON_CODE  as ReasonCodeKey,
+            virtual null                      as BucketText : String(255),
+            virtual null                      as ReasonCodeText : String(255),
         };
     @readonly
     entity PredefFollowupNotes      as
@@ -533,7 +534,8 @@ service openOrdersSrv {
             key POSNR              as OrderItem,
             key PREDEFINED_ID      as FollowupNote,
                 CREATED_AT         as CreatedAt,
-                LAST_FOLLOWUPNOTE_FLAG  as LastFollowupNoteFlag                
+                LAST_FOLLOWUPNOTE_FLAG  as LastFollowupNoteFlag,   
+            virtual null as FollowupNoteText  : String(70)           
         };
 
     entity dueDateLimit             as projection on db_app.DUE_DATE_LIMIT;

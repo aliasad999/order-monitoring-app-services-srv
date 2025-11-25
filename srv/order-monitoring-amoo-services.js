@@ -934,6 +934,18 @@ class openOrdersSrv extends cds.ApplicationService {
                 var dateProps = serviceHelper.getDateProps()
                 data.forEach((item) => {
                     item.id = uuid.v1()
+                    if ( 'SO_FOLLOWUP_NOTES_LANG' in item )
+                        item.SO_FOLLOWUP_NOTES_LANG = serviceHelper.getFollowupNoteText(req,item.SO_FOLLOWUP_NOTES_LANG)
+                    if ('SO_REASON_CODE_01_LANG' in item)
+                        item.SO_REASON_CODE_01_LANG = serviceHelper.getReasonCodeText(req,'01',item.SO_REASON_CODE_01_LANG)
+                    if ('SO_REASON_CODE_02_LANG' in item)
+                        item.SO_REASON_CODE_02_LANG = serviceHelper.getReasonCodeText(req,'02',item.SO_REASON_CODE_02_LANG)
+                    if ('SO_REASON_CODE_03_LANG' in item)
+                        item.SO_REASON_CODE_03_LANG = serviceHelper.getReasonCodeText(req,'03',item.SO_REASON_CODE_03_LANG)
+                    if ('SO_REASON_CODE_04_LANG' in item)
+                        item.SO_REASON_CODE_04_LANG = serviceHelper.getReasonCodeText(req,'04',item.SO_REASON_CODE_04_LANG)
+                    if ('SO_REASON_CODE_05_LANG' in item)
+                        item.SO_REASON_CODE_05_LANG = serviceHelper.getReasonCodeText(req,'05',item.SO_REASON_CODE_05_LANG)
                     if ('SO_NETWR' in item) // Net Amount
                         item.SO_NETWR = formatSpecialCurrencies(item.SO_NETWR, item.SO_WAERK, this._SpecialCurrencies);
                     if ('SO_KBETR' in item) // Price Per Unit
@@ -1292,82 +1304,14 @@ class openOrdersSrv extends cds.ApplicationService {
         });
         // END OF ORDER CREATION VALUE HELPS HANDLERS
 
-        this.on("READ", "PredefReasonBuckets", async req => {
-            let reasonBuckets = [];
-            try {
-                const AMOOService = await cds.connect.to('AMOOUtilsService');
-                reasonBuckets = await AMOOService.tx(req).send({
-                    query: req.query
-                });
-            } catch (error) {
-                req.error(413, error)
-            }
-
-            return reasonBuckets;
-        });
-
-        this.on("READ", "PredefReasonComments", async req => {
-            let predefReasonComments = [];
-            try {
-                const AMOOService = await cds.connect.to('AMOOUtilsService');
-                predefReasonComments = await AMOOService.tx(req).send({
-                    query: req.query
-                });
-            } catch (error) {
-                req.error(413, error)
-            }
-
-            return predefReasonComments;
-        });
-
-
-
-        this.on("READ", "ReasonComments", async req => {
-            let reasonEntries = [];
-            try {
-                const AMOOService = await cds.connect.to('AMOOUtilsService');
-                reasonEntries = await AMOOService.tx(req).send({
-                    query: req.query
-                });
-            } catch (error) {
-                req.error(413, error)
-            }
-
-            return reasonEntries;
-        });
-
-        this.on("CREATE", "ReasonComments", async req => {
-            try {
-                const AMOOService = await cds.connect.to('AMOOUtilsService');
-                let postReq = await AMOOService.tx(req).send({
-                    query: req.query
-                });
-
-                return postReq;
-
-            } catch (error) {
-                req.error(413, error)
-            }
-        });
-
-        this.on("DELETE", "ReasonComments", async req => {
-            try {
-                const AMOOService = await cds.connect.to('AMOOUtilsService');
-                let deleteReq = await AMOOService.tx(req).send({
-                    query: req.query
-                });
-
-                return deleteReq;
-
-            } catch (error) {
-                if (error.reason.response.status === 204) {
-                    // This is not an error, supress it
-                    return null;
-                }
-                req.error(413, error)
-            }
-        });
-
+        this.after('READ','ReasonCommentsCloud', async(data,req)=>{
+            data = Array.isArray(data) ? data : [data]
+            data.forEach((item)=>{
+                item.BucketText = serviceHelper.getBucketText(req, item.BucketKey)
+                item.ReasonCodeText = serviceHelper.getReasonCodeText(req, item.BucketKey,item.ReasonCodeKey)
+            })
+            
+        })
 
         // Adding Flag for latest followup notes 
         this.before("CREATE", "FollowupNotes", async (req) => {
@@ -1401,6 +1345,12 @@ class openOrdersSrv extends cds.ApplicationService {
                     }
 
                 })
+        this.after("READ","FollowupNotes", async(data,req)=>{
+            data = Array.isArray(data) ? data : [data]
+            data.forEach((item)=>{
+                item.FollowupNoteText = serviceHelper.getFollowupNoteText(req,item.FollowupNote )
+            })
+        })
 
         this.on("READ", "ChangeDocSet", async req => {
             let lt_changeDocs = [];
