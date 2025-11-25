@@ -142,10 +142,6 @@ service openOrdersSrv {
                 KWMENG                                      as SO_KWMENG,
                 VRKME                                       as SO_VRKME,
                 EDATU_CONFIRMED_DATE                        as SO_EDATU_CONFIRMED,
-                // case
-                //     when EDATU_CONFIRMED_DATE = '00000000'
-                //     then null
-                //     else EDATU_CONFIRMED_DATE end                              as SO_EDATU_CONFIRMED : Date,
                 KBMENG                                      as SO_KBMENG,
                 UNCONFIRMED_QTY                             as SO_UNCONFIRMED_QTY,
                 REQ_TEXT                                    as SO_REQ_TEXT,
@@ -199,10 +195,6 @@ service openOrdersSrv {
                     ZTERM_ITEM, ZTERM_HEAD
                 )                                           as SO_ZTERM                        : String(4),
                 PRSDT_DATE                                  as SO_PRSDT,
-                // case
-                //     when PRSDT_DATE = '00000000'
-                //     then null
-                //     else PRSDT_DATE end                                  as SO_PRSDT : Date,
                 ZZ0S2REVG2                                  as SO_ZZ0S2REVG2,
                 ZZDKPPRODB                                  as SO_ZZDKPPRODB,
                 BSARK                                       as SO_BSARK,
@@ -342,11 +334,8 @@ service openOrdersSrv {
                 KUNNR                                       as PO_KUNNR,
                 KUNNR_NAME1 || ' ' || KUNNR_NAME2           as PO_KUNNR_NAME                   : String(80),
                 PARTNER_9A_HEAD                             as PO_PARTNER_9A_HEAD,
-                // PARTNER_9A_HEAD_NAME                        as PO_PARTNER_9A_HEAD_NAME,
                 PARTNER_9O_HEAD                             as PO_PARTNER_9O_HEAD,
-                // PARTNER_9O_HEAD_NAME                        as PO_PARTNER_9O_HEAD_NAME,
                 BSART_BATXT                                 as PO_BSART_BATXT,
-                // BSTNK AS SO_BSTNK
                 TRMTYP                                      as DL_TRMTYP,
                 TRMTYP_MAKTX_LANG                           as DL_TRMTYP_MAKTX,
                 ZZ0S2ABGH                                   as DL_ZZ0S2ABGH,
