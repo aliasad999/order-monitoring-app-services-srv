@@ -346,8 +346,10 @@ service openOrdersSrv {
                     else VISTA_STATUS || ' (' || STATUS_REASON_CODE_ELEM || ' - ' || STATUS_REASON_CODE_TEXT_ELEM || ')' 
                 end                                         as  TM_VISTA_STATUS               : String(250),
                 case when ( CURRENT_ETA_VISTA is null or CURRENT_ETA_VISTA = '' or CURRENT_ETA_VISTA = '00000000') then DPTEN else CURRENT_ETA_VISTA end as TM_DPTEN : Date, // ETA
-                case when ( ATA_VISTA is null or ATA_VISTA = '' or ATA_VISTA = '00000000') then DATEN else ATA_VISTA end as TM_DATEN : Date, /// ATA
-                case when ( ATD_VISTA is null or ATD_VISTA = '' or ATD_VISTA = '00000000') then DATBG else ATD_VISTA end as TM_DATBG : Date, /// ATD
+                // case when ( ATA_VISTA is null or ATA_VISTA = '' or ATA_VISTA = '00000000') then DATEN else ATA_VISTA end as TM_DATEN : Date, /// ATA
+                // case when ( ATD_VISTA is null or ATD_VISTA = '' or ATD_VISTA = '00000000') then DATBG else ATD_VISTA end as TM_DATBG : Date, /// ATD
+                TM_DATEN_DATE                               as TM_DATEN,
+                TM_DATBG_DATE                               as TM_DATBG,
                 Z5_PARTNER_ITM                              as SO_Z5_PARTNER,
                 Z5_PARTNER_NAME_ITM                         as SO_Z5_PARTNER_NAME,
                 SB_PARTNER_ITM                              as SO_SB_PARTNER,
