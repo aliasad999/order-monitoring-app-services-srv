@@ -113,7 +113,7 @@ annotate service.BaseEntity with {
     DL_ZZ0S2ABGH                     @title: '{i18n>DL_ZZ0S2ABGH}'                     @sap.Label: '{i18n>DL_ZZ0S2ABGH}';
     DL_ZZ0S2ZIEH                     @title: '{i18n>DL_ZZ0S2ZIEH}'                     @sap.Label: '{i18n>DL_ZZ0S2ZIEH}';
     TM_VISTA_STATUS                  @title: '{i18n>TM_VISTA_STATUS}'                  @sap.Label: '{i18n>TM_VISTA_STATUS}';
-    TM_CURRENT_ETA_VISTA             @title: '{i18n>TM_CURRENT_ETA_VISTA}'             @sap.Label: '{i18n>TM_CURRENT_ETA_VISTA}';
+    TM_DPTEN                         @title: '{i18n>TM_DPTEN}'                         @sap.Label: '{i18n>TM_DPTEN}';
     SO_IHREZ                         @title: '{i18n>SO_IHREZ}'                         @sap.Label: '{i18n>SO_IHREZ}';
     SO_BNAME                         @title: '{i18n>SO_BNAME}'                         @sap.Label: '{i18n>SO_BNAME}';
     SO_LPRIO                         @title: '{i18n>SO_LPRIO}'                         @sap.Label: '{i18n>SO_LPRIO}';

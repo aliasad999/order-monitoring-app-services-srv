@@ -208,13 +208,10 @@ entity ![RESULTS] {
         DPTBG                              : String(8);
         TM_DPTBG_DATE                      : Date = DPTBG;
         DATBG                              : String(8);
-        TM_DATBG_DATE                      : Date = DATBG;
         DPTEN                              : String(8);
-        DPTEN_DATE                      : Date = DPTEN;
         DALBG                              : String(8);
         TM_DALBG_DATE                      : Date = DALBG;
         DATEN                              : String(8);
-        TM_DATEN_DATE                      : Date = DATEN;
         AR_DATE                            : String(8);
         TM_AR_DATE_DATE                    : Date = AR_DATE;
         STTRG                              : String(2);
@@ -379,7 +376,9 @@ entity ![RESULTS] {
         AH_PARTNER_ITM                     : String(8);
         AH_PARTNER_NAME_ITM                : String(80);
         LABST                              : Decimal(13, 3);
-        KVGR5_LANG                         : String(20)
+        KVGR5_LANG                         : String(20);
+        ATA_VISTA                          : String(8);
+        ATD_VISTA                          : String(8);
 }
 
 entity PARTNER_SETTINGS {

@@ -229,7 +229,7 @@ annotate service.OpenOrdersAnalytics with {
     DL_ZZ0S2ABGH                    @UI.Hidden;
     DL_ZZ0S2ZIEH                    @UI.Hidden;
     TM_VISTA_STATUS                 @UI.Hidden;
-    TM_CURRENT_ETA_VISTA            @UI.Hidden;
+    TM_DPTEN                        @UI.Hidden;
     SO_BNAME                        @UI.Hidden;
     SO_IHREZ                        @UI.Hidden;
     SO_LPRIO                        @UI.Hidden;
