@@ -1,0 +1,36 @@
+BucketKey;locale;BucketText
+01;en;Reason Comment SO Confirmation / Delivery
+02;en;Reason Comment Transport Planning
+03;en;Reason Comment GI
+04;en;Reason Comment Documentation
+05;en;Reason Comment Transport Execution
+01;de;Begründung Kommentar SO-Bestätigung / Lieferung
+02;de;Begründung Kommentar Transportplanung
+03;de;Begründung Kommentar Warenausgang
+04;de;Begründung Kommentar Dokumentation
+05;de;Begründung Kommentar Transportausführung
+01;fr;Commentaire de raison Confirmation / Livraison de commande
+02;fr;Commentaire de raison Planification du transport
+03;fr;Commentaire de raison Sortie de marchandises
+04;fr;Commentaire de raison Documentation
+05;fr;Commentaire de raison Exécution du transport
+01;es;Comentario de motivo Confirmación / Entrega del pedido
+02;es;Comentario de motivo Planificación del transporte
+03;es;Comentario de motivo Salida de mercancías
+04;es;Comentario de motivo Documentación
+05;es;Comentario de motivo Ejecución del transporte
+01;pt;Comentário de motivo Confirmação / Entrega do pedido
+02;pt;Comentário de motivo Planejamento de transporte
+03;pt;Comentário de motivo Saída de mercadorias
+04;pt;Comentário de motivo Documentação
+05;pt;Comentário de motivo Execução de transporte
+01;tr;Neden Yorumu Sipariş Onayı / Teslimat
+02;tr;Neden Yorumu Taşıma Planlaması
+03;tr;Neden Yorumu Mal Çıkışı
+04;tr;Neden Yorumu Dokümantasyon
+05;tr;Neden Yorumu Taşıma Gerçekleştirme
+01;it;Commento motivo Conferma / Consegna dell’ordine
+02;it;Commento motivo Pianificazione del trasporto
+03;it;Commento motivo Uscita merci
+04;it;Commento motivo Documentazione
+05;it;Commento motivo Esecuzione del trasporto
