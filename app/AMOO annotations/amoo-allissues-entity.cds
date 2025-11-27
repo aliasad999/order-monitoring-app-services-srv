@@ -328,6 +328,9 @@ annotate service.allIssues with {
     PO_MEINS                        @Semantics.unitOfMeasure: 'unit-of-measure';
     SO_ZMENG                        @Measures.Unit          : SO_ZIEME;
     SO_ZIEME                        @Semantics.unitOfMeasure: 'unit-of-measure';
+    DL_SEEDS_TAGGED_GERM            @Measures.Unit          : DL_SEEDS_TAGGED_GERM_UNIT;
+    DL_SEEDS_TAGGED_GERM_UNIT       @Semantics.unitOfMeasure: 'unit-of-measure';
+    DL_SEEDS_TAGGED_GERM_UNIT       @UI                     : {Hidden: true};
     id                              @UI                     : {Hidden: true};
     SO_DOC_TYP                      @UI                     : {Hidden: true};
     SO_IGNORED                      @UI                     : {Hidden: true};

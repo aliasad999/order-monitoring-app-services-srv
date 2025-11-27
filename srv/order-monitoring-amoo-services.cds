@@ -12,6 +12,8 @@ using allorders.db as amo_service from '../db/order-monitoring-amo-service';
 using {S4OrderChangeService as S4OCS} from './external/S4OrderChangeService';
 
 service openOrdersSrv {
+
+    type PercentageUnit: String default '%';
     @readonly
     entity SAPSystems               as projection on amo_service.SAPSystems;
     @readonly
@@ -464,6 +466,7 @@ service openOrdersSrv {
                 )                                           as SO_ZTERM_VTEXT_LANG             : String(30),
                 SEED_COUNT                                  as DL_SEED_COUNT,
                 SEEDS_TAGGED_GERM                           as DL_SEEDS_TAGGED_GERM,
+                virtual '%'                                 as DL_SEEDS_TAGGED_GERM_UNIT      : PercentageUnit ,
                 XREF3                                       as BL_XREF3,
                 ABLAD                                       as SO_ABLAD,
                 DGSTA                                       as SO_DGSTA,
