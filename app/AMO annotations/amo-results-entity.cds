@@ -318,6 +318,8 @@ annotate service.Results with {
     BL_VRKME_LAST                   @Semantics.unitOfMeasure: 'unit-of-measure';
     BL_NETWR_LAST                   @Measures.ISOCurrency   : BL_WAERK_LAST;
     BL_WAERK_LAST                   @Semantics.currencyCode;
+    SO_COGS_PRICE                   @Measures.ISOCurrency   : SO_COGS_PRICE_UNIT;
+    SO_COGS_PRICE_UNIT              @Semantics.currencyCode;
     SO_CO_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_NY_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_AS_PARTNER_NAME              @UI                     : {Hidden: true};
@@ -393,4 +395,5 @@ annotate service.Results with {
     SO_OM_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_AH_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_KVGR5_TEXT                   @UI                     : {Hidden: true};
+    SO_COGS_PRICE_UNIT              @UI                     : {Hidden: true};
 }
