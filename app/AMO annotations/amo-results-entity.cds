@@ -323,6 +323,8 @@ annotate service.Results with {
     DL_SEEDS_TAGGED_GERM            @Measures.Unit          : DL_SEEDS_TAGGED_GERM_UNIT;
     DL_SEEDS_TAGGED_GERM_UNIT       @Semantics.unitOfMeasure: 'unit-of-measure';
     DL_SEEDS_TAGGED_GERM_UNIT       @UI                     : {Hidden: true};
+    SO_COGS_PRICE                   @Measures.ISOCurrency   : SO_COGS_PRICE_UNIT;
+    SO_COGS_PRICE_UNIT              @Semantics.currencyCode;
     SO_CO_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_NY_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_AS_PARTNER_NAME              @UI                     : {Hidden: true};
@@ -399,4 +401,5 @@ annotate service.Results with {
     SO_AH_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_KVGR5_TEXT                   @UI                     : {Hidden: true};
     SO_ZIEME                        @UI                     : {Hidden: true};
+    SO_COGS_PRICE_UNIT              @UI                     : {Hidden: true};
 }
