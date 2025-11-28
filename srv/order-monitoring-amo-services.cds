@@ -4,7 +4,6 @@ using {CSEUCockpitService as CSEUCockpitService} from './external/CSEUCockpitSer
 
 service srvOpenOrders {
 
-  type PercentageUnit: String default '%';
   @readonly
   entity SAPSystems              as projection on db_app.SAPSystems;
   @readonly
@@ -456,7 +455,6 @@ service srvOpenOrders {
 
           SEED_COUNT                                  as DL_SEED_COUNT,
           SEEDS_TAGGED_GERM                           as DL_SEEDS_TAGGED_GERM,
-          virtual '%'                                 as DL_SEEDS_TAGGED_GERM_UNIT      : PercentageUnit ,
           XREF3                                       as BL_XREF3,
           ABLAD                                       as SO_ABLAD,
           DGSTA                                       as SO_DGSTA,
