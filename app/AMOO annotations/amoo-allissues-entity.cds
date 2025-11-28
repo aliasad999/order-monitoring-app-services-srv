@@ -326,6 +326,10 @@ annotate service.allIssues with {
     BL_WAERK_LAST                   @Semantics.currencyCode;
     PO_MENGE                        @Measures.Unit          : PO_MEINS;
     PO_MEINS                        @Semantics.unitOfMeasure: 'unit-of-measure';
+    SO_ZMENG                        @Measures.Unit          : SO_ZIEME;
+    SO_ZIEME                        @Semantics.unitOfMeasure: 'unit-of-measure';
+    SO_COGS_PRICE                   @Measures.ISOCurrency   : SO_COGS_PRICE_UNIT;
+    SO_COGS_PRICE_UNIT              @Semantics.currencyCode;
     id                              @UI                     : {Hidden: true};
     SO_DOC_TYP                      @UI                     : {Hidden: true};
     SO_IGNORED                      @UI                     : {Hidden: true};
@@ -412,4 +416,6 @@ annotate service.allIssues with {
     SO_OM_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_AH_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_KVGR5_TEXT                   @UI                     : {Hidden: true};
+    SO_ZIEME                        @UI                     : {Hidden: true};
+    SO_COGS_PRICE_UNIT              @UI                     : {Hidden: true};
 }

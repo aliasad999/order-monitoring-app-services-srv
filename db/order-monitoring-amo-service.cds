@@ -351,8 +351,8 @@ entity ![RESULTS] {
         ZZMHDRZ                            : Decimal(4);
         ZTERM_HEAD_VTEXT_LANG              : String(30);
         ZTERM_ITEM_VTEXT_LANG              : String(30);
-        SEED_COUNT                         : Decimal(31, 14);
-        SEEDS_TAGGED_GERM                  : Decimal(31, 14);
+        SEED_COUNT                         : Decimal(31, 2);
+        SEEDS_TAGGED_GERM                  : Decimal(31, 2);
         XREF3                              : String(20);
         ABLAD                              : String(25);
         DGSTA                              : String(1);
@@ -388,6 +388,10 @@ entity ![RESULTS] {
         KVGR5_LANG                         : String(20);
         // ATA_VISTA                          : String(8);
         // ATD_VISTA                          : String(8);
+        ZMENG                              : Decimal(13,3); // Target Quantity
+        ZIEME                              : String(3); // Target Quantity Unit
+        COGS_PRICE                         : Decimal(15,2);
+        COGS_PRICE_UNIT                    : String(5);
 }
 
 entity PARTNER_SETTINGS {
