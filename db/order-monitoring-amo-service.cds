@@ -386,8 +386,8 @@ entity ![RESULTS] {
         AH_PARTNER_NAME_ITM                : String(80);
         LABST                              : Decimal(13, 3);
         KVGR5_LANG                         : String(20);
-        // ATA_VISTA                          : String(8);
-        // ATD_VISTA                          : String(8);
+        ATA_VISTA                          : String(8);
+        ATD_VISTA                          : String(8);
         ZMENG                              : Decimal(13,3); // Target Quantity
         ZIEME                              : String(3); // Target Quantity Unit
         COGS_PRICE                         : Decimal(15,2);
