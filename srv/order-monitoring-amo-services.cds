@@ -492,8 +492,6 @@ service srvOpenOrders {
           KVGR5_LANG                                  as SO_KVGR5_TEXT,
           ZMENG                                       as SO_ZMENG, // Target Quantity
           ZIEME                                       as SO_ZIEME, // Target Quantity Unit
-          COGS_PRICE                                  as SO_COGS_PRICE,
-          COGS_PRICE_UNIT                             as SO_COGS_PRICE_UNIT
 
     };
 
