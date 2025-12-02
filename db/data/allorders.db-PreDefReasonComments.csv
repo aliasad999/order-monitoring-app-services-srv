@@ -1,5 +1,5 @@
 BucketKey;ReasonCodeKey;ReasonComment
-01;01;Pending Allocation / No Quota
+01;01;Pending Allocation /  PM Allocation / No Quota
 01;02;Insufficient Stock/Raw Material Shortage
 01;03;Production Delayed
 01;04;Non-Forecasted Order
@@ -10,6 +10,18 @@ BucketKey;ReasonCodeKey;ReasonComment
 01;09;BRM Block
 01;10;Pending LC 
 01;11;Others
+01;12;MDB block: Pending Import Permit
+01;13;Pending customer confirmation for delivery/batch
+01;14;Pending production / Material readiness
+01;15;Order qty below MPQ
+01;16;Missing PMM / ICTP
+01;17;Missing route
+01;18;Missing PAL / ATP maintenance
+01;19;Pending Combine / Complete delivery
+01;20;Not due for allocation
+01;21;3rd party order, order to be allocated near vessel departure (EV)
+01;22;Requested date to warehouse delayed
+01;23;Stock in transit
 02;01;Vessel Space Issue
 02;02;Container unavailable
 02;03;Pending Spot Rate / Airfreight Approval
@@ -36,16 +48,16 @@ BucketKey;ReasonCodeKey;ReasonComment
 03;09;Picking Qty
 03;10;Pending loading
 03;11;MAD delayed
-04;01;Wrong Pricing
-04;02;LC Discrepancy
-04;03;Vessel delay/roll over
-04;04;Pending release from POL
-04;05;Pending collection from carriers
-04;06;Pending Trade Documentation
-04;07;Pending FTA form / COO
-04;08;Pending other documents
-04;09;Others
-04;10;B/L Amendment
+04;01;B/L Amendment
+04;02;Wrong Pricing
+04;03;LC Discrepancy
+04;04;Vessel delay/roll over
+04;05;Pending release from POL
+04;06;Pending collection from carriers
+04;07;Pending Trade Documentation
+04;08;Pending FTA form / COO
+04;09;Pending other documents
+04;10;Others
 04;11;Pending health cert, BRC(IN-from QM Team SE), tank cleanning cert, etc
 04;12;Pending PD
 04;13;Pending MI
@@ -56,16 +68,16 @@ BucketKey;ReasonCodeKey;ReasonComment
 04;18;Invoice cancellation - Incoterm, billing date, etc
 04;19;Pending vessel arrival - for merch-through orders pending for invoice
 04;20;Consolidated Invoice
-05;01;Port omitted / vessel rerouted
-05;02;Vessel delay
-05;03;Port Related Issues (congestion, strike / low water level, etc)
-05;04;Weather related issues
-05;05;Force majeure 
-05;06;Missed cut-off (Documentation, Material delay, Quantity incomplete)
-05;07;Pre-carriage delay - Rail , Truck
-05;08;DG late approval or cancellation of DG
-05;09;Change of destination
-05;10;Others
-05;11;Rollover / Re-booking
+05;01;Rollover / Re-booking
+05;02;Port omitted / vessel rerouted
+05;03;Vessel delay
+05;04;Port Related Issues (congestion, strike / low water level, etc)
+05;05;Weather related issues
+05;06;Force majeure 
+05;07;Missed cut-off (Documentation, Material delay, Quantity incomplete)
+05;08;Pre-carriage delay - Rail , Truck
+05;09;DG late approval or cancellation of DG
+05;10;Change of destination
+05;11;Others
 05;12;General reason - Due to unforeseebale event at sea 
 05;13;All type of strike 
