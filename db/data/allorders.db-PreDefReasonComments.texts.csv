@@ -545,7 +545,7 @@ BucketKey;ReasonCodeKey;locale;ReasonComment
 05;09;it;Approvazione DG in ritardo o cancellazione del DG 
 05;10;it;Cambio di destinazione 
 05;11;it;Altri 
-05;16;it;PMM / ICTP mancante
+05;12;it;Ragione generale - A causa di un evento imprevedibile in mare
 05;01;pt;Rollover / Re-reserva 
 05;02;pt;Porto omitido / navio redirecionado 
 05;03;pt;Atraso do navio 
