@@ -106,7 +106,8 @@ BucketKey;ReasonCodeKey;locale;ReasonComment
 01;13;it;Conferma cliente in sospeso per consegna/lotto 
 01;14;it;Produzione in sospeso / Disponibilità del materiale 
 01;15;it;Quantità d'ordine inferiore a MPQ 
-01;16;it;PMM / ICTP mancante 01;17;it;Percorso mancante 
+01;16;it;PMM / ICTP mancante 
+01;17;it;Percorso mancante 
 01;18;it;PAL mancante / Manutenzione ATP 
 01;19;it;Combinazione / Consegna completa in sospeso 
 01;20;it;Non ancora soggetto ad assegnazione 
@@ -126,7 +127,8 @@ BucketKey;ReasonCodeKey;locale;ReasonComment
 01;11;pt;Outros 
 01;12;pt;Bloqueio MDB: Licença de importação pendente 
 01;13;pt;Confirmação do cliente pendente para entrega/lote 
-01;14;pt;Produção pendente / Disponibilidade de material 01;15;pt;Quantidade do pedido abaixo do MPQ 
+01;14;pt;Produção pendente / Disponibilidade de material 
+01;15;pt;Quantidade do pedido abaixo do MPQ 
 01;16;pt;PMM / ICTP ausente 
 01;17;pt;Rota ausente 
 01;18;pt;PAL ausente / Manutenção ATP 
