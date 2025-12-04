@@ -319,8 +319,6 @@ annotate service.Results with {
     BL_WAERK_LAST                   @Semantics.currencyCode;
     SO_ZMENG                        @Measures.Unit          : SO_ZIEME;
     SO_ZIEME                        @Semantics.unitOfMeasure: 'unit-of-measure';
-    SO_COGS_PRICE                   @Measures.ISOCurrency   : SO_COGS_PRICE_UNIT;
-    SO_COGS_PRICE_UNIT              @Semantics.currencyCode;
     SO_CO_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_NY_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_AS_PARTNER_NAME              @UI                     : {Hidden: true};
@@ -395,5 +393,4 @@ annotate service.Results with {
     SO_AH_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_KVGR5_TEXT                   @UI                     : {Hidden: true};
     SO_ZIEME                        @UI                     : {Hidden: true};
-    SO_COGS_PRICE_UNIT              @UI                     : {Hidden: true};
 }

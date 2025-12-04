@@ -390,8 +390,6 @@ entity ![RESULTS] {
         ATD_VISTA                          : String(8);
         ZMENG                              : Decimal(13,3); // Target Quantity
         ZIEME                              : String(3); // Target Quantity Unit
-        COGS_PRICE                         : Decimal(15,2);
-        COGS_PRICE_UNIT                    : String(5);
 }
 
 entity PARTNER_SETTINGS {
