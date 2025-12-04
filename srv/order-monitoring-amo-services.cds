@@ -333,9 +333,7 @@ service srvOpenOrders {
           ZZ0S2ABGH                                   as DL_ZZ0S2ABGH,
           ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH,
           LPRIO                                       as SO_LPRIO,
-          case when (STATUS_REASON_CODE_ELEM    is null or STATUS_REASON_CODE_ELEM =  '' ) then VISTA_STATUS 
-            else VISTA_STATUS || ' (' || STATUS_REASON_CODE_ELEM || ' - ' || STATUS_REASON_CODE_TEXT_ELEM || ')' 
-          end                                         as  TM_VISTA_STATUS               : String(250),
+          VISTA_STATUS                                as TM_VISTA_STATUS,
           case when ( CURRENT_ETA_VISTA is null or CURRENT_ETA_VISTA = '' or CURRENT_ETA_VISTA = '00000000') then DPTEN else CURRENT_ETA_VISTA end as TM_DPTEN : Date, // ETA
           case when ( ATA_VISTA is null or ATA_VISTA = '' or ATA_VISTA = '00000000') then DATEN else ATA_VISTA end as TM_DATEN : Date, /// ATA
           case when ( ATD_VISTA is null or ATD_VISTA = '' or ATD_VISTA = '00000000') then DATBG else ATD_VISTA end as TM_DATBG : Date, /// ATD
