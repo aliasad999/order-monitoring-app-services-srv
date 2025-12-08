@@ -325,6 +325,7 @@ service srvOpenOrders {
           F_MBDAT_DATE                                as SO_F_MBDAT,
           PERFK                                       as SO_PERFK,
           PERFK_LTEXT_LANG                            as SO_PERFK_LTEXT_LANG,
+          SO_FKDAT_DATE                               as SO_FKDAT,
           EBELN                                       as PO_EBELN,
           EBELP                                       as PO_EBELP,
           case

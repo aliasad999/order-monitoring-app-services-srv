@@ -138,11 +138,6 @@ annotate service.Results with {
     SO_DCP_ITEM_STATUS          @title: '{i18n>SO_DCP_ITEM_STATUS}'               @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
     @Common.TextFor
     SO_DCP_ITEM_STATUS_DESCRIPTION;
-    @Common.Text           : SO_PERFK_LTEXT_LANG
-    @Common.TextArrangement: #TextFirst
-    SO_PERFK                    @title: '{i18n>SO_PERFK}'                         @sap.Label: '{i18n>SO_PERFK}';
-    @Common.TextFor
-    SO_PERFK_LTEXT_LANG;
     @Common.Text           : PO_EKOTX
     @Common.TextArrangement: #TextFirst
     PO_EKORG                    @title: '{i18n>PO_EKORG}'                         @sap.Label: '{i18n>PO_EKORG}';
