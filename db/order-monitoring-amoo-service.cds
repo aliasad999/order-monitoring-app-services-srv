@@ -567,8 +567,6 @@ entity ![SALESORDER_DETAILS](IP_LANG: String(2)) {
             ABRDT_DATE             : Date = ABRDT;
             MTVFP                  : String(2);
             PERFK                  : String(2);
-            FKDAT                  : String(8);
-            SO_FKDAT_DATE          : Date = FKDAT;
 }
 
 @cds.persistence.exists
