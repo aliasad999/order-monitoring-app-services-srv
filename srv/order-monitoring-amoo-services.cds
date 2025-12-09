@@ -36,7 +36,7 @@ service openOrdersSrv {
     entity currencies               as projection on db_app.currency;
 
 
-    entity rootEntity               as
+    entity baseEntity               as
         select from db_app.OPENORDERSLIST {
             key null                                        as id                              : UUID,
                 MANDT                                       as SO_MANDT,
@@ -151,10 +151,6 @@ service openOrdersSrv {
                 KWMENG                                      as SO_KWMENG,
                 VRKME                                       as SO_VRKME,
                 EDATU_CONFIRMED_DATE                        as SO_EDATU_CONFIRMED,
-                // case
-                //     when EDATU_CONFIRMED_DATE = '00000000'
-                //     then null
-                //     else EDATU_CONFIRMED_DATE end                              as SO_EDATU_CONFIRMED : Date,
                 KBMENG                                      as SO_KBMENG,
                 UNCONFIRMED_QTY                             as SO_UNCONFIRMED_QTY,
                 REQ_TEXT                                    as SO_REQ_TEXT,
@@ -208,10 +204,6 @@ service openOrdersSrv {
                     ZTERM_ITEM, ZTERM_HEAD
                 )                                           as SO_ZTERM                        : String(4),
                 PRSDT_DATE                                  as SO_PRSDT,
-                // case
-                //     when PRSDT_DATE = '00000000'
-                //     then null
-                //     else PRSDT_DATE end                                  as SO_PRSDT : Date,
                 ZZ0S2REVG2                                  as SO_ZZ0S2REVG2,
                 ZZDKPPRODB                                  as SO_ZZDKPPRODB,
                 BSARK                                       as SO_BSARK,
@@ -278,28 +270,10 @@ service openOrdersSrv {
                 VSART_BEZEI_LANG                            as TM_VSART_BEZEI,
                 EXTI1                                       as TM_EXTI1,
                 DPTBG_DATE                                  as TM_DPTBG,
-                DATBG_DATE                                  as TM_DATBG,
-                DPTEN_DATE                                  as TM_DPTEN,
                 DALBG_DATE                                  as TM_DALBG,
-                DATEN_DATE                                  as TM_DATEN,
                 AR_DATE_DATE                                as TM_AR_DATE,
                 TDLNR                                       as TM_TDLNR,
-                TDLNR_NAME1                                 as TM_TDLNR_NAME1,
-                @UI.Hidden: true
-                case
-                    when STATUS_REASON_CODE_TEXT_ELEM = ''
-                         or STATUS_REASON_CODE_TEXT_ELEM is null
-                         then STATUS_CODE_TEXT_ELEM
-                    else STATUS_CODE_TEXT_ELEM || ' (' || STATUS_REASON_CODE_ELEM || ' - ' || STATUS_REASON_CODE_TEXT_ELEM || ')'
-                end                                         as TM_SHIPMENT_CURRENT_STATUS_ELEM : String(250),
-                @UI.Hidden: true
-                case
-                    when REASON_CODE_TEXT_COMP = ''
-                         or REASON_CODE_TEXT_COMP is null
-                         then STATUS_CODE_TEXT_COMP
-                    else STATUS_CODE_TEXT_COMP || ' (' || REASON_CODE_COMP || ' - ' || REASON_CODE_TEXT_COMP || ')'
-                end                                         as TM_SHIPMENT_CURRENT_STATUS_COMP : String(250),
-                
+                TDLNR_NAME1                                 as TM_TDLNR_NAME1,                
                 TRACKING_ID_ELEM                            as TM_TRACKING_ID_ELEM,
                 TRACKING_ID_COMP                            as TM_TRACKING_ID_COMP,
                 STTRG                                       as TM_STTRG,
@@ -369,26 +343,19 @@ service openOrdersSrv {
                 KUNNR                                       as PO_KUNNR,
                 KUNNR_NAME1 || ' ' || KUNNR_NAME2           as PO_KUNNR_NAME                   : String(80),
                 PARTNER_9A_HEAD                             as PO_PARTNER_9A_HEAD,
-                // PARTNER_9A_HEAD_NAME                        as PO_PARTNER_9A_HEAD_NAME,
                 PARTNER_9O_HEAD                             as PO_PARTNER_9O_HEAD,
-                // PARTNER_9O_HEAD_NAME                        as PO_PARTNER_9O_HEAD_NAME,
                 BSART_BATXT                                 as PO_BSART_BATXT,
-                // BSTNK AS SO_BSTNK
                 TRMTYP                                      as DL_TRMTYP,
                 TRMTYP_MAKTX_LANG                           as DL_TRMTYP_MAKTX,
                 ZZ0S2ABGH                                   as DL_ZZ0S2ABGH,
                 ZZ0S2ZIEH                                   as DL_ZZ0S2ZIEH,
                 LPRIO                                       as SO_LPRIO,
-                 case
-                when (
-                   STATUS_REASON_CODE_ELEM    is not null
-                   or STATUS_REASON_CODE_ELEM !=  ''
-                 )
-                 then VISTA_STATUS || ' (' || STATUS_REASON_CODE_ELEM || ' - ' || STATUS_REASON_CODE_TEXT_ELEM || ')' 
-                else VISTA_STATUS
-                end                                         as  TM_VISTA_STATUS               : String(250),
-                CURRENT_ETA_VISTA_DATE                      as TM_CURRENT_ETA_VISTA,
-                // Euan's changes
+                VISTA_STATUS                                as TM_VISTA_STATUS,
+                case when ( CURRENT_ETA_VISTA is null or CURRENT_ETA_VISTA = '' or CURRENT_ETA_VISTA = '00000000') then DPTEN else CURRENT_ETA_VISTA end as TM_DPTEN : Date, // ETA
+                case when ( ATA_VISTA is null or ATA_VISTA = '' or ATA_VISTA = '00000000') then DATEN else ATA_VISTA end as TM_DATEN : Date, /// ATA
+                case when ( ATD_VISTA is null or ATD_VISTA = '' or ATD_VISTA = '00000000') then DATBG else ATD_VISTA end as TM_DATBG : Date, /// ATD
+                // TM_DATEN_DATE                               as TM_DATEN, /// SAP ATA
+                // TM_DATBG_DATE                               as TM_DATBG, /// SAP ATD
                 Z5_PARTNER_ITM                              as SO_Z5_PARTNER,
                 Z5_PARTNER_NAME_ITM                         as SO_Z5_PARTNER_NAME,
                 SB_PARTNER_ITM                              as SO_SB_PARTNER,
@@ -399,7 +366,6 @@ service openOrdersSrv {
                 IFNULL(
                     AD_PARTNER_NAME_ITM, AD_PARTNER_NAME_HEAD
                 )                                           as SO_AD_PARTNER_NAME              : String(40),
-                // End of Euan's changes
                 BNAME                                       as SO_BNAME,
                 IHREZ                                       as SO_IHREZ,
                 AUGRU                                       as SO_AUGRU,
@@ -506,20 +472,12 @@ service openOrdersSrv {
                 KVGR5_LANG                                  as SO_KVGR5_TEXT,
                 ZMENG                                       as SO_ZMENG, // Target Quantity
                 ZIEME                                       as SO_ZIEME, // Target Quantity Unit
-        }
 
-    entity baseEntity               as
-        projection on rootEntity {
-            *,
-            IFNULL(
-                TM_SHIPMENT_CURRENT_STATUS_ELEM, TM_SHIPMENT_CURRENT_STATUS_COMP
-            ) as TM_SHIPMENT_CURRENT_STATUS : String(250)
-        }
+    }
 
 
     @readonly
     entity allIssues                as projection on baseEntity;
-
     entity allIssuesDetails         as projection on allIssues;
     entity valueHelps               as projection on baseEntity;
     // entity unrestrictedUser  as projection on db_app.UNRESTRICTED_USER;

@@ -59,11 +59,8 @@ annotate service.BaseEntity with {
     LAST_NOTE_FROMORDERCHAIN         @title: '{i18n>LAST_NOTE_FROMORDERCHAIN}'         @sap.Label: '{i18n>LAST_NOTE_FROMORDERCHAIN}';
     TM_TKNUM                         @title: '{i18n>TM_TKNUM}'                         @sap.Label: '{i18n>TM_TKNUM}'            @Common.IsDigitSequence: true;
     TM_EXTI1                         @title: '{i18n>TM_EXTI1}'                         @sap.Label: '{i18n>TM_EXTI1}';
-    TM_TRACKING_ID_COMP              @title: '{i18n>TM_TRACKING_ID_COMP}'              @sap.Label: '{i18n>TM_TRACKING_ID_COMP}';
-    TM_TRACKING_ID_ELEM              @title: '{i18n>TM_TRACKING_ID_ELEM}'              @sap.Label: '{i18n>TM_TRACKING_ID_ELEM}';
     TM_DPTBG                         @title: '{i18n>TM_DPTBG}'                         @sap.Label: '{i18n>TM_DPTBG}';
     TM_DATBG                         @title: '{i18n>TM_DATBG}'                         @sap.Label: '{i18n>TM_DATBG}';
-    TM_DPTEN                         @title: '{i18n>TM_DPTEN}'                         @sap.Label: '{i18n>TM_DPTEN}';
     TM_DALBG                         @title: '{i18n>TM_DALBG}'                         @sap.Label: '{i18n>TM_DALBG}';
     TM_DATEN                         @title: '{i18n>TM_DATEN}'                         @sap.Label: '{i18n>TM_DATEN}';
     TM_AR_DATE                       @title: '{i18n>TM_AR_DATE}'                       @sap.Label: '{i18n>TM_AR_DATE}';
@@ -116,7 +113,7 @@ annotate service.BaseEntity with {
     DL_ZZ0S2ABGH                     @title: '{i18n>DL_ZZ0S2ABGH}'                     @sap.Label: '{i18n>DL_ZZ0S2ABGH}';
     DL_ZZ0S2ZIEH                     @title: '{i18n>DL_ZZ0S2ZIEH}'                     @sap.Label: '{i18n>DL_ZZ0S2ZIEH}';
     TM_VISTA_STATUS                  @title: '{i18n>TM_VISTA_STATUS}'                  @sap.Label: '{i18n>TM_VISTA_STATUS}';
-    TM_CURRENT_ETA_VISTA             @title: '{i18n>TM_CURRENT_ETA_VISTA}'             @sap.Label: '{i18n>TM_CURRENT_ETA_VISTA}';
+    TM_DPTEN                         @title: '{i18n>TM_DPTEN}'                         @sap.Label: '{i18n>TM_DPTEN}';
     SO_IHREZ                         @title: '{i18n>SO_IHREZ}'                         @sap.Label: '{i18n>SO_IHREZ}';
     SO_BNAME                         @title: '{i18n>SO_BNAME}'                         @sap.Label: '{i18n>SO_BNAME}';
     SO_LPRIO                         @title: '{i18n>SO_LPRIO}'                         @sap.Label: '{i18n>SO_LPRIO}';
