@@ -351,7 +351,7 @@ service openOrdersSrv {
                 ERDAT_DEL_DATE                              as DL_ERDAT,
                 LDDAT_DEL_DATE                              as DL_LDDAT,
                 F_MBDAT_DATE                                as SO_F_MBDAT,
-                PERFK                                       as SO_PERFK,
+                PERFK || ' ' ||     PERFK_LTEXT_LANG        as SO_PERFK : String(52),
                 PERFK_LTEXT_LANG                            as SO_PERFK_LTEXT_LANG,
                 SO_FKDAT_DATE                               as SO_FKDAT,
                 EBELN                                       as PO_EBELN,
