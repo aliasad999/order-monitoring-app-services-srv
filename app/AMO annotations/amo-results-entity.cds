@@ -2,7 +2,6 @@ using srvOpenOrders as service from '../../srv/order-monitoring-amo-services.cds
 
 /// FIELD ANNOTATIONS unique to Results entity (e.g. Text arrangement)
 annotate service.Results with {
-    TM_SHIPMENT_CURRENT_STATUS  @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'       @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
     @Common.Text           : SO_LANDX
     @Common.TextArrangement: #TextFirst
     SO_LAND1;
@@ -138,11 +137,6 @@ annotate service.Results with {
     SO_DCP_ITEM_STATUS          @title: '{i18n>SO_DCP_ITEM_STATUS}'               @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
     @Common.TextFor
     SO_DCP_ITEM_STATUS_DESCRIPTION;
-    @Common.Text           : SO_PERFK_LTEXT_LANG
-    @Common.TextArrangement: #TextFirst
-    SO_PERFK                    @title: '{i18n>SO_PERFK}'                         @sap.Label: '{i18n>SO_PERFK}';
-    @Common.TextFor
-    SO_PERFK_LTEXT_LANG;
     @Common.Text           : PO_EKOTX
     @Common.TextArrangement: #TextFirst
     PO_EKORG                    @title: '{i18n>PO_EKORG}'                         @sap.Label: '{i18n>PO_EKORG}';
@@ -318,6 +312,8 @@ annotate service.Results with {
     BL_VRKME_LAST                   @Semantics.unitOfMeasure: 'unit-of-measure';
     BL_NETWR_LAST                   @Measures.ISOCurrency   : BL_WAERK_LAST;
     BL_WAERK_LAST                   @Semantics.currencyCode;
+    SO_ZMENG                        @Measures.Unit          : SO_ZIEME;
+    SO_ZIEME                        @Semantics.unitOfMeasure: 'unit-of-measure';
     SO_CO_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_NY_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_AS_PARTNER_NAME              @UI                     : {Hidden: true};
@@ -351,9 +347,7 @@ annotate service.Results with {
     SO_WAERS                        @UI                     : {Hidden: true};
     SO_KMEIN                        @UI                     : {Hidden: true};
     SO_WAERK                        @UI                     : {Hidden: true};
-    TM_TRACKING_ID_COMP             @UI                     : {Hidden: true};
     DL_VGBEL                        @UI                     : {Hidden: true};
-    TM_TRACKING_ID_ELEM             @UI                     : {Hidden: true};
     DL_TRMTYP_MAKTX                 @UI                     : {Hidden: true};
     DL_VGPOS                        @UI                     : {Hidden: true};
     DL_POSAR                        @UI                     : {Hidden: true};
@@ -393,4 +387,5 @@ annotate service.Results with {
     SO_OM_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_AH_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_KVGR5_TEXT                   @UI                     : {Hidden: true};
+    SO_ZIEME                        @UI                     : {Hidden: true};
 }

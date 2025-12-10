@@ -126,17 +126,13 @@ annotate service.baseEntity with {
     TM_EXTI1                         @title: '{i18n>TM_EXTI1}'                         @sap.Label: '{i18n>TM_EXTI1}';
     TM_DPTBG                         @title: '{i18n>TM_DPTBG}'                         @sap.Label: '{i18n>TM_DPTBG}'              @sap.filter.restriction: 'interval';
     TM_DATBG                         @title: '{i18n>TM_DATBG}'                         @sap.Label: '{i18n>TM_DATBG}'              @sap.filter.restriction: 'interval';
-    TM_DPTEN                         @title: '{i18n>TM_DPTEN}'                         @sap.Label: '{i18n>TM_DPTEN}'              @sap.filter.restriction: 'interval';
     TM_DALBG                         @title: '{i18n>TM_DALBG}'                         @sap.Label: '{i18n>TM_DALBG}'              @sap.filter.restriction: 'interval';
     TM_DATEN                         @title: '{i18n>TM_DATEN}'                         @sap.Label: '{i18n>TM_DATEN}'              @sap.filter.restriction: 'interval';
     TM_AR_DATE                       @title: '{i18n>TM_AR_DATE}'                       @sap.Label: '{i18n>TM_AR_DATE}'            @sap.filter.restriction: 'interval';
     TM_TDLNR                         @title: '{i18n>TM_TDLNR}'                         @sap.Label: '{i18n>TM_TDLNR}'              @Common.IsDigitSequence: true;
     TM_TDLNR_NAME1                   @title: '{i18n>TM_TDLNR_NAME1}'                   @sap.Label: '{i18n>TM_TDLNR_NAME1}';
-    TM_TRACKING_ID_COMP              @title: '{i18n>TM_TRACKING_ID_COMP}'              @sap.Label: '{i18n>TM_TRACKING_ID_COMP}';
-    TM_TRACKING_ID_ELEM              @title: '{i18n>TM_TRACKING_ID_ELEM}'              @sap.Label: '{i18n>TM_TRACKING_ID_ELEM}';
     TM_STTRG                         @title: '{i18n>TM_STTRG}'                         @sap.Label: '{i18n>TM_STTRG}';
     TM_STTRG_DDTEXT                  @title: '{i18n>TM_STTRG_DDTEXT}'                  @sap.Label: '{i18n>TM_STTRG_DDTEXT}';
-    TM_SHIPMENT_CURRENT_STATUS       @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'       @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
     SO_NPS                           @title: '{i18n>SO_NPS}'                           @sap.Label: '{i18n>SO_NPS}';
     SO_NPS_DESCRIPTION               @title: '{i18n>SO_NPS}'                           @sap.Label: '{i18n>SO_NPS}';
     SO_ISSUE                         @title: '{i18n>SO_ISSUE}'                         @sap.Label: '{i18n>SO_ISSUE}';
@@ -179,7 +175,8 @@ annotate service.baseEntity with {
     DL_ERDAT                         @title: '{i18n>DL_ERDAT}'                         @sap.Label: '{i18n>DL_ERDAT}'              @sap.filter.restriction: 'interval';
     DL_LDDAT                         @title: '{i18n>DL_LDDAT}'                         @sap.Label: '{i18n>DL_LDDAT}'              @sap.filter.restriction: 'interval';
     SO_PERFK                         @title: '{i18n>SO_PERFK}'                         @sap.Label: '{i18n>SO_PERFK}';
-    SO_PERFK_LTEXT_LANG              @title: '{i18n>SO_PERFK}'                         @sap.Label: '{i18n>SO_PERFK}';
+    SO_PERFK_LTEXT_LANG              @title: '{i18n>SO_PERFK_LTEXT_LANG}'              @sap.Label: '{i18n>SO_PERFK_LTEXT_LANG}';
+    SO_FKDAT                         @title: '{i18n>SO_FKDAT}'                         @sap.Label: '{i18n>SO_FKDAT}'              @sap.filter.restriction: 'interval';
     SO_F_MBDAT                       @title: '{i18n>SO_F_MBDAT}'                       @sap.Label: '{i18n>SO_F_MBDAT}'            @sap.filter.restriction: 'interval';
     DL_POSNR_BATCH                   @title: '{i18n>DL_POSNR_BATCH}'                   @sap.Label: '{i18n>DL_POSNR_BATCH}';
     DL_LFIMG_BATCH                   @title: '{i18n>DL_LFIMG_BATCH}'                   @sap.Label: '{i18n>DL_LFIMG_BATCH}';
@@ -230,7 +227,7 @@ annotate service.baseEntity with {
     DL_ZZ0S2ABGH                     @title: '{i18n>DL_ZZ0S2ABGH}'                     @sap.Label: '{i18n>DL_ZZ0S2ABGH}';
     DL_ZZ0S2ZIEH                     @title: '{i18n>DL_ZZ0S2ZIEH}'                     @sap.Label: '{i18n>DL_ZZ0S2ZIEH}';
     TM_VISTA_STATUS                  @title: '{i18n>TM_VISTA_STATUS}'                  @sap.Label: '{i18n>TM_VISTA_STATUS}';
-    TM_CURRENT_ETA_VISTA             @title: '{i18n>TM_CURRENT_ETA_VISTA}'             @sap.Label: '{i18n>TM_CURRENT_ETA_VISTA}'  @sap.filter.restriction: 'interval';
+    TM_DPTEN                         @title: '{i18n>TM_DPTEN}'                         @sap.Label: '{i18n>TM_DPTEN}'  @sap.filter.restriction: 'interval';
     SO_BNAME                         @title: '{i18n>SO_BNAME}'                         @sap.Label: '{i18n>SO_BNAME}';
     SO_IHREZ                         @title: '{i18n>SO_IHREZ}'                         @sap.Label: '{i18n>SO_IHREZ}';
     SO_LPRIO                         @title: '{i18n>SO_LPRIO}'                         @sap.Label: '{i18n>SO_LPRIO}';
@@ -294,4 +291,6 @@ annotate service.baseEntity with {
     SO_AH_PARTNER_NAME               @title: '{i18n>SO_AH_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AH_PARTNER_NAME}';
     SO_LABST                         @title: '{i18n>SO_LABST}'                         @sap.Label: '{i18n>SO_LABST}';
     SO_KVGR5_TEXT                    @title: '{i18n>SO_KVGR5_TEXT}'                    @sap.Label: '{i18n>SO_KVGR5_TEXT}';
+    SO_ZMENG                         @title: '{i18n>SO_ZMENG}'                         @sap.Label: '{i18n>SO_ZMENG}';
+    SO_ZIEME                         @title: '{i18n>SO_ZIEME}'                         @sap.Label: '{i18n>SO_ZIEME}';
 };

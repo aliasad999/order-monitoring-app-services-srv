@@ -147,11 +147,6 @@ annotate service.allIssues with {
     SO_MDB                   @title: '{i18n>SO_MDB}'                           @sap.Label: '{i18n>SO_MDB}';
     @Common.TextFor
     SO_MDB_TEXT;
-    @Common.Text           : SO_PERFK_LTEXT_LANG
-    @Common.TextArrangement: #TextLast
-    SO_PERFK                 @title: '{i18n>SO_PERFK}'                         @sap.Label: '{i18n>SO_PERFK}';
-    @Common.TextFor
-    SO_PERFK_LTEXT_LANG;
     @Common.Text           : PO_KUNNR_NAME
     @Common.TextArrangement: #TextLast
     PO_KUNNR                 @title: '{i18n>PO_KUNNR}'                         @sap.Label: '{i18n>PO_KUNNR}';
@@ -326,6 +321,8 @@ annotate service.allIssues with {
     BL_WAERK_LAST                   @Semantics.currencyCode;
     PO_MENGE                        @Measures.Unit          : PO_MEINS;
     PO_MEINS                        @Semantics.unitOfMeasure: 'unit-of-measure';
+    SO_ZMENG                        @Measures.Unit          : SO_ZIEME;
+    SO_ZIEME                        @Semantics.unitOfMeasure: 'unit-of-measure';
     id                              @UI                     : {Hidden: true};
     SO_DOC_TYP                      @UI                     : {Hidden: true};
     SO_IGNORED                      @UI                     : {Hidden: true};
@@ -389,9 +386,7 @@ annotate service.allIssues with {
     TM_VSART_BEZEI                  @UI                     : {Hidden: true};
     TM_TDLNR_NAME1                  @UI                     : {Hidden: true};
     TM_STTRG_DDTEXT                 @UI                     : {Hidden: true};
-    TM_TRACKING_ID_COMP             @UI                     : {Hidden: true};
     DL_VGBEL                        @UI                     : {Hidden: true};
-    TM_TRACKING_ID_ELEM             @UI                     : {Hidden: true};
     DL_VGPOS                        @UI                     : {Hidden: true};
     DL_POSAR                        @UI                     : {Hidden: true};
     DL_VRKME                        @UI                     : {Hidden: true};
@@ -414,4 +409,5 @@ annotate service.allIssues with {
     SO_OM_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_AH_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_KVGR5_TEXT                   @UI                     : {Hidden: true};
+    SO_ZIEME                        @UI                     : {Hidden: true};
 }

@@ -2,7 +2,7 @@
   "namespace": "allorders.db",
   "definitions": {},
   "meta": {
-    "creator": "CDS Compiler v5.9.0",
+    "creator": "CDS Compiler v5.9.10",
     "flavor": "inferred",
     "minified": true,
     "build": "CDS Build v8.9.6"

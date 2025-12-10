@@ -18,7 +18,6 @@ const getDateProps = () => {
         "DL_LDDAT",
         "TM_DPTBG",
         "TM_DATBG",
-        "TM_DPTEN",
         "TM_DATEN",
         "TM_DALBG",
         "SO_F_LDDAT",
@@ -29,7 +28,7 @@ const getDateProps = () => {
         "SO_DUE_DATE",
         "BL_ERDAT_FIRST",
         "BL_ERDAT_LAST",
-        "TM_CURRENT_ETA_VISTA",
+        "TM_DPTEN",
         "TM_DPLBG_DATE",
         "TM_ERDAT_DATE",
         "TM_DPREG_DATE",
@@ -40,10 +39,26 @@ const getDateProps = () => {
         "SO_VALDT",
         "SO_EMAIL_SEND_DATE_F",
         "SO_EMAIL_SENT_ON",
-        "SO_ABRDT"
+        "SO_ABRDT",
+        "SO_FKDAT"
     ]
 }
 
+const getBucketText = (req,bucket)=>{
+    if (bucket )
+    return getBundle(req.locale).getText(`ReasonBucket${bucket}`)
+    else  return ''
+}
+const getReasonCodeText = (req,bucket, code)=>{
+    if (bucket && code)
+    return getBundle(req.locale).getText(`ReasonCode${bucket}_${code}`)
+    else  return ''
+}
+const getFollowupNoteText =  (req,value) =>{
+	if (value )
+    return getBundle(req.locale).getText(`FollowUpNote${value}`)
+    else  return ''
+}
 const getPODateProps = () => {
     return [
         "PO_AEDAT_HEAD",
@@ -399,5 +414,8 @@ module.exports = {
     buildSubtotalColumns,
     transformDateFilters,
     processExpression,
-    addPartnerSettings
+    addPartnerSettings,
+    getReasonCodeText,
+    getBucketText,
+    getFollowupNoteText
 }

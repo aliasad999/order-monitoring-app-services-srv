@@ -64,7 +64,6 @@ annotate service.OpenOrdersAnalytics with {
     TM_STTRG                        @UI.Hidden;
     TM_STTRG_DDTEXT                 @UI.Hidden;
     SO_KDMAT                        @UI.Hidden;
-    TM_SHIPMENT_CURRENT_STATUS      @UI.Hidden;
     SO_ABGRU                        @UI.Hidden;
     SO_ABGRU_BEZEI                  @UI.Hidden;
     SO_ISSUE                        @UI.Hidden;
@@ -150,13 +149,10 @@ annotate service.OpenOrdersAnalytics with {
     TM_EXTI1                        @UI.Hidden;
     TM_DPTBG                        @UI.Hidden;
     TM_DATBG                        @UI.Hidden;
-    TM_DPTEN                        @UI.Hidden;
     TM_DALBG                        @UI.Hidden;
     TM_DATEN                        @UI.Hidden;
     TM_AR_DATE                      @UI.Hidden;
     TM_TDLNR_NAME1                  @UI.Hidden;
-    TM_TRACKING_ID_COMP             @UI.Hidden;
-    TM_TRACKING_ID_ELEM             @UI.Hidden;
     SO_DCP_ITEM_STATUS              @UI.Hidden;
     SO_DCP_ITEM_STATUS_DESCRIPTION  @UI.Hidden;
     SO_DUE_DATE                     @UI.Hidden;
@@ -233,7 +229,7 @@ annotate service.OpenOrdersAnalytics with {
     DL_ZZ0S2ABGH                    @UI.Hidden;
     DL_ZZ0S2ZIEH                    @UI.Hidden;
     TM_VISTA_STATUS                 @UI.Hidden;
-    TM_CURRENT_ETA_VISTA            @UI.Hidden;
+    TM_DPTEN                        @UI.Hidden;
     SO_BNAME                        @UI.Hidden;
     SO_IHREZ                        @UI.Hidden;
     SO_LPRIO                        @UI.Hidden;
@@ -293,6 +289,7 @@ annotate service.OpenOrdersAnalytics with {
     TM_TS_PARTNER_NAME1             @UI.Hidden;
     SO_KVGR5                        @UI.Hidden;
     BL_STCEG                        @UI.Hidden;
+    SO_FKDAT                        @UI.Hidden;
     
 
 };

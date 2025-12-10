@@ -14,8 +14,17 @@ entity DCPStatus {
 entity PredefFollowupNotes {
        key defId      : String(5);
            defContent : localized String(70);
-        
 }
+entity PreDefReasonBucket{
+        key BucketKey: String(2);
+        BucketText : localized String(255);
+}
+entity PreDefReasonComments{
+        key BucketKey: String(2);
+        key ReasonCodeKey: String(2);
+            ReasonComment: localized String(255);
+}
+
 @cds.persistence.exists
 entity ![RESULTS] {
         MANDT                              : String(3);
@@ -207,14 +216,13 @@ entity ![RESULTS] {
         STATUS_CODE_MANUEL                 : String(3);
         DPTBG                              : String(8);
         TM_DPTBG_DATE                      : Date = DPTBG;
-        DATBG                              : String(8);
-        TM_DATBG_DATE                      : Date = DATBG;
         DPTEN                              : String(8);
-        TM_DPTEN_DATE                      : Date = DPTEN;
         DALBG                              : String(8);
         TM_DALBG_DATE                      : Date = DALBG;
-        DATEN                              : String(8);
+        DATEN                              : String(8); // ATA
         TM_DATEN_DATE                      : Date = DATEN;
+        DATBG                              : String(8); // ATD
+        TM_DATBG_DATE                      : Date = DATBG;
         AR_DATE                            : String(8);
         TM_AR_DATE_DATE                    : Date = AR_DATE;
         STTRG                              : String(2);
@@ -236,6 +244,8 @@ entity ![RESULTS] {
         LDDAT_DEL_DATE                     : Date = LDDAT_DEL;
         PERFK                              : String(2);
         PERFK_LTEXT_LANG                   : String(50);
+        FKDAT                              : String(8);
+        SO_FKDAT_DATE                      : Date = FKDAT;
         F_MBDAT                            : String(8);
         F_MBDAT_DATE                       : Date = F_MBDAT;
         FINAL_SO_MANDT                     : String(3);
@@ -281,7 +291,6 @@ entity ![RESULTS] {
         VISTA_STATUS                       : String(50);
         CURRENT_ETA_VISTA                  : String(8);
         CURRENT_ETA_VISTA_DATE             : Date = CURRENT_ETA_VISTA;
-        // Euan's changes
         Z5_PARTNER_ITM                     : String(8);
         Z5_PARTNER_NAME_ITM                : String(40);
         SB_PARTNER_ITM                     : String(8);
@@ -290,7 +299,6 @@ entity ![RESULTS] {
         AD_PARTNER_NAME_HEAD               : String(40);
         AD_PARTNER_ITM                     : String(8);
         AD_PARTNER_NAME_ITM                : String(40);
-        // End of Euan's changes
         BNAME                              : String(35);
         IHREZ                              : String(35);
         AUGRU                              : String(3);
@@ -345,8 +353,8 @@ entity ![RESULTS] {
         ZZMHDRZ                            : Decimal(4);
         ZTERM_HEAD_VTEXT_LANG              : String(30);
         ZTERM_ITEM_VTEXT_LANG              : String(30);
-        SEED_COUNT                         : Decimal(31, 14);
-        SEEDS_TAGGED_GERM                  : Decimal(31, 14);
+        SEED_COUNT                         : Decimal(31, 2);
+        SEEDS_TAGGED_GERM                  : Decimal(31, 2);
         XREF3                              : String(20);
         ABLAD                              : String(25);
         DGSTA                              : String(1);
@@ -379,7 +387,11 @@ entity ![RESULTS] {
         AH_PARTNER_ITM                     : String(8);
         AH_PARTNER_NAME_ITM                : String(80);
         LABST                              : Decimal(13, 3);
-        KVGR5_LANG                         : String(20)
+        KVGR5_LANG                         : String(20);
+        ATA_VISTA                          : String(8);
+        ATD_VISTA                          : String(8);
+        ZMENG                              : Decimal(13,3); // Target Quantity
+        ZIEME                              : String(3); // Target Quantity Unit
 }
 
 entity PARTNER_SETTINGS {
