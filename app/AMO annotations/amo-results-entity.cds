@@ -2,7 +2,6 @@ using srvOpenOrders as service from '../../srv/order-monitoring-amo-services.cds
 
 /// FIELD ANNOTATIONS unique to Results entity (e.g. Text arrangement)
 annotate service.Results with {
-    TM_SHIPMENT_CURRENT_STATUS  @title: '{i18n>TM_SHIPMENT_CURRENT_STATUS}'       @sap.Label: '{i18n>TM_SHIPMENT_CURRENT_STATUS}';
     @Common.Text           : SO_LANDX
     @Common.TextArrangement: #TextFirst
     SO_LAND1;
@@ -348,9 +347,7 @@ annotate service.Results with {
     SO_WAERS                        @UI                     : {Hidden: true};
     SO_KMEIN                        @UI                     : {Hidden: true};
     SO_WAERK                        @UI                     : {Hidden: true};
-    TM_TRACKING_ID_COMP             @UI                     : {Hidden: true};
     DL_VGBEL                        @UI                     : {Hidden: true};
-    TM_TRACKING_ID_ELEM             @UI                     : {Hidden: true};
     DL_TRMTYP_MAKTX                 @UI                     : {Hidden: true};
     DL_VGPOS                        @UI                     : {Hidden: true};
     DL_POSAR                        @UI                     : {Hidden: true};

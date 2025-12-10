@@ -386,9 +386,7 @@ annotate service.allIssues with {
     TM_VSART_BEZEI                  @UI                     : {Hidden: true};
     TM_TDLNR_NAME1                  @UI                     : {Hidden: true};
     TM_STTRG_DDTEXT                 @UI                     : {Hidden: true};
-    TM_TRACKING_ID_COMP             @UI                     : {Hidden: true};
     DL_VGBEL                        @UI                     : {Hidden: true};
-    TM_TRACKING_ID_ELEM             @UI                     : {Hidden: true};
     DL_VGPOS                        @UI                     : {Hidden: true};
     DL_POSAR                        @UI                     : {Hidden: true};
     DL_VRKME                        @UI                     : {Hidden: true};

@@ -187,14 +187,13 @@ entity ![OPENORDERSLIST] {
         EXTI1                              : String(35);
         DPTBG                              : String(8);
         DPTBG_DATE                         : Date = DPTBG;
-        DATBG                              : String(8);
-        DATBG_DATE                         : Date = DATBG;
         DPTEN                              : String(8);
-        DPTEN_DATE                         : Date = DPTEN;
         DALBG                              : String(8);
         DALBG_DATE                         : Date = DALBG;
-        DATEN                              : String(8);
-        DATEN_DATE                         : Date = DATEN;
+        DATEN                              : String(8); // ATA
+        TM_DATEN_DATE                      : Date = DATEN;
+        DATBG                              : String(8); // ATD
+        TM_DATBG_DATE                      : Date = DATBG;
         AR_DATE                            : String(8);
         AR_DATE_DATE                       : Date = AR_DATE;
         TDLNR                              : String(10);
@@ -305,7 +304,6 @@ entity ![OPENORDERSLIST] {
         VISTA_STATUS                       : String(50);
         CURRENT_ETA_VISTA                  : String(8);
         CURRENT_ETA_VISTA_DATE             : Date = CURRENT_ETA_VISTA;
-        // Euan's changes
         Z5_PARTNER_ITM                     : String(8);
         Z5_PARTNER_NAME_ITM                : String(40);
         SB_PARTNER_ITM                     : String(8);
@@ -314,7 +312,6 @@ entity ![OPENORDERSLIST] {
         AD_PARTNER_NAME_HEAD               : String(40);
         AD_PARTNER_ITM                     : String(8);
         AD_PARTNER_NAME_ITM                : String(40);
-        // End of Euan's changes
         BNAME                              : String(35);
         IHREZ                              : String(35);
         LPRIO                              : String(2);
@@ -397,6 +394,8 @@ entity ![OPENORDERSLIST] {
         AH_PARTNER_NAME_ITM                : String(80);
         LABST                              : Decimal(13, 3);
         KVGR5_LANG                         : String(20);
+        ATA_VISTA                          : String(8);
+        ATD_VISTA                          : String(8);
         ZMENG                              : Decimal(13,3); // Target Quantity
         ZIEME                              : String(3); // Target Quantity Unit
 }
