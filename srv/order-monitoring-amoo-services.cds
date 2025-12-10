@@ -274,8 +274,6 @@ service openOrdersSrv {
                 AR_DATE_DATE                                as TM_AR_DATE,
                 TDLNR                                       as TM_TDLNR,
                 TDLNR_NAME1                                 as TM_TDLNR_NAME1,                
-                TRACKING_ID_ELEM                            as TM_TRACKING_ID_ELEM,
-                TRACKING_ID_COMP                            as TM_TRACKING_ID_COMP,
                 STTRG                                       as TM_STTRG,
                 STTRG_DDTEXT_LANG                           as TM_STTRG_DDTEXT,
                 NPS                                         as SO_NPS,
