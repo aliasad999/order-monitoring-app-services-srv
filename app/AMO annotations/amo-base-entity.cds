@@ -200,7 +200,8 @@ annotate service.BaseEntity with {
     SO_DCP_ITEM_STATUS               @title: '{i18n>SO_DCP_ITEM_STATUS}'               @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
     SO_DCP_ITEM_STATUS_DESCRIPTION   @title: '{i18n>SO_DCP_ITEM_STATUS}'               @sap.Label: '{i18n>SO_DCP_ITEM_STATUS}';
     SO_PERFK                         @title: '{i18n>SO_PERFK}'                         @sap.Label: '{i18n>SO_PERFK}';
-    SO_PERFK_LTEXT_LANG              @title: '{i18n>SO_PERFK}'                         @sap.Label: '{i18n>SO_PERFK}';
+    SO_PERFK_LTEXT_LANG              @title: '{i18n>SO_PERFK_LTEXT_LANG}'              @sap.Label: '{i18n>SO_PERFK_LTEXT_LANG}';
+    SO_FKDAT                         @title: '{i18n>SO_FKDAT}'                         @sap.Label: '{i18n>SO_FKDAT}';
     PO_EKORG                         @title: '{i18n>PO_EKORG}'                         @sap.Label: '{i18n>PO_EKORG}';
     PO_EKOTX                         @title: '{i18n>PO_EKOTX}'                         @sap.Label: '{i18n>PO_EKOTX}';
     PO_EKGRP                         @title: '{i18n>PO_EKGRP}'                         @sap.Label: '{i18n>PO_EKGRP}';

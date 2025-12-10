@@ -261,6 +261,8 @@ entity ![OPENORDERSLIST] {
         LDDAT_DEL_DATE                     : Date = LDDAT_DEL;
         PERFK                              : String(2);
         PERFK_LTEXT_LANG                   : String(50);
+        FKDAT                              : String(8);
+        SO_FKDAT_DATE                      : Date = FKDAT;
         F_MBDAT                            : String(8);
         F_MBDAT_DATE                       : Date = F_MBDAT;
         FINAL_SO_MANDT                     : String(3);
@@ -563,6 +565,7 @@ entity ![SALESORDER_DETAILS](IP_LANG: String(2)) {
             ABRDT                  : String(8);
             ABRDT_DATE             : Date = ABRDT;
             MTVFP                  : String(2);
+            PERFK                  : String(2);
 }
 
 @cds.persistence.exists

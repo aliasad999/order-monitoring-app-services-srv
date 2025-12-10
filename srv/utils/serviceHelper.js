@@ -39,7 +39,8 @@ const getDateProps = () => {
         "SO_VALDT",
         "SO_EMAIL_SEND_DATE_F",
         "SO_EMAIL_SENT_ON",
-        "SO_ABRDT"
+        "SO_ABRDT",
+        "SO_FKDAT"
     ]
 }
 

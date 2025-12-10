@@ -980,12 +980,7 @@ annotate service.allIssues with {
                 $Type            : 'Common.ValueListParameterInOut',
                 LocalDataProperty: SO_PERFK,
                 ValueListProperty: 'SO_PERFK'
-            },
-            {
-                $Type            : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty: 'SO_PERFK_LTEXT_LANG'
             }
-
         ]
     }
 };

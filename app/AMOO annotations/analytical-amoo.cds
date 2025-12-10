@@ -289,6 +289,7 @@ annotate service.OpenOrdersAnalytics with {
     TM_TS_PARTNER_NAME1             @UI.Hidden;
     SO_KVGR5                        @UI.Hidden;
     BL_STCEG                        @UI.Hidden;
+    SO_FKDAT                        @UI.Hidden;
     
 
 };

@@ -147,11 +147,6 @@ annotate service.allIssues with {
     SO_MDB                   @title: '{i18n>SO_MDB}'                           @sap.Label: '{i18n>SO_MDB}';
     @Common.TextFor
     SO_MDB_TEXT;
-    @Common.Text           : SO_PERFK_LTEXT_LANG
-    @Common.TextArrangement: #TextLast
-    SO_PERFK                 @title: '{i18n>SO_PERFK}'                         @sap.Label: '{i18n>SO_PERFK}';
-    @Common.TextFor
-    SO_PERFK_LTEXT_LANG;
     @Common.Text           : PO_KUNNR_NAME
     @Common.TextArrangement: #TextLast
     PO_KUNNR                 @title: '{i18n>PO_KUNNR}'                         @sap.Label: '{i18n>PO_KUNNR}';

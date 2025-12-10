@@ -175,7 +175,8 @@ annotate service.baseEntity with {
     DL_ERDAT                         @title: '{i18n>DL_ERDAT}'                         @sap.Label: '{i18n>DL_ERDAT}'              @sap.filter.restriction: 'interval';
     DL_LDDAT                         @title: '{i18n>DL_LDDAT}'                         @sap.Label: '{i18n>DL_LDDAT}'              @sap.filter.restriction: 'interval';
     SO_PERFK                         @title: '{i18n>SO_PERFK}'                         @sap.Label: '{i18n>SO_PERFK}';
-    SO_PERFK_LTEXT_LANG              @title: '{i18n>SO_PERFK}'                         @sap.Label: '{i18n>SO_PERFK}';
+    SO_PERFK_LTEXT_LANG              @title: '{i18n>SO_PERFK_LTEXT_LANG}'              @sap.Label: '{i18n>SO_PERFK_LTEXT_LANG}';
+    SO_FKDAT                         @title: '{i18n>SO_FKDAT}'                         @sap.Label: '{i18n>SO_FKDAT}'              @sap.filter.restriction: 'interval';
     SO_F_MBDAT                       @title: '{i18n>SO_F_MBDAT}'                       @sap.Label: '{i18n>SO_F_MBDAT}'            @sap.filter.restriction: 'interval';
     DL_POSNR_BATCH                   @title: '{i18n>DL_POSNR_BATCH}'                   @sap.Label: '{i18n>DL_POSNR_BATCH}';
     DL_LFIMG_BATCH                   @title: '{i18n>DL_LFIMG_BATCH}'                   @sap.Label: '{i18n>DL_LFIMG_BATCH}';
