@@ -73,6 +73,7 @@ annotate service.OpenOrdersAnalytics with {
     // SO_ORT01                        @UI.Hidden;
     SO_VKORG                        @UI.Hidden;
     SO_VKORG_NAME1                  @UI.Hidden;
+    SO_LABST                        @UI.Hidden;
     SO_CO_PARTNER                   @UI.Hidden;
     SO_CO_PARTNER_NAME              @UI.Hidden;
     SO_NY_PARTNER                   @UI.Hidden;
@@ -80,6 +81,12 @@ annotate service.OpenOrdersAnalytics with {
     SO_AS_PARTNER                   @UI.Hidden;
     SO_AS_PARTNER_NAME              @UI.Hidden;
     SO_VE_PARTNER                   @UI.Hidden;
+    SO_ZMENG                        @UI.Hidden;
+    SO_ZIEME                        @UI.Hidden;
+    SO_AH_PARTNER                   @UI.Hidden;
+    SO_AH_PARTNER_NAME              @UI.Hidden;
+    SO_OM_PARTNER                   @UI.Hidden;
+    SO_OM_PARTNER_NAME              @UI.Hidden;
     SO_VE_PARTNER_NAME              @UI.Hidden;
     SO_AM_PARTNER                   @UI.Hidden;
     SO_AM_PARTNER_NAME              @UI.Hidden;
