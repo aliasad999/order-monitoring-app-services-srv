@@ -68,10 +68,8 @@ annotate service.OpenOrdersAnalytics with {
     SO_ABGRU_BEZEI                  @UI.Hidden;
     SO_ISSUE                        @UI.Hidden;
     SO_ISSUE_DESCRIPTION            @UI.Hidden;
-    SO_VTWEG                        @UI.Hidden;
     SO_LANDX                        @UI.Hidden;
     // SO_ORT01                        @UI.Hidden;
-    SO_VKORG                        @UI.Hidden;
     SO_VKORG_NAME1                  @UI.Hidden;
     SO_LABST                        @UI.Hidden;
     SO_CO_PARTNER                   @UI.Hidden;
