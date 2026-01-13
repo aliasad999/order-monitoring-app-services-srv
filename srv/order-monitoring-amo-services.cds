@@ -336,7 +336,8 @@ service srvOpenOrders {
           LPRIO                                       as SO_LPRIO,
           VISTA_STATUS                                as TM_VISTA_STATUS,
           case when ( CURRENT_ETA_VISTA is null or CURRENT_ETA_VISTA = '' or CURRENT_ETA_VISTA = '00000000') then DPTEN else CURRENT_ETA_VISTA end as TM_DPTEN : Date, // ETA
-          case when ( ATA_VISTA is null or ATA_VISTA = '' or ATA_VISTA = '00000000') then DATEN else ATA_VISTA end as TM_DATEN : Date, /// ATA
+          // case when ( ATA_VISTA is null or ATA_VISTA = '' or ATA_VISTA = '00000000') then DATEN else ATA_VISTA end as TM_DATEN : Date, /// ATA
+          TM_DATEN_DATE  as TM_DATEN, /// ATA - TEMPORARY FROM SAP UNTIL VISTA TOPIC QUESTIONS ARE ANSWERED
           case when ( ATD_VISTA is null or ATD_VISTA = '' or ATD_VISTA = '00000000') then DATBG else ATD_VISTA end as TM_DATBG : Date, /// ATD
           // TM_DATEN_DATE                               as TM_DATEN, /// SAP ATA
           // TM_DATBG_DATE                               as TM_DATBG, /// SAP ATD
