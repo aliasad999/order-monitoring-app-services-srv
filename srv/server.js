@@ -19,7 +19,7 @@ module.exports = cds.server;
 
 cds.on('bootstrap', async (app) => {
     app.use(proxy());
-    app.use(fileUpload({ safeFileNames: true }));
+    // app.use(fileUpload({ safeFileNames: true })); commenting it out as $batch calls were failing
     app.use(passport.initialize());
     app.use(passport.authenticate('JWT', { session: false }));
     fesr.registerFesrEndpoint(app);
