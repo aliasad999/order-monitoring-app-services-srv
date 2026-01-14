@@ -1,7 +1,7 @@
 const tracer = require('@sap/xotel-agent-ext-js/dist/common/tracer');
 const proxy = require("@cap-js-community/odata-v2-adapter");
 const cds = require('@sap/cds')
-
+const fileUpload = require('express-fileupload');
 var bodyParser = require('body-parser');
 const fesr = require("@sap/fesr-to-otel-js");
 const xsenv = require('@sap/xsenv');
@@ -19,6 +19,7 @@ module.exports = cds.server;
 
 cds.on('bootstrap', async (app) => {
     app.use(proxy());
+    // app.use(fileUpload({ safeFileNames: true })); commenting it out as $batch calls were failing
     app.use(passport.initialize());
     app.use(passport.authenticate('JWT', { session: false }));
     fesr.registerFesrEndpoint(app);
