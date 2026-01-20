@@ -234,7 +234,7 @@ service openOrdersSrv {
                     F_AS_PARTNER_NAME_ITM, F_AS_PARTNER_NAME_HEAD
                 )                                           as SO_F_AS_PARTNER_NAME            : String(40),
                 F_LDDAT_DATE                                as SO_F_LDDAT,
-                case when ( F_LGORT is null or F_LGORT = '' ) then LGORT_DEL else F_LGORT end as SO_F_LGORT: String(4),
+                case when ( LGORT_DEL is null or LGORT_DEL = '' ) then F_LGORT else LGORT_DEL end as SO_F_LGORT: String(4),
                 F_TDDAT_DATE                                as SO_F_TDDAT,
                 F_DGLTP_DATE                                as SO_F_DGLTP,
                 F_ZZ0S2MATUG                                as SO_F_ZZ0S2MATUG,
