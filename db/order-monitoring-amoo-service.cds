@@ -142,6 +142,7 @@ entity ![OPENORDERSLIST] {
         F_LDDAT                            : String(8);
         F_LDDAT_DATE                       : Date = F_LDDAT;
         F_LGORT                            : String(4);
+        LGORT_DEL                          : String(4);
         F_TDDAT                            : String(8);
         F_TDDAT_DATE                       : Date = F_TDDAT;
         F_ZZ0S2MATUG                       : String(18);
