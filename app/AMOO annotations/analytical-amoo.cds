@@ -295,6 +295,13 @@ annotate service.OpenOrdersAnalytics with {
     SO_KVGR5                        @UI.Hidden;
     BL_STCEG                        @UI.Hidden;
     SO_FKDAT                        @UI.Hidden;
+    SO_RG_PARTNER                   @UI.Hidden;
+    SO_RG_PARTNER_NAME              @UI.Hidden;
+    SO_RE_PARTNER                   @UI.Hidden;
+    SO_RE_PARTNER_NAME              @UI.Hidden;
+    SO_AG_PARTNER_LAND1             @UI.Hidden;
+    SO_AG_PARTNER_LAND1_LANG        @UI.Hidden;
+    SO_ERNAM                        @UI.Hidden;
     
 
 };

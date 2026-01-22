@@ -2165,3 +2165,72 @@ annotate service.Results with {
         ]
     }
 };
+
+annotate service.Results with {
+    SO_RG_PARTNER
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_RG_PARTNER}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_RG_PARTNER,
+                ValueListProperty: 'SO_RG_PARTNER'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_RG_PARTNER_NAME'
+            }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_RE_PARTNER
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_RE_PARTNER}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_RE_PARTNER,
+                ValueListProperty: 'SO_RE_PARTNER'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_RE_PARTNER_NAME'
+            }
+
+        ]
+    }
+};
+
+annotate service.Results with {
+    SO_AG_PARTNER_LAND1
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_AG_PARTNER_LAND1}',
+        CollectionPath         : 'valueHelps',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_AG_PARTNER_LAND1,
+                ValueListProperty: 'SO_AG_PARTNER_LAND1'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'SO_AG_PARTNER_LAND1_LANG'
+            }
+
+        ]
+    }
+};

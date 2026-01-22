@@ -399,6 +399,15 @@ entity ![OPENORDERSLIST] {
         ATD_VISTA                          : String(8);
         ZMENG                              : Decimal(13,3); // Target Quantity
         ZIEME                              : String(3); // Target Quantity Unit
+        RG_PARTNER                         : String(10);
+        RG_PARTNER_NAME1                   : String(40);
+        RG_PARTNER_NAME2                   : String(40);
+        RE_PARTNER                         : String(10);
+        RE_PARTNER_NAME1                   : String(40);
+        RE_PARTNER_NAME2                   : String(40);
+        AG_PARTNER_LAND1                   : String(3);
+        AG_PARTNER_LAND1_LANG              : String(15);
+        ERNAM                              : String(12);
 }
 
 entity ContactsOptions {
