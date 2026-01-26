@@ -343,6 +343,8 @@ annotate service.Results with {
     TM_TDLNR_NAME1                  @UI                     : {Hidden: true};
     TM_STTRG_DDTEXT                 @UI                     : {Hidden: true};
     SO_F_POSNR                      @UI                     : {Hidden: true};
+    SO_I_POSNR                      @UI                     : {Hidden: true};
+    SO_N_POSNR                      @UI                     : {Hidden: true};
     SO_VBTYP                        @UI                     : {Hidden: true};
     SO_TRAGR_VTEXT                  @UI                     : {Hidden: true};
     SO_VKGRP_BEZEI                  @UI                     : {Hidden: true};
