@@ -217,6 +217,12 @@ annotate service.Results with {
     @Common.TextFor
     SO_FINAL_SO_MANDT_TEXT;
 
+    @Common.Text           : SO_NEXT_SO_MANDT_TEXT
+    @Common.TextArrangement: #TextOnly
+    SO_NEXT_SO_MANDT                    @title: '{i18n>SO_NEXT_SO_MANDT}'                         @sap.Label: '{i18n>SO_NEXT_SO_MANDT}';
+    @Common.TextFor
+    SO_NEXT_SO_MANDT_TEXT;
+
     @Common.Text           : PO_MANDT_TEXT
     @Common.TextArrangement: #TextOnly
     PO_MANDT                    @title: '{i18n>PO_MANDT}'                         @sap.Label: '{i18n>PO_MANDT}';
@@ -367,6 +373,7 @@ annotate service.Results with {
     SO_FINAL_SO_MANDT_TEXT          @UI                     : {Hidden: true};
     SO_FIRST_SO_MANDT_TEXT          @UI                     : {Hidden: true};
     PO_MANDT_TEXT                   @UI                     : {Hidden: true};
+    SO_NEXT_SO_MANDT_TEXT           @UI                     : {Hidden: true};
     PO_EKNAM                        @UI                     : {Hidden: true};
     PO_EKOTX                        @UI                     : {Hidden: true};
     PO_EBELN                        @UI                     : {Hidden: true};

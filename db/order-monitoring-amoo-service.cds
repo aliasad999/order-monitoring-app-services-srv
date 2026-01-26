@@ -114,6 +114,7 @@ entity ![OPENORDERSLIST] {
         LEVEL_TYPE                         : String(7);
         NEXT_SO                            : String(10);
         NEXT_POSNR                         : String(6);
+        NEXT_SO_MANDT                      : String(3);
         FINAL_SO                           : String(10);
         FINAL_POSNR                        : String(6);
         VBTYP                              : String(1);
@@ -530,6 +531,7 @@ entity ![SALESORDER_DETAILS](IP_LANG: String(2)) {
             LEVEL_TYPE             : String(1);
             NEXT_SO                : String(10);
             NEXT_POSNR             : String(6);
+            NEXT_SO_MANDT          : String(3);
             FINAL_SO               : String(10);
             FINAL_POSNR            : String(6);
             VBTYP                  : String(1);
