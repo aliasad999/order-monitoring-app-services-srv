@@ -70,6 +70,7 @@ annotate service.BaseEntity with {
     SO_ISCOMPLETED                   @title: '{i18n>SO_ISCOMPLETED}'                   @sap.Label: '{i18n>SO_ISCOMPLETED}';
     SO_LEVEL_TYPE                    @title: '{i18n>SO_LEVEL_TYPE}'                    @sap.Label: '{i18n>SO_LEVEL_TYPE}';
     SO_N_VBELN                       @title: '{i18n>SO_N_VBELN}'                       @sap.Label: '{i18n>SO_N_VBELN}'          @Common.IsDigitSequence: true;
+    SO_N_POSNR                       @title: '{i18n>SO_N_POSNR}'                       @sap.Label: '{i18n>SO_N_POSNR}'          @Common.IsDigitSequence: true;
     SO_F_VBELN                       @title: '{i18n>SO_F_VBELN}'                       @sap.Label: '{i18n>SO_F_VBELN}'          @Common.IsDigitSequence: true;
     SO_F_POSNR                       @title: '{i18n>SO_F_POSNR}'                       @sap.Label: '{i18n>SO_F_POSNR}'          @Common.IsDigitSequence: true;
     SO_VBTYP                         @title: '{i18n>SO_VBTYP}'                         @sap.Label: '{i18n>SO_VBTYP}';
