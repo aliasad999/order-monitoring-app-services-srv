@@ -542,13 +542,6 @@ service openOrdersSrv {
     entity dueDateLimit             as projection on db_app.DUE_DATE_LIMIT;
     entity ChangeDocSet             as projection on CSEUCockpitService.ChangeDocSet;
     entity ShipmentUpdates          as projection on AMOOUtilsService.ShipmentUpdates;
-
-    // Sales order details from generic service
-    entity salesOrderDetails        as
-        select * from db_app.SALESORDER_DETAILS (
-            IP_LANG:LEFT(UPPER($user.locale), )
-        );
-
     entity ignoreSalesOrder         as projection on db_app.IGNORED_SO;
     function getIssueReason(issuePayload : String)                                                     returns array of db_app.issue_reason;
     action   createDeliveryforAllItem(salesOrder : String(10))                                         returns Boolean;
