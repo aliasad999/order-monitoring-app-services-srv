@@ -48,6 +48,7 @@ service openOrdersSrv {
                 BL_MANDT_INV_FIRST,
                 BL_MANDT_INV_LAST,
                 ISSUE_LOCATION_MANDT                        as SO_ISSUE_LOCATION_MANDT,
+                NEXT_SO_MANDT                               as SO_NEXT_SO_MANDT,
                 virtual null                                as SO_MANDT_TEXT                   : String(20),
                 virtual null                                as DL_MANDT_TEXT                   : String(20),
                 virtual null                                as TM_MANDT_TEXT                   : String(20),
@@ -57,6 +58,7 @@ service openOrdersSrv {
                 virtual null                                as SO_FIRST_SO_MANDT_TEXT          : String(20),
                 virtual null                                as PO_MANDT_TEXT                   : String(20),
                 virtual null                                as SO_ISSUE_LOCATION_MANDT_TEXT    : String(20),
+                virtual null                                as SO_NEXT_SO_MANDT_TEXT          : String(20),
                 VBELN                                       as SO_VBELN,
                 POSNR                                       as SO_POSNR,
                 ERDAT_ORDER_DATE                            as SO_ERDAT_ORDER,
@@ -546,13 +548,6 @@ service openOrdersSrv {
     entity dueDateLimit             as projection on db_app.DUE_DATE_LIMIT;
     entity ChangeDocSet             as projection on CSEUCockpitService.ChangeDocSet;
     entity ShipmentUpdates          as projection on AMOOUtilsService.ShipmentUpdates;
-
-    // Sales order details from generic service
-    entity salesOrderDetails        as
-        select * from db_app.SALESORDER_DETAILS (
-            IP_LANG:LEFT(UPPER($user.locale), )
-        );
-
     entity ignoreSalesOrder         as projection on db_app.IGNORED_SO;
     function getIssueReason(issuePayload : String)                                                     returns array of db_app.issue_reason;
     action   createDeliveryforAllItem(salesOrder : String(10))                                         returns Boolean;

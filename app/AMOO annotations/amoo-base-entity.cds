@@ -76,6 +76,7 @@ annotate service.baseEntity with {
     SO_I_VBELN                       @title: '{i18n>SO_I_VBELN}'                       @sap.Label: '{i18n>SO_I_VBELN}'            @Common.IsDigitSequence: true;
     SO_LEVEL_TYPE                    @title: '{i18n>SO_LEVEL_TYPE}'                    @sap.Label: '{i18n>SO_LEVEL_TYPE}'         @Common.IsDigitSequence: true;
     SO_N_VBELN                       @title: '{i18n>SO_N_VBELN}'                       @sap.Label: '{i18n>SO_N_VBELN}'            @Common.IsDigitSequence: true;
+    SO_N_POSNR                       @title: '{i18n>SO_N_POSNR}'                       @sap.Label: '{i18n>SO_N_POSNR}'          @Common.IsDigitSequence: true;
     SO_F_VBELN                       @title: '{i18n>SO_F_VBELN}'                       @sap.Label: '{i18n>SO_F_VBELN}'            @Common.IsDigitSequence: true;
     SO_F_POSNR                       @title: '{i18n>SO_F_POSNR}'                       @sap.Label: '{i18n>SO_F_POSNR}'            @Common.IsDigitSequence: true;
     SO_VBTYP                         @title: '{i18n>SO_VBTYP}'                         @sap.Label: '{i18n>SO_VBTYP}';
@@ -212,6 +213,7 @@ annotate service.baseEntity with {
     SO_FIRST_SO_MANDT                @title: '{i18n>SO_FIRST_SO_MANDT}'                @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
     SO_FINAL_SO_MANDT                @title: '{i18n>SO_FINAL_SO_MANDT}'                @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
     PO_MANDT                         @title: '{i18n>PO_MANDT}'                         @sap.Label: '{i18n>PO_MANDT}';
+    SO_NEXT_SO_MANDT                 @title: '{i18n>SO_NEXT_SO_MANDT}'                 @sap.Label: '{i18n>SO_NEXT_SO_MANDT}';
     SO_ISSUE_LOCATION_MANDT          @title: '{i18n>SO_ISSUE_LOCATION_MANDT}'          @sap.Label: '{i18n>SO_ISSUE_LOCATION_MANDT}';
     SO_MANDT_TEXT                    @title: '{i18n>SO_MANDT}'                         @sap.Label: '{i18n>SO_MANDT}';
     DL_MANDT_TEXT                    @title: '{i18n>DL_MANDT}'                         @sap.Label: '{i18n>DL_MANDT}';
@@ -221,6 +223,7 @@ annotate service.baseEntity with {
     SO_FIRST_SO_MANDT_TEXT           @title: '{i18n>SO_FIRST_SO_MANDT}'                @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
     SO_FINAL_SO_MANDT_TEXT           @title: '{i18n>SO_FINAL_SO_MANDT}'                @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
     PO_MANDT_TEXT                    @title: '{i18n>PO_MANDT}'                         @sap.Label: '{i18n>PO_MANDT}';
+    SO_NEXT_SO_MANDT_TEXT            @title: '{i18n>SO_NEXT_SO_MANDT}'                 @sap.Label: '{i18n>SO_NEXT_SO_MANDT}';
     SO_ISSUE_LOCATION_MANDT_TEXT     @title: '{i18n>SO_ISSUE_LOCATION_MANDT}'          @sap.Label: '{i18n>SO_ISSUE_LOCATION_MANDT}';
     DL_TRMTYP                        @title: '{i18n>DL_TRMTYP}'                        @sap.Label: '{i18n>DL_TRMTYP}'             @Common.IsDigitSequence: true;
     DL_TRMTYP_MAKTX                  @title: '{i18n>DL_TRMTYP_MAKTX_LANG}'             @sap.Label: '{i18n>DL_TRMTYP_MAKTX_LANG}';

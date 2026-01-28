@@ -302,6 +302,7 @@ annotate service.OpenOrdersAnalytics with {
     SO_AG_PARTNER_LAND1             @UI.Hidden;
     SO_AG_PARTNER_LAND1_LANG        @UI.Hidden;
     SO_ERNAM                        @UI.Hidden;
-    
+    SO_N_POSNR                      @UI.Hidden;
+    SO_NEXT_SO_MANDT                @UI.Hidden;
 
 };
