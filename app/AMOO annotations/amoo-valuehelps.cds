@@ -1202,6 +1202,27 @@ annotate service.allIssues with {
     }
 }
 
+annotate service.allIssues with {
+    SO_NEXT_SO_MANDT
+    @Common.ValueList: {
+        $Type                  : 'Common.ValueListType',
+        Label                  : '{@i18n>SO_NEXT_SO_MANDT}',
+        CollectionPath         : 'SAPSystems',
+        DistinctValuesSupported: true,
+        SearchSupported        : true,
+        Parameters             : [
+            {
+                $Type            : 'Common.ValueListParameterInOut',
+                LocalDataProperty: SO_NEXT_SO_MANDT,
+                ValueListProperty: 'mandantKey'
+            },
+            {
+                $Type            : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty: 'mandantText'
+            }
+        ]
+    }
+}
 
 annotate service.allIssues with {
     PO_BSART

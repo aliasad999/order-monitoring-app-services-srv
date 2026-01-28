@@ -295,6 +295,7 @@ annotate service.OpenOrdersAnalytics with {
     SO_KVGR5                        @UI.Hidden;
     BL_STCEG                        @UI.Hidden;
     SO_FKDAT                        @UI.Hidden;
-    
+    SO_N_POSNR                      @UI.Hidden;
+    SO_NEXT_SO_MANDT                @UI.Hidden;
 
 };

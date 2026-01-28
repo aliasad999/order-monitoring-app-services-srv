@@ -226,6 +226,12 @@ annotate service.allIssues with {
     @Common.TextFor
     PO_MANDT_TEXT;
 
+    @Common.Text           : SO_NEXT_SO_MANDT_TEXT
+    @Common.TextArrangement: #TextOnly
+    SO_NEXT_SO_MANDT                    @title: '{i18n>SO_NEXT_SO_MANDT}'                         @sap.Label: '{i18n>SO_NEXT_SO_MANDT}';
+    @Common.TextFor
+    SO_NEXT_SO_MANDT_TEXT;
+
     @Common.Text           : SO_ISSUE_LOCATION_MANDT_TEXT
     @Common.TextArrangement: #TextOnly
     SO_ISSUE_LOCATION_MANDT  @title: '{i18n>SO_ISSUE_LOCATION_MANDT}'          @sap.Label: '{i18n>SO_ISSUE_LOCATION_MANDT}';
@@ -337,6 +343,7 @@ annotate service.allIssues with {
     SO_FINAL_SO_MANDT_TEXT          @UI                     : {Hidden: true};
     SO_FIRST_SO_MANDT_TEXT          @UI                     : {Hidden: true};
     PO_MANDT_TEXT                   @UI                     : {Hidden: true};
+    SO_NEXT_SO_MANDT_TEXT           @UI                     : {Hidden: true};
     SO_ISSUE_LOCATION_MANDT_TEXT    @UI                     : {Hidden: true};
     PO_EKNAM                        @UI                     : {Hidden: true};
     PO_EKOTX                        @UI                     : {Hidden: true};
