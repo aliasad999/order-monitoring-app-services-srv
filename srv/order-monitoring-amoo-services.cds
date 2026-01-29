@@ -475,9 +475,9 @@ service openOrdersSrv {
                 ZMENG                                       as SO_ZMENG, // Target Quantity
                 ZIEME                                       as SO_ZIEME, // Target Quantity Unit
                 RG_PARTNER                                  as SO_RG_PARTNER,
-                RG_PARTNER_NAME1 || ' ' || RG_PARTNER_NAME2 as SO_RG_PARTNER_NAME             : String(80),
+                COALESCE(RG_PARTNER_NAME1, '') || ' ' || COALESCE(RG_PARTNER_NAME2, '') as SO_RG_PARTNER_NAME : String(80),
                 RE_PARTNER                                  as SO_RE_PARTNER,
-                RE_PARTNER_NAME1 || ' ' || RE_PARTNER_NAME2 as SO_RE_PARTNER_NAME             : String(80),
+                COALESCE(RE_PARTNER_NAME1, '') || ' ' || COALESCE(RE_PARTNER_NAME2, '') as SO_RE_PARTNER_NAME : String(80),
                 AG_PARTNER_LAND1                            as SO_AG_PARTNER_LAND1,
                 AG_PARTNER_LAND1_LANG                       as SO_AG_PARTNER_LAND1_LANG,
                 ERNAM                                       as SO_ERNAM
