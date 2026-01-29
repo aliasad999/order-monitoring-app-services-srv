@@ -14,6 +14,7 @@ class openOrdersSrv extends cds.ApplicationService {
     async init() {
         // only needed to run this when the server is starting
         const { allIssues } = cds.entities('openOrdersSrv')
+        const { SAValueHelps } = cds.entities('openOrdersSrv')
         this._textKeys = []
         this._SpecialCurrencies = []
         const { currencies } = cds.entities('openOrdersSrv');
@@ -1864,6 +1865,370 @@ class openOrdersSrv extends cds.ApplicationService {
                 });
             })
         })
+
+        //////// SCHEDULING AGREEMENTS IMPLEMENTATION  ////////
+
+        /**
+         * This event is triggered before the backend request for order list data
+         * @param {string} "READ" - The type of backend request
+         * @param {string} "Results" - The name of the entity set
+         * @param {function} - The callback function containing the code that runs when the event is triggered
+         * @param {object} req - The request object containing request details
+         * */
+        this.before("READ", ["schedulingAgreements", "SADetails"], async (req, next) => {
+            // is not empty date field, date value needs to be adjusted
+            req.query.SELECT.where = serviceHelper.replaceDateInArray(req.query.SELECT.where)
+            // is not empty date field, date value needs to be adjusted
+            // Check if auth table is filled
+            if (req.headers?.export === 'true') await cds.run(`SET 'APPLICATION' = 'CAPServicesExport'`);
+            if (req.user.id !== "anonymous") {
+                const { VBAKAuthObjectKeys } = await cds.entities('srvOpenOrders');
+                let userID = req.user.id;
+                let authSet = await SELECT.from(VBAKAuthObjectKeys).where({ USERID: userID });
+
+                if (authSet.length === 0) {
+                    req.error(413, 'NO_AUTH_LIST')
+                }
+            }
+            req.query.SELECT.orderBy && req.query.SELECT.orderBy.forEach(order => {
+                this._textKeys.forEach(item => {
+                    if (order.ref.includes(item.key)) {
+                        order.ref = [item.value];
+                    }
+                });
+            });
+            req.query.SELECT.hints = ['USE_HEX_PLAN', 'HEX_INDEX_JOIN'];
+            req.query.SELECT.localized = false; 
+            req.query.SELECT.distinct = true;
+            
+            serviceHelper.transformDateFilters(req.query.SELECT.where);
+        });
+  
+
+        this.on("READ", ["schedulingAgreements", "SADetails"], async (req, next) => {
+            // OTC-24554 Partner Settings Functionality
+            // Begin of Code OTC-24554
+            // *-------------------------------------------------------------------*
+            // Consider also partner settings, if they are maintained
+            if (req.target.name === 'openOrdersSrv.SAValueHelps') next()
+            let db = cds.transaction(req);
+            let currentUser = req.user.id;
+            if (currentUser) {
+                await serviceHelper.addPartnerSettings(currentUser, req.query.SELECT.where);
+            }
+            // *-------------------------------------------------------------------*
+            // End of Code OTC-24554
+
+            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols) {
+                return req.reply({ $count: 0 })
+            }
+            await next(req)
+        })
+
+        /**
+         * This event is triggered after the backend request for order list data
+         * @param {string} "READ" - The type of backend request
+         * @param {string} "Results" - The name of the entity set
+         * @param {function} - The callback function containing the code that runs when the event is triggered
+         * @param {array} data - The array containing the result from the backend request
+         * @param {object} req - The request object containing request details
+         * */
+        this.after("READ", ["schedulingAgreements", "SADetails"], async (data, req) => {
+            if (req.target.name != 'openOrdersSrv.SAValueHelps') {
+                // needed for cache .. to make value helps dynamic. we are using unique session ID to cache based on authorization token.
+                let sessionID = req.headers['authorization'] || req.headers['x-username'];
+                if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.select) {
+                    // do nothing
+                } else {
+
+                    // cache the query, so that all filter conditions can be consumed.. when any valuehelp is called.
+                    if (req.target.name === 'openOrdersSrv.schedulingAgreements') {
+                        let query = req.query;
+                        query.SELECT.where = req.query.SELECT.where;
+                        const queryString = JSON.stringify(query);
+                        const queryId = `${sessionID}SAQuery`
+                        sessionCache.set(queryId, queryString);
+                    }
+                }
+                data = Array.isArray(data) ? data : [data]
+                var dateProps = serviceHelper.getDateProps()
+                data.forEach((item) => {
+                    item.id = uuid.v1()
+                    if ( 'SO_FOLLOWUP_NOTES_LANG' in item )
+                        item.SO_FOLLOWUP_NOTES_LANG = serviceHelper.getFollowupNoteText(req,item.SO_FOLLOWUP_NOTES_LANG)
+                    if ('SO_REASON_CODE_01_LANG' in item)
+                        item.SO_REASON_CODE_01_LANG = serviceHelper.getReasonCodeText(req,'01',item.SO_REASON_CODE_01_LANG)
+                    if ('SO_REASON_CODE_02_LANG' in item)
+                        item.SO_REASON_CODE_02_LANG = serviceHelper.getReasonCodeText(req,'02',item.SO_REASON_CODE_02_LANG)
+                    if ('SO_REASON_CODE_03_LANG' in item)
+                        item.SO_REASON_CODE_03_LANG = serviceHelper.getReasonCodeText(req,'03',item.SO_REASON_CODE_03_LANG)
+                    if ('SO_REASON_CODE_04_LANG' in item)
+                        item.SO_REASON_CODE_04_LANG = serviceHelper.getReasonCodeText(req,'04',item.SO_REASON_CODE_04_LANG)
+                    if ('SO_REASON_CODE_05_LANG' in item)
+                        item.SO_REASON_CODE_05_LANG = serviceHelper.getReasonCodeText(req,'05',item.SO_REASON_CODE_05_LANG)
+                    if ('SO_NETWR' in item) // Net Amount
+                        item.SO_NETWR = formatSpecialCurrencies(item.SO_NETWR, item.SO_WAERK, this._SpecialCurrencies);
+                    if ('SO_KBETR' in item) // Price Per Unit
+                        item.SO_KBETR = formatSpecialCurrencies(item.SO_KBETR, item.SO_WAERK, this._SpecialCurrencies);
+                    if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`nps${item.SO_NPS}`)
+                    if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`OrderIssue${item.SO_ISSUE}`)
+                    if ('SO_DCP_ITEM_STATUS' in item) {
+                        if (item.SO_DCP_ITEM_STATUS) {
+                            item.SO_DCP_ITEM_STATUS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
+                        }
+                    }
+                    let mandtFields = serviceHelper.getMandtFields();
+                    // MANDANT TEXTS LOGIC -------------
+                    mandtFields.forEach((mandt) => {
+                        const mandtProp = item[mandt];
+                        if (mandtProp) {
+                            let mandtTxtField = mandt + "_TEXT";
+                            item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+                        }
+                    })
+                    dateProps.forEach((property) => {
+                        const dateString = item[property]
+                        if (dateString && dateString != "00000000" && dateString != "0000-00-00" && dateString != "--") {
+                            const year = parseInt(dateString.substring(0, 4), 10);
+                            const month = parseInt(dateString.substring(4, 6), 10) - 1;
+                            const day = parseInt(dateString.substring(6, 8), 10);
+                            item[property] = new Date(year, month, day);
+                        } else {
+                            item[property] = null
+                        }
+
+                    })
+                })
+
+            }
+
+        });
+
+        /**
+      * This event is triggered before the backend request for order list data
+      * @param {string} "READ" - The type of backend request
+      * @param {string} "SAValueHelps" - The name of the entity set
+      * @param {function} - The callback function containing the code that runs when the event is triggered
+      * @param {object} req - The request object containing request details
+      * */
+        this.before("READ", "SAValueHelps", async (req) => {
+            // Check if auth table is filled
+            if (req.user.id !== "anonymous") {
+                const { VBAKAuthObjectKeys } = await cds.entities('srvOpenOrders');
+                let userID = req.user.id;
+                let authSet = await SELECT.from(VBAKAuthObjectKeys).where({ USERID: userID });
+                if (authSet.length === 0) {
+                    req.error(413, 'NO_AUTH_VALUE_HELP')
+                }
+            }
+        });
+
+
+        /**
+        * This event is triggered after the backend request for value help data
+        * @param {string} "READ" - The type of backend request
+        * @param {string} "SAValueHelps" - The name of the entity set
+        * @param {function} - The callback function containing the code that runs when the event is triggered
+        * @param {object} req - The request object containing request details
+        * */
+        this.on("READ", "SAValueHelps", async (req, next) => {
+            // get the session id based on auth token
+            let sessionID = req.headers['authorization'] || req.headers['x-username'];
+            const queryId = `${sessionID}SAQuery`
+            const db = cds.tx(req);
+            let lt_result = []
+            // if session id is there, get the cach-ed query and execute it.
+            if (sessionCache.get(queryId)) {
+                const queryString = sessionCache.get(queryId);
+                const query = JSON.parse(queryString);
+                query.SELECT.from.ref[0] = 'openOrdersSrv.schedulingAgreements'
+                let searchString = req.http.req.query["$search"] && req.http.req.query["$search"].replace(/"/g, '')
+                let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
+                if (lowerCaseSearchString) {
+                    let where = []
+                    if (req.http.req.query['$select'] && req.http.req.query['$select'].split(',').length > 1) {
+                        where = cds.parse.expr(`lower(${req.http.req.query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req.http.req.query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                    } else {
+                        where = cds.parse.expr(`lower(${req.http.req.query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                    }
+                    let requestQuery = query.SELECT.where || [];
+                    where && requestQuery.length != 0 && requestQuery.push('and');
+                    where && requestQuery.push(where);
+                    query.SELECT.where = requestQuery
+                }
+                if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
+                    // ISSUE 343357 
+                    // add skip and top parameters from real query
+                    query.SELECT.limit = req.query.SELECT.limit;
+                    // End of ISSUE 343357
+                    query.SELECT.columns.length = 0;
+                    query.SELECT.columns = req.query.SELECT.columns;
+                    if (query.SELECT.orderBy) query.SELECT.orderBy.length = 0;
+                    query.SELECT.orderBy = req.query.SELECT.orderBy;
+                    try {
+                        lt_result = await db.run(query)
+                        //lt_result = await cds.run(query);
+                        // req.header.select will have the string of visible columns. 
+                        //this parameater has been manually set to header on every request
+                        const selectedField = req.http.req.query && req.http.req.query['$select']
+                        let fields = selectedField && selectedField.split(',');
+                        if (fields) {
+                            fields = fields.filter((fieldName) => {
+                                const mandtFields = serviceHelper.getMandtFields();
+                                const mandtTextFields = mandtFields.map((mandtFieldName) => mandtFieldName + "_TEXT");
+                                if (mandtTextFields.includes(fieldName)) {
+                                    return false;
+                                } else {
+                                    return true;
+                                }
+                            });
+                            // remove duplicates based on fields in the valuehelp dialog box
+                            lt_result = serviceHelper.removeDuplicates(fields, lt_result);
+                        }
+                    } catch (error) {
+                        log.error("SA VH with Session: " + error.message + " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT) + " || " + JSON.stringify(req.query.SELECT.where));
+                        req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
+                    }
+                } else {
+                    try {
+                        const fields = req.http.req.query["search-focus"].split(',')
+                        let queryCount = 0;
+                        // We need an orderBy clause to make the query performant
+                        let keyField = fields[0];
+                        let subquery = SELECT.distinct(...fields)
+                            .from('openOrdersSrv.schedulingAgreements')
+                            .orderBy(keyField)
+                            .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
+                        // Add where clause if needed
+                        if (query.SELECT.where) {
+                            subquery = subquery.where(query.SELECT.where);
+                        }
+                        // Run the count query
+                        const distinctCount = await SELECT.from(subquery).columns('count(*) as total');
+                        if (distinctCount.length > 0) {
+                            queryCount = distinctCount[0].total;
+                        }
+                        lt_result.push({ $count: queryCount })
+                    } catch (error) {
+                        log.error("SA VH count with Session: " + error.message + " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT) + " || " + JSON.stringify(req.query.SELECT.where));
+                        req.error(status.EXPECTATION_FAILED, serviceHelper.getBundle(req.locale).getText("VALUEHELP_NOT_EXECUTED"))
+                    }
+
+                }
+
+            } else {
+                const fields = req.http.req.query && req.http.req.query["search-focus"] && req.http.req.query["search-focus"].split(',')
+                if (!fields) {
+                        req.error(status.EXPECTATION_FAILED, 'ERR_VALUE_HELP_NO_CACHE')
+                        log.error(`[order-monitoring-app-services.js] - SA VH without Session search-focus undefined:  user: ${req.user.id} SELECT:${JSON.stringify(req.query.SELECT)} WHERE:${JSON.stringify(req.query.SELECT.where)}`);
+                        return;
+                    }
+                // if there is no session id, execute the query directly
+                let searchString = req.http.req.query["$search"] && req.http.req.query["$search"].replace(/"/g, '')
+                let lowerCaseSearchString = searchString && `%${searchString.toLowerCase()}%`
+                if (lowerCaseSearchString) {
+                    let where = []
+                    if (req.http.req.query['$select'] && req.http.req.query['$select'].split(',').length > 1) {
+                        where = cds.parse.expr(`lower(${req.http.req.query['$select'].split(',')[1]}) like '${lowerCaseSearchString}' ESCAPE '^' OR lower(${req.http.req.query['$select'].split(',')[0]}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                    } else {
+                        where = cds.parse.expr(`lower(${req.http.req.query['search-focus']}) like '${lowerCaseSearchString}' ESCAPE '^'`);
+                    }
+                    let requestQuery = req.query.SELECT.where || [];
+                    where && requestQuery.length != 0 && requestQuery.push('and');
+                    where && requestQuery.push(where);
+                    req.query.SELECT.where = requestQuery
+                    // delete req.query.SELECT.search
+                }
+                if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count') {
+                    let finalQuery = SELECT.distinct.from(SAValueHelps).columns(req.query.SELECT.columns).where(req.query.SELECT.where).orderBy(req.query.SELECT.orderBy);
+                    // req.query.SELECT.distinct = true;
+                    try {
+                        lt_result = await db.run(finalQuery)
+                    } catch (error) {
+                        log.error("SA VH without Session: " + error.message + " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT) + " || " + JSON.stringify(req.query.SELECT.where));
+                        req.error(error)
+                    }
+                    //await cds.run(req.query);
+                } else {
+                    try {
+                        let queryCount = 0;
+                        // We need an orderBy clause to make the query performant
+                        let keyField = fields[0];
+                        let subquery = SELECT.distinct(...fields)
+                            .from('openOrdersSrv.schedulingAgreements')
+                            .orderBy(keyField)
+                            .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
+                        // Add where clause if needed
+                        if (req.query.SELECT.where) {
+                            subquery = subquery.where(req.query.SELECT.where);
+                        }
+
+                        // Run the count query
+                        const distinctCount = await SELECT.from(subquery).columns('count(*) as total');
+                        if (distinctCount.length > 0) {
+                            queryCount = distinctCount[0].total;
+                        }
+                        lt_result.push({ $count: queryCount })
+                    } catch (error) {
+                        log.error("SA VH count without Session: " + error.message + " || " + req.user.id + " || " + JSON.stringify(req.query.SELECT) + " || " + JSON.stringify(req.query.SELECT.where));
+                        req.error(error)
+                    }
+
+                }
+            }
+            if (req.query.SELECT.columns && req.query.SELECT.columns[0].as !== '$count' && req.query.SELECT.search) {
+                lt_result = lt_result.filter((item) => {
+                    for (const prop in item) {
+                        if (item[prop] === null) return false;
+                        // convert to lowercase both sides in order to avoid case sensitivity issues when searching
+                        if (item[prop].toLowerCase().includes(req.query.SELECT.search[0].val.toLowerCase().replace(/^["']|["']$/g, ''))) {
+                            return true;
+                        }
+                    }
+                    return false;
+
+                });
+            }
+            return lt_result;
+        })
+
+
+
+        /**
+        * This event is triggered after the backend request for value help data
+        * @param {string} "READ" - The type of backend request
+        * @param {string} "SAValueHelps" - The name of the entity set
+        * @param {function} - The callback function containing the code that runs when the event is triggered
+        * @param {array} data - The array containing the result from the backend request
+        * @param {object} req - The request object containing request details
+        * */
+        this.after("READ", "SAValueHelps", async (data, req) => {
+            data = Array.isArray(data) ? data : [data]
+            // since there is a virtual id field, adding a random guid to each record of the result set.
+            data.forEach((item) => {
+                item.id = uuid.v1()
+                if ('SO_NPS' in item) item.SO_NPS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`nps${item.SO_NPS}`)
+                if ('SO_ISSUE' in item) item.SO_ISSUE_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`OrderIssue${item.SO_ISSUE}`)
+                if ('SO_DCP_ITEM_STATUS' in item) {
+                    if (item.SO_DCP_ITEM_STATUS) {
+                        item.SO_DCP_ITEM_STATUS_DESCRIPTION = serviceHelper.getBundle(req.locale).getText(`dcpStatus${item.SO_DCP_ITEM_STATUS}`)
+                    }
+                }
+                let mandtFields = serviceHelper.getMandtFields();
+                // MANDANT TEXTS LOGIC -------------
+                mandtFields.forEach((mandt) => {
+                    const mandtProp = item[mandt];
+                    if (mandtProp) {
+                        let mandtTxtField = mandt + "_TEXT";
+                        item[mandtTxtField] = serviceHelper.getMandtFieldsNames(mandtProp);
+                    }
+                })
+            })
+
+        });
+
+        //////// END OF SCHEDULING AGREEMENTS IMPLEMENTATION  ////////
+
         return super.init();
     }
 }

@@ -125,5 +125,11 @@
       "object": "otc.csc.db.base.tables::USER_REGION",
       "schema": "_PLACEHOLDER_"
     }
+  },
+  "OPENORDERS_DB_SCHEDULING_AGREEMENTS": {
+    "target": {
+      "object": "otc.csc.db.app_service.views::CV_OPEN_ORDERLIST_FINAL_SA",
+      "schema": "_PLACEHOLDER_"
+    }
   }
 }

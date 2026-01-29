@@ -1,0 +1,43 @@
+using openOrdersSrv as service from '../../../srv/order-monitoring-amoo-services.cds';
+
+annotate service.schedulingAgreements with @UI.LineItem: {
+    ![@UI.Criticality]: 5,
+    $value            : [
+        {Value: SO_VBELN},
+        {Value: SO_POSNR},
+        {Value: SO_DUE_DATE},
+        {Value: SO_NPS},
+        {Value: SO_ISSUE},
+        {Value: SO_ERDAT_ITEM},
+        {Value: SO_WE_PARTNER_NAME},
+        {Value: SO_LAND1},
+        {Value: SO_LANDX},
+        {Value: SO_ORT01},
+        {Value: SO_WERKS},
+        {Value: SO_MAKTX},
+        {Value: SO_MATNR},
+        {Value: SO_KDMAT},
+        {Value: SO_EDATU_REQUESTED},
+        {Value: SO_EDATU_CONFIRMED},
+        {Value: SO_ZZDKPPRODB},
+        {Value: DL_VBELN},
+        {Value: DL_POSNR},
+        {Value: TM_TKNUM},
+        {Value: DL_WADAT_IST},
+        {Value: TM_TDLNR},
+        {Value: TM_TDLNR_NAME1},
+        {Value: SO_VKORG},
+        {Value: SO_VTWEG},
+        {Value: SO_KWMENG},
+        {Value: SO_KBMENG},
+        {Value: SO_NETWR},
+        {Value: SO_KBETR},
+        {Value: SO_ROUTE},
+        {Value: SO_F_LDDAT},
+        {Value: TM_DPTBG},
+        {Value: TM_DPTEN},
+        {Value: TM_DATBG},
+        {Value: TM_DATEN},
+        {Value: TM_VISTA_STATUS}
+    ]
+};
