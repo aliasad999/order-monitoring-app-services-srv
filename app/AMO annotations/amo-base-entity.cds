@@ -270,5 +270,11 @@ annotate service.BaseEntity with {
     SO_KVGR5_TEXT                    @title: '{i18n>SO_KVGR5_TEXT}'                    @sap.Label: '{i18n>SO_KVGR5_TEXT}';
     SO_ZMENG                         @title: '{i18n>SO_ZMENG}'                         @sap.Label: '{i18n>SO_ZMENG}';
     SO_ZIEME                         @title: '{i18n>SO_ZIEME}'                         @sap.Label: '{i18n>SO_ZIEME}';
-    
+    SO_RG_PARTNER                    @title: '{i18n>SO_RG_PARTNER}'                    @sap.Label: '{i18n>SO_RG_PARTNER}';
+    SO_RG_PARTNER_NAME               @title: '{i18n>SO_RG_PARTNER_NAME}'               @sap.Label: '{i18n>SO_RG_PARTNER_NAME}';
+    SO_RE_PARTNER                    @title: '{i18n>SO_RE_PARTNER}'                    @sap.Label: '{i18n>SO_RE_PARTNER}';
+    SO_RE_PARTNER_NAME               @title: '{i18n>SO_RE_PARTNER_NAME}'               @sap.Label: '{i18n>SO_RE_PARTNER_NAME}';
+    SO_AG_PARTNER_LAND1              @title: '{i18n>SO_AG_PARTNER_LAND1}'              @sap.Label: '{i18n>SO_AG_PARTNER_LAND1}';
+    SO_AG_PARTNER_LAND1_LANG         @title: '{i18n>SO_AG_PARTNER_LAND1_LANG}'         @sap.Label: '{i18n>SO_AG_PARTNER_LAND1_LANG}';
+    SO_ERNAM                         @title: '{i18n>SO_ERNAM}'                         @sap.Label: '{i18n>SO_ERNAM}';
 }
