@@ -20,7 +20,7 @@
     "@sap/xotel-agent-ext-js": "1.5.34",
     "@sap/xsenv": "^5.5.0",
     "@sap/xssec": "^4.2.8",
-    "basf-cf-credential-store-helper": "^2.1.4",
+    "@basf/cf-credential-store-helper": "^2.1.7",
     "body-parser": "^1.20.3",
     "cf-nodejs-logging-support": "^7.4.0",
     "express": "^4.21.2",
