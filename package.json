@@ -33,6 +33,14 @@
     "uuid": "^11.0.3",
     "date-fns": "^4.1.0"
   },
+  "overrides": {
+    "express-validator": { 
+      "lodash" : "^4.17.23"
+    },
+    "mocha": {
+      "diff": "8.0.3"
+    }
+  },
   "devDependencies": {
     "@cap-js/cds-test": "^0.4.0",
     "@sap/hdi-deploy":"^5.5.1",
