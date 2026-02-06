@@ -226,6 +226,12 @@ annotate service.allIssues with {
     @Common.TextFor
     PO_MANDT_TEXT;
 
+    @Common.Text           : SO_NEXT_SO_MANDT_TEXT
+    @Common.TextArrangement: #TextOnly
+    SO_NEXT_SO_MANDT                    @title: '{i18n>SO_NEXT_SO_MANDT}'                         @sap.Label: '{i18n>SO_NEXT_SO_MANDT}';
+    @Common.TextFor
+    SO_NEXT_SO_MANDT_TEXT;
+
     @Common.Text           : SO_ISSUE_LOCATION_MANDT_TEXT
     @Common.TextArrangement: #TextOnly
     SO_ISSUE_LOCATION_MANDT  @title: '{i18n>SO_ISSUE_LOCATION_MANDT}'          @sap.Label: '{i18n>SO_ISSUE_LOCATION_MANDT}';
@@ -268,32 +274,50 @@ annotate service.allIssues with {
     SO_ZTERM                 @title: '{i18n>SO_ZTERM}'                         @sap.Label: '{i18n>SO_ZTERM}';
     @Common.Text           : SO_MFRGR_BEZEI_LANG
     @Common.TextArrangement: #TextFirst
-    SO_MFRGR                 @title: '{i18n>SO_MFRGR}'                         @sap.Label: '{i18n>SO_MFRGR}';
+    SO_MFRGR                  @title: '{i18n>SO_MFRGR}'                         @sap.Label: '{i18n>SO_MFRGR}';
     @Common.TextFor
-    SO_MFRGR_BEZEI_LANG      @title: '{i18n>SO_MFRGR_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MFRGR_BEZEI_LANG}';
+    SO_MFRGR_BEZEI_LANG       @title: '{i18n>SO_MFRGR_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MFRGR_BEZEI_LANG}';
     @Common.Text           : TM_TS_PARTNER_NAME1
     @Common.TextArrangement: #TextFirst
-    TM_TS_PARTNER                 @title: '{i18n>TM_TS_PARTNER}'               @sap.Label: '{i18n>TM_TS_PARTNER}';
+    TM_TS_PARTNER             @title: '{i18n>TM_TS_PARTNER}'                    @sap.Label: '{i18n>TM_TS_PARTNER}';
     @Common.TextFor
-    TM_TS_PARTNER_NAME1      @title: '{i18n>TM_TS_PARTNER_NAME1}'              @sap.Label: '{i18n>TM_TS_PARTNER_NAME1}';
-    
+    TM_TS_PARTNER_NAME1       @title: '{i18n>TM_TS_PARTNER_NAME1}'              @sap.Label: '{i18n>TM_TS_PARTNER_NAME1}';
+
     @Common.Text           : SO_OM_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_OM_PARTNER               @title: '{i18n>SO_OM_PARTNER}'                    @sap.Label: '{i18n>SO_OM_PARTNER}'    @Common.IsDigitSequence: true;
+    SO_OM_PARTNER             @title: '{i18n>SO_OM_PARTNER}'                    @sap.Label: '{i18n>SO_OM_PARTNER}'        @Common.IsDigitSequence: true;
     @Common.TextFor
-    SO_OM_PARTNER_NAME          @title: '{i18n>SO_OM_PARTNER_NAME}'               @sap.Label: '{i18n>SO_OM_PARTNER_NAME}';
+    SO_OM_PARTNER_NAME        @title: '{i18n>SO_OM_PARTNER_NAME}'               @sap.Label: '{i18n>SO_OM_PARTNER_NAME}';
 
     @Common.Text           : SO_AH_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_AH_PARTNER               @title: '{i18n>SO_AH_PARTNER}'                    @sap.Label: '{i18n>SO_AH_PARTNER}'    @Common.IsDigitSequence: true;
+    SO_AH_PARTNER             @title: '{i18n>SO_AH_PARTNER}'                    @sap.Label: '{i18n>SO_AH_PARTNER}'        @Common.IsDigitSequence: true;
     @Common.TextFor
-    SO_AH_PARTNER_NAME          @title: '{i18n>SO_AH_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AH_PARTNER_NAME}';
+    SO_AH_PARTNER_NAME        @title: '{i18n>SO_AH_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AH_PARTNER_NAME}';
 
     @Common.Text           : SO_KVGR5_TEXT
     @Common.TextArrangement: #TextFirst
-    SO_KVGR5               @title: '{i18n>SO_KVGR5}'                    @sap.Label: '{i18n>SO_KVGR5}'    @Common.IsDigitSequence: true;
+    SO_KVGR5                  @title: '{i18n>SO_KVGR5}'                         @sap.Label: '{i18n>SO_KVGR5}'             @Common.IsDigitSequence: true;
     @Common.TextFor
-    SO_KVGR5_TEXT          @title: '{i18n>SO_KVGR5_TEXT}'               @sap.Label: '{i18n>SO_KVGR5_TEXT}';
+    SO_KVGR5_TEXT             @title: '{i18n>SO_KVGR5_TEXT}'                    @sap.Label: '{i18n>SO_KVGR5_TEXT}';
+
+    @Common.Text           : SO_RG_PARTNER_NAME
+    @Common.TextArrangement: #TextFirst
+    SO_RG_PARTNER             @title: '{i18n>SO_RG_PARTNER}'                    @sap.Label: '{i18n>SO_RG_PARTNER}'        @Common.IsDigitSequence: true;
+    @Common.TextFor
+    SO_RG_PARTNER_NAME        @title: '{i18n>SO_RG_PARTNER_NAME}'               @sap.Label: '{i18n>SO_RG_PARTNER_NAME}';
+
+    @Common.Text           : SO_RE_PARTNER_NAME
+    @Common.TextArrangement: #TextFirst
+    SO_RE_PARTNER             @title: '{i18n>SO_RE_PARTNER}'                    @sap.Label: '{i18n>SO_RE_PARTNER}'        @Common.IsDigitSequence: true;
+    @Common.TextFor
+    SO_RE_PARTNER_NAME        @title: '{i18n>SO_RE_PARTNER_NAME}'               @sap.Label: '{i18n>SO_RE_PARTNER_NAME}';
+
+    @Common.Text           : SO_AG_PARTNER_LAND1_LANG
+    @Common.TextArrangement: #TextFirst
+    SO_AG_PARTNER_LAND1       @title: '{i18n>SO_AG_PARTNER_LAND1}'              @sap.Label: '{i18n>SO_AG_PARTNER_LAND1}'  @Common.IsDigitSequence: true;
+    @Common.TextFor
+    SO_AG_PARTNER_LAND1_LANG  @title: '{i18n>SO_AG_PARTNER_LAND1_LANG}'         @sap.Label: '{i18n>SO_AG_PARTNER_LAND1_LANG}';
 }
 /// UI visibility of fields
 annotate service.allIssues with {
@@ -337,6 +361,7 @@ annotate service.allIssues with {
     SO_FINAL_SO_MANDT_TEXT          @UI                     : {Hidden: true};
     SO_FIRST_SO_MANDT_TEXT          @UI                     : {Hidden: true};
     PO_MANDT_TEXT                   @UI                     : {Hidden: true};
+    SO_NEXT_SO_MANDT_TEXT           @UI                     : {Hidden: true};
     SO_ISSUE_LOCATION_MANDT_TEXT    @UI                     : {Hidden: true};
     PO_EKNAM                        @UI                     : {Hidden: true};
     PO_EKOTX                        @UI                     : {Hidden: true};
@@ -410,4 +435,7 @@ annotate service.allIssues with {
     SO_AH_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_KVGR5_TEXT                   @UI                     : {Hidden: true};
     SO_ZIEME                        @UI                     : {Hidden: true};
+    SO_RG_PARTNER_NAME              @UI                     : {Hidden: true};
+    SO_RE_PARTNER_NAME              @UI                     : {Hidden: true};
+    SO_AG_PARTNER_LAND1_LANG        @UI                     : {Hidden: true};
 }

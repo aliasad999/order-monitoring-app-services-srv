@@ -70,6 +70,7 @@ annotate service.BaseEntity with {
     SO_ISCOMPLETED                   @title: '{i18n>SO_ISCOMPLETED}'                   @sap.Label: '{i18n>SO_ISCOMPLETED}';
     SO_LEVEL_TYPE                    @title: '{i18n>SO_LEVEL_TYPE}'                    @sap.Label: '{i18n>SO_LEVEL_TYPE}';
     SO_N_VBELN                       @title: '{i18n>SO_N_VBELN}'                       @sap.Label: '{i18n>SO_N_VBELN}'          @Common.IsDigitSequence: true;
+    SO_N_POSNR                       @title: '{i18n>SO_N_POSNR}'                       @sap.Label: '{i18n>SO_N_POSNR}'          @Common.IsDigitSequence: true;
     SO_F_VBELN                       @title: '{i18n>SO_F_VBELN}'                       @sap.Label: '{i18n>SO_F_VBELN}'          @Common.IsDigitSequence: true;
     SO_F_POSNR                       @title: '{i18n>SO_F_POSNR}'                       @sap.Label: '{i18n>SO_F_POSNR}'          @Common.IsDigitSequence: true;
     SO_VBTYP                         @title: '{i18n>SO_VBTYP}'                         @sap.Label: '{i18n>SO_VBTYP}';
@@ -224,6 +225,7 @@ annotate service.BaseEntity with {
     SO_FIRST_SO_MANDT                @title: '{i18n>SO_FIRST_SO_MANDT}'                @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
     SO_FINAL_SO_MANDT                @title: '{i18n>SO_FINAL_SO_MANDT}'                @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
     PO_MANDT                         @title: '{i18n>PO_MANDT}'                         @sap.Label: '{i18n>PO_MANDT}';
+    SO_NEXT_SO_MANDT                 @title: '{i18n>SO_NEXT_SO_MANDT}'                 @sap.Label: '{i18n>SO_NEXT_SO_MANDT}';
     SO_MANDT_TEXT                    @title: '{i18n>SO_MANDT}'                         @sap.Label: '{i18n>SO_MANDT}';
     DL_MANDT_TEXT                    @title: '{i18n>DL_MANDT}'                         @sap.Label: '{i18n>DL_MANDT}';
     TM_MANDT_TEXT                    @title: '{i18n>TM_MANDT}'                         @sap.Label: '{i18n>TM_MANDT}';
@@ -232,6 +234,7 @@ annotate service.BaseEntity with {
     SO_FIRST_SO_MANDT_TEXT           @title: '{i18n>SO_FIRST_SO_MANDT}'                @sap.Label: '{i18n>SO_FIRST_SO_MANDT}';
     SO_FINAL_SO_MANDT_TEXT           @title: '{i18n>SO_FINAL_SO_MANDT}'                @sap.Label: '{i18n>SO_FINAL_SO_MANDT}';
     PO_MANDT_TEXT                    @title: '{i18n>PO_MANDT}'                         @sap.Label: '{i18n>PO_MANDT}';
+    SO_NEXT_SO_MANDT_TEXT            @title: '{i18n>SO_NEXT_SO_MANDT}'                 @sap.Label: '{i18n>SO_NEXT_SO_MANDT}';
     DL_TRMTYP                        @title: '{i18n>DL_TRMTYP}'                        @sap.Label: '{i18n>DL_TRMTYP}'           @Common.IsDigitSequence: true;
     DL_TRMTYP_MAKTX                  @title: '{i18n>DL_TRMTYP_MAKTX_LANG}'             @sap.Label: '{i18n>DL_TRMTYP_MAKTX_LANG}';
     SO_AUGRU                         @title: '{i18n>SO_AUGRU}'                         @sap.Label: '{i18n>SO_AUGRU}';
@@ -267,5 +270,11 @@ annotate service.BaseEntity with {
     SO_KVGR5_TEXT                    @title: '{i18n>SO_KVGR5_TEXT}'                    @sap.Label: '{i18n>SO_KVGR5_TEXT}';
     SO_ZMENG                         @title: '{i18n>SO_ZMENG}'                         @sap.Label: '{i18n>SO_ZMENG}';
     SO_ZIEME                         @title: '{i18n>SO_ZIEME}'                         @sap.Label: '{i18n>SO_ZIEME}';
-    
+    SO_RG_PARTNER                    @title: '{i18n>SO_RG_PARTNER}'                    @sap.Label: '{i18n>SO_RG_PARTNER}';
+    SO_RG_PARTNER_NAME               @title: '{i18n>SO_RG_PARTNER_NAME}'               @sap.Label: '{i18n>SO_RG_PARTNER_NAME}';
+    SO_RE_PARTNER                    @title: '{i18n>SO_RE_PARTNER}'                    @sap.Label: '{i18n>SO_RE_PARTNER}';
+    SO_RE_PARTNER_NAME               @title: '{i18n>SO_RE_PARTNER_NAME}'               @sap.Label: '{i18n>SO_RE_PARTNER_NAME}';
+    SO_AG_PARTNER_LAND1              @title: '{i18n>SO_AG_PARTNER_LAND1}'              @sap.Label: '{i18n>SO_AG_PARTNER_LAND1}';
+    SO_AG_PARTNER_LAND1_LANG         @title: '{i18n>SO_AG_PARTNER_LAND1_LANG}'         @sap.Label: '{i18n>SO_AG_PARTNER_LAND1_LANG}';
+    SO_ERNAM                         @title: '{i18n>SO_ERNAM}'                         @sap.Label: '{i18n>SO_ERNAM}';
 }

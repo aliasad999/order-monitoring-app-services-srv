@@ -114,6 +114,7 @@ entity ![OPENORDERSLIST] {
         LEVEL_TYPE                         : String(7);
         NEXT_SO                            : String(10);
         NEXT_POSNR                         : String(6);
+        NEXT_SO_MANDT                      : String(3);
         FINAL_SO                           : String(10);
         FINAL_POSNR                        : String(6);
         VBTYP                              : String(1);
@@ -142,6 +143,7 @@ entity ![OPENORDERSLIST] {
         F_LDDAT                            : String(8);
         F_LDDAT_DATE                       : Date = F_LDDAT;
         F_LGORT                            : String(4);
+        LGORT_DEL                          : String(4);
         F_TDDAT                            : String(8);
         F_TDDAT_DATE                       : Date = F_TDDAT;
         F_ZZ0S2MATUG                       : String(18);
@@ -398,6 +400,15 @@ entity ![OPENORDERSLIST] {
         ATD_VISTA                          : String(8);
         ZMENG                              : Decimal(13,3); // Target Quantity
         ZIEME                              : String(3); // Target Quantity Unit
+        RG_PARTNER                         : String(10);
+        RG_PARTNER_NAME1                   : String(40);
+        RG_PARTNER_NAME2                   : String(40);
+        RE_PARTNER                         : String(10);
+        RE_PARTNER_NAME1                   : String(40);
+        RE_PARTNER_NAME2                   : String(40);
+        AG_PARTNER_LAND1                   : String(3);
+        AG_PARTNER_LAND1_LANG              : String(15);
+        ERNAM                              : String(12);
 }
 
 entity ContactsOptions {
@@ -420,152 +431,6 @@ entity ![DUE_DATE_LIMIT] {
 entity orderChangeUsers {
         key userId : User;
             active : Boolean;
-}
-
-@cds.persistence.exists
-@cds.persistence.calcview
-entity ![SALESORDER_DETAILS](IP_LANG: String(2)) {
-        key MANDT                  : String(3);
-        key VBELN                  : String(10);
-        key POSNR                  : String(6);
-            ERDAT_ORDER            : String(8);
-            ERDAT_ITEM             : String(8);
-            AUART                  : String(4);
-            WERKS                  : String(4);
-            VTWEG                  : String(2);
-            MATNR                  : String(18);
-            MAKTX_LANG             : String(40);
-            KDMAT                  : String(35);
-            AG_PARTNER             : String(10);
-            AG_PARTNER_NAME1       : String(40);
-            AG_PARTNER_NAME2       : String(40);
-            WE_PARTNER             : String(10);
-            WE_PARTNER_NAME1       : String(40);
-            WE_PARTNER_NAME2       : String(40);
-            CO_PARTNER_HEAD        : String(10);
-            CO_PARTNER_NAME1_HEAD  : String(40);
-            CO_PARTNER_NAME2_HEAD  : String(40);
-            CO_PARTNER_ITM         : String(10);
-            CO_PARTNER_NAME1_ITM   : String(40);
-            CO_PARTNER_NAME2_ITM   : String(40);
-            NY_PARTNER_HEAD        : String(10);
-            NY_PARTNER_NAME1_HEAD  : String(40);
-            NY_PARTNER_NAME2_HEAD  : String(40);
-            NY_PARTNER_ITM         : String(10);
-            NY_PARTNER_NAME1_ITM   : String(40);
-            NY_PARTNER_NAME2_ITM   : String(40);
-            AS_PARTNER_HEAD        : String(8);
-            AS_PARTNER_NAME_HEAD   : String(40);
-            AS_PARTNER_ITM         : String(8);
-            AS_PARTNER_NAME_ITM    : String(40);
-            VE_PARTNER_HEAD        : String(8);
-            VE_PARTNER_NAME_HEAD   : String(40);
-            VE_PARTNER_ITM         : String(8);
-            VE_PARTNER_NAME_ITM    : String(40);
-            AM_PARTNER_HEAD        : String(8);
-            AM_PARTNER_NAME_HEAD   : String(40);
-            AM_PARTNER_ITM         : String(8);
-            AM_PARTNER_NAME_ITM    : String(40);
-            LAND1                  : String(3);
-            LANDX_LANG             : String(15);
-            ORT01                  : String(35);
-            VKORG                  : String(4);
-            VKORG_NAME1            : String(40);
-            KNREF_HEAD             : String(30);
-            KNREF_ITM              : String(30);
-            VBUND                  : String(6);
-            EDATU_REQUESTED        : String(8);
-            KWMENG                 : Decimal(15, 3);
-            VRKME                  : String(3);
-            EDATU_CONFIRMED        : String(8);
-            KBMENG                 : Decimal(15, 3);
-            LDDAT                  : String(8);
-            UNCONFIRMED_QTY        : Decimal(15, 3);
-            REQ_TEXT               : String(250);
-            FAKSP                  : String(2);
-            FAKSP_VTEXT_LANG       : String(20);
-            LGORT                  : String(4);
-            SUPPLY_SITUATION       : Int16;
-            SUPPLY_SITUATION_DESCR : String(60);
-            KBETR                  : Decimal(11, 2);
-            KBETR_ALT              : Decimal(11, 2);
-            WAERS                  : String(5);
-            WAERS_ALT              : String(5);
-            KPEIN                  : Decimal(5);
-            KPEIN_ALT              : String(5);
-            KMEIN                  : String(3);
-            KMEIN_ALT              : String(3);
-            NETWR                  : Decimal(15, 2);
-            WAERK                  : String(5);
-            HTEXT                  : String(4000);
-            PSTYV                  : String(4);
-            PSTYV_VTEXT_LANG       : String(20);
-            DISPO                  : String(3);
-            KOSCH                  : String(18);
-            VKBUR                  : String(4);
-            VKBUR_BEZEI_LANG       : String(20);
-            ABGRU                  : String(2);
-            ABSTA                  : String(1);
-            KNUMV                  : String(10);
-            SPART                  : String(2);
-            INCO1_HEAD             : String(3);
-            INCO1_ITEM             : String(3);
-            INCO2_HEAD             : String(3);
-            INCO2_ITEM             : String(28);
-            ZTERM_HEAD             : String(4);
-            ZTERM_ITEM             : String(4);
-            PRSDT                  : String(8);
-            ZZ0S2REVG2             : String(10);
-            ZZDKPPRODB             : String(18);
-            BSARK                  : String(4);
-            BSARK_VTEXT_LANG       : String(20);
-            BASF_LOFCR             : String(20);
-            GUSCON                 : String(15);
-            GUSCON_ITM             : String(6);
-            GUSCON_LEVEL           : String(2);
-            FIRST_SO               : String(10);
-            FIRST_POSNR            : String(6);
-            ISCOMPLETED            : String(1);
-            LEVEL_TYPE             : String(1);
-            NEXT_SO                : String(10);
-            NEXT_POSNR             : String(6);
-            FINAL_SO               : String(10);
-            FINAL_POSNR            : String(6);
-            VBTYP                  : String(1);
-            BSTKD                  : String(35);
-            TRAGR                  : String(4);
-            TRAGR_VTEXT_LANG       : String(20);
-            VKGRP                  : String(3);
-            VKGRP_BEZEI_LANG       : String(20);
-            ROUTE                  : String(6);
-            TDDAT                  : String(8);
-            ZZ0S2MATUG             : String(18);
-            VSBED                  : String(2);
-            VSBED_VTEXT_LANG       : String(20);
-            AUFNR                  : String(12);
-            DGLTP                  : String(8);
-            AMEIN                  : String(3);
-            PSMNG                  : Decimal(13, 3);
-            FAKSK                  : String(2);
-            FAKSK_VTEXT_LANG       : String(20);
-            SO_LAST_UPDATE         : Timestamp;
-            MBDAT                  : String(8);
-            MBDAT_DATE             : Date = MBDAT;
-            TO_PARTNER_HEAD        : String(10);
-            TO_PARTNER_ITM         : String(10);
-            TO_PARTNER_NAME1_HEAD  : String(40);
-            TO_PARTNER_NAME2_HEAD  : String(40);
-            TO_PARTNER_NAME1_ITM   : String(40);
-            TO_PARTNER_NAME2_ITM   : String(40);
-            ZTERM_HEAD_VTEXT_LANG  : String(30);
-            ZTERM_ITEM_VTEXT_LANG  : String(30);
-            MFRGR                  : String(8);
-            MFRGR_BEZEI_LANG       : String(80);
-            AKB_FLAG               : String(1);
-            ABRDT                  : String(8);
-            ABRDT_DATE             : Date = ABRDT;
-            MTVFP                  : String(2);
-            PERFK                  : String(2);
 }
 
 @cds.persistence.exists

@@ -48,6 +48,7 @@ service openOrdersSrv {
                 BL_MANDT_INV_FIRST,
                 BL_MANDT_INV_LAST,
                 ISSUE_LOCATION_MANDT                        as SO_ISSUE_LOCATION_MANDT,
+                NEXT_SO_MANDT                               as SO_NEXT_SO_MANDT,
                 virtual null                                as SO_MANDT_TEXT                   : String(20),
                 virtual null                                as DL_MANDT_TEXT                   : String(20),
                 virtual null                                as TM_MANDT_TEXT                   : String(20),
@@ -57,6 +58,7 @@ service openOrdersSrv {
                 virtual null                                as SO_FIRST_SO_MANDT_TEXT          : String(20),
                 virtual null                                as PO_MANDT_TEXT                   : String(20),
                 virtual null                                as SO_ISSUE_LOCATION_MANDT_TEXT    : String(20),
+                virtual null                                as SO_NEXT_SO_MANDT_TEXT          : String(20),
                 VBELN                                       as SO_VBELN,
                 POSNR                                       as SO_POSNR,
                 ERDAT_ORDER_DATE                            as SO_ERDAT_ORDER,
@@ -234,7 +236,7 @@ service openOrdersSrv {
                     F_AS_PARTNER_NAME_ITM, F_AS_PARTNER_NAME_HEAD
                 )                                           as SO_F_AS_PARTNER_NAME            : String(40),
                 F_LDDAT_DATE                                as SO_F_LDDAT,
-                F_LGORT                                     as SO_F_LGORT,
+                case when ( LGORT_DEL is null or LGORT_DEL = '' ) then F_LGORT else LGORT_DEL end as SO_F_LGORT: String(4),
                 F_TDDAT_DATE                                as SO_F_TDDAT,
                 F_DGLTP_DATE                                as SO_F_DGLTP,
                 F_ZZ0S2MATUG                                as SO_F_ZZ0S2MATUG,
@@ -472,8 +474,14 @@ service openOrdersSrv {
                 KVGR5_LANG                                  as SO_KVGR5_TEXT,
                 ZMENG                                       as SO_ZMENG, // Target Quantity
                 ZIEME                                       as SO_ZIEME, // Target Quantity Unit
-
-    }
+                RG_PARTNER                                  as SO_RG_PARTNER,
+                COALESCE(RG_PARTNER_NAME1, '') || ' ' || COALESCE(RG_PARTNER_NAME2, '') as SO_RG_PARTNER_NAME : String(80),
+                RE_PARTNER                                  as SO_RE_PARTNER,
+                COALESCE(RE_PARTNER_NAME1, '') || ' ' || COALESCE(RE_PARTNER_NAME2, '') as SO_RE_PARTNER_NAME : String(80),
+                AG_PARTNER_LAND1                            as SO_AG_PARTNER_LAND1,
+                AG_PARTNER_LAND1_LANG                       as SO_AG_PARTNER_LAND1_LANG,
+                ERNAM                                       as SO_ERNAM
+        }
 
 
     @readonly
@@ -540,13 +548,6 @@ service openOrdersSrv {
     entity dueDateLimit             as projection on db_app.DUE_DATE_LIMIT;
     entity ChangeDocSet             as projection on CSEUCockpitService.ChangeDocSet;
     entity ShipmentUpdates          as projection on AMOOUtilsService.ShipmentUpdates;
-
-    // Sales order details from generic service
-    entity salesOrderDetails        as
-        select * from db_app.SALESORDER_DETAILS (
-            IP_LANG:LEFT(UPPER($user.locale), )
-        );
-
     entity ignoreSalesOrder         as projection on db_app.IGNORED_SO;
     function getIssueReason(issuePayload : String)                                                     returns array of db_app.issue_reason;
     action   createDeliveryforAllItem(salesOrder : String(10))                                         returns Boolean;

@@ -135,6 +135,7 @@ entity ![RESULTS] {
         LEVEL_TYPE                         : String(1);
         NEXT_SO                            : String(10);
         NEXT_POSNR                         : String(6);
+        NEXT_SO_MANDT                      : String(3);
         FINAL_SO                           : String(10);
         FINAL_POSNR                        : String(6);
         VBTYP                              : String(1);
@@ -390,8 +391,17 @@ entity ![RESULTS] {
         KVGR5_LANG                         : String(20);
         ATA_VISTA                          : String(8);
         ATD_VISTA                          : String(8);
-        ZMENG                              : Decimal(13,3); // Target Quantity
+        ZMENG                              : Decimal(13, 3); // Target Quantity
         ZIEME                              : String(3); // Target Quantity Unit
+        RG_PARTNER                         : String(10);
+        RG_PARTNER_NAME1                   : String(40);
+        RG_PARTNER_NAME2                   : String(40);
+        RE_PARTNER                         : String(10);
+        RE_PARTNER_NAME1                   : String(40);
+        RE_PARTNER_NAME2                   : String(40);
+        AG_PARTNER_LAND1                   : String(3);
+        AG_PARTNER_LAND1_LANG              : String(15);
+        ERNAM                              : String(12);
 }
 
 entity PARTNER_SETTINGS {
