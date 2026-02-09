@@ -338,6 +338,8 @@ annotate service.Results with {
     BL_WAERK_LAST                   @Semantics.currencyCode;
     SO_ZMENG                        @Measures.Unit          : SO_ZIEME;
     SO_ZIEME                        @Semantics.unitOfMeasure: 'unit-of-measure';
+    DL_ITEM_GROSS_WEIGHT            @Measures.Unit          : DL_ITEM_WEIGHT_UNIT;
+    DL_ITEM_WEIGHT_UNIT             @Semantics.unitOfMeasure: 'unit-of-measure';
     SO_CO_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_NY_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_AS_PARTNER_NAME              @UI                     : {Hidden: true};
@@ -418,4 +420,5 @@ annotate service.Results with {
     SO_RG_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_RE_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_AG_PARTNER_LAND1_LANG        @UI                     : {Hidden: true};
+    DL_ITEM_WEIGHT_UNIT             @UI                     : {Hidden: true};
 }

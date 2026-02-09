@@ -480,7 +480,10 @@ service openOrdersSrv {
                 COALESCE(RE_PARTNER_NAME1, '') || ' ' || COALESCE(RE_PARTNER_NAME2, '') as SO_RE_PARTNER_NAME : String(80),
                 AG_PARTNER_LAND1                            as SO_AG_PARTNER_LAND1,
                 AG_PARTNER_LAND1_LANG                       as SO_AG_PARTNER_LAND1_LANG,
-                ERNAM                                       as SO_ERNAM
+                ERNAM                                       as SO_ERNAM,
+                GOODS_ISSUE_SLIP_NUMBER                     as DL_GOODS_ISSUE_SLIP_NUMBER,
+                ITEM_GROSS_WEIGHT                           as DL_ITEM_GROSS_WEIGHT,
+                ITEM_WEIGHT_UNIT                            as DL_ITEM_WEIGHT_UNIT
         }
 
 

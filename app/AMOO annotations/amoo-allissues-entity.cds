@@ -347,6 +347,8 @@ annotate service.allIssues with {
     PO_MEINS                        @Semantics.unitOfMeasure: 'unit-of-measure';
     SO_ZMENG                        @Measures.Unit          : SO_ZIEME;
     SO_ZIEME                        @Semantics.unitOfMeasure: 'unit-of-measure';
+    DL_ITEM_GROSS_WEIGHT            @Measures.Unit          : SO_ZIEME;
+    DL_ITEM_WEIGHT_UNIT             @Semantics.unitOfMeasure: 'unit-of-measure';
     id                              @UI                     : {Hidden: true};
     SO_DOC_TYP                      @UI                     : {Hidden: true};
     SO_IGNORED                      @UI                     : {Hidden: true};
@@ -438,4 +440,5 @@ annotate service.allIssues with {
     SO_RG_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_RE_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_AG_PARTNER_LAND1_LANG        @UI                     : {Hidden: true};
+    DL_ITEM_WEIGHT_UNIT             @UI                     : {Hidden: true};
 }
