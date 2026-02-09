@@ -347,7 +347,7 @@ annotate service.allIssues with {
     PO_MEINS                        @Semantics.unitOfMeasure: 'unit-of-measure';
     SO_ZMENG                        @Measures.Unit          : SO_ZIEME;
     SO_ZIEME                        @Semantics.unitOfMeasure: 'unit-of-measure';
-    DL_ITEM_GROSS_WEIGHT            @Measures.Unit          : SO_ZIEME;
+    DL_ITEM_GROSS_WEIGHT            @Measures.Unit          : DL_ITEM_WEIGHT_UNIT;
     DL_ITEM_WEIGHT_UNIT             @Semantics.unitOfMeasure: 'unit-of-measure';
     id                              @UI                     : {Hidden: true};
     SO_DOC_TYP                      @UI                     : {Hidden: true};
