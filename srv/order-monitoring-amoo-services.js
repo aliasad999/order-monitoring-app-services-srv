@@ -278,14 +278,13 @@ class openOrdersSrv extends cds.ApplicationService {
             let reqData = JSON.parse(req.data.payload); // parse stringified object
             let postData = {
                 payload: {
-                    "SalesOrder": reqData.SalesOrder,
-                    "SalesOrderItem": reqData.SalesOrderItem,
-                    "Internal": reqData.internal,
-                    "RejectionReason": null,
+                    "Order": reqData.SalesOrder,
+                    "OrderItem": reqData.SalesOrderItem,
+                    "Internal": reqData.Internal,
                     "RequestedScheduleLines": {
                         "Date": reqData.RequestedScheduleLines.Date,
                         "Quantity": reqData.RequestedScheduleLines.Quantity,
-                        "Unit": reqData.RequestedScheduleLines.SalesUnit
+                        "Unit": reqData.RequestedScheduleLines.Unit
                     }
                 }
             };
@@ -345,6 +344,8 @@ class openOrdersSrv extends cds.ApplicationService {
         this.on("isOrderChangeableV2", async req => {
             let SalesOrderNumber = req.data.salesOrder; 
             let SalesOrderItem = req.data.salesOrderItem;
+            let finalData = {}
+
             let orderChangeTabData = {};
             let scheduleLines = {};
             const orderChangeService = await cds.connect.to('S4OrderChangeService');
@@ -360,11 +361,49 @@ class openOrdersSrv extends cds.ApplicationService {
                     path: `/A_SalesOrderItem(SalesOrder='${SalesOrderNumber}',SalesOrderItem='${SalesOrderItem}')/to_ScheduleLine` 
                 });
 
+                if(orderChangeTabData){
+                    finalData = {
+                        Editable: orderChangeTabData.Editable,
+                        DirectChange: orderChangeTabData.DirectChange,
+                        WorkflowChange: orderChangeTabData.WorkflowChange,
+                        CancelFlag: orderChangeTabData.CancelFlag,
+                        BizagiCaseInProgress: false, // always false
+                        FinalOrder: orderChangeTabData.FinalOrder,
+                        FinalItem: orderChangeTabData.FinalItem,
+                        FirstOrder: orderChangeTabData.FirstOrder,
+                        FirstItem: orderChangeTabData.FirstItem,
+                        SalesOrder: orderChangeTabData.SalesOrder,
+                        SalesOrderItem: orderChangeTabData.SalesOrderItem,
+                        OrdSchedReq: [],
+                        OrdSchedConf: []
+                    }
+                    if(scheduleLines.length > 0){
+                        scheduleLines.forEach((schedLine) => {
+                            // Requested Schedule Lines
+                            finalData.OrdSchedReq.push({
+                                Quantity: schedLine.ScheduleLineOrderQuantity,
+                                SalesUnit: schedLine.OrderQuantitySAPUnit,
+                                SlDate: schedLine.RequestedDeliveryDate ,
+                                SlNum: schedLine.ScheduleLine
+                            });
+                            // Confirmed Schedule Lines
+                            if(schedLine.ConfirmedDeliveryDate){
+                                finalData.OrdSchedConf.push({
+                                    Quantity: schedLine.ConfdOrderQtyByMatlAvailCheck,
+                                    SalesUnit: schedLine.OrderQuantitySAPUnit,
+                                    SlDate: schedLine.ConfirmedDeliveryDate,
+                                    SlNum: schedLine.ScheduleLine
+                                });
+                            }
+                        })
+                        
+                    }
+                }
+
             } catch (error) {
                 req.error(413, error)
             }
-            // orderChangeTabData.OrdSchedConf[0].SlDate = new Date()
-            return orderChangeTabData
+            return finalData
         });
 
         this.on("READ", "ContactSet", async (req, next) => {
