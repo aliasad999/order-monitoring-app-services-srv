@@ -555,6 +555,7 @@ service openOrdersSrv {
     entity SAPTexts                 as projection on db_app.SAPTexts;
     function getSAPTexts(salesOrder : String(10), salesOrderItem : String(6), orderSystem : String(3)) returns array of SAPTexts;
     function isOrderChangeable(salesOrder : String(10), salesOrderItem : String(6)) returns S4OCS.responses_IsOrderChangeableResponse;
+    function isOrderChangeableV2(salesOrder : String(10), salesOrderItem : String(6)) returns S4OCS.responses_IsOrderChangeableResponseICDX;
 
     action resolveBIMErrors(errorIds: String) returns String;
 

@@ -296,7 +296,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 const orderChangeSAPSrv = await cds.connect.to('S4OrderChangeService');
                 let directSAPChangeCall = await orderChangeSAPSrv.tx(req).send({
                     method: "POST",
-                    path: "/directOrderChange",
+                    path: "/directOrderChangeV2",
                     data: postData
                 });
             } catch (error) {
@@ -335,6 +335,31 @@ class openOrdersSrv extends cds.ApplicationService {
                     method: "GET",
                     path: `/isOrderChangeable?salesOrder='${SalesOrderNumber}'&salesOrderItem='${SalesOrderItem}'`
                 });
+            } catch (error) {
+                req.error(413, error)
+            }
+            // orderChangeTabData.OrdSchedConf[0].SlDate = new Date()
+            return orderChangeTabData
+        });
+
+        this.on("isOrderChangeableV2", async req => {
+            let SalesOrderNumber = req.data.salesOrder; 
+            let SalesOrderItem = req.data.salesOrderItem;
+            let orderChangeTabData = {};
+            let scheduleLines = {};
+            const orderChangeService = await cds.connect.to('S4OrderChangeService');
+            const APSalesOrderA2X = await cds.connect.to('APSalesOrderA2X');
+            try {
+                orderChangeTabData = await orderChangeService.send({
+                    method: "GET",
+                    path: `/isOrderChangeableV2?order='${SalesOrderNumber}'&orderItem='${SalesOrderItem}'`
+                });
+
+                scheduleLines = await APSalesOrderA2X.send({
+                    method: "GET",
+                    path: `/A_SalesOrderItem(SalesOrder='${SalesOrderNumber}',SalesOrderItem='${SalesOrderItem}')/to_ScheduleLine` 
+                });
+
             } catch (error) {
                 req.error(413, error)
             }
