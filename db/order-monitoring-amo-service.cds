@@ -402,7 +402,10 @@ entity ![RESULTS] {
         AG_PARTNER_LAND1                   : String(3);
         AG_PARTNER_LAND1_LANG              : String(15);
         ERNAM                              : String(12);
-}
+        GOODS_ISSUE_SLIP_NUMBER            : String(10);
+        ITEM_GROSS_WEIGHT                  : Decimal(15,3);
+        ITEM_WEIGHT_UNIT                   : String(3);
+}       
 
 entity PARTNER_SETTINGS {
         CLIENT         : String(3);
