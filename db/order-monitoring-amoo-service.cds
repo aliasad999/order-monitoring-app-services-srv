@@ -412,6 +412,8 @@ entity ![OPENORDERSLIST] {
         GOODS_ISSUE_SLIP_NUMBER            : String(10);
         ITEM_GROSS_WEIGHT                  : Decimal(15,3);
         ITEM_WEIGHT_UNIT                   : String(3);
+        _BASF_YRDSDV1_IMPORT_VALID_TO      : String(8);
+        VSTEL                              : String(4);
 }
 
 entity ContactsOptions {
