@@ -339,6 +339,12 @@ class openOrdersSrv extends cds.ApplicationService {
                 req.error(413, error)
             }
             // orderChangeTabData.OrdSchedConf[0].SlDate = new Date()
+            // ideally this should have been done at the service side -- OTC 230209 AMOO CLOUD: Bizagi Workflow Case not possible
+            if (orderChangeTabData.BizagiCaseStatus === 'Cancelled automatically' ||  orderChangeTabData.BizagiCaseStatus === 'Cancelled' ){
+                orderChangeTabData.Editable = true;
+                orderChangeTabData.BizagiCaseInProgress  = false
+            }
+            // ideally this should have been done at the service side -- OTC 230209 AMOO CLOUD: Bizagi Workflow Case not possible
             return orderChangeTabData
         });
 
