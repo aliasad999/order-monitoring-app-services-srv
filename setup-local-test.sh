@@ -4,14 +4,19 @@ dir_projects_root() {
     cd ~/projects
 }
 install_defaultenv_plugin() {
-    yes | cf install-plugin DefaultEnv
+    if ! cf plugins | grep -q "default-env"; then
+        yes | cf install-plugin DefaultEnv
 
-    if [ $? -eq 0 ]; then
-        echo "Plugin installed successfully."        
+        if [ $? -eq 0 ]; then
+            echo "Plugin installed successfully."        
+        else
+            echo "Error: Failed to install the DefaultEnv plugin."
+            exit 1
+        fi
     else
-        echo "Error: Failed to install the DefaultEnv plugin."
-        exit 1
+        echo "Plugin already installed." 
     fi
+    
 }
 
 setup_app_services() {

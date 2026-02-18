@@ -32,6 +32,34 @@
     "type": "S4OrderChangeService.responses_IsOrderChangeableResponse"
    }
   },
+  "S4OrderChangeService.isOrderChangeableV2": {
+   "kind": "function",
+   "@cds.external": true,
+   "params": {
+    "order": {
+     "type": "cds.LargeString",
+     "default": {
+      "val": null
+     }
+    },
+    "orderItem": {
+     "type": "cds.LargeString",
+     "default": {
+      "val": null
+     }
+    }
+   },
+   "returns": {
+    "type": "S4OrderChangeService.responses_IsOrderChangeableResponseICDX"
+   }
+  },
+  "S4OrderChangeService.testDirectOrderChange": {
+   "kind": "function",
+   "@cds.external": true,
+   "returns": {
+    "type": "cds.LargeString"
+   }
+  },
   "S4OrderChangeService.directOrderChange": {
    "kind": "action",
    "@cds.external": true,
@@ -61,11 +89,11 @@
    "@cds.external": true,
    "params": {
     "payload": {
-     "type": "S4OrderChangeService.payloads_DirectOrderChangePayload"
+     "type": "S4OrderChangeService.payloads_DirectOrderChangePayloadICDX"
     }
    },
    "returns": {
-    "type": "cds.LargeString"
+    "type": "S4OrderChangeService.responses_DirectOrderChangeResponseICDX"
    }
   },
   "S4OrderChangeService.Test": {
@@ -81,6 +109,58 @@
     },
     "test": {
      "type": "cds.LargeString"
+    }
+   }
+  },
+  "S4OrderChangeService.BusinessRuleFramework": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "ID": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true,
+     "@Core.ComputedDefaultValue": true
+    },
+    "DocFlowSys": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "SalesOrg": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "DistrChannel": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "Division": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "Plant": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "Material": {
+     "type": "cds.String",
+     "length": 20
+    },
+    "OutboundStatus": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "ProcessStatus": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "ProcessOrderExists": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "Changeable": {
+     "type": "cds.Boolean"
     }
    }
   },
@@ -190,6 +270,73 @@
      "type": "cds.LargeString"
     },
     "value": {
+     "type": "cds.LargeString"
+    }
+   }
+  },
+  "S4OrderChangeService.responses_DirectOrderChangeResponseICDX": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "response": {
+     "type": "cds.LargeString"
+    },
+    "steps": {
+     "items": {
+      "type": "S4OrderChangeService.responses_DirectOrderChangeResponseICDX_steps"
+     }
+    }
+   }
+  },
+  "S4OrderChangeService.responses_DirectOrderChangeResponseICDX_steps": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "doc": {
+     "type": "cds.LargeString"
+    },
+    "type": {
+     "type": "cds.LargeString"
+    },
+    "action": {
+     "type": "cds.LargeString"
+    }
+   }
+  },
+  "S4OrderChangeService.payloads_DirectOrderChangePayloadICDX": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "Order": {
+     "type": "cds.LargeString"
+    },
+    "OrderItem": {
+     "type": "cds.LargeString"
+    },
+    "RejectionReason": {
+     "type": "cds.LargeString"
+    },
+    "Internal": {
+     "type": "cds.Boolean"
+    },
+    "RequestedScheduleLines": {
+     "type": "S4OrderChangeService.payloads_DirectOrderChangePayloadICDX_RequestedScheduleLines"
+    }
+   }
+  },
+  "S4OrderChangeService.payloads_DirectOrderChangePayloadICDX_RequestedScheduleLines": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "Date": {
+     "type": "cds.DateTime",
+     "@odata.Precision": 0,
+     "@odata.Type": "Edm.DateTimeOffset"
+    },
+    "Quantity": {
+     "type": "cds.LargeString"
+    },
+    "Unit": {
      "type": "cds.LargeString"
     }
    }
@@ -351,12 +498,6 @@
     },
     "Name": {
      "type": "cds.LargeString"
-    },
-    "MailAddr": {
-     "type": "cds.LargeString"
-    },
-    "TelNum": {
-     "type": "cds.LargeString"
     }
    }
   },
@@ -377,12 +518,6 @@
      "type": "cds.LargeString"
     },
     "Name": {
-     "type": "cds.LargeString"
-    },
-    "MailAddr": {
-     "type": "cds.LargeString"
-    },
-    "TelNum": {
      "type": "cds.LargeString"
     }
    }
@@ -423,6 +558,90 @@
     },
     "ShipmentNumber": {
      "type": "cds.LargeString"
+    }
+   }
+  },
+  "S4OrderChangeService.responses_IsOrderChangeableResponseICDX": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "Editable": {
+     "type": "cds.Boolean"
+    },
+    "DirectChange": {
+     "type": "cds.Boolean"
+    },
+    "WorkflowChange": {
+     "type": "cds.Boolean"
+    },
+    "CancelFlag": {
+     "type": "cds.Boolean"
+    },
+    "FinalOrder": {
+     "type": "cds.LargeString"
+    },
+    "FinalItem": {
+     "type": "cds.LargeString"
+    },
+    "FirstOrder": {
+     "type": "cds.LargeString"
+    },
+    "FirstItem": {
+     "type": "cds.LargeString"
+    },
+    "NextOrder": {
+     "type": "cds.LargeString"
+    },
+    "NextItem": {
+     "type": "cds.LargeString"
+    },
+    "ProcessOrder": {
+     "type": "cds.LargeString"
+    },
+    "SalesOrder": {
+     "type": "cds.LargeString"
+    },
+    "SalesOrderItem": {
+     "type": "cds.LargeString"
+    },
+    "rule": {
+     "type": "S4OrderChangeService.responses_IsOrderChangeableResponseICDX_rule"
+    }
+   }
+  },
+  "S4OrderChangeService.responses_IsOrderChangeableResponseICDX_rule": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "DocFlowSys": {
+     "type": "cds.LargeString"
+    },
+    "SalesOrg": {
+     "type": "cds.LargeString"
+    },
+    "DistrChannel": {
+     "type": "cds.LargeString"
+    },
+    "Division": {
+     "type": "cds.LargeString"
+    },
+    "Plant": {
+     "type": "cds.LargeString"
+    },
+    "Material": {
+     "type": "cds.LargeString"
+    },
+    "OutboundStatus": {
+     "type": "cds.LargeString"
+    },
+    "ProcessStatus": {
+     "type": "cds.LargeString"
+    },
+    "ProcessOrderExists": {
+     "type": "cds.LargeString"
+    },
+    "Changeable": {
+     "type": "cds.Boolean"
     }
    }
   },

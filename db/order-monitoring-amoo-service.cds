@@ -551,6 +551,38 @@ entity ![GENERAL_BIM_ERRORS] {
             CHANGED_BY           : String(50);
 }
 
+type orderChangeDataV2 {
+        SalesOrder           : String(10);
+        SalesOrderItem       : String(6);
+        Editable             : Boolean;
+        DirectChange         : Boolean;
+        WorkflowChange       : Boolean;
+        CancelFlag           : Boolean;
+        BizagiCaseInProgress : Boolean;
+        // BizagiCaseStatus     : String;
+        // BizagiCaseID         : String;
+        // BizagiCase           : String;
+        FinalOrder           : String;
+        FinalItem            : String;
+        FirstOrder           : String;
+        FirstItem            : String;
+        // NextOrder            : String;
+        // NextItem             : String;
+        // ProcessOrder         : String;
+        OrdSchedReq          : many {
+                SlNum     : String;
+                Quantity  : String;
+                SalesUnit : String;
+                SlDate    : String;
+        };
+        OrdSchedConf         : many {
+                SlNum     : String;
+                Quantity  : String;
+                SalesUnit : String;
+                SlDate    : String;
+        }
+}
+
 // entity POIssues {
 //         key Issue : String(2);
 //         IssueText : localized String(60);

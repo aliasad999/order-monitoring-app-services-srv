@@ -18,11 +18,14 @@
             </Annotation>
             <EntityContainer Name="EntityContainer">
                 <EntitySet Name="Test" EntityType="OrderChangeAPI.Test"/>
+                <EntitySet Name="BusinessRuleFramework" EntityType="OrderChangeAPI.BusinessRuleFramework"/>
                 <ActionImport Name="directOrderChange" Action="OrderChangeAPI.directOrderChange"/>
                 <ActionImport Name="workflowOrderChange" Action="OrderChangeAPI.workflowOrderChange"/>
                 <ActionImport Name="directOrderChangeV2" Action="OrderChangeAPI.directOrderChangeV2"/>
                 <FunctionImport Name="TestFunction" Function="OrderChangeAPI.TestFunction"/>
                 <FunctionImport Name="isOrderChangeable" Function="OrderChangeAPI.isOrderChangeable"/>
+                <FunctionImport Name="isOrderChangeableV2" Function="OrderChangeAPI.isOrderChangeableV2"/>
+                <FunctionImport Name="testDirectOrderChange" Function="OrderChangeAPI.testDirectOrderChange"/>
             </EntityContainer>
             <EntityType Name="Test">
                 <Key>
@@ -30,6 +33,22 @@
                 </Key>
                 <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
                 <Property Name="test" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="BusinessRuleFramework">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="DocFlowSys" Type="Edm.String" MaxLength="10"/>
+                <Property Name="SalesOrg" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DistrChannel" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Division" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Plant" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Material" Type="Edm.String" MaxLength="20"/>
+                <Property Name="OutboundStatus" Type="Edm.String" MaxLength="2"/>
+                <Property Name="ProcessStatus" Type="Edm.String" MaxLength="2"/>
+                <Property Name="ProcessOrderExists" Type="Edm.String" MaxLength="2"/>
+                <Property Name="Changeable" Type="Edm.Boolean"/>
             </EntityType>
             <ComplexType Name="responses_DirectOrderChangeResponse">
                 <Property Name="response" Type="Edm.String"/>
@@ -64,6 +83,27 @@
             <ComplexType Name="payloads_WorkflowOrderChangePayload_startParameters_rows_columns">
                 <Property Name="xpath" Type="Edm.String"/>
                 <Property Name="value" Type="Edm.String"/>
+            </ComplexType>
+            <ComplexType Name="responses_DirectOrderChangeResponseICDX">
+                <Property Name="response" Type="Edm.String"/>
+                <Property Name="steps" Type="Collection(OrderChangeAPI.responses_DirectOrderChangeResponseICDX_steps)" Nullable="true"/>
+            </ComplexType>
+            <ComplexType Name="responses_DirectOrderChangeResponseICDX_steps">
+                <Property Name="doc" Type="Edm.String"/>
+                <Property Name="type" Type="Edm.String"/>
+                <Property Name="action" Type="Edm.String"/>
+            </ComplexType>
+            <ComplexType Name="payloads_DirectOrderChangePayloadICDX">
+                <Property Name="Order" Type="Edm.String"/>
+                <Property Name="OrderItem" Type="Edm.String"/>
+                <Property Name="RejectionReason" Type="Edm.String"/>
+                <Property Name="Internal" Type="Edm.Boolean"/>
+                <Property Name="RequestedScheduleLines" Type="OrderChangeAPI.payloads_DirectOrderChangePayloadICDX_RequestedScheduleLines"/>
+            </ComplexType>
+            <ComplexType Name="payloads_DirectOrderChangePayloadICDX_RequestedScheduleLines">
+                <Property Name="Date" Type="Edm.DateTimeOffset"/>
+                <Property Name="Quantity" Type="Edm.String"/>
+                <Property Name="Unit" Type="Edm.String"/>
             </ComplexType>
             <ComplexType Name="responses_IsOrderChangeableResponse">
                 <Property Name="Editable" Type="Edm.Boolean"/>
@@ -112,8 +152,6 @@
                 <Property Name="SalesOrderItem" Type="Edm.String"/>
                 <Property Name="Usrid" Type="Edm.String"/>
                 <Property Name="Name" Type="Edm.String"/>
-                <Property Name="MailAddr" Type="Edm.String"/>
-                <Property Name="TelNum" Type="Edm.String"/>
             </ComplexType>
             <ComplexType Name="responses_IsOrderChangeableResponse_OrdWFPartnersNextOrder">
                 <Property Name="SalesOrder" Type="Edm.String"/>
@@ -121,8 +159,6 @@
                 <Property Name="SalesOrderItem" Type="Edm.String"/>
                 <Property Name="Usrid" Type="Edm.String"/>
                 <Property Name="Name" Type="Edm.String"/>
-                <Property Name="MailAddr" Type="Edm.String"/>
-                <Property Name="TelNum" Type="Edm.String"/>
             </ComplexType>
             <ComplexType Name="responses_IsOrderChangeableResponse_OrdDeliveries">
                 <Property Name="SalesOrder" Type="Edm.String"/>
@@ -137,6 +173,34 @@
                 <Property Name="DeliveryItem" Type="Edm.String"/>
                 <Property Name="ShipmentNumber" Type="Edm.String"/>
             </ComplexType>
+            <ComplexType Name="responses_IsOrderChangeableResponseICDX">
+                <Property Name="Editable" Type="Edm.Boolean"/>
+                <Property Name="DirectChange" Type="Edm.Boolean"/>
+                <Property Name="WorkflowChange" Type="Edm.Boolean"/>
+                <Property Name="CancelFlag" Type="Edm.Boolean"/>
+                <Property Name="FinalOrder" Type="Edm.String"/>
+                <Property Name="FinalItem" Type="Edm.String"/>
+                <Property Name="FirstOrder" Type="Edm.String"/>
+                <Property Name="FirstItem" Type="Edm.String"/>
+                <Property Name="NextOrder" Type="Edm.String"/>
+                <Property Name="NextItem" Type="Edm.String"/>
+                <Property Name="ProcessOrder" Type="Edm.String"/>
+                <Property Name="SalesOrder" Type="Edm.String"/>
+                <Property Name="SalesOrderItem" Type="Edm.String"/>
+                <Property Name="rule" Type="OrderChangeAPI.responses_IsOrderChangeableResponseICDX_rule"/>
+            </ComplexType>
+            <ComplexType Name="responses_IsOrderChangeableResponseICDX_rule">
+                <Property Name="DocFlowSys" Type="Edm.String"/>
+                <Property Name="SalesOrg" Type="Edm.String"/>
+                <Property Name="DistrChannel" Type="Edm.String"/>
+                <Property Name="Division" Type="Edm.String"/>
+                <Property Name="Plant" Type="Edm.String"/>
+                <Property Name="Material" Type="Edm.String"/>
+                <Property Name="OutboundStatus" Type="Edm.String"/>
+                <Property Name="ProcessStatus" Type="Edm.String"/>
+                <Property Name="ProcessOrderExists" Type="Edm.String"/>
+                <Property Name="Changeable" Type="Edm.Boolean"/>
+            </ComplexType>
             <Action Name="directOrderChange" IsBound="false">
                 <Parameter Name="payload" Type="OrderChangeAPI.payloads_DirectOrderChangePayload"/>
                 <ReturnType Type="OrderChangeAPI.responses_DirectOrderChangeResponse"/>
@@ -146,8 +210,8 @@
                 <ReturnType Type="OrderChangeAPI.responses_WorkflowOrderChangeResponse"/>
             </Action>
             <Action Name="directOrderChangeV2" IsBound="false">
-                <Parameter Name="payload" Type="OrderChangeAPI.payloads_DirectOrderChangePayload"/>
-                <ReturnType Type="Edm.String"/>
+                <Parameter Name="payload" Type="OrderChangeAPI.payloads_DirectOrderChangePayloadICDX"/>
+                <ReturnType Type="OrderChangeAPI.responses_DirectOrderChangeResponseICDX"/>
             </Action>
             <Function Name="TestFunction" IsBound="false" IsComposable="false">
                 <ReturnType Type="Edm.String"/>
@@ -157,7 +221,18 @@
                 <Parameter Name="salesOrderItem" Type="Edm.String"/>
                 <ReturnType Type="OrderChangeAPI.responses_IsOrderChangeableResponse"/>
             </Function>
+            <Function Name="isOrderChangeableV2" IsBound="false" IsComposable="false">
+                <Parameter Name="order" Type="Edm.String"/>
+                <Parameter Name="orderItem" Type="Edm.String"/>
+                <ReturnType Type="OrderChangeAPI.responses_IsOrderChangeableResponseICDX"/>
+            </Function>
+            <Function Name="testDirectOrderChange" IsBound="false" IsComposable="false">
+                <ReturnType Type="Edm.String"/>
+            </Function>
             <Annotations Target="OrderChangeAPI.Test/ID">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="OrderChangeAPI.BusinessRuleFramework/ID">
                 <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
             </Annotations>
             <Annotations Target="OrderChangeAPI.isOrderChangeable(Edm.String,Edm.String)/salesOrder">
@@ -166,6 +241,16 @@
                 </Annotation>
             </Annotations>
             <Annotations Target="OrderChangeAPI.isOrderChangeable(Edm.String,Edm.String)/salesOrderItem">
+                <Annotation Term="Core.OptionalParameter">
+                    <Record Type="Core.OptionalParameterType"/>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="OrderChangeAPI.isOrderChangeableV2(Edm.String,Edm.String)/order">
+                <Annotation Term="Core.OptionalParameter">
+                    <Record Type="Core.OptionalParameterType"/>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="OrderChangeAPI.isOrderChangeableV2(Edm.String,Edm.String)/orderItem">
                 <Annotation Term="Core.OptionalParameter">
                     <Record Type="Core.OptionalParameterType"/>
                 </Annotation>
