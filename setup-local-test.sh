@@ -5,7 +5,7 @@ dir_projects_root() {
 }
 install_defaultenv_plugin() {
     if ! cf plugins | grep -q "default-env"; then
-        yes | cf install-plugin https://github.com/SAP/cf-cli-defaultenv-plugin/releases/download/v2.0.0/DefaultEnv.linux64
+        yes | cf install-plugin DefaultEnv
 
         if [ $? -eq 0 ]; then
             echo "Plugin installed successfully."        
