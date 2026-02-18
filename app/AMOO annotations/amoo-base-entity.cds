@@ -303,4 +303,8 @@ annotate service.baseEntity with {
     SO_AG_PARTNER_LAND1              @title: '{i18n>SO_AG_PARTNER_LAND1}'              @sap.Label: '{i18n>SO_AG_PARTNER_LAND1}';
     SO_AG_PARTNER_LAND1_LANG         @title: '{i18n>SO_AG_PARTNER_LAND1_LANG}'         @sap.Label: '{i18n>SO_AG_PARTNER_LAND1_LANG}';
     SO_ERNAM                         @title: '{i18n>SO_ERNAM}'                         @sap.Label: '{i18n>SO_ERNAM}';
+    DL_GOODS_ISSUE_SLIP_NUMBER       @title: '{i18n>DL_GOODS_ISSUE_SLIP_NUMBER}'       @sap.Label: '{i18n>DL_GOODS_ISSUE_SLIP_NUMBER}';
+    DL_ITEM_GROSS_WEIGHT             @title: '{i18n>DL_ITEM_GROSS_WEIGHT}'             @sap.Label: '{i18n>DL_ITEM_GROSS_WEIGHT}';
+    SO_BASF_YRDSDV1_IMPORT_VALID_TO @title: '{i18n>SO_BASF_YRDSDV1_IMPORT_VALID_TO}'             @sap.Label: '{i18n>SO_BASF_YRDSDV1_IMPORT_VALID_TO}';
+    SO_VSTEL                        @title: '{i18n>SO_VSTEL}'             @sap.Label: '{i18n>SO_VSTEL}';
 };
