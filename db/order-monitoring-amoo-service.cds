@@ -569,7 +569,7 @@ type orderChangeDataV2 {
         NextOrder               : String;
         NextItem                : String;
         ProcessOrder            : String;
-        ICDXRelevant            : Boolean;
+        IcdxRelevant            : Boolean;
         OrdSchedReq             : many {
                 SalesOrder     : String;
                 SalesOrderItem : String;

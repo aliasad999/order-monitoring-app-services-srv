@@ -323,30 +323,6 @@ class openOrdersSrv extends cds.ApplicationService {
 
         })
 
-        this.on("isOrderChangeable", async req => {
-            let SalesOrderNumber = req.data.salesOrder; 
-            let SalesOrderItem = req.data.salesOrderItem;
-            let orderChangeTabData = {};
-            const orderChangeService = await cds.connect.to('S4OrderChangeService');
-
-            try {
-                orderChangeTabData = await orderChangeService.send({
-                    method: "GET",
-                    path: `/isOrderChangeable?salesOrder='${SalesOrderNumber}'&salesOrderItem='${SalesOrderItem}'`
-                });
-            } catch (error) {
-                req.error(413, error)
-            }
-            // orderChangeTabData.OrdSchedConf[0].SlDate = new Date()
-            // ideally this should have been done at the service side -- OTC 230209 AMOO CLOUD: Bizagi Workflow Case not possible
-            if (orderChangeTabData.BizagiCaseStatus === 'Cancelled automatically' ||  orderChangeTabData.BizagiCaseStatus === 'Cancelled' ){
-                orderChangeTabData.Editable = true;
-                orderChangeTabData.BizagiCaseInProgress  = false
-            }
-            // ideally this should have been done at the service side -- OTC 230209 AMOO CLOUD: Bizagi Workflow Case not possible
-            return orderChangeTabData
-        });
-
         this.on("isOrderChangeableV2", async req => {
             let SalesOrderNumber = req.data.salesOrder; 
             let SalesOrderItem = req.data.salesOrderItem;
@@ -370,19 +346,11 @@ class openOrdersSrv extends cds.ApplicationService {
                     return finalData;
                 }
 
-                // TEMPORARY set ICDX relevant flag
-                if(orderChangeTabData.OrdDeliveries === undefined){
-                    orderChangeTabData.ICDXRelevant = true;
-                }else{
-                    orderChangeTabData.ICDXRelevant = false;
-                }
-                /// TEMPORARY
-
                 /// Only for ICDX
-                if(orderChangeTabData.ICDXRelevant){
+                if(orderChangeTabData.IcdxRelevant){
                     finalData = {
-                        ICDXRelevant : orderChangeTabData.ICDXRelevant,
-                        Editable: orderChangeTabData.DirectChange, // if direct change possible, then true //orderChangeTabData.Editable,
+                        IcdxRelevant : orderChangeTabData.IcdxRelevant,
+                        Editable: orderChangeTabData.DirectChange, // if direct change possible, then true 
                         DirectChange: orderChangeTabData.DirectChange,
                         WorkflowChange: orderChangeTabData.WorkflowChange,
                         CancelFlag: orderChangeTabData.CancelFlag,
