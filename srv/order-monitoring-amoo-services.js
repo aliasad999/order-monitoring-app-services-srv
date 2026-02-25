@@ -382,7 +382,7 @@ class openOrdersSrv extends cds.ApplicationService {
                 if(orderChangeTabData.ICDXRelevant){
                     finalData = {
                         ICDXRelevant : orderChangeTabData.ICDXRelevant,
-                        Editable: orderChangeTabData.Editable,
+                        Editable: orderChangeTabData.DirectChange, // if direct change possible, then true //orderChangeTabData.Editable,
                         DirectChange: orderChangeTabData.DirectChange,
                         WorkflowChange: orderChangeTabData.WorkflowChange,
                         CancelFlag: orderChangeTabData.CancelFlag,
