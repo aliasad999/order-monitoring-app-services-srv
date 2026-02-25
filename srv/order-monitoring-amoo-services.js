@@ -364,9 +364,24 @@ class openOrdersSrv extends cds.ApplicationService {
                     method: "GET",
                     path: `/isOrderChangeableV2?order='${SalesOrderNumber}'&orderItem='${SalesOrderItem}'`
                 });
+
+                // No value found
+                if(orderChangeTabData.SalesOrder === undefined){
+                    return finalData;
+                }
+
+                // TEMPORARY set ICDX relevant flag
+                if(orderChangeTabData.OrdDeliveries === undefined){
+                    orderChangeTabData.ICDXRelevant = true;
+                }else{
+                    orderChangeTabData.ICDXRelevant = false;
+                }
+                /// TEMPORARY
+
                 /// Only for ICDX
-                if(orderChangeTabData && orderChangeTabData.ICDXRelevant){
+                if(orderChangeTabData.ICDXRelevant){
                     finalData = {
+                        ICDXRelevant : orderChangeTabData.ICDXRelevant,
                         Editable: orderChangeTabData.Editable,
                         DirectChange: orderChangeTabData.DirectChange,
                         WorkflowChange: orderChangeTabData.WorkflowChange,
@@ -422,7 +437,7 @@ class openOrdersSrv extends cds.ApplicationService {
                             
                         }
                     }
-                }else if(orderChangeTabData){
+                }else{
                     delete orderChangeTabData.OrdDeliveries;
                     delete orderChangeTabData.OrdShipments;
                     finalData = orderChangeTabData;
