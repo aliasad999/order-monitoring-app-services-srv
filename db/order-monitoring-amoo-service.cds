@@ -552,35 +552,50 @@ entity ![GENERAL_BIM_ERRORS] {
 }
 
 type orderChangeDataV2 {
-        SalesOrder           : String(10);
-        SalesOrderItem       : String(6);
-        Editable             : Boolean;
-        DirectChange         : Boolean;
-        WorkflowChange       : Boolean;
-        CancelFlag           : Boolean;
-        BizagiCaseInProgress : Boolean;
-        // BizagiCaseStatus     : String;
-        // BizagiCaseID         : String;
-        // BizagiCase           : String;
-        FinalOrder           : String;
-        FinalItem            : String;
-        FirstOrder           : String;
-        FirstItem            : String;
-        // NextOrder            : String;
-        // NextItem             : String;
-        // ProcessOrder         : String;
-        OrdSchedReq          : many {
-                SlNum     : String;
-                Quantity  : String;
-                SalesUnit : String;
-                SlDate    : String;
+        SalesOrder              : String(10);
+        SalesOrderItem          : String(6);
+        Editable                : Boolean;
+        DirectChange            : Boolean;
+        WorkflowChange          : Boolean;
+        CancelFlag              : Boolean;
+        BizagiCaseInProgress    : Boolean;
+        BizagiCaseStatus        : String;
+        BizagiCaseID            : String;
+        BizagiCase              : String;
+        FinalOrder              : String;
+        FinalItem               : String;
+        FirstOrder              : String;
+        FirstItem               : String;
+        NextOrder               : String;
+        NextItem                : String;
+        ProcessOrder            : String;
+        ICDXRelevant            : Boolean;
+        OrdSchedReq             : many {
+                SalesOrder     : String;
+                SalesOrderItem : String;
+                SlNum          : String;
+                Quantity       : String;
+                SalesUnit      : String;
+                SlDate         : String;
         };
-        OrdSchedConf         : many {
-                SlNum     : String;
-                Quantity  : String;
-                SalesUnit : String;
-                SlDate    : String;
-        }
+        OrdSchedConf            : many {
+                SalesOrder     : String;
+                SalesOrderItem : String;
+                SlNum          : String;
+                Quantity       : String;
+                SalesUnit      : String;
+                SlDate         : String;
+        };
+        OrdWFPartnersFinalOrder : many {
+                SalesOrder     : String;
+                PartnFn        : String;
+                SalesOrderItem : String;
+        };
+        OrdWFPartnersNextOrder  : many {
+                SalesOrder     : String;
+                PartnFn        : String;
+                SalesOrderItem : String;
+        };
 }
 
 // entity POIssues {

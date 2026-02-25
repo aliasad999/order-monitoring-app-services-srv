@@ -350,24 +350,22 @@ class openOrdersSrv extends cds.ApplicationService {
         this.on("isOrderChangeableV2", async req => {
             let SalesOrderNumber = req.data.salesOrder; 
             let SalesOrderItem = req.data.salesOrderItem;
+            let SalesOrderSystem = req.data.salesOrderSystem;
             let finalData = {}
 
             let orderChangeTabData = {};
-            let scheduleLines = {};
+            let APscheduleLines = [];
+            const CobaltOrderChangeService = await cds.connect.to('CobaltOrderChangeService');
             const orderChangeService = await cds.connect.to('S4OrderChangeService');
             const APSalesOrderA2X = await cds.connect.to('APSalesOrderA2X');
             try {
+                /// Same for ICDX and KM2
                 orderChangeTabData = await orderChangeService.send({
                     method: "GET",
                     path: `/isOrderChangeableV2?order='${SalesOrderNumber}'&orderItem='${SalesOrderItem}'`
                 });
-
-                scheduleLines = await APSalesOrderA2X.send({
-                    method: "GET",
-                    path: `/A_SalesOrderItem(SalesOrder='${SalesOrderNumber}',SalesOrderItem='${SalesOrderItem}')/to_ScheduleLine` 
-                });
-
-                if(orderChangeTabData){
+                /// Only for ICDX
+                if(orderChangeTabData && orderChangeTabData.ICDXRelevant){
                     finalData = {
                         Editable: orderChangeTabData.Editable,
                         DirectChange: orderChangeTabData.DirectChange,
@@ -381,30 +379,54 @@ class openOrdersSrv extends cds.ApplicationService {
                         SalesOrder: orderChangeTabData.SalesOrder,
                         SalesOrderItem: orderChangeTabData.SalesOrderItem,
                         OrdSchedReq: [],
-                        OrdSchedConf: []
+                        OrdSchedConf: [],
+                        OrdWFPartnersFinalOrder: [],
+                        OrdWFPartnersNextOrder: []
                     }
-                    if(scheduleLines.length > 0){
-                        scheduleLines.forEach((schedLine) => {
-                            // Requested Schedule Lines
-                            finalData.OrdSchedReq.push({
-                                Quantity: schedLine.ScheduleLineOrderQuantity,
-                                SalesUnit: schedLine.OrderQuantitySAPUnit,
-                                SlDate: schedLine.RequestedDeliveryDate ,
-                                SlNum: schedLine.ScheduleLine
-                            });
-                            // Confirmed Schedule Lines
-                            if(schedLine.ConfirmedDeliveryDate){
-                                finalData.OrdSchedConf.push({
-                                    Quantity: schedLine.ConfdOrderQtyByMatlAvailCheck,
+                    // Get scheduled and confirmed lines from Cobalt
+                    if(SalesOrderSystem === '100'){
+                        finalData.OrdSchedReq = await CobaltOrderChangeService.send({
+                            method: 'GET',
+                            path: `/ScheduleLineRequestedSet?$filter=SalesOrder eq '${SalesOrderNumber}' and SalesOrderItem eq '${SalesOrderItem}'`
+                        })
+                        finalData.OrdSchedConf = await CobaltOrderChangeService.send({
+                            method: 'GET',
+                            path: `/ScheduleLineConfirmedSet?$filter=SalesOrder eq '${SalesOrderNumber}' and SalesOrderItem eq '${SalesOrderItem}'`
+                        })
+                    }
+                    // Get scheduled and confirmed lines from AP
+                    else if(SalesOrderSystem === '300'){
+                        APscheduleLines = await APSalesOrderA2X.send({
+                            method: "GET",
+                            path: `/A_SalesOrderItem(SalesOrder='${SalesOrderNumber}',SalesOrderItem='${SalesOrderItem}')/to_ScheduleLine` 
+                        });
+                        if(APscheduleLines.length > 0){
+                            APscheduleLines.forEach((schedLine) => {
+                                // Requested Schedule Lines
+                                finalData.OrdSchedReq.push({
+                                    Quantity: schedLine.ScheduleLineOrderQuantity,
                                     SalesUnit: schedLine.OrderQuantitySAPUnit,
-                                    SlDate: schedLine.ConfirmedDeliveryDate,
+                                    SlDate: schedLine.RequestedDeliveryDate ,
                                     SlNum: schedLine.ScheduleLine
                                 });
-                            }
-                        })
-                        
+                                // Confirmed Schedule Lines
+                                if(schedLine.ConfirmedDeliveryDate){
+                                    finalData.OrdSchedConf.push({
+                                        Quantity: schedLine.ConfdOrderQtyByMatlAvailCheck,
+                                        SalesUnit: schedLine.OrderQuantitySAPUnit,
+                                        SlDate: schedLine.ConfirmedDeliveryDate,
+                                        SlNum: schedLine.ScheduleLine
+                                    });
+                                }
+                            })
+                            
+                        }
                     }
-                }
+                }else if(orderChangeTabData){
+                    delete orderChangeTabData.OrdDeliveries;
+                    delete orderChangeTabData.OrdShipments;
+                    finalData = orderChangeTabData;
+                } 
 
             } catch (error) {
                 req.error(413, error)
