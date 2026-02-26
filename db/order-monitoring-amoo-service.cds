@@ -409,6 +409,11 @@ entity ![OPENORDERSLIST] {
         AG_PARTNER_LAND1                   : String(3);
         AG_PARTNER_LAND1_LANG              : String(15);
         ERNAM                              : String(12);
+        GOODS_ISSUE_SLIP_NUMBER            : String(10);
+        ITEM_GROSS_WEIGHT                  : Decimal(15,3);
+        ITEM_WEIGHT_UNIT                   : String(3);
+        _BASF_YRDSDV1_IMPORT_VALID_TO      : String(8);
+        VSTEL                              : String(4);
 }
 
 entity ContactsOptions {
@@ -544,6 +549,38 @@ entity ![GENERAL_BIM_ERRORS] {
             CREATED_AT           : Timestamp;
             CHANGED_AT           : Timestamp;
             CHANGED_BY           : String(50);
+}
+
+type orderChangeDataV2 {
+        SalesOrder           : String(10);
+        SalesOrderItem       : String(6);
+        Editable             : Boolean;
+        DirectChange         : Boolean;
+        WorkflowChange       : Boolean;
+        CancelFlag           : Boolean;
+        BizagiCaseInProgress : Boolean;
+        // BizagiCaseStatus     : String;
+        // BizagiCaseID         : String;
+        // BizagiCase           : String;
+        FinalOrder           : String;
+        FinalItem            : String;
+        FirstOrder           : String;
+        FirstItem            : String;
+        // NextOrder            : String;
+        // NextItem             : String;
+        // ProcessOrder         : String;
+        OrdSchedReq          : many {
+                SlNum     : String;
+                Quantity  : String;
+                SalesUnit : String;
+                SlDate    : String;
+        };
+        OrdSchedConf         : many {
+                SlNum     : String;
+                Quantity  : String;
+                SalesUnit : String;
+                SlDate    : String;
+        }
 }
 
 // entity POIssues {
