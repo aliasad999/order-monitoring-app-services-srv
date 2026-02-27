@@ -39,15 +39,12 @@
     "cf-nodejs-logging-support":{
       "ajv": "8.18.0"
     },
-    "glob":{
-      "minimatch": "latest"
-    },
+  
     "express-validator": { 
       "lodash" : "^4.17.23"
     },
     "mocha": {
-      "diff": "8.0.3",
-      "minimatch": "latest"
+      "diff": "8.0.3"
     }
   },
   "devDependencies": {
