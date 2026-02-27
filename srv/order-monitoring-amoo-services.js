@@ -386,12 +386,14 @@ class openOrdersSrv extends cds.ApplicationService {
                         if(APscheduleLines.length > 0){
                             APscheduleLines.forEach((schedLine) => {
                                 // Requested Schedule Lines
-                                finalData.OrdSchedReq.push({
-                                    Quantity: schedLine.ScheduleLineOrderQuantity,
-                                    SalesUnit: schedLine.OrderQuantitySAPUnit,
-                                    SlDate: schedLine.RequestedDeliveryDate ,
-                                    SlNum: schedLine.ScheduleLine
-                                });
+                                if(schedLine.RequestedDeliveryDate){
+                                    finalData.OrdSchedReq.push({
+                                        Quantity: schedLine.ScheduleLineOrderQuantity,
+                                        SalesUnit: schedLine.OrderQuantitySAPUnit,
+                                        SlDate: schedLine.RequestedDeliveryDate ,
+                                        SlNum: schedLine.ScheduleLine
+                                    });
+                                }
                                 // Confirmed Schedule Lines
                                 if(schedLine.ConfirmedDeliveryDate){
                                     finalData.OrdSchedConf.push({
