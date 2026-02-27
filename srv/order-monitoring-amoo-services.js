@@ -408,6 +408,11 @@ class openOrdersSrv extends cds.ApplicationService {
                         }
                     }
                 }else{
+                    // ideally this should have been done at the service side -- OTC 230209 AMOO CLOUD: Bizagi Workflow Case not possible
+                    if (orderChangeTabData.BizagiCaseStatus === 'Cancelled automatically' ||  orderChangeTabData.BizagiCaseStatus === 'Cancelled' ){
+                        orderChangeTabData.Editable = true;
+                        orderChangeTabData.BizagiCaseInProgress  = false
+                    }
                     delete orderChangeTabData.OrdDeliveries;
                     delete orderChangeTabData.OrdShipments;
                     finalData = orderChangeTabData;
