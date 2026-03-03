@@ -441,4 +441,5 @@ annotate service.allIssues with {
     SO_RE_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_AG_PARTNER_LAND1_LANG        @UI                     : {Hidden: true};
     DL_ITEM_WEIGHT_UNIT             @UI                     : {Hidden: true};
+    TM_VBTYP                        @UI                     : {Hidden: true};
 }
