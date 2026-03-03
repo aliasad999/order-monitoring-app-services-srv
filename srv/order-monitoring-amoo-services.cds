@@ -485,7 +485,8 @@ service openOrdersSrv {
                 ITEM_GROSS_WEIGHT                           as DL_ITEM_GROSS_WEIGHT,
                 ITEM_WEIGHT_UNIT                            as DL_ITEM_WEIGHT_UNIT,
                 _BASF_YRDSDV1_IMPORT_VALID_TO               as SO_BASF_YRDSDV1_IMPORT_VALID_TO,
-                VSTEL                                       as SO_VSTEL       
+                VSTEL                                       as SO_VSTEL  ,
+                TM_VBTYP                                    as TM_VBTYP     
         }
 
 
