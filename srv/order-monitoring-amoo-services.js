@@ -323,53 +323,34 @@ class openOrdersSrv extends cds.ApplicationService {
 
         })
 
-        this.on("isOrderChangeable", async req => {
-            let SalesOrderNumber = req.data.salesOrder; 
-            let SalesOrderItem = req.data.salesOrderItem;
-            let orderChangeTabData = {};
-            const orderChangeService = await cds.connect.to('S4OrderChangeService');
-
-            try {
-                orderChangeTabData = await orderChangeService.send({
-                    method: "GET",
-                    path: `/isOrderChangeable?salesOrder='${SalesOrderNumber}'&salesOrderItem='${SalesOrderItem}'`
-                });
-            } catch (error) {
-                req.error(413, error)
-            }
-            // orderChangeTabData.OrdSchedConf[0].SlDate = new Date()
-            // ideally this should have been done at the service side -- OTC 230209 AMOO CLOUD: Bizagi Workflow Case not possible
-            if (orderChangeTabData.BizagiCaseStatus === 'Cancelled automatically' ||  orderChangeTabData.BizagiCaseStatus === 'Cancelled' ){
-                orderChangeTabData.Editable = true;
-                orderChangeTabData.BizagiCaseInProgress  = false
-            }
-            // ideally this should have been done at the service side -- OTC 230209 AMOO CLOUD: Bizagi Workflow Case not possible
-            return orderChangeTabData
-        });
-
         this.on("isOrderChangeableV2", async req => {
             let SalesOrderNumber = req.data.salesOrder; 
             let SalesOrderItem = req.data.salesOrderItem;
+            let SalesOrderSystem = req.data.salesOrderSystem;
             let finalData = {}
 
             let orderChangeTabData = {};
-            let scheduleLines = {};
+            let APscheduleLines = [];
+            const CobaltOrderChangeService = await cds.connect.to('CobaltOrderChangeService');
             const orderChangeService = await cds.connect.to('S4OrderChangeService');
             const APSalesOrderA2X = await cds.connect.to('APSalesOrderA2X');
             try {
+                /// Same for ICDX and KM2
                 orderChangeTabData = await orderChangeService.send({
                     method: "GET",
                     path: `/isOrderChangeableV2?order='${SalesOrderNumber}'&orderItem='${SalesOrderItem}'`
                 });
 
-                scheduleLines = await APSalesOrderA2X.send({
-                    method: "GET",
-                    path: `/A_SalesOrderItem(SalesOrder='${SalesOrderNumber}',SalesOrderItem='${SalesOrderItem}')/to_ScheduleLine` 
-                });
+                // No value found
+                if(orderChangeTabData.SalesOrder === undefined){
+                    return finalData;
+                }
 
-                if(orderChangeTabData){
+                /// Only for ICDX
+                if(orderChangeTabData.IcdxRelevant){
                     finalData = {
-                        Editable: orderChangeTabData.Editable,
+                        IcdxRelevant : orderChangeTabData.IcdxRelevant,
+                        Editable: orderChangeTabData.DirectChange, // if direct change possible, then true 
                         DirectChange: orderChangeTabData.DirectChange,
                         WorkflowChange: orderChangeTabData.WorkflowChange,
                         CancelFlag: orderChangeTabData.CancelFlag,
@@ -381,30 +362,61 @@ class openOrdersSrv extends cds.ApplicationService {
                         SalesOrder: orderChangeTabData.SalesOrder,
                         SalesOrderItem: orderChangeTabData.SalesOrderItem,
                         OrdSchedReq: [],
-                        OrdSchedConf: []
+                        OrdSchedConf: [],
+                        OrdWFPartnersFinalOrder: [],
+                        OrdWFPartnersNextOrder: []
                     }
-                    if(scheduleLines.length > 0){
-                        scheduleLines.forEach((schedLine) => {
-                            // Requested Schedule Lines
-                            finalData.OrdSchedReq.push({
-                                Quantity: schedLine.ScheduleLineOrderQuantity,
-                                SalesUnit: schedLine.OrderQuantitySAPUnit,
-                                SlDate: schedLine.RequestedDeliveryDate ,
-                                SlNum: schedLine.ScheduleLine
-                            });
-                            // Confirmed Schedule Lines
-                            if(schedLine.ConfirmedDeliveryDate){
-                                finalData.OrdSchedConf.push({
-                                    Quantity: schedLine.ConfdOrderQtyByMatlAvailCheck,
-                                    SalesUnit: schedLine.OrderQuantitySAPUnit,
-                                    SlDate: schedLine.ConfirmedDeliveryDate,
-                                    SlNum: schedLine.ScheduleLine
-                                });
-                            }
+                    // Get scheduled and confirmed lines from Cobalt
+                    if(SalesOrderSystem === '100'){
+                        finalData.OrdSchedReq = await CobaltOrderChangeService.send({
+                            method: 'GET',
+                            path: `/ScheduleLineRequestedSet?$filter=SalesOrder eq '${SalesOrderNumber}' and SalesOrderItem eq '${SalesOrderItem}'`
                         })
-                        
+                        finalData.OrdSchedConf = await CobaltOrderChangeService.send({
+                            method: 'GET',
+                            path: `/ScheduleLineConfirmedSet?$filter=SalesOrder eq '${SalesOrderNumber}' and SalesOrderItem eq '${SalesOrderItem}'`
+                        })
                     }
-                }
+                    // Get scheduled and confirmed lines from AP
+                    else if(SalesOrderSystem === '300'){
+                        APscheduleLines = await APSalesOrderA2X.send({
+                            method: "GET",
+                            path: `/A_SalesOrderItem(SalesOrder='${SalesOrderNumber}',SalesOrderItem='${SalesOrderItem}')/to_ScheduleLine` 
+                        });
+                        if(APscheduleLines.length > 0){
+                            APscheduleLines.forEach((schedLine) => {
+                                // Requested Schedule Lines
+                                if(schedLine.RequestedDeliveryDate){
+                                    finalData.OrdSchedReq.push({
+                                        Quantity: schedLine.ScheduleLineOrderQuantity,
+                                        SalesUnit: schedLine.OrderQuantitySAPUnit,
+                                        SlDate: schedLine.RequestedDeliveryDate ,
+                                        SlNum: schedLine.ScheduleLine
+                                    });
+                                }
+                                // Confirmed Schedule Lines
+                                if(schedLine.ConfirmedDeliveryDate){
+                                    finalData.OrdSchedConf.push({
+                                        Quantity: schedLine.ConfdOrderQtyByMatlAvailCheck,
+                                        SalesUnit: schedLine.OrderQuantitySAPUnit,
+                                        SlDate: schedLine.ConfirmedDeliveryDate,
+                                        SlNum: schedLine.ScheduleLine
+                                    });
+                                }
+                            })
+                            
+                        }
+                    }
+                }else{
+                    // ideally this should have been done at the service side -- OTC 230209 AMOO CLOUD: Bizagi Workflow Case not possible
+                    if (orderChangeTabData.BizagiCaseStatus === 'Cancelled automatically' ||  orderChangeTabData.BizagiCaseStatus === 'Cancelled' ){
+                        orderChangeTabData.Editable = true;
+                        orderChangeTabData.BizagiCaseInProgress  = false
+                    }
+                    delete orderChangeTabData.OrdDeliveries;
+                    delete orderChangeTabData.OrdShipments;
+                    finalData = orderChangeTabData;
+                } 
 
             } catch (error) {
                 req.error(413, error)
