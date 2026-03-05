@@ -391,9 +391,25 @@ entity ![RESULTS] {
         KVGR5_LANG                         : String(20);
         ATA_VISTA                          : String(8);
         ATD_VISTA                          : String(8);
-        ZMENG                              : Decimal(13,3); // Target Quantity
+        ZMENG                              : Decimal(13, 3); // Target Quantity
         ZIEME                              : String(3); // Target Quantity Unit
-}
+        RG_PARTNER                         : String(10);
+        RG_PARTNER_NAME1                   : String(40);
+        RG_PARTNER_NAME2                   : String(40);
+        RE_PARTNER                         : String(10);
+        RE_PARTNER_NAME1                   : String(40);
+        RE_PARTNER_NAME2                   : String(40);
+        AG_PARTNER_LAND1                   : String(3);
+        AG_PARTNER_LAND1_LANG              : String(15);
+        ERNAM                              : String(12);
+        GOODS_ISSUE_SLIP_NUMBER            : String(10);
+        ITEM_GROSS_WEIGHT                  : Decimal(15,3);
+        ITEM_WEIGHT_UNIT                   : String(3);
+        _BASF_YRDSDV1_IMPORT_VALID_TO      : String(8);
+        VSTEL                              : String(4);
+        TM_VBTYP                           : String(2);
+}       
+
 
 entity PARTNER_SETTINGS {
         CLIENT         : String(3);

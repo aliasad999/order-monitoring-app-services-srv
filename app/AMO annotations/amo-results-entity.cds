@@ -261,37 +261,55 @@ annotate service.Results with {
     SO_DGSTA_DDTEXT_LANG        @title: '{i18n>SO_DGSTA_DDTEXT_LANG}'             @sap.Label: '{i18n>SO_DGSTA_DDTEXT_LANG}';
     @Common.Text           : SO_MVGR2_BEZEI_LANG
     @Common.TextArrangement: #TextFirst
-    SO_MVGR2                    @title: '{i18n>SO_MVGR2}'                         @sap.Label: '{i18n>SO_MVGR2}';
+    SO_MVGR2                   @title: '{i18n>SO_MVGR2}'                         @sap.Label: '{i18n>SO_MVGR2}';
     @Common.TextFor
-    SO_MVGR2_BEZEI_LANG         @title: '{i18n>SO_MVGR2_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MVGR2_BEZEI_LANG}';
+    SO_MVGR2_BEZEI_LANG        @title: '{i18n>SO_MVGR2_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MVGR2_BEZEI_LANG}';
     @Common.Text           : SO_MFRGR_BEZEI_LANG
     @Common.TextArrangement: #TextFirst
-    SO_MFRGR                    @title: '{i18n>SO_MFRGR}'                         @sap.Label: '{i18n>SO_MFRGR}';
+    SO_MFRGR                   @title: '{i18n>SO_MFRGR}'                         @sap.Label: '{i18n>SO_MFRGR}';
     @Common.TextFor
-    SO_MFRGR_BEZEI_LANG         @title: '{i18n>SO_MFRGR_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MFRGR_BEZEI_LANG}';
+    SO_MFRGR_BEZEI_LANG        @title: '{i18n>SO_MFRGR_BEZEI_LANG}'              @sap.Label: '{i18n>SO_MFRGR_BEZEI_LANG}';
     @Common.Text           : TM_TS_PARTNER_NAME1
     @Common.TextArrangement: #TextFirst
-    TM_TS_PARTNER               @title: '{i18n>TM_TS_PARTNER}'                    @sap.Label: '{i18n>TM_TS_PARTNER}'    @Common.IsDigitSequence: true;
+    TM_TS_PARTNER              @title: '{i18n>TM_TS_PARTNER}'                    @sap.Label: '{i18n>TM_TS_PARTNER}'        @Common.IsDigitSequence: true;
     @Common.TextFor
-    TM_TS_PARTNER_NAME1              @title: '{i18n>TM_TS_PARTNER_NAME1}'              @sap.Label: '{i18n>TM_TS_PARTNER_NAME1}';
+    TM_TS_PARTNER_NAME1        @title: '{i18n>TM_TS_PARTNER_NAME1}'              @sap.Label: '{i18n>TM_TS_PARTNER_NAME1}';
 
     @Common.Text           : SO_OM_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_OM_PARTNER               @title: '{i18n>SO_OM_PARTNER}'                    @sap.Label: '{i18n>SO_OM_PARTNER}'    @Common.IsDigitSequence: true;
+    SO_OM_PARTNER              @title: '{i18n>SO_OM_PARTNER}'                    @sap.Label: '{i18n>SO_OM_PARTNER}'        @Common.IsDigitSequence: true;
     @Common.TextFor
-    SO_OM_PARTNER_NAME          @title: '{i18n>SO_OM_PARTNER_NAME}'               @sap.Label: '{i18n>SO_OM_PARTNER_NAME}';
+    SO_OM_PARTNER_NAME         @title: '{i18n>SO_OM_PARTNER_NAME}'               @sap.Label: '{i18n>SO_OM_PARTNER_NAME}';
 
     @Common.Text           : SO_AH_PARTNER_NAME
     @Common.TextArrangement: #TextFirst
-    SO_AH_PARTNER               @title: '{i18n>SO_AH_PARTNER}'                    @sap.Label: '{i18n>SO_AH_PARTNER}'    @Common.IsDigitSequence: true;
+    SO_AH_PARTNER              @title: '{i18n>SO_AH_PARTNER}'                    @sap.Label: '{i18n>SO_AH_PARTNER}'        @Common.IsDigitSequence: true;
     @Common.TextFor
-    SO_AH_PARTNER_NAME          @title: '{i18n>SO_AH_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AH_PARTNER_NAME}';
+    SO_AH_PARTNER_NAME         @title: '{i18n>SO_AH_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AH_PARTNER_NAME}';
 
     @Common.Text           : SO_KVGR5_TEXT
     @Common.TextArrangement: #TextFirst
-    SO_KVGR5               @title: '{i18n>SO_KVGR5}'                    @sap.Label: '{i18n>SO_KVGR5}'    @Common.IsDigitSequence: true;
+    SO_KVGR5                   @title: '{i18n>SO_KVGR5}'                         @sap.Label: '{i18n>SO_KVGR5}'             @Common.IsDigitSequence: true;
     @Common.TextFor
-    SO_KVGR5_TEXT          @title: '{i18n>SO_KVGR5_TEXT}'               @sap.Label: '{i18n>SO_KVGR5_TEXT}';
+    SO_KVGR5_TEXT              @title: '{i18n>SO_KVGR5_TEXT}'                    @sap.Label: '{i18n>SO_KVGR5_TEXT}';
+
+    @Common.Text           : SO_RG_PARTNER_NAME
+    @Common.TextArrangement: #TextFirst
+    SO_RG_PARTNER              @title: '{i18n>SO_RG_PARTNER}'                    @sap.Label: '{i18n>SO_RG_PARTNER}'        @Common.IsDigitSequence: true;
+    @Common.TextFor
+    SO_RG_PARTNER_NAME         @title: '{i18n>SO_RG_PARTNER_NAME}'               @sap.Label: '{i18n>SO_RG_PARTNER_NAME}';
+
+    @Common.Text           : SO_RE_PARTNER_NAME
+    @Common.TextArrangement: #TextFirst
+    SO_RE_PARTNER              @title: '{i18n>SO_RE_PARTNER}'                    @sap.Label: '{i18n>SO_RE_PARTNER}'        @Common.IsDigitSequence: true;
+    @Common.TextFor
+    SO_RE_PARTNER_NAME         @title: '{i18n>SO_RE_PARTNER_NAME}'               @sap.Label: '{i18n>SO_RE_PARTNER_NAME}';
+
+    @Common.Text           : SO_AG_PARTNER_LAND1_LANG
+    @Common.TextArrangement: #TextFirst
+    SO_AG_PARTNER_LAND1        @title: '{i18n>SO_AG_PARTNER_LAND1}'              @sap.Label: '{i18n>SO_AG_PARTNER_LAND1}'  @Common.IsDigitSequence: true;
+    @Common.TextFor
+    SO_AG_PARTNER_LAND1_LANG   @title: '{i18n>SO_AG_PARTNER_LAND1_LANG}'         @sap.Label: '{i18n>SO_AG_PARTNER_LAND1_LANG}';
 }
 
 /// UI AND MEASURES ANNOTATIONS
@@ -320,6 +338,8 @@ annotate service.Results with {
     BL_WAERK_LAST                   @Semantics.currencyCode;
     SO_ZMENG                        @Measures.Unit          : SO_ZIEME;
     SO_ZIEME                        @Semantics.unitOfMeasure: 'unit-of-measure';
+    DL_ITEM_GROSS_WEIGHT            @Measures.Unit          : DL_ITEM_WEIGHT_UNIT;
+    DL_ITEM_WEIGHT_UNIT             @Semantics.unitOfMeasure: 'unit-of-measure';
     SO_CO_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_NY_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_AS_PARTNER_NAME              @UI                     : {Hidden: true};
@@ -397,4 +417,9 @@ annotate service.Results with {
     SO_AH_PARTNER_NAME              @UI                     : {Hidden: true};
     SO_KVGR5_TEXT                   @UI                     : {Hidden: true};
     SO_ZIEME                        @UI                     : {Hidden: true};
+    SO_RG_PARTNER_NAME              @UI                     : {Hidden: true};
+    SO_RE_PARTNER_NAME              @UI                     : {Hidden: true};
+    SO_AG_PARTNER_LAND1_LANG        @UI                     : {Hidden: true};
+    DL_ITEM_WEIGHT_UNIT             @UI                     : {Hidden: true};
+    TM_VBTYP                        @UI                     : {Hidden: true};
 }

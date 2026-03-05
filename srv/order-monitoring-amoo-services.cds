@@ -474,8 +474,20 @@ service openOrdersSrv {
                 KVGR5_LANG                                  as SO_KVGR5_TEXT,
                 ZMENG                                       as SO_ZMENG, // Target Quantity
                 ZIEME                                       as SO_ZIEME, // Target Quantity Unit
-
-    }
+                RG_PARTNER                                  as SO_RG_PARTNER,
+                COALESCE(RG_PARTNER_NAME1, '') || ' ' || COALESCE(RG_PARTNER_NAME2, '') as SO_RG_PARTNER_NAME : String(80),
+                RE_PARTNER                                  as SO_RE_PARTNER,
+                COALESCE(RE_PARTNER_NAME1, '') || ' ' || COALESCE(RE_PARTNER_NAME2, '') as SO_RE_PARTNER_NAME : String(80),
+                AG_PARTNER_LAND1                            as SO_AG_PARTNER_LAND1,
+                AG_PARTNER_LAND1_LANG                       as SO_AG_PARTNER_LAND1_LANG,
+                ERNAM                                       as SO_ERNAM,
+                GOODS_ISSUE_SLIP_NUMBER                     as DL_GOODS_ISSUE_SLIP_NUMBER,
+                ITEM_GROSS_WEIGHT                           as DL_ITEM_GROSS_WEIGHT,
+                ITEM_WEIGHT_UNIT                            as DL_ITEM_WEIGHT_UNIT,
+                _BASF_YRDSDV1_IMPORT_VALID_TO               as SO_BASF_YRDSDV1_IMPORT_VALID_TO,
+                VSTEL                                       as SO_VSTEL  ,
+                TM_VBTYP                                    as TM_VBTYP     
+        }
 
 
     @readonly
@@ -548,7 +560,7 @@ service openOrdersSrv {
     action   createDeliveryforItem(salesOrder : String(10), salesOrderItem : String(6))                returns Boolean;
     entity SAPTexts                 as projection on db_app.SAPTexts;
     function getSAPTexts(salesOrder : String(10), salesOrderItem : String(6), orderSystem : String(3)) returns array of SAPTexts;
-    function isOrderChangeable(salesOrder : String(10), salesOrderItem : String(6)) returns S4OCS.responses_IsOrderChangeableResponse;
+    function isOrderChangeableV2(salesOrder : String(10), salesOrderItem : String(6), salesOrderSystem: String(3)) returns db_app.orderChangeDataV2;
 
     action resolveBIMErrors(errorIds: String) returns String;
 

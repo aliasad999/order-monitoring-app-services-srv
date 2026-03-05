@@ -175,8 +175,8 @@ annotate service.BaseEntity with {
     SO_AS_PARTNER_NAME               @title: '{i18n>SO_AS_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AS_PARTNER_NAME}';
     SO_VE_PARTNER                    @title: '{i18n>SO_VE_PARTNER}'                    @sap.Label: '{i18n>SO_VE_PARTNER}'       @Common.IsDigitSequence: true;
     SO_VE_PARTNER_NAME               @title: '{i18n>SO_VE_PARTNER_NAME}'               @sap.Label: '{i18n>SO_VE_PARTNER_NAME}';
-    SO_AM_PARTNER                    @title: '{i18n>SO_AM_PARTNER}'                    @sap.Label: '{i18n>SO_AM_PARTNER}';
-    SO_AM_PARTNER_NAME               @title: '{i18n>SO_AM_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AM_PARTNER_NAME}'  @Common.IsDigitSequence: true;
+    SO_AM_PARTNER                    @title: '{i18n>SO_AM_PARTNER}'                    @sap.Label: '{i18n>SO_AM_PARTNER}'       @Common.IsDigitSequence: true;
+    SO_AM_PARTNER_NAME               @title: '{i18n>SO_AM_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AM_PARTNER_NAME}';
     SO_ZTERM                         @title: '{i18n>SO_ZTERM}'                         @sap.Label: '{i18n>SO_ZTERM}';
     SO_BSARK_VTEXT                   @title: '{i18n>SO_BSARK_VTEXT}'                   @sap.Label: '{i18n>SO_BSARK_VTEXT}';
     SO_BSARK                         @title: '{i18n>SO_BSARK}'                         @sap.Label: '{i18n>SO_BSARK}';
@@ -211,12 +211,12 @@ annotate service.BaseEntity with {
     PO_KUNNR_NAME                    @title: '{i18n>PO_KUNNR_NAME}'                    @sap.Label: '{i18n>PO_KUNNR_NAME}';
     PO_BSART                         @title: '{i18n>PO_BSART}'                         @sap.Label: '{i18n>PO_BSART}';
     PO_BSART_BATXT                   @title: '{i18n>PO_BSART_BATXT}'                   @sap.Label: '{i18n>PO_BSART_BATXT}';
-    SO_Z5_PARTNER                    @title: '{i18n>SO_Z5_PARTNER}'                    @sap.Label: '{i18n>SO_Z5_PARTNER}';
-    SO_Z5_PARTNER_NAME               @title: '{i18n>SO_Z5_PARTNER_NAME}'               @sap.Label: '{i18n>SO_Z5_PARTNER_NAME}'  @Common.IsDigitSequence: true;
-    SO_SB_PARTNER                    @title: '{i18n>SO_SB_PARTNER}'                    @sap.Label: '{i18n>SO_SB_PARTNER}';
-    SO_SB_PARTNER_NAME               @title: '{i18n>SO_SB_PARTNER_NAME}'               @sap.Label: '{i18n>SO_SB_PARTNER_NAME}'  @Common.IsDigitSequence: true;
-    SO_AD_PARTNER                    @title: '{i18n>SO_AD_PARTNER}'                    @sap.Label: '{i18n>SO_AD_PARTNER}';
-    SO_AD_PARTNER_NAME               @title: '{i18n>SO_AD_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AD_PARTNER_NAME}'  @Common.IsDigitSequence: true;
+    SO_Z5_PARTNER                    @title: '{i18n>SO_Z5_PARTNER}'                    @sap.Label: '{i18n>SO_Z5_PARTNER}'    @Common.IsDigitSequence: true;
+    SO_Z5_PARTNER_NAME               @title: '{i18n>SO_Z5_PARTNER_NAME}'               @sap.Label: '{i18n>SO_Z5_PARTNER_NAME}';
+    SO_SB_PARTNER                    @title: '{i18n>SO_SB_PARTNER}'                    @sap.Label: '{i18n>SO_SB_PARTNER}'     @Common.IsDigitSequence: true;
+    SO_SB_PARTNER_NAME               @title: '{i18n>SO_SB_PARTNER_NAME}'               @sap.Label: '{i18n>SO_SB_PARTNER_NAME}';
+    SO_AD_PARTNER                    @title: '{i18n>SO_AD_PARTNER}'                    @sap.Label: '{i18n>SO_AD_PARTNER}'   @Common.IsDigitSequence: true;
+    SO_AD_PARTNER_NAME               @title: '{i18n>SO_AD_PARTNER_NAME}'               @sap.Label: '{i18n>SO_AD_PARTNER_NAME}';
     SO_MANDT                         @title: '{i18n>SO_MANDT}'                         @sap.Label: '{i18n>SO_MANDT}';
     DL_MANDT                         @title: '{i18n>DL_MANDT}'                         @sap.Label: '{i18n>DL_MANDT}';
     TM_MANDT                         @title: '{i18n>TM_MANDT}'                         @sap.Label: '{i18n>TM_MANDT}';
@@ -270,5 +270,15 @@ annotate service.BaseEntity with {
     SO_KVGR5_TEXT                    @title: '{i18n>SO_KVGR5_TEXT}'                    @sap.Label: '{i18n>SO_KVGR5_TEXT}';
     SO_ZMENG                         @title: '{i18n>SO_ZMENG}'                         @sap.Label: '{i18n>SO_ZMENG}';
     SO_ZIEME                         @title: '{i18n>SO_ZIEME}'                         @sap.Label: '{i18n>SO_ZIEME}';
-    
+    SO_RG_PARTNER                    @title: '{i18n>SO_RG_PARTNER}'                    @sap.Label: '{i18n>SO_RG_PARTNER}' @Common.IsDigitSequence: true;
+    SO_RG_PARTNER_NAME               @title: '{i18n>SO_RG_PARTNER_NAME}'               @sap.Label: '{i18n>SO_RG_PARTNER_NAME}';
+    SO_RE_PARTNER                    @title: '{i18n>SO_RE_PARTNER}'                    @sap.Label: '{i18n>SO_RE_PARTNER}' @Common.IsDigitSequence: true;
+    SO_RE_PARTNER_NAME               @title: '{i18n>SO_RE_PARTNER_NAME}'               @sap.Label: '{i18n>SO_RE_PARTNER_NAME}';
+    SO_AG_PARTNER_LAND1              @title: '{i18n>SO_AG_PARTNER_LAND1}'              @sap.Label: '{i18n>SO_AG_PARTNER_LAND1}';
+    SO_AG_PARTNER_LAND1_LANG         @title: '{i18n>SO_AG_PARTNER_LAND1_LANG}'         @sap.Label: '{i18n>SO_AG_PARTNER_LAND1_LANG}';
+    SO_ERNAM                         @title: '{i18n>SO_ERNAM}'                         @sap.Label: '{i18n>SO_ERNAM}';
+    DL_GOODS_ISSUE_SLIP_NUMBER       @title: '{i18n>DL_GOODS_ISSUE_SLIP_NUMBER}'       @sap.Label: '{i18n>DL_GOODS_ISSUE_SLIP_NUMBER}';
+    DL_ITEM_GROSS_WEIGHT             @title: '{i18n>DL_ITEM_GROSS_WEIGHT}'             @sap.Label: '{i18n>DL_ITEM_GROSS_WEIGHT}';
+    SO_BASF_YRDSDV1_IMPORT_VALID_TO @title: '{i18n>SO_BASF_YRDSDV1_IMPORT_VALID_TO}'             @sap.Label: '{i18n>SO_BASF_YRDSDV1_IMPORT_VALID_TO}';
+    SO_VSTEL                        @title: '{i18n>SO_VSTEL}'             @sap.Label: '{i18n>SO_VSTEL}';
 }

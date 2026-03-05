@@ -177,6 +177,19 @@
                 "path": "/it/omg/ocs/order-change-service/v1"
             }
         },
+        "CobaltOrderChangeService": {
+            "kind": "odata-v2",
+            "model": "srv/external/CobaltOrderChangeService",
+            "csrf": {
+                "method": "get",
+                "url": "/it/omg/omc/order-change/v1/"
+            },
+            "csrfInBatch": false,
+            "credentials": {
+                "destination": "APIM",
+                "path": "/it/omg/omc/order-change/v1/"
+            }
+        },
         "OMServicesMercury": {
             "kind": "odata-v4",
             "credentials": {

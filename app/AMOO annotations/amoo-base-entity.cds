@@ -296,4 +296,15 @@ annotate service.baseEntity with {
     SO_KVGR5_TEXT                    @title: '{i18n>SO_KVGR5_TEXT}'                    @sap.Label: '{i18n>SO_KVGR5_TEXT}';
     SO_ZMENG                         @title: '{i18n>SO_ZMENG}'                         @sap.Label: '{i18n>SO_ZMENG}';
     SO_ZIEME                         @title: '{i18n>SO_ZIEME}'                         @sap.Label: '{i18n>SO_ZIEME}';
+    SO_RG_PARTNER                    @title: '{i18n>SO_RG_PARTNER}'                    @sap.Label: '{i18n>SO_RG_PARTNER}' @Common.IsDigitSequence: true;
+    SO_RG_PARTNER_NAME               @title: '{i18n>SO_RG_PARTNER_NAME}'               @sap.Label: '{i18n>SO_RG_PARTNER_NAME}';
+    SO_RE_PARTNER                    @title: '{i18n>SO_RE_PARTNER}'                    @sap.Label: '{i18n>SO_RE_PARTNER}' @Common.IsDigitSequence: true;
+    SO_RE_PARTNER_NAME               @title: '{i18n>SO_RE_PARTNER_NAME}'               @sap.Label: '{i18n>SO_RE_PARTNER_NAME}';
+    SO_AG_PARTNER_LAND1              @title: '{i18n>SO_AG_PARTNER_LAND1}'              @sap.Label: '{i18n>SO_AG_PARTNER_LAND1}';
+    SO_AG_PARTNER_LAND1_LANG         @title: '{i18n>SO_AG_PARTNER_LAND1_LANG}'         @sap.Label: '{i18n>SO_AG_PARTNER_LAND1_LANG}';
+    SO_ERNAM                         @title: '{i18n>SO_ERNAM}'                         @sap.Label: '{i18n>SO_ERNAM}';
+    DL_GOODS_ISSUE_SLIP_NUMBER       @title: '{i18n>DL_GOODS_ISSUE_SLIP_NUMBER}'       @sap.Label: '{i18n>DL_GOODS_ISSUE_SLIP_NUMBER}';
+    DL_ITEM_GROSS_WEIGHT             @title: '{i18n>DL_ITEM_GROSS_WEIGHT}'             @sap.Label: '{i18n>DL_ITEM_GROSS_WEIGHT}';
+    SO_BASF_YRDSDV1_IMPORT_VALID_TO @title: '{i18n>SO_BASF_YRDSDV1_IMPORT_VALID_TO}'             @sap.Label: '{i18n>SO_BASF_YRDSDV1_IMPORT_VALID_TO}';
+    SO_VSTEL                        @title: '{i18n>SO_VSTEL}'             @sap.Label: '{i18n>SO_VSTEL}';
 };
