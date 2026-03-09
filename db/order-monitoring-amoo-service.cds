@@ -577,6 +577,13 @@ type orderChangeDataV2 {
                 DeliveryNumber: String;
                 DeliveryItem: String;
         };
+        OrdShipments: many{
+                SalesOrder: String;
+                SalesOrderItem: String;
+                DeliveryNumber: String;
+                DeliveryItem: String;
+                ShipmentNumber: String;
+        };
         OrdSchedReq             : many {
                 SalesOrder     : String;
                 SalesOrderItem : String;
