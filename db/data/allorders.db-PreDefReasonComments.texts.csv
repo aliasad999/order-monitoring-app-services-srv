@@ -22,6 +22,8 @@ BucketKey;ReasonCodeKey;locale;ReasonComment
 01;21;de;Auftrag von Drittanbieter, Zuteilung nahe Abfahrt des Schiffs (EV) 
 01;22;de;Angefordertes Datum für Lager verzögert 
 01;23;de;Waren unterwegs
+01;24;de;Status: überprüft 
+01;25;de;Status: abgesagt
 01;01;en;Pending Allocation /  PM Allocation / No Quota
 01;02;en;Insufficient Stock/Raw Material Shortage
 01;03;en;Production Delayed
@@ -45,6 +47,8 @@ BucketKey;ReasonCodeKey;locale;ReasonComment
 01;21;en;3rd party order, order to be allocated near vessel departure (EV)
 01;22;en;Requested date to warehouse delayed
 01;23;en;Stock in transit
+01;24;en;Status: checked
+01;25;en;Status: Call off
 01;01;es;Asignación pendiente / Sin cuota 
 01;02;es;Stock insuficiente / Escasez de materia prima 
 01;03;es;Producción retrasada 
@@ -68,6 +72,8 @@ BucketKey;ReasonCodeKey;locale;ReasonComment
 01;21;es;Pedido de terceros, asignación cerca de la salida del buque (EV) 
 01;22;es;Fecha solicitada para almacén retrasada 
 01;23;es;Stock en tránsito
+01;24;es;Status: comprobado 
+01;25;es;Status: cancelado
 01;01;fr;Affectation en attente / Pas de quota 
 01;02;fr;Stock insuffisant / Pénurie de matière première 
 01;03;fr;Production retardée 
@@ -91,6 +97,8 @@ BucketKey;ReasonCodeKey;locale;ReasonComment
 01;21;fr;Commande d'un tiers, affectation à effectuer près du départ du navire (EV) 
 01;22;fr;Date demandée pour l'entrepôt retardée 
 01;23;fr;Stock en transit
+01;24;fr;Status: vérifié 
+01;25;fr;Status: annulé
 01;01;it;Assegnazione in sospeso / Nessuna quota 
 01;02;it;Scorte insufficienti / Carenza di materie prime 
 01;03;it;Produzione ritardata 
@@ -114,6 +122,8 @@ BucketKey;ReasonCodeKey;locale;ReasonComment
 01;21;it;Ordine di terzi 
 01;22;it;Data richiesta per il magazzino ritardata 
 01;23;it;Stock in transito
+01;24;it;Status: verificato 
+01;25;it;Status: annullato
 01;01;pt;Alocação pendente / Sem cota 
 01;02;pt;Estoque insuficiente / Falta de matéria-prima 
 01;03;pt;Produção atrasada
@@ -137,6 +147,8 @@ BucketKey;ReasonCodeKey;locale;ReasonComment
 01;21;pt;Pedido de terceiro, alocação próxima à partida do navio (EV) 
 01;22;pt;Data solicitada para o armazém atrasada
 01;23;pt;Estoque em trânsito
+01;24;pt;Status: verificado 
+01;25;pt;Status: cancelado
 01;01;tr;Bekleyen Tahsis / Kota Yok 
 01;02;tr;Yetersiz Stok / Hammadde Kıtlığı 
 01;03;tr;Üretim Gecikti 
@@ -160,6 +172,8 @@ BucketKey;ReasonCodeKey;locale;ReasonComment
 01;21;tr;3. taraf siparişi, sipariş gemi kalkışına yakın tahsis edilecek (EV) 
 01;22;tr;Depo için Talep Edilen Tarih Gecikti 
 01;23;tr;Transit Halinde Stok
+01;24;tr;Status: kontrol edildi 
+01;25;tr;Status: iptal edildi
 02;01;de;Problem mit Schiffsraum
 02;02;de;Container nicht verfügbar
 02;03;de;Ausstehende Spot-Rate / Luftfrachtfreigabe
