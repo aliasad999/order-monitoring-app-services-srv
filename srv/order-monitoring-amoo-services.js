@@ -413,8 +413,8 @@ class openOrdersSrv extends cds.ApplicationService {
                         orderChangeTabData.Editable = true;
                         orderChangeTabData.BizagiCaseInProgress  = false
                     }
-                    delete orderChangeTabData.OrdDeliveries;
-                    delete orderChangeTabData.OrdShipments;
+                    // delete orderChangeTabData.OrdDeliveries;
+                    // delete orderChangeTabData.OrdShipments;
                     finalData = orderChangeTabData;
                 } 
 
