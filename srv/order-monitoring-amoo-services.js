@@ -1640,24 +1640,35 @@ class openOrdersSrv extends cds.ApplicationService {
                     break;
             }
 
+            /// COMBINED RESULTS ISSUE DESCRIPTION
+            let combinedResults = [];
+
             // Call to FSCM system (Cobalt and AP orders)
             if (issue === '06' && system !== '200') {
                 const CreditManagerService = await cds.connect.to('CreditManagerService');
                 try {
                     creditData = await CreditManagerService.run(SELECT.from('OrderBlockSet').byKey({
-                        OrderNumber: issueLocation,
-                        Language: req.locale.toUpperCase()
-                    }).columns("Text1", "Text2", "Text3", "Text4"))
+                        OrderNumber: "6013203068" //issueLocation
+                    }));
+                    if(creditData.OrderNumber){
+                        combinedResults.push({text: `Reason for Credit block: ${creditData.ExclLockingReasonDesc}, Overdue check: ${creditData.ResultOverdueCheckDesc}, CL Check: ${creditData.ResultCreditLimitCheckDesc}`});
+                        if(creditData.DocumentCurrency && creditData.MainSegmentCurrency !== creditData.DocumentCurrency){
+                            combinedResults.push({text: `Overall credit limit: ${creditData.CreditLimit} ${creditData.MainSegmentCurrency} - ${creditData.CreditLimitDocumentCurrency} ${creditData.DocumentCurrency}`});
+                            combinedResults.push({text: `Credit exposure: ${creditData.TotalCreditExposure} ${creditData.MainSegmentCurrency} - ${creditData.TotalCreditExposureDocumentCurrency} ${creditData.DocumentCurrency}`});
+                            combinedResults.push({text: `Credit limit overrun: ${creditData.CreditLimitOverrun} ${creditData.MainSegmentCurrency} - ${creditData.CreditLimitOverrunDocumentCurrency} ${creditData.DocumentCurrency}`});
+                        }else{
+                            combinedResults.push({text: `Overall credit limit:${creditData.CreditLimit} ${creditData.MainSegmentCurrency}`});
+                            combinedResults.push({text: `Credit exposure: ${creditData.TotalCreditExposure} ${creditData.MainSegmentCurrency}`});
+                            combinedResults.push({text: `Credit limit overrun: ${creditData.CreditLimitOverrun} ${creditData.MainSegmentCurrency}`});
+                        }  
+                    }else{
+                        combinedResults.push({text: "No credit block information was found."});
+                    }
                 } catch (error) {
                     console.error('Error fetching credit status:', error);
                 }
             }
 
-
-            const combinedResults = [];
-            // issueReason.forEach((item) => {
-            //     combinedResults.push({ text: item.IssueReason })
-            // })
             gtsBlockReasons.forEach((item) => {
                 combinedResults.push({ text: item.EmbargoStatusText })
                 combinedResults.push({ text: item.ScreeningStatusText })
@@ -1666,11 +1677,6 @@ class openOrdersSrv extends cds.ApplicationService {
             incompletionLog.forEach((item) => {
                 combinedResults.push({ text: item.IncompletionText })
             })
-            for (const prop in creditData) {
-                if (creditData.hasOwnProperty(prop)) {
-                    combinedResults.push({ text: creditData[prop] })
-                }
-            }
             if (idocData.length != 0) {
                 combinedResults.push(...idocData);
             }
