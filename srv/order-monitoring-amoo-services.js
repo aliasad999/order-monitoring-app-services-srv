@@ -1647,41 +1647,44 @@ class openOrdersSrv extends cds.ApplicationService {
             if (issue === '06' && system !== '200') {
                 const CreditManagerService = await cds.connect.to('CreditManagerService');
                 try {
-                    // Check if we have 1 (OLD) or 2 (NEW) keys for the entity 
-                    const { OrderBlockSet } = await cds.entities('CreditManagerService');
-                    const numberOfKeys = Object.keys(OrderBlockSet.keys).length;
-                    if(numberOfKeys === 1){
-                        creditData = await CreditManagerService.run(SELECT.from('OrderBlockSet').byKey({
-                            OrderNumber: issueLocation  //"6013203068"
-                        }));
-                    }else{
-                        creditData = await CreditManagerService.run(SELECT.from('OrderBlockSet').byKey({
-                            OrderNumber: issueLocation,  //"6013203068"
-                            Language: 'EN'
-                        }));
+                    // Try with 1 key (NEW)
+                    creditData = await CreditManagerService.run(
+                        SELECT.from('OrderBlockSet').byKey({
+                            OrderNumber: issueLocation
+                        })
+                    );
+                } catch (error) {                    
+                    try {
+                        // Try with two keys (OLD)
+                        creditData = await CreditManagerService.run(
+                            SELECT.from('OrderBlockSet').byKey({
+                                OrderNumber: issueLocation,
+                                Language: 'EN'
+                            })
+                        );
+                    } catch (fallbackError) {
+                        console.error('Error fetching credit status:', error);
                     }
-                    
-                    if(creditData.OrderNumber){
-                        let currencyValue = creditData.MainSegmentCurrency;
-                        /// old scenario
-                        if(creditData.CreditSegmentCurrency !== undefined){
-                            currencyValue = creditData.CreditSegmentCurrency;
-                        }
-                        combinedResults.push({text: `Reason for Credit block: ${creditData.ExclLockingReasonDesc}, Overdue check: ${creditData.ResultOverdueCheckDesc}, CL Check: ${creditData.ResultCreditLimitCheckDesc}`});
-                        if(creditData.DocumentCurrency && currencyValue !== creditData.DocumentCurrency){
-                            combinedResults.push({text: `Overall credit limit: ${creditData.CreditLimit} ${currencyValue} - ${creditData.CreditLimitDocumentCurrency} ${creditData.DocumentCurrency}`});
-                            combinedResults.push({text: `Credit exposure: ${creditData.TotalCreditExposure} ${currencyValue} - ${creditData.TotalCreditExposureDocumentCurrency} ${creditData.DocumentCurrency}`});
-                            combinedResults.push({text: `Credit limit overrun: ${creditData.CreditLimitOverrun} ${currencyValue} - ${creditData.CreditLimitOverrunDocumentCurrency} ${creditData.DocumentCurrency}`});
-                        }else{
-                            combinedResults.push({text: `Overall credit limit:${creditData.CreditLimit} ${currencyValue}`});
-                            combinedResults.push({text: `Credit exposure: ${creditData.TotalCreditExposure} ${currencyValue}`});
-                            combinedResults.push({text: `Credit limit overrun: ${creditData.CreditLimitOverrun} ${currencyValue}`});
-                        }  
-                    }else{
-                        combinedResults.push({text: "No credit block information was found."});
+                }
+
+                if(creditData.OrderNumber){
+                    let currencyValue = creditData.MainSegmentCurrency;
+                    /// old scenario
+                    if(creditData.CreditSegmentCurrency !== undefined){
+                        currencyValue = creditData.CreditSegmentCurrency;
                     }
-                } catch (error) {
-                    console.error('Error fetching credit status:', error);
+                    combinedResults.push({text: `Reason for Credit block: ${creditData.ExclLockingReasonDesc}, Overdue check: ${creditData.ResultOverdueCheckDesc}, CL Check: ${creditData.ResultCreditLimitCheckDesc}`});
+                    if(creditData.DocumentCurrency && currencyValue !== creditData.DocumentCurrency){
+                        combinedResults.push({text: `Overall credit limit: ${creditData.CreditLimit} ${currencyValue} - ${creditData.CreditLimitDocumentCurrency} ${creditData.DocumentCurrency}`});
+                        combinedResults.push({text: `Credit exposure: ${creditData.TotalCreditExposure} ${currencyValue} - ${creditData.TotalCreditExposureDocumentCurrency} ${creditData.DocumentCurrency}`});
+                        combinedResults.push({text: `Credit limit overrun: ${creditData.CreditLimitOverrun} ${currencyValue} - ${creditData.CreditLimitOverrunDocumentCurrency} ${creditData.DocumentCurrency}`});
+                    }else{
+                        combinedResults.push({text: `Overall credit limit:${creditData.CreditLimit} ${currencyValue}`});
+                        combinedResults.push({text: `Credit exposure: ${creditData.TotalCreditExposure} ${currencyValue}`});
+                        combinedResults.push({text: `Credit limit overrun: ${creditData.CreditLimitOverrun} ${currencyValue}`});
+                    }  
+                }else{
+                    combinedResults.push({text: "No credit block information was found."});
                 }
             }
 
