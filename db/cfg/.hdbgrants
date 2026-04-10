@@ -17,8 +17,7 @@
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_USER_REGION_G#",
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_OM_DOCUMENTFLOWS_G#",
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_BIM_ERRORS_G#",
-                "otc.csc.db.app_service.role::EXTERNAL_ACCESS_CV_GENERAL_BIM_ERRORS_G#",
-                "otc.csc.db.app_service.role::EXTERNAL_ACCESS_CV_OPEN_ORDERLIST_FINAL_SA_G#"
+                "otc.csc.db.app_service.role::EXTERNAL_ACCESS_CV_GENERAL_BIM_ERRORS_G#"
             ]
         },
         "application_user": {
@@ -38,8 +37,7 @@
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_USER_REGION",
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_OM_DOCUMENTFLOWS",
                 "otc.csc.db.base.roles::EXTERNAL_ACCESS_BIM_ERRORS",
-                "otc.csc.db.app_service.role::EXTERNAL_ACCESS_CV_GENERAL_BIM_ERRORS",
-                "otc.csc.db.app_service.role::EXTERNAL_ACCESS_CV_OPEN_ORDERLIST_FINAL_SA"
+                "otc.csc.db.app_service.role::EXTERNAL_ACCESS_CV_GENERAL_BIM_ERRORS"
             ]
         }
     }
