@@ -621,4 +621,5 @@ service openOrdersSrv {
             virtual false as isSubtotal :Boolean,
             *
         }
+
 };

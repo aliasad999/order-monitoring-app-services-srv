@@ -22,6 +22,8 @@ BucketKey;ReasonCodeKey;ReasonComment
 01;21;3rd party order, order to be allocated near vessel departure (EV)
 01;22;Requested date to warehouse delayed
 01;23;Stock in transit
+01;24;Status: checked
+01;25;Status: Call off
 02;01;Vessel Space Issue
 02;02;Container unavailable
 02;03;Pending Spot Rate / Airfreight Approval
