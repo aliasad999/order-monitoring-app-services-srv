@@ -336,7 +336,8 @@ annotate service.allIssues with {
     DL_LFIMG                        @Measures.Unit          : DL_VRKME;
     DL_LFIMG_BATCH                  @Measures.Unit          : DL_VRKME;
     DL_VRKME                        @Semantics.unitOfMeasure: 'unit-of-measure';
-    DL_PEND_DEL_QUAN                @Measures.Unit          : DL_VRKME;
+     // DL_PEND_DEL_QUAN                @Measures.Unit          : DL_VRKME; --GUPTAAY
+    DL_PEND_DEL_QUAN                @Measures.Unit          : SO_VRKME;    //GUPTAAY
     BL_FKIMG_FIRST                  @Measures.Unit          : BL_VRKME_FIRST;
     BL_FKIMG_LAST                   @Measures.Unit          : BL_VRKME_LAST;
     BL_VRKME_FIRST                  @Semantics.unitOfMeasure: 'unit-of-measure';
