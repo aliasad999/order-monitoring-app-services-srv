@@ -50,10 +50,11 @@
   "devDependencies": {
     "@cap-js/cds-test": "^0.4.0",
     "@sap/hdi-deploy":"^5.5.1",
-    "axios": "^1.12.0"
+    "axios": "^1.12.0",
+    "concurrently": "^9.2.1"
   },
   "scripts": {
-    "bind": "cds bind -2  order-monitoring-xsuaa:order-monitoring-xsuaa-key && cds bind -2  order-monitoring-destination:order-monitoring-destination-content-order-monitoring-destination-credentials &&  cds bind -2  order-monitoring-app-services-hdi:SharedDevKey &&    cds bind -2  order-monitoring-connectivity:con-key && cds bind -2 order-monitoring-credentials-store:credentials-store-key",
+    "bind": "cds bind --to order-monitoring-xsuaa:order-monitoring-xsuaa-key,order-monitoring-destination:order-monitoring-destination-key,order-monitoring-app-services-hdi:SharedDevKey,order-monitoring-connectivity:con-key,order-monitoring-credentials-store:credentials-store-key",
     "start": "node ${NODE_ARGS} ./node_modules/.bin/cds-serve",
     "test": "mocha srv/tests/test.js --timeout 150000 --exit",
     "test-amoo": "mocha srv/tests/test-amoo.js --timeout 150000 --exit",
@@ -69,7 +70,9 @@
     "undeploy": "cf undeploy allmyorders --delete-services --delete-service-keys --delete-service-brokers",
     "build": "mbt build",
     "deploy": "mbt build && cf deploy mta_archives/order-monitoring-amo_0.0.1.mtar --retries 1",
-    "set-local-env": "./setup-local-test.sh"
+    "set-local-env": "./setup-local-test.sh", 
+    "run-amo-local": "concurrently \"cds watch --profile hybrid\" \"cds bind --exec -- npm run start:local --prefix /home/user/projects/OTC-MON-Order-Monitoring-All-My-Orders/app/local-approuter\"",
+    "run-amoo-local": "concurrently \"cds watch --profile hybrid\" \"cds bind --exec -- npm run start:local --prefix /home/user/projects/OTC-MON-All-My-Open-Orders/app/local-approuter\""
   },
   "cds": {
     "log": {
