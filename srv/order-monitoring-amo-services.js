@@ -50,125 +50,174 @@ class srvOpenOrders extends cds.ApplicationService {
         this.on("getOMDocFlowNodes", async req => {
             // SO_BSTKD - customer purchase order
             // SO_VKORG - SO_VKORG_NAME1 - Sales organization key and text
-            // Get parameters
+
+            // ─── 1. Extract input parameters from the request ───────────────────────
             let { salesOrder, salesOrderItem, salesOrderSystem } = req.data;
+
+            // ─── 2. Load required CDS entities ──────────────────────────────────────
+            // allIssuesDetails: view with open issues per sales order item
+            // OMDocFlow: document flow table linking POs and SOs in a chain
+            // Results: sales order header/item data with org and customer PO info
             const { allIssuesDetails } = cds.entities('openOrdersSrv');
             const { OMDocFlow, Results } = await cds.entities('srvOpenOrders');
+
+            // ─── 3. Fetch the full document flow chain for the given SO/item ─────────
+            // Self-join on FIRST_DOCUMENT and FIRST_DOCUMENT_ITEM to get all documents
+            // that share the same origin document as the requested sales order item.
+            // Results are ordered by SEQUENCE to preserve the chain order (PO → SO → SO...).
             let OMDocFlowData = await SELECT
                 .from(`${OMDocFlow.name} as flow`)
                 .join(`${OMDocFlow.name} as ref`)
                 .on`flow.FIRST_DOCUMENT = ref.FIRST_DOCUMENT
-                    and flow.FIRST_DOCUMENT_ITEM = ref.FIRST_DOCUMENT_ITEM`
+            and flow.FIRST_DOCUMENT_ITEM = ref.FIRST_DOCUMENT_ITEM`
                 .where`ref.SUBSEQUENT_SO = ${salesOrder}
-                    and ref.SUBSEQUENT_SO_ITEM = ${salesOrderItem}
-                    and ref.SUBSEQUENT_SO_MANDT = ${salesOrderSystem}`
+            and ref.SUBSEQUENT_SO_ITEM = ${salesOrderItem}
+            and ref.SUBSEQUENT_SO_MANDT = ${salesOrderSystem}`
                 .orderBy('flow.SEQUENCE asc');
-            if(OMDocFlowData.length > 0){
-                let ordersInChain = []
+
+            if (OMDocFlowData.length > 0) {
+
+                // ─── 4. Build a list of all SO/item/system combos in the chain ───────
+                // and dynamically construct a WHERE clause for the bulk queries below.
+                // Using raw string interpolation here because CAP CQL does not support
+                // dynamic multi-column OR conditions natively.
+                let ordersInChain = [];
                 let whereClause = "";
-                OMDocFlowData.forEach((documentChain, index, array) => {
+
+                OMDocFlowData.forEach((documentChain, index) => {
+                    // Collect each order in the chain for reference
                     ordersInChain.push({
                         salesOrder: documentChain.SUBSEQUENT_SO,
                         salesOrderItem: documentChain.SUBSEQUENT_SO_ITEM,
                         salesOrderSystem: documentChain.SUBSEQUENT_SO_MANDT
-                    })
-                    // GENERATE THE WHERE CLAUSE for Results and AllIssues
-                    let orderClause = `(SO_VBELN = '${documentChain.SUBSEQUENT_SO}' and SO_POSNR = '${documentChain.SUBSEQUENT_SO_ITEM}' and SO_MANDT = '${documentChain.SUBSEQUENT_SO_MANDT}')`
-                    if(index === 0){
-                        whereClause = orderClause;
-                    }else{
-                        whereClause = whereClause + ' or ' + orderClause;
-                    }
-                })
+                    });
 
-                // get the sales order data of all orders in the chain
+                    // Build compound OR condition: one per document chain entry
+                    let orderClause = `(SO_VBELN = '${documentChain.SUBSEQUENT_SO}' and SO_POSNR = '${documentChain.SUBSEQUENT_SO_ITEM}' and SO_MANDT = '${documentChain.SUBSEQUENT_SO_MANDT}')`;
+                    whereClause = index === 0 ? orderClause : `${whereClause} or ${orderClause}`;
+                });
+
+                // ─── 5. Fetch SO header data and issues for all orders in the chain ──
+                // Both queries use the same WHERE clause to cover all chain documents
+                // in a single round trip to the database.
+
+                // SO data: customer PO number, sales org key and description, doc type
                 const soData = await SELECT
-                    .columns('SO_VBELN','SO_POSNR','SO_MANDT','SO_BSTKD','SO_VKORG','SO_VKORG_NAME1','SO_VBTYP')
+                    .columns('SO_VBELN', 'SO_POSNR', 'SO_MANDT', 'SO_BSTKD', 'SO_VKORG', 'SO_VKORG_NAME1', 'SO_VBTYP')
                     .from(Results)
                     .where(whereClause);
-                // get issues
+
+                // Issues: any open issues flagged for each SO item (used to set node state)
                 const soIssues = await SELECT
-                    .columns('SO_VBELN','SO_POSNR','SO_MANDT','SO_ISSUE','SO_NPS')
+                    .columns('SO_VBELN', 'SO_POSNR', 'SO_MANDT', 'SO_ISSUE', 'SO_NPS')
                     .from(allIssuesDetails)
                     .where(whereClause);
 
+                // ─── 6. Initialize the process flow output structure ─────────────────
+                // nodes: individual PO/SO steps in the flow
+                // lanes: swimlane definitions (icon + label) for each step
                 let processFlowObjects = {
                     nodes: [],
                     lanes: []
-                }
-                // Number of nodes will be 2 times iNumberOfObjects (PO + SO)
-                let iNumberOfObjects = OMDocFlowData.length;
+                };
+
+                // Shared counter used as ID for both nodes and lanes.
+                // Each document chain entry generates 2 nodes (PO + SO) → id increments by 2.
                 let idNumber = 0;
+
+                // ─── 7. Build process flow nodes and lanes for each chain entry ───────
                 OMDocFlowData.forEach((documentChain, index, array) => {
                     let arrayLength = array.length;
-                    // add purchase order
+
+                    // ── 7a. Purchase Order node ──────────────────────────────────────
+                    // Each SO in the chain is preceded by either an internal PO
+                    // (PRECEDING_PO is set) or a customer PO (looked up via SO_BSTKD).
                     let PONode = {
                         "id": idNumber,
                         "lane": idNumber,
-                        "children": [idNumber + 1],
+                        "children": [idNumber + 1], // always points to the paired SO node
                         "focused": false,
                         "highlighted": false,
                         "state": "Positive",
                         "stateText": "OK"
                     };
+
                     let POLane = {
-							"id": idNumber,
-							"icon": "sap-icon://sales-order",
-							"label": "Purchase Order",
-							"position": idNumber
-						};
+                        "id": idNumber,
+                        "icon": "sap-icon://sales-order",
+                        "label": "Purchase Order",
+                        "position": idNumber
+                    };
+
                     let PONumber = documentChain.PRECEDING_PO;
-                    if(documentChain.PRECEDING_PO){
-                        PONode.texts = [serviceHelper.getMandtFieldsNames(documentChain.PRECEDING_PO_MANDT)]
-                    }else{ // customer PO
+
+                    if (documentChain.PRECEDING_PO) {
+                        // Internal PO: display the system/client name as subtitle
+                        PONode.texts = [serviceHelper.getMandtFieldsNames(documentChain.PRECEDING_PO_MANDT)];
+                    } else {
+                        // No internal PO → this is a customer purchase order.
+                        // Retrieve the customer PO number (SO_BSTKD) from the SO data.
                         PONode.texts = ["Customer Purchase Order"];
-                        PONumber = soData.find(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO)?.SO_BSTKD
+                        PONumber = soData.find(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO)?.SO_BSTKD;
                     }
+
                     PONode.title = `Purchase Order ${PONumber}`;
                     PONode.titleAbbreviation = `PO ${PONumber}`;
-                    /// ADD PO to process flow object
+
                     processFlowObjects.lanes.push(POLane);
                     processFlowObjects.nodes.push(PONode);
 
-                    // add sales order
-                    // add one to the id
+                    // ── 7b. Sales Order node ─────────────────────────────────────────
+                    // Increment id so the SO node/lane gets the next sequential id.
                     idNumber++;
-                    let issuesFound = soIssues.find(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO) ? true : false;
-                    let SO_VKORG = soData.find(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO)?.SO_VKORG
-                    let SO_VKORG_NAME1 = soData.find(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO)?.SO_VKORG_NAME1
-                    let SalesOrg = `${SO_VKORG} (${SO_VKORG_NAME1})` ;
+
+                    // Check if this SO item has any open issues → drives node state color
+                    let issuesFound = !!soIssues.find(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO);
+
+                    // Resolve sales org key and description for display
+                    let SO_VKORG = soData.find(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO)?.SO_VKORG;
+                    let SO_VKORG_NAME1 = soData.find(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO)?.SO_VKORG_NAME1;
+                    let SalesOrg = `${SO_VKORG} (${SO_VKORG_NAME1})`;
+
                     let SONode = {
                         "id": idNumber,
                         "lane": idNumber,
                         "title": `Sales Order ${documentChain.SUBSEQUENT_SO}`,
                         "titleAbbreviation": `SO ${documentChain.SUBSEQUENT_SO}`,
-                        "children": arrayLength === (index + 1) ?  null : [idNumber + 1], // add only if more objects to come
-                        "focused": documentChain.SUBSEQUENT_SO === salesOrder ? true : false,
+                        // Only link to next node if there are more entries in the chain
+                        "children": arrayLength === (index + 1) ? null : [idNumber + 1],
+                        // Highlight the node that matches the originally requested SO
+                        "focused": documentChain.SUBSEQUENT_SO === salesOrder,
                         "highlighted": false,
                         "state": issuesFound ? "Critical" : "Positive",
                         "stateText": issuesFound ? "Issues found" : "No Issues",
-                        "texts": [serviceHelper.getMandtFieldsNames(documentChain.SUBSEQUENT_SO_MANDT), SalesOrg]
+                        "texts": [
+                            serviceHelper.getMandtFieldsNames(documentChain.SUBSEQUENT_SO_MANDT),
+                            SalesOrg
+                        ]
                     };
-                    let SOLane = {
-							"id": idNumber,
-							"icon": "sap-icon://sales-order-item",
-							"label": "Sales Order",
-							"position": idNumber
-						};
 
-                    /// ADD PO to process flow object
+                    let SOLane = {
+                        "id": idNumber,
+                        "icon": "sap-icon://sales-order-item",
+                        "label": "Sales Order",
+                        "position": idNumber
+                    };
+
                     processFlowObjects.lanes.push(SOLane);
                     processFlowObjects.nodes.push(SONode);
 
-                    // add one to the id for next run
+                    // Increment id for the next chain entry (next PO node)
                     idNumber++;
+                });
 
-                })
                 return processFlowObjects;
-            }else{ // no data for document flow
+
+            } else {
+                // ─── 8. No document flow found for the given SO/item ─────────────────
                 return "NOT_FOUND";
             }
-        })
+        });
 
         this.on("getVBAKAuthObjKeys", async req => {
             let bForceRefresh = req.data.forceRefresh;
