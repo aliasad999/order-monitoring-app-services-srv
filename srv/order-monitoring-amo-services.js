@@ -133,7 +133,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     // add sales order
                     // add one to the id
                     idNumber++;
-                    let issuesFound = soIssues.find(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO)?.SO_VKORG_NAME1 ? true : false;
+                    let issuesFound = soIssues.find(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO) ? true : false;
                     let SO_VKORG = soData.find(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO)?.SO_VKORG
                     let SO_VKORG_NAME1 = soData.find(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO)?.SO_VKORG_NAME1
                     let SalesOrg = `${SO_VKORG} (${SO_VKORG_NAME1})` ;
