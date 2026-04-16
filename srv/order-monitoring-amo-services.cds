@@ -535,7 +535,7 @@ service srvOpenOrders {
         LAST_SO                        : String(10),
         LAST_SO_ITEM                   : String(6)
   };
-  function getOMDocFlowNodes(salesOrder : String(10), salesOrderItem: String(6), salesOrderSystem: String(3)) returns Boolean;
+  function getOMDocFlowNodes(salesOrder : String(10), salesOrderItem: String(6), salesOrderSystem: String(3)) returns db_app.OMDocFlowProcessFlow;
 
   entity VistaShipmentUpdates    as projection on db_app.ST_VISTA_SHIPMENT_ETA_UPDATED ;
 }
