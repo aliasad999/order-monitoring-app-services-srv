@@ -102,16 +102,21 @@ class srvOpenOrders extends cds.ApplicationService {
                 // in a single round trip to the database.
 
                 // SO data: customer PO number, sales org key and description, doc type
-                const soData = await SELECT
+                const soData = await SELECT.distinct
                     .columns('SO_VBELN', 'SO_POSNR', 'SO_MANDT', 'SO_BSTKD', 'SO_VKORG', 'SO_VKORG_NAME1', 'SO_VBTYP')
                     .from(Results)
                     .where(whereClause);
 
                 // Issues: any open issues flagged for each SO item (used to set node state)
-                const soIssues = await SELECT
+                const soIssues = await SELECT.distinct
                     .columns('SO_VBELN', 'SO_POSNR', 'SO_MANDT', 'SO_ISSUE', 'SO_NPS')
                     .from(allIssuesDetails)
                     .where(whereClause);
+                // Get issue and nps descriptions
+                soIssues.forEach((issue) => {
+                    issue.NPSDescription = serviceHelper.getBundle(req.locale).getText(`nps${issue.SO_NPS}`);
+                    issue.IssueDescription = serviceHelper.getBundle(req.locale).getText(`OrderIssue${issue.SO_ISSUE}`);
+                })
 
                 // ─── 6. Initialize the process flow output structure ─────────────────
                 // nodes: individual PO/SO steps in the flow
@@ -173,6 +178,8 @@ class srvOpenOrders extends cds.ApplicationService {
 
                     // Check if this SO item has any open issues → drives node state color
                     let issuesFound = !!soIssues.find(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO);
+                    let issuesFiltered = soIssues.filter(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO);
+                    let soDataFiltered = soData.filter(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO);
 
                     // Resolve sales org key and description for display
                     let SO_VKORG = soData.find(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO)?.SO_VKORG;
@@ -194,7 +201,9 @@ class srvOpenOrders extends cds.ApplicationService {
                         "texts": [
                             serviceHelper.getMandtFieldsNames(documentChain.SUBSEQUENT_SO_MANDT),
                             SalesOrg
-                        ]
+                        ],
+                        "issues": issuesFiltered,
+                        "soData": soDataFiltered
                     };
 
                     let SOLane = {
