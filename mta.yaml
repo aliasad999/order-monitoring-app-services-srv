@@ -33,6 +33,7 @@ modules:
       SUBACCOUNT: DEV
       OC_TAB_STATUS: ACTIVE
       NODE_ARGS: -r @sap/xotel-agent-ext-js/dist/common/tracer    
+      OPTIMIZE_MEMORY: true
     parameters:
       buildpack: nodejs_buildpack
       memory: 5GB
