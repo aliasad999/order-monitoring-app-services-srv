@@ -537,4 +537,7 @@ service srvOpenOrders {
   };
 
   entity VistaShipmentUpdates    as projection on db_app.ST_VISTA_SHIPMENT_ETA_UPDATED ;
+  @readonly
+  entity AvailableLanguages as projection on db_app.AvailableLanguages;
+  
 }

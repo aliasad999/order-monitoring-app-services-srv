@@ -551,3 +551,8 @@ entity ST_OM_DOC_FLOW {
         LAST_SO                        : String(10);
         LAST_SO_ITEM                   : String(6);
 }
+
+entity AvailableLanguages {
+        key LanguageKey     : String(2);
+            LanguageText : localized String;
+}
