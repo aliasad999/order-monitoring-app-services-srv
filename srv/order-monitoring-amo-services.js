@@ -7,6 +7,7 @@ const log = require("cf-nodejs-logging-support");
 const { startOfToday, subDays } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies')
 const serviceHelper = require('./utils/serviceHelper');
+const { INSERT, UPSERT } = require("@sap/cds/lib/ql/cds-ql");
 
 class srvOpenOrders extends cds.ApplicationService {
 
@@ -712,6 +713,28 @@ class srvOpenOrders extends cds.ApplicationService {
             const { RegionSettings } = await cds.entities('srvOpenOrders');
             req.data.USER_ID = req.user.id;
             await UPSERT.into(RegionSettings).entries([req.data]);
+        });
+
+        this.on("READ", "UserLanguage", async (req, next) => {
+            const { UserLanguage } = await cds.entities('srvOpenOrders');
+            const UserId = req.user.id;
+            let userLanguage = await SELECT.from(UserLanguage).byKey({ UserId: UserId });
+            if(!userLanguage){
+                userLanguage =  {
+                    UserId: UserId,
+                    LanguageKey: 'EN',
+                }
+                await UPSERT.into(UserLanguage).entries([userLanguage]);
+                return userLanguage;
+            }else{
+                return userLanguage;
+            }
+        });
+
+        this.on("UPDATE", "UserLanguage", async (req, next) => {
+            const { UserLanguage } = await cds.entities('srvOpenOrders');
+            req.data.UserId = req.user.id;
+            await UPSERT.into(UserLanguage).entries([req.data]);
         });
 
         return super.init();

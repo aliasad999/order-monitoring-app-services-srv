@@ -556,3 +556,8 @@ entity AvailableLanguages {
         key LanguageKey     : String(2);
             LanguageText : localized String;
 }
+
+entity userSelectedLanguage {
+        key UserId      : String;
+            LanguageKey : String(2);
+}
