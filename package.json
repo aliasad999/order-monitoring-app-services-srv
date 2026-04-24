@@ -9,27 +9,25 @@
     "node": "24.x"
   },
   "dependencies": {
-    "@azure/msal-node": "^2.16.2",
-    "@cap-js-community/odata-v2-adapter": "^1.14.2",
-    "@sap-cloud-sdk/http-client": "^4.4.0",
+    "@cap-js-community/odata-v2-adapter": "^1.15.10",
+    "@sap-cloud-sdk/http-client": "^4.6.0",
     "@sap/cds": "^8.9.6",
     "@sap/cds-hana": "^2.0.0",
-    "@sap/fesr-to-otel-js": "1.5.19",
-    "@sap/hana-client": "2.23.24",
-    "@sap/textbundle": "^5.4.0",
-    "@sap/xotel-agent-ext-js": "latest",
-    "@sap/xsenv": "^5.5.0",
-    "@sap/xssec": "^4.2.8",
-    "body-parser": "^1.20.3",
-    "cf-nodejs-logging-support": "latest",
+    "@sap/fesr-to-otel-js": "1.5.20",
+    "@sap/hana-client": "^2.28.19",
+    "@sap/textbundle": "^6.2.0",
+    "@sap/xotel-agent-ext-js": "2.0.1",
+    "@sap/xsenv": "^6.2.0",
+    "@sap/xssec": "^4.13.0",
+    "body-parser": "^2.2.2",
+    "cf-nodejs-logging-support": "^7.4.5",
     "express": "^4.21.2",
-    "express-session": "^1.18.1",
-    "http-status": "^2.0.0",
-    "jsonwebtoken": "^9.0.2",
+    "express-session": "^1.19.0",
+    "http-status": "^2.1.0",
     "mocha": "^11.7.5",
     "node-cache": "^5.1.2",
     "passport": "^0.7.0",
-    "uuid": "^11.0.3",
+    "uuid": "^13.0.0",
     "date-fns": "^4.1.0"
   },
   "overrides": {
@@ -48,9 +46,9 @@
     }
   },
   "devDependencies": {
-    "@cap-js/cds-test": "^0.4.0",
-    "@sap/hdi-deploy":"^5.5.1",
-    "axios": "^1.12.0",
+    "@cap-js/cds-test": "^0.4.1",
+    "@sap/hdi-deploy":"^5.6.1",
+    "axios": "^1.15.0",
     "concurrently": "^9.2.1"
   },
   "scripts": {
