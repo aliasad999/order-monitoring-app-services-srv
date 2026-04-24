@@ -21,8 +21,6 @@
     "@sap/xssec": "^4.13.0",
     "body-parser": "^2.2.2",
     "cf-nodejs-logging-support": "^7.4.5",
-    "express": "^4.21.2",
-    "express-session": "^1.19.0",
     "http-status": "^2.1.0",
     "mocha": "^11.7.5",
     "node-cache": "^5.1.2",
