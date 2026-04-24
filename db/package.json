@@ -2,8 +2,8 @@
     "name":"deploy",
     "version":"1.0.3",
     "dependencies": {
-     "@sap/hdi-deploy":"^5.5.1",
-     "@sap/hana-client": "^2.26.25" 
+     "@sap/hdi-deploy":"^5.6.1",
+     "@sap/hana-client": "^2.28.20" 
     },
     "scripts": {
         "start": "node node_modules/@sap/hdi-deploy/deploy.js --treat-unmodified-as-modified --auto-undeploy"
