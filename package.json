@@ -14,7 +14,7 @@
     "@sap/cds": "^8.9.6",
     "@sap/cds-hana": "^2.0.0",
     "@sap/fesr-to-otel-js": "1.5.20",
-    "@sap/hana-client": "^2.28.19",
+    "@sap/hana-client": "^2.28.20",
     "@sap/textbundle": "^6.2.0",
     "@sap/xotel-agent-ext-js": "2.0.1",
     "@sap/xsenv": "^6.2.0",
@@ -27,28 +27,17 @@
     "mocha": "^11.7.5",
     "node-cache": "^5.1.2",
     "passport": "^0.7.0",
-    "uuid": "^13.0.0",
+    "uuid": "^14.0.0",
     "date-fns": "^4.1.0"
   },
   "overrides": {
-    "@opentelemetry/host-metrics":{
-      "systeminformation": "5.31.1"
-    },
-    "cf-nodejs-logging-support":{
-      "ajv": "8.18.0"
-    },
-  
-    "express-validator": { 
-      "lodash" : "^4.17.23"
-    },
-    "mocha": {
-      "diff": "8.0.3"
-    }
+    "protobufjs": "8.0.1",
+    "serialize-javascript": "7.0.5"
   },
   "devDependencies": {
     "@cap-js/cds-test": "^0.4.1",
     "@sap/hdi-deploy":"^5.6.1",
-    "axios": "^1.15.0",
+    "axios": "^1.15.2",
     "concurrently": "^9.2.1"
   },
   "scripts": {
