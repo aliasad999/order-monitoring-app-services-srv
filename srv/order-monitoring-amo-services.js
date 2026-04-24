@@ -7,7 +7,6 @@ const log = require("cf-nodejs-logging-support");
 const { startOfToday, subDays } = require('date-fns');
 const formatSpecialCurrencies = require('./plugins/formatSpecialCurrencies')
 const serviceHelper = require('./utils/serviceHelper');
-const { INSERT, UPSERT } = require("@sap/cds/lib/ql/cds-ql");
 
 class srvOpenOrders extends cds.ApplicationService {
 
