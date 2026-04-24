@@ -538,4 +538,8 @@ service srvOpenOrders {
   function getOMDocFlowNodes(salesOrder : String(10), salesOrderItem: String(6), salesOrderSystem: String(3)) returns db_app.OMDocFlowProcessFlow;
 
   entity VistaShipmentUpdates    as projection on db_app.ST_VISTA_SHIPMENT_ETA_UPDATED ;
+  @readonly
+  entity AvailableLanguages as projection on db_app.AvailableLanguages;
+  entity UserLanguage as projection on db_app.userSelectedLanguage;
+  
 }

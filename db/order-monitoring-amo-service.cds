@@ -552,6 +552,15 @@ entity ST_OM_DOC_FLOW {
         LAST_SO_ITEM                   : String(6);
 }
 
+entity AvailableLanguages {
+        key LanguageKey     : String(2);
+            LanguageText : localized String;
+}
+
+entity userSelectedLanguage {
+        key UserId      : String;
+            LanguageKey : String(2);
+}
 type OMDocFlowProcessFlow {
         lanes : many {
                 id       : Integer;

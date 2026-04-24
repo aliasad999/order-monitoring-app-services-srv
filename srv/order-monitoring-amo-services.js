@@ -895,6 +895,28 @@ class srvOpenOrders extends cds.ApplicationService {
             await UPSERT.into(RegionSettings).entries([req.data]);
         });
 
+        this.on("READ", "UserLanguage", async (req, next) => {
+            const { UserLanguage } = await cds.entities('srvOpenOrders');
+            const UserId = req.user.id;
+            let userLanguage = await SELECT.from(UserLanguage).byKey({ UserId: UserId });
+            if(!userLanguage){
+                userLanguage =  {
+                    UserId: UserId,
+                    LanguageKey: 'EN',
+                }
+                await UPSERT.into(UserLanguage).entries([userLanguage]);
+                return userLanguage;
+            }else{
+                return userLanguage;
+            }
+        });
+
+        this.on("UPDATE", "UserLanguage", async (req, next) => {
+            const { UserLanguage } = await cds.entities('srvOpenOrders');
+            req.data.UserId = req.user.id;
+            await UPSERT.into(UserLanguage).entries([req.data]);
+        });
+
         return super.init();
     }
 }
