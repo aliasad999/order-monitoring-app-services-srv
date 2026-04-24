@@ -244,13 +244,13 @@ const getUserVariants = async (req, res) => {
 
 const deleteVariant = async (req, res) => {
     const { Variants, VariantsUserSettings } = await cds.entities("srvOpenOrders");
-    var body = req.body;
+    // var body = req.body;
     var fileNameInput = req.params.fileName;
     try {
         // Delete variant and user settings
         await DELETE.from(Variants).where`fileName = ${fileNameInput}`;
         await DELETE.from(VariantsUserSettings).where`fileName = ${fileNameInput}`;
-        res.type('application/json').status(200).send(body);
+        res.type('application/json').status(200).send({});
     } catch (err) {
         res.type('text/plain').status(500).send(`ERROR: ${err.toString()}`);
         return;
