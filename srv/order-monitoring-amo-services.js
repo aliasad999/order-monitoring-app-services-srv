@@ -224,7 +224,7 @@ class srvOpenOrders extends cds.ApplicationService {
 
             } else {
                 // ─── 8. No document flow found for the given SO/item ─────────────────
-                return "NOT_FOUND";
+                return {};
             }
         });
 
