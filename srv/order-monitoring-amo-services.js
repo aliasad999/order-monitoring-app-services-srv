@@ -47,6 +47,187 @@ class srvOpenOrders extends cds.ApplicationService {
             }
         })
 
+        this.on("getOMDocFlowNodes", async req => {
+            // SO_BSTKD - customer purchase order
+            // SO_VKORG - SO_VKORG_NAME1 - Sales organization key and text
+
+            // ─── 1. Extract input parameters from the request ───────────────────────
+            let { salesOrder, salesOrderItem, salesOrderSystem } = req.data;
+
+            // ─── 2. Load required CDS entities ──────────────────────────────────────
+            // allIssuesDetails: view with open issues per sales order item
+            // OMDocFlow: document flow table linking POs and SOs in a chain
+            // Results: sales order header/item data with org and customer PO info
+            const { allIssuesDetails } = cds.entities('openOrdersSrv');
+            const { OMDocFlow, Results } = await cds.entities('srvOpenOrders');
+
+            // ─── 3. Fetch the full document flow chain for the given SO/item ─────────
+            // Self-join on FIRST_DOCUMENT and FIRST_DOCUMENT_ITEM to get all documents
+            // that share the same origin document as the requested sales order item.
+            // Results are ordered by SEQUENCE to preserve the chain order (PO → SO → SO...).
+            let OMDocFlowData = await SELECT
+                .from(`${OMDocFlow.name} as flow`)
+                .join(`${OMDocFlow.name} as ref`)
+                .on`flow.FIRST_DOCUMENT = ref.FIRST_DOCUMENT
+            and flow.FIRST_DOCUMENT_ITEM = ref.FIRST_DOCUMENT_ITEM`
+                .where`ref.SUBSEQUENT_SO = ${salesOrder}
+            and ref.SUBSEQUENT_SO_ITEM = ${salesOrderItem}
+            and ref.SUBSEQUENT_SO_MANDT = ${salesOrderSystem}`
+                .orderBy('flow.SEQUENCE asc');
+
+            if (OMDocFlowData.length > 0) {
+
+                // ─── 4. Build a list of all SO/item/system combos in the chain ───────
+                // and dynamically construct a WHERE clause for the bulk queries below.
+                // Using raw string interpolation here because CAP CQL does not support
+                // dynamic multi-column OR conditions natively.
+                let ordersInChain = [];
+                let whereClause = "";
+
+                OMDocFlowData.forEach((documentChain, index) => {
+                    // Collect each order in the chain for reference
+                    ordersInChain.push({
+                        salesOrder: documentChain.SUBSEQUENT_SO,
+                        salesOrderItem: documentChain.SUBSEQUENT_SO_ITEM,
+                        salesOrderSystem: documentChain.SUBSEQUENT_SO_MANDT
+                    });
+
+                    // Build compound OR condition: one per document chain entry
+                    let orderClause = `(SO_VBELN = '${documentChain.SUBSEQUENT_SO}' and SO_POSNR = '${documentChain.SUBSEQUENT_SO_ITEM}' and SO_MANDT = '${documentChain.SUBSEQUENT_SO_MANDT}')`;
+                    whereClause = index === 0 ? orderClause : `${whereClause} or ${orderClause}`;
+                });
+
+                // ─── 5. Fetch SO header data and issues for all orders in the chain ──
+                // Both queries use the same WHERE clause to cover all chain documents
+                // in a single round trip to the database.
+
+                // SO data: customer PO number, sales org key and description, doc type
+                const soData = await SELECT.distinct
+                    .columns('SO_VBELN', 'SO_POSNR', 'SO_MANDT', 'SO_BSTKD', 'SO_VKORG', 'SO_VKORG_NAME1', 'SO_VBTYP')
+                    .from(Results)
+                    .where(whereClause);
+
+                // Issues: any open issues flagged for each SO item (used to set node state)
+                const soIssues = await SELECT.distinct
+                    .columns('SO_VBELN', 'SO_POSNR', 'SO_MANDT', 'SO_ISSUE', 'SO_NPS')
+                    .from(allIssuesDetails)
+                    .where(whereClause);
+                // Get issue and nps descriptions
+                soIssues.forEach((issue) => {
+                    issue.NPSDescription = serviceHelper.getBundle(req.locale).getText(`nps${issue.SO_NPS}`);
+                    issue.IssueDescription = serviceHelper.getBundle(req.locale).getText(`OrderIssue${issue.SO_ISSUE}`);
+                })
+
+                // ─── 6. Initialize the process flow output structure ─────────────────
+                // nodes: individual PO/SO steps in the flow
+                // lanes: swimlane definitions (icon + label) for each step
+                let processFlowObjects = {
+                    nodes: [],
+                    lanes: []
+                };
+
+                // Shared counter used as ID for both nodes and lanes.
+                // Each document chain entry generates 2 nodes (PO + SO) → id increments by 2.
+                let idNumber = 0;
+
+                // ─── 7. Build process flow nodes and lanes for each chain entry ───────
+                OMDocFlowData.forEach((documentChain, index, array) => {
+                    let arrayLength = array.length;
+
+                    // ── 7a. Purchase Order node ──────────────────────────────────────
+                    // Each SO in the chain is preceded by either an internal PO
+                    // (PRECEDING_PO is set) or a customer PO (looked up via SO_BSTKD).
+                    let PONode = {
+                        "id": idNumber,
+                        "lane": idNumber,
+                        "children": [idNumber + 1], // always points to the paired SO node
+                        "focused": false,
+                        "highlighted": false,
+                        "state": "Positive",
+                        "stateText": "OK"
+                    };
+
+                    let POLane = {
+                        "id": idNumber,
+                        "icon": "sap-icon://sales-order",
+                        "label": "Purchase Order",
+                        "position": idNumber
+                    };
+
+                    let PONumber = documentChain.PRECEDING_PO;
+
+                    if (documentChain.PRECEDING_PO) {
+                        // Internal PO: display the system/client name as subtitle
+                        PONode.texts = [serviceHelper.getMandtFieldsNames(documentChain.PRECEDING_PO_MANDT)];
+                    } else {
+                        // No internal PO → this is a customer purchase order.
+                        // Retrieve the customer PO number (SO_BSTKD) from the SO data.
+                        PONode.texts = ["Customer Purchase Order"];
+                        PONumber = soData.find(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO)?.SO_BSTKD;
+                    }
+
+                    PONode.title = `Purchase Order ${PONumber}`;
+                    PONode.titleAbbreviation = `PO ${PONumber}`;
+
+                    processFlowObjects.lanes.push(POLane);
+                    processFlowObjects.nodes.push(PONode);
+
+                    // ── 7b. Sales Order node ─────────────────────────────────────────
+                    // Increment id so the SO node/lane gets the next sequential id.
+                    idNumber++;
+
+                    // Check if this SO item has any open issues → drives node state color
+                    let issuesFound = !!soIssues.find(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO);
+                    let issuesFiltered = soIssues.filter(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO);
+                    let soDataFiltered = soData.filter(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO);
+
+                    // Resolve sales org key and description for display
+                    let SO_VKORG = soData.find(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO)?.SO_VKORG;
+                    let SO_VKORG_NAME1 = soData.find(item => item.SO_VBELN === documentChain.SUBSEQUENT_SO)?.SO_VKORG_NAME1;
+                    let SalesOrg = `${SO_VKORG} (${SO_VKORG_NAME1})`;
+
+                    let SONode = {
+                        "id": idNumber,
+                        "lane": idNumber,
+                        "title": `Sales Order ${documentChain.SUBSEQUENT_SO}`,
+                        "titleAbbreviation": `SO ${documentChain.SUBSEQUENT_SO}`,
+                        // Only link to next node if there are more entries in the chain
+                        "children": arrayLength === (index + 1) ? null : [idNumber + 1],
+                        // Highlight the node that matches the originally requested SO
+                        "focused": documentChain.SUBSEQUENT_SO === salesOrder,
+                        "highlighted": false,
+                        "state": issuesFound ? "Critical" : "Positive",
+                        "stateText": issuesFound ? "Issues found" : "No Issues",
+                        "texts": [
+                            serviceHelper.getMandtFieldsNames(documentChain.SUBSEQUENT_SO_MANDT),
+                            SalesOrg
+                        ],
+                        "issues": issuesFiltered,
+                        "soData": soDataFiltered
+                    };
+
+                    let SOLane = {
+                        "id": idNumber,
+                        "icon": "sap-icon://sales-order-item",
+                        "label": "Sales Order",
+                        "position": idNumber
+                    };
+
+                    processFlowObjects.lanes.push(SOLane);
+                    processFlowObjects.nodes.push(SONode);
+
+                    // Increment id for the next chain entry (next PO node)
+                    idNumber++;
+                });
+
+                return processFlowObjects;
+
+            } else {
+                // ─── 8. No document flow found for the given SO/item ─────────────────
+                return {};
+            }
+        });
+
         this.on("getVBAKAuthObjKeys", async req => {
             let bForceRefresh = req.data.forceRefresh;
             const { VBAKAuthObjectKeys, EKKOAuthObjectKeys } = await cds.entities('srvOpenOrders');
@@ -469,7 +650,7 @@ class srvOpenOrders extends cds.ApplicationService {
                     // End of ISSUE 343357
                     query.SELECT.columns.length = 0;
                     query.SELECT.columns = req.query.SELECT.columns;
-                    query.SELECT.orderBy.length = 0;
+                    if (query.SELECT.orderBy) query.SELECT.orderBy.length = 0;
                     query.SELECT.orderBy = req.query.SELECT.orderBy;
                     try {
                         lt_result = await db.run(query)
@@ -712,6 +893,28 @@ class srvOpenOrders extends cds.ApplicationService {
             const { RegionSettings } = await cds.entities('srvOpenOrders');
             req.data.USER_ID = req.user.id;
             await UPSERT.into(RegionSettings).entries([req.data]);
+        });
+
+        this.on("READ", "UserLanguage", async (req, next) => {
+            const { UserLanguage } = await cds.entities('srvOpenOrders');
+            const UserId = req.user.id;
+            let userLanguage = await SELECT.from(UserLanguage).byKey({ UserId: UserId });
+            if(!userLanguage){
+                userLanguage =  {
+                    UserId: UserId,
+                    LanguageKey: 'EN',
+                }
+                await UPSERT.into(UserLanguage).entries([userLanguage]);
+                return userLanguage;
+            }else{
+                return userLanguage;
+            }
+        });
+
+        this.on("UPDATE", "UserLanguage", async (req, next) => {
+            const { UserLanguage } = await cds.entities('srvOpenOrders');
+            req.data.UserId = req.user.id;
+            await UPSERT.into(UserLanguage).entries([req.data]);
         });
 
         return super.init();
