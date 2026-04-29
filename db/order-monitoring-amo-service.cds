@@ -551,3 +551,51 @@ entity ST_OM_DOC_FLOW {
         LAST_SO                        : String(10);
         LAST_SO_ITEM                   : String(6);
 }
+
+entity AvailableLanguages {
+        key LanguageKey     : String(2);
+            LanguageText : localized String;
+}
+
+entity userSelectedLanguage {
+        key UserId      : String;
+            LanguageKey : String(2);
+}
+type OMDocFlowProcessFlow {
+        lanes : many {
+                id       : Integer;
+                icon     : String;
+                label    : String;
+                position : Integer;
+        };
+        nodes : many {
+                id                : Integer;
+                lane              : Integer;
+                children          : array of Integer;
+                focused           : Boolean;
+                highlighted       : Boolean;
+                state             : String;
+                stateText         : String;
+                texts             : array of String;
+                title             : String;
+                titleAbbreviation : String;
+                issues            : many {
+                        IssueDescription : String;
+                        NPSDescription   : String;
+                        SO_ISSUE         : String;
+                        SO_MANDT         : String;
+                        SO_NPS           : String;
+                        SO_POSNR         : String;
+                        SO_VBELN         : String;
+                };
+                soData            : many {
+                        SO_BSTKD       : String;
+                        SO_MANDT       : String;
+                        SO_POSNR       : String;
+                        SO_VBELN       : String;
+                        SO_VBTYP       : String;
+                        SO_VKORG       : String;
+                        SO_VKORG_NAME1 : String;
+                }
+        };
+}
