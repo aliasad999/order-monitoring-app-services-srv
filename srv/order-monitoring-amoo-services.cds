@@ -267,6 +267,7 @@ service openOrdersSrv {
                 TRAID                                       as DL_TRAID,
                 ZZ0S2BLNR                                   as DL_ZZ0S2BLNR,
                 PEND_DEL_QUAN                               as DL_PEND_DEL_QUAN,
+                PEND_DEL_QUANT_UOM                          as DL_PEND_DEL_QUANT_UOM,
                 TKNUM                                       as TM_TKNUM,
                 VSART                                       as TM_VSART,
                 VSART_BEZEI_LANG                            as TM_VSART_BEZEI,

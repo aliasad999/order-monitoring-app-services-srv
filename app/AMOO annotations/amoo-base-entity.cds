@@ -119,6 +119,7 @@ annotate service.baseEntity with {
     DL_TRAID                         @title: '{i18n>DL_TRAID}'                         @sap.Label: '{i18n>DL_TRAID}';
     DL_ZZ0S2BLNR                     @title: '{i18n>DL_ZZ0S2BLNR}'                     @sap.Label: '{i18n>DL_ZZ0S2BLNR}';
     DL_PEND_DEL_QUAN                 @title: '{i18n>DL_PEND_DEL_QUAN}'                 @sap.Label: '{i18n>DL_PEND_DEL_QUAN}';
+    DL_PEND_DEL_QUANT_UOM            @title: '{i18n>DL_VRKME}'                         @sap.Label: '{i18n>DL_VRKME}';
     DL_WADAT                         @title: '{i18n>DL_WADAT}'                         @sap.Label: '{i18n>DL_WADAT}'              @sap.filter.restriction: 'interval';
     DL_WADAT_IST                     @title: '{i18n>DL_WADAT_IST}'                     @sap.Label: '{i18n>DL_WADAT_IST}'          @sap.filter.restriction: 'interval';
     TM_TKNUM                         @title: '{i18n>TM_TKNUM}'                         @sap.Label: '{i18n>TM_TKNUM}';

@@ -415,6 +415,7 @@ entity ![OPENORDERSLIST] {
         _BASF_YRDSDV1_IMPORT_VALID_TO      : String(8);
         VSTEL                              : String(4);
         TM_VBTYP                           : String(2);
+        PEND_DEL_QUANT_UOM                 : String(3);
 }
 
 entity ContactsOptions {
