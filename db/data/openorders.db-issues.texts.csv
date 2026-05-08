@@ -33,6 +33,7 @@ IssueKey;locale;IssueText
 35;en;Delivery creation outstanding
 36;en;Delivery Block in Sales Order
 37;en;Delivery Block in Outbound Delivery
+50;en;Post Goods Receipt
 01;de;Auftrag unvollständig
 02;de;BASF Prüfroutine nicht erfüllt
 03;de;Multiple Liefersperre im Auftrag
@@ -67,6 +68,7 @@ IssueKey;locale;IssueText
 35;de;Lieferungsanlage ausstehend
 36;de;Liefersperre im Auftrag
 37;de;Liefersperre in Auslieferung
+50;de;Wareneingangsbestätigung
 01;es;Pedido incompleto
 02;es;Rutinas de control BASF no satisfechas
 03;es;Multiple Delivery Block en pedido de venta
@@ -101,6 +103,7 @@ IssueKey;locale;IssueText
 35;es;Creación de entrega pendiente
 36;es;Delivery Block en pedido de venta
 37;es;Delivery Block en entrega de salida
+50;es;Registro de recepción de mercancías
 01;fr;Commande incomplète
 02;fr;Routine de commande BASF non satisfaisante
 03;fr;Bons de livraison multiples dans la commande
@@ -135,6 +138,7 @@ IssueKey;locale;IssueText
 35;fr;Création d'une livraison en attente
 36;fr;Bons de livraison dans la commande
 37;fr;Bons de livraison dans la sortie de marchandise
+50;fr;Réception des marchandises par voie postale
 01;it;Ordine incompleto
 02;it;Controllo periodico BASF non soddisfatto
 03;it;Consegna multipla bloccata nell'ordine di vendita
@@ -169,6 +173,7 @@ IssueKey;locale;IssueText
 35;it;Consegna eccezionale
 36;it;Consegna bloccata nell'ordine di vendita
 37;it;Consegna bloccata nella consegna in uscita
+50;it;Invia la ricevuta della merce
 01;pt;Ordem incompleta
 02;pt;Check list BASF incompleto
 03;pt;Bloqueios ordem de venda
@@ -203,6 +208,7 @@ IssueKey;locale;IssueText
 35;pt;Criação da remessa pendente
 36;pt;Bloqueios ordem de venda
 37;pt;Bloqueios de remessa
+50;pt;Receção de Mercadorias
 01;tr;Siparişte eksiklik
 02;tr;BASF iş akışına uygun değil
 03;tr;Satış siparişinde MDB Blokajı
@@ -237,3 +243,4 @@ IssueKey;locale;IssueText
 35;tr;Teslimat yaratmada gecikme
 36;tr;Satış Siparişinde Teslimat Bloğu
 37;tr;Giden Teslimatta Teslimat Bloğu
+50;tr;Malların Teslim Alınması
