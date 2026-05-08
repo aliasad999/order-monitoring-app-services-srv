@@ -31,7 +31,8 @@
   "overrides": {
     "protobufjs": "8.0.1",
     "serialize-javascript": "7.0.5",
-    "diff": "8.0.3"
+    "diff": "8.0.3",
+    "fast-uri": "3.1.2"
   },
   "devDependencies": {
     "@cap-js/cds-test": "^0.4.1",
