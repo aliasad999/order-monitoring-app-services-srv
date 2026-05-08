@@ -33,3 +33,4 @@ IssueKey;IssueText
 35;Delivery creation outstanding
 36;Delivery Block in Sales Order
 37;Delivery Block in Outbound Delivery
+50;Post Goods Receipt
