@@ -957,7 +957,7 @@ class openOrdersSrv extends cds.ApplicationService {
                             "nps101": tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99
                         })
                         req.res.setHeader('custom', data)
-
+ 
             // NOT NEEDED ANYMORE
             // if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols) {
             //     // return req.reply({ $count: 0 })
