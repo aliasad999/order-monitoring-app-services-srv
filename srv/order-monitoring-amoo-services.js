@@ -922,11 +922,7 @@ class openOrdersSrv extends cds.ApplicationService {
             }
             // *-------------------------------------------------------------------*
             // End of Code OTC-24554
-
-            if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols) {
-                // return req.reply({ $count: 0 })
-                if (req.target.name === 'openOrdersSrv.allIssues') {
-                    let nps10, nps20, nps30, nps40, nps50, nps60, nps70, nps80, nps90, nps95, nps99, nps00;
+            let nps10, nps20, nps30, nps40, nps50, nps60, nps70, nps80, nps90, nps95, nps99, nps00;
                     let tabs = {}
                     try {
                         const db = cds.tx(req);
@@ -944,20 +940,7 @@ class openOrdersSrv extends cds.ApplicationService {
                         log.error("[order-monitoring-app-services.js] - if exist query failed ! " + JSON.stringify(error));
                         req.error(error)
                     }
-
-                    try {
-                        const db = cds.tx(req);
-                        const countCols = req.headers.countcols; // Define count columns
-                        const distinctQuery = SELECT.distinct(countCols)
-                            .from('openOrdersSrv.allIssues')
-                            .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
-                        const query = SELECT.from(distinctQuery).columns('count(*) as total');
-                        if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
-                        // added for including global search field... otherwise there is an infite loop as count doesnt match the actual resultset
-                        if (req.query.SELECT.search) query.SELECT.from.SELECT.search = req.query.SELECT.search
-                        // added for including global search field... otherwise there is an infite loop as count doesnt match the actual resultset
-                        const distinctCount = await db.run(query);
-                        let data = JSON.stringify({
+                    let data = JSON.stringify({
                             "nps10": tabs.nps10,
                             "nps20": tabs.nps20,
                             "nps30": tabs.nps30,
@@ -974,16 +957,70 @@ class openOrdersSrv extends cds.ApplicationService {
                             "nps101": tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99
                         })
                         req.res.setHeader('custom', data)
-                        return req.reply({ $count: distinctCount[0].total })
 
-                    } catch (error) {
-                        log.error("[order-monitoring-app-services.js] - Count query failed ! " + JSON.stringify(error));
-                        req.error(error)
-                    }
-                } else {
-                    return req.reply({ $count: 0 })
-                }
-            }
+            // NOT NEEDED ANYMORE
+            // if (req.query.SELECT.columns && req.query.SELECT?.columns[0].as === '$count' && req.headers?.countcols) {
+            //     // return req.reply({ $count: 0 })
+            //     if (req.target.name === 'openOrdersSrv.allIssues') {
+            //         let nps10, nps20, nps30, nps40, nps50, nps60, nps70, nps80, nps90, nps95, nps99, nps00;
+            //         let tabs = {}
+            //         try {
+            //             const db = cds.tx(req);
+            //             //  TODO: Refactoring is needed for this convert function to tackle search object and not just where clause
+            //             // based on findings for datasphere may be we get rid of the custom parser and use standard SAP libraray.. will explore in coming sprints
+            //             const where = serviceHelper.convertCQNtoCQL(req.query.SELECT.where, true)
+            //             const sQuery = `CALL"npsValueExist"(IV_WHERECLAUSE => '${where}',LT_NPS_TAB => ?)`;
+            //             const npstabs = await db.run(sQuery)
+
+            //             tabs = npstabs.reduce((acc, item) => {
+            //                 acc[`nps${item.ID}`] = item.FLAG;
+            //                 return acc;
+            //             }, {});
+            //         } catch (error) {
+            //             log.error("[order-monitoring-app-services.js] - if exist query failed ! " + JSON.stringify(error));
+            //             req.error(error)
+            //         }
+
+            //         try {
+            //             const db = cds.tx(req);
+            //             const countCols = req.headers.countcols; // Define count columns
+            //             const distinctQuery = SELECT.distinct(countCols)
+            //                 .from('openOrdersSrv.allIssues')
+            //                 .hints('USE_HEX_PLAN', 'HEX_INDEX_JOIN');
+            //             const query = SELECT.from(distinctQuery).columns('count(*) as total');
+            //             if (req.query.SELECT.where) query.SELECT.from.SELECT.where = req.query.SELECT.where
+            //             // added for including global search field... otherwise there is an infite loop as count doesnt match the actual resultset
+            //             if (req.query.SELECT.search) query.SELECT.from.SELECT.search = req.query.SELECT.search
+            //             // added for including global search field... otherwise there is an infite loop as count doesnt match the actual resultset
+            //             const distinctCount = await db.run(query);
+            //             let data = JSON.stringify({
+            //                 "nps10": tabs.nps10,
+            //                 "nps20": tabs.nps20,
+            //                 "nps30": tabs.nps30,
+            //                 "nps40": tabs.nps40,
+            //                 "nps50": tabs.nps50,
+            //                 "nps60": tabs.nps60,
+            //                 "nps70": tabs.nps70,
+            //                 "nps80": tabs.nps80,
+            //                 "nps90": tabs.nps90,
+            //                 "nps95": tabs.nps95,
+            //                 "nps99": tabs.nps99,
+            //                 "nps00": tabs.nps0,
+            //                 "nps05": tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99,
+            //                 "nps101": tabs.nps10 || tabs.nps20 || tabs.nps30 || tabs.nps40 || tabs.nps50 || tabs.nps60 || tabs.nps70 || tabs.nps80 || tabs.nps90 || tabs.nps95 || tabs.nps99
+            //             })
+            //             req.res.setHeader('custom', data)
+            //             return req.reply({ $count: distinctCount[0].total })
+
+            //         } catch (error) {
+            //             log.error("[order-monitoring-app-services.js] - Count query failed ! " + JSON.stringify(error));
+            //             req.error(error)
+            //         }
+            //     } else {
+            //         return req.reply({ $count: 0 })
+            //     }
+            // }
+            // NOT NEEDED ANYMORE
             await next(req)
         })
 
